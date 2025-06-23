@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIDEROOMS - Personalized Your Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #cbd5e1; /* slate-300 */
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6); /* slate-800 with opacity */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 with opacity */
+        }
+        .accent-gold {
+            color: #f59e0b; /* amber-500 */
+        }
+        .bg-accent-gold {
+            background-color: #f59e0b;
+        }
+        .hover\:bg-accent-gold-dark:hover {
+            background-color: #d97706; /* amber-600 */
+        }
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        /* Loading Spinner */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #f59e0b; /* Amber 500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white font-montserrat">
+                WIDEROOMS
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-slate-300 hover:text-white transition">About</a>
+                <a href="#services" class="text-slate-300 hover:text-white transition">Services</a>
+                <a href="#innovations" class="text-slate-300 hover:text-white transition">Innovations</a>
+                <a href="#ai-ideas" class="text-slate-300 hover:text-white transition">AI Ideas</a>
+                <a href="#podcast" class="text-slate-300 hover:text-white transition">Podcast</a>
+                <a href="#portfolio" class="text-slate-300 hover:text-white transition">Portfolio</a>
+                <a href="#contact" class="text-slate-300 hover:text-white transition">Contact</a>
+                <a href="https://thbho.github.io/ThWiderooms" target="_blank" class="text-slate-300 hover:text-white transition border-l border-slate-600 pl-4 ml-4">Thai Version</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#about" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">About</a>
+            <a href="#services" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Services</a>
+            <a href="#innovations" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Innovations</a>
+            <a href="#ai-ideas" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">AI Ideas</a>
+            <a href="#podcast" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Podcast</a>
+            <a href="#portfolio" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Portfolio</a>
+            <a href="#contact" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Contact</a>
+            <a href="https://thbho.github.io/ThWiderooms" target="_blank" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800 border-t border-slate-700 mt-2 pt-2">Thai Version</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
+        <div class="absolute inset-0 bg-black/60 z-10"></div>
+        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2080&auto=format&fit=crop" alt="Luxurious modern living room" class="absolute inset-0 w-full h-full object-cover">
+        <div class="relative z-20 px-4">
+            <h1 class="text-4xl md:text-6xl font-extrabold font-montserrat leading-tight">Where Design Meets Personality</h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-200 max-w-2xl mx-auto">Crafting personalized interiors and smart home innovations that truly reflect who you are.</p>
+            <a href="#contact" class="mt-8 inline-block bg-accent-gold text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-accent-gold-dark transition duration-300 shadow-lg">Get a Consultation</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="wow animate__animated animate__fadeInLeft">
+                    <h2 class="section-title text-3xl text-white mb-4">Personalized Your Home</h2>
+                    <p class="mb-4">With more than a decade of expertise in home innovations, interior design, and condominium properties, our portfolio includes a diverse clientele ranging from homeowners to businesses.</p>
+                    <p class="mb-6">We specialize in transforming spaces within premier locations like <strong class="accent-gold">Copacabana Beach Jomtien</strong>, understanding the unique lifestyle and opportunities these residences offer. Rest assured, we are well-equipped to assist you in crafting a personalized, aesthetically pleasing, and practical space that resonates with you.</p>
+                </div>
+                <div>
+                     <img src="https://i.postimg.cc/tRrwFjQ6/10.jpg" alt="Modern interior design detail" class="rounded-lg shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">Our Services</h2>
+                <p class="max-w-2xl mx-auto mt-2">From initial concepts to final installation, we provide a complete suite of services.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-card p-8 rounded-lg text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Consulting</h3>
+                    <p class="text-slate-400">We help you assess your needs and create a strategic plan for your home project, ensuring your vision is clear from the start.</p>
+                </div>
+                <div class="glass-card p-8 rounded-lg text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Design</h3>
+                    <p class="text-slate-400">We create a custom design for your home that reflects your unique style and personality, using tools like MBTI to inform our choices.</p>
+                </div>
+                <div class="glass-card p-8 rounded-lg text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Renovation</h3>
+                    <p class="text-slate-400">We handle all aspects of your renovation, from demolition to flawless installation, with meticulous attention to detail.</p>
+                </div>
+                <div class="glass-card p-8 rounded-lg text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Smart Home Integration</h3>
+                    <p class="text-slate-400">We transform your space into an intelligent environment, integrating AI and smart devices for a futuristic lifestyle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovations Section -->
+    <section id="innovations" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">AI-Enhanced Living</h2>
+                <p class="max-w-3xl mx-auto mt-2">We design for the future. As home robots like Tesla Bot and Amazon Astro become part of daily life, interior spaces must adapt to support seamless human-robot interaction.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-slate-800 p-6 rounded-lg">
+                    <h4 class="font-bold text-lg text-white mb-2">Robot-Friendly Layouts</h4>
+                    <p class="text-slate-400">Open-plan designs and optimized pathways for effortless navigation.</p>
+                </div>
+                 <div class="bg-slate-800 p-6 rounded-lg">
+                    <h4 class="font-bold text-lg text-white mb-2">Health-Centric Tech</h4>
+                    <p class="text-slate-400">Integrate wellness tech like health-tracking toilets and air quality monitors.</p>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg">
+                    <h4 class="font-bold text-lg text-white mb-2">AI-Enhanced Appliances</h4>
+                    <p class="text-slate-400">Smart refrigerators that suggest recipes and sync with voice assistants.</p>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg">
+                    <h4 class="font-bold text-lg text-white mb-2">Predictive Maintenance</h4>
+                    <p class="text-slate-400">Smart devices that detect leaks and learn user habits to save energy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gemini AI Idea Generator Section -->
+    <section id="ai-ideas" class="py-20 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">AI Idea Corner powered by Gemini</h2>
+                <p class="max-w-2xl mx-auto mt-2">Get instant design inspiration for your home. Just tell us your style, and let our AI generate ideas for you.</p>
+            </div>
+            <div class="max-w-2xl mx-auto glass-card rounded-lg p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="roomType" class="block text-sm font-medium text-slate-300 mb-2">Room Type</label>
+                        <select id="roomType" class="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-white focus:ring-amber-500 focus:border-amber-500">
+                            <option>Living Room</option>
+                            <option>Bedroom</option>
+                            <option>Kitchen</option>
+                            <option>Home Office</option>
+                            <option>Bathroom</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="style" class="block text-sm font-medium text-slate-300 mb-2">Your Style (e.g., Modern, Minimalist)</label>
+                        <input type="text" id="style" class="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-white focus:ring-amber-500 focus:border-amber-500" placeholder="e.g., Cozy, Coastal, Luxury">
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="keywords" class="block text-sm font-medium text-slate-300 mb-2">Additional Keywords (Optional)</label>
+                    <input type="text" id="keywords" class="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-white focus:ring-amber-500 focus:border-amber-500" placeholder="e.g., lots of storage, natural light">
+                </div>
+                <div class="text-center">
+                    <button id="generate-idea-btn" class="bg-accent-gold text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-accent-gold-dark transition duration-300 shadow-lg inline-flex items-center">
+                        ✨ Generate with AI
+                    </button>
+                </div>
+            </div>
+
+            <div id="idea-result-container" class="max-w-4xl mx-auto mt-12">
+                 <div id="loader" class="hidden loader"></div>
+                 <div id="idea-result" class="glass-card rounded-lg p-8 text-slate-300 whitespace-pre-wrap" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Podcast Section -->
+    <section id="podcast" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">Design Insights Podcast</h2>
+                <p class="max-w-3xl mx-auto mt-2">Listen to our latest discussion on how personality types like MBTI are shaping the future of interior design and discover the upcoming trends for 2025.</p>
+            </div>
+            <div class="max-w-3xl mx-auto glass-card rounded-lg p-4 md:p-8">
+                <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1929295922&color=%23594836&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/thho-8445239" title="ThHo" target="_blank" style="color: #cccccc; text-decoration: none;">ThHo</a> · <a href="https://soundcloud.com/thho-8445239/podcast-mbti-personalized-design-2025-trend" title="MBTI Personalized Interior Design &amp; 2025 Trends" target="_blank" style="color: #cccccc; text-decoration: none;">MBTI Personalized Interior Design &amp; 2025 Trends</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">Our Work</h2>
+                <p class="max-w-2xl mx-auto mt-2">Crafting personalized interiors at Copacabana Beach Jomtien and beyond.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <img src="https://i.postimg.cc/8CHJ4Kz3/2-CE939-AD-D855-45-CD-80-BF-A1-BFEC572-CA7-1-201-a.jpg" alt="Portfolio image 1" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://i.postimg.cc/zXVgyKTT/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg" alt="Portfolio image 2" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/065802f5-c0ae-4991-8788-9033d0f29594/variations/universal_upscale_0_065802f5-c0ae-4991-8788-9033d0f29594_0.jpg" alt="Portfolio image 11" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/27a99686-545e-4b21-9384-cfdf87f19f0e/variations/universal_upscale_0_27a99686-545e-4b21-9384-cfdf87f19f0e_0.jpg" alt="Portfolio image 12" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/a3721cfc-b050-4204-bcfd-b869ccd853f6/variations/universal_upscale_0_a3721cfc-b050-4204-bcfd-b869ccd853f6_0.jpg" alt="Portfolio image 13" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/42d47f24-154c-448f-a6fc-306aa73a82c2/variations/Default_A_cinematic_photo_of_a_macho_young_man_a_handsome_and_3_42d47f24-154c-448f-a6fc-306aa73a82c2_0.jpg" alt="Portfolio image 14" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/6882990d-b7e2-40fc-a63c-a18a862455ce/variations/universal_upscale_0_6882990d-b7e2-40fc-a63c-a18a862455ce_0.jpg" alt="Portfolio image 15" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/322b46da-cb42-4a9a-8b01-5b449a7c58d0/variations/Default_realistic_photo_of_interior_design_Scheme_Urban_Chic_0_322b46da-cb42-4a9a-8b01-5b449a7c58d0_0.jpg" alt="Portfolio image 16" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/30cc5c1f-f992-4116-8586-7be8adcbb185/variations/Default_realistic_photo_of_interior_design_Scheme_Earthy_Comf_2_30cc5c1f-f992-4116-8586-7be8adcbb185_0.jpg" alt="Portfolio image 17" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/503aae03-9e0c-45d7-b25d-f307257f5ce5/variations/Default_realistic_photo_of_interior_design_Scheme_Urban_Chic_3_503aae03-9e0c-45d7-b25d-f307257f5ce5_0.jpg" alt="Portfolio image 18" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/77cdba02-a3fe-47b9-9e11-28eae8a095c2/variations/Default_realistic_photo_of_interior_design_Scheme_Earthy_Comf_2_77cdba02-a3fe-47b9-9e11-28eae8a095c2_0.jpg" alt="Portfolio image 19" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/7624fdc0-6475-483e-abf4-9a03b71a0f89/variations/Default_realistic_photo_of_interior_design_Scheme_Earthy_Comf_2_7624fdc0-6475-483e-abf4-9a03b71a0f89_0.jpg" alt="Portfolio image 20" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/ed8b9191-0104-4706-81e0-5f1419a24f07/variations/Default_realistic_photo_of_interior_design_Scheme_Coastal_Re_3_ed8b9191-0104-4706-81e0-5f1419a24f07_0.jpg" alt="Portfolio image 21" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/1f680419-5b8e-48e5-b2d1-f08bcdf9f8cd/variations/Default_realistic_photo_of_bedroom_interior_design_of_ocean_b_3_1f680419-5b8e-48e5-b2d1-f08bcdf9f8cd_0.jpg" alt="Portfolio image 22" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/a1be2d0e-b9df-4af0-bc80-0492fd9ee5c8/variations/Default_realistic_photo_of_interior_design_Scheme_Urban_Chic_3_a1be2d0e-b9df-4af0-bc80-0492fd9ee5c8_0.jpg" alt="Portfolio image 23" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+                <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/adcfb001-7401-4bad-894a-1753d1b67f1f/variations/Default_Image_showcases_a_modern_minimalist_living_room_Style_1_adcfb001-7401-4bad-894a-1753d1b67f1f_0.jpg" alt="Portfolio image 24" class="rounded-lg shadow-lg hover:opacity-80 transition duration-300 aspect-square object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">What Our Clients Say</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="glass-card p-8 rounded-lg">
+                    <p class="mb-4">"Your interior design projects are a delightful triple treat! They seamlessly combine creativity, functionality, and a generous dose of style in a flawless manner."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/f59e0b/0f172a?text=RA" alt="Rafar Addam" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-bold text-white">Rafar Addam</p>
+                            <p class="text-sm text-slate-400">Homeowner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-lg">
+                    <p class="mb-4">"Your attention to the tiniest details and your ability to bring every project to life demonstrate your skill and dedication. The spaces you design are truly remarkable."</p>
+                     <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/f59e0b/0f172a?text=MK" alt="Mila Karovsky" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-bold text-white">Mila Karovsky</p>
+                            <p class="text-sm text-slate-400">Business Client</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl text-white">Let's Create Your Dream Space</h2>
+                <p class="max-w-2xl mx-auto mt-2">Ready to personalize your home? Get in touch with us to start the conversation.</p>
+            </div>
+            <div class="max-w-xl mx-auto text-center">
+                <div class="glass-card rounded-lg p-8">
+                    <p class="text-lg mb-2"><strong>Phone:</strong> <a href="tel:+66869094356" class="hover:accent-gold">+66 86 909 4356</a></p>
+                    <p class="text-lg mb-6"><strong>Email:</strong> <a href="mailto:widerooms@hotmail.com" class="hover:accent-gold">widerooms@hotmail.com</a></p>
+                    <p class="text-lg mb-4"><strong>Location:</strong> Copacabana Beach Jomtien, Pattaya</p>
+                    <a href="#contact" class="mt-4 inline-block bg-accent-gold text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-accent-gold-dark transition duration-300 shadow-lg">Schedule a Meeting</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8">
+        <div class="container mx-auto px-6 text-center text-slate-400">
+             <p>&copy; 2025 WIDEROOMS. All Rights Reserved.</p>
+             <p class="text-sm mt-2">Personalized Your Home</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile menu toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Gemini AI Idea Generator ---
+        const generateBtn = document.getElementById('generate-idea-btn');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('idea-result');
+
+        generateBtn.addEventListener('click', async () => {
+            const roomType = document.getElementById('roomType').value;
+            const style = document.getElementById('style').value;
+            const keywords = document.getElementById('keywords').value;
+
+            if (!style) {
+                alert('Please enter your desired style.');
+                return;
+            }
+
+            // --- Show loader and hide previous result ---
+            loader.classList.remove('hidden');
+            resultContainer.style.display = 'none';
+            resultContainer.textContent = '';
+            
+            generateBtn.disabled = true;
+            generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // --- Construct the prompt for Gemini ---
+            const prompt = `Generate a detailed interior design concept for a "${roomType}" with a "${style}" theme. Additional keywords: "${keywords}". Please structure the response with these sections: 1. Main Concept, 2. Color Palette, 3. Furniture & Decor, and 4. Lighting.`;
+            
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Canvas will provide the key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                let text = 'Sorry, we couldn\'t generate an idea at this time.';
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    text = result.candidates[0].content.parts[0].text;
+                }
+                
+                // --- Display the result ---
+                resultContainer.textContent = text;
+                resultContainer.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                resultContainer.textContent = 'An error occurred while generating the idea. Please try again later.';
+                resultContainer.style.display = 'block';
+            } finally {
+                // --- Hide loader and re-enable button ---
+                loader.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+    </script>
+</body>
+</html>
