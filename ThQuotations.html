@@ -1,401 +1,586 @@
-<!-- 
-    Color Palette Chosen: Energetic & Playful (#00B8A9, #F8B195, #F67280, #C06C84, #6C5B7B, #355C7D)
-    
-    Narrative & Structure Plan:
-    1.  Introduction/Hook: "What Does a Modern Website Cost?" - Featuring the total price range as a large, attention-grabbing number.
-    2.  Project At a Glance: A summary of the key project features using styled cards.
-    3.  The Price Breakdown: A core section using a Donut Chart to visualize the cost composition of each development phase.
-    4.  Development Timeline: A step-by-step visual timeline of the 3-5 week process.
-    5.  Optional Add-ons: Visualizing the costs of optional services like SEO and Maintenance.
-    6.  Payment Milestones: A simple flow diagram illustrating the 50/50 payment structure.
-    7.  Contact Section: A call to action with contact details.
-    8.  Conclusion: A summary and call to action.
-
-    Visualization Choices:
-    -   Total Cost: Goal: Inform -> Chosen Visualization: Single Big Number -> Justification: High impact for a key metric. Method: Styled HTML.
-    -   Key Features: Goal: Organize -> Chosen Visualization: Styled Cards -> Justification: Clearly segments distinct features. Method: Structured HTML/CSS with Tailwind.
-    -   Cost Breakdown: Goal: Compare/Show Composition -> Chosen Visualization: Donut Chart -> Justification: Excellent for showing parts of a whole. Library: Chart.js (Canvas).
-    -   Timeline: Goal: Show Change -> Chosen Visualization: Timeline -> Justification: Clearly shows a process over time. Method: Structured HTML/CSS with Tailwind.
-    -   Optional Costs: Goal: Compare -> Chosen Visualization: Horizontal Bar Chart -> Justification: Good for comparing discrete items. Library: Chart.js (Canvas).
-    -   Bilingual Feature: Goal: Inform -> Chosen Visualization: Single Big Number/Card -> Justification: Highlights a significant percentage-based add-on clearly. Method: Styled HTML.
-    -   Payment Flow: Goal: Organize -> Chosen Visualization: Flow Chart -> Justification: Simple and effective for a two-step process. Method: Structured HTML/CSS with Tailwind.
-
-    Confirmation: NEITHER Mermaid JS NOR SVG graphics were used in this output. All charts are rendered on HTML Canvas elements.
--->
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infographic: Website Development Cost Breakdown</title>
+    <title>Infographic: ผลกระทบ EEC ต่อตลาดคอนโดมิเนียมจอมเทียน-พัทยา</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: #f7fafc; /* gray-100 */
-        }
-        .material-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .material-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            background-color: #f8f9fa;
         }
         .chart-container {
             position: relative;
+            width: 100%;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             height: 320px;
-            width: 100%;
-            max-width: 450px;
+            max-height: 400px;
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 400px;
+                height: 350px;
             }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            text-align: center;
+            border-left: 5px solid #00509D;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #00296B;
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #FDC500;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            height: 100%;
+        }
+        #aiResult ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        #aiResult li {
+            margin-bottom: 0.5rem;
+        }
+        .gemini-button {
+            transition: all 0.3s ease;
+        }
+        .gemini-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-[#212529]">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
-        
-        <header class="text-center my-8 md:my-12">
-            <img src="https://i.postimg.cc/JzWKd4WF/Default-a-black-and-white-logo-of-thho-1-0181dd2e-05b7-4353-9d5f-4b3148c0ce81-0.png" alt="Company Logo" class="h-20 mx-auto mb-6">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">ค่าใช้จ่ายในการสร้างเว็บไซต์สมัยใหม่</h1>
-            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">เจาะลึกรายละเอียดงบประมาณและขั้นตอนการพัฒนาเว็บไซต์ One-Page ที่ขับเคลื่อนด้วย AI</p>
-        </header>
+    <header class="bg-[#00509D] text-white p-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/44cb0a45-8b9b-4109-a9c5-d2684dfbb820/variations/Default_A_stylishly_modern_emblem_of_thho_is_exquisitely_craft_1_44cb0a45-8b9b-4109-a9c5-d2684dfbb820_0.jpg" alt="EEC Infographic Logo" class="h-20 w-auto mx-auto mb-4 rounded-full" onerror="this.style.display='none'">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">EEC & เมืองใหม่อัจฉริยะ</h1>
+            <p class="text-xl md:text-2xl text-gray-200">ผลกระทบต่อตลาดคอนโดมิเนียมจอมเทียน-พัทยา</p>
+        </div>
+    </header>
 
-        <main class="space-y-16">
-            
-            <section id="total-cost" class="material-card p-8 text-center" style="background-color: #355C7D; color: white;">
-                <h2 class="text-2xl font-bold opacity-80">ราคาประเมินรวม (ภาษาเดียว)</h2>
-                <div class="text-6xl md:text-8xl font-extrabold my-4 tracking-tight">
-                    <span>44,000 - 80,000</span>
-                    <span class="text-4xl opacity-90">THB</span>
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="vision" class="mb-12">
+            <h2 class="section-title">วิสัยทัศน์แห่งอนาคต (The Future Narrative)</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-lg text-[#6C757D]">โครงการ EEC และเมืองใหม่อัจฉริยะ คือ "เรื่องเล่าแห่งอนาคต" ที่ขับเคลื่อนความเชื่อมั่นและการลงทุน สร้างภาพพัทยายุคใหม่ที่เป็นมากกว่าเมืองท่องเที่ยว</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="kpi-card">
+                    <p class="text-4xl font-bold text-[#00A896]">3.7</p>
+                    <p class="text-lg font-semibold">ล้านล้านบาท</p>
+                    <p class="text-sm text-[#6C757D]">เม็ดเงินลงทุนใหม่ใน EEC</p>
                 </div>
-                <p class="text-base opacity-80">ราคาสามารถปรับเปลี่ยนได้ตามความซับซ้อนและขอบเขตของงาน</p>
-            </section>
-
-            <section id="project-glance">
-                <h2 class="text-3xl font-bold text-center mb-8">ภาพรวมโครงการ</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="material-card p-6">
-                        <div class="text-4xl mb-3" style="color: #F67280;">⬢</div>
-                        <h3 class="text-xl font-bold mb-2">One-Page Design</h3>
-                        <p class="text-gray-600">นำเสนอข้อมูลทั้งหมดในหน้าเดียว สะดวกต่อการใช้งานและบอกเล่าเรื่องราวได้อย่างต่อเนื่อง</p>
-                    </div>
-                    <div class="material-card p-6">
-                        <div class="text-4xl mb-3" style="color: #C06C84;">✨</div>
-                        <h3 class="text-xl font-bold mb-2">AI-Powered Feature</h3>
-                        <p class="text-gray-600">เชื่อมต่อ Gemini API เพื่อสร้างฟีเจอร์พิเศษ เช่น เครื่องมือสร้างไอเดียอัตโนมัติ</p>
-                    </div>
-                    <div class="material-card p-6">
-                         <div class="text-4xl mb-3" style="color: #00B8A9;">📱</div>
-                        <h3 class="text-xl font-bold mb-2">Fully Responsive</h3>
-                        <p class="text-gray-600">ออกแบบให้รองรับการแสดงผลบนทุกอุปกรณ์ ตั้งแต่คอมพิวเตอร์จนถึงสมาร์ทโฟน</p>
-                    </div>
+                <div class="kpi-card">
+                    <p class="text-4xl font-bold text-[#00A896]">200,000</p>
+                    <p class="text-lg font-semibold">ตำแหน่ง</p>
+                    <p class="text-sm text-[#6C757D]">ตำแหน่งงานคุณภาพใหม่</p>
                 </div>
-            </section>
-            
-            <section id="cost-breakdown">
-                <h2 class="text-3xl font-bold text-center mb-2">แจกแจงรายละเอียดค่าบริการ</h2>
-                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">งบประมาณส่วนใหญ่ถูกจัดสรรให้กับส่วนของการพัฒนาและการออกแบบ เพื่อให้ได้เว็บไซต์ที่มีคุณภาพและตอบโจทย์ทางธุรกิจ</p>
-                <div class="material-card p-6 md:p-8">
+                <div class="kpi-card">
+                    <p class="text-4xl font-bold text-[#00A896]">350,000</p>
+                    <p class="text-lg font-semibold">คน</p>
+                    <p class="text-sm text-[#6C757D]">ประชากรเป้าหมายเมืองใหม่</p>
+                </div>
+                <div class="kpi-card">
+                    <p class="text-4xl font-bold text-[#00A896]">10</p>
+                    <p class="text-lg font-semibold">กม.</p>
+                    <p class="text-sm text-[#6C757D]">ระยะห่างจากจอมเทียน</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="infrastructure" class="mb-12">
+            <h2 class="section-title">โครงสร้างพื้นฐาน: เส้นเลือดใหญ่แห่งอนาคต</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-lg text-[#6C757D]">ความสำเร็จของ EEC ผูกติดกับโครงการคมนาคมหลัก 2 โครงการ ซึ่งเป็นทั้งความหวังและความเสี่ยงจากความล่าช้า</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card flex flex-col items-center text-center">
+                    <div class="text-5xl mb-4">🚆</div>
+                    <h3 class="text-2xl font-bold mb-2 text-[#00509D]">รถไฟความเร็วสูง 3 สนามบิน</h3>
+                    <p class="text-gray-600 mb-4">เชื่อมกรุงเทพฯ สู่ EEC ลดเวลาเดินทางสู่เมืองหลวง</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                      <div class="bg-[#00A896] h-2.5 rounded-full" style="width: 20%"></div>
+                    </div>
+                    <p class="mt-2 font-semibold">คาดการณ์เปิดให้บริการ: ปี 2572</p>
+                </div>
+                <div class="card flex flex-col items-center text-center">
+                     <div class="text-5xl mb-4">✈️</div>
+                    <h3 class="text-2xl font-bold mb-2 text-[#00509D]">สนามบินอู่ตะเภา เฟส 3</h3>
+                    <p class="text-gray-600 mb-4">สู่ศูนย์กลางการบินระดับภูมิภาค รองรับ 60 ล้านคน/ปี</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                      <div class="bg-[#FDC500] h-2.5 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <p class="mt-2 font-semibold">คาดการณ์เปิดเฟสแรก: ปี 2571</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market-reality" class="mb-12">
+             <h2 class="section-title">ความจริงของตลาด (The Market Reality)</h2>
+             <p class="text-center max-w-3xl mx-auto mb-8 text-lg text-[#6C757D]">ภาพตลาดคอนโดจอมเทียนในปัจจุบันสะท้อนภาวะ "อุปทานนำอุปสงค์" และ "ตลาดสองความเร็ว" ที่ขับเคลื่อนโดยกำลังซื้อจากต่างชาติเป็นหลัก</p>
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#00509D]">ภาวะอุปทานล้นตลาด (Oversupply Risk)</h3>
+                    <p class="text-center text-sm mb-4 text-[#6C757D]">อุปทานใหม่ช่วงครึ่งแรกของปี 2567 สูงเกินระดับที่ตลาดควรรับได้ ส่งผลให้เกิดความเสี่ยงและยูนิตคงค้างกว่า 11,329 ยูนิต</p>
                     <div class="chart-container">
-                        <canvas id="costBreakdownChart"></canvas>
+                        <canvas id="supplyChart"></canvas>
                     </div>
                 </div>
-            </section>
 
-            <section id="timeline">
-                <h2 class="text-3xl font-bold text-center mb-8">ไทม์ไลน์การดำเนินงาน (3-5 สัปดาห์)</h2>
-                <div class="relative px-4">
-                    <div class="absolute h-full border-l-2 border-dashed border-gray-300 left-1/2 transform -translate-x-1/2 md:left-4 md:transform-none"></div>
-                    <div class="space-y-12">
-                        <div class="flex items-center w-full">
-                            <div class="hidden md:block w-1/3"></div>
-                            <div class="z-10 bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 md:left-4 md:-translate-x-1/2">
-                                <div class="w-4 h-4 rounded-full" style="background-color: #F8B195;"></div>
-                            </div>
-                            <div class="material-card p-6 w-full ml-0 md:ml-12 md:w-2/3">
-                                <h3 class="font-bold text-lg">สัปดาห์ที่ 1: วางแผนและออกแบบ</h3>
-                                <p class="text-gray-600 mt-1">วางโครงสร้างเว็บไซต์, ทำความเข้าใจเป้าหมาย, และจัดทำ Mockup เพื่อเห็นภาพรวมดีไซน์</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center w-full">
-                             <div class="hidden md:block w-1/3"></div>
-                            <div class="z-10 bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 md:left-4 md:-translate-x-1/2">
-                               <div class="w-4 h-4 rounded-full" style="background-color: #F67280;"></div>
-                            </div>
-                            <div class="material-card p-6 w-full ml-0 md:ml-12 md:w-2/3">
-                                <h3 class="font-bold text-lg">สัปดาห์ที่ 2-3: พัฒนาเว็บไซต์</h3>
-                                <p class="text-gray-600 mt-1">เริ่มลงมือเขียนโค้ดสำหรับส่วนหน้าเว็บ (Frontend) และทำให้เว็บไซต์ตอบสนองต่อทุกขนาดหน้าจอ</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center w-full">
-                             <div class="hidden md:block w-1/3"></div>
-                            <div class="z-10 bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 md:left-4 md:-translate-x-1/2">
-                                <div class="w-4 h-4 rounded-full" style="background-color: #C06C84;"></div>
-                            </div>
-                            <div class="material-card p-6 w-full ml-0 md:ml-12 md:w-2/3">
-                                <h3 class="font-bold text-lg">สัปดาห์ที่ 4: เชื่อมต่อ API และจัดการเนื้อหา</h3>
-                                <p class="text-gray-600 mt-1">เชื่อมต่อระบบ Gemini API, นำข้อมูล รูปภาพ และเนื้อหาทั้งหมดเข้าสู่เว็บไซต์</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center w-full">
-                             <div class="hidden md:block w-1/3"></div>
-                             <div class="z-10 bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 md:left-4 md:-translate-x-1/2">
-                                <div class="w-4 h-4 rounded-full" style="background-color: #6C5B7B;"></div>
-                            </div>
-                            <div class="material-card p-6 w-full ml-0 md:ml-12 md:w-2/3">
-                                <h3 class="font-bold text-lg">สัปดาห์ที่ 5: ทดสอบและส่งมอบ</h3>
-                                <p class="text-gray-600 mt-1">ตรวจสอบการทำงานทั้งหมด, ทดสอบบนอุปกรณ์ต่างๆ และนำเว็บไซต์ขึ้นออนไลน์เพื่อใช้งานจริง</p>
-                            </div>
-                        </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#00509D]">เปรียบเทียบราคาขายเฉลี่ยรายทำเล (ต่อ ตร.ม.)</h3>
+                     <p class="text-center text-sm mb-4 text-[#6C757D]">จอมเทียนมีช่วงราคาที่เข้าถึงง่ายที่สุด แต่ก็เป็นสมรภูมิที่มีการแข่งขันสูงสุด ในขณะที่วงศ์อมาตย์ครองตำแหน่งทำเลหรูหราที่สุด</p>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
                     </div>
                 </div>
-            </section>
-            
-            <section id="optional-services">
-                 <h2 class="text-3xl font-bold text-center mb-8">บริการเพิ่มเติมเพื่อต่อยอดธุรกิจ</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="material-card p-6 md:p-8">
-                        <h3 class="text-xl font-bold mb-4">บริการเสริมยอดนิยม</h3>
-                        <p class="text-gray-600 mb-6">เพิ่มประสิทธิภาพให้เว็บไซต์ของคุณด้วยบริการ SEO และแพ็คเกจดูแลรายเดือน</p>
-                        <div class="chart-container !h-64">
-                            <canvas id="optionalServicesChart"></canvas>
-                        </div>
-                    </div>
-                     <div class="material-card p-6 md:p-8 flex flex-col justify-center text-center" style="background-color: #00B8A9; color: white;">
-                        <h3 class="text-2xl font-bold">เว็บไซต์ 2 ภาษา</h3>
-                        <div class="text-6xl font-extrabold my-3">+40%</div>
-                        <p class="opacity-90">ของราคาโปรเจกต์<br>เพื่อเข้าถึงกลุ่มเป้าหมายที่กว้างขึ้น</p>
-                    </div>
-                </div>
-            </section>
 
-            <section id="payment">
-                <h2 class="text-3xl font-bold text-center mb-8">เงื่อนไขการชำระเงิน</h2>
-                <div class="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-3 items-center text-center gap-4">
-                     <div class="material-card p-6">
-                        <div class="text-4xl font-bold" style="color: #355C7D;">50%</div>
-                        <p class="font-semibold">งวดที่ 1</p>
-                        <p class="text-sm text-gray-500">ก่อนเริ่มโครงการ</p>
-                    </div>
-                    <div class="text-4xl text-gray-400 font-light">→</div>
-                    <div class="material-card p-6">
-                        <div class="text-4xl font-bold" style="color: #355C7D;">50%</div>
-                        <p class="font-semibold">งวดที่ 2</p>
-                        <p class="text-sm text-gray-500">เมื่องานเสร็จสิ้น</p>
+                <div class="card">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#00509D]">ใครคือผู้ซื้อต่างชาติ? (สัญชาติหลัก)</h3>
+                    <p class="text-center text-sm mb-4 text-[#6C757D]">กำลังซื้อจากต่างชาติเป็นหัวใจสำคัญของตลาดพัทยา โดยมีชาวจีนและรัสเซียเป็นกลุ่มผู้ซื้อหลัก</p>
+                    <div class="chart-container h-64 md:h-80">
+                         <canvas id="buyerNationalityChart"></canvas>
                     </div>
                 </div>
-            </section>
-
-            <section id="contact-us">
-                <div class="material-card p-8 text-center">
-                    <h2 class="text-3xl font-bold mb-4">พร้อมเริ่มต้นโปรเจกต์ของคุณแล้วหรือยัง?</h2>
-                    <p class="text-gray-600 max-w-xl mx-auto mb-6">ติดต่อเราเพื่อพูดคุยรายละเอียดและขอรับใบเสนอราคาฉบับสมบูรณ์สำหรับโครงการของคุณ</p>
-                    <div class="space-y-3 text-lg text-gray-700 my-6">
-                        <p><strong>โทรศัพท์:</strong> <a href="tel:+66869094356" class="hover:text-teal-600">+66 86 909 4356</a></p>
-                        <p><strong>อีเมล:</strong> <a href="mailto:widerooms@hotmail.com" class="hover:text-teal-600">widerooms@hotmail.com</a></p>
+                
+                 <div class="card">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#00509D]">คอนโดแบบไหนที่ต่างชาติเลือก?</h3>
+                     <p class="text-center text-sm mb-4 text-[#6C757D]">ขนาด 1-2 ห้องนอน และราคาไม่เกิน 3 ล้านบาท เป็นกลุ่มผลิตภัณฑ์ที่ได้รับความนิยมสูงสุดจากผู้ซื้อชาวต่างชาติ</p>
+                    <div class="chart-container">
+                        <canvas id="buyerPreferenceChart"></canvas>
                     </div>
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-xl font-semibold mb-4 text-gray-800">ติดตามเราได้ที่</h3>
-                        <div class="flex justify-center items-center flex-wrap gap-4 md:gap-6 text-gray-600">
-                            <a href="https://x.com/widerooms" target="_blank" class="hover:text-teal-600 transition-colors flex items-center gap-2">
-                                <span class="font-black text-xl">X</span>
-                                <span>@widerooms</span>
-                            </a>
-                            <a href="https://www.youtube.com/@threeandhour" target="_blank" class="hover:text-teal-600 transition-colors flex items-center gap-2">
-                                <span class="text-2xl" style="color: #F67280;">▶</span>
-                                <span>Youtube</span>
-                            </a>
-                            <a href="https://line.me/ti/g2/AQpPGv4KifS1uCcirejkYgQzqCvCvpCKu-NDvQ" target="_blank" class="hover:text-teal-600 transition-colors flex items-center gap-2">
-                                <span class="text-2xl">💬</span>
-                                <span>LINE Open Chat</span>
-                            </a>
-                        </div>
-                    </div>
-                    <a href="mailto:widerooms@hotmail.com?subject=Anfrage für ein Website-Angebot" class="mt-8 inline-block text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-lg" style="background-color: #F67280; hover:background-color: #F8B195;">ติดต่อเพื่อขอใบเสนอราคาฉบับเต็ม</a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </main>
+        <section id="gap-analysis" class="mb-12">
+            <h2 class="section-title">ช่องว่างระหว่างเรื่องเล่าและความจริง</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-lg text-[#6C757D]">ความท้าทายของนักลงทุนคือการรอให้ "ความเป็นจริง" ไล่ตาม "เรื่องเล่า" ให้ทัน การลงทุนวันนี้คือการ "ซื้ออนาคต" ที่ต้องอาศัยความอดทน</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card border-t-4 border-[#00A896]">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#00A896]">🚀 The Narrative (เรื่องเล่า)</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li>เมืองใหม่สร้างงาน 200,000 ตำแหน่ง</li>
+                        <li>เดินทางสะดวกด้วยรถไฟความเร็วสูง</li>
+                        <li>สนามบินอู่ตะเภาเป็นประตูสู่ภูมิภาค</li>
+                        <li>เศรษฐกิจเติบโตอย่างก้าวกระโดด</li>
+                        <li>ดึงดูดบุคลากรทักษะสูงจากทั่วโลก</li>
+                    </ul>
+                </div>
+                <div class="card border-t-4 border-[#D00000]">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#D00000]">⏳ The Reality (ความเป็นจริง)</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li>รถไฟความเร็วสูงล่าช้ากว่าแผน</li>
+                        <li>เสี่ยงภาวะอุปทานล้นตลาดคอนโด</li>
+                        <li>กำลังซื้อในประเทศยังเปราะบาง</li>
+                        <li>อัตราการดูดซับของตลาดชะลอตัว</li>
+                        <li>ต้องพึ่งพากำลังซื้อจากต่างชาติสูง</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="mb-12">
+            <h2 class="section-title">สรุปโอกาสและความเสี่ยงสำหรับนักลงทุน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="card">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-green-600">✅ ปัจจัยขับเคลื่อน (โอกาส)</h3>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="mr-2 text-green-500">➕</span><span>การลงทุนภาครัฐใน EEC และเมืองใหม่</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-green-500">➕</span><span>การพัฒนาโครงสร้างพื้นฐานคมนาคม</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-green-500">➕</span><span>การสร้างงานและดึงดูดบุคลากรทักษะสูง</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-green-500">➕</span><span>สิทธิประโยชน์ดึงดูดชาวต่างชาติ (วีซ่า, เช่า 50 ปี)</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-green-500">➕</span><span>ศักยภาพผลตอบแทนค่าเช่า (Rental Yield) 7-10%</span></li>
+                    </ul>
+                </div>
+                <div class="card">
+                     <h3 class="text-2xl font-bold text-center mb-4 text-red-600">⚠️ ปัจจัยเสี่ยง (ความท้าทาย)</h3>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="mr-2 text-red-500">➖</span><span>ความล่าช้าของโครงการโครงสร้างพื้นฐาน</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-red-500">➖</span><span>ภาวะอุปทานล้นตลาด (Oversupply)</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-red-500">➖</span><span>กำลังซื้อในประเทศอ่อนแอและหนี้ครัวเรือนสูง</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-red-500">➖</span><span>การพึ่งพิงตลาดต่างชาติที่มีความผันผวน</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-red-500">➖</span><span>ความเสี่ยงด้าน Yield Compression</span></li>
+                    </ul>
+                </div>
+                <div class="card md:col-span-2">
+                     <h3 class="text-xl font-bold text-center mb-2 text-[#00509D]">🎧 ฟังเพิ่มเติม: วิเคราะห์เจาะลึกตลาด EEC</h3>
+                     <p class="text-center text-sm mb-4 text-[#6C757D]">รับฟังมุมมองและข้อมูลเชิงลึกจากผู้เชี่ยวชาญเกี่ยวกับอนาคตของอสังหาริมทรัพย์ในพัทยาและ EEC</p>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5tLHisTXmOf72q65JubPYS?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+             <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-r-lg">
+                <h3 class="text-xl font-bold mb-2">ข้อเสนอแนะเชิงกลยุทธ์</h3>
+                <p>ความสำเร็จในการลงทุนผูกกับความคืบหน้าของ EEC โดยตรง นักลงทุนต้องมีสายป่านยาวพอที่จะรอ 5-10 ปี และควรเลือกโครงการที่มีจุดขายแตกต่างชัดเจน เพื่อจับกลุ่มลูกค้ายุคใหม่ที่จะเข้ามาพร้อมกับเมืองใหม่อัจฉริยะ</p>
+            </div>
+        </section>
         
-        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
-            <p class="text-gray-600">อินโฟกราฟิกนี้จัดทำขึ้นเพื่อเป็นแนวทางในการประเมินราคาเบื้องต้น</p>
-            <p class="text-sm text-gray-400 mt-2">ข้อมูล ณ วันที่ 24 มิถุนายน 2568</p>
-        </footer>
+        <section id="gemini-advisor" class="mb-12">
+            <h2 class="section-title">✨ วิเคราะห์การลงทุนส่วนบุคคลด้วย AI</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-lg text-[#6C757D]">เลือกโปรไฟล์การลงทุนของคุณ เพื่อรับคำแนะนำเชิงกลยุทธ์ที่สร้างโดย Gemini AI โดยอ้างอิงจากข้อมูลในหน้านี้</p>
+            <div class="card max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="budget" class="block mb-2 text-sm font-medium text-gray-900">งบประมาณ</label>
+                        <select id="budget" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="น้อยกว่า 3 ล้านบาท">น้อยกว่า 3 ล้านบาท</option>
+                            <option value="3 - 5 ล้านบาท">3 - 5 ล้านบาท</option>
+                            <option value="5 - 10 ล้านบาท">5 - 10 ล้านบาท</option>
+                            <option value="มากกว่า 10 ล้านบาท">มากกว่า 10 ล้านบาท</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="risk" class="block mb-2 text-sm font-medium text-gray-900">ระดับความเสี่ยงที่ยอมรับได้</label>
+                        <select id="risk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="ต่ำ (เน้นความปลอดภัย)">ต่ำ (เน้นความปลอดภัย)</option>
+                            <option value="ปานกลาง (สมดุลผลตอบแทนและความเสี่ยง)">ปานกลาง (สมดุล)</option>
+                            <option value="สูง (เน้นผลตอบแทนสูงสุด)">สูง (เน้นผลตอบแทน)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="horizon" class="block mb-2 text-sm font-medium text-gray-900">ระยะเวลาลงทุน</label>
+                        <select id="horizon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="ระยะสั้น (1-3 ปี)">ระยะสั้น (1-3 ปี)</option>
+                            <option value="ระยะกลาง (4-7 ปี)">ระยะกลาง (4-7 ปี)</option>
+                            <option value="ระยะยาว (8+ ปี)">ระยะยาว (8+ ปี)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button id="getAiAdvice" class="gemini-button bg-gradient-to-r from-blue-500 to-teal-400 hover:from-blue-600 hover:to-teal-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                        ✨ ขอคำแนะนำจาก AI
+                    </button>
+                </div>
+                <div id="aiResultWrapper" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200" style="display: none;">
+                    <div id="aiResult">
+                        <p class="text-center">กำลังวิเคราะห์ข้อมูล...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    </div>
+        <section id="contact-expert" class="mb-12">
+            <h2 class="section-title">ปรึกษาผู้เชี่ยวชาญด้านการลงทุน</h2>
+            <div class="card max-w-4xl mx-auto p-6">
+                <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                    <div class="md:w-1/3 text-center">
+                        <img src="https://i.postimg.cc/dt17BmbN/2-CE939-AD-D855-45-CD-80-BF-A1-BFEC572-CA7-1-201-a.jpg" alt="รูปภาพคุณอาวว์ (Hour)" class="w-40 h-40 rounded-full mx-auto object-cover shadow-lg border-4 border-white">
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h3 class="text-3xl font-bold text-[#00509D]">คุณอาวว์ (Hour)</h3>
+                        <p class="text-gray-600 mt-1 text-lg">ผู้เชี่ยวชาญด้านอสังหาริมทรัพย์และการลงทุนใน EEC</p>
+                        <div class="mt-4 space-y-2 text-gray-800">
+                            <p class="flex items-center justify-center md:justify-start"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.518.758a10.024 10.024 0 006.46 6.46l.758-1.518a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg><span>(+66) 86-909-4356</span></p>
+                            <p class="flex items-center justify-center md:justify-start"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg><span>threeandhour@gmail.com</span></p>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center md:justify-start">
+                             <a href="https://line.me/ti/g2/tcfj-ZrJ6mwcbEbIPB5cqVgT-qLMngpVRn9eUg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" class="inline-flex items-center bg-[#06C755] hover:bg-[#05a546] text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M16.229 14.146c-1.055.281-2.128.438-3.229.438-4.411 0-8-2.693-8-6s3.589-6 8-6c4.404 0 8 2.693 8 6 0 2.023-1.284 3.824-3.234 4.912.243.64.672 1.253 1.234 1.771l.056.051-2.827 2.828-.04-.041c-.588-.588-1.258-1.041-1.959-1.354zm-3.229-11.546c-3.725 0-6.833 2.331-6.833 5.4s3.108 5.4 6.833 5.4c1.002 0 1.966-.143 2.833-.404.932 1.455 2.768 2.504 4.885 2.504 1.144 0 2.22-.309 3.115-.849l2.551 2.551.707-.707-2.551-2.551c.541-.895.849-1.971.849-3.115 0-2.812-2.064-5.222-4.885-6.041-.83-.245-1.742-.387-2.717-.387zm-1.875 4.9h2.25v2.25h-2.25v-2.25zm3.75 0h2.25v2.25h-2.25v-2.25z"/></svg>
+                                Line Open Chat
+                            </a>
+                             <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=6a5328203adb467d" target="_blank" class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.669 11.538a.498.498 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686m.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858m.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.437c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288"/></svg>
+                                ฟัง Podcast
+                            </a>
+                            <a href="https://thbho.github.io/EnHourBizCV.html" target="_blank" class="inline-flex items-center bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 11-2 0V4H6v12a1 1 0 11-2 0V4zm4 4a1 1 0 100 2h4a1 1 0 100-2H8zm0 4a1 1 0 100 2h4a1 1 0 100-2H8z" clip-rule="evenodd"></path></svg>
+                                ดูประวัติ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<script>
-    const CHART_COLORS = {
-        teal: '#00B8A9',
-        peach: '#F8B195',
-        coral: '#F67280',
-        mauve: '#C06C84',
-        purple: '#6C5B7B',
-        blue: '#355C7D'
-    };
+    </main>
 
-    function wrapLabels(label, maxLength) {
-        if (typeof label !== 'string' || label.length <= maxLength) {
-            return label;
-        }
-        const words = label.split(' ');
-        const lines = [];
-        let currentLine = '';
-        for (const word of words) {
-            if ((currentLine + ' ' + word).trim().length > maxLength) {
-                if(currentLine) lines.push(currentLine.trim());
-                currentLine = word;
-            } else {
-                currentLine = (currentLine + ' ' + word).trim();
-            }
-        }
-        if (currentLine) {
-            lines.push(currentLine.trim());
-        }
-        return lines.length > 0 ? lines : [label];
-    }
+    <footer class="bg-[#00296B] text-white p-4 mt-8">
+        <div class="container mx-auto text-center text-sm">
+            <p>ข้อมูลสังเคราะห์และนำเสนอ ณ วันที่ 25 มิถุนายน 2568</p>
+            <p>สร้างสรรค์โดย Canvas Infographics (ขับเคลื่อนด้วย Gemini)</p>
+        </div>
+    </footer>
     
-    const tooltipTitleCallback = (tooltipItems) => {
-        const item = tooltipItems[0];
-        let label = item.chart.data.labels[item.dataIndex];
-        if (Array.isArray(label)) {
-          return label.join(' ');
-        }
-        return label;
-    };
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-    (function renderCharts() {
-        const costCtx = document.getElementById('costBreakdownChart');
-        if (costCtx) {
-            const costData = {
-                labels: [
-                    'พัฒนา Frontend', 
-                    'เชื่อมต่อ Gemini API', 
-                    'ออกแบบ UI/UX', 
-                    'วางแผนและให้คำปรึกษา',
-                    'จัดการเนื้อหาและทดสอบ', 
-                    'นำขึ้นระบบ'
-                ].map(label => wrapLabels(label, 16)),
-                datasets: [{
-                    label: 'สัดส่วนค่าบริการ',
-                    data: [20000, 15000, 11500, 6500, 6000, 3000],
-                    backgroundColor: [
-                        CHART_COLORS.coral,
-                        CHART_COLORS.mauve,
-                        CHART_COLORS.peach,
-                        CHART_COLORS.teal,
-                        CHART_COLORS.purple,
-                        CHART_COLORS.blue,
-                    ],
-                    borderColor: '#ffffff',
-                    borderWidth: 3,
-                    hoverOffset: 4
-                }]
+            const chartColors = {
+                primary: '#00509D',
+                secondary: '#00A896',
+                accent: '#FDC500',
+                danger: '#D00000',
+                lightGray: '#6C757D',
+                background: 'rgba(0, 168, 150, 0.2)',
+                background2: 'rgba(253, 197, 0, 0.2)',
             };
 
-            new Chart(costCtx, {
-                type: 'doughnut',
-                data: costData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    family: "'Sarabun', sans-serif"
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: tooltipTitleCallback
-                            }
-                        }
-                    },
-                    cutout: '60%'
+            const wrapLabel = (label, maxWidth) => {
+                if (typeof label !== 'string' || label.length <= maxWidth) {
+                    return label;
                 }
-            });
-        }
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = words[0];
 
-        const optionalCtx = document.getElementById('optionalServicesChart');
-        if (optionalCtx) {
-            const optionalData = {
-                labels: ['ตั้งค่า SEO เบื้องต้น', 'ดูแลเว็บไซต์รายเดือน'].map(label => wrapLabels(label, 16)),
-                datasets: [{
-                    label: 'ราคาประเมิน (บาท)',
-                    data: [7500, 5000],
-                    backgroundColor: [CHART_COLORS.teal, CHART_COLORS.mauve],
-                    borderColor: [CHART_COLORS.teal, CHART_COLORS.mauve],
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    barThickness: 30,
-                }]
+                for (let i = 1; i < words.length; i++) {
+                    if (currentLine.length + words[i].length + 1 < maxWidth) {
+                        currentLine += ' ' + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
             };
 
-            new Chart(optionalCtx, {
-                type: 'bar',
-                data: optionalData,
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString('th-TH');
-                                }
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                } else {
+                  return label;
+                }
+            };
+            
+            const defaultChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Sarabun', sans-serif"
                             }
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback
                         },
-                        tooltip: {
-                            callbacks: {
-                                title: tooltipTitleCallback,
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
+                        bodyFont: {
+                           family: "'Sarabun', sans-serif"
+                        },
+                        titleFont: {
+                           family: "'Sarabun', sans-serif"
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            font: { family: "'Sarabun', sans-serif" }
+                        }
+                    },
+                    x: {
+                         ticks: {
+                            font: { family: "'Sarabun', sans-serif" }
+                        }
+                    }
+                }
+            };
+
+            const supplyCtx = document.getElementById('supplyChart');
+            if(supplyCtx) {
+                new Chart(supplyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['อุปทานใหม่ H1 2567', 'ระดับที่ตลาดรับได้'],
+                        datasets: [{
+                            label: 'จำนวนยูนิต',
+                            data: [6997, 4000],
+                            backgroundColor: [chartColors.danger, chartColors.secondary],
+                            borderColor: [chartColors.danger, chartColors.secondary],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { ...defaultChartOptions }
+                });
+            }
+
+            const priceCtx = document.getElementById('priceChart');
+            if(priceCtx) {
+                const originalLabels = ['จอมเทียน', 'เขาพระตำหนัก', 'วงศ์อมาตย์'];
+                const wrappedLabels = originalLabels.map(label => wrapLabel(label, 16));
+
+                new Chart(priceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: wrappedLabels,
+                        datasets: [
+                        {
+                            label: 'ราคาเริ่มต้น (บาท/ตร.ม.)',
+                            data: [50000, 80000, 165000],
+                            backgroundColor: chartColors.background,
+                            borderColor: chartColors.secondary,
+                             borderWidth: 1,
+                        },
+                        {
+                            label: 'ราคาสูงสุด (บาท/ตร.ม.)',
+                            data: [140000, 160000, 260000],
+                            backgroundColor: chartColors.background2,
+                            borderColor: chartColors.accent,
+                            borderWidth: 1,
+                        }
+                        ]
+                    },
+                     options: {
+                        ...defaultChartOptions,
+                        scales: {
+                             y: {
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return value / 1000 + 'k';
                                     }
-                                    if (context.parsed.x !== null) {
-                                        label += new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(context.parsed.x);
-                                    }
-                                    return label;
                                 }
                             }
                         }
                     }
+                });
+            }
+
+            const buyerNationalityCtx = document.getElementById('buyerNationalityChart');
+            if(buyerNationalityCtx) {
+                new Chart(buyerNationalityCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['จีน', 'รัสเซีย', 'ยุโรป', 'อื่นๆ'],
+                        datasets: [{
+                            label: 'สัดส่วนผู้ซื้อต่างชาติ',
+                            data: [40, 30, 20, 10],
+                            backgroundColor: [
+                                chartColors.danger,
+                                chartColors.primary,
+                                chartColors.accent,
+                                chartColors.lightGray
+                            ],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: { ...defaultChartOptions }
+                });
+            }
+
+            const buyerPreferenceCtx = document.getElementById('buyerPreferenceChart');
+            if(buyerPreferenceCtx) {
+                new Chart(buyerPreferenceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['ขนาดห้องยอดนิยม (31-60 ตร.ม.)', 'ราคายอดนิยม (< 3 ล้านบาท)'],
+                        datasets: [{
+                            label: 'สัดส่วน (%)',
+                            data: [45.6, 50.1],
+                            backgroundColor: [chartColors.secondary, chartColors.accent],
+                            borderColor: [chartColors.secondary, chartColors.accent],
+                            borderWidth: 1,
+                            categoryPercentage: 0.5,
+                            barPercentage: 0.8
+                        }]
+                    },
+                    options: {
+                        ...defaultChartOptions,
+                        indexAxis: 'y',
+                         plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const getAiAdviceButton = document.getElementById('getAiAdvice');
+            const aiResultWrapper = document.getElementById('aiResultWrapper');
+            const aiResultDiv = document.getElementById('aiResult');
+
+            getAiAdviceButton.addEventListener('click', async () => {
+                const budget = document.getElementById('budget').value;
+                const risk = document.getElementById('risk').value;
+                const horizon = document.getElementById('horizon').value;
+
+                aiResultWrapper.style.display = 'block';
+                aiResultDiv.innerHTML = `<p class="text-center animate-pulse">กำลังประมวลผลคำแนะนำจาก AI... กรุณารอสักครู่</p>`;
+                
+                const apiKey = "AIzaSyCAlmgJEFN-Po2GvMmGCIL-B71fFV2hj_8";
+
+                const prompt = `
+                    คุณคือที่ปรึกษาการลงทุนอสังหาริมทรัพย์ผู้เชี่ยวชาญตลาดพัทยา-จอมเทียน ประเทศไทย
+                    
+                    **บริบทตลาด:**
+                    ตลาดคอนโดในจอมเทียน-พัทยาได้รับแรงหนุนจาก "เรื่องเล่า" ของโครงการ EEC และเมืองใหม่อัจฉริยะที่จะสร้างงานคุณภาพและดึงดูดการลงทุนมหาศาล แต่ใน "ความเป็นจริง" ยังมีความท้าทายอยู่มาก
+                    - **โอกาส:** โครงการภาครัฐ, การพัฒนาโครงสร้างพื้นฐาน (รถไฟความเร็วสูง, สนามบินอู่ตะเภา), การสร้างงาน, สิทธิประโยชน์ดึงดูดชาวต่างชาติ, และศักยภาพผลตอบแทนค่าเช่า (Rental Yield) ที่ยังสูง 7-10%
+                    - **ความเสี่ยง:** โครงสร้างพื้นฐานมีความล่าช้า, ภาวะอุปทานล้นตลาด (Oversupply) โดยเฉพาะในกลุ่มราคาเข้าถึงง่าย, กำลังซื้อคนไทยเปราะบาง, ตลาดต้องพึ่งพากำลังซื้อจากต่างชาติ (จีน, รัสเซีย) ซึ่งมีความผันผวน
+                    - **ข้อมูลตลาด:** ราคาคอนโดจอมเทียนเข้าถึงง่ายที่สุด (50k-140k บาท/ตร.ม.) แต่การแข่งขันสูง ยูนิตยอดนิยมคือ 1-2 ห้องนอน ราคาไม่เกิน 3 ล้านบาท
+                    
+                    **โปรไฟล์นักลงทุน:**
+                    - งบประมาณ: ${budget}
+                    - ระดับความเสี่ยงที่ยอมรับได้: ${risk}
+                    - ระยะเวลาลงทุน: ${horizon}
+                    
+                    **ภารกิจ:**
+                    จากข้อมูลทั้งหมด โปรดให้คำแนะนำเชิงกลยุทธ์แก่นักลงทุนรายนี้เป็นภาษาไทย โดยแบ่งเป็นหัวข้อ "โอกาสที่ควรพิจารณา" และ "ความเสี่ยงที่ต้องระวัง" ให้ชัดเจน นำเสนอในรูปแบบ bullet point ที่กระชับ เข้าใจง่าย และตรงกับโปรไฟล์ของนักลงทุน
+                `;
+
+                if (apiKey === "YOUR_API_KEY_HERE" || apiKey === "") {
+                    aiResultDiv.innerHTML = `<p class="text-center text-red-500"><strong>ข้อผิดพลาด:</strong> กรุณาใส่ Gemini API Key ของคุณในโค้ดก่อนใช้งานฟังก์ชันนี้</p>`;
+                    return;
+                }
+
+                try {
+                    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                    const payload = { contents: chatHistory };
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        
+                        let text = result.candidates[0].content.parts[0].text;
+                        text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#00509D]">$1</strong>');
+                        text = text.replace(/\*/g, '<li>');
+                        
+                        aiResultDiv.innerHTML = text;
+                    } else {
+                        aiResultDiv.innerHTML = `<p class="text-center text-red-500">ขออภัย, ไม่สามารถสร้างคำแนะนำได้ในขณะนี้ โปรดลองอีกครั้ง</p>`;
+                    }
+                } catch(error) {
+                    console.error("Error fetching AI advice:", error);
+                    aiResultDiv.innerHTML = `<p class="text-center text-red-500">เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI Advisor กรุณาตรวจสอบ Console Log และลองอีกครั้ง</p>`;
                 }
             });
-        }
-    })();
-</script>
+        });
+    </script>
+
 </body>
 </html>
