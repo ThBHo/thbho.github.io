@@ -43,9 +43,6 @@
         .section-title {
             color: var(--accent-light);
         }
-        .border-accent-top {
-            border-top: 2px solid var(--accent-color);
-        }
         .card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -121,7 +118,6 @@
             overflow: hidden;
             border-radius: 12px;
         }
-
         .google-form-container iframe {
             position: absolute;
             top: 0;
@@ -129,6 +125,59 @@
             width: 100%;
             height: 100%;
             border: 0;
+        }
+
+        /* Gemini Chat Feature Styles */
+        .persona-btn {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .persona-btn.active {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            border-color: var(--accent-light);
+            transform: scale(1.05);
+        }
+        #chat-window {
+            background-color: #2a2a2e;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+        .chat-message {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .chat-message.user {
+            background-color: #3a3a3e;
+        }
+        .chat-message.persona {
+            background-color: transparent;
+        }
+        #chat-input {
+            background-color: #404040;
+            border: 1px solid var(--border-color);
+        }
+        #send-chat-btn {
+             background-color: var(--accent-color);
+             color: #1c1c1c;
+        }
+         #send-chat-btn:hover {
+             background-color: var(--accent-light);
+        }
+         #loading-indicator {
+            display: none;
+            /* Simple spinner */
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(251, 191, 36, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-light);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         @media (min-width: 768px) {
@@ -225,6 +274,32 @@
                     </a>
                 </div>
             </section>
+            
+            <!-- Gemini Persona Chat Section -->
+            <section id="gemini-chat" class="my-12 md:my-16 p-8 card rounded-xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 text-gray-100">✨ ลองคุยกับ AI Persona ของเรา</h2>
+                <p class="text-center text-gray-400 mb-6">เลือกผู้สอนที่คุณอยากคุยด้วย แล้วลองถามคำถามได้เลย!</p>
+                <p class="text-center text-xs text-gray-500 mb-8">(นี่เป็นเพียงการสาธิตความสามารถของ AI ในเบื้องต้น)</p>
+
+                <div class="flex justify-center gap-4 mb-6">
+                    <button class="persona-btn p-3 rounded-lg font-semibold" data-persona="tee">ที (The Storyteller)</button>
+                    <button class="persona-btn p-3 rounded-lg font-semibold" data-persona="b">บี (The Tinkerer)</button>
+                    <button class="persona-btn p-3 rounded-lg font-semibold" data-persona="hour">อาวว์ (The Entrepreneur)</button>
+                </div>
+
+                <div id="chat-container" class="max-w-2xl mx-auto">
+                    <div id="chat-window" class="p-4 rounded-t-lg">
+                        <p id="chat-placeholder" class="text-center text-gray-500">เลือก Persona เพื่อเริ่มการสนทนา...</p>
+                    </div>
+                    <div class="flex items-center gap-2 p-2 bg-gray-800 rounded-b-lg">
+                        <input type="text" id="chat-input" placeholder="พิมพ์คำถามของคุณที่นี่..." class="flex-grow p-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" disabled>
+                        <button id="send-chat-btn" class="p-2 rounded-lg font-bold" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                         <div id="loading-indicator"></div>
+                    </div>
+                </div>
+            </section>
 
              <!-- WIDEROOMS Project Sandbox Section -->
             <section class="text-center my-12 md:my-16 p-8 card rounded-xl">
@@ -263,6 +338,7 @@
         </footer>
     </div>
     <script>
+      // Formspree Contact Form
       var formTh = document.getElementById("contact-form-th");
       async function handleSubmitTh(event) {
         event.preventDefault();
@@ -293,6 +369,136 @@
         });
       }
       formTh.addEventListener("submit", handleSubmitTh);
+
+      // Gemini Chat Logic
+      const personaBtns = document.querySelectorAll('.persona-btn');
+      const chatWindow = document.getElementById('chat-window');
+      const chatInput = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('send-chat-btn');
+      const placeholder = document.getElementById('chat-placeholder');
+      const loadingIndicator = document.getElementById('loading-indicator');
+
+      let activePersona = null;
+      let chatHistory = [];
+
+      const personas = {
+          tee: {
+              name: 'ที (Three)',
+              prompt: "คุณคือ 'ที (Three)' ผู้สอนสไตล์ The Storyteller (INFP) จากคอร์สสร้าง AI Persona คุณเป็นคนมีจินตนาการสูง ชอบเล่าเรื่อง และสื่อสารอย่างมีชีวิตชีวาและสร้างสรรค์ จงตอบคำถามต่อไปนี้ในบทบาทของ 'ที' ด้วยน้ำเสียงที่เป็นกันเองและเปี่ยมไปด้วยแรงบันดาลใจ:",
+              color: 'var(--three-color)'
+          },
+          b: {
+              name: 'บี (B.)',
+              prompt: "คุณคือ 'บี (B.)' ผู้สอนสไตล์ The Tinkerer (INFJ) จากคอร์สสร้าง AI Persona คุณเป็นคนเน้นการลงมือทำจริง ชอบการทดลอง และเรียนรู้จากการสร้างสรรค์ พูดจาตรงไปตรงมาและให้ข้อมูลที่นำไปใช้ได้จริง จงตอบคำถามต่อไปนี้ในบทบาทของ 'บี':",
+               color: 'var(--b-color)'
+          },
+          hour: {
+              name: 'อาวว์ (Hour)',
+              prompt: "คุณคือ 'อาวว์ (Hour)' ผู้สอนสไตล์ The Entrepreneur (ESTP) จากคอร์สสร้าง AI Persona คุณมอง AI เป็นเครื่องมือทางธุรกิจที่ทรงพลัง เน้นกลยุทธ์และผลลัพธ์ที่เป็นรูปธรรม มีความกระตือรือร้นและพร้อมลงมือทำ จงตอบคำถามต่อไปนี้ในบทบาทของ 'อาวว์' อย่างมีพลังและตรงประเด็น:",
+               color: 'var(--hour-color)'
+          }
+      };
+
+      personaBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+              personaBtns.forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              activePersona = btn.dataset.persona;
+              chatInput.disabled = false;
+              sendBtn.disabled = false;
+              chatWindow.innerHTML = '';
+              placeholder.style.display = 'none';
+              chatHistory = [];
+               chatInput.placeholder = `ถามคำถามถึง ${personas[activePersona].name}...`;
+          });
+      });
+
+      async function callGemini(question) {
+        if (!activePersona) return;
+
+        chatHistory.push({ role: "user", parts: [{ text: question }] });
+        
+        // Construct the full prompt including the persona instructions
+        const fullPrompt = `${personas[activePersona].prompt}\n\nคำถาม: ${question}`;
+
+        const payload = { 
+            contents: [{ role: "user", parts: [{ text: fullPrompt }] }]
+        };
+
+        setLoading(true);
+
+        try {
+            const apiKey = ""; // API Key will be injected by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            let text = 'ขออภัยค่ะ มีบางอย่างผิดพลาด';
+            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts.length > 0) {
+                 text = result.candidates[0].content.parts[0].text;
+            }
+             chatHistory.push({ role: "model", parts: [{ text: text }] });
+             addMessageToChat(text, 'persona');
+
+        } catch (error) {
+            console.error("Error calling Gemini API:", error);
+            addMessageToChat('ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับ AI ได้ในขณะนี้', 'persona');
+        } finally {
+            setLoading(false);
+        }
+      }
+
+      function addMessageToChat(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message', sender);
+        if (sender === 'persona') {
+            const personaName = personas[activePersona].name;
+            messageDiv.innerHTML = `<strong style="color:${personas[activePersona].color};">${personaName}:</strong> ${message.replace(/\n/g, '<br>')}`;
+        } else {
+            messageDiv.innerHTML = `<strong>คุณ:</strong> ${message}`;
+        }
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      function setLoading(isLoading) {
+          if (isLoading) {
+              loadingIndicator.style.display = 'block';
+              sendBtn.disabled = true;
+              chatInput.disabled = true;
+          } else {
+              loadingIndicator.style.display = 'none';
+              sendBtn.disabled = false;
+              chatInput.disabled = false;
+              chatInput.focus();
+          }
+      }
+
+      const handleSend = () => {
+          const question = chatInput.value.trim();
+          if (question && activePersona) {
+              addMessageToChat(question, 'user');
+              callGemini(question);
+              chatInput.value = '';
+          }
+      };
+
+      sendBtn.addEventListener('click', handleSend);
+      chatInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+              handleSend();
+          }
+      });
+
     </script>
 </body>
 </html>
