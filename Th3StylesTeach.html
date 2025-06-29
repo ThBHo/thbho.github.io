@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: เลือกสไตล์การสอนที่ใช่สำหรับคุณ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+        Color Palette Selection: Brilliant Blues (#0B4F6C, #01BAEF, #75C5F0, #A5D8F3, #F2F2F2)
+        Justification: This palette provides a professional, modern, and tech-oriented feel suitable for an AI course. The high contrast ensures readability and visual appeal for data visualizations.
+
+        Narrative Plan:
+        1.  Introduction: Hook the user with the concept of choosing a unique learning path.
+        2.  Core Philosophies: Introduce each instructor's main belief using visually distinct cards.
+        3.  Learning Process: Detail the step-by-step teaching method for each instructor using non-SVG flowcharts.
+        4.  Direct Comparison: Use a Radar Chart to visually compare the key attributes of the instructors.
+        5.  Target Audience: Help users self-identify with persona cards describing the ideal student for each style.
+        6.  Conclusion: A final call to action.
+
+        Visualization Justification:
+        -   Flowcharts (Data -> Organize): Implemented with structured HTML/CSS and Tailwind to show processes clearly without using prohibited SVG/Mermaid. This method offers full styling control.
+        -   Radar Chart (Data -> Compare): Chosen over a bar chart to effectively show the balance of multiple attributes for each instructor in a single, compelling visualization. Implemented with Chart.js on Canvas.
+        -   Styled Cards (Data -> Inform): Used throughout to present key information, quotes, and profiles in a clean, digestible format, adhering to Material Design principles.
+        
+        NO SVG or Mermaid JS was used in this document. All visuals are rendered using HTML/CSS or the Canvas API via Chart.js.
+    -->
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background-color: #0B4F6C;
+            color: #F2F2F2;
+        }
+        .card {
+            background-color: rgba(1, 186, 239, 0.1);
+            border: 1px solid rgba(117, 197, 240, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #75C5F0;
+            background-color: #0B4F6C;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+        .flowchart-step:hover {
+            transform: scale(1.05);
+            background-color: #75C5F0;
+            color: #0B4F6C;
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #75C5F0;
+            font-size: 2rem;
+            padding: 0 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white">เลือกเส้นทางที่ใช่ สู่การเป็น<span class="text-[#75C5F0]">ผู้สร้าง AI Persona</span></h1>
+            <p class="mt-4 text-lg md:text-xl text-[#A5D8F3]">ค้นพบแนวทางการสอน 3 สไตล์ที่ไม่เหมือนใคร และเลือกเส้นทางที่เหมาะกับคุณที่สุด</p>
+        </header>
+
+        <section id="instructors" class="my-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-6 rounded-lg text-center">
+                    <div class="text-5xl mb-4">🧙‍♂️</div>
+                    <h3 class="text-2xl font-bold text-white">ที (Three)</h3>
+                    <p class="font-semibold text-[#75C5F0]">The Storyteller (INFP)</p>
+                    <p class="mt-2 text-[#A5D8F3]">"AI ที่ดี ไม่ใช่แค่ฉลาด... แต่มันต้องมีชีวิตชีวา!"</p>
+                </div>
+                <div class="card p-6 rounded-lg text-center">
+                    <div class="text-5xl mb-4">🧑‍🔬</div>
+                    <h3 class="text-2xl font-bold text-white">บี (B.)</h3>
+                    <p class="font-semibold text-[#75C5F0]">The Tinkerer (INFJ)</p>
+                    <p class="mt-2 text-[#A5D8F3]">"เข้าใจแก่นก่อนลงมือ เพื่อสร้าง AI ที่ยั่งยืน"</p>
+                </div>
+                <div class="card p-6 rounded-lg text-center">
+                    <div class="text-5xl mb-4">🏃‍♂️</div>
+                    <h3 class="text-2xl font-bold text-white">อาวว์ (Hour)</h3>
+                    <p class="font-semibold text-[#75C5F0]">The Entrepreneur (ESTP)</p>
+                    <p class="mt-2 text-[#A5D8F3]">"ลงมือเร็ว เรียนรู้เร็ว เพื่อผลลัพธ์ที่จับต้องได้"</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison-chart" class="my-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-4">เปรียบเทียบสไตล์การสอน</h2>
+            <p class="text-center text-lg text-[#A5D8F3] max-w-2xl mx-auto mb-8">Radar Chart นี้แสดงให้เห็นจุดเน้นที่แตกต่างกันของผู้สอนแต่ละท่านใน 3 มิติหลัก ช่วยให้คุณเห็นภาพรวมว่าสไตล์ไหนที่ตรงกับความต้องการของคุณมากที่สุด</p>
+            <div class="card p-4 md:p-8 rounded-lg">
+                <div class="chart-container">
+                    <canvas id="instructorRadarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="my-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">กระบวนการเรียนรู้เป็นอย่างไร?</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0]">ที: The Storyteller</h3>
+                    <div class="flex items-center">
+                        <div class="flowchart-step flex-1">สร้างตัวละคร</div>
+                    </div>
+                    <div class="flowchart-arrow">↓</div>
+                     <div class="flex items-center">
+                        <div class="flowchart-step flex-1">เขียนบทสนทนา</div>
+                    </div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flex items-center">
+                        <div class="flowchart-step flex-1">พัฒนาให้มีชีวิต</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0]">บี: The Tinkerer</h3>
+                     <div class="flex items-center">
+                        <div class="flowchart-step flex-1">ทำความเข้าใจแก่น</div>
+                    </div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flex items-center">
+                        <div class="flowchart-step flex-1">วางแผน & ตั้งเป้า</div>
+                    </div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flex items-center">
+                        <div class="flowchart-step flex-1">ทดลอง & ปรับปรุง</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0]">อาวว์: The Entrepreneur</h3>
+                     <div class="flex items-center">
+                        <div class="flowchart-step flex-1">สร้าง Prototype</div>
+                    </div>
+                    <div class="flowchart-arrow">↓</div>
+                     <div class="flex items-center">
+                        <div class="flowchart-step flex-1">รับ Feedback</div>
+                    </div>
+                     <div class="flowchart-arrow">↓</div>
+                    <div class="flex items-center">
+                        <div class="flowchart-step flex-1">ปรับปรุง (วนซ้ำ)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="who-are-you" class="my-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">คุณคือผู้เรียนสไตล์ไหน?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-6 rounded-lg h-full flex flex-col">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0] mb-4">นักเล่าเรื่อง</h3>
+                    <p class="text-[#A5D8F3] flex-grow">คุณเป็นคนมีจินตนาการ, มีความคิดสร้างสรรค์, และต้องการสร้าง AI ที่เป็นมากกว่าเครื่องมือ แต่เป็นเพื่อนคู่คิดที่สามารถสร้างความประทับใจได้</p>
+                    <p class="mt-4 text-center font-bold text-white">เลือกสไตล์ของ → ที</p>
+                </div>
+                <div class="card p-6 rounded-lg h-full flex flex-col">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0] mb-4">นักวางแผน</h3>
+                    <p class="text-[#A5D8F3] flex-grow">คุณชอบทำความเข้าใจสิ่งต่างๆ อย่างลึกซึ้ง, ให้ความสำคัญกับการวางแผน, และต้องการสร้าง AI ที่แข็งแกร่งและพัฒนาต่อยอดได้ในระยะยาว</p>
+                    <p class="mt-4 text-center font-bold text-white">เลือกสไตล์ของ → บี</p>
+                </div>
+                <div class="card p-6 rounded-lg h-full flex flex-col">
+                    <h3 class="text-2xl font-bold text-center text-[#75C5F0] mb-4">ผู้ประกอบการ</h3>
+                    <p class="text-[#A5D8F3] flex-grow">คุณเน้นผลลัพธ์ที่จับต้องได้, ชอบลงมือทำทันที, และต้องการสร้าง AI เพื่อเป้าหมายทางธุรกิจที่ต้องการความเร็วและความคล่องตัว</p>
+                     <p class="mt-4 text-center font-bold text-white">เลือกสไตล์ของ → อาวว์</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-8 border-t border-gray-700">
+             <p class="text-lg text-white">พร้อมที่จะสร้าง AI Persona ของคุณแล้วหรือยัง?</p>
+             <p class="text-md text-[#A5D8F3]">ไม่ว่าคุณจะเลือกเส้นทางไหน เราพร้อมที่จะนำทางคุณไปสู่ความสำเร็จ</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const processLabel = (label) => {
+                const maxLen = 16;
+                if (label.length <= maxLen) return label;
+                const words = label.split(' ');
+                let lines = [''];
+                let currentLine = 0;
+                words.forEach(word => {
+                    if ((lines[currentLine] + word).length > maxLen) {
+                        currentLine++;
+                        lines[currentLine] = '';
+                    }
+                    lines[currentLine] += word + ' ';
+                });
+                return lines.map(l => l.trim());
+            };
+
+            const ctx = document.getElementById('instructorRadarChart').getContext('2d');
+            const instructorRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['ความคิดสร้างสรรค์ & เรื่องเล่า', 'การวางแผน & รากฐาน', 'ความเร็ว & การลงมือทำ'],
+                    datasets: [
+                        {
+                            label: 'ที (The Storyteller)',
+                            data: [9, 5, 3],
+                            backgroundColor: 'rgba(117, 197, 240, 0.2)',
+                            borderColor: '#75C5F0',
+                            pointBackgroundColor: '#75C5F0',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#75C5F0'
+                        },
+                        {
+                            label: 'บี (The Tinkerer)',
+                            data: [6, 9, 4],
+                            backgroundColor: 'rgba(165, 216, 243, 0.2)',
+                            borderColor: '#A5D8F3',
+                            pointBackgroundColor: '#A5D8F3',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#A5D8F3'
+                        },
+                        {
+                            label: 'อาวว์ (The Entrepreneur)',
+                            data: [4, 3, 9],
+                             backgroundColor: 'rgba(1, 186, 239, 0.4)',
+                            borderColor: '#01BAEF',
+                            pointBackgroundColor: '#01BAEF',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#01BAEF'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(242, 242, 242, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(242, 242, 242, 0.2)'
+                            },
+                            pointLabels: {
+                                color: '#F2F2F2',
+                                font: {
+                                    size: 14,
+                                    family: "'IBM Plex Sans Thai', sans-serif"
+                                }
+                            },
+                            ticks: {
+                                color: '#F2F2F2',
+                                backdropColor: 'rgba(11, 79, 108, 0.6)',
+                                stepSize: 2
+                            },
+                            min: 0,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#F2F2F2',
+                                font: {
+                                    size: 14,
+                                    family: "'IBM Plex Sans Thai', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
