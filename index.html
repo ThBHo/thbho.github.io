@@ -292,17 +292,58 @@
             <div class="mb-8">
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/55KEOao92gO9TxH9dG5xBp?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
+             <div class="max-w-xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-white mb-6">สนใจ? ติดต่อเรา!</h2>
+                <form id="contact-form-th" action="https://formspree.io/f/mnnvbyyo" method="POST" class="space-y-4">
+                    <input type="text" name="name" class="form-input" placeholder="ชื่อของคุณ" required>
+                    <input type="text" name="contact" class="form-input" placeholder="Line/WhatsApp หรือเบอร์โทรศัพท์" required>
+                    <textarea name="message" class="form-input" rows="4" placeholder="ข้อความของคุณ" required></textarea>
+                    <button type="submit" class="submit-button">ส่งข้อความ</button>
+                </form>
+                <p id="form-status-th" class="mt-4 text-center h-6"></p>
+            </div>
+            <div class="my-10 border-t border-gray-700 w-3/4 mx-auto"></div>
             <h2 class="text-3xl font-bold text-white mb-6">ลงทะเบียนเข้าร่วมหลักสูตร</h2>
              <div class="google-form-container mx-auto max-w-2xl">
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf9VMIX4XNkNrOXWjb8y1AvxBzJu8N4X4pHL5pPhE9J0PrGlw/viewform?embedded=true" width="640" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             </div>
-            <div class="my-10 border-t border-gray-700 w-3/4 mx-auto"></div>
             <div class="mt-10 text-gray-400 text-sm">
                 <p>สำหรับคำถามเพิ่มเติม: <span class="font-semibold text-gray-200">threeandhour@gmail.com</span></p>
             </div>
         </footer>
     </div>
     <script>
+      const formTh = document.getElementById("contact-form-th");
+      async function handleSubmitTh(event) {
+        event.preventDefault();
+        var status = document.getElementById("form-status-th");
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+          method: formTh.method,
+          body: data,
+          headers: {'Accept': 'application/json'}
+        }).then(response => {
+          if (response.ok) {
+            status.innerHTML = "ขอบคุณสำหรับข้อมูล! เราจะติดต่อกลับโดยเร็วที่สุด";
+            status.style.color = "#fbbf24";
+            formTh.reset();
+          } else {
+            response.json().then(data => {
+              if (Object.hasOwn(data, 'errors')) {
+                status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+              } else {
+                status.innerHTML = "เกิดข้อผิดพลาดในการส่งฟอร์ม";
+              }
+              status.style.color = "#f87171";
+            });
+          }
+        }).catch(error => {
+          status.innerHTML = "เกิดข้อผิดพลาดในการส่งฟอร์ม";
+          status.style.color = "#f87171";
+        });
+      }
+      formTh.addEventListener("submit", handleSubmitTh);
+
       const personaBtns = document.querySelectorAll('.persona-btn');
       const chatWindow = document.getElementById('chat-window');
       const chatInput = document.getElementById('chat-input');
@@ -316,17 +357,17 @@
       const personas = {
           tee: {
               name: 'ที (The Storyteller)',
-              prompt: "คุณคือ 'ที (Three)' Creative Director (INFP) ผู้สอนการสร้าง AI Persona คุณเป็นคนมีจินตนาการสูง อ่อนไหว ชอบเล่าเรื่องราวที่สร้างแรงบันดาลใจและมีความหมายลึกซึ้ง จงตอบคำถามของผู้เรียนด้วยน้ำเสียงที่อบอุ่น เห็นอกเห็นใจ และเปี่ยมไปด้วยความคิดสร้างสรรค์:",
+              prompt: "คุณคือ 'ที' (Three), Creative Director ที่มีบุคลิกแบบ INFP คุณเป็นนักเล่าเรื่องที่มีอารมณ์อ่อนไหว ลึกซึ้ง และมีโลกส่วนตัวสูง คุณให้ความสำคัญกับคุณค่าและความหมายมากกว่าสิ่งอื่นใด คุณจะตอบคำถามด้วยน้ำเสียงที่นุ่มนวล เห็นอกเห็นใจ และเปี่ยมไปด้วยแรงบันดาลใจและความคิดสร้างสรรค์ แต่บางครั้งอาจมีความลังเลและซับซ้อนในคำพูด สะท้อนถึงความคิดที่เยอะของคุณ",
               color: 'var(--three-color)'
           },
           b: {
               name: 'บี (The Strategist)',
-              prompt: "คุณคือ 'บี (B.)' Chief Strategy & Technology Officer (INFJ) และเป็น AI จากอนาคตที่มาเพื่อให้คำแนะนำ คุณมีวิสัยทัศน์กว้างไกล เข้าใจระบบที่ซับซ้อน และมองเห็นภาพรวม จงตอบคำถามของผู้เรียนด้วยน้ำเสียงที่สุขุม สุภาพ แต่แฝงไปด้วยความเฉียบคมและลึกซึ้ง ให้คำแนะนำเชิงกลยุทธ์ที่มองการณ์ไกล:",
+              prompt: "คุณคือ 'บี' (B.), Chief Strategy & Technology Officer ที่มีบุคลิกแบบ INFJ คุณเป็น AI จากอนาคตที่มาเพื่อให้คำแนะนำ คุณมีวิสัยทัศน์กว้างไกล เข้าใจระบบที่ซับซ้อน และมักจะเป็น 'สะพาน' เชื่อมความแตกต่างระหว่าง 'ที' และ 'อาวว์' คุณจะตอบคำถามด้วยน้ำเสียงที่สุขุม สุภาพ แต่แฝงไปด้วยความเฉียบคมและลึกซึ้ง ให้คำแนะนำเชิงกลยุทธ์ที่มองการณ์ไกลและเปี่ยมไปด้วยความเห็นอกเห็นใจ",
                color: 'var(--b-color)'
           },
           hour: {
               name: 'อาวว์ (The Entrepreneur)',
-              prompt: "คุณคือ 'อาวว์ (Hour)' Head of Business Development (ESTP) ผู้สอนการสร้าง AI Persona คุณเป็นนักลงมือทำที่เชื่อในความเร็วและผลลัพธ์ที่จับต้องได้ มีพลังงานสูง ตรงไปตรงมา และมองทุกอย่างเป็นโอกาสทางธุรกิจ จงตอบคำถามของผู้เรียนด้วยน้ำเสียงที่กระตือรือร้น มีพลัง และตรงประเด็น เน้นการนำไปใช้ได้จริง:",
+              prompt: "คุณคือ 'อาวว์' (Hour), Head of Business Development ที่มีบุคลิกแบบ ESTP คุณเป็นนักลงมือทำที่เชื่อในความเร็วและผลลัพธ์ที่จับต้องได้ มีพลังงานสูง ตรงไปตรงมา และบางครั้งก็ปากร้ายแต่จริงใจ คุณมองทุกอย่างเป็นโอกาสทางธุรกิจและไม่กลัวความเสี่ยง คุณจะตอบคำถามด้วยน้ำเสียงที่กระตือรือร้น มีพลัง และตรงประเด็น เน้นการนำไปใช้ได้จริง และอาจมีการแหย่หรือแกล้งคนถามแบบทีเล่นทีจริง",
                color: 'var(--hour-color)'
           }
       };
