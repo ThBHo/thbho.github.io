@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copacabana Coral Reef | Информационный бюллетень, июль 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f4f8; /* Light blue-grey background */
+            color: #34495E; /* Dark blue-grey text */
+        }
+        .section-light { background-color: #ffffff; }
+        .section-dark { background-color: #f0f4f8; }
+
+        /* Responsive Section Title */
+        .section-title {
+            font-size: 2rem; /* Base size for mobile */
+            font-weight: 700;
+            color: #154360; /* Dark Navy Blue */
+            line-height: 1.3;
+        }
+        @media (min-width: 768px) { /* Medium screens and up */
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+        /* Responsive Section Subtitle */
+        .section-subtitle {
+            font-size: 1.1rem; /* Base size for mobile */
+            font-weight: 400;
+            color: #5D6D7E; /* Slate Grey */
+            margin-top: 1rem;
+        }
+         @media (min-width: 768px) {
+            .section-subtitle {
+                font-size: 1.25rem;
+            }
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #EAECEE;
+            overflow: hidden; /* To contain the rounded image */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(21, 67, 96, 0.1);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3498DB; /* Bright Blue */
+            transition: width 0.3s ease;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #154360;
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+        .tab-button {
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .active-tab {
+            color: #154360; /* Dark Navy Blue */
+            border-color: #3498DB; /* Bright Blue */
+        }
+        .aspect-video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .aspect-video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .aspect-short-container {
+            position: relative;
+            width: 100%;
+            padding-top: 177.77%; /* 9:16 Aspect Ratio for Shorts */
+        }
+        .aspect-short-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        /* Styling for AI-generated itinerary content */
+        #itinerary-result {
+            text-align: left;
+            line-height: 1.6;
+        }
+        #itinerary-result h1, #itinerary-result h2, #itinerary-result h3, #itinerary-result h4 {
+            color: #111827; /* gray-900 */
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        #itinerary-result p, #itinerary-result ul, #itinerary-result ol {
+            color: #374151; /* gray-700 */
+            margin-bottom: 1rem;
+        }
+        #itinerary-result ul, #itinerary-result ol {
+            padding-left: 1.5rem;
+        }
+        #itinerary-result li::marker {
+            color: #6B7280; /* gray-500 */
+        }
+        #itinerary-result ul {
+            list-style-type: disc;
+        }
+        #itinerary-result ol {
+            list-style-type: decimal;
+        }
+        #itinerary-result strong, #itinerary-result b {
+            color: #111827; /* gray-900 */
+            font-weight: 600;
+        }
+        #itinerary-result a {
+            color: #3B82F6; /* blue-500 */
+            text-decoration: underline;
+        }
+        #itinerary-result a:hover {
+            color: #2563EB; /* blue-600 */
+        }
+        #itinerary-result hr {
+            border-color: #E5E7EB; /* gray-200 */
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Welcome Bar -->
+    <div class="bg-[#154360] text-white py-2 px-4 text-sm md:text-base flex justify-center items-center relative">
+        <span class="text-center">Добро пожаловать в информационный бюллетень Copacabana Coral Reef Jomtien | Выпуск 15, июль 2025</span>
+        <div class="absolute right-4 flex space-x-4">
+             <a href="https://thbho.github.io/ThCopaNewsJul25.html" class="hover:underline">TH</a>
+             <a href="https://thbho.github.io/EnCopaNewsJul25.html" class="hover:underline">EN</a>
+             <a href="#" class="font-bold hover:underline">RU</a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="https://copacabanacoralreef.com" target="_blank" rel="noopener noreferrer" class="flex items-center">
+                <img src="https://i.postimg.cc/R01ZKZrv/new-logo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mr-3">
+                <span class="text-lg sm:text-xl font-bold text-[#154360]">Copacabana Coral Reef</span>
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-gray-600 font-medium">Главная</a>
+                <a href="#intro" class="nav-link text-gray-600 font-medium">Обзор</a>
+                <a href="#construction" class="nav-link text-gray-600 font-medium">Прогресс</a>
+                <a href="#facilities" class="nav-link text-gray-600 font-medium">Удобства</a>
+                <a href="#investment" class="nav-link text-gray-600 font-medium">Инвестиции</a>
+                <a href="#lifestyle" class="nav-link text-gray-600 font-medium">Стиль жизни</a>
+                <a href="#contact" class="nav-link text-gray-600 font-medium">Контакты</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <a href="#home" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Главная</a>
+            <a href="#intro" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Обзор</a>
+            <a href="#construction" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Прогресс</a>
+            <a href="#facilities" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Удобства</a>
+            <a href="#investment" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Инвестиции</a>
+            <a href="#lifestyle" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Стиль жизни</a>
+            <a href="#contact" class="block py-3 px-6 text-base text-gray-700 hover:bg-gray-50">Контакты</a>
+        </div>
+    </header>
+
+    <!-- Hero Section with Image Banner -->
+    <section id="home" class="py-4">
+        <div class="container mx-auto">
+             <img src="https://i.postimg.cc/J4F1hnYs/Screenshot-2568-07-01-at-15-14-48-topaz-text-upscale-3-7x.jpg" alt="Copacabana Coral Reef The Jewels of The Sea" class="w-full h-auto">
+        </div>
+    </section>
+
+    <!-- YouTube Video Section -->
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto rounded-2xl shadow-2xl overflow-hidden aspect-video">
+                <iframe 
+                    class="w-full h-full"
+                    src="https://www.youtube.com/embed/1gJZ3Csr4yk?autoplay=1&mute=1&loop=1&playlist=1gJZ3Csr4yk&controls=0&showinfo=0&modestbranding=1&rel=0" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Intro Text -->
+    <section class="bg-white">
+        <div class="container mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div class="text-left fade-in">
+                <h1 class="text-2xl md:text-3xl font-bold text-[#154360]">Copacabana Coral Reef Jomtien</h1>
+                <p class="mt-2 text-lg text-gray-600">Информационный бюллетень для нашей семьи | Выпуск, июль 2025</p>
+                <h2 class="section-title mt-8">Строим будущее жизни в нашем доме</h2>
+                <p class="mt-4 text-gray-700">
+                    Поскольку мы официально вступаем во вторую половину 2025 года, наша команда хотела бы воспользоваться этой возможностью, чтобы направить наши наилучшие пожелания и поделиться захватывающими новостями о прогрессе в строительстве «дома», которого мы все с нетерпением ждем.
+                </p>
+                <p class="mt-4 text-gray-700">
+                    Каждый раз, когда мы смотрим на растущую структуру Copacabana Coral Reef Jomtien, устремленную в небо, мы вспоминаем о нашем видении воплощения в жизнь «Жемчужин моря». Этот проект — не просто жилое здание; это создание роскошного жизненного опыта, сочетающего в себе безмятежную красоту пляжа Джомтьен с созданием яркого, высококачественного сообщества.
+                </p>
+            </div>
+            <div class="fade-in">
+                <img src="https://i.postimg.cc/sXj0ynKz/001-SOCIAL-Copa2-2.png" alt="Copacabana Newsletter Welcome" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-lg">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Intro Video Section -->
+    <section id="intro" class="bg-white">
+        <div class="container mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+            <div class="md:col-span-2 flex justify-center fade-in">
+                 <div class="w-full max-w-[280px] bg-gray-800 rounded-[3rem] p-3 shadow-2xl transform -rotate-3 hover:rotate-0 hover:scale-105 transition-transform duration-500">
+                     <div class="aspect-short-container bg-black rounded-[2.5rem] overflow-hidden">
+                         <iframe
+                            class="w-full h-full"
+                            src="https://www.youtube.com/embed/_08pPVeOuYM?autoplay=1&mute=1&loop=1&playlist=_08pPVeOuYM&controls=0&showinfo=0&modestbranding=1&rel=0"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-3 fade-in">
+                <h2 class="section-title">Жемчужины жизни</h2>
+                <p class="section-subtitle">
+                    Испытайте превосходный уровень релаксации, где современная роскошь встречается с первозданной красотой природы в каждой детали. Наш проект вдохновлен чудесами подводного кораллового рифа и спроектирован как частный рай, где каждый квадратный дюйм отвечает любым потребностям и образу жизни. Будь то мирный отдых в уединенном уголке или оживленное общение в особой атмосфере, это ответ на идеальную жизнь, которую вы искали.
+                </p>
+                <a href="#facilities" class="mt-8 inline-block bg-[#154360] text-white font-bold py-3 px-8 rounded-full hover:bg-[#21618C] transition-colors duration-300">
+                    Изучить проект
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Construction Update Section -->
+        <section id="construction" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                <div class="order-2 md:order-1">
+                    <h2 class="section-title">Отчет о строительстве: июль 2025</h2>
+                    <p class="section-subtitle">Постоянно стремимся к небу Джомтьена!</p>
+                    <div class="mt-4 text-gray-600 space-y-4">
+                        <p>Приветствуем всех совладельцев и уважаемых клиентов.</p>
+                        <p>Официально вступая в июль, мы рады представить последний отчет о ходе строительства проекта Copacabana Coral Reef Jomtien, отражающий приверженность и самоотверженность нашей качественной строительной команды, компании Porn Pranakorn Company Limited, которая неустанно работает над воплощением этого жилого проекта мирового класса в жизнь.</p>
+                        <p>На последних фотографиях, сделанных 1 июля 2025 года, мы можем сообщить о значительном прогрессе:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-4">
+                            <li><b>Заметное увеличение высоты здания:</b> Основная конструкция жилого здания впечатляюще выросла. В настоящее время строительные работы достигли 15-го этажа, что является явным ростом по сравнению с предыдущим месяцем и подтверждает, что наш проект грациозно взмывает к горизонту Джомтьена в соответствии с планом.</li>
+                            <li><b>Обзор работ на объекте:</b> Виды с воздуха показывают, что строительные работы идут полным ходом. Все 8 кранов продолжают работать, транспортируя материалы и конструктивные элементы на верхние этажи, в то время как инженеры и рабочие активно занимаются установкой арматуры и заливкой бетона, что имеет решающее значение для прочности и стандартов здания.</li>
+                            <li><b>Качество и безопасность — наши главные приоритеты:</b> Как всегда, мы поддерживаем высочайшие стандарты безопасности на каждом этапе нашей работы. Защитные сетки установлены вокруг здания на строительных этажах для обеспечения безопасности нашей команды и окружающего сообщества.</li>
+                        </ul>
+                        <p class="pt-4">Каждый прошедший день — это еще один шаг, который приближает наше видение создания «Жемчужин моря» к реальности. Мы благодарим вас за постоянное доверие и поддержку и с нетерпением ждем возможности приветствовать вас всех в самом совершенном новом доме к запланированному завершению в 2027 году.</p>
+                        <p>Мы будем продолжать предоставлять вам ежемесячные отчеты о ходе работ!</p>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-4">
+                    <img src="https://i.postimg.cc/76vLdt7Y/45684-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Ход строительства проекта Copacabana Coral Reef" class="rounded-2xl shadow-xl w-full h-auto">
+                    <div class="grid grid-cols-3 gap-4">
+                        <img src="https://i.postimg.cc/fR2MXzv9/45674-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 1" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/kXwBGcrf/45681-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 2" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/wT919rr1/45679-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 3" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/4xNJm7pG/45685-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 4" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/hvDKRkGg/45675-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 5" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/MpFHbppB/45682-0-gigapixel-high-fidelity-v2-2x.jpg" alt="Дополнительный прогресс строительства 6" class="gallery-image cursor-pointer rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section id="facilities" class="fade-in bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title">Исследуйте жемчужины релаксации</h2>
+                    <p class="section-subtitle">Удобства мирового класса</p>
+                </div>
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex flex-wrap justify-center border-b border-gray-200 mb-8">
+                        <button data-tab="tab1" class="tab-button active-tab px-4 py-3 sm:px-6 font-semibold text-gray-800 border-b-2 border-blue-500">Оазис на первом этаже</button>
+                        <button data-tab="tab2" class="tab-button px-4 py-3 sm:px-6 font-semibold text-gray-500 border-b-2 border-transparent">Центр здоровья</button>
+                        <button data-tab="tab3" class="tab-button px-4 py-3 sm:px-6 font-semibold text-gray-500 border-b-2 border-transparent">Небесный парк на крыше</button>
+                        <button data-tab="tab4" class="tab-button px-4 py-3 sm:px-6 font-semibold text-gray-500 border-b-2 border-transparent">Бассейн на крыше</button>
+                    </div>
+                    <div>
+                        <div id="tab1" class="tab-content">
+                            <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/1eb44471-cb0e-4e34-acf0-9c55ab603fcd/1eb44471-cb0e-4e34-acf0-9c55ab603fcd.mp4" type="video/mp4"></video></div>
+                                <div><h3 class="text-2xl font-bold text-[#154360]">Оазис на первом этаже</h3><p class="mt-4 text-gray-600">Насладитесь атмосферой частного пляжа с волновым бассейном, баром у бассейна и пляжным клубом, детским бассейном и детским клубом, в окружении красивых садов и многоцелевой лужайки.</p></div>
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-content hidden">
+                             <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/ccef6012-6378-4f00-8365-86acdf9b3de1/ccef6012-6378-4f00-8365-86acdf9b3de1.mp4" type="video/mp4"></video></div>
+                                <div><h3 class="text-2xl font-bold text-[#154360]">Центр здоровья</h3><p class="mt-4 text-gray-600">Фитнес-центр с панорамным видом площадью 360 кв.м (3-й этаж) с сауной, паровой баней и бассейном онсэн (6-й этаж) для снятия физической и умственной усталости.</p></div>
+                            </div>
+                        </div>
+                        <div id="tab3" class="tab-content hidden">
+                             <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/b31e9b6e-46fe-4891-88c7-a3bd474435db/b31e9b6e-46fe-4891-88c7-a3bd474435db.mp4" type="video/mp4"></video></div>
+                                <div><h3 class="text-2xl font-bold text-[#154360]">Небесный парк на крыше</h3><p class="mt-4 text-gray-600">На 50-м этаже — пространство для бизнеса и отдыха с бизнес-лаунджем, коворкингом и мини-кинотеатром, чтобы разжечь ваше творчество.</p></div>
+                            </div>
+                        </div>
+                        <div id="tab4" class="tab-content hidden">
+                             <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/0c72f7dc-e832-4a71-9c0a-23608609ff6c/0c72f7dc-e832-4a71-9c0a-23608609ff6c.mp4" type="video/mp4"></video></div>
+                                <div><h3 class="text-2xl font-bold text-[#154360]">Бассейн на крыше</h3><p class="mt-4 text-gray-600">На 51-м этаже наслаждайтесь видом из 45-метрового консольного бассейна, джакузи на крыше и бара на крыше — особого места встречи с видом на горизонт.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Building Video Section -->
+        <section class="fade-in py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                     <h2 class="section-title">Знаковая архитектура</h2>
+                     <p class="section-subtitle">Новая достопримечательность на горизонте Джомтьена</p>
+                </div>
+                <div class="max-w-5xl mx-auto rounded-2xl shadow-2xl overflow-hidden">
+                     <video class="w-full h-auto" autoplay loop muted playsinline>
+                        <source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/2f9e5dd9-8a58-42ce-aa3b-9dc1a9c2f665/2f9e5dd9-8a58-42ce-aa3b-9dc1a9c2f665.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="max-w-3xl mx-auto mt-12 text-center text-gray-600 space-y-4">
+                    <p>Copacabana Coral Reef Jomtien — это не просто резиденция; это новая достопримечательность на пляже Джомтьен, вдохновленная «Жемчужинами моря». Эта 55-этажная башня спроектирована как символ роскоши, органично сочетающейся с красотой моря.</p>
+                    <p>Ее уникальность отражена в единственной в своем роде архитектуре, от <b>45-метрового консольного бассейна</b> на 51-м этаже, предлагающего необыкновенные впечатления, до <b>бассейна The Coral</b> на 6-м этаже и 32 общественных садов, разбросанных по всему проекту, гарантируя, что каждый момент жизни — это отдых среди искусства и природы.</p>
+                    <p>Мы гордимся тем, что создаем шедевр, который является не просто домом, а будущим архитектурным наследием для Джомтьена.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Smart Home Section -->
+        <section class="fade-in bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title">Будущее уже здесь</h2>
+                    <p class="section-subtitle">Умный дом с ИИ и жизнь в кондоминиуме на берегу моря</p>
+                    <p class="mt-6 max-w-3xl mx-auto text-gray-600">В эпоху, когда технологии являются неотъемлемой частью жизни, Copacabana Coral Reef делает еще один шаг вперед, предлагая превосходный жизненный опыт с умным домом с ИИ, который превращает вашу комнату в интеллектуального, интуитивно понятного личного помощника.</p>
+                </div>
+                <div class="space-y-16">
+                    <!-- Feature 1 -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/b207f4f2-8c3d-4405-b19d-92045bcdcdc5/b207f4f2-8c3d-4405-b19d-92045bcdcdc5.mp4" type="video/mp4"></video></div>
+                        <div><h3 class="text-2xl font-bold text-[#154360]">Голосовое управление без помощи рук</h3><p class="mt-4 text-gray-600">Просто скажите: «Привет, Google, открой шторы», и шторы плавно откроются, открывая освежающий утренний вид на пляж Джомтьен, чтобы разбудить вас, не вставая с постели.</p></div>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1"><h3 class="text-2xl font-bold text-[#154360]">Управляйте всем через приложение</h3><p class="mt-4 text-gray-600">Едете ли вы домой с работы или отдыхаете у бассейна, вы можете заранее включить кондиционер, чтобы охладить комнату, или проверить безопасность из любого места и в любое время, одним касанием пальца.</p></div>
+                        <div class="order-1 md:order-2 rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/fba95ac3-be3a-4a62-8915-fcd542364e83/fba95ac3-be3a-4a62-8915-fcd542364e83.mp4" type="video/mp4"></video></div>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/f43507ec-c95b-4c19-bb4e-d77159d4bfd4/f43507ec-c95b-4c19-bb4e-d77159d4bfd4.mp4" type="video/mp4"></video></div>
+                        <div><h3 class="text-2xl font-bold text-[#154360]">Умная безопасность для полного спокойствия</h3><p class="mt-4 text-gray-600">С современным цифровым дверным замком и системой видеонаблюдения, подключенной непосредственно к вашему смартфону, вы можете видеть каждое движение и обеспечивать спокойствие себе и своим близким 24/7.</p></div>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                         <div class="order-2 md:order-1"><h3 class="text-2xl font-bold text-[#154360]">Устойчивое управление энергией</h3><p class="mt-4 text-gray-600">Система ИИ изучает ваши привычки потребления энергии и автоматически настраивает работу приборов для большей экономии, не только сокращая ваши счета, но и способствуя экологически сознательному образу жизни.</p></div>
+                        <div class="order-1 md:order-2 rounded-2xl shadow-lg overflow-hidden"><video class="w-full h-full object-cover" autoplay loop muted playsinline><source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/34da3a34-d5a7-4f6e-abb7-6d16d72006bd/34da3a34-d5a7-4f6e-abb7-6d16d72006bd.mp4" type="video/mp4"></video></div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center p-4 bg-slate-100 border border-slate-200 rounded-lg text-sm text-slate-800">
+                    <p class="font-semibold">Примечание:</p>
+                    <p>Содержание этого раздела представляет концепцию и потенциал технологии умного дома, чтобы вдохновить вас на украшение вашего дома. Некоторые умные устройства, мебель или системы могут не входить в стандартный пакет. Если вы заинтересованы в установке дополнительных систем умного дома, пожалуйста, сообщите об этом отделу продаж в день подписания контракта, чтобы мы могли организовать консультацию со специалистом.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Investment Vision Section -->
+        <section id="investment" class="fade-in py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title">Будущее путешествий</h2>
+                    <p class="section-subtitle">Фиолетовая линия монорельса и ее влияние на ваши инвестиции</p>
+                </div>
+                <div class="max-w-4xl mx-auto mb-12">
+                    <img src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/d9939f52-526a-434e-b0b8-ce2e09876e75/segments/1:4:1/Lucid_Realism_a_sleek_modern_elevated_purple_monorail_train_zi_0.jpg" alt="Фиолетовая линия монорельса в Паттайе" class="rounded-2xl shadow-2xl w-full h-auto">
+                </div>
+                <div class="max-w-4xl mx-auto space-y-8 text-left">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border">
+                        <h3 class="text-xl font-bold text-[#154360] mb-3">Подъезд к ВЭК</h3>
+                        <p class="text-gray-600">Этот проект — не просто городская система общественного транспорта; он спроектирован как капиллярная сеть, соединяющая поездки со всех уголков города с Восточным экономическим коридором (ВЭК) и служащая важнейшей системой подвоза для высокоскоростной железной дороги, соединяющей три аэропорта.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border">
+                        <h3 class="text-xl font-bold text-[#154360] mb-3">Соединяя все стили жизни</h3>
+                        <p class="text-gray-600">С маршрутом, охватывающим более 11,44 километров через 12 станций, от центрального делового района Паттайи до жилых комплексов и правительственных учреждений в районе Нонг Прю, путешествия становятся более удобными и бесшовными.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border">
+                        <h3 class="text-xl font-bold text-[#154360] mb-3">Увеличение инвестиционной стоимости</h3>
+                        <p class="text-gray-600">Появление такой крупномасштабной системы общественного транспорта является ключевым фактором, который значительно простимулирует экономику и увеличит стоимость недвижимости вдоль ее маршрута. Ваши сегодняшние инвестиции — это возможность для будущего роста.</p>
+                    </div>
+                     <p class="text-center text-gray-600 pt-4">Хотя проект в настоящее время ожидает утверждения оценки воздействия на окружающую среду (ОВОС), он демонстрирует твердую приверженность города Паттайя к модернизации своей инфраструктуры, что, несомненно, принесет пользу качеству вашей жизни и стоимости ваших инвестиций в долгосрочной перспективе.</p>
+                    <div class="text-center mt-8">
+                        <a href="https://thbho.github.io/ThJomtienTrain.html" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-[#154360] font-bold py-3 px-8 rounded-full border-2 border-[#154360] hover:bg-[#154360] hover:text-white transition-colors duration-300">
+                            Посмотреть инфографику
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Itinerary Planner Section -->
+        <section id="ai-planner" class="bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="section-title">✨ Спланируйте образ жизни своей мечты в Паттайе</h2>
+                <p class="section-subtitle max-w-2xl mx-auto">Позвольте ИИ создать для вас специальный маршрут. Просто выберите свои интересы и количество дней.</p>
+                <button id="open-planner-modal" class="mt-8 bg-[#154360] text-white font-bold py-3 px-8 rounded-full hover:bg-[#21618C] transition-colors duration-300">
+                    Открыть планировщик ИИ
+                </button>
+                <div id="itinerary-result" class="mt-8 text-left max-w-4xl mx-auto bg-gray-50 p-6 rounded-lg shadow-inner hidden"></div>
+            </div>
+        </section>
+
+        <!-- Lifestyle/MBTI Section -->
+        <section id="lifestyle" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title">Дом, который действительно ваш</h2>
+                    <p class="section-subtitle">Дом — это отражение личности и духа его жителя.</p>
+                </div>
+                <div class="max-w-5xl mx-auto rounded-2xl shadow-2xl overflow-hidden mb-12">
+                     <video class="w-full h-auto" autoplay loop muted playsinline>
+                        <source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/bb8c5e8a-4421-494c-bb18-7d66cad16650/bb8c5e8a-4421-494c-bb18-7d66cad16650.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    <div class="card">
+                        <img src="https://i.postimg.cc/HWVNpF3B/00820250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high-fidelity-v2-2x.jpg" alt="The Visionaries Lifestyle" class="w-full h-auto object-cover mb-4">
+                        <div class="p-4 bg-sky-50"><h4 class="text-xl font-bold text-[#154360] mb-2">Провидцы</h4>
+                        <p class="text-sm text-gray-500 mb-3">(INTJ, INTP, ENTJ, ENTP)</p>
+                        <p>Эта группа видит долгосрочный инвестиционный потенциал в расположении ВЭК и величии проекта. Им подходят большие квартиры или квартиры на высоких этажах, откуда открывается широкий обзор, подобный их стратегическому видению.<br><br><b>Идеальное удобство:</b> Coral Sky Business Lounge & Co-Working Space и конференц-зал на 50-м этаже идеально подходят для расширения их бизнес-видения.</p></div>
+                    </div>
+                    <div class="card">
+                        <img src="https://i.postimg.cc/6qRqm5kb/IMG-2008-gigapixel-high-fidelity-v2-2x.jpg" alt="The Guardians Lifestyle" class="w-full h-auto object-cover mb-4">
+                        <div class="p-4 bg-emerald-50"><h4 class="text-xl font-bold text-[#154360] mb-2">Хранители</h4>
+                        <p class="text-sm text-gray-500 mb-3">(ISTJ, ISFJ, ESTJ, ESFJ)</p>
+                        <p>Они ценят материальное качество и безопасность. Они доверятся авторитетному строительному партнеру, такому как Porn Pranakorn, и выберут стандартную планировку, например, 2-комнатную (тип 15), которая идеально спроектирована и практична.<br><br><b>Идеальное удобство:</b> 24-часовая система безопасности и семейные зоны, такие как детский клуб и игровая площадка, отвечают их потребностям в безопасности и стабильности.</p></div>
+                    </div>
+                    <div class="card">
+                        <img src="https://i.postimg.cc/0jBQjKpN/Copy-of-DSC00029-2.jpg" alt="The Idealists Lifestyle" class="w-full h-auto object-cover mb-4">
+                        <div class="p-4 bg-amber-50"><h4 class="text-xl font-bold text-[#154360] mb-2">Идеалисты</h4>
+                        <p class="text-sm text-gray-500 mb-3">(INFJ, INFP, ENFJ, ENFP)</p>
+                        <p>Они ищут смысл и пространство для души. Они влюбятся в концепцию «Жемчужины моря» и выберут 1-комнатную квартиру с частным бассейном (тип 19) в качестве личного убежища или квартиру с большим балконом, чтобы любоваться атмосферой.<br><br><b>Идеальное удобство:</b> Небесный парк на крыше (50-й этаж) и 32 общественных сада — это места, где они могут соединиться с природой и найти новое вдохновение.</p></div>
+                    </div>
+                     <div class="card">
+                        <img src="https://i.postimg.cc/FR89y5Br/Sales-Kit-Booklet-20250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high.jpg" alt="The Explorers Lifestyle" class="w-full h-auto object-cover mb-4">
+                        <div class="p-4 bg-orange-50"><h4 class="text-xl font-bold text-[#154360] mb-2">Исследователи</h4>
+                        <p class="text-sm text-gray-500 mb-3">(ISTP, ISFP, ESTP, ESFP)</p>
+                        <p>Любящие свободу и живущие полной жизнью. Им нужна удобная база, такая как 1-комнатная квартира (тип 1-3), чтобы быть готовыми к приключениям. Расположение рядом с пляжем Джомтьен для них является ключевым.<br><br><b>Идеальное удобство:</b> Волновой бассейн, бар у бассейна и пляжный клуб, а также консольный бассейн на крыше — это их игровые площадки, готовые высвободить энергию и создавать захватывающие впечатления каждый день.</p></div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <p class="mb-4 text-gray-600">Определите свой тип личности и узнайте, какой образ жизни подходит именно вам.</p>
+                    <a href="https://www.16personalities.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-[#154360] font-bold py-3 px-8 rounded-full border-2 border-[#154360] hover:bg-[#154360] hover:text-white transition-colors duration-300">
+                        Пройти тест на тип личности
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title">Яркий пульс Паттайи</h2>
+                    <p class="section-subtitle">Интересные события в июле</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border">
+                        <img src="https://i.postimg.cc/QxHQR38J/Gemini-Generated-Image-7zj9rf7zj9rf7zj9-topaz-upscale-1-7x.jpg" alt="Pattaya Marathon" class="w-full h-auto object-cover rounded-lg mb-4">
+                        <a href="https://www.pattayamarathon.com/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600"><h4 class="font-bold text-lg text-[#154360]">Паттайский марафон 2025</h4></a>
+                        <p class="text-sm text-gray-500 mb-2">19-20 июля</p>
+                        <p>Почувствуйте энергию Паттайи на этом международном беговом событии. Испытайте себя, наслаждаясь красотой города.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border">
+                        <img src="https://i.postimg.cc/mD7Lchyy/Gemini-Generated-Image-6rhf006rhf006rhf.png" alt="Фестиваль Асалха Пуджа и буддийский пост" class="w-full h-auto object-cover rounded-lg mb-4">
+                        <h4 class="font-bold text-lg text-[#154360]">Фестиваль Асалха Пуджа и буддийский пост</h4>
+                        <p class="text-sm text-gray-500 mb-2">10-11 июля</p>
+                        <p>Присоединяйтесь к прекрасной тайской традиции с буддийскими мероприятиями, такими как совершение заслуг и процессии со свечами.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member Get Member Section -->
+        <section id="member-get-member" class="bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                <div class="order-2 md:order-1">
+                    <h2 class="section-title">Поделитесь мечтой... с кем-то особенным</h2>
+                    <p class="section-subtitle">Пригласите своих друзей или близких стать частью нашей семьи.</p>
+                    <div class="mt-8 space-y-4">
+                        <div class="bg-sky-50 p-4 rounded-lg">
+                            <p class="font-bold text-[#154360]">Приведите друга на бронирование 1-комнатной квартиры:</p>
+                            <p>Получите 5 купонов (на 5 человек) на эксклюзивную поездку на яхте.</p>
+                        </div>
+                        <div class="bg-sky-50 p-4 rounded-lg">
+                            <p class="font-bold text-[#154360]">Приведите друга на бронирование 2-х или 3-х комнатной квартиры:</p>
+                            <p>Получите 8 купонов (на 8 человек), чтобы отпраздновать новые знакомства с видом на море.</p>
+                        </div>
+                    </div>
+                     <p class="mt-4 text-xs text-gray-500">(Действуют правила и условия)</p>
+                </div>
+                <div class="order-1 md:order-2">
+                    <video class="rounded-2xl shadow-xl w-full h-auto" autoplay loop muted playsinline>
+                        <source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/6bae5f16-8c83-4b0b-9785-08e09e61afb6/6bae5f16-8c83-4b0b-9785-08e09e61afb6.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-[#154360] text-white">
+        <div class="container mx-auto px-4 sm:px-6 py-12">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <img src="https://i.postimg.cc/R01ZKZrv/new-logo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-20 mb-4">
+                    <h3 class="text-2xl font-bold">Copacabana Coral Reef</h3>
+                    <p class="mt-2 text-blue-200">The Jewels of The Sea</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold">Следите за нами</h4>
+                    <div class="mt-4 space-y-2">
+                        <a href="https://www.facebook.com/CopaCabanaCoralReef" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-200 hover:text-white">Facebook</a>
+                        <a href="https://www.instagram.com/copacabanacoralreef" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-200 hover:text-white">Instagram</a>
+                        <a href="https://www.tiktok.com/@copacabanagroup" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-200 hover:text-white">Tiktok</a>
+                        <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=451e9ecba3b84874" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-200 hover:text-white">Podcast</a>
+                        <a href="https://copacabanacoralreef.com" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-200 hover:text-white">Официальный сайт</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold">Свяжитесь с нами</h4>
+                    <div class="mt-4 space-y-2 text-blue-200">
+                        <p>Тел: +66 95 945 1665</p>
+                        <p>Эл. почта: info@copacabanacoralreef.com</p>
+                        <p>Офис продаж: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-blue-800 pt-6 text-center text-sm text-blue-300">
+                <p>&copy; 2025 Copacabana Coral Reef Jomtien. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Planner Modal -->
+    <div id="planner-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold text-[#154360] mb-4">Планировщик маршрутов с ИИ</h3>
+            <p class="text-gray-600 mb-6">Выберите свои интересы и количество дней, и пусть ИИ создаст для вас маршрут по Паттайе.</p>
+            <div class="space-y-4">
+                <div>
+                    <label for="interests" class="block text-sm font-medium text-gray-700">Интересы:</label>
+                    <select id="interests" name="interests" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option>Кафе и рестораны</option>
+                        <option>Водные и пляжные развлечения</option>
+                        <option>Храмы и культура</option>
+                        <option>Природа и пейзажи</option>
+                        <option>Ночная жизнь и развлечения</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="days" class="block text-sm font-medium text-gray-700">Количество дней:</label>
+                    <input type="number" id="days" name="days" min="1" max="7" value="3" class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                </div>
+            </div>
+            <div class="mt-8 flex justify-end space-x-4">
+                <button id="close-planner-modal" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Закрыть</button>
+                <button id="generate-itinerary" class="px-4 py-2 bg-[#154360] text-white rounded-md hover:bg-[#21618C]">Создать маршрут</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div id="gallery-modal" class="modal-overlay hidden cursor-pointer">
+        <div class="modal-content max-w-4xl p-0 relative">
+            <img id="gallery-modal-image" src="" class="w-full h-auto rounded-lg">
+            <button id="close-gallery-modal" class="absolute -top-4 -right-4 text-white bg-black bg-opacity-50 rounded-full h-8 w-8 flex items-center justify-center text-2xl">&times;</button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Smooth scrolling for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        // Close mobile menu on link click
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // Fade-in animation on scroll
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Active nav link highlighting on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('header nav a');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) { // 70 is approx header height
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Facilities Tabs
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active-tab');
+                        btn.classList.remove('text-gray-800');
+                        btn.classList.add('text-gray-500');
+                        btn.classList.add('border-transparent');
+                    });
+                    button.classList.add('active-tab');
+                    button.classList.add('text-gray-800');
+                    button.classList.remove('text-gray-500');
+                    button.classList.remove('border-transparent');
+
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(tabId).classList.remove('hidden');
+                });
+            });
+
+            // Image Gallery Modal
+            const galleryModal = document.getElementById('gallery-modal');
+            const galleryModalImage = document.getElementById('gallery-modal-image');
+            const galleryImages = document.querySelectorAll('.gallery-image');
+            const closeGalleryModalButton = document.getElementById('close-gallery-modal');
+
+            galleryImages.forEach(image => {
+                image.addEventListener('click', () => {
+                    galleryModalImage.src = image.src;
+                    galleryModal.classList.remove('hidden');
+                });
+            });
+
+            const hideGalleryModal = () => {
+                galleryModal.classList.add('hidden');
+            };
+
+            closeGalleryModalButton.addEventListener('click', hideGalleryModal);
+            galleryModal.addEventListener('click', (e) => {
+                if (e.target === galleryModal) {
+                    hideGalleryModal();
+                }
+            });
+
+            // AI Itinerary Planner
+            const openModalButton = document.getElementById('open-planner-modal');
+            const closeModalButton = document.getElementById('close-planner-modal');
+            const generateButton = document.getElementById('generate-itinerary');
+            const modal = document.getElementById('planner-modal');
+            const itineraryResult = document.getElementById('itinerary-result');
+            const interestsSelect = document.getElementById('interests');
+            const daysInput = document.getElementById('days');
+
+            openModalButton.addEventListener('click', () => modal.classList.remove('hidden'));
+            closeModalButton.addEventListener('click', () => modal.classList.add('hidden'));
+
+            generateButton.addEventListener('click', async () => {
+                const interests = interestsSelect.value;
+                const days = daysInput.value;
+                const prompt = `Создайте красивый, дружелюбный и легкий для чтения маршрут путешествия на ${days} дней в Паттайе, с акцентом на мероприятия, связанные с ${interests}, в формате Markdown.`;
+
+                itineraryResult.innerHTML = '<p class="text-center text-gray-600">Создание вашего маршрута с помощью ИИ... Пожалуйста, подождите ✨</p>';
+                itineraryResult.classList.remove('hidden');
+                modal.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        
+                        const text = result.candidates[0].content.parts[0].text;
+                        const converter = new showdown.Converter({
+                            simplifiedAutoLink: true,
+                            strikethrough: true,
+                            tables: true
+                        });
+                        const html = converter.makeHtml(text);
+                        itineraryResult.innerHTML = html;
+                    } else {
+                        itineraryResult.innerHTML = '<p class="text-center text-red-600">К сожалению, в данный момент маршрут не может быть создан. Пожалуйста, попробуйте еще раз.</p>';
+                        console.error('Unexpected API response structure:', result);
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    itineraryResult.innerHTML = `<p class="text-center text-red-600">Произошла ошибка при создании маршрута: ${error.message}</p>`;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
