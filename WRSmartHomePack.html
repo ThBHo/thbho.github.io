@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIDEROOMS - AI-Powered Smart Home Packages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Application Structure Plan: A top-to-bottom narrative flow. It starts with a hook, introduces three core packages, then presents the new AI-powered customizer. This allows users who don't fit the standard packages to get a personalized recommendation. The narrative concludes with the process flow and CTA. This structure enhances the user journey by adding a layer of personalization and interactivity powered by Gemini. A language toggle has been added for bilingual support. -->
+    <!-- Visualization & Content Choices: 
+        - Package Overview: Report Info -> 3 distinct smart home packages. Goal -> Organize & Compare. Viz/Method -> 3-column card layout using HTML/Tailwind with Unicode icons. Justification -> Allows users to quickly grasp the theme and key features of each option.
+        - AI Customizer: Report Info -> User lifestyle input + package descriptions. Goal -> Provide personalized recommendations. Viz/Method -> Textarea input, button, and dynamic result area. Interaction -> User types their lifestyle, clicks a button, and receives an AI-generated recommendation. Justification -> Leverages Gemini API to create a unique, value-added interactive experience that aligns with the brand's focus on personalization.
+        - Process Flow: Report Info -> Implied process of service (consult, design, install). Goal -> Organize. Viz/Method -> Numbered list styled with HTML/Tailwind to look like a flowchart. Justification -> Simplifies the customer journey.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f8ff;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #00449E, #0072CE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gemini-loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #0072CE;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hero-banner {
+            height: 60vh;
+            max-height: 450px;
+        }
+        .lang-btn.active {
+            background-color: #ffffff;
+            color: #0072CE;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <header class="relative">
+        <div class="hero-banner w-full bg-cover bg-center" style="background-image: url('https://i.postimg.cc/nr5MFqM9/c387d2-d00662bf1621463e9053005462fc03ea-mv2-topaz-upscale-4x.jpg');">
+            <div class="w-full h-full bg-black bg-opacity-50 flex flex-col items-center justify-center text-center text-white p-6 relative">
+                <div class="absolute top-4 right-4 bg-black/30 rounded-full p-1 flex space-x-1">
+                    <button id="lang-en" class="lang-btn active text-white font-bold py-1 px-3 rounded-full text-sm transition-colors">EN</button>
+                    <button id="lang-th" class="lang-btn text-white font-bold py-1 px-3 rounded-full text-sm transition-colors">TH</button>
+                </div>
+                <h1 data-key="main_title" class="text-4xl md:text-6xl font-bold mb-4">Transform Your Condo into a Smart Home</h1>
+                <p data-key="main_subtitle" class="text-lg md:text-xl max-w-3xl">WIDEROOMS presents smart home solutions designed for every lifestyle, elevating your living experience to be more convenient, secure, and joyful.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-12">
+        <main>
+            <section id="packages" class="mb-20">
+                <h2 data-key="packages_title" class="text-3xl font-bold text-center text-slate-800 mb-10">Choose the Perfect Example Package for You</h2>
+                <p class="text-center -mt-8 mb-12"><a href="https://docs.google.com/document/d/1a7KOwjjW1OczuaEBC_3lihNFGuQNsIHQKYGaJTee1Sc/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-semibold" data-key="package_details_link">View Package Details</a></p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="text-5xl mb-4">💡</div>
+                        <h3 data-key="pkg1_name" class="text-2xl font-bold text-slate-800 mb-2">The Efficiency Expert</h3>
+                        <p data-key="pkg1_desc" class="text-slate-500 mb-6 flex-grow">For those who prioritize efficiency and daily convenience.</p>
+                        <ul class="space-y-3 text-slate-600">
+                            <li data-key="pkg1_feat1" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Lighting System</li>
+                            <li data-key="pkg1_feat2" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Plugs</li>
+                            <li data-key="pkg1_feat3" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Speaker Hub</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-4 border-blue-500">
+                        <div class="text-5xl mb-4">🛋️</div>
+                        <h3 data-key="pkg2_name" class="text-2xl font-bold text-slate-800 mb-2">The Comfort Seeker</h3>
+                        <p data-key="pkg2_desc" class="text-slate-500 mb-6 flex-grow">For those who love comfort and want to create a relaxing atmosphere.</p>
+                        <ul class="space-y-3 text-slate-600">
+                            <li data-key="pkg2_feat1" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Motorized Smart Curtains</li>
+                            <li data-key="pkg2_feat2" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Air Purifier</li>
+                            <li data-key="pkg2_feat3" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Aroma Diffuser</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                        <div class="text-5xl mb-4">🎬</div>
+                        <h3 data-key="pkg3_name" class="text-2xl font-bold text-slate-800 mb-2">The Entertainer</h3>
+                        <p data-key="pkg3_desc" class="text-slate-500 mb-6 flex-grow">For those who love entertainment and hosting social events.</p>
+                        <ul class="space-y-3 text-slate-600">
+                            <li data-key="pkg3_feat1" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Dynamic LED Strip Lighting</li>
+                            <li data-key="pkg3_feat2" class="flex items-center"><span class="text-blue-500 mr-3">✔</span> Smart Security Camera</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="customizer" class="mb-20">
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 data-key="ai_title" class="text-3xl font-bold text-center text-slate-800 mb-4">Find Your Perfect Match</h2>
+                    <p data-key="ai_subtitle" class="text-center text-slate-600 max-w-2xl mx-auto mb-6">Don't see a perfect fit? Describe your lifestyle, and our AI will recommend a personalized package just for you.</p>
+                    <div class="max-w-xl mx-auto">
+                        <textarea id="lifestyle-input" rows="4" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" data-key-placeholder="ai_placeholder"></textarea>
+                        <button id="get-recommendation-btn" class="mt-4 w-full bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                            <span class="mr-2">✨</span> <span data-key="ai_button">Get My AI-Powered Recommendation</span>
+                        </button>
+                    </div>
+                    <div id="gemini-result-container" class="mt-6 max-w-xl mx-auto hidden">
+                        <div id="gemini-loader" class="text-center p-4">
+                            <div class="gemini-loader mx-auto"></div>
+                            <p data-key="ai_loading" class="text-slate-500 mt-2">Our AI is crafting your personalized package...</p>
+                        </div>
+                        <div id="gemini-result" class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-slate-700"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="process" class="text-center">
+                <h2 data-key="process_title" class="text-3xl font-bold text-slate-800 mb-10">How Our Process Works</h2>
+                <div class="relative grid md:grid-cols-3 gap-8">
+                    <div class="absolute top-1/2 left-0 w-full h-1 bg-blue-200 hidden md:block" style="transform: translateY(-50%); z-index: -1;"></div>
+                    <div class="flex flex-col items-center p-6 bg-slate-50 z-10">
+                        <div class="w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xl font-bold mb-4 border-4 border-white shadow-md">1</div>
+                        <h3 data-key="process1_title" class="text-xl font-bold text-slate-800">Consultation</h3>
+                        <p data-key="process1_desc" class="text-slate-500">We assess your needs and plan the project with you.</p>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-slate-50 z-10">
+                        <div class="w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xl font-bold mb-4 border-4 border-white shadow-md">2</div>
+                        <h3 data-key="process2_title" class="text-xl font-bold text-slate-800">System Design</h3>
+                        <p data-key="process2_desc" class="text-slate-500">We create a custom design that reflects your style.</p>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-slate-50 z-10">
+                        <div class="w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xl font-bold mb-4 border-4 border-white shadow-md">3</div>
+                        <h3 data-key="process3_title" class="text-xl font-bold text-slate-800">Installation & Support</h3>
+                        <p data-key="process3_desc" class="text-slate-500">We handle every step and provide after-sales care.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="text-center mt-20 pt-10 border-t border-slate-200 bg-white">
+        <div class="container mx-auto px-6 py-8">
+            <p data-key="footer_title" class="text-2xl font-bold text-slate-800">Ready to Make Your Home Smarter?</p>
+            <p data-key="footer_subtitle" class="text-slate-600 mt-2 mb-6">Contact WIDEROOMS today for a free consultation!</p>
+            <a href="mailto:widerooms@hotmail.com" data-key="footer_button" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 transition-colors">Contact Us</a>
+            <p class="text-sm text-slate-400 mt-10">WIDEROOMS | Copacabana Beach Jomtien, Pattaya | +66 86 909 4356</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const translations = {
+                en: {
+                    main_title: "Transform Your Condo into a Smart Home",
+                    main_subtitle: "WIDEROOMS presents smart home solutions designed for every lifestyle, elevating your living experience to be more convenient, secure, and joyful.",
+                    packages_title: "Choose the Perfect Example Package for You",
+                    package_details_link: "View Package Details",
+                    pkg1_name: "The Efficiency Expert",
+                    pkg1_desc: "For those who prioritize efficiency and daily convenience.",
+                    pkg1_feat1: "✔ Smart Lighting System",
+                    pkg1_feat2: "✔ Smart Plugs",
+                    pkg1_feat3: "✔ Smart Speaker Hub",
+                    pkg2_name: "The Comfort Seeker",
+                    pkg2_desc: "For those who love comfort and want to create a relaxing atmosphere.",
+                    pkg2_feat1: "✔ Motorized Smart Curtains",
+                    pkg2_feat2: "✔ Smart Air Purifier",
+                    pkg2_feat3: "✔ Smart Aroma Diffuser",
+                    pkg3_name: "The Entertainer",
+                    pkg3_desc: "For those who love entertainment and hosting social events.",
+                    pkg3_feat1: "✔ Dynamic LED Strip Lighting",
+                    pkg3_feat2: "✔ Smart Security Camera",
+                    ai_title: "Find Your Perfect Match",
+                    ai_subtitle: "Don't see a perfect fit? Describe your lifestyle, and our AI will recommend a personalized package just for you.",
+                    ai_placeholder: "e.g., 'I am a young professional who works from home. I value a relaxing environment after work, but I also love hosting movie nights with friends on weekends.'",
+                    ai_button: "Get My AI-Powered Recommendation",
+                    ai_loading: "Our AI is crafting your personalized package...",
+                    process_title: "How Our Process Works",
+                    process1_title: "Consultation",
+                    process1_desc: "We assess your needs and plan the project with you.",
+                    process2_title: "System Design",
+                    process2_desc: "We create a custom design that reflects your style.",
+                    process3_title: "Installation & Support",
+                    process3_desc: "We handle every step and provide after-sales care.",
+                    footer_title: "Ready to Make Your Home Smarter?",
+                    footer_subtitle: "Contact WIDEROOMS today for a free consultation!",
+                    footer_button: "Contact Us"
+                },
+                th: {
+                    main_title: "เปลี่ยนคอนโดของคุณให้เป็นบ้านอัจฉริยะ",
+                    main_subtitle: "WIDEROOMS นำเสนอโซลูชันสมาร์ทโฮมที่ออกแบบมาเพื่อตอบโจทย์ทุกไลฟ์สไตล์ ยกระดับการอยู่อาศัยให้สะดวกสบาย ปลอดภัย และเต็มไปด้วยความสุข",
+                    packages_title: "เลือกแพ็กเกจตัวอย่างที่ใช่สำหรับคุณ",
+                    package_details_link: "ดูรายละเอียดแพ็กเกจ",
+                    pkg1_name: "ผู้เชี่ยวชาญด้านประสิทธิภาพ",
+                    pkg1_desc: "สำหรับผู้ที่ให้ความสำคัญกับประสิทธิภาพและความสะดวกสบายในชีวิตประจำวัน",
+                    pkg1_feat1: "✔ ระบบไฟอัจฉริยะ",
+                    pkg1_feat2: "✔ ปลั๊กไฟอัจฉริยะ",
+                    pkg1_feat3: "✔ ลำโพงอัจฉริยะ",
+                    pkg2_name: "ผู้แสวงหาความสบาย",
+                    pkg2_desc: "สำหรับผู้ที่รักความสบายและต้องการสร้างบรรยากาศที่ผ่อนคลาย",
+                    pkg2_feat1: "✔ ม่านไฟฟ้าอัจฉริยะ",
+                    pkg2_feat2: "✔ เครื่องฟอกอากาศอัจฉริยะ",
+                    pkg2_feat3: "✔ เครื่องพ่นไอน้ำอโรม่า",
+                    pkg3_name: "นักเอนเตอร์เทน",
+                    pkg3_desc: "สำหรับผู้ที่รักความบันเทิงและชอบจัดงานสังสรรค์",
+                    pkg3_feat1: "✔ ไฟเส้น LED แบบไดนามิก",
+                    pkg3_feat2: "✔ กล้องวงจรปิดอัจฉริยะ",
+                    ai_title: "ค้นหาแพ็กเกจที่ใช่สำหรับคุณ",
+                    ai_subtitle: "ยังไม่เจอแพ็กเกจที่ลงตัว? อธิบายไลฟ์สไตล์ของคุณ แล้ว AI ของเราจะแนะนำแพ็กเกจที่ปรับให้เหมาะกับคุณโดยเฉพาะ",
+                    ai_placeholder: "เช่น 'ฉันเป็นคนทำงานรุ่นใหม่ที่ทำงานจากที่บ้าน ฉันให้ความสำคัญกับบรรยากาศที่ผ่อนคลายหลังเลิกงาน แต่ก็ชอบจัดปาร์ตี้ดูหนังกับเพื่อนๆ ในวันหยุดสุดสัปดาห์'",
+                    ai_button: "รับคำแนะนำจาก AI",
+                    ai_loading: "AI ของเรากำลังสร้างแพ็กเกจสำหรับคุณ...",
+                    process_title: "ขั้นตอนการทำงานของเรา",
+                    process1_title: "ให้คำปรึกษา",
+                    process1_desc: "เราประเมินความต้องการของคุณและวางแผนโครงการร่วมกับคุณ",
+                    process2_title: "ออกแบบระบบ",
+                    process2_desc: "เราสร้างการออกแบบที่กำหนดเองซึ่งสะท้อนถึงสไตล์ของคุณ",
+                    process3_title: "ติดตั้งและดูแล",
+                    process3_desc: "เราจัดการทุกขั้นตอนและให้การดูแลหลังการขาย",
+                    footer_title: "พร้อมที่จะทำให้บ้านของคุณสมาร์ทยิ่งขึ้นหรือยัง?",
+                    footer_subtitle: "ติดต่อ WIDEROOMS วันนี้เพื่อรับคำปรึกษาฟรี!",
+                    footer_button: "ติดต่อเรา"
+                }
+            };
+
+            const setLanguage = (lang) => {
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.getAttribute('data-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        elem.innerHTML = translations[lang][key];
+                    }
+                });
+                document.querySelectorAll('[data-key-placeholder]').forEach(elem => {
+                    const key = elem.getAttribute('data-key-placeholder');
+                    if (translations[lang] && translations[lang][key]) {
+                        elem.placeholder = translations[lang][key];
+                    }
+                });
+
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-th').classList.toggle('active', lang === 'th');
+            };
+
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+            document.getElementById('lang-th').addEventListener('click', () => setLanguage('th'));
+
+            // Set initial language
+            setLanguage('en');
+
+            const recommendationBtn = document.getElementById('get-recommendation-btn');
+            const lifestyleInput = document.getElementById('lifestyle-input');
+            const resultContainer = document.getElementById('gemini-result-container');
+            const loader = document.getElementById('gemini-loader');
+            const resultDiv = document.getElementById('gemini-result');
+
+            recommendationBtn.addEventListener('click', async () => {
+                const userPrompt = lifestyleInput.value;
+                if (!userPrompt.trim()) {
+                    alert('Please describe your lifestyle.');
+                    return;
+                }
+
+                resultContainer.style.display = 'block';
+                loader.style.display = 'block';
+                resultDiv.style.display = 'none';
+
+                const packageContext = `
+                    Package 1: The Efficiency Expert. Features: Smart Lighting System, Smart Plugs, Smart Speaker Hub. Ideal for those who prioritize efficiency and daily convenience.
+                    Package 2: The Comfort Seeker. Features: Motorized Smart Curtains, Smart Air Purifier, Smart Aroma Diffuser. Ideal for those who love comfort and want to create a relaxing atmosphere.
+                    Package 3: The Entertainer. Features: Dynamic LED Strip Lighting, Smart Security Camera. Ideal for those who love entertainment and hosting social events.
+                `;
+
+                const fullPrompt = `Based on the following smart home packages:\n${packageContext}\n\nRecommend a personalized package for a user with this lifestyle: "${userPrompt}". Start with a bolded recommended package name (e.g., **"The Hybrid Professional"**). Then, explain which features from the packages would be best and why, in a friendly and helpful tone. Keep the response to one or two paragraphs.`;
+                
+                try {
+                    let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
+                    const payload = { contents: chatHistory };
+                    const apiKey = "AIzaSyDj_fOvwZ80qfWaryvy5FNjSiyKt1wAF04"; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API call failed with status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    let recommendationText = "Sorry, we couldn't generate a recommendation at this time. Please try again later.";
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        recommendationText = result.candidates[0].content.parts[0].text;
+                    }
+                    
+                    resultDiv.innerHTML = recommendationText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-800">$1</strong>').replace(/\n/g, '<br>');
+
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    resultDiv.textContent = "An error occurred while generating your recommendation. Please check your connection and try again.";
+                } finally {
+                    loader.style.display = 'none';
+                    resultDiv.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
