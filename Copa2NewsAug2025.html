@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copacabana Coral Reef | August 2025 Newsletter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+   <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #334155; /* Lighter Charcoal Blue */
+            color: #E2E8F0; /* Light Gray */
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFFFFF; /* White */
+            line-height: 1.3;
+        }
+        @media (min-width: 768px) { .section-title { font-size: 2.5rem; } }
+        .section-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #CBD5E0; /* Lighter Cool Gray */
+            margin-top: 1rem;
+        }
+        @media (min-width: 768px) { .section-subtitle { font-size: 1.25rem; } }
+        .card {
+            background-color: #475569; /* Lighter Blue-Gray */
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #64748B; /* Lighter Gray border */
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #63B3ED; /* Bright Blue */
+            transition: width 0.3s ease;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #FFFFFF;
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+        .lang-switcher button.active {
+            font-weight: 700;
+            text-decoration: underline;
+            color: #FFFFFF;
+        }
+        .bg-dark-section {
+            background-color: #475569; /* Lighter Blue-Gray for sections */
+        }
+        /* Slideshow styles */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 Aspect Ratio */
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .slideshow-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .slideshow-container img.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Welcome Bar -->
+    <div class="bg-black/50 text-white py-2 px-4 text-sm md:text-base flex justify-center items-center relative">
+        <span data-key="welcome_banner"></span>
+        <div class="lang-switcher absolute right-4 flex space-x-4">
+             <button data-lang="th" class="hover:underline active">TH</button>
+             <button data-lang="en" class="hover:underline">EN</button>
+             <button data-lang="ru" class="hover:underline">RU</button>
+             <button data-lang="zh" class="hover:underline">中文</button>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-[#1A202C]/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg transition-all duration-300 border-b border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="https://copacabanacoralreef.com" target="_blank" rel="noopener noreferrer" class="flex items-center">
+                <img src="https://i.postimg.cc/R01ZKZrv/new-logo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mr-3">
+                <span class="text-lg sm:text-xl font-bold text-white">Copacabana Coral Reef</span>
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-gray-300" data-key="nav_home"></a>
+                <a href="#construction" class="nav-link text-gray-300" data-key="nav_construction"></a>
+                <a href="#showroom" class="nav-link text-gray-300" data-key="nav_showroom"></a>
+                <a href="#investment" class="nav-link text-gray-300" data-key="nav_investment"></a>
+                <a href="#security" class="nav-link text-gray-300" data-key="nav_security"></a>
+                <a href="#technology" class="nav-link text-gray-300" data-key="nav_technology"></a>
+                <a href="#lifestyle" class="nav-link text-gray-300" data-key="nav_lifestyle"></a>
+                <a href="#events" class="nav-link text-gray-300" data-key="nav_events"></a>
+                <a href="#contact" class="nav-link text-gray-300" data-key="nav_contact"></a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#2D3748] border-t border-gray-700">
+             <a href="#home" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_home"></a>
+             <a href="#construction" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_construction"></a>
+             <a href="#showroom" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_showroom"></a>
+             <a href="#investment" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_investment"></a>
+             <a href="#security" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_security"></a>
+             <a href="#technology" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_technology"></a>
+             <a href="#lifestyle" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_lifestyle"></a>
+             <a href="#events" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_events"></a>
+             <a href="#contact" class="block py-3 px-6 text-base text-gray-200 hover:bg-gray-700" data-key="nav_contact"></a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-dark-section">
+        <div class="container mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div class="text-left fade-in">
+                <h1 class="text-2xl md:text-3xl font-bold text-white" data-key="hero_main_title"></h1>
+                <p class="mt-2 text-lg text-gray-400" data-key="hero_date"></p>
+                <h2 class="section-title mt-8" data-key="hero_subtitle"></h2>
+                <p class="mt-4 text-gray-300" data-key="hero_p1"></p>
+                <p class="mt-4 text-gray-300" data-key="hero_p2"></p>
+            </div>
+            <div class="fade-in">
+                <img src="https://i.postimg.cc/sXj0ynKz/001-SOCIAL-Copa2-2.png" alt="Copacabana Newsletter Welcome" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section id="construction" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                <div class="order-2 md:order-1">
+                    <h2 class="section-title" data-key="construction_title"></h2>
+                    <p class="section-subtitle" data-key="construction_subtitle"></p>
+                    <div class="mt-4 text-gray-300 space-y-4">
+                        <p data-key="construction_p1"></p>
+                        <p data-key="construction_p2"></p>
+                        <ul class="list-disc list-inside space-y-2 pl-4">
+                            <li data-key="construction_li1"></li>
+                            <li data-key="construction_li2"></li>
+                            <li data-key="construction_li3"></li>
+                            <li data-key="construction_li4"></li>
+                        </ul>
+                        <p class="pt-4" data-key="construction_p3"></p>
+                        <p data-key="construction_p4"></p>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-4">
+                    <div class="slideshow-container">
+                        <img src="https://i.postimg.cc/9QVKTdQR/32-D6-B8-C2-4790-4-F76-A9-DA-20-ED25-FDF270-0.jpg" alt="ภาพการก่อสร้างโครงการ Copacabana Coral Reef เดือนสิงหาคม" class="active">
+                        <img src="https://i.postimg.cc/C1W6KD2K/301642-D3-3-B77-47-A1-B4-A8-8-E32-A35-EAAF0-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 1">
+                        <img src="https://i.postimg.cc/1RkLRhxK/4-BCBE294-4-E96-4-F1-E-BCC7-5471286-F8526-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 2">
+                        <img src="https://i.postimg.cc/wBjr49J9/60-EB0460-92-CF-4-AD0-B966-99-B16-C9-C5-D07-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 3">
+                        <img src="https://i.postimg.cc/sD5bv6sC/86-BDA272-1-F2-A-4151-93-A6-256-A3-A5-E4007-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 4">
+                        <img src="https://i.postimg.cc/9XR6jXkM/A232-AA8-D-A93-E-42-C2-BBD8-14688-FE1-B181-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 5">
+                        <img src="https://i.postimg.cc/0yf3Czzt/CA30-E3-C8-BA7-E-4836-B996-53937-EE4-E334-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 6">
+                        <img src="https://i.postimg.cc/qq3ScQKn/D564-E05-D-CF01-47-DD-A8-E5-4-B4-A95-AB7180-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 7">
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <img src="https://i.postimg.cc/C1W6KD2K/301642-D3-3-B77-47-A1-B4-A8-8-E32-A35-EAAF0-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 1" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/1RkLRhxK/4-BCBE294-4-E96-4-F1-E-BCC7-5471286-F8526-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 2" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/wBjr49J9/60-EB0460-92-CF-4-AD0-B966-99-B16-C9-C5-D07-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 3" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                        <img src="https://i.postimg.cc/sD5bv6sC/86-BDA272-1-F2-A-4151-93-A6-256-A3-A5-E4007-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 4" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://i.postimg.cc/cCfmFzLR/BBB8-FE4-A-10-FD-47-FA-AEFD-AF0-A5-A1-AE501-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 8" class="rounded-lg shadow-md w-full h-auto object-cover aspect-video">
+                        <img src="https://i.postimg.cc/3xYLc3pd/301-BABAA-34-CB-4507-9-B22-92-F7-D83-B8-D59-0.jpg" alt="ภาพความคืบหน้าการก่อสร้างเพิ่มเติม 9" class="rounded-lg shadow-md w-full h-auto object-cover aspect-video">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="showroom" class="bg-dark-section py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 fade-in">
+                <div class="text-center mb-12">
+                    <h2 class="section-title" data-key="showroom_title"></h2>
+                    <p class="section-subtitle max-w-4xl mx-auto" data-key="showroom_subtitle"></p>
+                    <p class="mt-4 text-gray-300" data-key="showroom_intro"></p>
+                </div>
+
+                <div class="space-y-16">
+                    <!-- Highlight 1 -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="slideshow-container">
+                            <img src="https://i.postimg.cc/4yXDbpJx/IMG-1993.jpg" alt="Showroom Type 7.1" class="active">
+                            <img src="https://i.postimg.cc/1XPQCLKP/DSC09622-1.jpg" alt="Showroom Type 7.1 Living Area">
+                            <img src="https://i.postimg.cc/bv78bGDZ/DSC09662.jpg" alt="Showroom Type 7.1 Bedroom">
+                            <img src="https://i.postimg.cc/sxKtn1X9/IMG-1973.jpg" alt="Showroom Type 7.1 Kitchen">
+                            <img src="https://i.postimg.cc/nzK8D3fW/IMG-2000.jpg" alt="Showroom Type 7.1 Bathroom">
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white" data-key="showroom_h1_title"></h3>
+                            <p class="mt-4 text-gray-300" data-key="showroom_h1_p1"></p>
+                            <ul class="mt-4 space-y-2 text-gray-300">
+                                <li data-key="showroom_h1_li1"></li>
+                                <li data-key="showroom_h1_li2"></li>
+                                <li data-key="showroom_h1_li3"></li>
+                                <li data-key="showroom_h1_li4"></li>
+                            </ul>
+                             <p class="mt-4 text-gray-300" data-key="showroom_h1_ideal"></p>
+                        </div>
+                    </div>
+                    <!-- Highlight 2 -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="md:order-2 slideshow-container">
+                            <img src="https://i.postimg.cc/vHggwnrK/IMG-2008-1.jpg" alt="Showroom Type 15" class="active">
+                            <img src="https://i.postimg.cc/j29DJqbv/IMG-2028.jpg" alt="Showroom Type 15 Living Area">
+                            <img src="https://i.postimg.cc/gkCwz042/IMG-2041.jpg" alt="Showroom Type 15 Bedroom">
+                            <img src="https://i.postimg.cc/1RYndBq6/IMG-2042.jpg" alt="Showroom Type 15 Kitchen">
+                            <img src="https://i.postimg.cc/VkXJdcHB/IMG-2052.jpg" alt="Showroom Type 15 Bathroom">
+                        </div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-white" data-key="showroom_h2_title"></h3>
+                            <p class="mt-4 text-gray-300" data-key="showroom_h2_p1"></p>
+                             <ul class="mt-4 space-y-2 text-gray-300">
+                                <li data-key="showroom_h2_li1"></li>
+                                <li data-key="showroom_h2_li2"></li>
+                                <li data-key="showroom_h2_li3"></li>
+                                <li data-key="showroom_h2_li4"></li>
+                            </ul>
+                            <p class="mt-4 text-gray-300" data-key="showroom_h2_ideal"></p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center mt-12 text-gray-300" data-key="showroom_outro"></p>
+            </div>
+        </section>
+
+        <section id="investment" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="section-title" data-key="investment_title"></h2>
+                    <p class="section-subtitle" data-key="investment_subtitle"></p>
+                    <p class="text-center mt-4" data-key="investment_infographic_link"></p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-8 fade-in">
+                        <div class="bg-dark-section p-6 rounded-lg">
+                            <img src="https://i.postimg.cc/90VvcZKj/Screenshot-2568-08-06-at-13-23-57-topaz-sharpen-upscale-1-5x-crop.jpg" alt="U-Tapao Aerotropolis rendering" class="rounded-lg shadow-md mb-4">
+                            <h3 class="font-bold text-xl text-white" data-key="investment1_title"></h3>
+                            <p class="text-gray-400 mt-2" data-key="investment1_p"></p>
+                        </div>
+                        <div class="bg-dark-section p-6 rounded-lg">
+                            <img src="https://i.postimg.cc/tJKXj2WC/Gemini-Generated-Image-joznvujoznvujozn-topaz-text-upscale-1-7x.jpg" alt="Modern condominium in Pattaya" class="rounded-lg shadow-md mb-4">
+                            <h3 class="font-bold text-xl text-white" data-key="investment2_title"></h3>
+                            <p class="text-gray-400 mt-2" data-key="investment2_p"></p>
+                        </div>
+                    </div>
+                    <div class="space-y-8 fade-in" style="transition-delay: 200ms;">
+                        <div class="bg-dark-section p-6 rounded-lg">
+                            <img src="https://i.postimg.cc/3NFFmb1d/Gemini-Generated-Image-bbwb1ibbwb1ibbwb-topaz-text-upscale-1-7x.jpg" alt="High-tech factory in EEC" class="rounded-lg shadow-md mb-4">
+                           <h3 class="font-bold text-xl text-white" data-key="investment3_title"></h3>
+                           <p class="text-gray-400 mt-2" data-key="investment3_p"></p>
+                       </div>
+                        <div class="bg-dark-section p-6 rounded-lg">
+                             <img src="https://i.postimg.cc/tgWvSDCN/Gemini-Generated-Image-ci8vwxci8vwxci8v-topaz-text-upscale-1-7x.jpg" alt="High-speed train in Thailand" class="rounded-lg shadow-md mb-4">
+                            <h3 class="font-bold text-xl text-white" data-key="investment4_title"></h3>
+                            <p class="text-gray-400 mt-2" data-key="investment4_p"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="security" class="bg-dark-section py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                <div class="order-2 md:order-1">
+                    <h2 class="section-title" data-key="security_title"></h2>
+                    <p class="section-subtitle" data-key="security_subtitle"></p>
+                    <p class="mt-4 text-gray-300" data-key="security_p1"></p>
+                    <p class="mt-4 text-gray-300" data-key="security_p2"></p>
+                    <p class="mt-4 text-gray-300" data-key="security_p3"></p>
+                    <p class="mt-6 text-gray-300" data-key="security_p4"></p>
+                </div>
+                <div class="order-1 md:order-2 grid grid-cols-2 gap-4">
+                    <img src="https://i.postimg.cc/kgqKWcRb/Gemini-Generated-Image-hdx0ulhdx0ulhdx0-topaz-text-sharpen-upscale-1-7x-crop.jpg" alt="Peaceful Jomtien Beach" class="rounded-2xl shadow-xl w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/05TgBPf8/TRUTHTHAI.gif" alt="Truth From Thailand GIF" class="rounded-2xl shadow-xl w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+    <section id="technology" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <div class="mb-12 fade-in">
+                    <h2 class="section-title" data-key="tech_title"></h2>
+                    <p class="section-subtitle max-w-3xl mx-auto" data-key="tech_subtitle"></p>
+                </div>
+                 <div class="max-w-3xl mx-auto mb-12 aspect-video">
+                    <iframe class="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/0_30aggd624?si=bWTriLLCYqsyc0fM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
+                    <div class="fade-in">
+                        <h3 class="font-bold text-xl text-white" data-key="tech1_title"></h3>
+                        <p class="text-gray-400 mt-2" data-key="tech1_p"></p>
+                    </div>
+                    <div class="fade-in" style="transition-delay: 200ms;">
+                        <h3 class="font-bold text-xl text-white" data-key="tech2_title"></h3>
+                        <p class="text-gray-400 mt-2" data-key="tech2_p"></p>
+                    </div>
+                    <div class="fade-in" style="transition-delay: 400ms;">
+                        <h3 class="font-bold text-xl text-white" data-key="tech3_title"></h3>
+                        <p class="text-gray-400 mt-2" data-key="tech3_p"></p>
+                    </div>
+                </div>
+                <div class="mt-12 max-w-4xl mx-auto text-center p-4 bg-[#2D3748] border border-gray-700 rounded-lg text-sm text-gray-400 fade-in" data-key="tech_note">
+                </div>
+            </div>
+        </section>
+
+
+        <section id="lifestyle" class="bg-dark-section py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title" data-key="lifestyle_title"></h2>
+                    <p class="section-subtitle" data-key="lifestyle_subtitle"></p>
+                </div>
+                <div class="space-y-16">
+                    <!-- Visionaries -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                        <div class="rounded-2xl shadow-lg overflow-hidden"><img src="https://i.postimg.cc/HWVNpF3B/00820250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high-fidelity-v2-2x.jpg" alt="The Visionaries Lifestyle" class="w-full h-full object-cover"></div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white" data-key="visionaries_title"></h3>
+                            <p class="text-sm text-gray-400 mt-1">(INTJ, INTP, ENTJ, ENTP)</p>
+                            <p class="mt-4 text-gray-300" data-key="visionaries_p"></p>
+                        </div>
+                    </div>
+                    <!-- Guardians -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                        <div class="md:order-2 rounded-2xl shadow-lg overflow-hidden"><img src="https://i.postimg.cc/6qRqm5kb/IMG-2008-gigapixel-high-fidelity-v2-2x.jpg" alt="The Guardians Lifestyle" class="w-full h-full object-cover"></div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-white" data-key="guardians_title"></h3>
+                            <p class="text-sm text-gray-400 mt-1">(ISTJ, ISFJ, ESTJ, ESFJ)</p>
+                            <p class="mt-4 text-gray-300" data-key="guardians_p"></p>
+                        </div>
+                    </div>
+                    <!-- Idealists -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                        <div class="rounded-2xl shadow-lg overflow-hidden"><img src="https://i.postimg.cc/0jBQjKpN/Copy-of-DSC00029-2.jpg" alt="The Idealists Lifestyle" class="w-full h-full object-cover"></div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white" data-key="idealists_title"></h3>
+                            <p class="text-sm text-gray-400 mt-1">(INFJ, INFP, ENFJ, ENFP)</p>
+                            <p class="mt-4 text-gray-300" data-key="idealists_p"></p>
+                        </div>
+                    </div>
+                    <!-- Explorers -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center fade-in">
+                        <div class="md:order-2 rounded-2xl shadow-lg overflow-hidden"><img src="https://i.postimg.cc/FR89y5Br/Sales-Kit-Booklet-20250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high.jpg" alt="The Explorers Lifestyle" class="w-full h-full object-cover"></div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-white" data-key="explorers_title"></h3>
+                            <p class="text-sm text-gray-400 mt-1">(ISTP, ISFP, ESTP, ESFP)</p>
+                            <p class="mt-4 text-gray-300" data-key="explorers_p"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="events" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title" data-key="events_title"></h2>
+                    <p class="section-subtitle" data-key="events_subtitle"></p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
+                    <div class="bg-dark-section p-6 rounded-lg shadow-lg border border-gray-700">
+                        <img src="https://i.postimg.cc/Twm7fNTh/Gemini-Generated-Image-p0usy5p0usy5p0us.png" alt="วันแม่แห่งชาติ" class="w-full h-auto object-cover rounded-lg mb-4">
+                        <h4 class="font-bold text-lg text-white" data-key="event1_title"></h4>
+                        <p class="text-sm text-gray-400 mb-2" data-key="event1_date"></p>
+                        <p class="text-gray-300" data-key="event1_desc"></p>
+                    </div>
+                     <div class="bg-dark-section p-6 rounded-lg shadow-lg border border-gray-700">
+                        <img src="https://i.postimg.cc/3rZMGWHN/26125630-topaz-face-denoise-upscale-2-7x-crop.jpg" alt="Pattaya Film Festival" class="w-full h-auto object-cover rounded-lg mb-4">
+                        <h4 class="font-bold text-lg text-white" data-key="event2_title"></h4>
+                        <p class="text-sm text-gray-400 mb-2" data-key="event2_date"></p>
+                        <p class="text-gray-300" data-key="event2_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+          <section id="podcast" class="bg-dark-section py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="section-title" data-key="podcast_title"></h2>
+                <p class="section-subtitle max-w-2xl mx-auto" data-key="podcast_subtitle"></p>
+                <div class="mt-8 max-w-3xl mx-auto">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/7lhhjRo6eeRi9EPisr7CfU?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="bg-black/50">
+        <div class="container mx-auto px-4 sm:px-6 py-12">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <img src="https://i.postimg.cc/R01ZKZrv/new-logo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-20 mb-4">
+                    <h3 class="text-2xl font-bold text-white">Copacabana Coral Reef</h3>
+                    <p class="mt-2 text-gray-400">The Jewels of The Sea</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white" data-key="footer_follow"></h4>
+                    <div class="mt-4 space-y-2">
+                        <a href="https://www.facebook.com/CopaCabanaCoralReef" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-300 hover:text-white">Facebook</a>
+                        <a href="https://www.instagram.com/copacabanacoralreef" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-300 hover:text-white">Instagram</a>
+                        <a href="https://www.tiktok.com/@copacabanagroup" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-300 hover:text-white">Tiktok</a>
+                        <a href="https://copacabanacoralreef.com" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-300 hover:text-white" data-key="footer_website"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white" data-key="footer_contact"></h4>
+                    <div class="mt-4 space-y-2 text-gray-300">
+                        <p data-key="footer_tel"></p>
+                        <p data-key="footer_email"></p>
+                        <p data-key="footer_address"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
+                <p data-key="footer_copyright"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const translations = {
+                th: {
+                    welcome_banner: "จดหมายข่าว Copacabana Coral Reef Jomtien | ฉบับที่ 16, สิงหาคม 2568",
+                    nav_home: "หน้าแรก", nav_construction: "ความคืบหน้า", nav_showroom: "ห้องตัวอย่าง", nav_investment: "ภาพรวมลงทุน", nav_security: "ความปลอดภัย", nav_technology: "เทคโนโลยี", nav_lifestyle: "ไลฟ์สไตล์", nav_events: "กิจกรรม", nav_contact: "ติดต่อเรา",
+                    hero_main_title: "Copacabana Coral Reef Jomtien",
+                    hero_date: "จดหมายข่าวถึงครอบครัวของเรา | สิงหาคม 2568",
+                    hero_subtitle: "ก้าวต่อไปอย่างมั่นคง สู่บ้านที่ฝันไว้",
+                    hero_p1: "เข้าสู่เดือนสิงหาคมอย่างเป็นทางการ ฤดูฝนอาจทำให้บรรยากาศรอบตัวเย็นลง แต่ความร้อนแรงและความมุ่งมั่นในการก่อสร้างโครงการของเรายังคงดำเนินไปอย่างต่อเนื่องและเต็มกำลัง เรามีความยินดีที่จะแบ่งปันความคืบหน้าล่าสุดและเรื่องราวที่น่าสนใจจากบ้านของเราให้ทุกท่านได้ทราบ",
+                    hero_p2: "ในทุกๆ วัน โครงการของเราเติบโตและเป็นรูปเป็นร่างมากขึ้น สะท้อนถึงคำมั่นสัญญาที่เราจะมอบประสบการณ์การอยู่อาศัยที่เหนือกว่ามาตรฐาน และสร้างชุมชนคุณภาพที่เป็นดั่ง \"อัญมณีแห่งท้องทะเล\" อย่างแท้จริง",
+                    construction_title: "อัปเดตความคืบหน้า: สิงหาคม 2568",
+                    construction_subtitle: "โครงสร้างหลักก้าวเข้าสู่ชั้นที่ 20 อย่างมั่นคง!",
+                    construction_p1: "ณ ปัจจุบัน งานก่อสร้างโครงสร้างหลักของอาคารได้ ก้าวขึ้นสู่ชั้นที่ 20 เป็นที่เรียบร้อยแล้ว ซึ่งเป็นไปตามแผนงานที่วางไว้อย่างแม่นยำ สะท้อนถึงศักยภาพและความเชี่ยวชาญของทีมงานก่อสร้างของเรา",
+                    construction_p2: "ภาพถ่ายทางอากาศล่าสุดได้เผยให้เห็นภาพรวมของโครงการที่กำลังเป็นรูปเป็นร่างอย่างชัดเจน โครงสร้างอาคารที่ซับซ้อนและมีเอกลักษณ์เฉพาะตัวกำลังเติบโตขึ้นอย่างสง่างาม พร้อมด้วยเครนขนาดใหญ่หลายตัวที่ทำงานประสานกันอย่างต่อเนื่อง ซึ่งแสดงถึงความเข้มข้นของงานก่อสร้างในทุกพื้นที่ เมื่อมองจากมุมสูง จะเห็นการทำงานในส่วนต่างๆ ที่ดำเนินไปพร้อมกันอย่างเป็นระบบ:",
+                    construction_li1: "<b>งานเทคอนกรีต (Concrete Pouring):</b> ภาพแสดงให้เห็นถึงการใช้ปั๊มคอนกรีตลำเลียงคอนกรีตคุณภาพสูงขึ้นไปเทโครงสร้างในชั้นบนสุดอย่างต่อเนื่อง เพื่อให้มั่นใจว่าทุกชั้นจะมีความแข็งแกร่งและได้มาตรฐานสูงสุดตามหลักวิศวกรรม",
+                    construction_li2: "<b>งานเสริมเหล็ก (Rebar Installation):</b> การวางโครงเหล็กเส้นที่สลับซับซ้อนดำเนินไปอย่างพิถีพิถันก่อนการเทคอนกรีต ซึ่งเป็นหัวใจสำคัญที่ทำให้โครงสร้างของอาคารสามารถรองรับน้ำหนักและคงทนแข็งแรงได้อย่างเต็มที่",
+                    construction_li3: "<b>มาตรฐานความปลอดภัย:</b> อาคารทั้งหมดถูกห่อหุ้มด้วยตาข่ายนิรภัยอย่างแน่นหนา ซึ่งเป็นสิ่งที่เราให้ความสำคัญสูงสุดเพื่อความปลอดภัยของทีมงานและชุมชนโดยรอบ",
+                    construction_li4: "<b>คุณภาพที่เชื่อมั่นได้จากพันธมิตรระดับแนวหน้า:</b> ความคืบหน้านี้เกิดขึ้นได้จากความร่วมมือกับพันธมิตรชั้นนำของวงการ นำโดยผู้รับเหมาก่อสร้างหลักอย่าง บริษัท พรพระนคร จำกัด (Pornpranakorn Company Limited) ซึ่งมีชื่อเสียงและประสบการณ์ยาวนาน นอกจากนี้ยังมีผู้เชี่ยวชาญอีกหลายแขนงที่ร่วมกันสร้างสรรค์โครงการนี้ เช่น: Stonehenge Inter (ผู้บริหารและควบคุมโครงการ), KTGY (สถาปนิกผู้ออกแบบโครงการ), Beca & Aurecon (ผู้ออกแบบโครงสร้างและงานระบบ), และ Green Architects (ผู้ออกแบบภูมิสถาปัตยกรรม)",
+                    construction_p3: "<b>เส้นทางสู่การเป็นเจ้าของ</b><br>เรายังคงยึดมั่นในกำหนดการเดิม โดยคาดว่า การก่อสร้างโครงการจะแล้วเสร็จในเดือนพฤศจิกายน 2569 (November 2026) และพร้อมให้ทุกท่านเข้าพักอาศัยได้ภายในสิ้นปี 2570 (end of 2027)",
+                    construction_p4: "ขอขอบคุณอีกครั้งสำหรับความเชื่อมั่นที่มีให้กับโครงการของเรา เราจะคอยอัปเดตความก้าวหน้าให้ทราบอย่างสม่ำเสมอครับ!",
+                    showroom_title: "สัมผัสสวรรค์แห่งการพักผ่อน: เยี่ยมชมห้องตัวอย่างหลากหลายสไตล์",
+                    showroom_subtitle: "นอกเหนือจากความคืบหน้าของการก่อสร้างที่เราภาคภูมิใจ อีกหนึ่งไฮไลท์สำคัญของโครงการ Copacabana Coral Reef Jomtien คือการออกแบบยูนิตที่พักอาศัยที่หลากหลาย เพื่อตอบสนองทุกไลฟ์สไตล์และความต้องการในการใช้ชีวิต เราได้รังสรรค์ห้องพักตั้งแต่ 1 ห้องนอนขนาดกะทัดรัด ไปจนถึง 2 และ 3 ห้องนอนสำหรับครอบครัว รวมถึงยูนิตพิเศษพร้อมสระว่ายน้ำส่วนตัว โดยทุกยูนิตมาพร้อมกับการตกแต่งครบครัน (Fully Furnished) ด้วยวัสดุเกรดพรีเมียม",
+                    showroom_intro: "วันนี้เราขอนำเสนอไฮไลท์ห้องตัวอย่าง 2 สไตล์ ที่ได้รับความสนใจเป็นอย่างมาก",
+                    showroom_h1_title: "Highlight 1: Type 7.1 - 1 ห้องนอน (38.6 ตร.ม.)",
+                    showroom_h1_p1: "ยูนิตประเภทนี้คือคำตอบสำหรับผู้ที่มองหาพื้นที่ส่วนตัวที่สมบูรณ์แบบ ด้วยขนาดที่กว้างขวางถึง 38.6 ตร.ม. ทำให้การจัดวางฟังก์ชันมีความลงตัวและโปร่งสบาย",
+                    showroom_h1_li1: "<b>การออกแบบ:</b> แบ่งสัดส่วนพื้นที่ห้องนอนและโซนนั่งเล่นอย่างชัดเจนด้วยประตูกระจกบานเลื่อน สร้างความเป็นส่วนตัวแต่ยังคงความรู้สึกเชื่อมถึงกัน",
+                    showroom_h1_li2: "<b>พื้นที่ใช้สอย:</b> มาพร้อมมุมแพนทรีที่มีอุปกรณ์ครบครัน, โต๊ะรับประทานอาหารสำหรับ 4 ท่าน, และโซฟานั่งเล่นขนาดใหญ่",
+                    showroom_h1_li3: "<b>ห้องน้ำ:</b> ตกแต่งอย่างหรูหราพร้อมสุขภัณฑ์ระบบไฟฟ้า, Rain Shower และกระจกบานใหญ่พร้อมไฟ LED",
+                    showroom_h1_li4: "<b>ระเบียง:</b> ระเบียงกว้างถึง 4.50 ตร.ม. เป็นพื้นที่ ιδανικό สำหรับการพักผ่อนและชื่นชมทัศนียภาพ",
+                    showroom_h1_ideal: "<b>เหมาะสำหรับ:</b> การพักผ่อนส่วนตัว, คู่รัก หรือการลงทุนปล่อยเช่าที่ให้ผลตอบแทนสูง",
+                    showroom_h2_title: "Highlight 2: Type 15 - 2 ห้องนอน (67.6 ตร.ม.)",
+                    showroom_h2_p1: "ยูนิตสำหรับครอบครัวที่มอบความสะดวกสบายและพื้นที่ใช้สอยที่กว้างขวาง ด้วยการออกแบบที่คำนึงถึงการใช้งานของสมาชิกทุกคนในครอบครัว",
+                    showroom_h2_li1: "<b>ห้องนอนหลัก:</b> มาพร้อมเตียงขนาดคิงไซส์ ห้องน้ำในตัว และตู้เสื้อผ้าบิวท์อิน",
+                    showroom_h2_li2: "<b>ห้องนอนที่สอง:</b> ขนาดกว้างขวางสำหรับเตียงควีนไซส์และพื้นที่เก็บของ",
+                    showroom_h2_li3: "<b>พื้นที่นั่งเล่นกว้างขวาง:</b> พื้นที่ส่วนกลางขนาดใหญ่สำหรับนั่งเล่นและรับประทานอาหาร เหมาะสำหรับสังสรรค์ในครอบครัว",
+                    showroom_h2_li4: "<b>ฟังก์ชันครบครัน:</b> ประกอบด้วยแพนทรี ห้องน้ำ 2 ห้อง และระเบียงขนาด 8.00 ตร.ม. สำหรับชมวิว",
+                    showroom_h2_ideal: "<b>เหมาะสำหรับ:</b> ครอบครัวที่กำลังมองหาที่พักที่สะดวกสบายและหรูหรา หรือผู้ที่ต้องการพื้นที่เพิ่มเติมสำหรับแขกหรือโฮมออฟฟิศ",
+                    showroom_outro: "ยังมีห้องพักอีกหลากหลายประเภทให้ท่านได้เลือกชม เราขอเชิญทุกท่านเข้าเยี่ยมชมห้องตัวอย่างที่ Sales Gallery ของเรา เพื่อสัมผัสประสบการณ์การใช้ชีวิตเหนือระดับด้วยตัวท่านเอง",
+                    investment_title: "Investment Spotlight: อนาคตที่สดใสของ EEC และพัทยา",
+                    investment_subtitle: "ข่าวสารล่าสุดที่ตอกย้ำศักยภาพการลงทุนของคุณ",
+                    investment_infographic_link: "<a href='https://threeandhour.github.io/GymMateX/EECSmartCity.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>ดูข้อมูล Infographic EEC Smart City เพิ่มเติม</a>",
+                    investment1_title: "<a href='https://www.eeco.or.th/en/utapao-airport-and-the-eastern-aviation-city' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>เมืองการบินอู่ตะเภา: รัฐบาลยืนยันแผนพัฒนาเต็มรูปแบบ</a>",
+                    investment1_p: "แม้จะมีความท้าทายในการเจรจา แต่ภาครัฐยังคงมุ่งมั่นที่จะพัฒนาสนามบินอู่ตะเภาสู่เมืองการบินระดับโลกเต็มรูปแบบ ซึ่งเป็นการตอกย้ำวิสัยทัศน์ระยะยาวที่จะยกระดับพื้นที่ EEC ให้เป็นศูนย์กลางการบินและโลจิสติกส์",
+                    investment2_title: "ตลาดอสังหาฯ พัทยาฟื้นตัวแข็งแกร่ง",
+                    investment2_p: "ข้อมูลล่าสุดชี้ว่า ตลาดคอนโดมิเนียมในพัทยามีการฟื้นตัวอย่างแข็งแกร่ง โดยเฉพาะกลุ่มคอนโดระดับลักชัวรีริมหาดที่ยังคงเป็นที่ต้องการของทั้งชาวไทยและชาวต่างชาติ ทำให้มูลค่าทรัพย์สินมีแนวโน้มเติบโตอย่างต่อเนื่อง",
+                    investment3_title: "<a href='https://www.eeco.or.th/en/business-opportunities' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>EEC ดึงดูดการลงทุนต่อเนื่อง</a>",
+                    investment3_p: "การลงทุนในพื้นที่ EEC ยังคงเติบโตอย่างต่อเนื่อง โดยเฉพาะจากนักลงทุนต่างชาติในกลุ่มอุตสาหกรรมเป้าหมาย ซึ่งช่วยสร้างความแข็งแกร่งให้กับระบบเศรษฐกิจและเพิ่มความต้องการที่อยู่อาศัยคุณภาพในระยะยาว",
+                    investment4_title: "รถไฟความเร็วสูงเชื่อม 3 สนามบิน: ขยับเข้าใกล้การก่อสร้าง",
+                    investment4_p: "แม้จะมีความล่าช้า แต่โครงการกำลังมีความคืบหน้าที่สำคัญ โดยคาดว่าจะมีการลงนามในสัญญาฉบับแก้ไขในเร็วๆ นี้ ซึ่งจะปูทางไปสู่การเริ่มต้นก่อสร้าง โครงการนี้จะเปลี่ยนโฉมการเดินทางและเชื่อมต่อพัทยาสู่ศูนย์กลางเศรษฐกิจอย่างที่ไม่เคยมีมาก่อน",
+                    security_title: "จอมเทียน: สวรรค์แห่งความสงบและความปลอดภัย",
+                    security_subtitle: "ลงทุนอย่างสบายใจในทำเลที่ตั้งที่ปลอดภัยที่สุดแห่งหนึ่ง",
+                    security_p1: "หนึ่งในปัจจัยที่สำคัญที่สุดในการเลือกบ้าน คือความปลอดภัยของทำเลที่ตั้ง เรามีความภูมิใจที่จะยืนยันว่าหาดจอมเทียน พัทยา เป็นพื้นที่ที่ปลอดภัยสูงจากทั้งภัยธรรมชาติและสถานการณ์ความไม่สงบต่างๆ",
+                    security_p2: "<b>ปลอดภัยจากภัยธรรมชาติ:</b> ด้วยที่ตั้งทางภูมิศาสตร์ที่อยู่ในอ่าวไทย ทำให้พัทยาได้รับการปกป้องจากภัยสึนามิ ไม่ได้ตั้งอยู่บนแนวรอยเลื่อนแผ่นดินไหวที่ยังทรงพลัง และมีระบบการจัดการน้ำที่ดีเยี่ยม ช่วยลดความเสี่ยงจากปัญหาน้ำท่วมและพายุรุนแรงได้อย่างมีประสิทธิภาพ",
+                    security_p3: "<b>ห่างไกลจากความขัดแย้ง:</b> แม้จะมีข่าวสารเกี่ยวกับความขัดแย้งตามแนวชายแดนไทย-กัมพูชา แต่ที่ตั้งของพัทยาอยู่ห่างจากพื้นที่ดังกล่าวหลายร้อยกิโลเมตร ทำให้อยู่นอกรัศมีของความขัดแย้งและภัยคุกคามใดๆ โดยสิ้นเชิง การลงทุนที่ Copacabana Coral Reef จึงเป็นการลงทุนในความสงบสุขและความสบายใจสำหรับคุณและครอบครัวในระยะยาว",
+                    security_p4: "ดูข้อมูลเพิ่มเติมเกี่ยวกับสถานการณ์จริงได้ที่ <a href='https://threeandhour.github.io/GymMateX/TruthFromThai.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>Truth From Thailand</a>",
+                    tech_title: "สัมผัสประสบการณ์แห่งอนาคต: เทคโนโลยีเพื่อการใช้ชีวิต",
+                    tech_subtitle: "นวัตกรรมที่จะยกระดับไลฟ์สไตล์ของคุณ",
+                    tech1_title: "ผู้ช่วยส่วนตัวอัจฉริยะ (AI Concierge)",
+                    tech1_p: "ลองจินตนาการถึงผู้ช่วยส่วนตัวที่พร้อมให้บริการคุณตลอด 24 ชั่วโมง ไม่ว่าจะเป็นการจองร้านอาหาร, แนะนำกิจกรรมน่าสนใจในพัทยา, หรือแม้กระทั่งควบคุมอุปกรณ์ต่างๆ ภายในห้องพักของคุณ ทั้งหมดนี้สามารถทำได้ผ่านคำสั่งเสียงหรือแอปพลิเคชันที่เรียนรู้และปรับตัวเข้ากับไลฟ์สไตล์ของคุณโดยเฉพาะ",
+                    tech2_title: "ความบันเทิงแห่งอนาคตในห้องนั่งเล่น",
+                    tech2_p: "เทคโนโลยี AI Video Generation กำลังจะเปลี่ยนโฉมวงการบันเทิง ในอนาคตคุณอาจสามารถสร้างสรรค์วิดีโอหรือภาพยนตร์สั้นๆ ได้ตามจินตนาการ หรือเพลิดเพลินกับประสบการณ์ Virtual Reality (VR) ที่สมจริงยิ่งขึ้น ทั้งหมดนี้จะเกิดขึ้นได้ในห้องนั่งเล่นที่สะดวกสบายของคุณเอง",
+                    tech3_title: "การดูแลสุขภาพเชิงรุก (Proactive Wellness)",
+                    tech3_p: "ระบบ AI ในที่พักของคุณจะสามารถเชื่อมต่อกับอุปกรณ์สวมใส่อัจฉริยะ (Wearable Devices) เพื่อวิเคราะห์ข้อมูลสุขภาพ และปรับสภาพแวดล้อมในห้องให้เหมาะสม เช่น ปรับแสงไฟและอุณหภูมิเพื่อการนอนหลับที่ดีที่สุด หรือแนะนำโปรแกรมออกกำลังกายที่ฟิตเนสของโครงการ",
+                    tech_note: "<b>หมายเหตุ:</b> เนื้อหาในส่วนนี้เป็นการนำเสนอแนวคิดและศักยภาพของเทคโนโลยีในอนาคต เพื่อสร้างแรงบันดาลใจ และความรู้กับท่าน ระบบต่างๆอาจไม่ได้รวมอยู่ในมาตรฐานห้องชุด หากท่านมีความสนใจในการติดตั้งระบบต่างๆ รวมถึง Smart Home เพิ่มเติม กรุณาแจ้งความประสงค์กับฝ่ายขาย ณ วันทำสัญญา เพื่อที่เราจะสามารถอำนวยความสะดวกในการให้คำปรึกษาโดยผู้เชี่ยวชาญเฉพาะทางได้",
+                    lifestyle_title: "บ้านที่ใช่...ในแบบที่เป็นคุณ",
+                    lifestyle_subtitle: "ค้นพบพื้นที่ที่ตอบโจทย์ตัวตนของคุณอย่างแท้จริง",
+                    visionaries_title: "The Visionaries (นักคิดเชิงกลยุทธ์)",
+                    visionaries_p: "สำหรับคุณที่มองการณ์ไกลและให้ความสำคัญกับประสิทธิภาพ ยูนิตชั้นสูงที่มองเห็นวิวทะเลแบบพาโนรามาคือพื้นที่ทำงานและจุดประกายความคิดชั้นยอด ควบคู่ไปกับ Co-Working Space ที่ออกแบบมาเพื่อการทำงานอย่างมีสมาธิและสร้างสรรค์<br><br><b>กิจกรรมที่ใช่:</b> วางแผนกลยุทธ์ทางธุรกิจพร้อมชมวิวพระอาทิตย์ตกจากระเบียงส่วนตัวของคุณ",
+                    guardians_title: "The Guardians (ผู้พิทักษ์ที่มั่นคง)",
+                    guardians_p: "คุณค่าของคุณคือความมั่นคงและคุณภาพชีวิตที่ดีของครอบครัว แปลนห้องที่ออกแบบมาอย่างลงตัวพร้อมพื้นที่สำหรับทุกคน และ Kids Club ที่ปลอดภัย คือคำตอบที่ใช่สำหรับคุณ<br><br><b>กิจกรรมที่ใช่:</b> ใช้เวลาช่วงบ่ายอย่างมีคุณภาพกับครอบครัวที่สระเด็ก ก่อนจะไปผ่อนคลายที่สระออนเซ็นเพื่อปิดท้ายวันที่สมบูรณ์แบบ",
+                    idealists_title: "The Idealists (ผู้สร้างแรงบันดาลใจ)",
+                    idealists_p: "คุณมองหาความหมายและความเชื่อมโยงที่ลึกซึ้ง สวนสวยทั้ง 32 แห่งทั่วโครงการคือพื้นที่ส่วนตัวให้คุณได้ค้นหาแรงบันดาลใจ และห้องมินิเธียเตอร์คือสถานที่สำหรับแบ่งปันช่วงเวลาดีๆ กับเพื่อนสนิท<br><br><b>กิจกรรมที่ใช่:</b> อ่านหนังสือเล่มโปรดในสวนลอยฟ้า หรือจัดฉายหนังเรื่องโปรดรอบพิเศษกับคนที่คุณรัก",
+                    explorers_title: "The Explorers (นักผจญภัยผู้รักอิสระ)",
+                    explorers_p: "ทุกวันคือการผจญภัยครั้งใหม่สำหรับคุณ พลังงานของคุณต้องการพื้นที่ปลดปล่อย เริ่มต้นวันด้วยการโต้คลื่นที่ Wave Pool ออกกำลังกายที่ฟิตเนส และปิดท้ายวันด้วยการสังสรรค์ที่ Rooftop Bar<br><br><b>กิจกรรมที่ใช่:</b> ท้าทายตัวเองด้วยกิจกรรมทางน้ำหลากหลายรูปแบบ ก่อนจะขึ้นไปชมวิวเมืองพัทยายามค่ำคืนจากบาร์บนชั้นดาดฟ้า",
+                    events_title: "สีสันของพัทยาในเดือนสิงหาคม",
+                    events_subtitle: "กิจกรรมและเทศกาลที่ไม่ควรพลาด",
+                    event1_title: "วันเฉลิมพระชนมพรรษา สมเด็จพระนางเจ้าสิริกิติ์ฯ (วันแม่แห่งชาติ)",
+                    event1_date: "12 สิงหาคม",
+                    event1_desc: "ร่วมเฉลิมฉลองและแสดงความจงรักภักดีทั่วทั้งเมือง โดยในช่วงค่ำจะมีการจุดเทียนชัยถวายพระพรและกิจกรรมต่างๆ บริเวณแหลมบาลีฮาย",
+                    event2_title: "Pattaya Film Festival",
+                    event2_date: "28 – 30 สิงหาคม 2568",
+                    event2_desc: "พัทยาเป็นหนึ่งในจุดหมายปลายทางที่โดดเด่นที่สุดของไทย ซึ่งกำลังก้าวสู่การเป็นเมืองแห่งภาพยนตร์สร้างสรรค์ของ UNESCO เทศกาลนี้ซึ่งจัดขึ้นเป็นปีที่สาม เป็นส่วนสำคัญของความพยายามดังกล่าว โดยจะมีการฉายภาพยนตร์ที่โดดเด่นจากทั่วโลก พร้อมทั้งสนับสนุนอุตสาหกรรมสร้างสรรค์ของไทย ส่งเสริมการท่องเที่ยว และแลกเปลี่ยนวัฒนธรรมผ่านกิจกรรมต่างๆ",
+
+                    podcast_title: "พอดแคสต์ของเรา",
+                    podcast_subtitle: "ฟังข่าวสารล่าสุดและข้อมูลเชิงลึกเกี่ยวกับโครงการและชีวิตในพัทยา",
+                    footer_follow: "ติดตามเรา",
+                    footer_website: "เว็บไซต์ทางการ",
+                    footer_contact: "ติดต่อเรา",
+                    footer_tel: "โทร: +66 95 945 1665",
+                    footer_email: "อีเมล: info@copacabanacoralreef.com",
+                    footer_address: "สำนักงานขาย: 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150",
+                    footer_copyright: "&copy; 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์"
+                },
+                en: {
+                    welcome_banner: "Copacabana Coral Reef Jomtien Newsletter | Issue 16, August 2025",
+                    nav_home: "Home", nav_construction: "Progress", nav_showroom: "Showrooms", nav_investment: "Investment", nav_security: "Security", nav_technology: "Technology", nav_lifestyle: "Lifestyle", nav_events: "Events", nav_contact: "Contact",
+                    hero_main_title: "Copacabana Coral Reef Jomtien",
+                    hero_date: "A Newsletter to Our Family | August 2025",
+                    hero_subtitle: "Moving Forward Steadily to Our Dream Home",
+                    hero_p1: "As we officially enter August, the rainy season may cool the air, but the passion and commitment to our project's construction continue at full force. We are delighted to share the latest progress and interesting stories from our home with all of you.",
+                    hero_p2: "Every day, our project grows and takes shape, reflecting our promise to deliver a living experience that exceeds standards and to build a quality community that is truly \"The Jewel of the Sea.\"",
+                    construction_title: "Progress Update: August 2025",
+                    construction_subtitle: "Main Structure Steadily Reaches the 20th Floor!",
+                    construction_p1: "Currently, the main structural construction of the building has successfully reached the 20th floor, precisely according to the established plan. This reflects the capability and expertise of our construction team.",
+                    construction_p2: "The latest aerial photographs reveal a clear overview of the project taking shape. The complex and unique structure is rising elegantly, with several large cranes working in continuous coordination, showcasing the intensity of construction across the site. From an aerial view, various systematic operations can be seen proceeding simultaneously:",
+                    construction_li1: "<b>Concrete Pouring:</b> The images show concrete pumps continuously conveying high-quality concrete to the uppermost floors, ensuring each level achieves maximum strength and meets the highest engineering standards.",
+                    construction_li2: "<b>Rebar Installation:</b> The intricate placement of the steel reinforcement framework is meticulously carried out before concrete pouring, which is crucial for the building's ability to support weight and ensure long-term durability.",
+                    construction_li3: "<b>Safety Standards:</b> The entire building is securely wrapped in safety netting, a top priority for us to ensure the safety of our team and the surrounding community.",
+                    construction_li4: "<b>Trusted Quality from Leading Partners:</b> This progress is made possible through collaboration with industry leaders, headed by our main contractor, Pornpranakorn Company Limited, renowned for their long-standing reputation and experience. Additionally, several other specialists are contributing to this project, such as: Stonehenge Inter (Project Management & Supervision), KTGY (Architect), Beca & Aurecon (Structural & MEP Design), and Green Architects (Landscape Design).",
+                    construction_p3: "<b>The Path to Ownership</b><br>We remain committed to the original schedule, with project construction expected to be completed in November 2026, and ready for you to move in by the end of 2027.",
+                    construction_p4: "Thank you again for your trust in our project. We will continue to provide regular updates on our progress!",
+                    showroom_title: "Experience a Haven of Relaxation: Visit Various Showroom Styles",
+                    showroom_subtitle: "Beyond our proud construction progress, another key highlight of the Copacabana Coral Reef Jomtien project is the diverse design of our residential units, created to meet every lifestyle and living need. We have crafted rooms ranging from compact 1-bedroom units to spacious 2 and 3-bedroom units for families, including special units with private pools. All units come fully furnished with premium-grade materials.",
+                    showroom_intro: "Today, we are excited to present two highly popular showroom styles.",
+                    showroom_h1_title: "Highlight 1: Type 7.1 - 1 Bedroom (38.6 sq.m.)",
+                    showroom_h1_p1: "This unit type is the perfect answer for those seeking a complete private space. With a generous size of 38.6 sq.m., the functional layout is both harmonious and airy.",
+                    showroom_h1_li1: "<b>Design:</b> The bedroom and living areas are clearly separated by sliding glass doors, creating privacy while maintaining a sense of connection.",
+                    showroom_h1_li2: "<b>Living Space:</b> Comes with a fully equipped pantry corner, a dining table for four, and a large sofa.",
+                    showroom_h1_li3: "<b>Bathroom:</b> Luxuriously decorated with an electric toilet, rain shower, and a large mirror with LED lighting.",
+                    showroom_h1_li4: "<b>Balcony:</b> A spacious 4.50 sq.m. balcony, an ideal space for relaxation and enjoying the view.",
+                    showroom_h1_ideal: "<b>Ideal for:</b> Private getaways, couples, or high-yield rental investments.",
+                    showroom_h2_title: "Highlight 2: Type 15 - 2 Bedrooms (67.6 sq.m.)",
+                    showroom_h2_p1: "A unit perfectly designed for families, offering spaciousness and privacy with a functional layout that caters to every member.",
+                    showroom_h2_li1: "<b>Master Bedroom:</b> Comes with a king-size bed, ensuite bathroom, and built-in wardrobe.",
+                    showroom_h2_li2: "<b>Second Bedroom:</b> Comfortably fits a queen-size bed with its own wardrobe space.",
+                    showroom_h2_li3: "<b>Spacious Living Area:</b> A large central living and dining area, perfect for family gatherings.",
+                    showroom_h2_li4: "<b>Full Functionality:</b> Includes a pantry, two full bathrooms, and an 8.00 sq.m. balcony to enjoy the view.",
+                    showroom_h2_ideal: "<b>Ideal for:</b> Families seeking a comfortable and luxurious residence, or those who desire extra space for guests or a home office.",
+                    showroom_outro: "Many other room types are available for you to explore. We invite you to visit our show units at the Sales Gallery to experience this superior lifestyle for yourself.",
+                    investment_title: "Investment Spotlight: The Bright Future of EEC & Pattaya",
+                    investment_subtitle: "Latest news that reinforces the potential of your investment.",
+                    investment_infographic_link: "<a href='https://threeandhour.github.io/GymMateX/EECSmartCity.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>View EEC Smart City Infographic</a>",
+                    investment1_title: "<a href='https://www.eeco.or.th/en/utapao-airport-and-the-eastern-aviation-city' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>U-Tapao Aerotropolis: Government Affirms Full-Scale Development Plan</a>",
+                    investment1_p: "Despite negotiation challenges, the government remains committed to the full-scale development of U-Tapao Airport into a world-class aviation city. This reaffirms the long-term vision to elevate the EEC area into a premier aviation and logistics hub.",
+                    investment2_title: "Pattaya's Real Estate Market Shows Strong Recovery",
+                    investment2_p: "Recent data indicates a strong recovery in Pattaya's condominium market. Luxury beachfront condos, in particular, remain in high demand from both Thai and foreign buyers, suggesting a continued upward trend in property values.",
+                    investment3_title: "<a href='https://www.eeco.or.th/en/business-opportunities' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>EEC Continues to Attract Major Investments</a>",
+                    investment3_p: "Investment in the EEC continues to grow, especially from foreign investors in target industries. This strengthens the economic ecosystem and increases the long-term demand for quality housing.",
+                    investment4_title: "High-Speed Rail Linking 3 Airports: Moving Closer to Construction",
+                    investment4_p: "While the project has faced delays, significant progress is being made with a revised contract expected to be signed soon, paving the way for construction to commence. This project will transform travel, connecting Pattaya to economic hubs like never before.",
+                    security_title: "Jomtien: A Haven of Peace and Security",
+                    security_subtitle: "Invest with peace of mind in one of the safest locations.",
+                    security_p1: "One of the most critical factors in choosing a home is the security of its location. We are proud to affirm that Jomtien, Pattaya is a highly secure area, safe from both natural disasters and various forms of unrest.",
+                    security_p2: "<b>Safe from Natural Disasters:</b> Due to its geographical location within the Gulf of Thailand, Pattaya is naturally protected from tsunamis. It is not situated on an active earthquake fault line and has an excellent water management system, effectively mitigating risks from flooding and severe storms.",
+                    security_p3: "<b>Far from Conflicts:</b> Despite news regarding conflicts along the Thai-Cambodian border, Pattaya's location is hundreds of kilometers away from such areas, placing it completely outside the radius of any conflict or threat. An investment at Copacabana Coral Reef is therefore an investment in long-term peace and tranquility for you and your family.",
+                    security_p4: "For more information on the actual situation, visit <a href='https://threeandhour.github.io/GymMateX/TruthFromThai.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>Truth From Thailand</a>.",
+                    tech_title: "Experience the Future: Technology for Living",
+                    tech_subtitle: "Innovations that will elevate your condo living lifestyle.",
+                    tech1_title: "AI-Powered Concierge",
+                    tech1_p: "Imagine a personal assistant available 24/7 to book restaurants, recommend activities in Pattaya, or even control devices in your room. This can all be done via voice commands or an app that learns and adapts to your specific lifestyle.",
+                    tech2_title: "Future of In-Room Entertainment",
+                    tech2_p: "AI Video Generation technology is set to revolutionize entertainment. In the future, you could create short films based on your imagination or enjoy more realistic Virtual Reality (VR) experiences, all from the comfort of your living room.",
+                    tech3_title: "Proactive Wellness",
+                    tech3_p: "The AI system in your residence could connect with your wearable devices to analyze health data and adjust your room's environment, such as optimizing lighting and temperature for better sleep or suggesting a workout routine at the project's fitness center.",
+                    tech_note: "<b>Note:</b> The content in this section presents concepts and the potential of future technologies for inspiration and knowledge. These systems may not be included in the standard unit package. If you are interested in installing various systems, including Smart Home features, please inform the sales department upon signing the contract so we can facilitate a consultation with a specialist.",
+                    lifestyle_title: "A Home That's Truly You",
+                    lifestyle_subtitle: "Discover the space that truly resonates with your personality.",
+                    visionaries_title: "The Visionaries (Strategic Thinkers)",
+                    visionaries_p: "For those who think ahead and value efficiency, a high-floor unit with panoramic sea views serves as the ultimate workspace and source of inspiration, complemented by a Co-Working Space designed for focused, creative work.<br><br><b>Perfect Activity:</b> Planning your next business strategy while watching the sunset from your private balcony.",
+                    guardians_title: "The Guardians (Dependable Protectors)",
+                    guardians_p: "Your values are stability and a quality life for your family. A well-designed floor plan with space for everyone, and a safe, engaging Kids Club, is the perfect answer for you.<br><br><b>Perfect Activity:</b> Spending a quality afternoon with the family at the kids' pool before unwinding in the Onsen pool to end a perfect day.",
+                    idealists_title: "The Idealists (Inspirational Connectors)",
+                    idealists_p: "You seek meaning and deep connections. The 32 gardens throughout the project are your private sanctuaries for finding inspiration, and the Mini-Theater is the place to share special moments with close friends.<br><br><b>Perfect Activity:</b> Reading your favorite book in a sky garden or hosting a special screening of a beloved film with your loved ones.",
+                    explorers_title: "The Explorers (Freedom-Loving Adventurers)",
+                    explorers_p: "Every day is a new adventure for you. Your energy needs an outlet. Start the day catching waves in the Wave Pool, work out at the fitness center, and end the day socializing at the Rooftop Bar.<br><br><b>Perfect Activity:</b> Challenging yourself with various water activities before heading up to enjoy the Pattaya nightlife view from the rooftop bar.",
+                    events_title: "Pattaya's Colors in August",
+                    events_subtitle: "Events and Festivals Not to Be Missed",
+                    event1_title: "HM Queen Sirikit's Birthday (Mother's Day)",
+                    event1_date: "August 12",
+                    event1_desc: "Join the city-wide celebrations of loyalty and respect. In the evening, a candlelight ceremony and various activities will be held at Bali Hai Pier.",
+                    event2_title: "Pattaya Film Festival",
+                    event2_date: "August 28 – 30, 2025",
+                    event2_desc: "Pattaya is one of Thailand's most prominent destinations, on its way to becoming a UNESCO Creative City of Film. This festival, now in its third year, is a significant part of this effort. It will feature outstanding films from around the world while supporting Thailand's creative industries, promoting tourism, and fostering cultural exchange through various activities.",
+                    podcast_title: "Our Podcast",
+                    podcast_subtitle: "Listen to the latest news and insights about the project and life in Pattaya.",
+                    footer_follow: "Follow Us",
+                    footer_website: "Official Website",
+                    footer_contact: "Contact Us",
+                    footer_tel: "Tel: +66 95 945 1665",
+                    footer_email: "Email: info@copacabanacoralreef.com",
+                    footer_address: "Sales Office: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+                    footer_copyright: "&copy; 2025 Copacabana Coral Reef Jomtien. All rights reserved."
+                },
+                ru: {
+                    welcome_banner: "Информационный бюллетень Copacabana Coral Reef Jomtien | Выпуск 16, август 2025",
+                    nav_home: "Главная", nav_construction: "Прогресс", nav_showroom: "Шоу-румы", nav_investment: "Инвестиции", nav_security: "Безопасность", nav_technology: "Технологии", nav_lifestyle: "Стиль жизни", nav_events: "События", nav_contact: "Контакты",
+                    hero_main_title: "Copacabana Coral Reef Jomtien",
+                    hero_date: "Информационный бюллетень для нашей семьи | Август 2025",
+                    hero_subtitle: "Уверенно движемся к дому нашей мечты",
+                    hero_p1: "Официально вступая в август, сезон дождей может охладить воздух, но страсть и приверженность строительству нашего проекта продолжаются в полную силу. Мы рады поделиться с вами последними новостями о ходе работ и интересными историями из нашего дома.",
+                    hero_p2: "Каждый день наш проект растет и обретает форму, отражая наше обещание предоставить жизненный опыт, превосходящий стандарты, и построить качественное сообщество, которое поистине является «Жемчужиной моря».",
+                    construction_title: "Отчет о ходе работ: август 2025",
+                    construction_subtitle: "Основная конструкция уверенно достигает 20-го этажа!",
+                    construction_p1: "В настоящее время основное строительство конструкции здания успешно достигло 20-го этажа, что точно соответствует установленному плану. Это отражает возможности и опыт нашей строительной команды.",
+                    construction_p2: "Последние аэрофотоснимки дают четкое представление о том, как формируется проект. Сложная и уникальная конструкция элегантно возвышается, а несколько больших кранов работают в постоянной координации, демонстрируя интенсивность строительства на всей площадке. С высоты птичьего полета видны различные систематические операции, идущие одновременно:",
+                    construction_li1: "<b>Заливка бетона:</b> На снимках видно, как бетононасосы непрерывно подают высококачественный бетон на верхние этажи, обеспечивая максимальную прочность каждого уровня и соответствие самым высоким инженерным стандартам.",
+                    construction_li2: "<b>Установка арматуры:</b> Сложная укладка стального арматурного каркаса тщательно выполняется перед заливкой бетона, что имеет решающее значение для способности здания выдерживать вес и обеспечивать долговечность.",
+                    construction_li3: "<b>Стандарты безопасности:</b> Все здание надежно обернуто защитной сеткой, что является для нас главным приоритетом для обеспечения безопасности нашей команды и окружающего сообщества.",
+                    construction_li4: "<b>Надежное качество от ведущих партнеров:</b> Этот прогресс стал возможен благодаря сотрудничеству с лидерами отрасли во главе с нашим главным подрядчиком, компанией Pornpranakorn Company Limited, известной своей давней репутацией и опытом.",
+                    construction_p3: "<b>Путь к владению</b><br>Мы по-прежнему придерживаемся первоначального графика: строительство проекта планируется завершить в ноябре 2026 года, а к концу 2027 года вы сможете въехать.",
+                    construction_p4: "Еще раз благодарим вас за доверие к нашему проекту. Мы будем продолжать регулярно информировать вас о ходе наших работ!",
+                    showroom_title: "Ощутите райский отдых: Посетите шоу-румы различных стилей",
+                    showroom_subtitle: "Помимо нашего прогресса в строительстве, которым мы гордимся, еще одной ключевой особенностью проекта Copacabana Coral Reef Jomtien является разнообразный дизайн наших жилых единиц, созданных для удовлетворения любого образа жизни и потребностей. Мы создали комнаты от компактных 1-комнатных до просторных 2-х и 3-комнатных для семей, включая специальные апартаменты с частными бассейнами. Все апартаменты полностью меблированы с использованием материалов премиум-класса.",
+                    showroom_intro: "Сегодня мы рады представить два очень популярных стиля шоу-румов.",
+                    showroom_h1_title: "Основной момент 1: Тип 7.1 - 1 спальня (38,6 кв.м.)",
+                    showroom_h1_p1: "Этот тип апартаментов — идеальный ответ для тех, кто ищет полноценное личное пространство. Благодаря просторной площади 38,6 кв.м., функциональная планировка гармонична и воздушна.",
+                    showroom_h1_li1: "<b>Дизайн:</b> Спальня и гостиная четко разделены раздвижными стеклянными дверями, создавая уединение, но сохраняя ощущение связи.",
+                    showroom_h1_li2: "<b>Жилое пространство:</b> Включает полностью оборудованный кухонный уголок, обеденный стол на четверых и большой диван.",
+                    showroom_h1_li3: "<b>Ванная комната:</b> Роскошно оформлена с электрическим туалетом, тропическим душем и большим зеркалом со светодиодной подсветкой.",
+                    showroom_h1_li4: "<b>Балкон:</b> Просторный балкон площадью 4,50 кв.м. — идеальное место для отдыха и наслаждения видом.",
+                    showroom_h1_ideal: "<b>Идеально для:</b> Частного отдыха, пар или высокодоходной сдачи в аренду.",
+                    showroom_h2_title: "Основной момент 2: Тип 15 - 2 спальни (67,6 кв.м.)",
+                    showroom_h2_p1: "Апартаменты, идеально спроектированные для семей, предлагающие простор и уединение с функциональной планировкой, которая удовлетворяет потребности каждого члена семьи.",
+                    showroom_h2_li1: "<b>Главная спальня:</b> С кроватью размера 'king-size', ванной комнатой и встроенным шкафом.",
+                    showroom_h2_li2: "<b>Вторая спальня:</b> Удобно вмещает кровать размера 'queen-size' и имеет собственное место для гардероба.",
+                    showroom_h2_li3: "<b>Просторная гостиная:</b> Большая центральная гостиная и обеденная зона, идеально подходящая для семейных встреч.",
+                    showroom_h2_li4: "<b>Полная функциональность:</b> Включает кухонный уголок, две полноценные ванные комнаты и балкон площадью 8,00 кв.м. для наслаждения видом.",
+                    showroom_h2_ideal: "<b>Идеально для:</b> Семей, ищущих комфортное и роскошное жилье, или тех, кто желает дополнительное пространство для гостей или домашнего офиса.",
+                    showroom_outro: "Доступно множество других типов комнат. Мы приглашаем вас посетить наши шоу-румы в отделе продаж, чтобы лично ощутить этот превосходный образ жизни.",
+                    investment_title: "Инвестиционный прожектор: Светлое будущее ВЭК и Паттайи",
+                    investment_subtitle: "Последние новости, подтверждающие потенциал ваших инвестиций.",
+                    investment_infographic_link: "<a href='https://threeandhour.github.io/GymMateX/EECSmartCity.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>Посмотреть инфографику EEC Smart City</a>",
+                    investment1_title: "<a href='https://www.eeco.or.th/en/utapao-airport-and-the-eastern-aviation-city' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>Аэротрополис У-Тапао: правительство подтверждает полномасштабный план развития</a>",
+                    investment1_p: "Несмотря на трудности в переговорах, правительство по-прежнему привержено полномасштабному развитию аэропорта У-Тапао в авиационный город мирового класса. Это подтверждает долгосрочное видение по превращению зоны ВЭК в ведущий авиационный и логистический узел.",
+                    investment2_title: "Рынок недвижимости Паттайи демонстрирует уверенное восстановление",
+                    investment2_p: "Последние данные свидетельствуют о сильном восстановлении рынка кондоминиумов в Паттайе. Элитные кондоминиумы на берегу моря, в частности, по-прежнему пользуются высоким спросом как у тайских, так и у иностранных покупателей, что предполагает дальнейшую тенденцию к росту стоимости недвижимости.",
+                    investment3_title: "<a href='https://www.eeco.or.th/en/business-opportunities' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>ВЭК продолжает привлекать крупные инвестиции</a>",
+                    investment3_p: "Инвестиции в ВЭК продолжают расти, особенно со стороны иностранных инвесторов в целевые отрасли. Это укрепляет экономическую экосистему и увеличивает долгосрочный спрос на качественное жилье.",
+                    investment4_title: "Высокоскоростная железная дорога (3 аэропорта): приближение к началу строительства",
+                    investment4_p: "Несмотря на задержки, в проекте достигнут значительный прогресс: ожидается скорое подписание пересмотренного контракта, что откроет путь к началу строительства. Этот проект преобразит путешествия, соединив Паттайю с экономическими центрами, как никогда раньше.",
+                    security_title: "Джомтьен: Гавань мира и безопасности",
+                    security_subtitle: "Инвестируйте со спокойной душой в одном из самых безопасных мест.",
+                    security_p1: "Одним из важнейших факторов при выборе дома является безопасность его местоположения. Мы с гордостью подтверждаем, что Джомтьен, Паттайя, является очень безопасным районом, защищенным как от стихийных бедствий, так и от различных форм беспорядков.",
+                    security_p2: "<b>Защита от стихийных бедствий:</b> Благодаря своему географическому положению в Сиамском заливе, Паттайя естественным образом защищена от цунами. Она не расположена на активной линии разлома земной коры и имеет отличную систему управления водными ресурсами, что эффективно снижает риски наводнений и сильных штормов.",
+                    security_p3: "<b>Вдали от конфликтов:</b> Несмотря на новости о конфликтах вдоль тайско-камбоджийской границы, Паттайя находится в сотнях километров от таких районов, что полностью выводит ее за пределы радиуса любого конфликта или угрозы. Таким образом, инвестиции в Copacabana Coral Reef — это инвестиции в долгосрочный мир и спокойствие для вас и вашей семьи.",
+                    security_p4: "Для получения дополнительной информации о реальной ситуации посетите <a href='https://threeandhour.github.io/GymMateX/TruthFromThai.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>Truth From Thailand</a>.",
+                    tech_title: "Ощутите будущее: технологии для жизни",
+                    tech_subtitle: "Инновации, которые поднимут ваш образ жизни в Copacabana Coral Reef на новый уровень.",
+                    tech1_title: "ИИ-консьерж",
+                    tech1_p: "Представьте себе личного помощника, доступного 24/7 для бронирования ресторанов, рекомендаций по развлечениям в Паттайе или даже управления устройствами в вашей комнате. Все это можно сделать с помощью голосовых команд или приложения, которое учится и адаптируется к вашему образу жизни.",
+                    tech2_title: "Будущее развлечений в номере",
+                    tech2_p: "Технология генерации видео с помощью ИИ призвана произвести революцию в сфере развлечений. В будущем вы сможете создавать короткометражные фильмы по своему воображению или наслаждаться более реалистичными впечатлениями от виртуальной реальности (VR), не выходя из своей гостиной.",
+                    tech3_title: "Проактивное оздоровление",
+                    tech3_p: "Система ИИ в вашей резиденции сможет подключаться к вашим носимым устройствам для анализа данных о здоровье и настройки окружающей среды в комнате, например, оптимизации освещения и температуры для лучшего сна или предложения программы тренировок в фитнес-центре проекта.",
+                    tech_note: "<b>Примечание:</b> Содержание этого раздела представляет концепции и потенциал будущих технологий для вдохновения и ознакомления. Эти системы могут не входить в стандартную комплектацию квартиры. Если вы заинтересованы в установке различных систем, включая функции умного дома, пожалуйста, сообщите об этом отделу продаж при подписании контракта, чтобы мы могли организовать консультацию со специалистом.",
+                    lifestyle_title: "Дом, который действительно ваш",
+                    lifestyle_subtitle: "Откройте для себя пространство, которое по-настоящему соответствует вашей личности.",
+                    visionaries_title: "Провидцы (стратегические мыслители)",
+                    visionaries_p: "Для тех, кто смотрит в будущее и ценит эффективность, квартира на высоком этаже с панорамным видом на море служит идеальным рабочим местом и источником вдохновения, дополненным коворкингом, созданным для сосредоточенной, творческой работы.<br><br><b>Идеальное занятие:</b> Планирование следующей бизнес-стратегии, наблюдая за закатом с вашего личного балкона.",
+                    guardians_title: "Хранители (надежные защитники)",
+                    guardians_p: "Ваши ценности — это стабильность и качественная жизнь для вашей семьи. Хорошо продуманная планировка с пространством для всех и безопасный, увлекательный детский клуб — идеальный ответ для вас.<br><br><b>Идеальное занятие:</b> Провести качественный день с семьей у детского бассейна, а затем расслабиться в бассейне онсэн, чтобы завершить идеальный день.",
+                    idealists_title: "Идеалисты (вдохновляющие соединители)",
+                    idealists_p: "Вы ищете смысл и глубокие связи. 32 сада по всему проекту — это ваши личные убежища для поиска вдохновения, а мини-кинотеатр — место, где можно поделиться особыми моментами с близкими друзьями.<br><br><b>Идеальное занятие:</b> Чтение любимой книги в небесном саду или организация специального показа любимого фильма с вашими близкими.",
+                    explorers_title: "Исследователи (любящие свободу авантюристы)",
+                    explorers_p: "Каждый день для вас — новое приключение. Вашей энергии нужен выход. Начните день с катания на волнах в волновом бассейне, потренируйтесь в фитнес-центре и завершите день общением в баре на крыше.<br><br><b>Идеальное занятие:</b> Испытайте себя в различных водных видах спорта, прежде чем подняться наверх, чтобы насладиться видом на ночную жизнь Паттайи из бара на крыше.",
+                    events_title: "Краски Паттайи в августе",
+                    events_subtitle: "События и фестивали, которые нельзя пропустить",
+                    event1_title: "День рождения Ее Величества Королевы Сирикит (День матери)",
+                    event1_date: "12 августа",
+                    event1_desc: "Присоединяйтесь к общегородским празднованиям верности и уважения. Вечером на пирсе Бали Хай состоится церемония зажжения свечей и различные мероприятия.",
+                    event2_title: "Паттайский кинофестиваль",
+                    event2_date: "28 – 30 августа 2025 г.",
+                    event2_desc: "Паттайя — одно из самых выдающихся направлений Таиланда, которое стремится стать Творческим городом кино ЮНЕСКО. Этот фестиваль, который проводится уже в третий раз, является важной частью этих усилий. На нем будут представлены выдающиеся фильмы со всего мира, а также будет оказана поддержка творческой индустрии Таиланда, продвижение туризма и культурный обмен посредством различных мероприятий.",
+                    podcast_title: "Наш подкаст",
+                    podcast_subtitle: "Слушайте последние новости и инсайты о проекте и жизни в Паттайе.",
+                    footer_follow: "Следите за нами",
+                    footer_website: "Официальный сайт",
+                    footer_contact: "Свяжитесь с нами",
+                    footer_tel: "Тел: +66 95 945 1665",
+                    footer_email: "Эл. почта: info@copacabanacoralreef.com",
+                    footer_address: "Офис продаж: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+                    footer_copyright: "&copy; 2025 Copacabana Coral Reef Jomtien. Все права защищены."
+                },
+                zh: {
+                    welcome_banner: "Copacabana Coral Reef Jomtien 时事通讯 | 2025年8月第16期",
+                    nav_home: "首页", nav_construction: "施工进度", nav_showroom: "样板房", nav_investment: "投资概览", nav_security: "安全保障", nav_technology: "未来科技", nav_lifestyle: "生活方式", nav_events: "本地活动", nav_contact: "联系我们",
+                    hero_main_title: "Copacabana Coral Reef Jomtien",
+                    hero_date: "致我们家人的时事通讯 | 2025年8月",
+                    hero_subtitle: "稳步迈向我们的梦想家园",
+                    hero_p1: "随着我们正式进入八月，雨季可能会给周围的空气降温，但我们对项目建设的热情和承诺仍在全力进行。我们很高兴与大家分享我们家园的最新进展和有趣的故事。",
+                    hero_p2: "每一天，我们的项目都在成长和成形，这反映了我们提供超越标准的生活体验的承诺，并建立一个真正配得上“海洋瑰宝”称号的优质社区。",
+                    construction_title: "施工进度更新：2025年8月",
+                    construction_subtitle: "主体结构稳步达到20层！",
+                    construction_p1: "目前，大楼的主体结构施工已顺利达到20层，完全符合既定计划。这反映了我们施工团队的能力和专业水平。",
+                    construction_p2: "最新的航拍照片清晰地展示了项目成型的概况。复杂而独特的结构正优雅地崛起，多台大型起重机持续协调作业，展示了整个工地紧张的施工场面。从空中俯瞰，可以看到各种系统化的操作同时进行：",
+                    construction_li1: "<b>混凝土浇筑：</b> 图像显示混凝土泵将高质量混凝土连续输送到最高楼层，确保每一层都达到最大强度并符合最高的工程标准。",
+                    construction_li2: "<b>钢筋安装：</b> 在浇筑混凝土之前，精心进行复杂的钢筋骨架铺设，这对于建筑物的承重能力和确保长期耐用性至关重要。",
+                    construction_li3: "<b>安全标准：</b> 整栋建筑都被安全网牢固包裹，这是我们的首要任务，以确保我们团队和周围社区的安全。",
+                    construction_li4: "<b>来自领先合作伙伴的可靠质量：</b> 这一进展得益于与行业领导者的合作，由我们的主要承包商Pornpranakorn Company Limited领导，该公司以其悠久的声誉和经验而闻名。此外，还有其他几位专家为该项目做出了贡献，例如：Stonehenge Inter（项目管理和监督），KTGY（建筑师），Beca & Aurecon（结构和机电设计），以及Green Architects（景观设计）。",
+                    construction_p3: "<b>通往业主之路</b><br>我们仍然致力于最初的时间表，项目建设预计将于2026年11月完成，并准备好在2027年底前入住。",
+                    construction_p4: "再次感谢您对我们项目的信任。我们将继续定期提供我们的进展更新！",
+                    showroom_title: "体验休闲天堂：参观多样化风格的样板房",
+                    showroom_subtitle: "除了我们引以为傲的施工进度外，Copacabana珊瑚礁中天项目的另一个主要亮点是我们多样化的住宅单元设计，旨在满足各种生活方式和居住需求。我们精心打造了从紧凑的一居室到适合家庭的宽敞两居室和三居室，还包括带私人游泳池的特殊单元。所有单元均采用优质材料进行全装修。",
+                    showroom_intro: "今天，我们很高兴向您介绍两种备受欢迎的样板房风格。",
+                    showroom_h1_title: "亮点一：7.1型 - 1卧室（38.6平方米）",
+                    showroom_h1_p1: "对于寻求完美私人空间的人来说，这种户型是理想之选。38.6平方米的宽敞面积，使得功能布局既和谐又通透。",
+                    showroom_h1_li1: "<b>设计：</b> 卧室和起居区由滑动玻璃门明确分隔，既保证了私密性，又保持了空间的连通感。",
+                    showroom_h1_li2: "<b>起居空间：</b> 配备齐全的茶水间、四人餐桌和一张大沙发。",
+                    showroom_h1_li3: "<b>浴室：</b> 豪华装修，配备电动马桶、花洒淋浴和带LED灯的大镜子。",
+                    showroom_h1_li4: "<b>阳台：</b> 宽敞的4.50平方米阳台，是放松和欣赏美景的理想空间。",
+                    showroom_h1_ideal: "<b>适合：</b> 私人度假、情侣或高回报率的出租投资。",
+                    showroom_h2_title: "亮点二：15型 - 2卧室（67.6平方米）",
+                    showroom_h2_p1: "专为家庭设计的单元，提供舒适和充足的居住空间，设计时考虑了每个家庭成员的需求。",
+                    showroom_h2_li1: "<b>主卧室：</b> 配备特大号床、套间浴室和内置衣柜。",
+                    showroom_h2_li2: "<b>第二间卧室：</b> 舒适地容纳一张大号床，并设有自己的衣柜空间。",
+                    showroom_h2_li3: "<b>宽敞的起居区：</b> 宽敞的中央起居和用餐区，非常适合家庭聚会。",
+                    showroom_h2_li4: "<b>功能齐全：</b> 包括一个茶水间、两间完整的浴室和一个8.00平方米的阳台，供您欣赏美景。",
+                    showroom_h2_ideal: "<b>适合：</b> 寻求舒适豪华住所的家庭，或需要额外空间供客人或家庭办公室使用的人士。",
+                    showroom_outro: "我们还有多种其他房型供您选择。我们诚邀您莅临我们的销售中心参观样板房，亲身体验这种卓越的生活方式。",
+                    investment_title: "投资聚焦：EEC和芭堤雅的光明未来",
+                    investment_subtitle: "增强您投资潜力的最新消息。",
+                    investment_infographic_link: "<a href='https://threeandhour.github.io/GymMateX/EECSmartCity.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>查看EEC智慧城市信息图</a>",
+                    investment1_title: "<a href='https://www.eeco.or.th/en/utapao-airport-and-the-eastern-aviation-city' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>乌塔堡航空城：政府确认全面发展计划</a>",
+                    investment1_p: "尽管谈判面临挑战，但政府仍致力于将乌塔堡机场全面发展成为世界一流的航空城。这再次肯定了将EEC地区提升为首要航空和物流枢纽的长期愿景。",
+                    investment2_title: "芭堤雅房地产市场呈现强劲复苏",
+                    investment2_p: "最新数据显示，芭堤雅的公寓市场正在强劲复苏。尤其是豪华海滨公寓，仍然受到泰国和外国买家的高度追捧，预示着房产价值将持续上涨。",
+                    investment3_title: "<a href='https://www.eeco.or.th/en/business-opportunities' target='_blank' rel='noopener noreferrer' class='hover:underline text-blue-300'>EEC持续吸引重大投资</a>",
+                    investment3_p: "对EEC地区的投资持续增长，特别是在目标行业的外国投资者。这加强了经济生态系统，并增加了对优质住房的长期需求。",
+                    investment4_title: "连接3个机场的高速铁路：向开工建设迈进",
+                    investment4_p: "虽然该项目面临延误，但随着修订合同预计将很快签署，正在取得重大进展，为开工建设铺平了道路。该项目将改变出行方式，以前所未有的方式将芭堤雅与经济中心连接起来。",
+                    security_title: "中天海滩：和平与安全的避风港",
+                    security_subtitle: "在最安全的地点之一安心投资。",
+                    security_p1: "选择家园最重要的因素之一是其所在位置的安全性。我们很自豪地确认，芭堤雅中天海滩是一个高度安全的地区，远离自然灾害和各种形式的动荡。",
+                    security_p2: "<b>远离自然灾害：</b> 由于其位于泰国湾的地理位置，芭堤雅天然受到海啸的保护。它不位于活跃的地震断裂带上，并拥有出色的水资源管理系统，有效降低了洪水和强风暴的风险。",
+                    security_p3: "<b>远离冲突：</b> 尽管有关于泰柬边境冲突的新闻，但芭堤雅的位置距离这些地区数百公里，完全超出了任何冲突或威胁的范围。因此，投资Copacabana Coral Reef就是为您和您的家人投资长期的和平与安宁。",
+                    security_p4: "有关实际情况的更多信息，请访问 <a href='https://threeandhour.github.io/GymMateX/TruthFromThai.html' target='_blank' rel='noopener noreferrer' class='text-blue-400 hover:underline'>Truth From Thailand</a>。",
+                    tech_title: "体验未来：为生活而生的科技",
+                    tech_subtitle: "在Copacabana Coral Reef提升您生活方式的创新。",
+                    tech1_title: "人工智能礼宾服务",
+                    tech1_p: "想象一下，一位全天候为您服务的私人助理，可以预订餐厅、推荐芭堤雅的活动，甚至控制您房间内的设备。这一切都可以通过语音命令或一个能够学习并适应您特定生活方式的应用程序来完成。",
+                    tech2_title: "室内娱乐的未来",
+                    tech2_p: "人工智能视频生成技术将彻底改变娱乐业。未来，您可以根据自己的想象创作短片，或在舒适的客厅里享受更逼真的虚拟现实（VR）体验。",
+                    tech3_title: "主动式健康管理",
+                    tech3_p: "您住所的人工智能系统可以连接到您的可穿戴设备，分析健康数据并调整您的房间环境，例如优化灯光和温度以获得更好的睡眠，或在项目的健身中心推荐锻炼计划。",
+                    tech_note: "<b>请注意：</b>本节内容旨在介绍未来技术的概念和潜力，以激发灵感和知识。这些系统可能不包含在标准单元包中。如果您有兴趣安装包括智能家居在内的各种系统，请在签订合同时告知销售部门，以便我们安排专家咨询。",
+                    lifestyle_title: "一个真正属于您的家",
+                    lifestyle_subtitle: "发现一个真正与您个性产生共鸣的空间。",
+                    visionaries_title: "远见者（战略思想家）",
+                    visionaries_p: "对于那些着眼未来、注重效率的人来说，一个拥有全景海景的高层单元是终极的工作空间和灵感来源，辅以专为专注、创造性工作而设计的共享办公空间。<br><br><b>完美活动：</b> 在私人阳台上欣赏日落的同时，规划您的下一个商业战略。",
+                    guardians_title: "守护者（可靠的保护者）",
+                    guardians_p: "您的价值观是稳定和家人的优质生活。一个为每个人提供充足空间的精心设计的户型，以及一个安全、有趣的儿童俱乐部，是您的完美答案。<br><br><b>完美活动：</b> 与家人在儿童游泳池度过一个美好的下午，然后在温泉池中放松身心，结束完美的一天。",
+                    idealists_title: "理想主义者（鼓舞人心的连接者）",
+                    idealists_p: "您寻求意义和深刻的联系。遍布整个项目的32个花园是您寻找灵感的私人庇护所，而迷你影院是与密友分享特殊时刻的地方。<br><br><b>完美活动：</b> 在空中花园阅读您最喜欢的书，或与您所爱的人举办一场珍爱电影的特别放映会。",
+                    explorers_title: "探索者（热爱自由的冒险家）",
+                    explorers_p: "对您来说，每一天都是新的冒险。您的精力需要释放的出口。在波浪池中冲浪开始新的一天，在健身中心锻炼，在屋顶酒吧的社交活动中结束一天。<br><br><b>完美活动：</b> 挑战各种水上活动，然后登上屋顶酒吧，欣赏芭堤雅的夜景。",
+                    events_title: "八月芭堤雅的色彩",
+                    events_subtitle: "不容错过的活动和节日",
+                    event1_title: "诗丽吉王后生日（母亲节）",
+                    event1_date: "8月12日",
+                    event1_desc: "参加全市范围的忠诚和尊敬庆祝活动。晚上，在巴厘海码头将举行烛光仪式和各种活动。",
+                    event2_title: "芭堤雅电影节",
+                    event2_date: "2025年8月28日至30日",
+                    event2_desc: "芭堤雅是泰国最杰出的旅游目的地之一，正在努力成为联合国教科文组织创意电影之都。该电影节已进入第三届，是这一努力的重要组成部分。它将展映来自世界各地的优秀电影，同时通过各种活动支持泰国的创意产业、促进旅游业和文化交流。",
+                    podcast_title: "我们的播客",
+                    podcast_subtitle: "收听有关项目和芭堤雅生活的最新消息和见解。",
+                    footer_follow: "关注我们",
+                    footer_website: "官方网站",
+                    footer_contact: "联系我们",
+                    footer_tel: "电话：+66 95 945 1665",
+                    footer_email: "电子邮件：info@copacabanacoralreef.com",
+                    footer_address: "销售办公室：385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+                    footer_copyright: "&copy; 2025 Copacabana Coral Reef Jomtien. 版权所有。"
+                }
+            };
+
+            const langSwitcher = document.querySelector('.lang-switcher');
+            const translatableElements = document.querySelectorAll('[data-key]');
+
+            const switchLanguage = (lang) => {
+                translatableElements.forEach(el => {
+                    const key = el.dataset.key;
+                    if (translations[lang] && translations[lang][key]) {
+                        el.innerHTML = translations[lang][key];
+                    }
+                });
+                document.documentElement.lang = lang;
+
+                langSwitcher.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                langSwitcher.querySelector(`[data-lang=${lang}]`).classList.add('active');
+            };
+
+            langSwitcher.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const lang = e.target.dataset.lang;
+                    switchLanguage(lang);
+                }
+            });
+
+            switchLanguage('th');
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Slideshow Logic
+            const slideshows = document.querySelectorAll('.slideshow-container');
+            slideshows.forEach(slideshow => {
+                const images = slideshow.querySelectorAll('img');
+                let currentImageIndex = 0;
+                setInterval(() => {
+                    images[currentImageIndex].classList.remove('active');
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    images[currentImageIndex].classList.add('active');
+                }, 4000); // Change image every 4 seconds
+            });
+        });
+    </script>
+
+</body>
+</html>
