@@ -37,6 +37,52 @@
             color: white;
             font-weight: 700;
         }
+        /* Modal and Loader */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 90%;
+            width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -78,9 +124,9 @@
         <div class="mb-10">
             <h3 class="text-2xl font-bold text-center mb-6 text-gray-900" data-lang="concepts_title">แนวคิดการออกแบบสำหรับคุณ</h3>
             <div class="flex flex-wrap justify-center border-b mb-6">
-                <button class="tab-button active py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept1')">Coastal Futurist</button>
-                <button class="tab-button py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept2')">Monochrome Oasis</button>
-                <button class="tab-button py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept3')">Intelligent Beach House</button>
+                <button id="tab-concept1" class="tab-button active py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept1')">Coastal Futurist</button>
+                <button id="tab-concept2" class="tab-button py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept2')">Monochrome Oasis</button>
+                <button id="tab-concept3" class="tab-button py-2 px-4 sm:px-6 border-b-2" onclick="showTab('concept3')">Intelligent Beach House</button>
             </div>
             <div id="concept1" class="tab-content active">
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -88,6 +134,7 @@
                     <div class="p-6">
                         <h4 class="font-bold text-lg mb-2">The "Coastal Futurist" Retreat</h4>
                         <p class="text-gray-600" data-lang="concept1_desc">ผสมผสานความสงบของสไตล์ Coastal Zen เข้ากับเส้นสายที่เฉียบคมและนวัตกรรมของดีไซน์ Futuristic เน้นบรรยากาศที่โปร่ง โล่ง สบายตา แต่แฝงไปด้วยรายละเอียดที่น่าสนใจและชาญฉลาด</p>
+                        <button class="mt-4 bg-blue-100 text-blue-800 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition" onclick="openAiAssistant('concept1')" data-lang="ask_ai_btn">สอบถาม AI ✨</button>
                     </div>
                 </div>
             </div>
@@ -97,6 +144,7 @@
                     <div class="p-6">
                         <h4 class="font-bold text-lg mb-2">The "Monochrome Oasis"</h4>
                         <p class="text-gray-600" data-lang="concept2_desc">ดึงความสง่างามของโทนสีขาว-เทา-ดำมาใช้เป็นหัวใจหลัก สร้างพื้นที่ที่ดูสะอาด มีความเป็นระเบียบ แต่ยังคงความอบอุ่นและน่าอยู่ เหมาะสำหรับ INTP ที่ชอบสภาพแวดล้อมที่เป็นระเบียบ</p>
+                        <button class="mt-4 bg-blue-100 text-blue-800 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition" onclick="openAiAssistant('concept2')" data-lang="ask_ai_btn">สอบถาม AI ✨</button>
                     </div>
                 </div>
             </div>
@@ -106,6 +154,7 @@
                     <div class="p-6">
                         <h4 class="font-bold text-lg mb-2">The "Intelligent Beach House"</h4>
                         <p class="text-gray-600" data-lang="concept3_desc">ตีความ "Futuristic Beach House" ในแบบฉบับ INTP คือการผสมผสานเทคโนโลยีเข้ากับบรรยากาศสบายๆ ริมทะเลอย่างลงตัว เน้นฟังก์ชันการใช้งานที่ชาญฉลาดและปรับเปลี่ยนได้</p>
+                        <button class="mt-4 bg-blue-100 text-blue-800 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition" onclick="openAiAssistant('concept3')" data-lang="ask_ai_btn">สอบถาม AI ✨</button>
                     </div>
                 </div>
             </div>
@@ -138,7 +187,25 @@
         </footer>
     </div>
 
+    <!-- AI Modal -->
+    <div id="ai-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="modal-body"></div>
+            <div class="flex justify-end mt-6">
+                <button class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300" onclick="closeAiModal()" data-lang="close_btn">ปิด</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="modal-overlay">
+        <div class="loader"></div>
+    </div>
+
+
     <script>
+        // --- TRANSLATIONS & DATA ---
         const translations = {
             th: {
                 tagline: "Personalized Your Home",
@@ -155,7 +222,16 @@
                 selection_subtitle: "กรุณาเลือกรายการที่คุณสนใจเพื่อคำนวณราคารวม",
                 total_label: "ราคารวมโดยประมาณ:",
                 contact_info: "อีเมล: widerooms@gmail.com | โทร: +66 86 909 4356",
-                disclaimer: "ราคานี้เป็นการประมาณการเบื้องต้นและอาจเปลี่ยนแปลงได้ตามวัสดุที่เลือก"
+                disclaimer: "ราคานี้เป็นการประมาณการเบื้องต้นและอาจเปลี่ยนแปลงได้ตามวัสดุที่เลือก",
+                ask_ai_btn: "สอบถาม AI ✨",
+                visualize_ai_btn: "สร้างภาพในใจด้วย AI ✨",
+                close_btn: "ปิด",
+                ai_assistant_title: "AI ช่วยออกแบบ",
+                ai_visualize_title: "ภาพในใจจาก AI",
+                ai_assistant_prompt: "คุณสามารถถามคำถาม หรือขอให้ปรับแก้แนวคิดนี้ได้เลยครับ เช่น 'ช่วยเพิ่มพื้นที่เก็บของแบบซ่อนในดีไซน์นี้หน่อย' หรือ 'มีสีอื่นแนะนำสำหรับห้องนี้ไหม?'",
+                submit_query_btn: "ส่งคำถาม",
+                loading_text: "กำลังสร้างสรรค์ไอเดีย...",
+                error_text: "เกิดข้อผิดพลาดในการติดต่อ AI กรุณาลองใหม่อีกครั้ง"
             },
             en: {
                 tagline: "Personalized Your Home",
@@ -172,7 +248,16 @@
                 selection_subtitle: "Please select the items you are interested in to calculate the total price.",
                 total_label: "Estimated Total Cost:",
                 contact_info: "Email: widerooms@gmail.com | Phone: +66 86 909 4356",
-                disclaimer: "This is a preliminary estimate and may change based on selected materials."
+                disclaimer: "This is a preliminary estimate and may change based on selected materials.",
+                ask_ai_btn: "Ask AI ✨",
+                visualize_ai_btn: "Visualize with AI ✨",
+                close_btn: "Close",
+                ai_assistant_title: "AI Design Assistant",
+                ai_visualize_title: "AI Visualization",
+                ai_assistant_prompt: "You can ask questions or request modifications to this concept. For example, 'Can you add more hidden storage to this design?' or 'What other colors would you recommend for this room?'",
+                submit_query_btn: "Submit Query",
+                loading_text: "Generating ideas...",
+                error_text: "An error occurred while contacting the AI. Please try again."
             },
             ru: {
                 tagline: "Персонализируйте свой дом",
@@ -189,7 +274,16 @@
                 selection_subtitle: "Пожалуйста, выберите интересующие вас пункты для расчета общей стоимости.",
                 total_label: "Примерная общая стоимость:",
                 contact_info: "Эл. почта: widerooms@gmail.com | Тел: +66 86 909 4356",
-                disclaimer: "Это предварительная оценка, которая может измениться в зависимости от выбранных материалов."
+                disclaimer: "Это предварительная оценка, которая может измениться в зависимости от выбранных материалов.",
+                ask_ai_btn: "Спросить ИИ ✨",
+                visualize_ai_btn: "Визуализировать с ИИ ✨",
+                close_btn: "Закрыть",
+                ai_assistant_title: "ИИ-ассистент по дизайну",
+                ai_visualize_title: "Визуализация от ИИ",
+                ai_assistant_prompt: "Вы можете задавать вопросы или запрашивать изменения в этой концепции. Например, 'Можете ли вы добавить больше скрытого хранения в этот дизайн?' или 'Какие другие цвета вы бы порекомендовали для этой комнаты?'",
+                submit_query_btn: "Отправить запрос",
+                loading_text: "Генерация идей...",
+                error_text: "Произошла ошибка при обращении к ИИ. Пожалуйста, попробуйте еще раз."
             },
             zh: {
                 tagline: "个性化您的家",
@@ -206,7 +300,16 @@
                 selection_subtitle: "请选择您感兴趣的项目以计算总价。",
                 total_label: "预计总费用:",
                 contact_info: "电子邮件: widerooms@gmail.com | 电话: +66 86 909 4356",
-                disclaimer: "此为初步估算，最终价格可能因所选材料而异。"
+                disclaimer: "此为初步估算，最终价格可能因所选材料而异。",
+                ask_ai_btn: "询问 AI ✨",
+                visualize_ai_btn: "AI 视觉化 ✨",
+                close_btn: "关闭",
+                ai_assistant_title: "AI 设计助手",
+                ai_visualize_title: "AI 视觉化呈现",
+                ai_assistant_prompt: "您可以就此概念提出问题或要求修改。例如，'可以在这个设计中增加更多的隐藏储物空间吗？' 或 '您会推荐什么其他颜色用于这个房间？'",
+                submit_query_btn: "提交问题",
+                loading_text: "正在生成想法...",
+                error_text: "连接 AI 时发生错误。请再试一次。"
             }
         };
 
@@ -221,50 +324,55 @@
             { id: 'misc', cost: 10000, checked: true, name: { th: 'ค่าใช้จ่ายอื่นๆ', en: 'Miscellaneous', ru: 'Прочие расходы', zh: '其他费用' }, description: { th: 'ค่าขนส่ง, ค่าดำเนินการ และสำรองค่าใช้จ่าย', en: 'Transportation, processing fees, and contingency', ru: 'Транспорт, административные сборы и непредвиденные расходы', zh: '运输、手续费和应急费用' } }
         ];
 
+        // --- DOM ELEMENTS ---
         const itemsContainer = document.getElementById('quotation-items');
         const totalCostEl = document.getElementById('total-cost');
+        const aiModal = document.getElementById('ai-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const loadingOverlay = document.getElementById('loading-overlay');
         let currentLang = 'th';
 
+        // --- CORE FUNCTIONS ---
         function renderItems() {
             itemsContainer.innerHTML = '';
             quotationData.forEach(item => {
                 const itemCard = document.createElement('div');
-                itemCard.className = `quotation-card p-4 border-2 rounded-lg bg-white cursor-pointer ${item.checked ? 'checked' : ''}`;
-                itemCard.dataset.id = item.id;
+                itemCard.className = `quotation-card p-4 border-2 rounded-lg bg-white ${item.checked ? 'checked' : ''}`;
                 
+                let aiButton = '';
+                if (item.id.includes('furniture')) {
+                    aiButton = `<button class="mt-2 text-xs bg-green-100 text-green-800 font-semibold py-1 px-3 rounded-lg hover:bg-green-200 transition" onclick="event.stopPropagation(); visualizeWithAi('${item.id}')" data-lang="visualize_ai_btn">${translations[currentLang].visualize_ai_btn}</button>`;
+                }
+
                 itemCard.innerHTML = `
-                    <div class="flex items-start">
-                        <input type="checkbox" id="${item.id}" data-cost="${item.cost}" class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" ${item.checked ? 'checked' : ''}>
+                    <div class="flex items-start cursor-pointer" onclick="toggleCheckbox(event, '${item.id}')">
+                        <input type="checkbox" id="${item.id}" class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 pointer-events-none" ${item.checked ? 'checked' : ''}>
                         <div class="ml-4 flex-1">
                             <label for="${item.id}" class="font-bold text-gray-900">${item.name[currentLang]}</label>
                             <p class="text-sm text-gray-600">${item.description[currentLang]}</p>
-                            <p class="text-right font-semibold text-blue-700 mt-2">${item.cost.toLocaleString()} THB</p>
+                            <div class="flex justify-between items-center mt-2">
+                                ${aiButton}
+                                <p class="font-semibold text-blue-700">${item.cost.toLocaleString()} THB</p>
+                            </div>
                         </div>
                     </div>
                 `;
-                
-                itemCard.addEventListener('click', (e) => {
-                    const checkbox = itemCard.querySelector('input[type="checkbox"]');
-                    if (e.target.type !== 'checkbox') {
-                         checkbox.checked = !checkbox.checked;
-                    }
-                    const itemData = quotationData.find(d => d.id === item.id);
-                    itemData.checked = checkbox.checked;
-                    itemCard.classList.toggle('checked', checkbox.checked);
-                    updateTotal();
-                });
-
                 itemsContainer.appendChild(itemCard);
             });
         }
+        
+        function toggleCheckbox(event, itemId) {
+            const checkbox = document.getElementById(itemId);
+            checkbox.checked = !checkbox.checked;
+            const itemData = quotationData.find(d => d.id === itemId);
+            itemData.checked = checkbox.checked;
+            event.currentTarget.parentElement.classList.toggle('checked', checkbox.checked);
+            updateTotal();
+        }
 
         function updateTotal() {
-            let total = 0;
-            quotationData.forEach(item => {
-                if (item.checked) {
-                    total += item.cost;
-                }
-            });
+            let total = quotationData.reduce((sum, item) => item.checked ? sum + item.cost : sum, 0);
             totalCostEl.textContent = `${total.toLocaleString()} THB`;
         }
         
@@ -272,36 +380,110 @@
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
         }
 
         function changeLanguage(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
-            
-            // Translate all elements with data-lang attribute
             document.querySelectorAll('[data-lang]').forEach(el => {
                 const key = el.getAttribute('data-lang');
                 if (translations[lang][key]) {
                     el.innerText = translations[lang][key];
                 }
             });
-
-            // Re-render quotation items with new language
             renderItems();
-
-            // Update active state for language buttons
-            document.querySelectorAll('.lang-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.lang-button').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`[data-lang-btn="${lang}"]`).classList.add('active');
         }
 
-        // Initial setup
+        // --- GEMINI API & MODAL FUNCTIONS ---
+        const apiKey = "AIzaSyDj_fOvwZ80qfWaryvy5FNjSiyKt1wAF04"; // API key will be injected by the environment
+
+        async function callGeminiAPI(prompt) {
+            loadingOverlay.classList.add('visible');
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                loadingOverlay.classList.remove('visible');
+                return result.candidates[0].content.parts[0].text;
+
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                loadingOverlay.classList.remove('visible');
+                return translations[currentLang].error_text;
+            }
+        }
+
+        function openAiModal() {
+            aiModal.classList.add('visible');
+        }
+
+        function closeAiModal() {
+            aiModal.classList.remove('visible');
+        }
+
+        function openAiAssistant(conceptId) {
+            const conceptTitle = document.querySelector(`#${conceptId} h4`).innerText;
+            const conceptDesc = document.querySelector(`#${conceptId} [data-lang='concept${conceptId.slice(-1)}_desc']`).innerText;
+            
+            modalTitle.innerText = translations[currentLang].ai_assistant_title;
+            modalBody.innerHTML = `
+                <p class="mb-2 font-semibold">${conceptTitle}</p>
+                <p class="mb-4 text-sm text-gray-600">${translations[currentLang].ai_assistant_prompt}</p>
+                <textarea id="ai-query" class="w-full p-2 border rounded-md h-24" placeholder="..."></textarea>
+                <button id="submit-ai-query" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">${translations[currentLang].submit_query_btn}</button>
+                <div id="ai-response" class="mt-4 p-4 bg-gray-100 rounded-md" style="display:none;"></div>
+            `;
+            openAiModal();
+
+            document.getElementById('submit-ai-query').addEventListener('click', async () => {
+                const userQuery = document.getElementById('ai-query').value;
+                if (!userQuery) return;
+
+                const prompt = `You are an AI interior design assistant for WIDEROOMS. The client, an INTP, is looking at the '${conceptTitle}' concept which is described as: '${conceptDesc}'. The client's request is: '${userQuery}'. Please provide a helpful and creative response in ${currentLang}, suggesting modifications or explaining design choices.`;
+                
+                const responseDiv = document.getElementById('ai-response');
+                responseDiv.style.display = 'block';
+                responseDiv.innerText = translations[currentLang].loading_text;
+
+                const result = await callGeminiAPI(prompt);
+                responseDiv.innerText = result;
+            });
+        }
+
+        async function visualizeWithAi(itemId) {
+            const item = quotationData.find(d => d.id === itemId);
+            const itemName = item.name[currentLang];
+            const itemDesc = item.description[currentLang];
+            
+            modalTitle.innerText = translations[currentLang].ai_visualize_title;
+            modalBody.innerHTML = `<p class="mb-2 font-semibold">${itemName}</p><div id="ai-response" class="p-4 bg-gray-100 rounded-md">${translations[currentLang].loading_text}</div>`;
+            openAiModal();
+
+            const prompt = `As an expert interior designer, write a short, inspiring paragraph (in ${currentLang}) describing a room for an INTP personality. The design style is a mix of Minimalist, Coastal, and Futuristic. The room includes these key elements: '${itemName}' which consists of '${itemDesc}'. The overall vibe should be calm, cozy, and clean. Focus on how these elements create a functional, intellectually stimulating, and relaxing space.`;
+            
+            const result = await callGeminiAPI(prompt);
+            document.querySelector('#ai-modal #ai-response').innerHTML = result.replace(/\n/g, '<br>');
+        }
+
+        // --- INITIAL SETUP ---
         document.addEventListener('DOMContentLoaded', () => {
-            changeLanguage('th'); // Set default language to Thai
+            changeLanguage('th');
+            updateTotal();
         });
     </script>
-
 </body>
 </html>
+
