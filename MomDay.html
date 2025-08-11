@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <title>Happy Mother's Day!</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!--  Importing fonts for all 4 languages -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Sarabun:wght@400;700&family=Noto+Sans:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Setting fallback fonts for each language */
+    body {
+      font-family: 'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif;
+    }
+    .title-font {
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-4">
+
+  <!-- Mother's Day Card -->
+  <div class="card bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+    
+    <!-- Language Selector -->
+    <div class="p-4 bg-sky-50 flex justify-center space-x-2 border-b border-sky-200">
+        <button onclick="changeLanguage('en')" class="px-3 py-1 text-sm font-semibold text-gray-700 bg-white rounded-full shadow-sm hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400">English</button>
+        <button onclick="changeLanguage('th')" class="px-3 py-1 text-sm font-semibold text-gray-700 bg-white rounded-full shadow-sm hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400">ไทย</button>
+        <button onclick="changeLanguage('ru')" class="px-3 py-1 text-sm font-semibold text-gray-700 bg-white rounded-full shadow-sm hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400">Русский</button>
+        <button onclick="changeLanguage('zh')" class="px-3 py-1 text-sm font-semibold text-gray-700 bg-white rounded-full shadow-sm hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400">中文</button>
+    </div>
+
+    <!-- Image Container -->
+    <div class="bg-sky-100 flex justify-center items-center">
+        <img src="https://i.postimg.cc/Sx0hCD5c/1.png" 
+             alt="A beautiful bouquet of white jasmine flowers on a blue background" 
+             class="w-full h-auto"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x400/E0F2FE/3B82F6?text=Image+Not+Found';">
+    </div>
+
+    <!-- Text Content -->
+    <div class="p-8 text-center">
+        <h1 id="main-title" class="title-font text-4xl font-bold text-gray-800 mb-2"></h1>
+        <p id="subtitle" class="text-gray-500 tracking-wider"></p>
+
+        <!-- AI Feature Section -->
+        <div class="mt-8 border-t border-gray-200 pt-6">
+            <h2 id="ai-header" class="text-xl font-bold text-gray-700 mb-4"></h2>
+            <p id="ai-subheader" class="text-gray-600 mb-4"></p>
+            
+            <button id="generateButton" onclick="generateMessage()" class="bg-sky-500 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-300 transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+            </button>
+            
+            <div id="loadingIndicator" class="hidden mt-4">
+                <p class="text-gray-500 animate-pulse"></p>
+            </div>
+            
+            <div id="aiMessage" class="mt-6 p-4 bg-sky-50 rounded-lg hidden min-h-[80px] flex items-center justify-center">
+                <p class="text-sky-800 text-lg font-semibold"></p>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentLanguage = 'th'; // Default language
+
+    // Storing all translations in one object
+    const translations = {
+        en: {
+            title: "HAPPY MOTHER'S DAY",
+            subtitle: "YOUR LOVE MAKES EVERY DAY BRIGHTER.",
+            ai_header: "Create a Special Message for Mom",
+            ai_subheader: "Let AI help you write a loving message for your mom.",
+            button_text: "✨ Generate Message",
+            loading_text: "Generating a heartfelt message...",
+            error_text: "Sorry, the message could not be generated at this time. Please try again.",
+            prompt: "Write a short, heartfelt, one-sentence message for a mother in English."
+        },
+        th: {
+            title: "สุขสันต์วันแม่",
+            subtitle: "ความรักของแม่ทำให้ทุกวันสว่างไสว",
+            ai_header: "สร้างข้อความพิเศษสำหรับคุณแม่",
+            ai_subheader: "ให้ AI ช่วยเขียนข้อความบอกรักคุณแม่",
+            button_text: "✨ สร้างข้อความ",
+            loading_text: "กำลังสร้างข้อความสุดซึ้ง...",
+            error_text: "ขออภัยค่ะ ไม่สามารถสร้างข้อความได้ในขณะนี้ ลองใหม่อีกครั้งนะคะ",
+            prompt: "เขียนประโยคบอกรักแม่สั้นๆ ซึ้งๆ ความยาว 1 ประโยค เป็นภาษาไทย"
+        },
+        ru: {
+            title: "С ДНЕМ МАТЕРИ!",
+            subtitle: "ТВОЯ ЛЮБОВЬ ДЕЛАЕТ КАЖДЫЙ ДЕНЬ ЯРЧЕ.",
+            ai_header: "Создайте особенное сообщение для мамы",
+            ai_subheader: "Позвольте ИИ помочь вам написать теплое сообщение для вашей мамы.",
+            button_text: "✨ Создать сообщение",
+            loading_text: "Создание душевного сообщения...",
+            error_text: "К сожалению, в данный момент сообщение создать не удалось. Пожалуйста, попробуйте еще раз.",
+            prompt: "Напиши короткое, душевное, одно предложение для мамы на русском языке."
+        },
+        zh: {
+            title: "母亲节快乐",
+            subtitle: "您的爱让每一天都更加光明。",
+            ai_header: "为妈妈创建一条特别的信息",
+            ai_subheader: "让 AI 帮助您为妈妈写下充满爱意的信息。",
+            button_text: "✨ 生成信息",
+            loading_text: "正在生成温馨的信息...",
+            error_text: "抱歉，暂时无法生成信息。请再试一次。",
+            prompt: "用中文为妈妈写一句简短、温馨的话。"
+        }
+    };
+
+    // Function to update all text elements based on the selected language
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        const content = translations[lang];
+        
+        document.getElementById('main-title').textContent = content.title;
+        document.getElementById('subtitle').textContent = content.subtitle;
+        document.getElementById('ai-header').textContent = content.ai_header;
+        document.getElementById('ai-subheader').textContent = content.ai_subheader;
+        document.getElementById('generateButton').innerHTML = content.button_text;
+        document.querySelector('#loadingIndicator p').textContent = content.loading_text;
+        
+        // Hide previous AI message when language changes
+        document.getElementById('aiMessage').classList.add('hidden');
+    }
+
+    // AI message generation function
+    async function generateMessage() {
+        const generateButton = document.getElementById('generateButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const aiMessageContainer = document.getElementById('aiMessage');
+        const aiMessageParagraph = aiMessageContainer.querySelector('p');
+        const langContent = translations[currentLanguage];
+
+        generateButton.disabled = true;
+        generateButton.classList.add('opacity-50', 'cursor-not-allowed');
+        loadingIndicator.classList.remove('hidden');
+        aiMessageContainer.classList.add('hidden');
+
+        const prompt = langContent.prompt;
+        const apiKey = "AIzaSyDj_fOvwZ80qfWaryvy5FNjSiyKt1wAF04"; // API key is handled by the environment
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        const payload = {
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+        };
+
+        try {
+            let response;
+            let retries = 3;
+            let delay = 1000;
+            for (let i = 0; i < retries; i++) {
+                response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) break;
+                if (response.status === 429 || response.status >= 500) {
+                     await new Promise(resolve => setTimeout(resolve, delay));
+                     delay *= 2;
+                } else {
+                    break;
+                }
+            }
+
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
+            }
+
+            const result = await response.json();
+            const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (text) {
+                aiMessageParagraph.textContent = text.trim();
+            } else {
+                throw new Error("No content received from API.");
+            }
+
+        } catch (error) {
+            console.error("Error generating message:", error);
+            aiMessageParagraph.textContent = langContent.error_text;
+        } finally {
+            aiMessageContainer.classList.remove('hidden');
+            loadingIndicator.classList.add('hidden');
+            generateButton.disabled = false;
+            generateButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+    
+    // Set the initial language when the page loads
+    window.onload = () => {
+        changeLanguage(currentLanguage);
+    };
+  </script>
+
+</body>
+</html>
