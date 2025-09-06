@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperscale Data Center Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif;
+            background-color: #F8F9FA;
+            transition: background-color 0.3s;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #DEE2E6;
+            background-color: #FFFFFF;
+            color: #495057;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .lang-btn.active {
+            background-color: #0D6EFD;
+            color: #FFFFFF;
+            border-color: #0D6EFD;
+            box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+        }
+        .lang-btn:hover:not(.active) {
+            background-color: #E9ECEF;
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+    
+    <div id="language-selector" class="container mx-auto p-4 flex justify-center space-x-2 sticky top-0 bg-white/80 backdrop-blur-sm z-10">
+        <button onclick="switchLanguage('en')" class="lang-btn" id="btn-en">English</button>
+        <button onclick="switchLanguage('th')" class="lang-btn active" id="btn-th">ไทย</button>
+        <button onclick="switchLanguage('ru')" class="lang-btn" id="btn-ru">Русский</button>
+        <button onclick="switchLanguage('zh')" class="lang-btn" id="btn-zh">中文</button>
+    </div>
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500" data-lang-key="mainTitle">Hyperscale Data Center</h1>
+            <p class="text-xl md:text-2xl mt-2 text-gray-500" data-lang-key="mainSubtitle">โอกาสและบทบาทในการพลิกโฉมเศรษฐกิจดิจิทัลของไทย</p>
+        </header>
+
+        <section id="intro" class="mb-16">
+             <div class="text-center p-8 bg-white rounded-2xl shadow-lg border border-gray-200">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-lang-key="introTitle">โครงสร้างพื้นฐานสำคัญของโลกยุคดิจิทัล</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang-key="introText">
+                    Data Center คือหัวใจของการทำธุรกรรมดิจิทัลทุกรูปแบบ ตั้งแต่โซเชียลมีเดีย, AI, ไปจนถึง Cloud Computing โลกกำลังก้าวสู่ยุค Gigawatt Data Center ขนาดมหึมาที่สามารถขยายตัวได้อย่างไร้ขีดจำกัด เพื่อรองรับการเติบโตของข้อมูลและบริการแห่งอนาคต
+                </p>
+            </div>
+        </section>
+
+        <section id="asean-competition" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" data-lang-key="aseanTitle">สมรภูมิ Data Center ในอาเซียน</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-blue-600" data-lang-key="capacityChartTitle">อันดับ Data Center Capacity ในอาเซียน</h3>
+                    <p class="text-center text-gray-500 mb-4 text-sm" data-lang-key="capacityChartDesc">สิงคโปร์ยังคงเป็นผู้นำ แต่มีข้อจำกัดด้านพื้นที่และพลังงาน ทำให้ผู้เล่นรายใหญ่มองหาทำเลใหม่ โดยไทยอยู่ในอันดับที่ 3 และมีแนวโน้มเติบโตสูง</p>
+                    <div class="chart-container">
+                        <canvas id="capacityChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-teal-600" data-lang-key="growthChartTitle">คาดการณ์อัตราการเติบโตเฉลี่ยต่อปี (4 ปีข้างหน้า)</h3>
+                    <p class="text-center text-gray-500 mb-4 text-sm" data-lang-key="growthChartDesc">อัตราการเติบโตของไทยไล่ตามมาเลเซียอย่างใกล้ชิด สะท้อนถึงศักยภาพที่แข็งแกร่งในการเป็นศูนย์กลาง Data Center แห่งใหม่ของภูมิภาค</p>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="thailand-strengths" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" data-lang-key="strengthsTitle">จุดแข็งและปัจจัยได้เปรียบของประเทศไทย</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-blue-50 p-6 rounded-xl shadow-md text-center border border-blue-200">
+                    <div class="text-5xl mb-4">⚡️</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-800" data-lang-key="strength1Title">ความมั่นคงด้านพลังงาน</h3>
+                    <p class="text-3xl font-bold text-blue-600">0.688</p>
+                    <p class="text-blue-700" data-lang-key="strength1Desc">วันต่อปี คือความเสี่ยงไฟฟ้าดับสูงสุด ซึ่งต่ำมาก</p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-xl shadow-md text-center border border-green-200">
+                    <div class="text-5xl mb-4">📡</div>
+                    <h3 class="text-xl font-bold mb-2 text-green-800" data-lang-key="strength2Title">โครงสร้างพื้นฐานโทรคมนาคม</h3>
+                     <p class="text-3xl font-bold text-green-600">90%</p>
+                    <p class="text-green-700" data-lang-key="strength2Desc">ของประชากรที่ 5G ครอบคลุม</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-xl shadow-md text-center border border-yellow-200">
+                    <div class="text-5xl mb-4">🗺️</div>
+                    <h3 class="text-xl font-bold mb-2 text-yellow-800" data-lang-key="strength3Title">ทำเลเชิงยุทธศาสตร์</h3>
+                    <p class="text-yellow-700" data-lang-key="strength3Desc">ใจกลางกลุ่มประเทศ <span class="font-bold">CLMV</span> ทำให้เป็นศูนย์กลางกระจายข้อมูลได้อย่างสมบูรณ์แบบ</p>
+                </div>
+                <div class="bg-pink-50 p-6 rounded-xl shadow-md text-center border border-pink-200">
+                    <div class="text-5xl mb-4">🤝</div>
+                    <h3 class="text-xl font-bold mb-2 text-pink-800" data-lang-key="strength4Title">การส่งเสริมจากภาครัฐ</h3>
+                    <p class="text-pink-700" data-lang-key="strength4Desc">BOI มอบสิทธิประโยชน์ทางภาษีและสนับสนุนด้านพลังงาน</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="energy-focus" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" data-lang-key="energyTitle">พลังงาน: ตัวชี้วัดสำคัญแห่งอนาคต</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-red-500" data-lang-key="energyChartTitle">สัดส่วนการใช้พลังงานของ Data Center ทั่วโลก</h3>
+                    <p class="text-center text-gray-500 mb-4" data-lang-key="energyChartDesc">คาดการณ์ว่าภายในปี 2030, Data Center อาจใช้ไฟฟ้าสูงถึง 3% ของการใช้พลังงานทั้งโลก การเตรียมความพร้อมด้านพลังงานจึงเป็นปัจจัยชี้ขาด</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="energyConsumptionChart"></canvas>
+                    </div>
+                </div>
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-bold text-blue-600" data-lang-key="partnershipTitle">ความร่วมมือเชิงกลยุทธ์</h3>
+                    <p class="mt-2 text-lg text-gray-600" data-lang-key="partnershipDesc">B.Grimm Power และ Digital Edge ร่วมมือพัฒนาโครงการ <span class="font-bold">Digital Edge B.Grimm Thailand</span> ตั้งเป้าพัฒนา Data Center ขนาด 96 MW ใน EEC เพื่อรองรับความต้องการระดับ Hyperscale</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ecosystem" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" data-lang-key="ecosystemTitle">สู่ระบบนิเวศดิจิทัลครบวงจร (DIaaS)</h2>
+            <p class="text-center text-gray-500 max-w-3xl mx-auto mb-10" data-lang-key="ecosystemDesc">ไม่ใช่แค่การสร้าง Data Center แต่คือการวางรากฐาน Digital Infrastructure as a Service ที่ครอบคลุม 3 เสาหลัก เพื่อขับเคลื่อนประเทศสู่ Smart City อย่างแท้จริง</p>
+            
+            <div class="flex flex-col items-center">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center border-t-4 border-blue-300">
+                        <p class="text-3xl mb-3">🏢</p>
+                        <h4 class="text-xl font-bold text-gray-800" data-lang-key="pillar1Title">1. Data Center</h4>
+                        <p class="text-gray-600 mt-2" data-lang-key="pillar1Desc">ศูนย์จัดเก็บและประมวลผลข้อมูลขนาดใหญ่</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center border-t-4 border-green-300">
+                        <p class="text-3xl mb-3">🔋</p>
+                        <h4 class="text-xl font-bold text-gray-800" data-lang-key="pillar2Title">2. Energy Platform</h4>
+                        <p class="text-gray-600 mt-2" data-lang-key="pillar2Desc">บริการพลังงานอัจฉริยะสำหรับ Data Center และภาคอุตสาหกรรม</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center border-t-4 border-yellow-300">
+                        <p class="text-3xl mb-3">🏭</p>
+                        <h4 class="text-xl font-bold text-gray-800" data-lang-key="pillar3Title">3. Industrial Digital Services</h4>
+                        <p class="text-gray-600 mt-2" data-lang-key="pillar3Desc">บริการดิจิทัลเสริมแกร่งภาคอุตสาหกรรมด้วย AI และ Data Analytics</p>
+                    </div>
+                </div>
+
+                <div class="my-8 text-4xl text-gray-400">⬇️</div>
+
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-inner w-full max-w-6xl border border-gray-200">
+                    <h4 class="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500 mb-6" data-lang-key="outcomeTitle">ผลลัพธ์: ขับเคลื่อนสู่ Smart Thailand</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center text-gray-700">
+                        <div>
+                            <p class="text-2xl mb-2">🏥</p>
+                            <p class="font-semibold" data-lang-key="smartHospital">Smart Hospital</p>
+                            <p class="text-sm text-gray-500" data-lang-key="smartHospitalDesc">แพลตฟอร์มสุขภาพแห่งชาติ</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl mb-2">🏭</p>
+                            <p class="font-semibold" data-lang-key="smartIndustry">Smart Industrial Estate</p>
+                             <p class="text-sm text-gray-500" data-lang-key="smartIndustryDesc">ศูนย์กลางการผลิตอัจฉริยะ</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl mb-2">🌾</p>
+                            <p class="font-semibold" data-lang-key="smartAgri">Smart Agriculture</p>
+                             <p class="text-sm text-gray-500" data-lang-key="smartAgriDesc">เกษตรกรรมที่ยั่งยืนและแม่นยำ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-800" data-lang-key="footerTitle">เกมระยะยาวที่ต้องร่วมมือกัน</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4" data-lang-key="footerText">
+                การผลักดันอุตสาหกรรม Hyperscale Data Center เป็นภารกิจร่วมกันของทั้งภาครัฐและเอกชน หากวางแผนและสนับสนุนอย่างจริงจัง ประเทศไทยไม่เพียงแต่ไล่ตามผู้อื่น แต่สามารถก้าวขึ้นเป็นผู้นำในสมรภูมินี้ได้
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                mainTitle: "Hyperscale Data Center",
+                mainSubtitle: "Thailand's Opportunity to Transform its Digital Economy",
+                introTitle: "The Core Infrastructure of the Digital World",
+                introText: "Data centers are the heart of all digital transactions, from social media and AI to cloud computing. The world is entering the era of Gigawatt Data Centers—massive facilities that can scale infinitely to support future data and service growth.",
+                aseanTitle: "The Data Center Battlefield in ASEAN",
+                capacityChartTitle: "Data Center Capacity Ranking in ASEAN",
+                capacityChartDesc: "Singapore remains the leader but faces limitations in land and power, causing major players to seek new locations. Thailand is ranked third with high growth potential.",
+                growthChartTitle: "Forecasted Average Annual Growth (Next 4 Years)",
+                growthChartDesc: "Thailand's growth rate is closely trailing Malaysia's, reflecting its strong potential to become the region's new data center hub.",
+                strengthsTitle: "Thailand's Strengths and Advantages",
+                strength1Title: "Energy Stability",
+                strength1Desc: "days/year is the max risk of power outages, which is very low.",
+                strength2Title: "Telecom Infrastructure",
+                strength2Desc: "of the population is covered by 5G.",
+                strength3Title: "Strategic Location",
+                strength3Desc: "At the heart of the CLMV countries, making it a perfect data distribution hub.",
+                strength4Title: "Government Support",
+                strength4Desc: "The BOI offers tax incentives and energy support.",
+                energyTitle: "Energy: A Key Indicator for the Future",
+                energyChartTitle: "Global Data Center Energy Consumption Share",
+                energyChartDesc: "By 2030, data centers could consume up to 3% of the world's electricity. Energy preparedness is therefore a decisive competitive factor.",
+                partnershipTitle: "Strategic Partnership",
+                partnershipDesc: "B.Grimm Power and Digital Edge are collaborating on the 'Digital Edge B.Grimm Thailand' project, aiming to develop a 96 MW data center in the EEC to meet hyperscale demands.",
+                ecosystemTitle: "Towards a Complete Digital Ecosystem (DIaaS)",
+                ecosystemDesc: "It's not just about building data centers, but laying the foundation for Digital Infrastructure as a Service (DIaaS) covering 3 main pillars to truly drive the nation towards a Smart City.",
+                pillar1Title: "1. Data Center",
+                pillar1Desc: "Large-scale data storage and processing centers.",
+                pillar2Title: "2. Energy Platform",
+                pillar2Desc: "Smart energy services for data centers and industries.",
+                pillar3Title: "3. Industrial Digital Services",
+                pillar3Desc: "Digital services to empower industries with AI and Data Analytics.",
+                outcomeTitle: "The Outcome: Driving Towards a Smart Thailand",
+                smartHospital: "Smart Hospital",
+                smartHospitalDesc: "National Health Platform",
+                smartIndustry: "Smart Industrial Estate",
+                smartIndustryDesc: "Intelligent Manufacturing Hub",
+                smartAgri: "Smart Agriculture",
+                smartAgriDesc: "Sustainable and Precise Farming",
+                footerTitle: "A Long-Term Game Requiring Collaboration",
+                footerText: "Promoting the hyperscale data center industry is a joint mission for both the public and private sectors. With serious planning and support, Thailand can not only catch up but also emerge as a leader in this arena.",
+                chartCapacityLabel: "Data Center Capacity (MW)",
+                chartGrowthLabel: "Average Growth Rate (%)",
+                chartEnergyLabel1: "Data Centers (2030 Forecast)",
+                chartEnergyLabel2: "Other Global Usage",
+                countries: ["Singapore", "Malaysia", "Thailand", "Indonesia", "Vietnam"],
+            },
+            th: {
+                mainTitle: "Hyperscale Data Center",
+                mainSubtitle: "โอกาสและบทบาทในการพลิกโฉมเศรษฐกิจดิจิทัลของไทย",
+                introTitle: "โครงสร้างพื้นฐานสำคัญของโลกยุคดิจิทัล",
+                introText: "Data Center คือหัวใจของการทำธุรกรรมดิจิทัลทุกรูปแบบ ตั้งแต่โซเชียลมีเดีย, AI, ไปจนถึง Cloud Computing โลกกำลังก้าวสู่ยุค Gigawatt Data Center ขนาดมหึมาที่สามารถขยายตัวได้อย่างไร้ขีดจำกัด เพื่อรองรับการเติบโตของข้อมูลและบริการแห่งอนาคต",
+                aseanTitle: "สมรภูมิ Data Center ในอาเซียน",
+                capacityChartTitle: "อันดับ Data Center Capacity ในอาเซียน",
+                capacityChartDesc: "สิงคโปร์ยังคงเป็นผู้นำ แต่มีข้อจำกัดด้านพื้นที่และพลังงาน ทำให้ผู้เล่นรายใหญ่มองหาทำเลใหม่ โดยไทยอยู่ในอันดับที่ 3 และมีแนวโน้มเติบโตสูง",
+                growthChartTitle: "คาดการณ์อัตราการเติบโตเฉลี่ยต่อปี (4 ปีข้างหน้า)",
+                growthChartDesc: "อัตราการเติบโตของไทยไล่ตามมาเลเซียอย่างใกล้ชิด สะท้อนถึงศักยภาพที่แข็งแกร่งในการเป็นศูนย์กลาง Data Center แห่งใหม่ของภูมิภาค",
+                strengthsTitle: "จุดแข็งและปัจจัยได้เปรียบของประเทศไทย",
+                strength1Title: "ความมั่นคงด้านพลังงาน",
+                strength1Desc: "วันต่อปี คือความเสี่ยงไฟฟ้าดับสูงสุด ซึ่งต่ำมาก",
+                strength2Title: "โครงสร้างพื้นฐานโทรคมนาคม",
+                strength2Desc: "ของประชากรที่ 5G ครอบคลุม",
+                strength3Title: "ทำเลเชิงยุทธศาสตร์",
+                strength3Desc: "ใจกลางกลุ่มประเทศ <span class=\"font-bold\">CLMV</span> ทำให้เป็นศูนย์กลางกระจายข้อมูลได้อย่างสมบูรณ์แบบ",
+                strength4Title: "การส่งเสริมจากภาครัฐ",
+                strength4Desc: "BOI มอบสิทธิประโยชน์ทางภาษีและสนับสนุนด้านพลังงาน",
+                energyTitle: "พลังงาน: ตัวชี้วัดสำคัญแห่งอนาคต",
+                energyChartTitle: "สัดส่วนการใช้พลังงานของ Data Center ทั่วโลก",
+                energyChartDesc: "คาดการณ์ว่าภายในปี 2030, Data Center อาจใช้ไฟฟ้าสูงถึง 3% ของการใช้พลังงานทั้งโลก การเตรียมความพร้อมด้านพลังงานจึงเป็นปัจจัยชี้ขาด",
+                partnershipTitle: "ความร่วมมือเชิงกลยุทธ์",
+                partnershipDesc: "B.Grimm Power และ Digital Edge ร่วมมือพัฒนาโครงการ <span class=\"font-bold\">Digital Edge B.Grimm Thailand</span> ตั้งเป้าพัฒนา Data Center ขนาด 96 MW ใน EEC เพื่อรองรับความต้องการระดับ Hyperscale",
+                ecosystemTitle: "สู่ระบบนิเวศดิจิทัลครบวงจร (DIaaS)",
+                ecosystemDesc: "ไม่ใช่แค่การสร้าง Data Center แต่คือการวางรากฐาน Digital Infrastructure as a Service ที่ครอบคลุม 3 เสาหลัก เพื่อขับเคลื่อนประเทศสู่ Smart City อย่างแท้จริง",
+                pillar1Title: "1. Data Center",
+                pillar1Desc: "ศูนย์จัดเก็บและประมวลผลข้อมูลขนาดใหญ่",
+                pillar2Title: "2. Energy Platform",
+                pillar2Desc: "บริการพลังงานอัจฉริยะสำหรับ Data Center และภาคอุตสาหกรรม",
+                pillar3Title: "3. Industrial Digital Services",
+                pillar3Desc: "บริการดิจิทัลเสริมแกร่งภาคอุตสาหกรรมด้วย AI และ Data Analytics",
+                outcomeTitle: "ผลลัพธ์: ขับเคลื่อนสู่ Smart Thailand",
+                smartHospital: "Smart Hospital",
+                smartHospitalDesc: "แพลตฟอร์มสุขภาพแห่งชาติ",
+                smartIndustry: "Smart Industrial Estate",
+                smartIndustryDesc: "ศูนย์กลางการผลิตอัจฉริยะ",
+                smartAgri: "Smart Agriculture",
+                smartAgriDesc: "เกษตรกรรมที่ยั่งยืนและแม่นยำ",
+                footerTitle: "เกมระยะยาวที่ต้องร่วมมือกัน",
+                footerText: "การผลักดันอุตสาหกรรม Hyperscale Data Center เป็นภารกิจร่วมกันของทั้งภาครัฐและเอกชน หากวางแผนและสนับสนุนอย่างจริงจัง ประเทศไทยไม่เพียงแต่ไล่ตามผู้อื่น แต่สามารถก้าวขึ้นเป็นผู้นำในสมรภูมินี้ได้",
+                chartCapacityLabel: "Data Center Capacity (MW)",
+                chartGrowthLabel: "อัตราการเติบโตเฉลี่ย (%)",
+                chartEnergyLabel1: "Data Center (คาดการณ์ 2030)",
+                chartEnergyLabel2: "การใช้งานอื่นๆ ทั่วโลก",
+                countries: ["สิงคโปร์", "มาเลเซีย", "ไทย", "อินโดนีเซีย", "เวียดนาม"],
+            },
+            ru: {
+                mainTitle: "Гипермасштабный ЦОД",
+                mainSubtitle: "Возможности Таиланда для трансформации цифровой экономики",
+                introTitle: "Ключевая инфраструктура цифрового мира",
+                introText: "Центры обработки данных — это сердце всех цифровых операций, от социальных сетей и ИИ до облачных вычислений. Мир вступает в эру гигаваттных ЦОДов — масштабных объектов, способных к бесконечному расширению для поддержки будущего роста данных и услуг.",
+                aseanTitle: "Битва за ЦОДы в АСЕАН",
+                capacityChartTitle: "Рейтинг мощностей ЦОДов в АСЕАН",
+                capacityChartDesc: "Сингапур остается лидером, но сталкивается с нехваткой земли и энергии, что заставляет крупных игроков искать новые локации. Таиланд занимает третье место с высоким потенциалом роста.",
+                growthChartTitle: "Прогнозируемый среднегодовой рост (следующие 4 года)",
+                growthChartDesc: "Темпы роста Таиланда почти догнали Малайзию, что отражает его сильный потенциал стать новым центром обработки данных в регионе.",
+                strengthsTitle: "Сильные стороны и преимущества Таиланда",
+                strength1Title: "Стабильность энергоснабжения",
+                strength1Desc: "дней в году — максимальный риск отключения, что очень мало.",
+                strength2Title: "Телеком-инфраструктура",
+                strength2Desc: "населения охвачено сетью 5G.",
+                strength3Title: "Стратегическое положение",
+                strength3Desc: "В сердце стран CLMV, что делает его идеальным центром распределения данных.",
+                strength4Title: "Господдержка",
+                strength4Desc: "BOI предлагает налоговые льготы и поддержку в сфере энергетики.",
+                energyTitle: "Энергетика: ключевой показатель будущего",
+                energyChartTitle: "Доля мирового энергопотребления ЦОДами",
+                energyChartDesc: "К 2030 году ЦОДы могут потреблять до 3% мирового электричества. Готовность в сфере энергетики является решающим фактором конкурентоспособности.",
+                partnershipTitle: "Стратегическое партнерство",
+                partnershipDesc: "B.Grimm Power и Digital Edge сотрудничают в рамках проекта 'Digital Edge B.Grimm Thailand' с целью создания ЦОДа мощностью 96 МВт в ВЭК для удовлетворения гипермасштабных потребностей.",
+                ecosystemTitle: "К полноценной цифровой экосистеме (DIaaS)",
+                ecosystemDesc: "Речь идет не просто о строительстве ЦОДов, а о создании основы для 'Цифровой инфраструктуры как услуги' (DIaaS), охватывающей 3 основных столпа, чтобы по-настоящему привести страну к концепции 'Умного города'.",
+                pillar1Title: "1. Центр обработки данных",
+                pillar1Desc: "Крупномасштабные центры хранения и обработки данных.",
+                pillar2Title: "2. Энергетическая платформа",
+                pillar2Desc: "Умные энергетические услуги для ЦОДов и промышленности.",
+                pillar3Title: "3. Промышленные цифровые услуги",
+                pillar3Desc: "Цифровые услуги для усиления промышленности с помощью ИИ и аналитики данных.",
+                outcomeTitle: "Результат: на пути к 'Умному Таиланду'",
+                smartHospital: "Умная больница",
+                smartHospitalDesc: "Национальная платформа здравоохранения",
+                smartIndustry: "Умный индустриальный парк",
+                smartIndustryDesc: "Центр интеллектуального производства",
+                smartAgri: "Умное сельское хозяйство",
+                smartAgriDesc: "Устойчивое и точное земледелие",
+                footerTitle: "Долгосрочная игра, требующая сотрудничества",
+                footerText: "Продвижение индустрии гипермасштабных ЦОДов — это совместная миссия государственного и частного секторов. При серьезном планировании и поддержке Таиланд может не только догнать, но и стать лидером на этой арене.",
+                chartCapacityLabel: "Мощность ЦОД (МВт)",
+                chartGrowthLabel: "Средний темп роста (%)",
+                chartEnergyLabel1: "ЦОДы (прогноз на 2030 г.)",
+                chartEnergyLabel2: "Другое мировое потребление",
+                countries: ["Сингапур", "Малайзия", "Таиланд", "Индонезия", "Вьетнам"],
+            },
+            zh: {
+                mainTitle: "超大规模数据中心",
+                mainSubtitle: "泰国转型数字经济的机遇",
+                introTitle: "数字世界的核心基础设施",
+                introText: "数据中心是所有数字交易的心脏，从社交媒体、人工智能到云计算。世界正进入吉瓦级数据中心时代——能够无限扩展以支持未来数据和服务增长的大规模设施。",
+                aseanTitle: "东盟数据中心战场",
+                capacityChartTitle: "东盟数据中心容量排名",
+                capacityChartDesc: "新加坡仍是领导者，但面临土地和电力限制，促使主要参与者寻找新地点。泰国排名第三，具有高增长潜力。",
+                growthChartTitle: "预测年均增长率（未来4年）",
+                growthChartDesc: "泰国的增长率紧随马来西亚之后，反映了其成为该地区新数据中心枢纽的强大潜力。",
+                strengthsTitle: "泰国的优势",
+                strength1Title: "能源稳定性",
+                strength1Desc: "天/年是最大停电风险，这一比例非常低。",
+                strength2Title: "电信基础设施",
+                strength2Desc: "的人口被5G网络覆盖。",
+                strength3Title: "战略位置",
+                strength3Desc: "地处CLMV国家中心，是完美的数据分发枢纽。",
+                strength4Title: "政府支持",
+                strength4Desc: "投资促进委员会（BOI）提供税收优惠和能源支持。",
+                energyTitle: "能源：未来的关键指标",
+                energyChartTitle: "全球数据中心能耗份额",
+                energyChartDesc: "到2030年，数据中心可能消耗全球电力的3%。因此，能源准备是决定性的竞争因素。",
+                partnershipTitle: "战略伙伴关系",
+                partnershipDesc: "B.Grimm Power与Digital Edge合作开展“Digital Edge B.Grimm Thailand”项目，旨在东部经济走廊（EEC）开发一个96兆瓦的数据中心，以满足超大规模需求。",
+                ecosystemTitle: "迈向完整的数字生态系统（DIaaS）",
+                ecosystemDesc: "这不仅是建设数据中心，更是为“数字基础设施即服务”（DIaaS）奠定基础，涵盖三大支柱，真正推动国家迈向智慧城市。",
+                pillar1Title: "1. 数据中心",
+                pillar1Desc: "大规模数据存储和处理中心。",
+                pillar2Title: "2. 能源平台",
+                pillar2Desc: "为数据中心和行业提供智能能源服务。",
+                pillar3Title: "3. 工业数字服务",
+                pillar3Desc: "通过人工智能和数据分析为行业赋能的数字服务。",
+                outcomeTitle: "成果：迈向智慧泰国",
+                smartHospital: "智慧医院",
+                smartHospitalDesc: "国家健康平台",
+                smartIndustry: "智慧工业园区",
+                smartIndustryDesc: "智能制造中心",
+                smartAgri: "智慧农业",
+                smartAgriDesc: "可持续精准农业",
+                footerTitle: "需要合作的长期博弈",
+                footerText: "推动超大规模数据中心产业是公共和私营部门的共同使命。通过认真的规划和支持，泰国不仅可以迎头赶上，还可以在这个领域脱颖而出，成为领导者。",
+                chartCapacityLabel: "数据中心容量 (MW)",
+                chartGrowthLabel: "平均增长率 (%)",
+                chartEnergyLabel1: "数据中心 (2030年预测)",
+                chartEnergyLabel2: "全球其他用途",
+                countries: ["新加坡", "马来西亚", "泰国", "印度尼西亚", "越南"],
+            }
+        };
+
+        let capacityChart, growthChart, energyConsumptionChart;
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const sharedChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#495057',
+                        font: { size: 14, family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    bodyFont: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" },
+                    titleFont: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" },
+                    backgroundColor: '#FFFFFF',
+                    titleColor: '#212529',
+                    bodyColor: '#495057',
+                    borderColor: '#DEE2E6',
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { 
+                        color: '#6C757D',
+                        font: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    ticks: { 
+                        color: '#6C757D',
+                        font: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" }
+                     },
+                     grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        function createCharts() {
+            const capacityCtx = document.getElementById('capacityChart').getContext('2d');
+            capacityChart = new Chart(capacityCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '',
+                        data: [1000, 450, 380, 250, 180],
+                        backgroundColor: ['#a9def9', '#fcf6bd', '#d0f4de', '#ff99c8', '#e4c1f9'],
+                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { ...sharedChartOptions, indexAxis: 'y' }
+            });
+
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            growthChart = new Chart(growthCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '',
+                        data: [36.8, 31.2, 28, 25, 15],
+                        backgroundColor: ['#fcf6bd', '#d0f4de', '#e4c1f9', '#ff99c8', '#a9def9'],
+                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { ...sharedChartOptions }
+            });
+
+            const energyCtx = document.getElementById('energyConsumptionChart').getContext('2d');
+            energyConsumptionChart = new Chart(energyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [3, 97],
+                        backgroundColor: ['#ff99c8', '#e9ecef'],
+                        hoverBackgroundColor: ['#f76fb3', '#ced4da'],
+                        borderColor: '#F8F9FA',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#495057',
+                                font: { size: 14, family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            },
+                            bodyFont: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" },
+                            titleFont: { family: "'Sarabun', 'Noto Sans', 'Noto Sans SC', sans-serif" },
+                            backgroundColor: '#FFFFFF',
+                            titleColor: '#212529',
+                            bodyColor: '#495057',
+                            borderColor: '#DEE2E6',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            document.documentElement.lang = lang;
+            
+            const langData = translations[lang];
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (langData[key]) {
+                    el.innerHTML = langData[key];
+                }
+            });
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+
+            capacityChart.data.datasets[0].label = langData.chartCapacityLabel;
+            capacityChart.data.labels = langData.countries;
+            
+            growthChart.data.datasets[0].label = langData.chartGrowthLabel;
+            growthChart.data.labels = [langData.countries[1], langData.countries[2], langData.countries[4], langData.countries[3], langData.countries[0]];
+
+            energyConsumptionChart.data.labels = [langData.chartEnergyLabel1, langData.chartEnergyLabel2];
+
+            capacityChart.update();
+            growthChart.update();
+            energyConsumptionChart.update();
+        }
+        
+        window.onload = () => {
+            createCharts();
+            switchLanguage('th');
+        };
+
+    </script>
+</body>
+</html>
+
