@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ญี่ปุ่นกับการยกระดับไทยสู่ศูนย์กลางอาเซียน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow::after {
+            content: '→';
+            font-size: 2.5rem;
+            line-height: 1;
+            color: #4771b2;
+            margin: 0 1rem;
+        }
+        .pyramid-level {
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            margin-bottom: -1px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #4771b2;
+            border: 4px solid #a2d5d6;
+        }
+    </style>
+</head>
+<body class="bg-[#f0f4f8] text-[#0d1b2a]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <div class="flex justify-center mb-8 space-x-1 md:space-x-2 bg-white p-2 rounded-full shadow-md max-w-xs mx-auto">
+            <button data-lang="en" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">ENG</button>
+            <button data-lang="th" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">ไทย</button>
+            <button data-lang="ru" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">РУС</button>
+            <button data-lang="zh" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">中文</button>
+        </div>
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#00429d] mb-2" data-translate-key="mainTitle">โอกาสทองของไทย</h1>
+            <h2 class="text-2xl md:text-4xl font-semibold text-[#4771b2]" data-translate-key="subtitle">ญี่ปุ่นปักหมุด ลงทุนแสนล้าน ดันไทยสู่ศูนย์กลางอาเซียน</h2>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-translate-key="headerParagraph">การลงทุนครั้งประวัติศาสตร์นี้เป็นสัญญาณเปลี่ยนเกม ที่จะยกระดับเศรษฐกิจไทยจากฐานการผลิตสู่ศูนย์กลางนวัตกรรมและเทคโนโลยีแห่งอนาคตของภูมิภาค</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row items-center justify-center text-center">
+                <div class="md:w-1/2">
+                    <p class="text-2xl font-semibold text-gray-700" data-translate-key="investmentLabel">เม็ดเงินลงทุนในโครงการ</p>
+                    <p class="text-3xl font-bold text-[#00429d]" data-translate-key="investmentProject">ระเบียงเศรษฐกิจพิเศษภาคตะวันออก (EEC)</p>
+                </div>
+                <div class="md:w-1/2 mt-4 md:mt-0">
+                    <p class="text-6xl md:text-8xl font-bold text-[#4771b2] tracking-tighter" data-translate-key="investmentAmount">100,000</p>
+                    <p class="text-3xl font-semibold text-[#73a2c6]" data-translate-key="investmentUnit">ล้านบาท</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="whyThailandTitle">ทำไมต้องไทย? ยืนหนึ่งในอาเซียน</h3>
+                <p class="text-gray-600 mb-4 text-center" data-translate-key="whyThailandParagraph">ญี่ปุ่นเลือกไทยเป็นพันธมิตรอันดับ 1 จากเสถียรภาพทางการเมืองที่เหนือกว่าคู่แข่ง และความพร้อมด้านโครงสร้างพื้นฐานที่ส่งเสริมการลงทุนระยะยาวได้อย่างมั่นคง</p>
+                <div class="chart-container">
+                    <canvas id="stabilityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="industryTitle">4 เสาหลักอุตสาหกรรมเป้าหมาย</h3>
+                <p class="text-gray-600 mb-4 text-center" data-translate-key="industryParagraph">การลงทุนมุ่งเน้น 4 กลุ่มอุตสาหกรรมแห่งอนาคตที่จะเป็นหัวใจสำคัญในการขับเคลื่อนเศรษฐกิจและสร้างห่วงโซ่อุปทานเทคโนโลยีชั้นสูงในภูมิภาค</p>
+                 <div class="chart-container">
+                    <canvas id="industryChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-6 text-[#00429d]" data-translate-key="strategyTitle">การเปลี่ยนผ่านสู่พันธมิตรเชิงยุทธศาสตร์</h3>
+                <p class="text-gray-600 mb-6 text-center max-w-4xl mx-auto" data-translate-key="strategyParagraph">การลงทุนนี้ไม่ใช่แค่การย้ายฐานการผลิต แต่เป็นการสร้าง 'ศูนย์กลางเชื่อมโลก' ในไทย เพื่อสร้างสมดุลอำนาจในภูมิภาคและดึงดูดมหาอำนาจอื่นๆ ให้เข้ามาลงทุนตาม เกิดเป็น 'Domino Effect'</p>
+                <div class="flex flex-col md:flex-row items-center justify-center text-center">
+                    <div class="bg-[#a2d5d6] text-[#00429d] p-4 rounded-lg shadow-md">
+                        <p class="font-bold text-lg" data-translate-key="strategyStep1_title">China Plus One</p>
+                        <p class="text-sm" data-translate-key="strategyStep1_desc">กระจายความเสี่ยง</p>
+                    </div>
+                    <div class="flow-arrow hidden md:block"></div>
+                     <div class="my-4 md:hidden text-3xl text-[#4771b2]">↓</div>
+                    <div class="bg-[#73a2c6] text-white p-4 rounded-lg shadow-md">
+                        <p class="font-bold text-lg" data-translate-key="strategyStep2_title">Thailand: Global Hub</p>
+                        <p class="text-sm" data-translate-key="strategyStep2_desc">ศูนย์กลางเชื่อมโลก</p>
+                    </div>
+                    <div class="flow-arrow hidden md:block"></div>
+                     <div class="my-4 md:hidden text-3xl text-[#4771b2]">↓</div>
+                    <div class="bg-[#4771b2] text-white p-4 rounded-lg shadow-md">
+                        <p class="font-bold text-lg" data-translate-key="strategyStep3_title">Domino Effect</p>
+                        <p class="text-sm" data-translate-key="strategyStep3_desc">USA, EU, Korea, Taiwan</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-6 text-[#00429d]" data-translate-key="impactTitle">ผลกระทบที่จะพลิกโฉมประเทศไทย</h3>
+                <p class="text-gray-600 mb-8 text-center" data-translate-key="impactParagraph">โอกาสครั้งใหญ่นี้จะส่งผลกระทบเชิงบวกในทุกมิติ ทั้งยกระดับเศรษฐกิจ สร้างงานทักษะสูง และจุดประกายแรงบันดาลใจให้คนรุ่นใหม่</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">⚙️</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactEconomy_title">เศรษฐกิจก้าวหน้า</h4>
+                        <p class="text-gray-600" data-translate-key="impactEconomy_desc">เปลี่ยนจากโรงงานรับจ้างสู่ศูนย์กลางเทคโนโลยีและนวัตกรรม</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">👨‍🔧</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactJobs_title">สร้างงานทักษะสูง</h4>
+                        <p class="text-gray-600" data-translate-key="impactJobs_desc">เกิดการจ้างงานวิศวกร นักวิจัย และผู้เชี่ยวชาญหลายหมื่นตำแหน่ง</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">💡</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactTech_title">ถ่ายทอดเทคโนโลยี</h4>
+                        <p class="text-gray-600" data-translate-key="impactTech_desc">ไทยต้องเร่ง 'อัพสกิล' เพื่อรับองค์ความรู้และเทคโนโลยีชั้นสูงจากญี่ปุ่น</p>
+                    </div>
+                     <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">🏙️</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactCity_title">พัฒนาเมืองอัจฉริยะ</h4>
+                        <p class="text-gray-600" data-translate-key="impactCity_desc">พื้นที่รอบ EEC กลายเป็นเมืองอุตสาหกรรม Smart City ที่ทันสมัย</p>
+                    </div>
+                     <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">🎓</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactEducation_title">แรงบันดาลใจการศึกษา</h4>
+                        <p class="text-gray-600" data-translate-key="impactEducation_desc">เด็กไทยสนใจเรียนด้านวิทยาศาสตร์ วิศวกรรม และดิจิทัลมากขึ้น</p>
+                    </div>
+                     <div class="bg-gray-50 p-6 rounded-lg border border-[#a2d5d6]">
+                        <div class="text-5xl mb-3">🌍</div>
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="impactIncome_title">เพิ่มรายได้ท้องถิ่น</h4>
+                        <p class="text-gray-600" data-translate-key="impactIncome_desc">สร้างธุรกิจใหม่ๆ และยกระดับคุณภาพชีวิตของคนในพื้นที่</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="challengeTitle">ความท้าทายสู่ความสำเร็จ</h3>
+                 <p class="text-gray-600 mb-6 text-center" data-translate-key="challengeParagraph">ความสำเร็จของโอกาสนี้ขึ้นอยู่กับความพร้อมของไทยในการสร้างรากฐานที่มั่นคง เพื่อตอบสนองความคาดหวังของนักลงทุนระดับโลก</p>
+                <div class="w-full max-w-sm mx-auto flex flex-col items-center">
+                    <div class="pyramid-level w-full bg-[#73a2c6] text-white text-center p-2 text-sm font-semibold" data-translate-key="challenge1">ภาครัฐรวดเร็ว</div>
+                    <div class="pyramid-level w-11/12 bg-[#73a2c6] text-white text-center p-2 text-sm font-semibold" data-translate-key="challenge2">คุ้มครองทรัพย์สินทางปัญญา</div>
+                    <div class="pyramid-level w-10/12 bg-[#4771b2] text-white text-center p-3 font-semibold" data-translate-key="challenge3">พลังงานแข่งขันได้</div>
+                    <div class="pyramid-level w-9/12 bg-[#4771b2] text-white text-center p-3 font-bold" data-translate-key="challenge4">บุคลากรทักษะสูง</div>
+                    <div class="pyramid-level w-full bg-[#00429d] text-white text-center p-4 text-lg font-bold" data-translate-key="challenge5">นโยบายต่อเนื่องและชัดเจน</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="visionTitle">วิสัยทัศน์ประเทศไทยใน 5-10 ปี</h3>
+                <p class="text-gray-600 mb-8 text-center" data-translate-key="visionParagraph">หากทำได้สำเร็จ ภาพอนาคตของประเทศไทยจะเปลี่ยนไปอย่างสิ้นเชิง กลายเป็นผู้นำด้านเทคโนโลยีและนวัตกรรมอย่างแท้จริง</p>
+                <div class="relative pl-8 border-l-4 border-[#73a2c6]">
+                    <div class="mb-8 relative timeline-item">
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="vision1_title">ศูนย์กลาง EV ที่ใหญ่ที่สุดในภูมิภาค</h4>
+                        <p class="text-gray-600" data-translate-key="vision1_desc">ฐานการผลิตและส่งออกยานยนต์ไฟฟ้าครบวงจร</p>
+                    </div>
+                     <div class="mb-8 relative timeline-item">
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="vision2_title">ผู้ส่งออกชิประดับโลก</h4>
+                        <p class="text-gray-600" data-translate-key="vision2_desc">โรงงานชิปญี่ปุ่นในไทยส่งออกไปทั่วโลก สร้างความมั่นคงให้ห่วงโซ่อุปทาน</p>
+                    </div>
+                     <div class="relative timeline-item">
+                        <h4 class="font-bold text-lg text-[#00429d]" data-translate-key="vision3_title">Smart Cities เทียบชั้นสากล</h4>
+                        <p class="text-gray-600" data-translate-key="vision3_desc">เมืองรอบ EEC แข่งขันได้กับสิงคโปร์และมาเลเซีย</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <p class="text-xl font-bold text-[#00429d]" data-translate-key="footerTitle">อนาคตอยู่ในมือเรา</p>
+            <p class="text-gray-600" data-translate-key="footerParagraph">การลงทุนครั้งนี้คือ "โอกาสทอง" ที่จะพลิกโฉมประเทศ ความสำเร็จขึ้นอยู่กับความร่วมมือของทุกภาคส่วนในประเทศไทย</p>
+        </footer>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                pageTitle: "Japan & Thailand: Elevating to an ASEAN Hub",
+                mainTitle: "Thailand's Golden Opportunity",
+                subtitle: "Japan's 100 Billion Baht Investment to Propel Thailand as ASEAN's New Hub",
+                headerParagraph: "This historic investment is a game-changer, set to elevate Thailand's economy from a manufacturing base to a regional hub of innovation and future technology.",
+                investmentLabel: "Investment in the",
+                investmentProject: "Eastern Economic Corridor (EEC)",
+                investmentAmount: "100 Billion",
+                investmentUnit: "Baht",
+                whyThailandTitle: "Why Thailand? Number 1 in ASEAN",
+                whyThailandParagraph: "Japan chose Thailand as its top partner due to political stability, which surpasses competitors, and its robust infrastructure that securely supports long-term investment.",
+                stabilityChartLabel: "Stability & Readiness Index (Est.)",
+                countryTH: "Thailand",
+                countryVN: "Vietnam",
+                countryID: "Indonesia",
+                industryTitle: "4 Key Target Industries",
+                industryParagraph: "The investment focuses on four future-oriented industries that will be crucial for driving the economy and building a high-tech supply chain in the region.",
+                industryEV: "Electric Vehicles & Batteries",
+                industryCleanEnergy: "Clean Energy & Hydrogen",
+                industryElectronics: "Electronics & Semiconductors",
+                industryLogistics: "Logistics & Digital",
+                strategyTitle: "Transition to a Strategic Partnership",
+                strategyParagraph: "This investment is not just about relocating production; it's about creating a 'Global Hub' in Thailand to balance regional power and attract other major players, creating a 'Domino Effect'.",
+                strategyStep1_title: "China Plus One",
+                strategyStep1_desc: "Risk Diversification",
+                strategyStep2_title: "Thailand: Global Hub",
+                strategyStep2_desc: "Connecting the World",
+                strategyStep3_title: "Domino Effect",
+                strategyStep3_desc: "USA, EU, Korea, Taiwan",
+                impactTitle: "Transformative Impact on Thailand",
+                impactParagraph: "This great opportunity will bring positive impacts across all dimensions, upgrading the economy, creating high-skilled jobs, and inspiring the new generation.",
+                impactEconomy_title: "Advanced Economy",
+                impactEconomy_desc: "From a contract factory to a technology and innovation hub.",
+                impactJobs_title: "High-Skilled Jobs",
+                impactJobs_desc: "Creating tens of thousands of positions for engineers, researchers, and specialists.",
+                impactTech_title: "Technology Transfer",
+                impactTech_desc: "Thailand must accelerate 'upskilling' to receive advanced knowledge from Japan.",
+                impactCity_title: "Smart City Development",
+                impactCity_desc: "Areas around the EEC will become modern, smart industrial cities.",
+                impactEducation_title: "Educational Inspiration",
+                impactEducation_desc: "Inspiring Thai children to study science, engineering, and digital fields.",
+                impactIncome_title: "Local Income Growth",
+                impactIncome_desc: "Creating new businesses and improving the quality of life for locals.",
+                challengeTitle: "Challenges to Success",
+                challengeParagraph: "The success of this opportunity depends on Thailand's readiness to build a solid foundation to meet the expectations of global investors.",
+                challenge1: "Swift Government Action",
+                challenge2: "IP Protection",
+                challenge3: "Competitive Energy",
+                challenge4: "High-Skilled Workforce",
+                challenge5: "Consistent & Clear Policy",
+                visionTitle: "Thailand's Vision in 5-10 Years",
+                visionParagraph: "If successful, Thailand's future will be completely transformed, truly becoming a leader in technology and innovation.",
+                vision1_title: "Largest EV Hub in the Region",
+                vision1_desc: "A comprehensive hub for electric vehicle production and export.",
+                vision2_title: "Global Chip Exporter",
+                vision2_desc: "Japanese chip factories in Thailand will export worldwide, securing the supply chain.",
+                vision3_title: "World-Class Smart Cities",
+                vision3_desc: "Cities around the EEC will compete with Singapore and Malaysia.",
+                footerTitle: "The Future is in Our Hands",
+                footerParagraph: "This investment is a 'Golden Opportunity' to transform the nation. Success depends on the cooperation of all sectors in Thailand."
+            },
+            th: {
+                pageTitle: "ญี่ปุ่นกับการยกระดับไทยสู่ศูนย์กลางอาเซียน",
+                mainTitle: "โอกาสทองของไทย",
+                subtitle: "ญี่ปุ่นปักหมุด ลงทุนแสนล้าน ดันไทยสู่ศูนย์กลางอาเซียน",
+                headerParagraph: "การลงทุนครั้งประวัติศาสตร์นี้เป็นสัญญาณเปลี่ยนเกม ที่จะยกระดับเศรษฐกิจไทยจากฐานการผลิตสู่ศูนย์กลางนวัตกรรมและเทคโนโลยีแห่งอนาคตของภูมิภาค",
+                investmentLabel: "เม็ดเงินลงทุนในโครงการ",
+                investmentProject: "ระเบียงเศรษฐกิจพิเศษภาคตะวันออก (EEC)",
+                investmentAmount: "100,000",
+                investmentUnit: "ล้านบาท",
+                whyThailandTitle: "ทำไมต้องไทย? ยืนหนึ่งในอาเซียน",
+                whyThailandParagraph: "ญี่ปุ่นเลือกไทยเป็นพันธมิตรอันดับ 1 จากเสถียรภาพทางการเมืองที่เหนือกว่าคู่แข่ง และความพร้อมด้านโครงสร้างพื้นฐานที่ส่งเสริมการลงทุนระยะยาวได้อย่างมั่นคง",
+                stabilityChartLabel: "ดัชนีเสถียรภาพและความพร้อม (ประเมิน)",
+                countryTH: "ไทย",
+                countryVN: "เวียดนาม",
+                countryID: "อินโดนีเซีย",
+                industryTitle: "4 เสาหลักอุตสาหกรรมเป้าหมาย",
+                industryParagraph: "การลงทุนมุ่งเน้น 4 กลุ่มอุตสาหกรรมแห่งอนาคตที่จะเป็นหัวใจสำคัญในการขับเคลื่อนเศรษฐกิจและสร้างห่วงโซ่อุปทานเทคโนโลยีชั้นสูงในภูมิภาค",
+                industryEV: "ยานยนต์ไฟฟ้า และแบตเตอรี่",
+                industryCleanEnergy: "พลังงานสะอาด และไฮโดรเจน",
+                industryElectronics: "อิเล็กทรอนิกส์และชิป",
+                industryLogistics: "โลจิสติกส์ และดิจิทัล",
+                strategyTitle: "การเปลี่ยนผ่านสู่พันธมิตรเชิงยุทธศาสตร์",
+                strategyParagraph: "การลงทุนนี้ไม่ใช่แค่การย้ายฐานการผลิต แต่เป็นการสร้าง 'ศูนย์กลางเชื่อมโลก' ในไทย เพื่อสร้างสมดุลอำนาจในภูมิภาคและดึงดูดมหาอำนาจอื่นๆ ให้เข้ามาลงทุนตาม เกิดเป็น 'Domino Effect'",
+                strategyStep1_title: "China Plus One",
+                strategyStep1_desc: "กระจายความเสี่ยง",
+                strategyStep2_title: "Thailand: Global Hub",
+                strategyStep2_desc: "ศูนย์กลางเชื่อมโลก",
+                strategyStep3_title: "Domino Effect",
+                strategyStep3_desc: "USA, EU, Korea, Taiwan",
+                impactTitle: "ผลกระทบที่จะพลิกโฉมประเทศไทย",
+                impactParagraph: "โอกาสครั้งใหญ่นี้จะส่งผลกระทบเชิงบวกในทุกมิติ ทั้งยกระดับเศรษฐกิจ สร้างงานทักษะสูง และจุดประกายแรงบันดาลใจให้คนรุ่นใหม่",
+                impactEconomy_title: "เศรษฐกิจก้าวหน้า",
+                impactEconomy_desc: "เปลี่ยนจากโรงงานรับจ้างสู่ศูนย์กลางเทคโนโลยีและนวัตกรรม",
+                impactJobs_title: "สร้างงานทักษะสูง",
+                impactJobs_desc: "เกิดการจ้างงานวิศวกร นักวิจัย และผู้เชี่ยวชาญหลายหมื่นตำแหน่ง",
+                impactTech_title: "ถ่ายทอดเทคโนโลยี",
+                impactTech_desc: "ไทยต้องเร่ง 'อัพสกิล' เพื่อรับองค์ความรู้และเทคโนโลยีชั้นสูงจากญี่ปุ่น",
+                impactCity_title: "พัฒนาเมืองอัจฉริยะ",
+                impactCity_desc: "พื้นที่รอบ EEC กลายเป็นเมืองอุตสาหกรรม Smart City ที่ทันสมัย",
+                impactEducation_title: "แรงบันดาลใจการศึกษา",
+                impactEducation_desc: "เด็กไทยสนใจเรียนด้านวิทยาศาสตร์ วิศวกรรม และดิจิทัลมากขึ้น",
+                impactIncome_title: "เพิ่มรายได้ท้องถิ่น",
+                impactIncome_desc: "สร้างธุรกิจใหม่ๆ และยกระดับคุณภาพชีวิตของคนในพื้นที่",
+                challengeTitle: "ความท้าทายสู่ความสำเร็จ",
+                challengeParagraph: "ความสำเร็จของโอกาสนี้ขึ้นอยู่กับความพร้อมของไทยในการสร้างรากฐานที่มั่นคง เพื่อตอบสนองความคาดหวังของนักลงทุนระดับโลก",
+                challenge1: "ภาครัฐรวดเร็ว",
+                challenge2: "คุ้มครองทรัพย์สินทางปัญญา",
+                challenge3: "พลังงานแข่งขันได้",
+                challenge4: "บุคลากรทักษะสูง",
+                challenge5: "นโยบายต่อเนื่องและชัดเจน",
+                visionTitle: "วิสัยทัศน์ประเทศไทยใน 5-10 ปี",
+                visionParagraph: "หากทำได้สำเร็จ ภาพอนาคตของประเทศไทยจะเปลี่ยนไปอย่างสิ้นเชิง กลายเป็นผู้นำด้านเทคโนโลยีและนวัตกรรมอย่างแท้จริง",
+                vision1_title: "ศูนย์กลาง EV ที่ใหญ่ที่สุดในภูมิภาค",
+                vision1_desc: "ฐานการผลิตและส่งออกยานยนต์ไฟฟ้าครบวงจร",
+                vision2_title: "ผู้ส่งออกชิประดับโลก",
+                vision2_desc: "โรงงานชิปญี่ปุ่นในไทยส่งออกไปทั่วโลก สร้างความมั่นคงให้ห่วงโซ่อุปทาน",
+                vision3_title: "Smart Cities เทียบชั้นสากล",
+                vision3_desc: "เมืองรอบ EEC แข่งขันได้กับสิงคโปร์และมาเลเซีย",
+                footerTitle: "อนาคตอยู่ในมือเรา",
+                footerParagraph: "การลงทุนครั้งนี้คือ 'โอกาสทอง' ที่จะพลิกโฉมประเทศ ความสำเร็จขึ้นอยู่กับความร่วมมือของทุกภาคส่วนในประเทศไทย"
+            },
+            ru: {
+                pageTitle: "Япония и Таиланд: Становление центром АСЕАН",
+                mainTitle: "Золотая возможность Таиланда",
+                subtitle: "Инвестиции Японии в 100 миллиардов бат для превращения Таиланда в новый центр АСЕАН",
+                headerParagraph: "Эти исторические инвестиции меняют правила игры и призваны поднять экономику Таиланда с производственной базы до регионального центра инноваций и технологий будущего.",
+                investmentLabel: "Инвестиции в",
+                investmentProject: "Восточный экономический коридор (ВЭК)",
+                investmentAmount: "100 миллиардов",
+                investmentUnit: "бат",
+                whyThailandTitle: "Почему Таиланд? Номер 1 в АСЕАН",
+                whyThailandParagraph: "Япония выбрала Таиланд своим главным партнером из-за политической стабильности, превосходящей конкурентов, и надежной инфраструктуры, которая обеспечивает долгосрочные инвестиции.",
+                stabilityChartLabel: "Индекс стабильности и готовности (оценка)",
+                countryTH: "Таиланд",
+                countryVN: "Вьетнам",
+                countryID: "Индонезия",
+                industryTitle: "4 ключевые целевые отрасли",
+                industryParagraph: "Инвестиции сосредоточены на четырех отраслях будущего, которые будут иметь решающее значение для стимулирования экономики и создания высокотехнологичной цепочки поставок в регионе.",
+                industryEV: "Электромобили и аккумуляторы",
+                industryCleanEnergy: "Чистая энергия и водород",
+                industryElectronics: "Электроника и полупроводники",
+                industryLogistics: "Логистика и цифровые технологии",
+                strategyTitle: "Переход к стратегическому партнерству",
+                strategyParagraph: "Эти инвестиции — это не просто перенос производства; это создание «глобального хаба» в Таиланде для уравновешивания региональных сил и привлечения других крупных игроков, создавая «эффект домино».",
+                strategyStep1_title: "Китай Плюс Один",
+                strategyStep1_desc: "Диверсификация рисков",
+                strategyStep2_title: "Таиланд: Глобальный хаб",
+                strategyStep2_desc: "Соединяя мир",
+                strategyStep3_title: "Эффект домино",
+                strategyStep3_desc: "США, ЕС, Корея, Тайвань",
+                impactTitle: "Трансформационное влияние на Таиланд",
+                impactParagraph: "Эта великая возможность окажет положительное влияние на все сферы, модернизируя экономику, создавая высококвалифицированные рабочие места и вдохновляя новое поколение.",
+                impactEconomy_title: "Передовая экономика",
+                impactEconomy_desc: "От контрактной фабрики до центра технологий и инноваций.",
+                impactJobs_title: "Высококвалифицированные рабочие места",
+                impactJobs_desc: "Создание десятков тысяч должностей для инженеров, исследователей и специалистов.",
+                impactTech_title: "Передача технологий",
+                impactTech_desc: "Таиланд должен ускорить «повышение квалификации» для получения передовых знаний из Японии.",
+                impactCity_title: "Развитие умных городов",
+                impactCity_desc: "Территории вокруг ВЭК станут современными умными промышленными городами.",
+                impactEducation_title: "Образовательное вдохновение",
+                impactEducation_desc: "Вдохновляя тайских детей изучать науку, инженерию и цифровые технологии.",
+                impactIncome_title: "Рост местных доходов",
+                impactIncome_desc: "Создание новых предприятий и улучшение качества жизни местного населения.",
+                challengeTitle: "Вызовы на пути к успеху",
+                challengeParagraph: "Успех этой возможности зависит от готовности Таиланда создать прочную основу для оправдания ожиданий мировых инвесторов.",
+                challenge1: "Быстрые действия правительства",
+                challenge2: "Защита ИС",
+                challenge3: "Конкурентоспособная энергетика",
+                challenge4: "Высококвалифицированная рабочая сила",
+                challenge5: "Последовательная и ясная политика",
+                visionTitle: "Видение Таиланда через 5-10 лет",
+                visionParagraph: "В случае успеха будущее Таиланда полностью изменится, и он действительно станет лидером в области технологий и инноваций.",
+                vision1_title: "Крупнейший центр электромобилей в регионе",
+                vision1_desc: "Комплексный центр по производству и экспорту электромобилей.",
+                vision2_title: "Мировой экспортер чипов",
+                vision2_desc: "Японские заводы по производству чипов в Таиланде будут экспортировать продукцию по всему миру, обеспечивая безопасность цепочки поставок.",
+                vision3_title: "Умные города мирового класса",
+                vision3_desc: "Города вокруг ВЭК будут конкурировать с Сингапуром и Малайзией.",
+                footerTitle: "Будущее в наших руках",
+                footerParagraph: "Эти инвестиции — «золотая возможность» для преобразования нации. Успех зависит от сотрудничества всех секторов Таиланда."
+            },
+            zh: {
+                pageTitle: "日本与泰国：提升为东盟中心",
+                mainTitle: "泰国的黄金机遇",
+                subtitle: "日本投资1000亿泰铢，推动泰国成为东盟新枢纽",
+                headerParagraph: "这项历史性投资将改变游戏规则，旨在将泰国经济从制造业基地提升为区域创新和未来技术的中心。",
+                investmentLabel: "投资于",
+                investmentProject: "东部经济走廊 (EEC)",
+                investmentAmount: "1000亿",
+                investmentUnit: "泰铢",
+                whyThailandTitle: "为什么是泰国？东盟第一",
+                whyThailandParagraph: "日本选择泰国作为其首要合作伙伴，是因为其政治稳定超越竞争对手，以及其强大的基础设施能够安全地支持长期投资。",
+                stabilityChartLabel: "稳定与准备度指数（估）",
+                countryTH: "泰国",
+                countryVN: "越南",
+                countryID: "印度尼西亚",
+                industryTitle: "四大重点目标产业",
+                industryParagraph: "该投资聚焦于四个未来导向的产业，这将是推动经济和在该地区建立高科技供应链的关键。",
+                industryEV: "电动汽车与电池",
+                industryCleanEnergy: "清洁能源与氢能",
+                industryElectronics: "电子与半导体",
+                industryLogistics: "物流与数字",
+                strategyTitle: "向战略伙伴关系转型",
+                strategyParagraph: "这项投资不仅仅是生产转移；它旨在在泰国创建一个“全球枢纽”，以平衡区域力量并吸引其他主要参与者，从而产生“多米诺骨牌效应”。",
+                strategyStep1_title: "中国加一",
+                strategyStep1_desc: "风险分散",
+                strategyStep2_title: "泰国：全球枢纽",
+                strategyStep2_desc: "连接世界",
+                strategyStep3_title: "多米诺骨牌效应",
+                strategyStep3_desc: "美国、欧盟、韩国、台湾",
+                impactTitle: "对泰国的变革性影响",
+                impactParagraph: "这个巨大的机遇将带来全方位的积极影响，提升经济、创造高技能就业岗位，并激励新一代。",
+                impactEconomy_title: "先进经济",
+                impactEconomy_desc: "从代工厂转变为技术和创新中心。",
+                impactJobs_title: "高技能就业",
+                impactJobs_desc: "为工程师、研究人员和专家创造数以万计的职位。",
+                impactTech_title: "技术转让",
+                impactTech_desc: "泰国必须加速“技能提升”，以接收来自日本的先进知识。",
+                impactCity_title: "智慧城市发展",
+                impactCity_desc: "EEC周边地区将成为现代化的智慧工业城市。",
+                impactEducation_title: "教育启发",
+                impactEducation_desc: "激励泰国儿童学习科学、工程和数字领域。",
+                impactIncome_title: "地方收入增长",
+                impactIncome_desc: "创造新业务，改善当地居民的生活质量。",
+                challengeTitle: "成功的挑战",
+                challengeParagraph: "这一机遇的成功取决于泰国是否准备好建立坚实的基础，以满足全球投资者的期望。",
+                challenge1: "迅速的政府行动",
+                challenge2: "知识产权保护",
+                challenge3: "有竞争力的能源",
+                challenge4: "高技能劳动力",
+                challenge5: "一致且明确的政策",
+                visionTitle: "未来5-10年的泰国愿景",
+                visionParagraph: "如果成功，泰国的未来将彻底改变，真正成为技术和创新的领导者。",
+                vision1_title: "区域最大的电动汽车中心",
+                vision1_desc: "一个全面的电动汽车生产和出口中心。",
+                vision2_title: "全球芯片出口商",
+                vision2_desc: "在泰国的日本芯片工厂将向全球出口，保障供应链安全。",
+                vision3_title: "世界级智慧城市",
+                vision3_desc: "EEC周边的城市将与新加坡和马来西亚竞争。",
+                footerTitle: "未来掌握在我们手中",
+                footerParagraph: "这项投资是改变国家的“黄金机遇”。成功取决于泰国所有部门的合作。"
+            }
+        };
+        
+        let stabilityChartInstance = null;
+        let industryChartInstance = null;
+        
+        function wrapLabel(label, maxLength = 16) {
+            if (typeof label !== 'string' || label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        function destroyCharts() {
+            if (stabilityChartInstance) {
+                stabilityChartInstance.destroy();
+                stabilityChartInstance = null;
+            }
+            if (industryChartInstance) {
+                industryChartInstance.destroy();
+                industryChartInstance = null;
+            }
+        }
+
+        function renderCharts(lang) {
+            destroyCharts();
+            
+            const brilliantBlues = ['#00429d', '#4771b2', '#73a2c6', '#a2d5d6'];
+            const currentTranslations = translations[lang];
+            const fontFamily = (lang === 'th') ? "'Kanit', sans-serif" : "'Roboto', sans-serif";
+
+            const commonChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { family: fontFamily, size: 14 } }
+                    },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback },
+                        bodyFont: { family: fontFamily },
+                        titleFont: { family: fontFamily }
+                    }
+                }
+            };
+
+            const stabilityData = {
+                labels: [currentTranslations.countryTH, currentTranslations.countryVN, currentTranslations.countryID],
+                datasets: [{
+                    label: currentTranslations.stabilityChartLabel,
+                    data: [95, 65, 75],
+                    backgroundColor: brilliantBlues,
+                    borderColor: brilliantBlues.map(c => c + 'B3'),
+                    borderWidth: 1
+                }]
+            };
+
+            stabilityChartInstance = new Chart(document.getElementById('stabilityChart'), {
+                type: 'bar',
+                data: stabilityData,
+                options: {
+                    ...commonChartOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { beginAtZero: true, max: 100, ticks: { font: { family: fontFamily } } },
+                        y: { ticks: { font: { family: fontFamily, size: 16 } } }
+                    },
+                    plugins: { ...commonChartOptions.plugins, legend: { display: false } }
+                }
+            });
+
+            const industryData = {
+                labels: [
+                    wrapLabel(currentTranslations.industryEV),
+                    wrapLabel(currentTranslations.industryCleanEnergy),
+                    wrapLabel(currentTranslations.industryElectronics),
+                    wrapLabel(currentTranslations.industryLogistics)
+                ],
+                datasets: [{
+                    label: currentTranslations.industryTitle,
+                    data: [25, 25, 25, 25],
+                    backgroundColor: brilliantBlues,
+                    hoverOffset: 4
+                }]
+            };
+
+            industryChartInstance = new Chart(document.getElementById('industryChart'), {
+                type: 'doughnut',
+                data: industryData,
+                options: commonChartOptions
+            });
+        }
+        
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-translate-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            document.documentElement.lang = lang;
+            document.title = translations[lang].pageTitle;
+            
+            const fontFamily = (lang === 'th') ? "'Kanit', 'Roboto', sans-serif" : "'Roboto', 'Kanit', sans-serif";
+            document.body.style.fontFamily = fontFamily;
+            
+            renderCharts(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const defaultLang = 'th';
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    langButtons.forEach(b => b.classList.remove('bg-[#00429d]', 'text-white'));
+                    btn.classList.add('bg-[#00429d]', 'text-white');
+                });
+            });
+
+            changeLanguage(defaultLang);
+            document.querySelector(`.lang-btn[data-lang="${defaultLang}"]`).classList.add('bg-[#00429d]', 'text-white');
+        });
+
+    </script>
+</body>
+</html>
+
