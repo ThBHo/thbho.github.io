@@ -51,23 +51,44 @@
             background-color: #4771b2;
             border: 4px solid #a2d5d6;
         }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="bg-[#f0f4f8] text-[#0d1b2a]">
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <div class="flex justify-center mb-8 space-x-1 md:space-x-2 bg-white p-2 rounded-full shadow-md max-w-xs mx-auto">
+        <div class="flex justify-center my-8 space-x-1 md:space-x-2 bg-white p-2 rounded-full shadow-md max-w-xs mx-auto sticky top-4 z-50">
             <button data-lang="en" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">ENG</button>
             <button data-lang="th" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">ไทย</button>
             <button data-lang="ru" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">РУС</button>
             <button data-lang="zh" class="lang-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-300">中文</button>
         </div>
 
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-bold text-[#00429d] mb-2" data-translate-key="mainTitle">โอกาสทองของไทย</h1>
-            <h2 class="text-2xl md:text-4xl font-semibold text-[#4771b2]" data-translate-key="subtitle">ญี่ปุ่นปักหมุด ลงทุนแสนล้าน ดันไทยสู่ศูนย์กลางอาเซียน</h2>
-            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-translate-key="headerParagraph">การลงทุนครั้งประวัติศาสตร์นี้เป็นสัญญาณเปลี่ยนเกม ที่จะยกระดับเศรษฐกิจไทยจากฐานการผลิตสู่ศูนย์กลางนวัตกรรมและเทคโนโลยีแห่งอนาคตของภูมิภาค</p>
+        <header class="relative text-center mb-12 rounded-2xl overflow-hidden shadow-2xl">
+            <img src="https://i.postimg.cc/85H1H6X3/29a33fa1-1fa3-468e-a1b8-c3a420ca3a14-gigapixel-high-fidelity-v2-2x.png" alt="Futuristic Cityscape of Thailand" class="absolute inset-0 w-full h-full object-cover z-0">
+            <div class="absolute inset-0 bg-black/50 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+            <div class="relative z-20 flex flex-col justify-center items-center h-[60vh] md:h-[70vh] p-6 text-white">
+                <h1 class="text-4xl md:text-6xl font-bold mb-2 text-shadow" data-translate-key="mainTitle">โอกาสทองของไทย</h1>
+                <h2 class="text-2xl md:text-4xl font-semibold text-shadow" data-translate-key="subtitle">ญี่ปุ่นปักหมุด ลงทุนแสนล้าน ดันไทยสู่ศูนย์กลางอาเซียน</h2>
+                <p class="mt-4 text-lg max-w-3xl mx-auto text-shadow" data-translate-key="headerParagraph">การลงทุนครั้งประวัติศาสตร์นี้เป็นสัญญาณเปลี่ยนเกม ที่จะยกระดับเศรษฐกิจไทยจากฐานการผลิตสู่ศูนย์กลางนวัตกรรมและเทคโนโลยีแห่งอนาคตของภูมิภาค</p>
+            </div>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -92,9 +113,17 @@
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="videoTitle">Explore the EEC Vision</h3>
+                <p class="text-gray-600 mb-4 text-center" data-translate-key="videoParagraph">Watch the official overview of the Eastern Economic Corridor (EEC) project to see the infrastructure and vision driving this massive investment.</p>
+                <div class="video-container rounded-lg overflow-hidden shadow-inner">
+                    <iframe src="https://www.youtube.com/embed/61uxYfhP5kg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
                 <h3 class="text-2xl font-bold text-center mb-4 text-[#00429d]" data-translate-key="industryTitle">4 เสาหลักอุตสาหกรรมเป้าหมาย</h3>
                 <p class="text-gray-600 mb-4 text-center" data-translate-key="industryParagraph">การลงทุนมุ่งเน้น 4 กลุ่มอุตสาหกรรมแห่งอนาคตที่จะเป็นหัวใจสำคัญในการขับเคลื่อนเศรษฐกิจและสร้างห่วงโซ่อุปทานเทคโนโลยีชั้นสูงในภูมิภาค</p>
-                 <div class="chart-container">
+                 <div class="chart-container mx-auto">
                     <canvas id="industryChart"></canvas>
                 </div>
             </div>
@@ -211,6 +240,8 @@
                 investmentUnit: "Baht",
                 whyThailandTitle: "Why Thailand? Number 1 in ASEAN",
                 whyThailandParagraph: "Japan chose Thailand as its top partner due to political stability, which surpasses competitors, and its robust infrastructure that securely supports long-term investment.",
+                videoTitle: "Explore the EEC Vision",
+                videoParagraph: "Watch the official overview of the Eastern Economic Corridor (EEC) project to see the infrastructure and vision driving this massive investment.",
                 stabilityChartLabel: "Stability & Readiness Index (Est.)",
                 countryTH: "Thailand",
                 countryVN: "Vietnam",
@@ -272,6 +303,8 @@
                 investmentUnit: "ล้านบาท",
                 whyThailandTitle: "ทำไมต้องไทย? ยืนหนึ่งในอาเซียน",
                 whyThailandParagraph: "ญี่ปุ่นเลือกไทยเป็นพันธมิตรอันดับ 1 จากเสถียรภาพทางการเมืองที่เหนือกว่าคู่แข่ง และความพร้อมด้านโครงสร้างพื้นฐานที่ส่งเสริมการลงทุนระยะยาวได้อย่างมั่นคง",
+                videoTitle: "สำรวจวิสัยทัศน์ EEC",
+                videoParagraph: "รับชมวิดีโอภาพรวมโครงการระเบียงเศรษฐกิจพิเศษภาคตะวันออก (EEC) เพื่อทำความเข้าใจโครงสร้างพื้นฐานและวิสัยทัศน์ที่ขับเคลื่อนการลงทุนครั้งใหญ่นี้",
                 stabilityChartLabel: "ดัชนีเสถียรภาพและความพร้อม (ประเมิน)",
                 countryTH: "ไทย",
                 countryVN: "เวียดนาม",
@@ -333,6 +366,8 @@
                 investmentUnit: "бат",
                 whyThailandTitle: "Почему Таиланд? Номер 1 в АСЕАН",
                 whyThailandParagraph: "Япония выбрала Таиланд своим главным партнером из-за политической стабильности, превосходящей конкурентов, и надежной инфраструктуры, которая обеспечивает долгосрочные инвестиции.",
+                videoTitle: "Изучите видение ВЭК",
+                videoParagraph: "Посмотрите официальный обзор проекта Восточного экономического коридора (ВЭК), чтобы увидеть инфраструктуру и видение, лежащие в основе этих масштабных инвестиций.",
                 stabilityChartLabel: "Индекс стабильности и готовности (оценка)",
                 countryTH: "Таиланд",
                 countryVN: "Вьетнам",
@@ -394,6 +429,8 @@
                 investmentUnit: "泰铢",
                 whyThailandTitle: "为什么是泰国？东盟第一",
                 whyThailandParagraph: "日本选择泰国作为其首要合作伙伴，是因为其政治稳定超越竞争对手，以及其强大的基础设施能够安全地支持长期投资。",
+                videoTitle: "探索EEC愿景",
+                videoParagraph: "观看东部经济走廊 (EEC) 项目的官方概览视频，了解推动这项大规模投资的基础设施和愿景。",
                 stabilityChartLabel: "稳定与准备度指数（估）",
                 countryTH: "泰国",
                 countryVN: "越南",
@@ -495,7 +532,7 @@
             
             const brilliantBlues = ['#00429d', '#4771b2', '#73a2c6', '#a2d5d6'];
             const currentTranslations = translations[lang];
-            const fontFamily = (lang === 'th') ? "'Kanit', sans-serif" : "'Roboto', sans-serif";
+            const fontFamily = (lang === 'th' || lang === 'zh') ? "'Kanit', 'Roboto', sans-serif" : "'Roboto', 'Kanit', sans-serif";
 
             const commonChartOptions = {
                 responsive: true,
@@ -571,7 +608,7 @@
             document.documentElement.lang = lang;
             document.title = translations[lang].pageTitle;
             
-            const fontFamily = (lang === 'th') ? "'Kanit', 'Roboto', sans-serif" : "'Roboto', 'Kanit', sans-serif";
+            const fontFamily = (lang === 'th' || lang === 'zh') ? "'Kanit', 'Roboto', sans-serif" : "'Roboto', 'Kanit', sans-serif";
             document.body.style.fontFamily = fontFamily;
             
             renderCharts(lang);
@@ -597,4 +634,6 @@
     </script>
 </body>
 </html>
+
+
 
