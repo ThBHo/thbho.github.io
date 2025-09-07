@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จดหมายข่าว Copacabana Coral Reef Jomtien | กันยายน 2568</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #F8F7F4;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: auto;
+            max-height: 450px;
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active {
+            color: #C5A05A;
+            border-bottom-color: #C5A05A;
+        }
+        .btn-primary {
+            background-color: #C5A05A;
+            color: #FFFFFF;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #B38E4A;
+        }
+        .tab-button.active {
+            background-color: #C5A05A;
+            color: white;
+            border-color: #C5A05A;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div>
+                <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-10">
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#overview" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navOverview">ภาพรวม</a>
+                <a href="#progress" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navProgress">ความคืบหน้า</a>
+                <a href="#lifestyle" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navLifestyle">ไลฟ์สไตล์</a>
+                <a href="#wellnesstrend" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navWellness">เทรนด์สุขภาพ</a>
+                <a href="#future" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navFuture">อนาคตประเทศไทย</a>
+                <a href="#investment" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navInvestment">การลงทุน</a>
+                <a href="#global-trust" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navTrust">ความเชื่อมั่น</a>
+                <a href="#events" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navEvents">อีเวนต์</a>
+                <a href="#contact" class="nav-link text-gray-600 hover:text-[#C5A05A] border-b-2 border-transparent pb-1 text-sm" data-key="navContact">ติดต่อเรา</a>
+                
+                <!-- Language Switcher -->
+                <div class="relative">
+                    <button id="lang-switcher-button" class="flex items-center space-x-2 text-gray-600 py-1 px-2 rounded-md hover:bg-gray-100">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-lang-desktop" class="text-sm font-semibold">TH</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="lang-switcher-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl">
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="th">ภาษาไทย</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="ru">Русский</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="zh">中文</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center md:hidden">
+                 <!-- Language Switcher Mobile -->
+                <div class="relative mr-4">
+                    <button id="lang-switcher-button-mobile" class="flex items-center space-x-2 text-gray-600">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-lang-mobile" class="text-sm font-semibold">TH</span>
+                    </button>
+                    <div id="lang-switcher-menu-mobile" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl">
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="th">ภาษาไทย</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="ru">Русский</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="zh">中文</a>
+                    </div>
+                </div>
+                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#overview" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navOverviewMobile">ภาพรวม</a>
+            <a href="#progress" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navProgressMobile">ความคืบหน้า</a>
+            <a href="#lifestyle" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navLifestyleMobile">ไลฟ์สไตล์</a>
+            <a href="#wellnesstrend" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navWellnessMobile">เทรนด์สุขภาพ</a>
+            <a href="#future" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navFutureMobile">อนาคตประเทศไทย</a>
+            <a href="#investment" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navInvestmentMobile">การลงทุน</a>
+            <a href="#global-trust" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navTrustMobile">ความเชื่อมั่น</a>
+            <a href="#events" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navEventsMobile">อีเวนต์</a>
+            <a href="#contact" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100" data-key="navContactMobile">ติดต่อเรา</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="overview" class="pt-16 md:pt-24">
+            <div class="container mx-auto px-6">
+                 <div class="mb-12">
+                    <img src="https://i.postimg.cc/J4F1hnYs/Screenshot-2568-07-01-at-15-14-48-topaz-text-upscale-3-7x.jpg" alt="Copacabana Coral Reef - A Wave of Wellness & Wealth" class="w-full h-auto rounded-2xl shadow-lg">
+                </div>
+                <div class="max-w-4xl mx-auto rounded-2xl shadow-lg overflow-hidden aspect-video mb-16">
+                    <iframe 
+                        class="w-full h-full"
+                        src="https://www.youtube.com/embed/1gJZ3Csr4yk?autoplay=1&mute=1&loop=1&playlist=1gJZ3Csr4yk&controls=0&showinfo=0&modestbranding=1&rel=0" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                     <div class="text-center lg:text-left">
+                        <h1 class="text-3xl md:text-5xl font-bold text-[#4A4A4A] mb-4" data-key="mainTitle">Life in Full Bloom</h1>
+                        <p class="text-lg md:text-xl text-gray-500" data-key="mainSubtitle">สู่ขีดสุดแห่งการใช้ชีวิตและการลงทุนแห่งอนาคต ที่โคปาคาบาน่า คอรัล รีฟ</p>
+                         <p class="mt-6 text-gray-600 leading-relaxed" data-key="mainWelcome">
+                            สวัสดีท่านสมาชิกครอบครัวโคปาคาบาน่าและท่านผู้สนใจโครงการทุกท่าน<br>
+                            สายลมปลายฝนเริ่มพัดผ่าน นำพาความสดชื่นและเป็นสัญญาณแห่งการเริ่มต้นฤดูกาลท่องเที่ยวที่คึกคักของพัทยาที่กำลังจะมาถึง ช่วงเวลานี้จึงเป็นโอกาสอันยอดเยี่ยมที่สุดในการเริ่มต้นสิ่งใหม่ๆ ไม่ว่าจะเป็นการหันมาใส่ใจดูแลสุขภาพกายและใจให้แข็งแรงเบิกบาน หรือการวางแผนการลงทุนเพื่อต่อยอดความมั่งคั่งสู่อนาคตที่มั่นคง<br>
+                            ในจดหมายข่าวฉบับนี้ เราจะพาทุกท่านไปเจาะลึกแนวคิด "Wellness & Wealth" หัวใจสำคัญของโครงการ Copacabana Coral Reef ที่เป็นมากกว่าที่อยู่อาศัย แต่คือพื้นที่ที่ผสานไลฟ์สไตล์การใช้ชีวิตอย่างมีสุขภาพดีเข้ากับโอกาสการลงทุนในทำเลที่เติบโตที่สุดแห่งหนึ่งของประเทศอย่างลงตัว พร้อมอัปเดตความคืบหน้าล่าสุดของโครงการ และข้อเสนอที่พิเศษที่สุดซึ่งเราตั้งใจมอบให้กับครอบครัวโคปาคาบาน่าของเราโดยเฉพาะ
+                        </p>
+                    </div>
+                    <div>
+                         <img src="https://i.postimg.cc/DfH00qsf/7033e318-b3c3-462a-8129-226a35f74004-2-gigapixel-high-fidelity-v2-2x.png" alt="Sales Gallery Interior" class="rounded-2xl shadow-lg w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="progress" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="max-w-5xl mx-auto text-left bg-white p-8 rounded-2xl shadow-lg">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-center" data-key="progressTitle">Project Pulse</h2>
+                    <h4 class="text-lg font-semibold mb-8 text-center text-gray-500" data-key="progressSubtitle">อัปเดตความคืบหน้าโครงการ</h4>
+                    
+                    <div class="rounded-2xl shadow-lg overflow-hidden aspect-video mb-12">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/aHWBF2Zu_TA?autoplay=1&mute=1&loop=1&playlist=aHWBF2Zu_TA&controls=0&showinfo=0&modestbranding=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+
+                    <div>
+                        <div>
+                             <h5 class="text-md font-bold text-[#C5A05A] my-6" data-key="progressHeadline">ความสำเร็จอีกขั้น: โครงสร้างทะยานสู่ชั้นที่ 23 ด้วยความร่วมมือจากพันธมิตรชั้นนำ!</h5>
+                            <p class="text-gray-600 mb-4 leading-relaxed text-sm" data-key="progressBody1">
+                                เรามีความยินดีเป็นอย่างยิ่งที่จะประกาศความสำเร็จอีกหนึ่งก้าวสำคัญของการก่อสร้างโครงการ Copacabana Coral Reef ขณะนี้งานโครงสร้างหลักได้ทะยานขึ้นสู่ชั้นที่ 23 เป็นที่เรียบร้อยแล้ว! ความคืบหน้านี้ไม่เพียงแต่เป็นไปตามแผนงานที่วางไว้อย่างรวดเร็วและต่อเนื่อง แต่ยังทำให้เค้าโครงสถาปัตยกรรมอันสง่างามของโครงการเริ่มปรากฏเป็นรูปธรรมชัดเจนขึ้นทุกวัน โดยเฉพาะอย่างยิ่งในส่วนของ Coral Pool ชั้น 6 ที่โครงสร้างสถาปัตยกรรมอันเป็นเอกลักษณ์ได้เริ่มก่อร่างเป็นรูปเป็นร่าง เผยให้เห็นถึงความตระการตาของพื้นที่พักผ่อนหลักของโครงการเป็นครั้งแรก วิสัยทัศน์ที่เราได้วาดฝันไว้กำลังจะกลายเป็นภาพทิวทัศน์ทะเลจomเทียนอันงดงามจากมุมมองห้องพักจริงในอีกไม่ช้า
+                            </p>
+                             <p class="text-gray-600 mb-4 leading-relaxed text-sm" data-key="progressBody2">
+                                เบื้องหลังความสำเร็จอันน่าภาคภูมินี้ คือการผนึกกำลังกับทีมพันธมิตรผู้เชี่ยวชาญระดับแนวหน้าของประเทศไทย เพื่อให้มั่นใจได้ว่าทุกรายละเอียดของโครงการจะถูกรังสรรค์ขึ้นด้วยมาตรฐานสูงสุด:
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-600 mb-4">
+                                <li data-key="partnerBuilder"><b>ผู้รับเหมาก่อสร้างหลัก:</b> บริษัท พรพระนคร จำกัด ซึ่งมีชื่อเสียงและประสบการณ์ยาวนานกว่า 30 ปีในโครงการระดับ High-Rise ทำให้เรามั่นใจในคุณภาพโครงสร้างที่แข็งแกร่งและปลอดภัย</li>
+                                <li data-key="partnerConsultant"><b>บริหารและควบคุมงานก่อสร้าง:</b> บริษัท สโตนเฮ้นจ์ อินเตอร์ จำกัด (มหาชน) ที่เข้ามาดูแลให้ทุกกระบวนการเป็นไปอย่างราบรื่นและมีประสิทธิภาพสูงสุด</li>
+                                <li data-key="partnerArchitect"><b>ทีมออกแบบสถาปัตยกรรม:</b> KTGY บริษัทออกแบบชั้นนำที่รังสรรค์ดีไซน์อันเป็นเอกลักษณ์และหรูหราให้กับโครงการ</li>
+                                <li data-key="partnerMaterials"><b>พันธมิตรด้านวัสดุ:</b> เราเลือกใช้แต่วัสดุคุณภาพเยี่ยมจากแบรนด์ระดับโลก เช่น ระบบหน้าต่างและประตูจาก Schüco และระบบปรับอากาศจาก Daikin เพื่อการอยู่อาศัยที่สมบูรณ์แบบ</li>
+                            </ul>
+                             <p class="text-gray-600 mb-4 leading-relaxed text-sm" data-key="progressConclusion">
+                                ความร่วมมือจากทุกภาคส่วนนี้ คือคำยืนยันถึงความุ่งมั่นของเราในการส่งมอบโครงการคุณภาพเหนือระดับให้แก่ทุกท่านตามกำหนดการแล้วเสร็จภายในปี 2570
+                            </p>
+                        </div>
+                        <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <img src="https://i.postimg.cc/rwWNXkbN/D7-E41-A4-E-7-B6-C-4-D2-D-A4-F0-01-A12923823-D-topaz-denoise.png" alt="Construction Site Progress 1" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                            <img src="https://i.postimg.cc/d0YmJfcP/4-BAD4729-3312-4-E07-8-DE8-65-F76-DBE820-A-1-201-a-gigapixel-high-fidelity-v2-2x.jpg" alt="Construction Site Progress 2" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                            <img src="https://i.postimg.cc/tC8NMTrg/84-D94-FA1-AE8-A-440-F-AE1-D-CD903-CC05-BFD-gigapixel-high-fidelity-v2-2x.png" alt="Construction Site Progress 3" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                            <img src="https://i.postimg.cc/63kcLKt6/99166116-F69-E-49-E7-B115-B049-B55-CE8-B7-0.jpg" alt="Construction Site Progress 4" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                            <img src="https://i.postimg.cc/JzDBHCWH/1caee7ac-8b33-4cd6-9d0a-0670ba6378bb-gigapixel-high-fidelity-v2-2x.png" alt="Construction Site Progress 5" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                            <img src="https://i.postimg.cc/kGTtKn4K/1c8179fd-b18e-44e6-825b-b60e86462da9-gigapixel-high-fidelity-v2-x-1.png" alt="Construction Site Progress 6" class="rounded-2xl shadow-lg w-full h-full object-cover aspect-[4/3]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lifestyle" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="lifestyleTitle">Your Oasis of Wellbeing</h2>
+                    <p class="text-lg text-gray-500 max-w-2xl mx-auto" data-key="lifestyleSubtitle">พื้นที่ที่ออกแบบมาเพื่อสุขภาพกายและใจที่สมบูรณ์แบบของคุณโดยเฉพาะ</p>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <div class="flex space-x-1 border border-gray-200 rounded-full p-1">
+                        <button id="active-tab" class="tab-button active w-28 md:w-32 text-center py-2 px-4 rounded-full text-sm font-semibold transition" data-key="tabEnergize">ปลุกพลัง</button>
+                        <button id="relax-tab" class="tab-button w-28 md:w-32 text-center text-gray-500 py-2 px-4 rounded-full text-sm font-semibold transition" data-key="tabRelax">ผ่อนคลาย</button>
+                    </div>
+                </div>
+
+                <div id="active-content">
+                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/PxYntYQF/2df78a5d-a637-43b5-8905-98e06a10d69a.jpg" alt="High Ceiling Gym" class="w-full aspect-video object-cover">
+                            <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="gymTitle">High Ceiling Gym</h4>
+                                <p class="text-sm text-gray-600" data-key="gymDesc">ปลดปล่อยพลังในห้องออกกำลังกายเพดานสูง 360 ตร.ม. พร้อมวิวทะเลแบบพาโนรามา</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/6qpqH1q5/fb876c38-2d3e-4faf-99a4-7ef1b7868e02-topaz-upscale-2x.png" alt="Multi-Pool Paradise" class="w-full aspect-video object-cover">
+                            <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="poolTitle">Multi-Pool Paradise</h4>
+                                <p class="text-sm text-gray-600" data-key="poolDesc">สดชื่นกับสระว่ายน้ำหลายรูปแบบ ทั้ง Wave Pool, Rooftop Pool และ Garden Pool</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/28x2VmTj/Image-6-1.png" alt="Multi-Sport Area" class="w-full aspect-video object-cover">
+                            <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="sportTitle">Multi-Sport Area</h4>
+                                <p class="text-sm text-gray-600" data-key="sportDesc">สนามกีฬาอเนกประสงค์สำหรับบาสเกตบอล เทนนิส และกิจกรรมที่คุณชื่นชอบ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="relax-content" class="hidden">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                         <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/QxnTMxvr/bc8be74c-5bdf-43c3-bce5-482df82d4b52-gigapixel-high_fidelity_v2-2x.png" alt="Rooftop Jacuzzi" class="w-full aspect-video object-cover">
+                             <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="onsenTitle">Onsen & Jacuzzi</h4>
+                                <p class="text-sm text-gray-600" data-key="onsenDesc">บำบัดและผ่อนคลายกล้ามเนื้อในสระออนเซ็นสไตล์ญี่ปุ่นและจากุซซี่</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/c191FyLD/DSC03015.jpg" alt="Sauna & Steam Room" class="w-full aspect-video object-cover">
+                             <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="saunaTitle">Sauna & Steam</h4>
+                                <p class="text-sm text-gray-600" data-key="saunaDesc">ดีท็อกซ์ร่างกายและฟื้นฟูผิวพรรณในห้องซาวน่าและสตรีมมาตรฐานสากล</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                             <img src="https://i.postimg.cc/sXZTXhHb/Whisk-storyboardb23f3a58aeba4240ba7abea8-topaz-upscale-2x-crop.png" alt="Common Area Garden" class="w-full aspect-video object-cover">
+                            <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="gardenTitle">32 Common Area Gardens</h4>
+                                <p class="text-sm text-gray-600" data-key="gardenDesc">พักผ่อนในพื้นที่สีเขียวที่กระจายตัวอยู่กว่า 32 แห่งทั่วทั้งโครงการ</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden flex flex-col">
+                            <img src="https://i.postimg.cc/8zdqnMb1/16d834af-bfb3-497c-81d9-5f96d55e69a7.jpg" alt="Jomtien Beach" class="w-full aspect-video object-cover">
+                             <div class="p-6">
+                                <h4 class="font-bold text-lg mb-2" data-key="beachTitle">Jomtien Beach</h4>
+                                <p class="text-sm text-gray-600" data-key="beachDesc">เพียงไม่กี่ก้าวจากโครงการ ให้คุณเดินเล่นบนหาดทรายขาวละเอียดได้ทุกเวลา</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="wellnesstrend" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                 <div class="bg-white p-8 rounded-2xl max-w-5xl mx-auto shadow-lg">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="wellnessTitle">Wellness Trend</h2>
+                        <p class="text-lg text-gray-500" data-key="wellnessSubtitle">อนาคตของการออกกำลังกายในที่พักอาศัย</p>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="text-gray-600 leading-relaxed text-left">
+                            <p data-key="wellnessHeadline"><b>Smart & Personalized Fitness: เมื่อเทคโนโลยีทำให้สุขภาพดีเป็นเรื่องง่ายขึ้น</b></p>
+                            <p data-key="wellnessBody1">เทรนด์การดูแลสุขภาพในคอนโดมิเนียมยุคใหม่ได้ก้าวไปอีกขั้น จากเดิมที่เน้นเพียงอุปกรณ์ที่ครบครัน สู่การมอบประสบการณ์ที่ "เฉพาะบุคคล" (Personalized) มากขึ้น เพื่อตอบโจทย์ไลฟ์สไตล์ที่เร่งรีบและแตกต่างกันของผู้พักอาศัย การดูแลสุขภาพในคอนโดมิเนียมไม่ได้จำกัดอยู่แค่พื้นที่ส่วนกลางเท่านั้น แต่ยังขยายไปสู่การให้บริการที่เข้าถึงง่าย สะดวกสบาย และสามารถปรับให้เข้ากับความต้องการของแต่ละบุคคลได้อย่างแท้จริง โดยมีแนวโน้มที่น่าสนใจดังนี้:</p><br>
+                            <p data-key="wellnessBody2"><b>Personal Trainer & On-Demand Class:</b> คอนโดมิเนียมชั้นนำเริ่มมีบริการเทรนเนอร์ส่วนตัวที่สามารถนัดหมายได้ตามตารางเวลาที่ผู้พักอาศัยสะดวก ไม่ว่าจะเป็นการฝึกแบบตัวต่อตัวในห้องฟิตเนสส่วนกลาง หรือแม้แต่การใช้พื้นที่ส่วนตัวในห้องพักสำหรับการออกกำลังกาย นอกจากนี้ ยังมีคลาสออกกำลังกายแบบ On-Demand ผ่าน Smart TV ในห้องฟิตเนส หรือแม้แต่ในห้องพักส่วนตัว ให้คุณสามารถเลือกประเภทการออกกำลังกายที่หลากหลาย ไม่ว่าจะเป็นโยคะ พิลาทิส คาร์ดิโอ หรือการฝึกความแข็งแรงตามเป้าหมายและเวลาที่สะดวก โดยไม่จำเป็นต้องเดินทางไปสตูดิโอภายนอก</p><br>
+                            <p data-key="wellnessBody3"><b>AI Fitness Assistant:</b> เทคโนโลยี AI กำลังเข้ามามีบทบาทสำคัญในการเป็นผู้ช่วยอัจฉริยะส่วนตัว ที่ช่วยให้การดูแลสุขภาพเป็นเรื่องที่สนุก ง่าย และมีประสิทธิภาพกว่าที่เคย ไม่ว่าจะเป็น:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-2">
+                                <li data-key="wellnessListItem1"><b>กระจกอัจฉริยะ (Smart Mirror):</b> ที่ติดตั้งอยู่ในห้องฟิตเนสหรือแม้แต่ในห้องพักส่วนตัว สามารถวิเคราะห์ท่าทางการออกกำลังกายของคุณได้แบบเรียลไทม์ และให้คำแนะนำที่แม่นยำเพื่อปรับปรุงฟอร์มการออกกำลังกายให้ถูกต้องและปลอดภัย ช่วยลดความเสี่ยงต่อการบาดเจ็บและเพิ่มประสิทธิภาพการฝึก</li>
+                                <li data-key="wellnessListItem2"><b>แอปพลิเคชัน AI:</b> ที่เชื่อมต่อกับอุปกรณ์ในฟิตเนส หรืออุปกรณ์สวมใส่ (Wearable Devices) เช่น Smartwatch หรือ Fitness Tracker เพื่อจัดโปรแกรมการออกกำลังกายที่เหมาะสมกับแต่ละบุคคล โดยพิจารณาจากข้อมูลสุขภาพ เป้าหมาย และระดับความฟิตของผู้ใช้งาน</li>
+                            </ul><br>
+                            <p data-key="wellnessConclusion">ที่ Copacabana Coral Reef เราได้เตรียมพร้อมพื้นที่ High Ceiling Gym ขนาดใหญ่และอุปกรณ์ที่ทันสมัย เพื่อรองรับเทรนด์แห่งอนาคตเหล่านี้ และสร้างนิยามใหม่ของการใช้ชีวิตอย่างมีสุขภาพดีให้กับคุณ</p>
+                        </div>
+                        <div class="space-y-4">
+                            <img src="https://i.postimg.cc/MGc8FhMw/64e5c15f-623e-4d0a-8865-cb9351234116-1.jpg" alt="Smart Fitness Mirror in use" class="rounded-2xl shadow-lg w-full h-auto">
+                            <img src="https://i.postimg.cc/9QK53Ljj/d4e8cac1-ba66-41A7-a49d-3ef33a4f7049.jpg" alt="AI Fitness Interface" class="rounded-2xl shadow-lg w-full h-auto">
+                            <img src="https://i.postimg.cc/Zq1htVpd/a82e95a0-56aa-4f9d-8135-8226d694b944_(1).jpg" alt="Personal Trainer Session" class="rounded-2xl shadow-lg w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="futureTitle">Thailand's Future</h2>
+                    <p class="text-lg text-gray-500 max-w-2xl mx-auto" data-key="futureSubtitle">โอกาสทองใน 5 ปี สู่การเป็นศูนย์กลางดิจิทัลแห่งอาเซียน</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+                     <div class="space-y-4">
+                        <img src="https://i.postimg.cc/MGFT0QPt/2-CE91-C48-CE84-4-A49-A796-391-B45302-A53-1-201-a.jpg" alt="Modern business meeting" class="rounded-2xl shadow-lg w-full h-auto">
+                        <img src="https://i.postimg.cc/VLfsRsw0/d83c19b0-836a-422e-9ad5-9be093abc16d.jpg" alt="Data Center" class="rounded-2xl shadow-lg w-full h-auto">
+                    </div>
+                    <div class="text-left text-gray-600 leading-relaxed">
+                        <p data-key="futureBody">
+                            ประเทศไทยกำลังอยู่ในช่วงหัวเลี้ยวหัวต่อที่สำคัญอย่างยิ่ง มีโอกาสทองในช่วงเวลาเพียง 5 ปีข้างหน้า ในการสร้างตำแหน่งที่มั่นคงและเป็นผู้นำในฐานะศูนย์กลาง Hyperscale Data Center ของภูมิภาคอาเซียน ท่ามกลางการเติบโตอย่างก้าวกระโดดของเทคโนโลยีปัญญาประดิษฐ์ (AI) ซึ่งต้องการพลังการประมวลผลข้อมูลมหาศาล และกระแสการลงทุนที่หลั่งไหลเข้ามาในภูมิภาคอย่างต่อเนื่อง ประเทศไทยได้กลายเป็นจุดหมายปลายทางที่น่าดึงดูดสำหรับนักลงทุนระดับโลก ด้วยจุดเด่นที่ผสมผสานกันอย่างลงตัว ทั้งที่ตั้งทางยุทธศาสตร์ใจกลางอนุภูมิภาคลุ่มแม่น้ำโขง (CLMV) ความมั่นคงของระบบพลังงานไฟฟ้าที่เชื่อถือได้ และการสนับสนุนที่ชัดเจนและแข็งแกร่งจากภาครัฐ
+                            <br><br>
+                            โอกาสครั้งนี้ไม่ได้จำกัดอยู่แค่การสร้าง "โรงงานดิจิทัล" ที่ทันสมัย แต่เป็นการวางศิลาฤกษ์ให้แก่โครงสร้างพื้นฐานที่จะทำให้วิสัยทัศน์ "ประเทศไทย 4.0" เกิดขึ้นจริงได้อย่างสมบูรณ์และเป็นรูปธรรม การมี Data Center ขนาดใหญ่นี้จะเปรียบเสมือนเครื่องยนต์เทอร์โบที่ช่วยเร่งการเปลี่ยนแปลงสู่ดิจิทัลในอุตสาหกรรมเป้าหมาย (S-curve) ให้รวดเร็วยิ่งขึ้น ตัวอย่างเช่น ในอุตสาหกรรมยานยนต์ไฟฟ้า (EV) ข้อมูลมหาศาลจากรถยนต์จะถูกนำมาวิเคราะห์เพื่อพัฒนาระบบขับขี่อัตโนมัติและเครือข่ายสถานีชาร์จอัจฉริยะ ด้านการแพทย์ดิจิทัล จะช่วยยกระดับระบบสาธารณสุขผ่านการวิเคราะห์ข้อมูลขนาดใหญ่เพื่อวางนโยบายป้องกันโรคและพัฒนาแพลตฟอร์มการแพทย์ทางไกลให้เข้าถึงง่าย ส่วนภาคเกษตรอัจฉริยะ จะใช้ข้อมูลจากเซ็นเซอร์และโดรนเพื่อเพิ่มผลผลิตและบริหารจัดการทรัพยากรได้อย่างแม่นยำ ซึ่งทั้งหมดนี้จะช่วยเพิ่มขีดความสามารถในการแข่งขันของไทยในเวทีโลกได้อย่างยั่งยืน
+                        </p>
+                        <div class="text-center md:text-left mt-8">
+                            <a href="https://thbho.github.io/HyperDataInfoG.html" target="_blank" class="btn-primary inline-block py-2 px-6 rounded-full font-semibold" data-key="futureButton">Infographic: โอกาสเศรษฐกิจดิจิทัล</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="investment" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="investmentTitle">Investment Spotlight</h2>
+                    <p class="text-lg text-gray-500 max-w-3xl mx-auto" data-key="investmentSubtitle">EEC: การเปลี่ยนผ่านสู่ "ตลาดของเจ้าของทรัพย์สิน" (Landlord's Market)</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-gray-600 leading-relaxed">
+                        <p data-key="investmentBody">
+                           การพัฒนาเขตพัฒนาพิเศษภาคตะวันออก หรือ EEC ไม่ใช่เป็นเพียงแผนพัฒนาอุตสาหกรรม แต่คือการพลิกโฉมภูมิทัศน์ทางเศรษฐกิจของภูมิภาคอย่างที่ไม่เคยมีมาก่อน ด้วยเม็ดเงินลงทุนมหาศาลกว่า 1.34 ล้านล้านบาท โครงการนี้กำลังสร้าง "เมืองหลวงแห่งใหม่" ในชื่อ EECiti ที่ตำบลห้วยใหญ่ ซึ่งอยู่ห่างจากพัทยาและจอมเทียนเพียง 10 กิโลเมตร การเกิดขึ้นของศูนย์กลางธุรกิจและการเงินแห่งใหม่นี้ จะเป็นแม่เหล็กดึงดูดการลงทุนและขับเคลื่อนความต้องการในทุกภาคส่วน โดยเฉพาะอย่างยิ่งในตลาดอสังหาริมทรัพย์ระดับพรีเมียม
+                            <br><br>
+                            หัวใจสำคัญของการเปลี่ยนแปลงครั้งนี้คือการสร้างงานทักษะสูงกว่า 200,000 ตำแหน่ง ซึ่งจะนำมาสู่การหลั่งไหลเข้ามาของบุคลากรคุณภาพ ทั้งผู้บริหารระดับสูง วิศวกร และผู้เชี่ยวชาญในสายงานดิจิทัลและการเงิน ซึ่งเป็นกลุ่มคนที่มีกำลังซื้อสูงอย่างมีนัยสำคัญ ตัวอย่างเช่น ตำแหน่งผู้บริหารฝ่ายไอทีอาจมีรายได้สูงถึง 540,000 บาทต่อเดือน หรือผู้ควบคุมการเงิน (Financial Controller) ที่มีรายได้ 200,000-300,000 บาทต่อเดือน บุคลากรกลุ่มใหม่นี้คือตลาดผู้ซื้อและผู้เช่าคุณภาพ ที่มองหาที่พักอาศัยที่ตอบโจทย์ไลฟ์สไตล์ทันสมัย มีสิ่งอำนวยความสะดวกครบครัน และให้ความรู้สึกเหมือนการพักผ่อน ซึ่งโครงการของเราในจอมเทียนสามารถตอบสนองความต้องการนี้ได้อย่างสมบูรณ์แบบ
+                            <br><br>
+                            สำหรับนักลงทุน นี่คือสัญญาณที่ชัดเจนของการเปลี่ยนผ่านจากตลาดที่พึ่งพิงการท่องเที่ยวเป็นหลัก ไปสู่ "ตลาดของเจ้าของทรัพย์สิน" (Landlord's Market) ที่ขับเคลื่อนด้วยอุปสงค์ที่แท้จริงและมั่นคง เมื่อประชากรคุณภาพสูงหลั่งไหลเข้ามาในพื้นที่ซึ่งมีที่พักอาศัยระดับพรีเมียมจำกัด ย่อมส่งผลโดยตรงต่ออัตราการเข้าพักและผลตอบแทนค่าเช่าที่สูงขึ้น นอกจากนี้ โครงสร้างพื้นฐานขนาดใหญ่อย่างรถไฟความเร็วสูงเชื่อม 3 สนามบิน และการขยายสนามบินอู่ตะเภา จะยิ่งทำให้การเดินทางสะดวกสบาย และตอกย้ำให้จอมเทียนกลายเป็นทำเลทองสำหรับการอยู่อาศัยและการลงทุนในระยะยาว 
+                        </p>
+                         <div class="text-center mt-8">
+                            <a href="https://thbho.github.io/EECJomtieninfoG.html" target="_blank" class="btn-primary inline-block py-2 px-6 rounded-full font-semibold" data-key="investmentButton">ปลดล็อกศักยภาพ EEC: แผนที่สู่โอกาสอสังหาริมทรัพย์ (Infographic)</a>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <img src="https://i.postimg.cc/cHtJFLPW/31-E80-A2-F-43-D8-41-DA-BFE9-7929-EE5-C4-A11-1-201-a.jpg" alt="Luxury balcony view" class="rounded-2xl shadow-lg w-full h-auto">
+                        <img src="https://i.postimg.cc/y6XYcgMz/cb85bc40-5d18-412e-aaba-df10b1490b0d.jpg" alt="Investment concept with cityscape" class="rounded-2xl shadow-lg w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="global-trust" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="trustTitle">Global Trust: Thailand as No. 1 in ASEAN</h2>
+                    <p class="text-lg text-gray-500 max-w-3xl mx-auto" data-key="trustSubtitle">ญี่ปุ่นตอกย้ำความเชื่อมั่น: ทุ่มแสนล้านปักหมุด EEC ยกไทยเป็นเบอร์ 1 อาเซียน</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+                    <div>
+                        <img src="https://i.postimg.cc/85H1H6X3/29a33fa1-1fa3-468e-a1b8-c3a420ca3a14-gigapixel-high-fidelity-v2-2x.png" alt="High-tech manufacturing facility" class="rounded-2xl shadow-lg w-full h-auto">
+                    </div>
+                    <div class="text-gray-600 leading-relaxed text-left">
+                        <p data-key="trustBody">
+                            ล่าสุด ญี่ปุ่นได้ยืนยันอย่างชัดเจนว่าไทยคือ <b>เบอร์ 1 ในอาเซียน</b> สำหรับการลงทุนเชิงยุทธศาสตร์ โดยทุ่มงบประมาณกว่าแสนล้านบาทอย่างต่อเนื่องเพื่อปักหมุดในเขตพัฒนาเศรษฐกิจพิเศษภาคตะวันออก (EEC) การตัดสินใจครั้งนี้ไม่ใช่เพียงแค่การลงทุนทั่วไป แต่เป็นสัญญาณสำคัญที่สะท้อนความเชื่อมั่นในเสถียรภาพและศักยภาพของประเทศไทยในระยะยาว
+                            <br><br>
+                            <b>ทำไมต้องเป็นประเทศไทย?</b> ขณะที่เวียดนามเคยเป็นที่นิยม ไทยกลับโดดเด่นขึ้นมาด้วยความพร้อมของระบบสาธารณูปโภคที่เหนือกว่า ไม่ว่าจะเป็นท่าเรือแหลมฉบัง สนามบินอู่ตะเภา และระบบโลจิสติกส์ที่เชื่อมโยงกันอย่างสมบูรณ์ นอกจากนี้ ความสัมพันธ์ทางการทูตที่มั่นคงยาวนานกว่าศตวรรษ และทักษะแรงงานในอุตสาหกรรมยานยนต์และชิ้นส่วนที่สั่งสมมากว่า 40 ปี ทำให้ญี่ปุ่นมองไทยในฐานะ <b>พันธมิตรที่เชื่อถือได้</b> ท่ามกลางความท้าทายทางภูมิรัฐศาสตร์โลก
+                            <br><br>
+                            <b>เดิมพันกับอนาคต:</b> เงินลงทุนแสนล้านบาทใน EEC ไม่ใช่แค่ตัวเลข แต่เป็นการเดิมพันกับอนาคตของไทย โดยมุ่งเน้นใน 4 กลุ่มอุตสาหกรรมแห่งอนาคต ได้แก่ ยานยนต์ไฟฟ้า (EV), พลังงานสะอาด, อิเล็กทรอนิกส์และชิป, และดิจิทัล ซึ่งจะพลิกบทบาทของไทยจากการเป็นเพียงฐานการผลิต สู่การเป็น <b>ศูนย์กลางเทคโนโลยีและนวัตกรรมแห่งใหม่ของอาเซียน</b> การลงทุนนี้จะสร้างงานทักษะสูงหลายหมื่นตำแหน่ง พร้อมดึงดูดการลงทุนจากนานาชาติตามมาอย่างแน่นอน
+                        </p>
+                        <div class="text-center md:text-left mt-8">
+                            <a href="https://thbho.github.io/JpTh1Asian.html" target="_blank" class="btn-primary inline-block py-2 px-6 rounded-full font-semibold" data-key="trustButton">Infographic: ญี่ปุ่นตอกย้ำความเชื่อมั่น</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="events" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="eventsTitle">Pattaya Events Highlight</h2>
+                    <p class="text-lg text-gray-500 max-w-3xl mx-auto" data-key="eventsSubtitle">เติมเต็มไลฟ์สไตล์ด้วยสีสันแห่งเมืองพัทยา</p>
+                    <p class="mt-4 text-gray-600 max-w-3xl mx-auto" data-key="eventsIntro">พัทยาไม่ได้เป็นเพียงเมืองแห่งการพักผ่อนและลงทุน แต่ยังเป็นเมืองที่ไม่เคยหลับใหล เต็มไปด้วยเทศกาลและกิจกรรมที่น่าสนใจตลอดทั้งปี ให้คุณได้สัมผัสประสบการณ์ใหม่ๆ อยู่เสมอ และนี่คือไฮไลท์กิจกรรมที่น่าสนใจซึ่งได้รับการยืนยันแล้วในเดือนกันยายนนี้:</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="border border-gray-200 rounded-2xl flex flex-col overflow-hidden shadow-sm">
+                        <img src="https://i.postimg.cc/rF67ZmxF/b8bf5bf7-8219-407e-8f1b-b7d3d43fe81a.jpg" alt="Jazz & Pop Music Rising Stars" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-between flex-grow">
+                            <div>
+                                <p class="text-sm font-semibold text-[#C5A05A]" data-key="jazzTime">6 กันยายน 2568 (17:00 - 22:00 น.)</p>
+                                <h4 class="font-bold text-lg my-2" data-key="jazzTitle">Jazz & Pop Music Rising Stars</h4>
+                                <p class="text-sm text-gray-600 mb-4" data-key="jazzDesc"><b>สถานที่:</b> ชายหาดพัทยากลาง<br><b>ไฮไลท์:</b> คอนเสิร์ตดนตรีแจ๊สและป๊อปจากศิลปินคลื่นลูกใหม่มากความสามารถ อาทิ Roots, Lo Hak, Sunny Side Up และ AliceMan ให้คุณได้เพลิดเพลินกับเสียงดนตรีริมทะเลแบบไม่มีค่าใช้จ่าย</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4" data-key="jazzRef">อ้างอิง: Pattaya Mail</p>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-2xl flex flex-col overflow-hidden shadow-sm">
+                        <img src="https://i.postimg.cc/5NwThVS5/42d6408a-b7ec-4e07-9de7-487f0b9b4edc.jpg" alt="Loma Run on the Beach" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-between flex-grow">
+                            <div>
+                                <p class="text-sm font-semibold text-[#C5A05A]" data-key="runTime">21 กันยายน 2568 (04:00 - 09:00 น.)</p>
+                                <h4 class="font-bold text-lg my-2" data-key="runTitle">Loma Run on the Beach ครั้งที่ 11</h4>
+                                <p class="text-sm text-gray-600 mb-4" data-key="runDesc"><b>สถานที่:</b> หาดดงตาล, จอมเทียน<br><b>ไฮไลท์:</b> กิจกรรมวิ่งการกุศลบนชายหาดที่สวยที่สุดแห่งหนึ่งของพัทยา มีให้เลือกหลายระยะตั้งแต่ 5, 10 ไปจนถึง 21 กิโลเมตร เหมาะสำหรับผู้รักสุขภาพทุกระดับและผู้ที่ต้องการเป็นส่วนหนึ่งของการช่วยเหลือสังคม</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4" data-key="runRef">อ้างอิง: Runlah</p>
+                        </div>
+                    </div>
+                     <div class="border border-gray-200 rounded-2xl flex flex-col overflow-hidden shadow-sm">
+                        <img src="https://i.postimg.cc/vZbkMN0J/748faae8-8b8d-40fe-8bcc-4de897f32904.jpg" alt="Thailand International Senior Beach Tennis Open" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-between flex-grow">
+                            <div>
+                                <p class="text-sm font-semibold text-[#C5A05A]" data-key="tennisTime">19 - 21 กันยายน 2568</p>
+                                <h4 class="font-bold text-lg my-2" data-key="tennisTitle">Thailand International Senior Beach Tennis Open</h4>
+                                <p class="text-sm text-gray-600 mb-4" data-key="tennisDesc"><b>สถานที่:</b> Greta Sport Club, นาจอมเทียน<br><b>ไฮไลท์:</b> ร่วมชมและเชียร์การแข่งขันเทนนิสชายหาดระดับนานาชาติสำหรับนักกีฬารุ่นใหญ่จากทั่วโลก สัมผัสบรรยากาศการแข่งขันที่สนุกสนานและมิตรภาพไร้พรมแดน</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4" data-key="tennisRef">อ้างอิง: IFBT</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-16 max-w-4xl mx-auto rounded-2xl shadow-lg overflow-hidden aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/gS-NSoT4X98?si=RnJtHUMRJ052R8SZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                    <!-- Column 1: Project Info -->
+                    <div>
+                        <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mb-4 mx-auto md:mx-0">
+                        <p class="text-gray-500 mt-2" data-key="footerJewels">The Jewels of The Sea</p>
+                    </div>
+                    
+                    <!-- Column 2: Follow Us -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4" data-key="footerFollow">ติดตามเรา</h4>
+                        <div class="space-y-2">
+                            <a href="https://www.facebook.com/p/Copacabana-Coral-Reef-61551784541074/" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-gray-600 hover:text-[#C5A05A]">
+                                <i class="fab fa-facebook-f"></i> <span data-key="footerFacebook">Facebook: Copacabana Coral Reef Jomtien</span>
+                            </a>
+                            <a href="https://www.instagram.com/copacabanacoralreef" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-gray-600 hover:text-[#C5A05A]">
+                                <i class="fab fa-instagram"></i> <span data-key="footerInstagram">Instagram: @copacabanacoralreef</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@copacabanagroup" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-gray-600 hover:text-[#C5A05A]">
+                                <i class="fab fa-tiktok"></i> <span data-key="footerTiktok">Tiktok: copacabanagroup</span>
+                            </a>
+                            <a href="#" class="flex justify-center md:justify-start items-center gap-2 text-gray-600 hover:text-[#C5A05A]">
+                                <i class="fas fa-podcast"></i> <span data-key="footerPodcast">Podcast: CSR Copacabana Jomtien</span>
+                            </a>
+                            <a href="https://www.copacabanacoralreef.com/" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-gray-600 hover:text-[#C5A05A]">
+                                 <i class="fas fa-globe"></i> <span data-key="footerWebsite">Official website: www.copacabanacoralreef.com</span>
+                            </a>
+                        </div>
+                    </div>
+    
+                    <!-- Column 3: Contact Us -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4" data-key="footerContact">ติดต่อเรา</h4>
+                        <address class="not-italic text-gray-600 space-y-2">
+                            <p><i class="fas fa-phone text-[#C5A05A] mr-2"></i><span data-key="footerPhone">โทร:</span> +66 95 945 1665</p>
+                            <p><i class="fas fa-envelope text-[#C5A05A] mr-2"></i><span data-key="footerEmail">อีเมล:</span> info@copacabanacoralreef.com</p>
+                            <p><i class="fas fa-map-marker-alt text-[#C5A05A] mr-2"></i><span data-key="footerAddress">สำนักงานขาย: 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150</span></p>
+                        </address>
+                    </div>
+                </div>
+                <div class="mt-12 border-t pt-8 text-center text-sm text-gray-500">
+                    <p data-key="footerCopyright">&copy; 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // --- TRANSLATION DATA ---
+    const translations = {
+        th: {
+            htmlLang: "th",
+            navOverview: "ภาพรวม", navProgress: "ความคืบหน้า", navLifestyle: "ไลฟ์สไตล์", navWellness: "เทรนด์สุขภาพ", navFuture: "อนาคตประเทศไทย", navInvestment: "การลงทุน", navTrust: "ความเชื่อมั่น", navEvents: "อีเวนต์", navContact: "ติดต่อเรา",
+            mainTitle: "Life in Full Bloom", mainSubtitle: "สู่ขีดสุดแห่งการใช้ชีวิตและการลงทุนแห่งอนาคต ที่โคปาคาบาน่า คอรัล รีฟ",
+            mainWelcome: `สวัสดีท่านสมาชิกครอบครัวโคปาคาบาน่าและท่านผู้สนใจโครงการทุกท่าน<br>สายลมปลายฝนเริ่มพัดผ่าน นำพาความสดชื่นและเป็นสัญญาณแห่งการเริ่มต้นฤดูกาลท่องเที่ยวที่คึกคักของพัทยาที่กำลังจะมาถึง ช่วงเวลานี้จึงเป็นโอกาสอันยอดเยี่ยมที่สุดในการเริ่มต้นสิ่งใหม่ๆ ไม่ว่าจะเป็นการหันมาใส่ใจดูแลสุขภาพกายและใจให้แข็งแรงเบิกบาน หรือการวางแผนการลงทุนเพื่อต่อยอดความมั่งคั่งสู่อนาคตที่มั่นคง<br>ในจดหมายข่าวฉบับนี้ เราจะพาทุกท่านไปเจาะลึกแนวคิด "Wellness & Wealth" หัวใจสำคัญของโครงการ Copacabana Coral Reef ที่เป็นมากกว่าที่อยู่อาศัย แต่คือพื้นที่ที่ผสานไลฟ์สไตล์การใช้ชีวิตอย่างมีสุขภาพดีเข้ากับโอกาสการลงทุนในทำเลที่เติบโตที่สุดแห่งหนึ่งของประเทศอย่างลงตัว พร้อมอัปเดตความคืบหน้าล่าสุดของโครงการ และข้อเสนอที่พิเศษที่สุดซึ่งเราตั้งใจมอบให้กับครอบครัวโคปาคาบาน่าของเราโดยเฉพาะ`,
+            progressTitle: "Project Pulse", progressSubtitle: "อัปเดตความคืบหน้าโครงการ", progressHeadline: "ความสำเร็จอีกขั้น: โครงสร้างทะยานสู่ชั้นที่ 23 ด้วยความร่วมมือจากพันธมิตรชั้นนำ!",
+            progressBody1: `เรามีความยินดีเป็นอย่างยิ่งที่จะประกาศความสำเร็จอีกหนึ่งก้าวสำคัญของการก่อสร้างโครงการ Copacabana Coral Reef ขณะนี้งานโครงสร้างหลักได้ทะยานขึ้นสู่ชั้นที่ 23 เป็นที่เรียบร้อยแล้ว! ความคืบหน้านี้ไม่เพียงแต่เป็นไปตามแผนงานที่วางไว้อย่างรวดเร็วและต่อเนื่อง แต่ยังทำให้เค้าโครงสถาปัตยกรรมอันสง่างามของโครงการเริ่มปรากฏเป็นรูปธรรมชัดเจนขึ้นทุกวัน โดยเฉพาะอย่างยิ่งในส่วนของ Coral Pool ชั้น 6 ที่โครงสร้างสถาปัตยกรรมอันเป็นเอกลักษณ์ได้เริ่มก่อร่างเป็นรูปเป็นร่าง เผยให้เห็นถึงความตระการตาของพื้นที่พักผ่อนหลักของโครงการเป็นครั้งแรก วิสัยทัศน์ที่เราได้วาดฝันไว้กำลังจะกลายเป็นภาพทิวทัศน์ทะเลจอมเทียนอันงดงามจากมุมมองห้องพักจริงในอีกไม่ช้า`,
+            progressBody2: `เบื้องหลังความสำเร็จอันน่าภาคภูมินี้ คือการผนึกกำลังกับทีมพันธมิตรผู้เชี่ยวชาญระดับแนวหน้าของประเทศไทย เพื่อให้มั่นใจได้ว่าทุกรายละเอียดของโครงการจะถูกรังสรรค์ขึ้นด้วยมาตรฐานสูงสุด:`,
+            partnerBuilder: `<b>ผู้รับเหมาก่อสร้างหลัก:</b> บริษัท พรพระนคร จำกัด ซึ่งมีชื่อเสียงและประสบการณ์ยาวนานกว่า 30 ปีในโครงการระดับ High-Rise ทำให้เรามั่นใจในคุณภาพโครงสร้างที่แข็งแกร่งและปลอดภัย`,
+            partnerConsultant: `<b>บริหารและควบคุมงานก่อสร้าง:</b> บริษัท สโตนเฮ้นจ์ อินเตอร์ จำกัด (มหาชน) ที่เข้ามาดูแลให้ทุกกระบวนการเป็นไปอย่างราบรื่นและมีประสิทธิภาพสูงสุด`,
+            partnerArchitect: `<b>ทีมออกแบบสถาปัตยกรรม:</b> KTGY บริษัทออกแบบชั้นนำที่รังสรรค์ดีไซน์อันเป็นเอกลักษณ์และหรูหราให้กับโครงการ`,
+            partnerMaterials: `<b>พันธมิตรด้านวัสดุ:</b> เราเลือกใช้แต่วัสดุคุณภาพเยี่ยมจากแบรนด์ระดับโลก เช่น ระบบหน้าต่างและประตูจาก Schüco และระบบปรับอากาศจาก Daikin เพื่อการอยู่อาศัยที่สมบูรณ์แบบ`,
+            progressConclusion: `ความร่วมมือจากทุกภาคส่วนนี้ คือคำยืนยันถึงความุ่งมั่นของเราในการส่งมอบโครงการคุณภาพเหนือระดับให้แก่ทุกท่านตามกำหนดการแล้วเสร็จภายในปี 2570`,
+            lifestyleTitle: "Your Oasis of Wellbeing", lifestyleSubtitle: "พื้นที่ที่ออกแบบมาเพื่อสุขภาพกายและใจที่สมบูรณ์แบบของคุณโดยเฉพาะ",
+            tabEnergize: "ปลุกพลัง", tabRelax: "ผ่อนคลาย",
+            gymTitle: "High Ceiling Gym", gymDesc: "ปลดปล่อยพลังในห้องออกกำลังกายเพดานสูง 360 ตร.ม. พร้อมวิวทะเลแบบพาโนรามา",
+            poolTitle: "Multi-Pool Paradise", poolDesc: "สดชื่นกับสระว่ายน้ำหลายรูปแบบ ทั้ง Wave Pool, Rooftop Pool และ Garden Pool",
+            sportTitle: "Multi-Sport Area", sportDesc: "สนามกีฬาอเนกประสงค์สำหรับบาสเกตบอล เทนนิส และกิจกรรมที่คุณชื่นชอบ",
+            onsenTitle: "Onsen & Jacuzzi", onsenDesc: "บำบัดและผ่อนคลายกล้ามเนื้อในสระออนเซ็นสไตล์ญี่ปุ่นและจากุซซี่",
+            saunaTitle: "Sauna & Steam", saunaDesc: "ดีท็อกซ์ร่างกายและฟื้นฟูผิวพรรณในห้องซาวน่าและสตรีมมาตรฐานสากล",
+            gardenTitle: "32 Common Area Gardens", gardenDesc: "พักผ่อนในพื้นที่สีเขียวที่กระจายตัวอยู่กว่า 32 แห่งทั่วทั้งโครงการ",
+            beachTitle: "Jomtien Beach", beachDesc: "เพียงไม่กี่ก้าวจากโครงการ ให้คุณเดินเล่นบนหาดทรายขาวละเอียดได้ทุกเวลา",
+            wellnessTitle: "Wellness Trend", wellnessSubtitle: "อนาคตของการออกกำลังกายในที่พักอาศัย", wellnessHeadline: "<b>Smart & Personalized Fitness: เมื่อเทคโนโลยีทำให้สุขภาพดีเป็นเรื่องง่ายขึ้น</b>",
+            wellnessBody1: `เทรนด์การดูแลสุขภาพในคอนโดมิเนียมยุคใหม่ได้ก้าวไปอีกขั้น จากเดิมที่เน้นเพียงอุปกรณ์ที่ครบครัน สู่การมอบประสบการณ์ที่ "เฉพาะบุคคล" (Personalized) มากขึ้น เพื่อตอบโจทย์ไลฟ์สไตล์ที่เร่งรีบและแตกต่างกันของผู้พักอาศัย การดูแลสุขภาพในคอนโดมิเนียมไม่ได้จำกัดอยู่แค่พื้นที่ส่วนกลางเท่านั้น แต่ยังขยายไปสู่การให้บริการที่เข้าถึงง่าย สะดวกสบาย และสามารถปรับให้เข้ากับความต้องการของแต่ละบุคคลได้อย่างแท้จริง โดยมีแนวโน้มที่น่าสนใจดังนี้:`,
+            wellnessBody2: `<b>Personal Trainer & On-Demand Class:</b> คอนโดมิเนียมชั้นนำเริ่มมีบริการเทรนเนอร์ส่วนตัวที่สามารถนัดหมายได้ตามตารางเวลาที่ผู้พักอาศัยสะดวก ไม่ว่าจะเป็นการฝึกแบบตัวต่อตัวในห้องฟิตเนสส่วนกลาง หรือแม้แต่การใช้พื้นที่ส่วนตัวในห้องพักสำหรับการออกกำลังกาย นอกจากนี้ ยังมีคลาสออกกำลังกายแบบ On-Demand ผ่าน Smart TV ในห้องฟิตเนส หรือแม้แต่ในห้องพักส่วนตัว ให้คุณสามารถเลือกประเภทการออกกำลังกายที่หลากหลาย ไม่ว่าจะเป็นโยคะ พิลาทิส คาร์ดิโอ หรือการฝึกความแข็งแรงตามเป้าหมายและเวลาที่สะดวก โดยไม่จำเป็นต้องเดินทางไปสตูดิโอภายนอก`,
+            wellnessBody3: `<b>AI Fitness Assistant:</b> เทคโนโลยี AI กำลังเข้ามามีบทบาทสำคัญในการเป็นผู้ช่วยอัจฉริยะส่วนตัว ที่ช่วยให้การดูแลสุขภาพเป็นเรื่องที่สนุก ง่าย และมีประสิทธิภาพกว่าที่เคย ไม่ว่าจะเป็น:`,
+            wellnessListItem1: `<b>กระจกอัจฉริยะ (Smart Mirror):</b> ที่ติดตั้งอยู่ในห้องฟิตเนสหรือแม้แต่ในห้องพักส่วนตัว สามารถวิเคราะห์ท่าทางการออกกำลังกายของคุณได้แบบเรียลไทม์ และให้คำแนะนำที่แม่นยำเพื่อปรับปรุงฟอร์มการออกกำลังกายให้ถูกต้องและปลอดภัย ช่วยลดความเสี่ยงต่อการบาดเจ็บและเพิ่มประสิทธิภาพการฝึก`,
+            wellnessListItem2: `<b>แอปพลิเคชัน AI:</b> ที่เชื่อมต่อกับอุปกรณ์ในฟิตเนส หรืออุปกรณ์สวมใส่ (Wearable Devices) เช่น Smartwatch หรือ Fitness Tracker เพื่อจัดโปรแกรมการออกกำลังกายที่เหมาะสมกับแต่ละบุคคล โดยพิจารณาจากข้อมูลสุขภาพ เป้าหมาย และระดับความฟิตของผู้ใช้งาน`,
+            wellnessConclusion: `ที่ Copacabana Coral Reef เราได้เตรียมพร้อมพื้นที่ High Ceiling Gym ขนาดใหญ่และอุปกรณ์ที่ทันสมัย เพื่อรองรับเทรนด์แห่งอนาคตเหล่านี้ และสร้างนิยามใหม่ของการใช้ชีวิตอย่างมีสุขภาพดีให้กับคุณ`,
+            futureTitle: "Thailand's Future", futureSubtitle: "โอกาสทองใน 5 ปี สู่การเป็นศูนย์กลางดิจิทัลแห่งอาเซียน",
+            futureBody: `ประเทศไทยกำลังอยู่ในช่วงหัวเลี้ยวหัวต่อที่สำคัญอย่างยิ่ง มีโอกาสทองในช่วงเวลาเพียง 5 ปีข้างหน้า ในการสร้างตำแหน่งที่มั่นคงและเป็นผู้นำในฐานะศูนย์กลาง Hyperscale Data Center ของภูมิภาคอาเซียน ท่ามกลางการเติบโตอย่างก้าวกระโดดของเทคโนโลยีปัญญาประดิษฐ์ (AI) ซึ่งต้องการพลังการประมวลผลข้อมูลมหาศาล และกระแสการลงทุนที่หลั่งไหลเข้ามาในภูมิภาคอย่างต่อเนื่อง ประเทศไทยได้กลายเป็นจุดหมายปลายทางที่น่าดึงดูดสำหรับนักลงทุนระดับโลก ด้วยจุดเด่นที่ผสมผสานกันอย่างลงตัว ทั้งที่ตั้งทางยุทธศาสตร์ใจกลางอนุภูมิภาคลุ่มแม่น้ำโขง (CLMV) ความมั่นคงของระบบพลังงานไฟฟ้าที่เชื่อถือได้ และการสนับสนุนที่ชัดเจนและแข็งแกร่งจากภาครัฐ<br><br>โอกาสครั้งนี้ไม่ได้จำกัดอยู่แค่การสร้าง "โรงงานดิจิทัล" ที่ทันสมัย แต่เป็นการวางศิลาฤกษ์ให้แก่โครงสร้างพื้นฐานที่จะทำให้วิสัยทัศน์ "ประเทศไทย 4.0" เกิดขึ้นจริงได้อย่างสมบูรณ์และเป็นรูปธรรม การมี Data Center ขนาดใหญ่นี้จะเปรียบเสมือนเครื่องยนต์เทอร์โบที่ช่วยเร่งการเปลี่ยนแปลงสู่ดิจิทัลในอุตสาหกรรมเป้าหมาย (S-curve) ให้รวดเร็วยิ่งขึ้น ตัวอย่างเช่น ในอุตสาหกรรมยานยนต์ไฟฟ้า (EV) ข้อมูลมหาศาลจากรถยนต์จะถูกนำมาวิเคราะห์เพื่อพัฒนาระบบขับขี่อัตโนมัติและเครือข่ายสถานีชาร์จอัจฉริยะ ด้านการแพทย์ดิจิทัล จะช่วยยกระดับระบบสาธารณสุขผ่านการวิเคราะห์ข้อมูลขนาดใหญ่เพื่อวางนโยบายป้องกันโรคและพัฒนาแพลตฟอร์มการแพทย์ทางไกลให้เข้าถึงง่าย ส่วนภาคเกษตรอัจฉริยะ จะใช้ข้อมูลจากเซ็นเซอร์และโดรนเพื่อเพิ่มผลผลิตและบริหารจัดการทรัพยากรได้อย่างแม่นยำ ซึ่งทั้งหมดนี้จะช่วยเพิ่มขีดความสามารถในการแข่งขันของไทยในเวทีโลกได้อย่างยั่งยืน`,
+            futureButton: "Infographic: โอกาสเศรษฐกิจดิจิทัล",
+            investmentTitle: "Investment Spotlight", investmentSubtitle: `EEC: การเปลี่ยนผ่านสู่ "ตลาดของเจ้าของทรัพย์สิน" (Landlord's Market)`,
+            investmentBody: `การพัฒนาเขตพัฒนาพิเศษภาคตะวันออก หรือ EEC ไม่ใช่เป็นเพียงแผนพัฒนาอุตสาหกรรม แต่คือการพลิกโฉมภูมิทัศน์ทางเศรษฐกิจของภูมิภาคอย่างที่ไม่เคยมีมาก่อน ด้วยเม็ดเงินลงทุนมหาศาลกว่า 1.34 ล้านล้านบาท โครงการนี้กำลังสร้าง "เมืองหลวงแห่งใหม่" ในชื่อ EECiti ที่ตำบลห้วยใหญ่ ซึ่งอยู่ห่างจากพัทยาและจอมเทียนเพียง 10 กิโลเมตร การเกิดขึ้นของศูนย์กลางธุรกิจและการเงินแห่งใหม่นี้ จะเป็นแม่เหล็กดึงดูดการลงทุนและขับเคลื่อนความต้องการในทุกภาคส่วน โดยเฉพาะอย่างยิ่งในตลาดอสังหาริมทรัพย์ระดับพรีเมียม<br><br>หัวใจสำคัญของการเปลี่ยนแปลงครั้งนี้คือการสร้างงานทักษะสูงกว่า 200,000 ตำแหน่ง ซึ่งจะนำมาสู่การหลั่งไหลเข้ามาของบุคลากรคุณภาพ ทั้งผู้บริหารระดับสูง วิศวกร และผู้เชี่ยวชาญในสายงานดิจิทัลและการเงิน ซึ่งเป็นกลุ่มคนที่มีกำลังซื้อสูงอย่างมีนัยสำคัญ ตัวอย่างเช่น ตำแหน่งผู้บริหารฝ่ายไอทีอาจมีรายได้สูงถึง 540,000 บาทต่อเดือน หรือผู้ควบคุมการเงิน (Financial Controller) ที่มีรายได้ 200,000-300,000 บาทต่อเดือน บุคลากรกลุ่มใหม่นี้คือตลาดผู้ซื้อและผู้เช่าคุณภาพ ที่มองหาที่พักอาศัยที่ตอบโจทย์ไลฟ์สไตล์ทันสมัย มีสิ่งอำนวยความสะดวกครบครัน และให้ความรู้สึกเหมือนการพักผ่อน ซึ่งโครงการของเราในจอมเทียนสามารถตอบสนองความต้องการนี้ได้อย่างสมบูรณ์แบบ<br><br>สำหรับนักลงทุน นี่คือสัญญาณที่ชัดเจนของการเปลี่ยนผ่านจากตลาดที่พึ่งพิงการท่องเที่ยวเป็นหลัก ไปสู่ "ตลาดของเจ้าของทรัพย์สิน" (Landlord's Market) ที่ขับเคลื่อนด้วยอุปสงค์ที่แท้จริงและมั่นคง เมื่อประชากรคุณภาพสูงหลั่งไหลเข้ามาในพื้นที่ซึ่งมีที่พักอาศัยระดับพรีเมียมจำกัด ย่อมส่งผลโดยตรงต่ออัตราการเข้าพักและผลตอบแทนค่าเช่าที่สูงขึ้น นอกจากนี้ โครงสร้างพื้นฐานขนาดใหญ่อย่างรถไฟความเร็วสูงเชื่อม 3 สนามบิน และการขยายสนามบินอู่ตะเภา จะยิ่งทำให้การเดินทางสะดวกสบาย และตอกย้ำให้จอมเทียนกลายเป็นทำเลทองสำหรับการอยู่อาศัยและการลงทุนในระยะยาว`,
+            investmentButton: "ปลดล็อกศักยภาพ EEC: แผนที่สู่โอกาสอสังหาริมทรัพย์ (Infographic)",
+            trustTitle: "Global Trust: Thailand as No. 1 in ASEAN", trustSubtitle: "ญี่ปุ่นตอกย้ำความเชื่อมั่น: ทุ่มแสนล้านปักหมุด EEC ยกไทยเป็นเบอร์ 1 อาเซียน",
+            trustBody: `ล่าสุด ญี่ปุ่นได้ยืนยันอย่างชัดเจนว่าไทยคือ <b>เบอร์ 1 ในอาเซียน</b> สำหรับการลงทุนเชิงยุทธศาสตร์ โดยทุ่มงบประมาณกว่าแสนล้านบาทอย่างต่อเนื่องเพื่อปักหมุดในเขตพัฒนาเศรษฐกิจพิเศษภาคตะวันออก (EEC) การตัดสินใจครั้งนี้ไม่ใช่เพียงแค่การลงทุนทั่วไป แต่เป็นสัญญาณสำคัญที่สะท้อนความเชื่อมั่นในเสถียรภาพและศักยภาพของประเทศไทยในระยะยาว<br><br><b>ทำไมต้องเป็นประเทศไทย?</b> ขณะที่เวียดนามเคยเป็นที่นิยม ไทยกลับโดดเด่นขึ้นมาด้วยความพร้อมของระบบสาธารณูปโภคที่เหนือกว่า ไม่ว่าจะเป็นท่าเรือแหลมฉบัง สนามบินอู่ตะเภา และระบบโลจิสติกส์ที่เชื่อมโยงกันอย่างสมบูรณ์ นอกจากนี้ ความสัมพันธ์ทางการทูตที่มั่นคงยาวนานกว่าศตวรรษ และทักษะแรงงานในอุตสาหกรรมยานยนต์และชิ้นส่วนที่สั่งสมมากว่า 40 ปี ทำให้ญี่ปุ่นมองไทยในฐานะ <b>พันธมิตรที่เชื่อถือได้</b> ท่ามกลางความท้าทายทางภูมิรัฐศาสตร์โลก<br><br><b>เดิมพันกับอนาคต:</b> เงินลงทุนแสนล้านบาทใน EEC ไม่ใช่แค่ตัวเลข แต่เป็นการเดิมพันกับอนาคตของไทย โดยมุ่งเน้นใน 4 กลุ่มอุตสาหกรรมแห่งอนาคต ได้แก่ ยานยนต์ไฟฟ้า (EV), พลังงานสะอาด, อิเล็กทรอนิกส์และชิป, และดิจิทัล ซึ่งจะพลิกบทบาทของไทยจากการเป็นเพียงฐานการผลิต สู่การเป็น <b>ศูนย์กลางเทคโนโลยีและนวัตกรรมแห่งใหม่ของอาเซียน</b> การลงทุนนี้จะสร้างงานทักษะสูงหลายหมื่นตำแหน่ง พร้อมดึงดูดการลงทุนจากนานาชาติตามมาอย่างแน่นอน`,
+            trustButton: "Infographic: ญี่ปุ่นตอกย้ำความเชื่อมั่น",
+            eventsTitle: "Pattaya Events Highlight", eventsSubtitle: "เติมเต็มไลฟ์สไตล์ด้วยสีสันแห่งเมืองพัทยา",
+            eventsIntro: `พัทยาไม่ได้เป็นเพียงเมืองแห่งการพักผ่อนและลงทุน แต่ยังเป็นเมืองที่ไม่เคยหลับใหล เต็มไปด้วยเทศกาลและกิจกรรมที่น่าสนใจตลอดทั้งปี ให้คุณได้สัมผัสประสบการณ์ใหม่ๆ อยู่เสมอ และนี่คือไฮไลท์กิจกรรมที่น่าสนใจซึ่งได้รับการยืนยันแล้วในเดือนกันยายนนี้:`,
+            jazzTitle: "Jazz & Pop Music Rising Stars", jazzTime: "6 กันยายน 2568 (17:00 - 22:00 น.)",
+            jazzDesc: `<b>สถานที่:</b> ชายหาดพัทยากลาง<br><b>ไฮไลท์:</b> คอนเสิร์ตดนตรีแจ๊สและป๊อปจากศิลปินคลื่นลูกใหม่มากความสามารถ อาทิ Roots, Lo Hak, Sunny Side Up และ AliceMan ให้คุณได้เพลิดเพลินกับเสียงดนตรีริมทะเลแบบไม่มีค่าใช้จ่าย`,
+            jazzRef: "อ้างอิง: Pattaya Mail",
+            runTitle: "Loma Run on the Beach ครั้งที่ 11", runTime: "21 กันยายน 2568 (04:00 - 09:00 น.)",
+            runDesc: `<b>สถานที่:</b> หาดดงตาล, จอมเทียน<br><b>ไฮไลท์:</b> กิจกรรมวิ่งการกุศลบนชายหาดที่สวยที่สุดแห่งหนึ่งของพัทยา มีให้เลือกหลายระยะตั้งแต่ 5, 10 ไปจนถึง 21 กิโลเมตร เหมาะสำหรับผู้รักสุขภาพทุกระดับและผู้ที่ต้องการเป็นส่วนหนึ่งของการช่วยเหลือสังคม`,
+            runRef: "อ้างอิง: Runlah",
+            tennisTitle: "Thailand International Senior Beach Tennis Open", tennisTime: "19 - 21 กันยายน 2568",
+            tennisDesc: `<b>สถานที่:</b> Greta Sport Club, นาจอมเทียน<br><b>ไฮไลท์:</b> ร่วมชมและเชียร์การแข่งขันเทนนิสชายหาดระดับนานาชาติสำหรับนักกีฬารุ่นใหญ่จากทั่วโลก สัมผัสบรรยากาศการแข่งขันที่สนุกสนานและมิตรภาพไร้พรมแดน`,
+            tennisRef: "อ้างอิง: IFBT",
+            footerJewels: "The Jewels of The Sea", footerFollow: "ติดตามเรา", footerFacebook: "Facebook: Copacabana Coral Reef Jomtien", footerInstagram: "Instagram: @copacabanacoralreef", footerTiktok: "Tiktok: copacabanagroup", footerPodcast: "Podcast: CSR Copacabana Jomtien", footerWebsite: "Official website: www.copacabanacoralreef.com",
+            footerContact: "ติดต่อเรา", footerPhone: "โทร:", footerEmail: "อีเมล:", footerAddress: "สำนักงานขาย: 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150",
+            footerCopyright: "&copy; 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์",
+        },
+        en: {
+            htmlLang: "en",
+            navOverview: "Overview", navProgress: "Progress", navLifestyle: "Lifestyle", navWellness: "Wellness", navFuture: "Thailand's Future", navInvestment: "Investment", navTrust: "Global Trust", navEvents: "Events", navContact: "Contact",
+            mainTitle: "Life in Full Bloom", mainSubtitle: "To the pinnacle of living and future investment at Copacabana Coral Reef",
+            mainWelcome: `Greetings to all Copacabana family members and interested parties,<br>The late rainy season winds bring refreshment and signal the start of Pattaya's vibrant tourist season. This is the perfect time for new beginnings, whether it's focusing on physical and mental well-being or planning investments to build future wealth.<br>In this newsletter, we delve into the "Wellness & Wealth" concept, the heart of Copacabana Coral Reef. More than just a residence, it's a space that combines a healthy lifestyle with investment opportunities in one of the country's fastest-growing locations. We'll also provide the latest project updates and exclusive offers for our Copacabana family.`,
+            progressTitle: "Project Pulse", progressSubtitle: "Project Progress Update", progressHeadline: "Another Milestone: Structure Reaches the 23rd Floor with Leading Partners!",
+            progressBody1: `We are delighted to announce another significant milestone in the construction of Copacabana Coral Reef. The main structure has now reached the 23rd floor! This progress not only follows our rapid and continuous schedule but also brings the project's elegant architecture to life. The unique structure of the Coral Pool on the 6th floor is taking shape, revealing the stunning main relaxation area for the first time. Our vision of beautiful Jomtien sea views from the actual rooms will soon become a reality.`,
+            progressBody2: `Behind this proud achievement is a collaboration with Thailand's leading expert partners, ensuring every detail of the project is crafted to the highest standards:`,
+            partnerBuilder: `<b>Main Contractor:</b> Porn Pranakorn Co., Ltd., with over 30 years of experience in high-rise projects, ensures a strong and safe structure.`,
+            partnerConsultant: `<b>Construction Management & Supervision:</b> Stonehenge Inter PCL (STI) oversees the process for maximum smoothness and efficiency.`,
+            partnerArchitect: `<b>Architectural Design Team:</b> KTGY, a leading design firm, has created the project's unique and luxurious design.`,
+            partnerMaterials: `<b>Material Partners:</b> We use only top-quality materials from world-class brands like Schüco for window and door systems and Daikin for air conditioning systems, ensuring a perfect living experience.`,
+            progressConclusion: `This collaboration from all sectors confirms our commitment to delivering a superior quality project to you by the scheduled completion in 2027.`,
+            lifestyleTitle: "Your Oasis of Wellbeing", lifestyleSubtitle: "A space designed specifically for your complete physical and mental health.",
+            tabEnergize: "Energize", tabRelax: "Relax",
+            gymTitle: "High Ceiling Gym", gymDesc: "Unleash your energy in our 360 sqm high-ceiling gym with panoramic sea views.",
+            poolTitle: "Multi-Pool Paradise", poolDesc: "Refresh yourself in various pools, including a Wave Pool, Rooftop Pool, and Garden Pool.",
+            sportTitle: "Multi-Sport Area", sportDesc: "A multi-purpose court for basketball, tennis, and your favorite activities.",
+            onsenTitle: "Onsen & Jacuzzi", onsenDesc: "Heal and relax your muscles in our Japanese-style onsen and jacuzzi.",
+            saunaTitle: "Sauna & Steam", saunaDesc: "Detoxify your body and rejuvenate your skin in our international standard sauna and steam rooms.",
+            gardenTitle: "32 Common Area Gardens", gardenDesc: "Relax in over 32 green spaces scattered throughout the project.",
+            beachTitle: "Jomtien Beach", beachDesc: "Just a few steps from the project, enjoy a walk on the fine white sand anytime.",
+            wellnessTitle: "Wellness Trend", wellnessSubtitle: "The Future of Fitness in Residential Living", wellnessHeadline: "<b>Smart & Personalized Fitness: How Technology Makes Staying Healthy Easier</b>",
+            wellnessBody1: `The health and wellness trend in modern condominiums has evolved beyond just providing comprehensive equipment to offering a more "Personalized" experience. This shift caters to the busy and diverse lifestyles of residents. Wellness in condos is no longer confined to common areas but extends to accessible, convenient services that can be tailored to individual needs, with several exciting trends emerging:`,
+            wellnessBody2: `<b>Personal Trainer & On-Demand Classes:</b> Leading condominiums are now offering personal trainer services that can be scheduled at residents' convenience, whether for one-on-one sessions in the gym or even in the privacy of their own units. Additionally, on-demand fitness classes are available via Smart TVs in the fitness center or private rooms, allowing you to choose from a variety of workouts like yoga, Pilates, cardio, or strength training at your preferred time without leaving the building.`,
+            wellnessBody3: `<b>AI Fitness Assistant:</b> AI technology is playing a crucial role as a smart personal assistant, making health management more fun, easy, and effective than ever before:`,
+            wellnessListItem1: `<b>Smart Mirrors:</b> Installed in fitness rooms or even private residences, these mirrors can analyze your exercise form in real-time, providing precise feedback to ensure proper and safe technique, reducing injury risk and maximizing workout efficiency.`,
+            wellnessListItem2: `<b>AI Applications:</b> Connected to gym equipment or wearable devices (like smartwatches), these apps create customized workout programs based on your health data, goals, and fitness level.`,
+            wellnessConclusion: `At Copacabana Coral Reef, we have prepared a spacious High Ceiling Gym with modern equipment to embrace these future trends, redefining a healthy lifestyle for you.`,
+            futureTitle: "Thailand's Future", futureSubtitle: "A Golden 5-Year Opportunity to Become ASEAN's Digital Hub",
+            futureBody: `Thailand is at a critical juncture, with a golden opportunity in the next five years to establish itself as the Hyperscale Data Center hub of ASEAN. Amidst the exponential growth of Artificial Intelligence (AI), which demands massive data processing power, and a continuous influx of investment into the region, Thailand has become an attractive destination for global investors. Its strengths lie in a perfect blend of a strategic location in the heart of the CLMV sub-region, a reliable power grid, and strong, clear support from the government.<br><br>This opportunity isn't just about building modern "digital factories"; it's about laying the foundation for the "Thailand 4.0" vision to become a complete, tangible reality. Large-scale data centers will act as a turbo engine, accelerating the digital transformation of target S-curve industries. For instance, in the Electric Vehicle (EV) industry, vast amounts of data from cars will be analyzed to develop autonomous driving systems and smart charging networks. In digital healthcare, it will enhance the public health system by analyzing big data for disease prevention policies and developing accessible telemedicine platforms. In smart agriculture, data from sensors and drones will be used to increase productivity and manage resources precisely. All of this will sustainably enhance Thailand's competitiveness on the global stage.`,
+            futureButton: "Infographic: Digital Economy Opportunities",
+            investmentTitle: "Investment Spotlight", investmentSubtitle: `EEC: The Transition to a "Landlord's Market"`,
+            investmentBody: `The development of the Eastern Economic Corridor (EEC) is not just an industrial plan; it's a complete transformation of the region's economic landscape. With a massive investment of over 1.34 trillion baht, the project is creating a "new capital city" named EECiti in Huai Yai, just 10 kilometers from Pattaya and Jomtien. The emergence of this new business and financial hub will be a magnet for investment and drive demand across all sectors, especially in the premium real-s estate market.<br><br>A key part of this transformation is the creation of over 200,000 high-skilled jobs, leading to an influx of high-quality personnel, including top executives, engineers, and experts in digital and finance. This group has significant purchasing power, with IT executives potentially earning up to 540,000 baht per month, and Financial Controllers earning 200,000-300,000 baht per month. This new demographic represents a quality market of buyers and renters seeking modern, amenity-rich housing that feels like a retreat, a need our Jomtien project perfectly meets.<br><br>For investors, this is a clear signal of the shift from a tourism-dependent market to a "Landlord's Market" driven by stable, real demand. As a high-quality population flows into an area with limited premium housing, it will directly impact occupancy rates and rental yields. Furthermore, major infrastructure projects like the high-speed rail connecting three airports and the expansion of U-Tapao Airport will enhance convenience, cementing Jomtien's position as a prime location for long-term living and investment.`,
+            investmentButton: "Unlock EEC's Potential: A Real Estate Opportunity Map (Infographic)",
+            trustTitle: "Global Trust: Thailand as No. 1 in ASEAN", trustSubtitle: "Japan Reaffirms Confidence: Invests Billions in EEC, Citing Thailand as ASEAN's No. 1",
+            trustBody: `Recently, Japan has clearly affirmed that Thailand is <b>number one in ASEAN</b> for strategic investment, continuously pouring over a hundred billion baht into the Eastern Economic Corridor (EEC). This decision is not just a typical investment but a significant signal reflecting long-term confidence in Thailand's stability and potential.<br><br><b>Why Thailand?</b> While Vietnam was once popular, Thailand now stands out with its superior infrastructure readiness, including Laem Chabang Port, U-Tapao Airport, and a fully integrated logistics system. Additionally, a stable diplomatic relationship spanning over a century and a skilled labor force in the automotive and parts industry, built over 40 years, make Japan view Thailand as a <b>reliable partner</b> amidst global geopolitical challenges.<br><br><b>A Bet on the Future:</b> The hundred-billion-baht investment in the EEC is not just a number but a bet on Thailand's future, focusing on four future industries: Electric Vehicles (EV), Clean Energy, Electronics & Chips, and Digital. This will transform Thailand's role from merely a production base to a <b>new technology and innovation hub in ASEAN</b>. This investment will create tens of thousands of high-skilled jobs and is certain to attract further international investment.`,
+            trustButton: "Infographic: Japan Reaffirms Confidence",
+            eventsTitle: "Pattaya Events Highlight", eventsSubtitle: "Enrich your lifestyle with the colors of Pattaya city.",
+            eventsIntro: `Pattaya is not just a city for relaxation and investment, but a city that never sleeps, full of interesting festivals and activities all year round, allowing you to experience something new always. Here are the highlights of confirmed events for this September:`,
+            jazzTitle: "Jazz & Pop Music Rising Stars", jazzTime: "September 6, 2025 (5:00 PM - 10:00 PM)",
+            jazzDesc: `<b>Location:</b> Central Pattaya Beach<br><b>Highlight:</b> A free seaside concert featuring talented new-wave jazz and pop artists like Roots, Lo Hak, Sunny Side Up, and AliceMan.`,
+            jazzRef: "Source: Pattaya Mail",
+            runTitle: "11th Loma Run on the Beach", runTime: "September 21, 2025 (4:00 AM - 9:00 AM)",
+            runDesc: `<b>Location:</b> Dongtan Beach, Jomtien<br><b>Highlight:</b> A charity run on one of Pattaya's most beautiful beaches, with distances of 5, 10, and 21 km, suitable for all health enthusiasts and those wanting to contribute to society.`,
+            runRef: "Source: Runlah",
+            tennisTitle: "Thailand International Senior Beach Tennis Open", tennisTime: "September 19 - 21, 2025",
+            tennisDesc: `<b>Location:</b> Greta Sport Club, Na Jomtien<br><b>Highlight:</b> Watch and cheer on an international beach tennis tournament for senior athletes from around the world, experiencing a fun atmosphere and borderless friendship.`,
+            tennisRef: "Source: IFBT",
+            footerJewels: "The Jewels of The Sea", footerFollow: "Follow Us", footerFacebook: "Facebook: Copacabana Coral Reef Jomtien", footerInstagram: "Instagram: @copacabanacoralreef", footerTiktok: "Tiktok: copacabanagroup", footerPodcast: "Podcast: CSR Copacabana Jomtien", footerWebsite: "Official website: www.copacabanacoralreef.com",
+            footerContact: "Contact Us", footerPhone: "Phone:", footerEmail: "Email:", footerAddress: "Sales Office: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+            footerCopyright: "&copy; 2025 Copacabana Coral Reef Jomtien. All rights reserved.",
+        },
+        ru: {
+            htmlLang: "ru",
+            navOverview: "Обзор", navProgress: "Прогресс", navLifestyle: "Стиль жизни", navWellness: "Велнес", navFuture: "Будущее Таиланда", navInvestment: "Инвестиции", navTrust: "Доверие", navEvents: "События", navContact: "Контакты",
+            mainTitle: "Жизнь в полном расцвете", mainSubtitle: "К вершине жизни и будущих инвестиций в Copacabana Coral Reef",
+            mainWelcome: `Приветствуем всех членов семьи Copacabana и заинтересованных лиц,<br>Ветра конца сезона дождей приносят свежесть и сигнализируют о начале оживленного туристического сезона в Паттайе. Это идеальное время для новых начинаний, будь то забота о физическом и психическом благополучии или планирование инвестиций для создания будущего богатства.<br>В этом информационном бюллетене мы углубимся в концепцию "Wellness & Wealth", сердце Copacabana Coral Reef. Это больше, чем просто резиденция, это пространство, которое сочетает здоровый образ жизни с инвестиционными возможностями в одном из самых быстрорастущих мест страны. Мы также предоставим последние обновления по проекту и эксклюзивные предложения для нашей семьи Copacabana.`,
+            progressTitle: "Пульс проекта", progressSubtitle: "Обновление хода строительства", progressHeadline: "Новый рубеж: конструкция достигла 23-го этажа при поддержке ведущих партнеров!",
+            progressBody1: `Мы рады объявить о достижении еще одного важного этапа в строительстве Copacabana Coral Reef. Основная конструкция достигла 23-го этажа! Этот прогресс не только соответствует нашему быстрому и непрерывному графику, но и воплощает в жизнь элегантную архитектуру проекта. Уникальная структура бассейна Coral Pool на 6-м этаже начинает обретать форму, впервые демонстрируя потрясающую главную зону отдыха. Наше видение прекрасных видов на море Джомтьен из реальных номеров скоро станет реальностью.`,
+            progressBody2: `За этим достижением стоит сотрудничество с ведущими экспертами Таиланда, что гарантирует высочайшие стандарты исполнения каждой детали проекта:`,
+            partnerBuilder: `<b>Генеральный подрядчик:</b> Porn Pranakorn Co., Ltd., с более чем 30-летним опытом в строительстве высотных зданий, обеспечивает прочность и безопасность конструкции.`,
+            partnerConsultant: `<b>Управление и надзор за строительством:</b> Stonehenge Inter PCL (STI) контролирует процесс для максимальной гладкости и эффективности.`,
+            partnerArchitect: `<b>Архитектурное проектирование:</b> KTGY, ведущая дизайнерская фирма, создала уникальный и роскошный дизайн проекта.`,
+            partnerMaterials: `<b>Партнеры по материалам:</b> Мы используем только высококачественные материалы от мировых брендов, таких как Schüco для оконных и дверных систем и Daikin для систем кондиционирования, обеспечивая идеальные условия для жизни.`,
+            progressConclusion: `Это сотрудничество всех секторов подтверждает наше стремление сдать проект превосходного качества в срок к 2027 году.`,
+            lifestyleTitle: "Ваш оазис благополучия", lifestyleSubtitle: "Пространство, созданное специально для вашего полного физического и душевного здоровья.",
+            tabEnergize: "Энергия", tabRelax: "Релакс",
+            gymTitle: "Тренажерный зал с высокими потолками", gymDesc: "Высвободите свою энергию в нашем тренажерном зале площадью 360 кв.м с высокими потолками и панорамным видом на море.",
+            poolTitle: "Рай с множеством бассейнов", poolDesc: "Освежитесь в различных бассейнах, включая бассейн с волнами, бассейн на крыше и бассейн в саду.",
+            sportTitle: "Многофункциональная спортивная площадка", sportDesc: "Многоцелевая площадка для баскетбола, тенниса и ваших любимых занятий.",
+            onsenTitle: "Онсэн и джакузи", onsenDesc: "Исцелите и расслабьте мышцы в нашем онсэне в японском стиле и джакузи.",
+            saunaTitle: "Сауна и парная", saunaDesc: "Очистите организм и омолодите кожу в нашей сауне и парной международного стандарта.",
+            gardenTitle: "32 общественных сада", gardenDesc: "Отдохните в более чем 32 зеленых зонах, разбросанных по всему проекту.",
+            beachTitle: "Пляж Джомтьен", beachDesc: "Всего в нескольких шагах от проекта, наслаждайтесь прогулкой по мелкому белому песку в любое время.",
+            wellnessTitle: "Велнес-тренд", wellnessSubtitle: "Будущее фитнеса в жилых комплексах", wellnessHeadline: "<b>Умный и персонализированный фитнес: как технологии упрощают поддержание здоровья</b>",
+            wellnessBody1: `Тренд на здоровье и велнес в современных кондоминиумах вышел за рамки простого предоставления комплексного оборудования и теперь предлагает более "персонализированный" опыт. Этот сдвиг отвечает занятому и разнообразному образу жизни жителей. Велнес в кондоминиумах больше не ограничивается общими зонами, а распространяется на доступные, удобные услуги, которые можно адаптировать к индивидуальным потребностям, с несколькими захватывающими тенденциями:`,
+            wellnessBody2: `<b>Персональный тренер и занятия по запросу:</b> Ведущие кондоминиумы теперь предлагают услуги персональных тренеров, которые можно запланировать в удобное для жителей время, будь то индивидуальные занятия в тренажерном зале или даже в уединении их собственных квартир. Кроме того, доступны фитнес-классы по запросу через Smart TV в фитнес-центре или частных комнатах, что позволяет вам выбирать из множества тренировок, таких как йога, пилатес, кардио или силовые тренировки в удобное для вас время, не покидая здания.`,
+            wellnessBody3: `<b>Фитнес-помощник с ИИ:</b> Технология ИИ играет решающую роль в качестве умного личного помощника, делая управление здоровьем более увлекательным, простым и эффективным, чем когда-либо прежде:`,
+            wellnessListItem1: `<b>Умные зеркала:</b> Установленные в фитнес-залах или даже в частных резиденциях, эти зеркала могут анализировать вашу технику выполнения упражнений в режиме реального времени, предоставляя точную обратную связь для обеспечения правильной и безопасной техники, снижая риск травм и максимизируя эффективность тренировок.`,
+            wellnessListItem2: `<b>Приложения с ИИ:</b> Подключенные к тренажерам или носимым устройствам (например, умным часам), эти приложения создают индивидуальные программы тренировок на основе ваших данных о здоровье, целях и уровне физической подготовки.`,
+            wellnessConclusion: `В Copacabana Coral Reef мы подготовили просторный тренажерный зал с высокими потолками и современным оборудованием, чтобы соответствовать этим будущим тенденциям, переопределяя для вас здоровый образ жизни.`,
+            futureTitle: "Будущее Таиланда", futureSubtitle: "Золотая 5-летняя возможность стать цифровым центром АСЕАН",
+            futureBody: `Таиланд находится на критическом этапе, с золотой возможностью в ближайшие пять лет утвердиться в качестве центра гипермасштабируемых центров обработки данных АСЕАН. На фоне экспоненциального роста искусственного интеллекта (ИИ), требующего огромных мощностей для обработки данных, и постоянного притока инвестиций в регион, Таиланд стал привлекательным местом для мировых инвесторов. Его сильные стороны заключаются в идеальном сочетании стратегического расположения в самом сердце субрегиона CLMV, надежной электросети и сильной, четкой поддержки со стороны правительства.<br><br>Эта возможность заключается не только в строительстве современных "цифровых фабрик"; речь идет о закладке фундамента для того, чтобы видение "Таиланд 4.0" стало полной, ощутимой реальностью. Крупномасштабные центры обработки данных будут действовать как турбодвигатель, ускоряя цифровую трансформацию целевых отраслей S-кривой. Например, в индустрии электромобилей (EV) огромные объемы данных с автомобилей будут анализироваться для разработки систем автономного вождения и умных сетей зарядки. В цифровом здравоохранении это улучшит систему общественного здравоохранения путем анализа больших данных для разработки политики профилактики заболеваний и создания доступных платформ телемедицины. В умном сельском хозяйстве данные с датчиков и дронов будут использоваться для повышения производительности и точного управления ресурсами. Все это будет устойчиво повышать конкурентоспособность Таиланда на мировой арене.`,
+            futureButton: "Инфографика: Возможности цифровой экономики",
+            investmentTitle: "Инвестиционный прожектор", investmentSubtitle: `ВЭК: Переход к "Рынку арендодателя"`,
+            investmentBody: `Развитие Восточного экономического коридора (ВЭК) - это не просто промышленный план; это полная трансформация экономического ландшафта региона. С огромными инвестициями в размере более 1,34 трлн бат, проект создает "новую столицу" под названием EECiti в Хуай Яй, всего в 10 километрах от Паттайи и Джомтьена. Появление этого нового делового и финансового центра станет магнитом для инвестиций и будет стимулировать спрос во всех секторах, особенно на рынке элитной недвижимости.<br><br>Ключевой частью этой трансформации является создание более 200 000 высококвалифицированных рабочих мест, что приведет к притоку высококачественного персонала, включая топ-менеджеров, инженеров и экспертов в области цифровых технологий и финансов. Эта группа обладает значительной покупательной способностью: ИТ-руководители могут зарабатывать до 540 000 бат в месяц, а финансовые контролеры - 200 000-300 000 бат в месяц. Эта новая демографическая группа представляет собой качественный рынок покупателей и арендаторов, ищущих современное, богатое удобствами жилье, которое ощущается как уединение, - потребность, которую наш проект в Джомтьене идеально удовлетворяет.<br><br>Для инвесторов это четкий сигнал о переходе от рынка, зависящего от туризма, к "Рынку арендодателя", движимому стабильным, реальным спросом. По мере того как высококачественное население прибывает в район с ограниченным предложением элитного жилья, это напрямую повлияет на уровень заполняемости и доходность от аренды. Кроме того, крупные инфраструктурные проекты, такие как высокоскоростная железная дорога, соединяющая три аэропорта, и расширение аэропорта У-Тапао, повысят удобство, закрепив за Джомтьеном статус престижного места для долгосрочного проживания и инвестиций.`,
+            investmentButton: "Раскройте потенциал ВЭК: Карта возможностей в сфере недвижимости (Инфографика)",
+            trustTitle: "Глобальное доверие: Таиланд №1 в АСЕАН", trustSubtitle: "Япония подтверждает доверие: инвестирует миллиарды в ВЭК, называя Таиланд №1 в АСЕАН",
+            trustBody: `Недавно Япония четко подтвердила, что Таиланд является <b>номером один в АСЕАН</b> для стратегических инвестиций, постоянно вливая более ста миллиардов бат в Восточный экономический коридор (ВЭК). Это решение - не просто типичная инвестиция, а важный сигнал, отражающий долгосрочную уверенность в стабильности и потенциале Таиланда.<br><br><b>Почему Таиланд?</b> Хотя Вьетнам когда-то был популярен, Таиланд сейчас выделяется своей превосходной готовностью инфраструктуры, включая порт Лаем Чабанг, аэропорт У-Тапао и полностью интегрированную логистическую систему. Кроме того, стабильные дипломатические отношения, насчитывающие более века, и квалифицированная рабочая сила в автомобильной и компонентной промышленности, накопленная за 40 лет, заставляют Японию рассматривать Таиланд как <b>надежного партнера</b> в условиях глобальных геополитических вызовов.<br><br><b>Ставка на будущее:</b> Инвестиции в сто миллиардов бат в ВЭК - это не просто цифра, а ставка на будущее Таиланда, с акцентом на четыре отрасли будущего: электромобили (EV), чистая энергия, электроника и чипы, а также цифровые технологии. Это преобразует роль Таиланда из просто производственной базы в <b>новый центр технологий и инноваций в АСЕАН</b>. Эти инвестиции создадут десятки тысяч высококвалифицированных рабочих мест и, несомненно, привлекут дальнейшие международные инвестиции.`,
+            trustButton: "Инфографика: Япония подтверждает доверие",
+            eventsTitle: "Главные события Паттайи", eventsSubtitle: "Обогатите свой образ жизни красками города Паттайя.",
+            eventsIntro: `Паттайя - это не просто город для отдыха и инвестиций, а город, который никогда не спит, полный интересных фестивалей и мероприятий круглый год, позволяющих вам всегда открывать для себя что-то новое. Вот основные подтвержденные события на этот сентябрь:`,
+            jazzTitle: "Восходящие звезды джаза и поп-музыки", jazzTime: "6 сентября 2025 г. (17:00 - 22:00)",
+            jazzDesc: `<b>Место:</b> Центральный пляж Паттайи<br><b>Основные моменты:</b> Бесплатный концерт на берегу моря с участием талантливых джазовых и поп-исполнителей новой волны, таких как Roots, Lo Hak, Sunny Side Up и AliceMan.`,
+            jazzRef: "Источник: Pattaya Mail",
+            runTitle: "11-й забег Loma Run на пляже", runTime: "21 сентября 2025 г. (04:00 - 09:00)",
+            runDesc: `<b>Место:</b> Пляж Донгтан, Джомтьен<br><b>Основные моменты:</b> Благотворительный забег на одном из самых красивых пляжей Паттайи на дистанции 5, 10 и 21 км, подходящий для всех любителей здорового образа жизни и желающих внести свой вклад в общество.`,
+            runRef: "Источник: Runlah",
+            tennisTitle: "Международный открытый турнир по пляжному теннису среди ветеранов в Таиланде", tennisTime: "19 - 21 сентября 2025 г.",
+            tennisDesc: `<b>Место:</b> Спортивный клуб Greta, На Джомтьен<br><b>Основные моменты:</b> Смотрите и болейте на международном турнире по пляжному теннису для спортсменов-ветеранов со всего мира, наслаждаясь веселой атмосферой и безграничной дружбой.`,
+            tennisRef: "Источник: IFBT",
+            footerJewels: "Жемчужины моря", footerFollow: "Подписывайтесь на нас", footerFacebook: "Facebook: Copacabana Coral Reef Jomtien", footerInstagram: "Instagram: @copacabanacoralreef", footerTiktok: "Tiktok: copacabanagroup", footerPodcast: "Подкаст: CSR Copacabana Jomtien", footerWebsite: "Официальный сайт: www.copacabanacoralreef.com",
+            footerContact: "Свяжитесь с нами", footerPhone: "Телефон:", footerEmail: "Эл. почта:", footerAddress: "Офис продаж: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+            footerCopyright: "&copy; 2025 Copacabana Coral Reef Jomtien. Все права защищены.",
+        },
+        zh: {
+            htmlLang: "zh",
+            navOverview: "概览", navProgress: "进展", navLifestyle: "生活方式", navWellness: "健康趋势", navFuture: "泰国未来", navInvestment: "投资", navTrust: "全球信任", navEvents: "活动", navContact: "联系我们",
+            mainTitle: "盛开的生命", mainSubtitle: "在Copacabana珊瑚礁体验生活与未来投资的巅峰",
+            mainWelcome: `问候所有Copacabana家庭成员和相关方，<br>雨季末的风带来清爽，预示着芭堤雅充满活力的旅游季节即将来临。这是重新开始的最佳时机，无论是关注身心健康，还是规划投资以创造未来财富。<br>在本期新闻通讯中，我们将深入探讨“健康与财富”理念，这是Copacabana珊瑚礁的核心。它不仅仅是一个住所，更是一个将健康生活方式与该国发展最快地区之一的投资机会相结合的空间。我们还将提供最新的项目更新和为我们Copacabana家庭准备的独家优惠。`,
+            progressTitle: "项目脉搏", progressSubtitle: "项目进展更新", progressHeadline: "又一个里程碑：在领先合作伙伴的支持下，结构已达23层！",
+            progressBody1: `我们很高兴地宣布Copacabana珊瑚礁建设的又一个重要里程碑。主结构现已达到23层！这一进展不仅遵循了我们快速而持续的计划，也使项目优雅的建筑风格变得栩栩如生。位于6楼的珊瑚池的独特结构正在成形，首次展示了令人惊叹的主要休闲区。我们对从实际房间欣赏美丽的中天海景的愿景即将成为现实。`,
+            progressBody2: `这一骄人成就的背后，是与泰国顶尖专家合作伙伴的通力合作，确保项目的每一个细节都以最高标准精心打造：`,
+            partnerBuilder: `<b>总承包商：</b>Porn Pranakorn Co., Ltd.，拥有超过30年的高层项目经验，确保结构坚固安全。`,
+            partnerConsultant: `<b>施工管理与监理：</b>Stonehenge Inter PCL (STI) 监督整个过程，以实现最大的顺畅和效率。`,
+            partnerArchitect: `<b>建筑设计团队：</b>KTGY，一家领先的设计公司，为该项目创造了独特而奢华的设计。`,
+            partnerMaterials: `<b>材料合作伙伴：</b>我们只使用世界级品牌的顶级材料，如Schüco的门窗系统和Daikin的空调系统，确保完美的居住体验。`,
+            progressConclusion: `各方的这种合作证实了我们致力于在2027年按时交付一个品质卓越的项目的承诺。`,
+            lifestyleTitle: "您的康养绿洲", lifestyleSubtitle: "专为您的身心健康而设计的空间。",
+            tabEnergize: "活力", tabRelax: "放松",
+            gymTitle: "高天花板健身房", gymDesc: "在我们360平方米的高天花板健身房中释放您的能量，欣赏全景海景。",
+            poolTitle: "多泳池天堂", poolDesc: "在各种泳池中恢复活力，包括波浪池、屋顶池和花园池。",
+            sportTitle: "多功能运动区", sportDesc: "一个用于篮球、网球和您喜爱活动的多功能球场。",
+            onsenTitle: "温泉和按摩浴缸", onsenDesc: "在我们的日式温泉和按摩浴缸中治愈和放松您的肌肉。",
+            saunaTitle: "桑拿和蒸汽房", saunaDesc: "在我们的国际标准桑拿和蒸汽房中为您的身体排毒，焕发肌肤活力。",
+            gardenTitle: "32个公共花园", gardenDesc: "在遍布整个项目的32多个绿色空间中放松身心。",
+            beachTitle: "中天海滩", beachDesc: "距离项目仅几步之遥，随时在细腻的白沙上漫步。",
+            wellnessTitle: "健康趋势", wellnessSubtitle: "住宅健身的未来", wellnessHeadline: "<b>智能与个性化健身：科技如何让保持健康变得更容易</b>",
+            wellnessBody1: `现代公寓的健康趋势已经超越了仅仅提供全面的设备，转而提供更加“个性化”的体验。这种转变为迎合居民忙碌和多样化的生活方式。公寓中的健康不再局限于公共区域，而是扩展到易于获取、方便的服务，可以根据个人需求量身定制，并出现了几个令人兴奋的趋势：`,
+            wellnessBody2: `<b>私人教练和点播课程：</b>领先的公寓现在提供私人教练服务，可以根据居民的方便安排时间，无论是在健身房进行一对一的训练，还是在自己单位的私密空间里。此外，通过健身中心或私人房间的智能电视可以观看点播健身课程，让您可以选择瑜伽、普拉提、有氧运动或力量训练等各种锻炼，而无需离开大楼。`,
+            wellnessBody3: `<b>AI健身助手：</b>人工智能技术作为智能个人助手发挥着至关重要的作用，使健康管理比以往任何时候都更有趣、更容易、更有效：`,
+            wellnessListItem1: `<b>智能镜子：</b>安装在健身房甚至私人住宅中，这些镜子可以实时分析您的锻炼姿势，提供精确的反馈以确保正确和安全的技术，降低受伤风险并最大限度地提高锻炼效率。`,
+            wellnessListItem2: `<b>AI应用程序：</b>连接到健身器材或可穿戴设备（如智能手表），这些应用程序根据您的健康数据、目标和健身水平创建定制的锻炼计划。`,
+            wellnessConclusion: `在Copacabana珊瑚礁，我们准备了一个宽敞的高天花板健身房和现代化设备，以拥抱这些未来趋势，为您重新定义健康的生活方式。`,
+            futureTitle: "泰国的未来", futureSubtitle: "成为东盟数字中心的五年黄金机遇",
+            futureBody: `泰国正处于一个关键时刻，未来五年有一个黄金机会，可以确立自己作为东盟超大规模数据中心枢纽的地位。在人工智能（AI）呈指数级增长（需要大量数据处理能力）以及投资不断涌入该地区的背景下，泰国已成为全球投资者的一个有吸引力的目的地。其优势在于，它地处中南半岛次区域（CLMV）中心的战略位置、可靠的电网以及政府强有力的明确支持。<br><br>这个机会不仅仅是建造现代化的“数字工厂”；它还为“泰国4.0”愿景的实现奠定了基础，使其成为一个完整、有形的现实。大型数据中心将充当涡轮发动机，加速目标S曲线产业的数字化转型。例如，在电动汽车（EV）行业，将分析来自汽车的大量数据，以开发自动驾驶系统和智能充电网络。在数字医疗领域，它将通过分析大数据来加强公共卫生系统，以制定疾病预防政策和开发无障碍的远程医疗平台。在智能农业领域，将使用来自传感器和无人机的数据来提高生产力和精确管理资源。所有这些都将可持续地增强泰国在全球舞台上的竞争力。`,
+            futureButton: "信息图：数字经济机遇",
+            investmentTitle: "投资焦点", investmentSubtitle: `EEC：向“业主市场”的过渡`,
+            investmentBody: `东部经济走廊（EEC）的发展不仅仅是一个工业计划；它是对该地区经济格局的彻底改造。凭借超过1.34万亿泰铢的巨额投资，该项目正在距离芭堤雅和中天仅10公里的怀艾（Huai Yai）创建一个名为EECiti的“新首都”。这个新的商业和金融中心的出现将成为吸引投资和推动各行各业需求的磁石，尤其是在高端房地产市场。<br><br>这次转型的关键部分是创造了超过20万个高技能工作岗位，导致了包括高级管理人员、工程师以及数字和金融领域专家在内的高素质人才的涌入。这个群体具有巨大的购买力，IT高管的月收入可能高达54万泰铢，财务总监的月收入为20万至30万泰铢。这个新的人口群体代表了一个优质的买家和租户市场，他们寻求现代化的、设施丰富的、感觉像度假胜地的住房，而我们在中天的项目完美地满足了这一需求。<br><br>对于投资者来说，这是一个明显的信号，表明市场正在从依赖旅游业转向由稳定、真实需求驱动的“业主市场”。随着高素质人口流入高端住房有限的地区，这将直接影响入住率和租金收益率。此外，连接三个机场的高速铁路和乌塔堡机场的扩建等重大基础设施项目将增强便利性，巩固中天作为长期居住和投资的黄金地段的地位。`,
+            investmentButton: "释放EEC潜力：房地产机会图（信息图）",
+            trustTitle: "全球信任：泰国成为东盟第一", trustSubtitle: "日本重申信心：投资EEC数十亿，称泰国为东盟第一",
+            trustBody: `最近，日本明确申明，泰国在战略投资方面是<b>东盟第一</b>，并继续向东部经济走廊（EEC）投入超过千亿泰铢。这一决定不仅仅是一项典型的投资，更是一个重要的信号，反映了对泰国稳定性和潜力的长期信心。<br><br><b>为什么是泰国？</b>虽然越南曾经很受欢迎，但泰国现在以其卓越的基础设施准备状态脱颖而出，包括兰查邦港、乌塔堡机场和完全整合的物流系统。此外，一个多世纪的稳定外交关系以及在汽车和零部件行业积累了40多年的熟练劳动力，使日本在全球地缘政治挑战中将泰国视为<b>可靠的合作伙伴</b>。<br><br><b>未来的赌注：</b>对EEC的千亿泰铢投资不仅仅是一个数字，而是对泰国未来的赌注，重点关注四个未来产业：电动汽车（EV）、清洁能源、电子与芯片以及数字。这将把泰国的角色从一个生产基地转变为<b>东盟的新技术和创新中心</b>。这项投资将创造数以万计的高技能工作岗位，并且肯定会吸引更多的国际投资。`,
+            trustButton: "信息图：日本重申信心",
+            eventsTitle: "芭堤雅活动亮点", eventsSubtitle: "用芭堤雅市的色彩丰富您的生活方式。",
+            eventsIntro: `芭堤雅不仅是一个休闲和投资的城市，也是一个不夜城，全年都有有趣的节日和活动，让您总能体验到新的东西。以下是今年九月已确认的活动亮点：`,
+            jazzTitle: "爵士与流行音乐新星", jazzTime: "2025年9月6日（下午5:00 - 晚上10:00）",
+            jazzDesc: `<b>地点：</b>芭堤雅中央海滩<br><b>亮点：</b>一场免费的海滨音乐会，邀请了Roots、Lo Hak、Sunny Side Up和AliceMan等才华横溢的新浪潮爵士和流行艺术家。`,
+            jazzRef: "来源：Pattaya Mail",
+            runTitle: "第11届Loma海滩跑", runTime: "2025年9月21日（凌晨4:00 - 上午9:00）",
+            runDesc: `<b>地点：</b>中天栋塔海滩<br><b>亮点：</b>在芭堤雅最美丽的海滩之一举行的慈善长跑，设有5公里、10公里和21公里等不同距离，适合所有健康爱好者和希望为社会做出贡献的人。`,
+            runRef: "来源：Runlah",
+            tennisTitle: "泰国国际老年沙滩网球公开赛", tennisTime: "2025年9月19日至21日",
+            tennisDesc: `<b>地点：</b>Na Jomtien Greta体育俱乐部<br><b>亮点：</b>观看并为来自世界各地的老年运动员参加的国际沙滩网球比赛加油，体验有趣的氛围和无国界的友谊。`,
+            tennisRef: "来源：IFBT",
+            footerJewels: "海洋的瑰宝", footerFollow: "关注我们", footerFacebook: "Facebook: Copacabana Coral Reef Jomtien", footerInstagram: "Instagram: @copacabanacoralreef", footerTiktok: "Tiktok: copacabanagroup", footerPodcast: "播客: CSR Copacabana Jomtien", footerWebsite: "官方网站: www.copacabanacoralreef.com",
+            footerContact: "联系我们", footerPhone: "电话:", footerEmail: "电子邮件:", footerAddress: "销售办公室: 385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chonburi 20150",
+            footerCopyright: "&copy; 2025 Copacabana Coral Reef Jomtien. 版权所有。",
+        }
+    };
+
+    // --- TRANSLATION LOGIC ---
+    const setLanguage = (lang) => {
+        const elements = document.querySelectorAll('[data-key]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-key');
+            // For mobile nav links, use the main key
+            const mainKey = key.replace('Mobile', ''); 
+            if (translations[lang] && translations[lang][mainKey]) {
+                el.innerHTML = translations[lang][mainKey];
+            }
+        });
+        
+        document.documentElement.lang = translations[lang].htmlLang || 'th';
+        
+        // Update language switcher display
+        const langUpper = lang.toUpperCase();
+        document.getElementById('current-lang-desktop').textContent = langUpper;
+        document.getElementById('current-lang-mobile').textContent = langUpper;
+
+        // Store preference
+        localStorage.setItem('language', lang);
+    };
+
+    // --- EVENT LISTENERS ---
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+    
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+
+    const activeTab = document.getElementById('active-tab');
+    const relaxTab = document.getElementById('relax-tab');
+    const activeContent = document.getElementById('active-content');
+    const relaxContent = document.getElementById('relax-content');
+
+    activeTab.addEventListener('click', () => {
+        activeTab.classList.add('active');
+        relaxTab.classList.remove('active');
+        activeContent.classList.remove('hidden');
+        relaxContent.classList.add('hidden');
+    });
+
+    relaxTab.addEventListener('click', () => {
+        relaxTab.classList.add('active');
+        activeTab.classList.remove('active');
+        relaxContent.classList.remove('hidden');
+        activeContent.classList.add('hidden');
+    });
+
+    // Language switcher event listeners
+    const langSwitcherButton = document.getElementById('lang-switcher-button');
+    const langSwitcherMenu = document.getElementById('lang-switcher-menu');
+    const langSwitcherButtonMobile = document.getElementById('lang-switcher-button-mobile');
+    const langSwitcherMenuMobile = document.getElementById('lang-switcher-menu-mobile');
+
+    langSwitcherButton.addEventListener('click', () => langSwitcherMenu.classList.toggle('hidden'));
+    langSwitcherButtonMobile.addEventListener('click', () => langSwitcherMenuMobile.classList.toggle('hidden'));
+
+    document.querySelectorAll('.lang-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.preventDefault();
+            const lang = e.target.getAttribute('data-lang');
+            setLanguage(lang);
+            langSwitcherMenu.classList.add('hidden');
+            langSwitcherMenuMobile.classList.add('hidden');
+        });
+    });
+    
+    // Close dropdown if clicked outside
+    document.addEventListener('click', (e) => {
+        if (!langSwitcherButton.contains(e.target)) langSwitcherMenu.classList.add('hidden');
+        if (!langSwitcherButtonMobile.contains(e.target)) langSwitcherMenuMobile.classList.add('hidden');
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+    const sections = document.querySelectorAll('section, footer');
+
+    function changeNavOnScroll() {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 70) { // Increased offset for better accuracy
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href && href.substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', changeNavOnScroll);
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+
+    // --- INITIALIZATION ---
+    const savedLang = localStorage.getItem('language') || 'th';
+    setLanguage(savedLang);
+    changeNavOnScroll(); // Set active nav link on initial load
+});
+</script>
+
+</body>
+</html>
+
+
