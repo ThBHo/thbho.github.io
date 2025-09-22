@@ -31,12 +31,12 @@
             border-color: #3b82f6;
         }
         @media print {
-            /* Hide non-essential elements for a clean printout of the price list */
-            header, footer, #quotationModal, #filterControls {
+            /* Hide only the modal when printing, so all other content is visible in the PDF. */
+            #quotationModal {
                 display: none;
             }
 
-            /* Reset styles for the main container to ensure it fills the page */
+            /* Ensure body and main container have no extra spacing or shadows for printing. */
             body, .max-w-7xl {
                 margin: 0;
                 padding: 0;
@@ -45,6 +45,7 @@
                 background-color: #ffffff;
             }
             
+            /* Make the main container take up the full width for the PDF. */
             .max-w-7xl {
                 width: 100%;
                 max-width: 100%;
@@ -52,6 +53,11 @@
 
             main {
                 padding: 20px !important;
+            }
+
+            /* Prevent elements from being split across pages where possible */
+            header, footer, .overflow-x-auto {
+                page-break-inside: avoid;
             }
         }
     </style>
@@ -617,6 +623,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
