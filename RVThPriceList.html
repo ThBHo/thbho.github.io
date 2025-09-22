@@ -61,8 +61,8 @@
                 <select id="floorFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
                     <option value="" data-lang-key="allFloors">All Floors</option>
                 </select>
-                <select id="sideFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
-                    <option value="" data-lang-key="allSides">All Sides</option>
+                <select id="viewFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                    <option value="" data-lang-key="allViews">All Views</option>
                 </select>
                 <select id="typeFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
                     <option value="" data-lang-key="allTypes">All Types</option>
@@ -76,7 +76,7 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="unitNo" data-lang-key="unitNo">Unit No.</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="floor" data-lang-key="floor">Floor</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="side" data-lang-key="side">Side</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="side" data-lang-key="view">View</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="type" data-lang-key="type">Type</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="sqm" data-lang-key="size">Size (sqm)</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="sellingPrice" data-lang-key="originalPrice">Original Price</th>
@@ -111,11 +111,11 @@
                 headerFullPromoTitle: "Thai Quota Promotion Price List",
                 searchPlaceholder: "Search by Unit No...",
                 allFloors: "All Floors",
-                allSides: "All Sides",
+                allViews: "All Views",
                 allTypes: "All Types",
                 unitNo: "Unit No.",
                 floor: "Floor",
-                side: "Side",
+                view: "View",
                 type: "Type",
                 size: "Size (sqm)",
                 originalPrice: "Original Price",
@@ -141,11 +141,11 @@
                 headerFullPromoTitle: "Thai Quota Promotion Price List",
                 searchPlaceholder: "ค้นหาจากเลขยูนิต...",
                 allFloors: "ทุกชั้น",
-                allSides: "ทุกฝั่ง",
+                allViews: "ทุกวิว",
                 allTypes: "ทุกประเภท",
                 unitNo: "เลขยูนิต",
                 floor: "ชั้น",
-                side: "ฝั่ง",
+                view: "วิว",
                 type: "ประเภท",
                 size: "ขนาด (ตร.ม.)",
                 originalPrice: "ราคาปกติ",
@@ -171,11 +171,11 @@
                 headerFullPromoTitle: "Акция для тайской квоты - Прайс-лист",
                 searchPlaceholder: "Поиск по номеру юнита...",
                 allFloors: "Все этажи",
-                allSides: "Все стороны",
+                allViews: "Все виды",
                 allTypes: "Все типы",
                 unitNo: "№ юнита",
                 floor: "Этаж",
-                side: "Сторона",
+                view: "Вид",
                 type: "Тип",
                 size: "Размер (кв.м)",
                 originalPrice: "Первоначальная цена",
@@ -201,11 +201,11 @@
                 headerFullPromoTitle: "泰国配额促销价格表",
                 searchPlaceholder: "按单元号搜索...",
                 allFloors: "所有楼层",
-                allSides: "所有朝向",
+                allViews: "所有景观",
                 allTypes: "所有类型",
                 unitNo: "单元号",
                 floor: "楼层",
-                side: "朝向",
+                view: "景观",
                 type: "类型",
                 size: "面积 (平方米)",
                 originalPrice: "原价",
@@ -262,7 +262,7 @@
         // --- DOM ELEMENTS ---
         const searchInput = document.getElementById('searchInput');
         const floorFilter = document.getElementById('floorFilter');
-        const sideFilter = document.getElementById('sideFilter');
+        const viewFilter = document.getElementById('viewFilter');
         const typeFilter = document.getElementById('typeFilter');
         const tableBody = document.getElementById('priceTableBody');
         const noResults = document.getElementById('noResults');
@@ -323,12 +323,12 @@
 
             // Store selected values
             const selectedFloor = floorFilter.value;
-            const selectedSide = sideFilter.value;
+            const selectedView = viewFilter.value;
             const selectedType = typeFilter.value;
 
             // Clear existing options except the first "All" option
             floorFilter.length = 1;
-            sideFilter.length = 1;
+            viewFilter.length = 1;
             typeFilter.length = 1;
 
             floors.forEach(floor => {
@@ -342,7 +342,7 @@
                 const option = document.createElement('option');
                 option.value = side;
                 option.textContent = translations[currentLang].dataValues[side] || side;
-                sideFilter.appendChild(option);
+                viewFilter.appendChild(option);
             });
 
             types.forEach(type => {
@@ -354,7 +354,7 @@
 
             // Restore selected values
             floorFilter.value = selectedFloor;
-            sideFilter.value = selectedSide;
+            viewFilter.value = selectedView;
             typeFilter.value = selectedType;
         }
 
@@ -366,15 +366,15 @@
             // 1. Filter data
             const searchTerm = searchInput.value.toLowerCase();
             const selectedFloor = floorFilter.value;
-            const selectedSide = sideFilter.value;
+            const selectedView = viewFilter.value;
             const selectedType = typeFilter.value;
 
             let filteredData = unitData.filter(item => {
                 const matchesSearch = item.unitNo.toLowerCase().includes(searchTerm);
                 const matchesFloor = !selectedFloor || item.floor.toString() === selectedFloor;
-                const matchesSide = !selectedSide || item.side === selectedSide;
+                const matchesView = !selectedView || item.side === selectedView;
                 const matchesType = !selectedType || item.type === selectedType;
-                return matchesSearch && matchesFloor && matchesSide && matchesType;
+                return matchesSearch && matchesFloor && matchesView && matchesType;
             });
 
             // 2. Sort data
@@ -421,7 +421,7 @@
         }
 
         // --- EVENT LISTENERS ---
-        [searchInput, floorFilter, sideFilter, typeFilter].forEach(el => {
+        [searchInput, floorFilter, viewFilter, typeFilter].forEach(el => {
             el.addEventListener('input', renderTable);
             el.addEventListener('change', renderTable);
         });
