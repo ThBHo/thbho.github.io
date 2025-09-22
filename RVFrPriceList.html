@@ -30,6 +30,22 @@
             transform: scale(1.1);
             border-color: #3b82f6;
         }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #quotationPrintArea, #quotationPrintArea * {
+                visibility: visible;
+            }
+            #quotationPrintArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 p-4 sm:p-6 md:p-8">
@@ -111,6 +127,65 @@
 
     </div>
 
+    <!-- Quotation Modal -->
+    <div id="quotationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div id="quotationContent" class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="p-4 border-b flex justify-between items-center flex-shrink-0">
+                <h2 class="text-xl font-bold" data-lang-key="quotationTitle">Quotation</h2>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            </div>
+            <!-- Quotation Body -->
+            <div id="quotationPrintArea" class="p-8 overflow-y-auto">
+                <!-- Quotation Header -->
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-indigo-900">The Riviera Jomtien</h1>
+                        <p class="text-lg font-semibold mt-2" data-lang-key="quotationForUnit">Quotation for Unit:</p>
+                        <p id="qUnitNo" class="text-4xl font-bold text-orange-500"></p>
+                    </div>
+                    <div class="text-right">
+                         <img src="https://i.postimg.cc/m2xnJNLL/Rivera-topaz-upscale-4x-text-crop-Edited.png" alt="Logo" class="h-12 mb-2 ml-auto">
+                        <p><strong data-lang-key="date">Date:</strong> <span id="qDate"></span></p>
+                    </div>
+                </div>
+
+                <!-- Unit Details Table -->
+                <h3 class="text-lg font-semibold border-b pb-2 mb-4" data-lang-key="unitDetails">Unit Details</h3>
+                <table class="w-full mb-8 text-left text-sm">
+                    <tbody>
+                        <tr class="border-b"><td class="py-2 pr-4 font-semibold" data-lang-key="quota">Quota</td><td id="qQuota" class="py-2 font-bold"></td></tr>
+                        <tr class="border-b"><td class="py-2 pr-4 font-semibold" data-lang-key="floor">Floor</td><td id="qFloor" class="py-2"></td></tr>
+                        <tr class="border-b"><td class="py-2 pr-4 font-semibold" data-lang-key="side">View</td><td id="qSide" class="py-2"></td></tr>
+                        <tr class="border-b"><td class="py-2 pr-4 font-semibold" data-lang-key="type">Type</td><td id="qType" class="py-2"></td></tr>
+                        <tr><td class="py-2 pr-4 font-semibold" data-lang-key="size">Size (sqm)</td><td id="qSize" class="py-2"></td></tr>
+                    </tbody>
+                </table>
+
+                <!-- Price Breakdown Table -->
+                <h3 class="text-lg font-semibold border-b pb-2 mb-4" data-lang-key="priceBreakdown">Price Breakdown</h3>
+                <table class="w-full mb-8 text-left text-sm">
+                    <tbody>
+                        <tr class="border-b"><td class="py-2 pr-4" data-lang-key="promoPrice">Promotion Price</td><td id="qPromoPrice" class="py-2 text-right font-semibold"></td></tr>
+                        <tr class="border-b"><td class="py-2 pr-4" data-lang-key="sinkingFund">Sinking Fund</td><td id="qSinkingFund" class="py-2 text-right"></td></tr>
+                        <tr class="border-b"><td class="py-2 pr-4" data-lang-key="maintenanceFee">Maintenance Fee (1 Year)</td><td id="qMaintenance" class="py-2 text-right"></td></tr>
+                        <tr><td class="py-2 pr-4" data-lang-key="transferFee">Transfer Fee (1%)</td><td id="qTransfer" class="py-2 text-right"></td></tr>
+                    </tbody>
+                </table>
+
+                 <!-- Total -->
+                <div class="text-right bg-gray-100 p-4 rounded-lg">
+                    <p class="text-lg font-semibold" data-lang-key="totalPayable">Total Payable Amount:</p>
+                    <p id="qTotal" class="text-3xl font-bold text-blue-600"></p>
+                </div>
+            </div>
+             <!-- Modal Footer -->
+            <div class="p-4 border-t flex justify-end space-x-2 bg-gray-50 flex-shrink-0">
+                <button id="printQuotationBtn" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" data-lang-key="print">Print</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const translations = {
             en: {
@@ -142,7 +217,20 @@
                     "Effective until December 31, 2025",
                     "Approve by ___________________________"
                 ],
-                dataValues: { "Sea view": "Sea", "City": "City", "One-Bed": "One-Bed", "Studio": "Studio" }
+                dataValues: { "Sea view": "Sea", "City": "City", "One-Bed": "One-Bed", "Studio": "Studio" },
+                // Quotation translations
+                quotationTitle: "Quotation",
+                quotationForUnit: "Quotation for Unit:",
+                date: "Date",
+                unitDetails: "Unit Details",
+                priceBreakdown: "Price Breakdown",
+                sinkingFund: "Sinking Fund (500 THB/sqm)",
+                maintenanceFee: "Maintenance Fee (1 Year)",
+                transferFee: "Transfer Fee (1%)",
+                totalPayable: "Total Payable Amount",
+                print: "Print",
+                quota: "Quota",
+                quotaType: "Foreigner Quota"
             },
             th: {
                 pageTitle: "Riviera Jomtien - Foreigner Quota Price List",
@@ -173,7 +261,20 @@
                     "มีผลถึงวันที่ 31 ธันวาคม 2568",
                     "อนุมัติโดย ___________________________"
                 ],
-                dataValues: { "Sea view": "วิวทะเล", "City": "วิวเมือง", "One-Bed": "1 ห้องนอน", "Studio": "สตูดิโอ" }
+                dataValues: { "Sea view": "วิวทะเล", "City": "วิวเมือง", "One-Bed": "1 ห้องนอน", "Studio": "สตูดิโอ" },
+                // Quotation translations
+                quotationTitle: "ใบเสนอราคา",
+                quotationForUnit: "ใบเสนอราคาสำหรับยูนิต:",
+                date: "วันที่",
+                unitDetails: "รายละเอียดยูนิต",
+                priceBreakdown: "รายการค่าใช้จ่าย",
+                sinkingFund: "ค่ากองทุน (500 บาท/ตร.ม.)",
+                maintenanceFee: "ค่าส่วนกลาง (1 ปี)",
+                transferFee: "ค่าธรรมเนียมการโอน (1%)",
+                totalPayable: "ยอดรวมที่ต้องชำระ",
+                print: "พิมพ์",
+                quota: "โควต้า",
+                quotaType: "โควต้าต่างชาติ"
             },
             ru: {
                 pageTitle: "Riviera Jomtien - Прайс-лист для иностранной квоты",
@@ -204,7 +305,20 @@
                     "Действительно до 31 декабря 2025 г.",
                     "Утверждено ___________________________"
                 ],
-                dataValues: { "Sea view": "Вид на море", "City": "Вид на город", "One-Bed": "1 спальня", "Studio": "Студия" }
+                dataValues: { "Sea view": "Вид на море", "City": "Вид на город", "One-Bed": "1 спальня", "Studio": "Студия" },
+                // Quotation translations
+                quotationTitle: "Предложение",
+                quotationForUnit: "Предложение для юнита:",
+                date: "Дата",
+                unitDetails: "Детали юнита",
+                priceBreakdown: "Разбивка цены",
+                sinkingFund: "Амортизационный фонд (500 THB/кв.м)",
+                maintenanceFee: "Плата за обслуживание (1 год)",
+                transferFee: "Комиссия за перевод (1%)",
+                totalPayable: "Общая сумма к оплате",
+                print: "Печать",
+                quota: "Квота",
+                quotaType: "Иностранная квота"
             },
             zh: {
                 pageTitle: "里维埃拉中天 - 外国配额价格表",
@@ -235,13 +349,25 @@
                     "有效期至 2025 年 12 月 31 日",
                     "批准人 ___________________________"
                 ],
-                dataValues: { "Sea view": "海景", "City": "城景", "One-Bed": "一卧室", "Studio": "单间公寓" }
+                dataValues: { "Sea view": "海景", "City": "城景", "One-Bed": "一卧室", "Studio": "单间公寓" },
+                // Quotation translations
+                quotationTitle: "报价单",
+                quotationForUnit: "单元报价:",
+                date: "日期",
+                unitDetails: "单元详情",
+                priceBreakdown: "价格明细",
+                sinkingFund: "维修基金 (500 泰铢/平方米)",
+                maintenanceFee: "物业费 (1年)",
+                transferFee: "过户费 (1%)",
+                totalPayable: "应付总额",
+                print: "打印",
+                quota: "配额",
+                quotaType: "外国配额"
             }
         };
 
         let currentLang = 'en';
 
-        // Data for Foreigner Quota
         const csvData = `No.,Floor,Side,Type,Unit No.,SQ.M,Selling Price,Promotion/sqm,Selling-Promotion
 1,12,Sea view,One-Bed,12A05,46.92,6334200,117199,5399000
 2,24,Sea view,Studio,24A06,32.06,4456340,118497,3799000
@@ -251,7 +377,6 @@
 6,31,City,One-Bed,31E06,34.28,4422120,116657,3999000
 7,32,City,One-Bed,32E07,34.28,4456400,116657,3999000`;
         
-        // --- DATA PROCESSING ---
         const unitData = csvData.split('\n').slice(1).map(row => {
             const columns = row.split(',');
             return {
@@ -267,7 +392,6 @@
             };
         });
 
-        // --- DOM ELEMENTS ---
         const searchInput = document.getElementById('searchInput');
         const floorFilter = document.getElementById('floorFilter');
         const sideFilter = document.getElementById('sideFilter');
@@ -277,95 +401,79 @@
         const tableHeaders = document.querySelectorAll('th[data-sort]');
         const languageSwitcher = document.getElementById('languageSwitcher');
         const conditionsList = document.getElementById('conditionsList');
+        // Modal Elements
+        const quotationModal = document.getElementById('quotationModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const printQuotationBtn = document.getElementById('printQuotationBtn');
 
-        // --- STATE MANAGEMENT ---
         let currentSort = { key: 'no', direction: 'asc' };
+        const formatCurrency = (amount) => `฿${new Intl.NumberFormat('en-US').format(amount)}`;
 
-        // --- HELPER FUNCTIONS ---
-        const formatCurrency = (amount) => new Intl.NumberFormat('en-US').format(amount);
-
-        // --- LANGUAGE FUNCTION ---
         function changeLanguage(lang) {
             currentLang = lang;
             const langData = translations[lang];
-
             document.querySelectorAll('[data-lang-key]').forEach(el => {
                 const key = el.getAttribute('data-lang-key');
                 if(langData[key]) {
                    el.textContent = langData[key];
                 }
             });
-            
             document.querySelectorAll('[data-lang-key-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-lang-key-placeholder');
                 el.placeholder = langData[key];
             });
-
             document.getElementById('pageTitle').textContent = langData.pageTitle;
-
             conditionsList.innerHTML = '';
             langData.conditions.forEach(item => {
                 const li = document.createElement('li');
                 li.textContent = item;
                 conditionsList.appendChild(li);
             });
-            
             languageSwitcher.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
-            
             renderTable();
         }
 
-        // --- POPULATE FILTERS ---
         function populateFilters() {
             const floors = [...new Set(unitData.map(item => item.floor))].sort((a, b) => a.localeCompare(b, undefined, {numeric: true}));
             const sides = [...new Set(unitData.map(item => item.side))];
             const types = [...new Set(unitData.map(item => item.type))];
-
             const selectedFloor = floorFilter.value;
             const selectedSide = sideFilter.value;
             const selectedType = typeFilter.value;
-
             floorFilter.length = 1;
             sideFilter.length = 1;
             typeFilter.length = 1;
-
             floors.forEach(floor => {
                 const option = document.createElement('option');
                 option.value = floor;
                 option.textContent = `Floor ${floor}`;
                 floorFilter.appendChild(option);
             });
-
             sides.forEach(side => {
                 const option = document.createElement('option');
                 option.value = side;
                 option.textContent = translations[currentLang].dataValues[side] || side;
                 sideFilter.appendChild(option);
             });
-
             types.forEach(type => {
                 const option = document.createElement('option');
                 option.value = type;
                 option.textContent = translations[currentLang].dataValues[type] || type;
                 typeFilter.appendChild(option);
             });
-
             floorFilter.value = selectedFloor;
             sideFilter.value = selectedSide;
             typeFilter.value = selectedType;
         }
 
-        // --- RENDER TABLE ---
         function renderTable() {
             populateFilters();
-            
             const searchTerm = searchInput.value.toLowerCase();
             const selectedFloor = floorFilter.value;
             const selectedSide = sideFilter.value;
             const selectedType = typeFilter.value;
-
             let filteredData = unitData.filter(item => {
                 const matchesSearch = item.unitNo.toLowerCase().includes(searchTerm);
                 const matchesFloor = !selectedFloor || item.floor.toString() === selectedFloor;
@@ -373,11 +481,9 @@
                 const matchesType = !selectedType || item.type === selectedType;
                 return matchesSearch && matchesFloor && matchesSide && matchesType;
             });
-
             filteredData.sort((a, b) => {
                 let valA = a[currentSort.key];
                 let valB = b[currentSort.key];
-
                 if(currentSort.key === 'floor') {
                     const numA = parseInt(valA, 10);
                     const numB = parseInt(valB, 10);
@@ -385,16 +491,13 @@
                     if (numA > numB) return currentSort.direction === 'asc' ? 1 : -1;
                     return 0;
                 }
-
                 if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
-                if (valA < valB) { return currentSort.direction === 'asc' ? -1 : 1; }
-                if (valA > valB) { return currentSort.direction === 'asc' ? 1 : -1; }
+                if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
                 return 0;
             });
-
             tableBody.innerHTML = '';
             noResults.style.display = filteredData.length === 0 ? 'block' : 'none';
-
             filteredData.forEach((item, index) => {
                 const row = document.createElement('tr');
                 const bgColorClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
@@ -406,9 +509,9 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${langData.dataValues[item.side] || item.side}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${langData.dataValues[item.type] || item.type}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-500 text-right">${item.sqm.toFixed(2)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right line-through">฿${formatCurrency(item.sellingPrice)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">฿${formatCurrency(item.promoPerSqm)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-600 text-right">฿${formatCurrency(item.promoPrice)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right line-through">${formatCurrency(item.sellingPrice)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${formatCurrency(item.promoPerSqm)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-600 text-right cursor-pointer hover:underline promo-price-cell" data-unit-no="${item.unitNo}">${formatCurrency(item.promoPrice)}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -423,11 +526,51 @@
             });
         }
 
+        function showQuotation(unit) {
+            const langData = translations[currentLang];
+            // Calculations
+            const sinkingFund = unit.sqm * 500;
+            const maintenance = unit.sqm * 50 * 12;
+            const transferFee = unit.promoPrice * 0.01;
+            const total = unit.promoPrice + sinkingFund + maintenance + transferFee;
+
+            // Populate Modal
+            document.getElementById('qUnitNo').textContent = unit.unitNo;
+            document.getElementById('qDate').textContent = new Date().toLocaleDateString(currentLang === 'th' ? 'th-TH' : 'en-CA');
+            document.getElementById('qQuota').textContent = langData.quotaType;
+            document.getElementById('qFloor').textContent = unit.floor;
+            document.getElementById('qSide').textContent = langData.dataValues[unit.side] || unit.side;
+            document.getElementById('qType').textContent = langData.dataValues[unit.type] || unit.type;
+            document.getElementById('qSize').textContent = `${unit.sqm.toFixed(2)} sqm`;
+            document.getElementById('qPromoPrice').textContent = formatCurrency(unit.promoPrice);
+            document.getElementById('qSinkingFund').textContent = formatCurrency(sinkingFund);
+            document.getElementById('qMaintenance').textContent = formatCurrency(maintenance);
+            document.getElementById('qTransfer').textContent = formatCurrency(transferFee);
+            document.getElementById('qTotal').textContent = formatCurrency(total);
+            
+            // Translate static text in modal
+            quotationModal.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (langData[key]) {
+                    el.textContent = langData[key];
+                }
+            });
+            
+            quotationModal.classList.remove('hidden');
+            quotationModal.classList.add('flex');
+        }
+
+        function hideQuotation() {
+            quotationModal.classList.add('hidden');
+            quotationModal.classList.remove('flex');
+        }
+
+        function printQuotation() {
+            window.print();
+        }
+
         // --- EVENT LISTENERS ---
-        [searchInput, floorFilter, sideFilter, typeFilter].forEach(el => {
-            el.addEventListener('input', renderTable);
-            el.addEventListener('change', renderTable);
-        });
+        [searchInput, floorFilter, sideFilter, typeFilter].forEach(el => el.addEventListener('change', renderTable));
         
         tableHeaders.forEach(header => {
             header.addEventListener('click', () => {
@@ -442,11 +585,21 @@
         languageSwitcher.addEventListener('click', (e) => {
             if (e.target.matches('.lang-btn')) {
                 const lang = e.target.dataset.lang;
-                if (lang) {
-                    changeLanguage(lang);
-                }
+                if (lang) changeLanguage(lang);
             }
         });
+        
+        tableBody.addEventListener('click', (e) => {
+            const cell = e.target.closest('.promo-price-cell');
+            if (cell) {
+                const unitNo = cell.dataset.unitNo;
+                const unit = unitData.find(u => u.unitNo === unitNo);
+                if (unit) showQuotation(unit);
+            }
+        });
+
+        closeModalBtn.addEventListener('click', hideQuotation);
+        printQuotationBtn.addEventListener('click', printQuotation);
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -456,4 +609,5 @@
     </script>
 </body>
 </html>
+
 
