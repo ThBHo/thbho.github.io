@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: กรอบการเรียนรู้ Hybrid AI (Multilingual)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&family=Sarabun:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!--
+    Infographic Narrative & Visualization Plan (Multilingual with Switcher)
+    -------------------------------------------
+    1.  Language Switcher: Buttons to toggle visibility of language content.
+    2.  Header: Video Banner, Announcement title, and main title.
+    3.  Introduction: Explains the "why" behind the new approach.
+    4.  Podcast Embed: Provides additional context via Spotify.
+    5.  The 4-Step Process: A vertical flowchart visualizing the core framework.
+    6.  Key Goals Section: Reinforces the 3 main objectives.
+    7.  Call to Action & Project Sandbox Link: Clear next steps and project links.
+
+    All text sections are wrapped with language-specific classes and their visibility is controlled by JavaScript.
+    Default language is set to Thai.
+
+    Confirmation: No SVG graphics or Mermaid JS are used. All diagrams are built with structured HTML/CSS.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', 'Noto Sans', sans-serif;
+            background-color: #f0f4f8;
+            color: #333333;
+        }
+        h1, h2, h3 {
+            font-family: 'Sarabun', 'Noto Sans', sans-serif;
+            font-weight: 700;
+        }
+        .lang-en-font { font-family: 'Roboto', sans-serif; }
+        .lang-zh-font { font-family: 'Noto Sans SC', sans-serif; }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -2rem; 
+            transform: translateX(-50%);
+            width: 2px;
+            height: 2rem; 
+            background-color: #cbd5e1;
+        }
+        .step-card:last-child .step-connector::after {
+            display: none;
+        }
+        .lang-btn.active {
+            background-color: #0B3D55;
+            color: white;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container mx-auto p-6 md:p-10 max-w-4xl">
+
+        <div class="flex justify-between items-center mb-4">
+            <a href="https://thbho.github.io/" class="text-sm font-semibold text-gray-600 hover:text-[#F9A826] transition-colors">
+                <span class="lang-content lang-th">&larr; กลับสู่หน้าหลัก</span>
+                <span class="lang-content lang-en hidden">&larr; Back to Home</span>
+                <span class="lang-content lang-ru hidden">&larr; Вернуться на главную</span>
+                <span class="lang-content lang-zh hidden">&larr; 返回主页</span>
+            </a>
+            <div id="language-switcher" class="flex space-x-1 rounded-lg bg-gray-200 p-1">
+                <button class="lang-btn px-3 py-1 text-sm rounded-md transition-colors" data-lang="th">ไทย</button>
+                <button class="lang-btn px-3 py-1 text-sm rounded-md transition-colors lang-en-font" data-lang="en">EN</button>
+                <button class="lang-btn px-3 py-1 text-sm rounded-md transition-colors" data-lang="ru">RU</button>
+                <button class="lang-btn px-3 py-1 text-sm rounded-md transition-colors lang-zh-font" data-lang="zh">中文</button>
+            </div>
+        </div>
+
+        <header class="text-center mb-12">
+            <video class="w-full h-auto rounded-lg shadow-lg mb-6" autoplay loop muted playsinline>
+                <source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/0ce35ca2-a4eb-4638-9d25-3e24371023a5/063969ca-e501-4174-adf8-db10b7a67b5d.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="text-2xl font-bold text-gray-500 tracking-widest">
+                <p class="lang-content lang-th">ประกาศ</p>
+                <p class="lang-content lang-en hidden lang-en-font">ANNOUNCEMENT</p>
+                <p class="lang-content lang-ru hidden">ОБЪЯВЛЕНИЕ</p>
+                <p class="lang-content lang-zh hidden lang-zh-font">公告</p>
+            </div>
+            <div class="text-3xl md:text-4xl font-bold text-[#0B3D55] mt-2">
+                <h1 class="lang-content lang-th">กรอบการเรียนรู้ Hybrid AI รูปแบบใหม่</h1>
+                <h1 class="lang-content lang-en hidden lang-en-font">The New Hybrid AI Learning Framework</h1>
+                <h1 class="lang-content lang-ru hidden">Новая структура обучения гибридному ИИ</h1>
+                <h1 class="lang-content lang-zh hidden lang-zh-font">全新混合人工智能学习框架</h1>
+            </div>
+            <div class="text-lg text-gray-600 mt-2">
+                <p class="lang-content lang-th">สำหรับพนักงาน Copacabana Jomtien Group</p>
+                <p class="lang-content lang-en hidden">For Copacabana Jomtien Group Staff</p>
+                <p class="lang-content lang-ru hidden">Для сотрудников Copacabana Jomtien Group</p>
+                <p class="lang-content lang-zh hidden lang-zh-font">面向 Copacabana Jomtien 集团员工</p>
+            </div>
+        </header>
+
+        <section id="introduction" class="text-center mb-16">
+            <div class="text-lg text-gray-700 leading-relaxed">
+                <p class="lang-content lang-th">เพื่อยกระดับการทำงานและดึงศักยภาพของเทคโนโลยีมาใช้ให้เกิดประโยชน์สูงสุด เรากำลังเปลี่ยนรูปแบบการฝึกอบรม AI สู่การเรียนรู้ <strong class="text-[#0B3D55]">"แบบยกทีม"</strong> ที่ออกแบบหลักสูตรให้ <strong class="text-[#F9A826]">"ตรงจุด"</strong> กับงานของแต่ละแผนกโดยเฉพาะ โดยมีเป้าหมายเพื่อสร้าง <strong class="text-[#0B3D55]">Hybrid Creators</strong> ในองค์กรของเรา</p>
+                <p class="lang-content lang-en hidden">To enhance our work and fully leverage technology, we are shifting our AI training to a <strong class="text-[#0B3D55]">team-based model</strong>. This approach features courses <strong class="text-[#F9A826]">customized</strong> for each department's specific needs, aiming to develop <strong class="text-[#0B3D55]">Hybrid Creators</strong> within our organization.</p>
+                 <p class="lang-content lang-ru hidden">Для улучшения нашей работы и полного использования технологий мы переводим наше обучение ИИ на <strong class="text-[#0B3D55]">командную модель</strong>. Этот подход включает курсы, <strong class="text-[#F9A826]">адаптированные</strong> под конкретные нужды каждого отдела, с целью развития <strong class="text-[#0B3D55]">гибридных создателей</strong> в нашей организации.</p>
+                <p class="lang-content lang-zh hidden lang-zh-font">为了提升工作效率并充分利用技术，我们将人工智能培训转向<strong class="text-[#0B3D55]">团队模式</strong>。该方法以<strong class="text-[#F9A826]">定制化</strong>课程为特色，旨在满足各部门的特定需求，旨在培养我们组织内的<strong class="text-[#0B3D55]">混合创造者</strong>。</p>
+            </div>
+        </section>
+
+        <section id="podcast-feature" class="mb-16">
+            <div class="text-center mb-10">
+                <div class="text-2xl md:text-3xl font-bold text-center text-[#0B3D55]">
+                    <h2 class="lang-content lang-th">ฟังแนวทางจากผู้สอนทั้ง 3</h2>
+                    <h2 class="lang-content lang-en hidden lang-en-font">Hear the Approach from the 3 Instructors</h2>
+                    <h2 class="lang-content lang-ru hidden">Послушайте подход от 3 инструкторов</h2>
+                    <h2 class="lang-content lang-zh hidden lang-zh-font">听取三位讲师的教学方法</h2>
+                </div>
+            </div>
+            <div class="card p-4 max-w-2xl mx-auto">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/7kyPlDv0AZ0iiCgJsz72bI?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <section id="framework-steps" class="relative">
+            <div class="text-2xl md:text-3xl font-bold text-center text-[#0B3D55] mb-12">
+                <h2 class="lang-content lang-th">4 ขั้นตอนสู่การเป็นทีม Hybrid AI</h2>
+                <h2 class="lang-content lang-en hidden lang-en-font">4 Steps to Becoming a Hybrid AI Team</h2>
+                <h2 class="lang-content lang-ru hidden">4 шага к становлению гибридной ИИ-командой</h2>
+                <h2 class="lang-content lang-zh hidden lang-zh-font">成为混合人工智能团队的四个步骤</h2>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Step 1 -->
+                <div class="step-card relative flex flex-col md:flex-row items-center">
+                    <div class="flex-shrink-0 w-24 h-24 bg-[#0B3D55] text-white text-4xl font-black rounded-full flex items-center justify-center shadow-lg z-10">01</div>
+                    <div class="step-connector"></div>
+                    <div class="card p-6 md:ml-[-2rem] md:pl-10 w-full mt-4 md:mt-0">
+                        <h3 class="text-xl font-bold text-gray-800">
+                            <span class="lang-content lang-th">แต่งตั้ง "ผู้นำกลุ่ม"</span>
+                            <span class="lang-content lang-en hidden lang-en-font">Appoint a "Group Leader"</span>
+                            <span class="lang-content lang-ru hidden">Назначить "лидера группы"</span>
+                            <span class="lang-content lang-zh hidden lang-zh-font">任命“组长”</span>
+                        </h3>
+                        <div class="text-gray-600 mt-2">
+                            <p class="lang-content lang-th">แต่ละแผนก (Sales, Marketing, Rental, Admin/Accounting, Design, CS, etc.) คัดเลือกตัวแทน 1 คน เพื่อเป็นผู้นำของทีม</p>
+                            <p class="lang-content lang-en hidden">Each department (Sales, Marketing, Rental, Admin/Accounting, Design, CS, etc.) selects one representative to lead the team.</p>
+                            <p class="lang-content lang-ru hidden">Каждый отдел (Продажи, Маркетинг, Аренда, Админ/Бухгалтерия, Дизайн, Клиентская служба и т.д.) выбирает одного представителя для руководства командой.</p>
+                            <p class="lang-content lang-zh hidden lang-zh-font">每个部门 (销售、市场、租赁、行政/会计、设计、客服等) 选派一名代表领导团队。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step-card relative flex flex-col md:flex-row items-center">
+                    <div class="flex-shrink-0 w-24 h-24 bg-[#F9A826] text-white text-4xl font-black rounded-full flex items-center justify-center shadow-lg z-10">02</div>
+                    <div class="step-connector"></div>
+                    <div class="card p-6 md:ml-[-2rem] md:pl-10 w-full mt-4 md:mt-0">
+                        <h3 class="text-xl font-bold text-gray-800">
+                             <span class="lang-content lang-th">ออกแบบหลักสูตรร่วมกัน</span>
+                            <span class="lang-content lang-en hidden lang-en-font">Co-Design the Curriculum</span>
+                            <span class="lang-content lang-ru hidden">Совместная разработка учебной программы</span>
+                            <span class="lang-content lang-zh hidden lang-zh-font">共同设计课程</span>
+                        </h3>
+                        <div class="text-gray-600 mt-2">
+                             <p class="lang-content lang-th">Leader จะเข้าร่วม Workshop กับทีมผู้สอน เพื่อออกแบบ Course Outline ที่ตอบโจทย์แผนกตนเอง</p>
+                            <p class="lang-content lang-en hidden">The Leader will join a workshop with instructors to design a custom Course Outline for their department.</p>
+                            <p class="lang-content lang-ru hidden">Лидер примет участие в семинаре с преподавателями для разработки индивидуального плана курса для своего отдела.</p>
+                            <p class="lang-content lang-zh hidden lang-zh-font">组长将与讲师一同参加研讨会，为本部门设计定制的课程大纲。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card relative flex flex-col md:flex-row items-center">
+                     <div class="flex-shrink-0 w-24 h-24 bg-[#0B3D55] text-white text-4xl font-black rounded-full flex items-center justify-center shadow-lg z-10">03</div>
+                    <div class="step-connector"></div>
+                    <div class="card p-6 md:ml-[-2rem] md:pl-10 w-full mt-4 md:mt-0">
+                        <h3 class="text-xl font-bold text-gray-800">
+                            <span class="lang-content lang-th">บทบาทของผู้นำกลุ่ม</span>
+                            <span class="lang-content lang-en hidden lang-en-font">Leader's Role</span>
+                            <span class="lang-content lang-ru hidden">Роль лидера</span>
+                            <span class="lang-content lang-zh hidden lang-zh-font">组长的角色</span>
+                        </h3>
+                        <div class="text-gray-600 mt-2">
+                            <p class="lang-content lang-th">Leader จะทำหน้าที่เป็น "ผู้ช่วยผู้สอน" คอยประสานงาน, ติดตาม, และกระตุ้นทีม</p>
+                            <p class="lang-content lang-en hidden">The Leader acts as a "Teaching Assistant" to coordinate, track progress, and motivate the team.</p>
+                            <p class="lang-content lang-ru hidden">Лидер выступает в роли "ассистента преподавателя" для координации, отслеживания прогресса и мотивации команды.</p>
+                            <p class="lang-content lang-zh hidden lang-zh-font">组长担任“助教”，负责协调、跟踪进度和激励团队。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card relative flex flex-col md:flex-row items-center">
+                    <div class="flex-shrink-0 w-24 h-24 bg-[#F9A826] text-white text-4xl font-black rounded-full flex items-center justify-center shadow-lg z-10">04</div>
+                    <div class="card p-6 md:ml-[-2rem] md:pl-10 w-full mt-4 md:mt-0">
+                        <h3 class="text-xl font-bold text-gray-800">
+                             <span class="lang-content lang-th">เริ่มต้นการเรียนการสอน</span>
+                            <span class="lang-content lang-en hidden lang-en-font">Training Begins</span>
+                            <span class="lang-content lang-ru hidden">Начало обучения</span>
+                            <span class="lang-content lang-zh hidden lang-zh-font">培训开始</span>
+                        </h3>
+                        <div class="text-gray-600 mt-2">
+                             <p class="lang-content lang-th">ทีมผู้สอนจะจัดลำดับและเริ่มเปิดสอนหลักสูตรสำหรับแต่ละแผนกตามความพร้อม</p>
+                            <p class="lang-content lang-en hidden">Instructors will prioritize and launch the custom courses for each department based on readiness.</p>
+                            <p class="lang-content lang-ru hidden">Преподаватели будут определять приоритеты и запускать индивидуальные курсы для каждого отдела по мере готовности.</p>
+                            <p class="lang-content lang-zh hidden lang-zh-font">讲师将根据准备情况，优先为各部门启动定制课程。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="goals" class="py-16">
+            <div class="text-center mb-12">
+                <div class="text-2xl md:text-3xl font-bold text-center text-[#0B3D55]">
+                    <h2 class="lang-content lang-th">เป้าหมายหลักของโครงการ</h2>
+                    <h2 class="lang-content lang-en hidden lang-en-font">Key Project Goals</h2>
+                    <h2 class="lang-content lang-ru hidden">Ключевые цели проекта</h2>
+                    <h2 class="lang-content lang-zh hidden lang-zh-font">主要项目目标</h2>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="card p-6">
+                    <p class="text-4xl">🎯</p>
+                    <h4 class="font-bold mt-2 text-lg">
+                        <span class="lang-content lang-th">หลักสูตรที่ตรงจุด</span>
+                        <span class="lang-content lang-en hidden lang-en-font">Customized Courses</span>
+                        <span class="lang-content lang-ru hidden">Индивидуальные курсы</span>
+                        <span class="lang-content lang-zh hidden lang-zh-font">定制课程</span>
+                    </h4>
+                    <div class="text-gray-600 text-sm">
+                        <p class="lang-content lang-th">เนื้อหาที่ออกแบบมาเพื่อช่วยงานของแผนกคุณโดยเฉพาะ</p>
+                        <p class="lang-content lang-en hidden">Content designed specifically to help your department's work.</p>
+                         <p class="lang-content lang-ru hidden">Контент, разработанный специально для помощи в работе вашего отдела.</p>
+                        <p class="lang-content lang-zh hidden lang-zh-font">专为帮助您部门工作而设计的内容。</p>
+                    </div>
+                </div>
+                 <div class="card p-6">
+                    <p class="text-4xl">🤝</p>
+                    <h4 class="font-bold mt-2 text-lg">
+                        <span class="lang-content lang-th">การสร้างผู้นำในทีม</span>
+                        <span class="lang-content lang-en hidden lang-en-font">Team Empowerment</span>
+                        <span class="lang-content lang-ru hidden">Расширение прав и возможностей команды</span>
+                        <span class="lang-content lang-zh hidden lang-zh-font">团队赋能</span>
+                    </h4>
+                    <div class="text-gray-600 text-sm">
+                        <p class="lang-content lang-th">พัฒนาศักยภาพ Leader ให้สามารถขับเคลื่อนทีมได้เอง</p>
+                        <p class="lang-content lang-en hidden">Developing Leaders to be able to drive their teams forward.</p>
+                        <p class="lang-content lang-ru hidden">Развитие лидеров, способных вести свои команды вперед.</p>
+                        <p class="lang-content lang-zh hidden lang-zh-font">培养领导者推动团队前进的能力。</p>
+                    </div>
+                </div>
+                 <div class="card p-6">
+                    <p class="text-4xl">📈</p>
+                    <h4 class="font-bold mt-2 text-lg">
+                        <span class="lang-content lang-th">ผลลัพธ์ที่วัดผลได้</span>
+                        <span class="lang-content lang-en hidden lang-en-font">Measurable Results</span>
+                        <span class="lang-content lang-ru hidden">Измеримые результаты</span>
+                        <span class="lang-content lang-zh hidden lang-zh-font">可衡量的结果</span>
+                    </h4>
+                    <div class="text-gray-600 text-sm">
+                        <p class="lang-content lang-th">มุ่งเน้นโปรเจกต์ที่นำไปใช้พัฒนางานได้จริง</p>
+                        <p class="lang-content lang-en hidden">Focusing on projects that can be applied to improve real work.</p>
+                        <p class="lang-content lang-ru hidden">Фокус на проектах, которые можно применить для улучшения реальной работы.</p>
+                        <p class="lang-content lang-zh hidden lang-zh-font">专注于可应用于改进实际工作的项目。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="next-steps" class="bg-white card p-8 md:p-10 text-center">
+            <h2 class="text-2xl font-bold text-[#0B3D55] mb-4">
+                <span class="lang-content lang-th">ขั้นตอนต่อไป</span>
+                <span class="lang-content lang-en hidden lang-en-font">Next Steps</span>
+                <span class="lang-content lang-ru hidden">Следующие шаги</span>
+                <span class="lang-content lang-zh hidden lang-zh-font">下一步</span>
+            </h2>
+            <div class="text-gray-700 mb-6">
+                 <p class="lang-content lang-th">ขอให้หัวหน้าแต่ละแผนกเสนอชื่อ <strong class="text-[#F9A826]">"ผู้นำกลุ่ม" (Leader)</strong> ของท่านมายังทีมผู้สอน เพื่อเริ่มขั้นตอนการออกแบบหลักสูตรร่วมกัน</p>
+                <p class="lang-content lang-en hidden">Department heads are requested to nominate their <strong class="text-[#F9A826]">Group Leader</strong> to the teaching team to begin the co-design process.</p>
+                <p class="lang-content lang-ru hidden">Руководителям отделов предлагается выдвинуть кандидатуру <strong class="text-[#F9A826]">лидера группы</strong> в команду преподавателей, чтобы начать процесс совместной разработки.</p>
+                <p class="lang-content lang-zh hidden lang-zh-font">请各部门负责人向教学团队提名其<strong class="text-[#F9A826]">组长</strong>，以启动共同设计流程。</p>
+            </div>
+            <a href="https://thbho.github.io/" target="_blank" class="inline-block bg-[#0B3D55] text-white font-bold py-3 px-8 rounded-lg text-md hover:bg-opacity-90 transition-colors">
+                 <span class="lang-content lang-th">ดูข้อมูลหลักสูตรและผู้สอนเพิ่มเติม</span>
+                <span class="lang-content lang-en hidden lang-en-font">View Course & Instructor Info</span>
+                <span class="lang-content lang-ru hidden">Информация о курсе и преподавателях</span>
+                <span class="lang-content lang-zh hidden lang-zh-font">查看课程和讲师信息</span>
+            </a>
+        </section>
+        
+        <section id="project-sandbox" class="mt-8 bg-gray-800 text-white rounded-lg p-8 md:p-10 text-center">
+            <h2 class="text-2xl font-bold text-white mb-2">
+                <span class="lang-content lang-th">โครงการทดลอง <span class="text-[#F9A826]">(Project Sandbox)</span></span>
+                <span class="lang-content lang-en hidden lang-en-font">Project Sandbox</span>
+                <span class="lang-content lang-ru hidden">Экспериментальный проект</span>
+                <span class="lang-content lang-zh hidden lang-zh-font">项目沙盒</span>
+            </h2>
+            <div class="text-gray-300 mb-6">
+                <p class="lang-content lang-th">เยี่ยมชมโครงการทดลองของเรา เพื่อดูตัวอย่างการนำ Hybrid AI Persona ไปใช้งานจริง</p>
+                <p class="lang-content lang-en hidden">Visit our pilot projects to see real-world examples of Hybrid AI Personas in action.</p>
+                <p class="lang-content lang-ru hidden">Посетите наши пилотные проекты, чтобы увидеть реальные примеры использования гибридных ИИ-персон в действии.</p>
+                <p class="lang-content lang-zh hidden lang-zh-font">访问我们的试点项目，查看混合人工智能角色的实际应用示例。</p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                <!-- Project 1 -->
+                <div class="text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">WIDEROOMS</h3>
+                    <div class="text-gray-400 mb-3 text-sm">
+                        <p class="lang-content lang-th">ธุรกิจทดลองใหม่ที่บริหารจัดการโดย Hybrid AI Persona</p>
+                        <p class="lang-content lang-en hidden">A new pilot business managed by a Hybrid AI Persona.</p>
+                        <p class="lang-content lang-ru hidden">Новый пилотный бизнес, управляемый гибридной ИИ-персоной.</p>
+                        <p class="lang-content lang-zh hidden lang-zh-font">一个由混合人工智能角色管理的新试点业务。</p>
+                    </div>
+                    <a href="https://thbho.github.io/ThWiderooms.html" target="_blank" class="inline-block bg-white text-[#0B3D55] font-bold py-2 px-6 rounded-lg text-md hover:bg-gray-200 transition-colors">
+                        <span class="lang-content lang-th">เยี่ยมชม WIDEROOMS</span>
+                        <span class="lang-content lang-en hidden lang-en-font">Visit WIDEROOMS</span>
+                        <span class="lang-content lang-ru hidden">Посетить WIDEROOMS</span>
+                        <span class="lang-content lang-zh hidden lang-zh-font">访问 WIDEROOMS</span>
+                    </a>
+                </div>
+                <!-- Project 2 -->
+                <div class="text-center">
+                     <h3 class="text-xl font-bold text-white mb-2">Dual-Avatar Strategy</h3>
+                     <div class="text-gray-400 mb-3 text-sm">
+                        <p class="lang-content lang-th">กลยุทธ์การใช้ AI Persona 2 ตัวตนในการขาย</p>
+                        <p class="lang-content lang-en hidden">A strategy using two AI Personas for sales.</p>
+                        <p class="lang-content lang-ru hidden">Стратегия использования двух ИИ-персон для продаж.</p>
+                        <p class="lang-content lang-zh hidden lang-zh-font">使用两个人工智能角色进行销售的策略。</p>
+                    </div>
+                     <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" class="inline-block bg-white text-[#0B3D55] font-bold py-2 px-6 rounded-lg text-md hover:bg-gray-200 transition-colors">
+                        <span class="lang-content lang-th">ดูกลยุทธ์</span>
+                        <span class="lang-content lang-en hidden lang-en-font">View Strategy</span>
+                        <span class="lang-content lang-ru hidden">Посмотреть стратегию</span>
+                        <span class="lang-content lang-zh hidden lang-zh-font">查看策略</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center p-6 mt-10">
+        <div class="text-sm text-gray-500">
+            <p class="lang-content lang-th">&copy; 2568 AI GYMMATEX FACTORY | สำหรับ Copacabana Jomtien Group</p>
+            <p class="lang-content lang-en hidden">&copy; 2025 AI GYMMATEX FACTORY | For Copacabana Jomtien Group</p>
+            <p class="lang-content lang-ru hidden">&copy; 2025 AI GYMMATEX FACTORY | для Copacabana Jomtien Group</p>
+            <p class="lang-content lang-zh hidden lang-zh-font">&copy; 2025 AI GYMMATEX FACTORY | 为 Copacabana Jomtien 集团</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const switcher = document.getElementById('language-switcher');
+            const buttons = switcher.querySelectorAll('.lang-btn');
+            const contents = document.querySelectorAll('.lang-content');
+            const userLang = navigator.language || navigator.userLanguage; 
+            let defaultLang = 'th';
+
+            if (userLang.startsWith('en')) {
+                defaultLang = 'en';
+            } else if (userLang.startsWith('ru')) {
+                defaultLang = 'ru';
+            } else if (userLang.startsWith('zh')) {
+                defaultLang = 'zh';
+            }
+
+            function switchLanguage(lang) {
+                contents.forEach(content => {
+                    if (content.classList.contains('lang-' + lang)) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+                buttons.forEach(button => {
+                    if (button.dataset.lang === lang) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+                 // Persist language choice
+                try {
+                    localStorage.setItem('preferredLanguage', lang);
+                } catch (e) {
+                    console.error("LocalStorage is not available.");
+                }
+            }
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    switchLanguage(this.dataset.lang);
+                });
+            });
+
+            // Check for saved language, otherwise use browser default
+            const savedLang = localStorage.getItem('preferredLanguage');
+            switchLanguage(savedLang || defaultLang);
+        });
+    </script>
+</body>
+</html>
+
