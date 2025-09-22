@@ -31,19 +31,34 @@
             border-color: #3b82f6;
         }
         @media print {
-            body * {
+            /* Styles for printing the main page */
+            body:not(.printing-quotation) header,
+            body:not(.printing-quotation) main > div:first-of-type, /* Hides filters */
+            body:not(.printing-quotation) #quotationModal {
+                display: none;
+            }
+
+            body:not(.printing-quotation) .max-w-7xl {
+                box-shadow: none;
+                border: none;
+            }
+            
+            /* Styles specifically for printing the quotation modal */
+            body.printing-quotation * {
                 visibility: hidden;
             }
-            #quotationPrintArea, #quotationPrintArea * {
+            body.printing-quotation #quotationPrintArea, 
+            body.printing-quotation #quotationPrintArea * {
                 visibility: visible;
             }
-            #quotationPrintArea {
+            body.printing-quotation #quotationPrintArea {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 margin: 0;
                 padding: 0;
+                box-shadow: none;
             }
         }
     </style>
@@ -376,8 +391,8 @@
 6,9,Sea,One bed,9A04,47.38,6301540,84403,3999000
 7,9,Sea,One bed,9A06,31.86,4237380,87853,2759000
 8,11,City,One bed,11E06,34.28,3805080,87485,2999000
-9,12,City,One bed,12E11,34.45,3858400,87054,2999000
-10,12,City,One bed,12E12,34.45,3858400,87054,2999000
+9,18,City,One bed,18E08,34.45,3858400,87054,2999000
+10,18,City,One bed,18E09,34.45,3858400,87054,2999000
 11,25,Sea,One bed,25A05,46.92,6568800,92903,4359000`;
         
         const unitData = csvData.split('\n').slice(1).map(row => {
@@ -569,6 +584,7 @@
         }
 
         function printQuotation() {
+            document.body.classList.add('printing-quotation');
             window.print();
         }
 
@@ -603,6 +619,10 @@
 
         closeModalBtn.addEventListener('click', hideQuotation);
         printQuotationBtn.addEventListener('click', printQuotation);
+
+        window.addEventListener('afterprint', () => {
+            document.body.classList.remove('printing-quotation');
+        });
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
