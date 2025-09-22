@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Riviera Jomtien - Interactive Price List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+        }
+        .sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .lang-btn {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .lang-btn.active, .lang-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-6 md:p-8">
+    <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+        <header class="bg-gray-800 text-white p-6 sm:p-8 flex justify-between items-start">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold" data-lang-key="headerTitle">The Riviera Jomtien</h1>
+                <p class="text-gray-300 mt-1">
+                    <span class="text-2xl sm:text-4xl text-yellow-400 font-bold tracking-wider animate-pulse" data-lang-key="headerFullPromoTitle"></span>
+                </p>
+            </div>
+            <div class="flex flex-col items-end">
+                 <img src="https://i.postimg.cc/m2xnJNLL/Rivera-topaz-upscale-4x-text-crop-Edited.png" alt="Riviera Jomtien Logo" class="h-12 sm:h-16 rounded-lg mb-4">
+                 <div id="languageSwitcher" class="flex space-x-2">
+                    <img src="https://flagcdn.com/w40/th.png" alt="Thai Flag" class="lang-btn h-6 rounded-sm" data-lang="th">
+                    <img src="https://flagcdn.com/w40/gb.png" alt="English Flag" class="lang-btn h-6 rounded-sm active" data-lang="en">
+                    <img src="https://flagcdn.com/w40/ru.png" alt="Russian Flag" class="lang-btn h-6 rounded-sm" data-lang="ru">
+                    <img src="https://flagcdn.com/w40/cn.png" alt="Chinese Flag" class="lang-btn h-6 rounded-sm" data-lang="zh">
+                </div>
+            </div>
+        </header>
+
+        <main class="p-6 sm:p-8">
+            <!-- Filter Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <input type="text" id="searchInput" data-lang-key-placeholder="searchPlaceholder" placeholder="Search by Unit No..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                <select id="floorFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                    <option value="" data-lang-key="allFloors">All Floors</option>
+                </select>
+                <select id="sideFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                    <option value="" data-lang-key="allSides">All Sides</option>
+                </select>
+                <select id="typeFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                    <option value="" data-lang-key="allTypes">All Types</option>
+                </select>
+            </div>
+
+            <!-- Price List Table -->
+            <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-100 border-b-2 border-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="unitNo" data-lang-key="unitNo">Unit No.</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="floor" data-lang-key="floor">Floor</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="side" data-lang-key="side">Side</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="type" data-lang-key="type">Type</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="sqm" data-lang-key="size">Size (sqm)</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="sellingPrice" data-lang-key="originalPrice">Original Price</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="promoPerSqm" data-lang-key="promoPerSqm">Promo Price / sqm</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer" data-sort="promoPrice">Promotion Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priceTableBody" class="divide-y divide-gray-200">
+                        <!-- Rows will be injected by JavaScript -->
+                    </tbody>
+                </table>
+                 <p id="noResults" class="text-center py-8 text-gray-500 hidden" data-lang-key="noResults">No units found matching your criteria.</p>
+            </div>
+        </main>
+        
+        <footer class="bg-gray-50 border-t border-gray-200 p-6 sm:p-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4" data-lang-key="conditionsTitle">Conditions</h2>
+                <ul id="conditionsList" class="list-disc list-inside space-y-2 text-gray-700">
+                    <!-- Conditions will be injected by JavaScript -->
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                pageTitle: "Riviera Jomtien - Interactive Price List",
+                headerTitle: "The Riviera Jomtien",
+                headerFullPromoTitle: "Thai Quota Promotion Price List",
+                searchPlaceholder: "Search by Unit No...",
+                allFloors: "All Floors",
+                allSides: "All Sides",
+                allTypes: "All Types",
+                unitNo: "Unit No.",
+                floor: "Floor",
+                side: "Side",
+                type: "Type",
+                size: "Size (sqm)",
+                originalPrice: "Original Price",
+                promoPerSqm: "Promo Price / sqm",
+                promoPrice: "Promotion Price",
+                noResults: "No units found matching your criteria.",
+                conditionsTitle: "Conditions",
+                conditions: [
+                    "Furniture package from project according to list mention",
+                    "All units make contract with project",
+                    "This Price is not included*Sinking fund 500/sqm",
+                    "Maintenance fee 50/sqm. Per month (Advance one year)",
+                    "Transfer fee 0.01% or according to the announcement from landoffice.",
+                    "*Included commission for Agent 7%",
+                    "Effective until December 31, 2025",
+                    "Approve by ___________________________"
+                ],
+                dataValues: { "Sea": "Sea", "City": "City", "One bed": "One bed" }
+            },
+            th: {
+                pageTitle: "เดอะ ริเวียร่า จอมเทียน - รายการราคาแบบโต้ตอบ",
+                headerTitle: "เดอะ ริเวียร่า จอมเทียน",
+                headerFullPromoTitle: "โปรโมชั่นโควต้าคนไทย รายการราคา",
+                searchPlaceholder: "ค้นหาจากเลขยูนิต...",
+                allFloors: "ทุกชั้น",
+                allSides: "ทุกฝั่ง",
+                allTypes: "ทุกประเภท",
+                unitNo: "เลขยูนิต",
+                floor: "ชั้น",
+                side: "ฝั่ง",
+                type: "ประเภท",
+                size: "ขนาด (ตร.ม.)",
+                originalPrice: "ราคาปกติ",
+                promoPerSqm: "ราคาโปรฯ/ตร.ม.",
+                promoPrice: "ราคาโปรโมชั่น",
+                noResults: "ไม่พบยูนิตที่ตรงกับเงื่อนไขของคุณ",
+                conditionsTitle: "เงื่อนไขและข้อกำหนด",
+                conditions: [
+                    "พร้อมเฟอร์นิเจอร์แพ็คเกจจากโครงการตามรายการที่ระบุ",
+                    "ทุกยูนิตทำสัญญากับทางโครงการ",
+                    "ราคานี้ไม่รวม*ค่ากองทุน 500/ตร.ม.",
+                    "ค่าส่วนกลาง 50/ตร.ม. ต่อเดือน (ชำระล่วงหน้า 1 ปี)",
+                    "ค่าโอน 0.01% หรือตามประกาศจากกรมที่ดิน",
+                    "*ราคารวมค่าคอมมิชชั่นสำหรับเอเจนต์ 7%",
+                    "มีผลถึงวันที่ 31 ธันวาคม 2568",
+                    "อนุมัติโดย ___________________________"
+                ],
+                dataValues: { "Sea": "ทะเล", "City": "เมือง", "One bed": "1 ห้องนอน" }
+            },
+            ru: {
+                pageTitle: "Riviera Jomtien - Интерактивный прайс-лист",
+                headerTitle: "The Riviera Jomtien",
+                headerFullPromoTitle: "Акция для тайской квоты - Прайс-лист",
+                searchPlaceholder: "Поиск по номеру юнита...",
+                allFloors: "Все этажи",
+                allSides: "Все стороны",
+                allTypes: "Все типы",
+                unitNo: "№ юнита",
+                floor: "Этаж",
+                side: "Сторона",
+                type: "Тип",
+                size: "Размер (кв.м)",
+                originalPrice: "Первоначальная цена",
+                promoPerSqm: "Цена по акции / кв.м",
+                promoPrice: "Цена по акции",
+                noResults: "Не найдено юнитов, соответствующих вашим критериям.",
+                conditionsTitle: "Условия и положения",
+                conditions: [
+                    "Пакет мебели от проекта согласно указанному списку",
+                    "Все юниты заключают контракт с проектом",
+                    "В эту цену не включен* амортизационный фонд 500/кв.м.",
+                    "Плата за обслуживание 50/кв.м. в месяц (предоплата за один год)",
+                    "Комиссия за перевод 0,01% или в соответствии с объявлением земельного управления.",
+                    "*Включая комиссию для Агента 7%",
+                    "Действительно до 31 декабря 2025 г.",
+                    "Утверждено ___________________________"
+                ],
+                dataValues: { "Sea": "Море", "City": "Город", "One bed": "1 спальня" }
+            },
+            zh: {
+                pageTitle: "里维埃拉中天 - 互动价格表",
+                headerTitle: "里维埃拉中天",
+                headerFullPromoTitle: "泰国配额促销价格表",
+                searchPlaceholder: "按单元号搜索...",
+                allFloors: "所有楼层",
+                allSides: "所有朝向",
+                allTypes: "所有类型",
+                unitNo: "单元号",
+                floor: "楼层",
+                side: "朝向",
+                type: "类型",
+                size: "面积 (平方米)",
+                originalPrice: "原价",
+                promoPerSqm: "促销价/平方米",
+                promoPrice: "促销价",
+                noResults: "未找到符合您条件的单元。",
+                conditionsTitle: "条款和条件",
+                conditions: [
+                    "根据项目清单提供家具套餐",
+                    "所有单位均与项目签订合同",
+                    "此价格不包括*维修基金 500/平方米",
+                    "物业费 50/平方米/月（预付一年）",
+                    "过户费 0.01% 或根据土地局公告为准。",
+                    "*包括代理商佣金 7%",
+                    "有效期至 2025 年 12 月 31 日",
+                    "批准人 ___________________________"
+                ],
+                dataValues: { "Sea": "海景", "City": "城景", "One bed": "一卧室" }
+            }
+        };
+
+        let currentLang = 'en';
+
+        // Data from the user's uploaded file (Updated to 11 units)
+        const csvData = `No.,Floor,Side,Type,Unit No.,SQ.M,Selling Price,Promotion/sqm,Selling-Promotion
+1,8,Sea,One bed,8A03,32.66,4311120,84476,2759000
+2,8,Sea,One bed,8A04,47.38,6254160,84213,3959000
+3,8,Sea,One bed,8A05,46.92,6193440,84378,3959000
+4,8,Sea,One bed,8A06,31.86,4205520,84714,2699000
+5,9,Sea,One bed,9A02,32.64,4341120,87592,2859000
+6,9,Sea,One bed,9A04,47.38,6301540,84403,3999000
+7,9,Sea,One bed,9A06,31.86,4237380,87853,2759000
+8,11,City,One bed,11E06,34.28,3805080,87485,2999000
+9,11,City,One bed,11E07,34.28,3805080,87485,2999000
+10,12,City,One bed,12E06,34.28,3827220,87569,2999000
+11,12,City,One bed,12E07,34.28,3827220,87569,2999000`;
+        
+        // --- DATA PROCESSING ---
+        const unitData = csvData.split('\n').slice(1).map(row => {
+            const columns = row.split(',');
+            return {
+                no: parseInt(columns[0], 10),
+                floor: parseInt(columns[1], 10),
+                side: columns[2],
+                type: columns[3],
+                unitNo: columns[4],
+                sqm: parseFloat(columns[5]),
+                sellingPrice: parseInt(columns[6], 10),
+                promoPerSqm: parseInt(columns[7], 10),
+                promoPrice: parseInt(columns[8], 10),
+            };
+        });
+
+        // --- DOM ELEMENTS ---
+        const searchInput = document.getElementById('searchInput');
+        const floorFilter = document.getElementById('floorFilter');
+        const sideFilter = document.getElementById('sideFilter');
+        const typeFilter = document.getElementById('typeFilter');
+        const tableBody = document.getElementById('priceTableBody');
+        const noResults = document.getElementById('noResults');
+        const tableHeaders = document.querySelectorAll('th[data-sort]');
+        const languageSwitcher = document.getElementById('languageSwitcher');
+        const conditionsList = document.getElementById('conditionsList');
+
+        // --- STATE MANAGEMENT ---
+        let currentSort = { key: 'no', direction: 'asc' };
+
+        // --- HELPER FUNCTIONS ---
+        const formatCurrency = (amount) => new Intl.NumberFormat('en-US').format(amount);
+
+        // --- LANGUAGE FUNCTION ---
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const langData = translations[lang];
+
+            // Update all elements with data-lang-key attribute
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if(langData[key]) {
+                   el.textContent = langData[key];
+                }
+            });
+            
+             // Update all elements with data-lang-key-placeholder attribute
+            document.querySelectorAll('[data-lang-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-lang-key-placeholder');
+                el.placeholder = langData[key];
+            });
+
+            // Update page title
+            document.getElementById('pageTitle').textContent = langData.pageTitle;
+
+            // Update conditions
+            conditionsList.innerHTML = '';
+            langData.conditions.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                conditionsList.appendChild(li);
+            });
+            
+            // Update active button style
+            languageSwitcher.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // Re-render table to update translated values
+            renderTable();
+        }
+
+        // --- POPULATE FILTERS ---
+        function populateFilters() {
+            const floors = [...new Set(unitData.map(item => item.floor))].sort((a, b) => a - b);
+            const sides = [...new Set(unitData.map(item => item.side))];
+            const types = [...new Set(unitData.map(item => item.type))];
+
+            // Store selected values
+            const selectedFloor = floorFilter.value;
+            const selectedSide = sideFilter.value;
+            const selectedType = typeFilter.value;
+
+            // Clear existing options except the first "All" option
+            floorFilter.length = 1;
+            sideFilter.length = 1;
+            typeFilter.length = 1;
+
+            floors.forEach(floor => {
+                const option = document.createElement('option');
+                option.value = floor;
+                option.textContent = `Floor ${floor}`;
+                floorFilter.appendChild(option);
+            });
+
+            sides.forEach(side => {
+                const option = document.createElement('option');
+                option.value = side;
+                option.textContent = translations[currentLang].dataValues[side] || side;
+                sideFilter.appendChild(option);
+            });
+
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = translations[currentLang].dataValues[type] || type;
+                typeFilter.appendChild(option);
+            });
+
+            // Restore selected values
+            floorFilter.value = selectedFloor;
+            sideFilter.value = selectedSide;
+            typeFilter.value = selectedType;
+        }
+
+        // --- RENDER TABLE ---
+        function renderTable() {
+            // Re-populate filters to update text for current language
+            populateFilters();
+            
+            // 1. Filter data
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedFloor = floorFilter.value;
+            const selectedSide = sideFilter.value;
+            const selectedType = typeFilter.value;
+
+            let filteredData = unitData.filter(item => {
+                const matchesSearch = item.unitNo.toLowerCase().includes(searchTerm);
+                const matchesFloor = !selectedFloor || item.floor.toString() === selectedFloor;
+                const matchesSide = !selectedSide || item.side === selectedSide;
+                const matchesType = !selectedType || item.type === selectedType;
+                return matchesSearch && matchesFloor && matchesSide && matchesType;
+            });
+
+            // 2. Sort data
+            filteredData.sort((a, b) => {
+                let valA = a[currentSort.key];
+                let valB = b[currentSort.key];
+                if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
+                if (valA < valB) { return currentSort.direction === 'asc' ? -1 : 1; }
+                if (valA > valB) { return currentSort.direction === 'asc' ? 1 : -1; }
+                return 0;
+            });
+
+            // 3. Render rows
+            tableBody.innerHTML = '';
+            noResults.style.display = filteredData.length === 0 ? 'block' : 'none';
+
+            filteredData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                // Apply alternating row colors for better readability
+                const bgColorClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                row.className = `${bgColorClass} hover:bg-blue-100 transition-colors`;
+                const langData = translations[currentLang];
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.unitNo}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.floor}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${langData.dataValues[item.side] || item.side}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${langData.dataValues[item.type] || item.type}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${item.sqm.toFixed(2)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right line-through">฿${formatCurrency(item.sellingPrice)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">฿${formatCurrency(item.promoPerSqm)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 text-right">฿${formatCurrency(item.promoPrice)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function updateSortIndicators() {
+            tableHeaders.forEach(header => {
+                header.classList.remove('sort-asc', 'sort-desc');
+                if (header.dataset.sort === currentSort.key) {
+                    header.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        [searchInput, floorFilter, sideFilter, typeFilter].forEach(el => {
+            el.addEventListener('input', renderTable);
+            el.addEventListener('change', renderTable);
+        });
+        
+        tableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortKey = header.dataset.sort;
+                currentSort.direction = (currentSort.key === sortKey && currentSort.direction === 'asc') ? 'desc' : 'asc';
+                currentSort.key = sortKey;
+                updateSortIndicators();
+                renderTable();
+            });
+        });
+
+        languageSwitcher.addEventListener('click', (e) => {
+            if (e.target.matches('.lang-btn')) {
+                const lang = e.target.dataset.lang;
+                if (lang) {
+                    changeLanguage(lang);
+                }
+            }
+        });
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSortIndicators();
+            changeLanguage(currentLang); // Initial language setup
+        });
+    </script>
+</body>
+</html>
+
