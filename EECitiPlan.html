@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EECiti - Infographic เมืองใหม่อัจฉริยะ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 280px;
+            max-height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .bg-palette-darkest { background-color: #003F63; }
+        .text-palette-darkest { color: #003F63; }
+        .bg-palette-dark { background-color: #02568A; }
+        .text-palette-dark { color: #02568A; }
+        .bg-palette-medium { background-color: #0368AD; }
+        .text-palette-medium { color: #0368AD; }
+        .bg-palette-bright { background-color: #047BD0; }
+        .text-palette-bright { color: #047BD0; }
+        .border-palette-medium { border-color: #0368AD; }
+
+        .lang-btn.active {
+            background-color: #003F63; /* bg-palette-darkest */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .lang-btn:not(.active) {
+            background-color: white;
+            color: #02568A; /* text-palette-dark */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease-in-out;
+        }
+        .lang-btn:not(.active):hover {
+            background-color: #f0f4f8;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 leading-relaxed">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <div id="lang-switcher" class="flex justify-center space-x-2 mb-6">
+            <button data-lang="th" class="lang-btn active p-2 rounded-lg font-semibold w-20">TH 🇹🇭</button>
+            <button data-lang="en" class="lang-btn p-2 rounded-lg font-semibold w-20">EN 🇬🇧</button>
+            <button data-lang="ru" class="lang-btn p-2 rounded-lg font-semibold w-20">RU 🇷🇺</button>
+            <button data-lang="zh" class="lang-btn p-2 rounded-lg font-semibold w-20">ZH 🇨🇳</button>
+        </div>
+        
+        <div class="relative w-full aspect-video mb-8 rounded-lg shadow-md overflow-hidden">
+            <iframe 
+                class="absolute top-0 left-0 w-full h-full" 
+                src="https://www.youtube.com/embed/VLNyPSyOkVw?si=xuzr5CxTr8zDAAIq" 
+                data-lang-key="videoTitle"
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-palette-darkest mb-2" data-lang-key="mainTitle">EECiti: เมืองใหม่อัจฉริยะ</h1>
+            <p class="text-xl md:text-2xl text-palette-dark" data-lang-key="subtitle">วิสัยทัศน์เมืองแห่งอนาคต มูลค่า 1.34 ล้านล้านบาท</p>
+        </header>
+
+        <div class="mb-10 text-center">
+            <img src="https://i.postimg.cc/P505mLGm/575166498-1285845216899715-8360620981204828222-n.jpg" data-lang-key="img1Alt" alt="EECiti Master Plan" class="mx-auto rounded-lg shadow-lg max-w-full h-auto">
+            <p class="text-sm text-gray-500 mt-3" data-lang-key="img1Caption">ภาพจำลองแผนผังแม่บท EECiti Master Plan</p>
+        </div>
+        
+        <section class="mb-10">
+            <p class="text-center text-lg text-gray-700 max-w-3xl mx-auto mb-8" data-lang-key="introText">
+                โครงการ "EECiti" ณ ต.ห้วยใหญ่ อ.บางละมุง จ.ชลบุรี คือเมกะโปรเจกต์ที่จะพลิกโฉม EEC ให้เป็นเมืองหลวงและศูนย์กลางธุรกิจระดับภูมิภาค ตั้งเป้าเป็น 1 ใน 10 เมืองน่าอยู่อัจฉริยะของโลกภายในปี 2580
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform transform hover:scale-105">
+                    <div class="text-4xl font-bold text-palette-medium">1.34</div>
+                    <div class="text-lg text-gray-600" data-lang-key="stat1Unit">ล้านล้านบาท</div>
+                    <p class="font-semibold mt-2" data-lang-key="stat1Desc">มูลค่าการลงทุนรวม</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform transform hover:scale-105">
+                    <div class="text-4xl font-bold text-palette-medium">350,000</div>
+                    <div class="text-lg text-gray-600" data-lang-key="stat2Unit">คน</div>
+                    <p class="font-semibold mt-2" data-lang-key="stat2Desc">รองรับประชากร</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform transform hover:scale-105">
+                    <div class="text-4xl font-bold text-palette-medium">200,000+</div>
+                    <div class="text-lg text-gray-600" data-lang-key="stat3Unit">ตำแหน่ง</div>
+                    <p class="font-semibold mt-2" data-lang-key="stat3Desc">สร้างงานใหม่</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform transform hover:scale-105">
+                    <div class="text-4xl font-bold text-palette-medium">14,619</div>
+                    <div class="text-lg text-gray-600" data-lang-key="stat4Unit">ไร่</div>
+                    <p class="font-semibold mt-2" data-lang-key="stat4Desc">พื้นที่โครงการรวม</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-10">
+            <h2 class="text-3xl font-bold text-palette-darkest text-center mb-6" data-lang-key="devTitle">ภาพรวมการพัฒนา</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold text-palette-dark mb-4" data-lang-key="devSubtitle">การพัฒนาและงบประมาณระยะแรก</h3>
+                    <p class="text-gray-700 mb-4" data-lang-key="devP1">
+                        การพัฒนาในระยะแรกจะมุ่งเน้นไปที่พื้นที่ 5,795 ไร่ หรือประมาณ 40% ของพื้นที่ทั้งหมด โดยจะมีการลงทุนในโครงสร้างพื้นฐานและสาธารณูปโภคที่จำเป็นมูลค่ากว่า 7.4 หมื่นล้านบาท เพื่อวางรากฐานให้กับเมืองอัจฉริยะ
+                    </p>
+                    <p class="text-gray-700 mb-6" data-lang-key="devP2">
+                        แผนภูมินี้แสดงสัดส่วนของพื้นที่และการลงทุนในระยะแรกเทียบกับภาพรวมทั้งหมดของโครงการ
+                    </p>
+                    
+                    <div class="text-center mt-4">
+                        <img src="https://i.postimg.cc/Z5WqB8Qy/576865814-1285845150233055_5760769474247813745-n.jpg" data-lang-key="img2Alt" alt="EECiti City Model" class="mx-auto rounded-lg shadow-md max-w-full h-auto">
+                        <p class="text-sm text-gray-500 mt-3" data-lang-key="img2Caption">EECiti City Model แสดงโซนธุรกิจต่างๆ</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="areaChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-2" data-lang-key="chart1Caption">สัดส่วนพื้นที่พัฒนา (ไร่)</p>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="investmentChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-2" data-lang-key="chart2Caption">สัดส่วนการลงทุน (ล้านล้านบาท)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-palette-darkest mb-6" data-lang-key="goalsTitle">เป้าหมายและจุดเด่นของโครงการ</h2>
+                <p class="text-gray-700 mb-6" data-lang-key="goalsP1">
+                    EECiti ไม่ได้เป็นเพียงเมืองใหม่ แต่ถูกออกแบบมาเพื่อเป็นศูนย์กลางในหลายมิติ โดยมีเป้าหมายที่ชัดเจนภายในปี 2580:
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-palette-medium text-2xl mr-3">🎯</span>
+                        <span class="text-gray-700 text-lg" data-lang-key="goal1">เป็น <span class="font-bold">1 ใน 10 เมืองน่าอยู่อัจฉริยะ</span> ของโลก</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-palette-medium text-2xl mr-3">🎯</span>
+                        <span class="text-gray-700 text-lg" data-lang-key="goal2">ศูนย์กลาง <span class="font-bold">ธุรกิจและการเงินระดับภูมิภาค</span></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-palette-medium text-2xl mr-3">🎯</span>
+                        <span class="text-gray-700 text-lg" data-lang-key="goal3">เป็น <span class="font-bold">เมืองหลวงของ EEC</span> และศูนย์กลาง <span class="font-bold">Start-up</span> ของประเทศ</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bg-palette-dark text-white rounded-lg shadow-md p-6 md:p-8 flex flex-col justify-center items-center text-center">
+                <span class="text-6xl mb-4">🏟️</span>
+                <h3 class="text-2xl font-bold mb-2" data-lang-key="sportsTitle">ศูนย์กีฬานานาชาติ</h3>
+                <p class="text-lg" data-lang-key="sportsDesc">
+                    ร่วมมือกับการกีฬาแห่งประเทศไทย สร้างสนามกีฬาแห่งใหม่ ความจุ <span class="font-bold text-3xl block my-2">80,000</span> ที่นั่ง คาดว่าจะแล้วเสร็จภายในปี 2580
+                </p>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 md:p-8">
+            <h2 class="text-3xl font-bold text-palette-darkest text-center mb-8" data-lang-key="timelineTitle">ไทม์ไลน์การพัฒนาโครงการ</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="relative pl-8">
+                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-palette-medium" aria-hidden="true"></div>
+
+                    <div class="mb-10 relative">
+                        <div class="absolute left-[-2.75rem] top-1.5 w-6 h-6 bg-palette-bright rounded-full border-4 border-white shadow-sm" aria-hidden="true"></div>
+                        <h4 class="font-bold text-palette-darkest text-xl" data-lang-key="timeline1Date">ปี 2569 (2026)</h4>
+                        <p class="text-gray-600 text-lg" data-lang-key="timeline1Desc">เปิดประมูลโครงการ</p>
+                    </div>
+
+                    <div class="mb-10 relative">
+                        <div class="absolute left-[-2.75rem] top-1.5 w-6 h-6 bg-palette-bright rounded-full border-4 border-white shadow-sm" aria-hidden="true"></div>
+                        <h4 class="font-bold text-palette-darkest text-xl" data-lang-key="timeline2Date">ปี 2570 (2027)</h4>
+                        <p class="text-gray-600 text-lg" data-lang-key="timeline2Desc">เริ่มดำเนินการก่อสร้าง</p>
+                    </div>
+
+                    <div class="mb-10 relative">
+                        <div class="absolute left-[-2.75rem] top-1.5 w-6 h-6 bg-palette-bright rounded-full border-4 border-white shadow-sm" aria-hidden="true"></div>
+                        <h4 class="font-bold text-palette-darkest text-xl" data-lang-key="timeline3Date">ปี 2573 (2030)</h4>
+                        <p class="text-gray-600 text-lg" data-lang-key="timeline3Desc">เปิดดำเนินการในระยะแรก</p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute left-[-2.75rem] top-1.5 w-6 h-6 bg-palette-bright rounded-full border-4 border-white shadow-sm" aria-hidden="true"></div>
+                        <h4 class="font-bold text-palette-darkest text-xl" data-lang-key="timeline4Date">ปี 2580 (2037)</h4>
+                        <p class="text-gray-600 text-lg" data-lang-key="timeline4Desc">เสร็จสิ้นโครงการทั้งหมด</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 mt-10 text-sm">
+            <p data-lang-key="footerText">Infographic สรุปข้อมูลโครงการ EECiti Smart City</p>
+        </footer>
+
+    </div>
+
+    <script>
+        let areaChartInstance = null;
+        let investmentChartInstance = null;
+        
+        const areaChartCtx = document.getElementById('areaChart').getContext('2d');
+        const investmentChartCtx = document.getElementById('investmentChart').getContext('2d');
+
+        const translations = {
+            mainTitle: {
+                th: "EECiti: เมืองใหม่อัจฉริยะ",
+                en: "EECiti: Smart City",
+                ru: "EECiti: Умный город",
+                zh: "EECiti: 智慧城市"
+            },
+            subtitle: {
+                th: "วิสัยทัศน์เมืองแห่งอนาคต มูลค่า 1.34 ล้านล้านบาท",
+                en: "A 1.34 Trillion Baht Vision for a Future City",
+                ru: "Видение города будущего стоимостью 1,34 трлн бат",
+                zh: "价值1.34万亿泰铢的未来城市愿景"
+            },
+            videoTitle: {
+                th: "วิดีโอ YouTube",
+                en: "YouTube video player",
+                ru: "Видеоплеер YouTube",
+                zh: "YouTube 视频播放器"
+            },
+            img1Alt: {
+                th: "แผนผังแม่บท EECiti",
+                en: "EECiti Master Plan",
+                ru: "Генеральный план EECiti",
+                zh: "EECiti 总体规划"
+            },
+            img1Caption: {
+                th: "ภาพจำลองแผนผังแม่บท EECiti Master Plan",
+                en: "Render of the EECiti Master Plan",
+                ru: "Рендер генерального плана EECiti",
+                zh: "EECiti 总体规划效果图"
+            },
+            introText: {
+                th: 'โครงการ "EECiti" ณ ต.ห้วยใหญ่ อ.บางละมุง จ.ชลบุรี คือเมกะโปรเจกต์ที่จะพลิกโฉม EEC ให้เป็นเมืองหลวงและศูนย์กลางธุรกิจระดับภูมิภาค ตั้งเป้าเป็น 1 ใน 10 เมืองน่าอยู่อัจฉริยะของโลกภายในปี 2580',
+                en: 'The "EECiti" project in Huai Yai, Bang Lamung, Chonburi is a megaproject set to transform the EEC into a capital and regional business hub, aiming to be one of the world\'s top 10 most livable smart cities by 2037.',
+                ru: 'Проект «EECiti» в Хуай Яй, Банг Ламунг, Чонбури — это мегапроект, призванный превратить ВЭК в столицу и региональный деловой центр, стремясь к 2037 году войти в 10 самых пригодных для жизни умных городов мира.',
+                zh: '位于春武里府 Bang Lamung 区 Huai Yai 镇的“EECiti”项目是一个大型项目，旨在将东部经济走廊转变为首都和区域商业中心，目标是到 2037 年成为全球十大最宜居智慧城市之一。'
+            },
+            stat1Unit: { th: "ล้านล้านบาท", en: "Trillion Baht", ru: "трлн бат", zh: "万亿泰铢" },
+            stat1Desc: { th: "มูลค่าการลงทุนรวม", en: "Total Investment Value", ru: "Общий объем инвестиций", zh: "总投资额" },
+            stat2Unit: { th: "คน", en: "People", ru: "человек", zh: "人" },
+            stat2Desc: { th: "รองรับประชากร", en: "Population Capacity", ru: "Вместимость населения", zh: "人口容量" },
+            stat3Unit: { th: "ตำแหน่ง", en: "Jobs", ru: "рабочих мест", zh: "个工作岗位" },
+            stat3Desc: { th: "สร้างงานใหม่", en: "New Jobs Created", ru: "Создано новых рабочих мест", zh: "创造新就业" },
+            stat4Unit: { th: "ไร่", en: "Rai", ru: "рай", zh: "莱" },
+            stat4Desc: { th: "พื้นที่โครงการรวม", en: "Total Project Area", ru: "Общая площадь проекта", zh: "项目总面积" },
+            devTitle: { th: "ภาพรวมการพัฒนา", en: "Development Overview", ru: "Обзор разработки", zh: "发展概况" },
+            devSubtitle: { th: "การพัฒนาและงบประมาณระยะแรก", en: "Phase 1 Development & Budget", ru: "Разработка и бюджет 1-го этапа", zh: "第一阶段开发与预算" },
+            devP1: {
+                th: "การพัฒนาในระยะแรกจะมุ่งเน้นไปที่พื้นที่ 5,795 ไร่ หรือประมาณ 40% ของพื้นที่ทั้งหมด โดยจะมีการลงทุนในโครงสร้างพื้นฐานและสาธารณูปโภคที่จำเป็นมูลค่ากว่า 7.4 หมื่นล้านบาท เพื่อวางรากฐานให้กับเมืองอัจฉริยะ",
+                en: "The first phase will focus on an area of 5,795 rai, or about 40% of the total area. It involves an investment of over 74 billion baht in essential infrastructure and utilities to lay the foundation for the smart city.",
+                ru: "Первый этап будет сосредоточен на площади 5 795 рай, что составляет около 40% от общей площади. Он предполагает инвестиции в размере более 74 миллиардов бат в основную инфраструктуру и коммунальные услуги, чтобы заложить основу для умного города.",
+                zh: "第一阶段将集中在 5,795 莱的区域，约占总面积的 40%。该阶段将投资超过 740 亿泰铢用于必要的基础设施和公用事业，为智慧城市奠定基础。"
+            },
+            devP2: {
+                th: "แผนภูมินี้แสดงสัดส่วนของพื้นที่และการลงทุนในระยะแรกเทียบกับภาพรวมทั้งหมดของโครงการ",
+                en: "These charts show the proportion of the area and investment in the first phase compared to the project's overall total.",
+                ru: "Эти диаграммы показывают долю площади и инвестиций первого этапа по сравнению с общим объемом проекта.",
+                zh: "这些图表显示了第一阶段的面积和投资与项目总体的比例。"
+            },
+            img2Alt: {
+                th: "โมเดลเมือง EECiti",
+                en: "EECiti City Model",
+                ru: "Модель города EECiti",
+                zh: "EECiti 城市模型"
+            },
+            img2Caption: {
+                th: "EECiti City Model แสดงโซนธุรกิจต่างๆ",
+                en: "EECiti City Model showing various business zones",
+                ru: "Модель города EECiti, показывающая различные бизнес-зоны",
+                zh: "EECiti 城市模型，展示各个商业区"
+            },
+            chart1Caption: { th: "สัดส่วนพื้นที่พัฒนา (ไร่)", en: "Development Area Proportion (Rai)", ru: "Доля площади застройки (рай)", zh: "开发面积比例 (莱)" },
+            chart2Caption: { th: "สัดส่วนการลงทุน (ล้านล้านบาท)", en: "Investment Proportion (Trillion Baht)", ru: "Доля инвестиций (трлн бат)", zh: "投资比例 (万亿泰铢)" },
+            goalsTitle: { th: "เป้าหมายและจุดเด่นของโครงการ", en: "Project Goals & Highlights", ru: "Цели и особенности проекта", zh: "项目目标与亮点" },
+            goalsP1: {
+                th: "EECiti ไม่ได้เป็นเพียงเมืองใหม่ แต่ถูกออกแบบมาเพื่อเป็นศูนย์กลางในหลายมิติ โดยมีเป้าหมายที่ชัดเจนภายในปี 2580:",
+                en: "EECiti is not just a new city; it's designed to be a multi-faceted hub with clear goals by 2037:",
+                ru: "EECiti — это не просто новый город; он спроектирован как многогранный центр с четкими целями к 2037 году:",
+                zh: "EECiti 不仅仅是一座新城；它被设计成一个多功能中心，并制定了到 2037 年的明确目标："
+            },
+            goal1: {
+                th: 'เป็น <span class="font-bold">1 ใน 10 เมืองน่าอยู่อัจฉริยะ</span> ของโลก',
+                en: 'Become one of the <span class="font-bold">Top 10 Most Livable Smart Cities</span> in the world',
+                ru: 'Войти в <span class="font-bold">Топ-10 самых пригодных для жизни умных городов</span> мира',
+                zh: '成为全球<span class="font-bold">十大最宜居智慧城市</span>之一'
+            },
+            goal2: {
+                th: 'ศูนย์กลาง <span class="font-bold">ธุรกิจและการเงินระดับภูมิภาค</span>',
+                en: 'A <span class="font-bold">Regional Business and Financial Hub</span>',
+                ru: '<span class="font-bold">Региональный деловой и финансовый центр</span>',
+                zh: '区域性<span class="font-bold">商业和金融中心</span>'
+            },
+            goal3: {
+                th: 'เป็น <span class="font-bold">เมืองหลวงของ EEC</span> และศูนย์กลาง <span class="font-bold">Start-up</span> ของประเทศ',
+                en: 'The <span class="font-bold">Capital of the EEC</span> and a national <span class="font-bold">Start-up Hub</span>',
+                ru: '<span class="font-bold">Столица ВЭК</span> и национальный <span class="font-bold">центр стартапов</span>',
+                zh: '成为 <span class="font-bold">EEC 的首都</span>和国家级<span class="font-bold">创业中心</span>'
+            },
+            sportsTitle: { th: "ศูนย์กีฬานานาชาติ", en: "International Sports Center", ru: "Международный спортивный центр", zh: "国际体育中心" },
+            sportsDesc: {
+                th: 'ร่วมมือกับการกีฬาแห่งประเทศไทย สร้างสนามกีฬาแห่งใหม่ ความจุ <span class="font-bold text-3xl block my-2">80,000</span> ที่นั่ง คาดว่าจะแล้วเสร็จภายในปี 2580',
+                en: 'In collaboration with the Sports Authority of Thailand, a new stadium with a capacity of <span class="font-bold text-3xl block my-2">80,000</span> seats will be built, expected to be completed by 2037.',
+                ru: 'В сотрудничестве со Спортивным управлением Таиланда будет построен новый стадион вместимостью <span class="font-bold text-3xl block my-2">80 000</span> мест, который, как ожидается, будет завершен к 2037 году.',
+                zh: '与泰国体育局合作，将新建一个可容纳 <span class="font-bold text-3xl block my-2">80,000</span> 个座位的新体育场，预计将于 2037 年完工。'
+            },
+            timelineTitle: { th: "ไทม์ไลน์การพัฒนาโครงการ", en: "Project Development Timeline", ru: "График реализации проекта", zh: "项目开发时间表" },
+            timeline1Date: { th: "ปี 2569 (2026)", en: "2026", ru: "2026 г.", zh: "2026年" },
+            timeline1Desc: { th: "เปิดประมูลโครงการ", en: "Project Bidding Opens", ru: "Открытие тендера по проекту", zh: "项目招标" },
+            timeline2Date: { th: "ปี 2570 (2027)", en: "2027", ru: "2027 г.", zh: "2027年" },
+            timeline2Desc: { th: "เริ่มดำเนินการก่อสร้าง", en: "Construction Begins", ru: "Начало строительства", zh: "开工建设" },
+            timeline3Date: { th: "ปี 2573 (2030)", en: "2030", ru: "2030 г.", zh: "2030年" },
+            timeline3Desc: { th: "เปิดดำเนินการในระยะแรก", en: "Phase 1 Operations Begin", ru: "Начало 1-го этапа эксплуатации", zh: "一期投入运营" },
+            timeline4Date: { th: "ปี 2580 (2037)", en: "2037", ru: "2037 г.", zh: "2037年" },
+            timeline4Desc: { th: "เสร็จสิ้นโครงการทั้งหมด", en: "Entire Project Completed", ru: "Завершение всего проекта", zh: "整个项目完成" },
+            footerText: {
+                th: "Infographic สรุปข้อมูลโครงการ EECiti Smart City",
+                en: "Infographic summarizing the EECiti Smart City project",
+                ru: "Инфографика о проекте EECiti Smart City",
+                zh: "EECiti 智慧城市项目信息图"
+            },
+            chart1Label1: {
+                th: "พื้นที่ระยะแรก (5,795 ไร่)",
+                en: "Phase 1 Area (5,795 Rai)",
+                ru: "Зона 1-й фазы (5 795 рай)",
+                zh: "一期面积 (5,795 莱)"
+            },
+            chart1Label2: {
+                th: "พื้นที่ในอนาคต (8,824 ไร่)",
+                en: "Future Area (8,824 Rai)",
+                ru: "Будущая зона (8 824 рай)",
+                zh: "未来面积 (8,824 莱)"
+            },
+            chart2Label1: {
+                th: "โครงสร้างพื้นฐานระยะแรก (0.074 ล้านล้านบาท)",
+                en: "Phase 1 Infrastructure (0.074 Trillion Baht)",
+                ru: "Инфраструктура 1-й фазы (0,074 трлн бат)",
+                zh: "一期基础设施 (0.074 万亿泰铢)"
+            },
+            chart2Label2: {
+                th: "การลงทุนส่วนที่เหลือ (1.266 ล้านล้านบาท)",
+                en: "Remaining Investment (1.266 Trillion Baht)",
+                ru: "Оставшиеся инвестиции (1,266 трлн бат)",
+                zh: "剩余投资 (1.266 万亿泰铢)"
+            }
+        };
+
+        function wrapLabels(label) {
+            if (typeof label === 'string' && label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        }
+
+        const tooltipTitleCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        function renderCharts(lang) {
+            if (areaChartInstance) {
+                areaChartInstance.destroy();
+            }
+            if (investmentChartInstance) {
+                investmentChartInstance.destroy();
+            }
+
+            const areaLabels = [
+                translations.chart1Label1[lang],
+                translations.chart1Label2[lang]
+            ].map(wrapLabels);
+            
+            const investmentLabels = [
+                translations.chart2Label1[lang],
+                translations.chart2Label2[lang]
+            ].map(wrapLabels);
+
+            areaChartInstance = new Chart(areaChartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: areaLabels,
+                    datasets: [{
+                        data: [5795, 8824],
+                        backgroundColor: ['#0368AD', '#047BD0'],
+                        hoverBackgroundColor: ['#02568A', '#003F63'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        ...tooltipTitleCallback.plugins,
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: {
+                                    family: 'Sarabun'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            investmentChartInstance = new Chart(investmentChartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: investmentLabels,
+                    datasets: [{
+                        data: [0.074465, 1.265535], 
+                        backgroundColor: ['#0368AD', '#047BD0'],
+                        hoverBackgroundColor: ['#02568A', '#003F63'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        ...tooltipTitleCallback.plugins,
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: {
+                                    family: 'Sarabun'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.dataset.langKey;
+                if (translations[key] && translations[key][lang]) {
+                    const translation = translations[key][lang];
+                    
+                    if (el.tagName === 'IMG') {
+                        el.alt = translation;
+                    } else if (el.tagName === 'IFRAME') {
+                        el.title = translation;
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+
+            if(lang === 'zh') {
+                document.documentElement.lang = 'zh';
+            } else if (lang === 'ru') {
+                document.documentElement.lang = 'ru';
+            } else if (lang === 'en') {
+                document.documentElement.lang = 'en';
+            } else {
+                document.documentElement.lang = 'th';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedLang = button.dataset.lang;
+
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    switchLanguage(selectedLang);
+                    renderCharts(selectedLang);
+                });
+            });
+
+            switchLanguage('th');
+            renderCharts('th');
+        });
+    </script>
+
+</body>
+</html>
