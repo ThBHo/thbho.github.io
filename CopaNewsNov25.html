@@ -8,46 +8,81 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ใช้ฟอนต์ Sarabun และ Kanit (สำหรับบางส่วนที่ต้องการความเด่น) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --lyons-blue: #CCA470; /* Gold Accent */
-            --lyons-blue-dark: #B89362; /* Darker Gold (hover) */
-            --dark-bg-primary: #121212; /* Black/Very Dark Gray */
-            --dark-bg-secondary: #27272A; /* Zinc 800 (Dark Gray Cards) */
-            --dark-bg-accent: #3F3F46; /* Zinc 700 (Gray Borders) */
-            --light-text-heading: #F5F5F5; /* Off-white */
-            --light-text-body: #D4D4D8; /* Zinc 300 (Light Gray) */
-            --light-text-muted: #A1A1AA; /* Zinc 400 (Muted Gray) */
+            /* โทนสีไว้ทุกข์: ดำ, เทาเข้ม, เทาอ่อน, และ ทอง */
+            --color-background: #121212; /* พื้นหลังหลัก (ดำ/เทาเข้มมาก) */
+            --color-surface: #1E1E1E;   /* พื้นหลังรอง (การ์ด, section) */
+            --color-border: #333333;   /* เส้นขอบ */
+            
+            --color-text-primary: #FFFFFF;  /* สีตัวอักษรหลัก (ขาว) */
+            --color-text-secondary: #B0B0B0; /* สีตัวอักษรรอง (เทาอ่อน) */
+            
+            --color-accent: #CCA470;      /* สีทองสำหรับเน้น (ลิงก์, หัวข้อรอง, ปุ่ม) */
+            --color-accent-hover: #E0B98A;  /* สีทองเมื่อ hover */
         }
 
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: var(--dark-bg-primary);
-            color: var(--light-text-body);
+            background-color: var(--color-background);
+            color: var(--color-text-secondary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+        
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: 'Kanit', sans-serif;
+            color: var(--color-text-primary);
+        }
+
         .nav-link {
             transition: color 0.3s, border-color 0.3s;
+            color: var(--color-text-secondary);
         }
-        .nav-link.active {
-            color: var(--lyons-blue);
-            border-bottom-color: var(--lyons-blue);
+        .nav-link.active,
+        .nav-link:hover {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
         }
+
         .btn-primary {
-            background-color: var(--lyons-blue);
-            color: var(--light-text-heading);
-            transition: background-color 0.3s;
+            background-color: var(--color-accent);
+            color: #000000; /* ตัวอักษรสีเข้มบนปุ่มสีทอง */
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 600;
         }
         .btn-primary:hover {
-            background-color: var(--lyons-blue-dark);
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
         }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: 500;
+        }
+        .btn-outline:hover {
+            background-color: var(--color-accent);
+            color: #000000;
+        }
+
         .text-primary {
-            color: var(--lyons-blue);
+            color: var(--color-accent);
         }
-        .bg-light-accent {
-            background-color: var(--dark-bg-accent);
+        
+        .bg-surface {
+            background-color: var(--color-surface);
         }
+        
+        .border-strong {
+            border-color: var(--color-border);
+        }
+
         /* Slider Styles */
         .slide {
             display: none;
@@ -64,456 +99,567 @@
             opacity: 1;
         }
         
-        /* Gemini Modal Styles */
-        .modal-overlay {
-            transition: opacity 0.3s ease;
+        /* YouTube Responsive Wrapper */
+        .video-responsive {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
-        .modal-container {
-            transition: transform 0.3s ease, opacity 0.3s ease;
+        .video-responsive::before {
+            content: "";
+            display: block;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
         }
-        /* Simple markdown-like formatting */
-        #gemini-output strong {
-            font-weight: 700;
-            color: var(--light-text-heading);
+        .video-responsive iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
-        #gemini-output ul {
-            list-style-type: disc;
-            list-style-position: inside;
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+        
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.25s ease;
         }
-        #gemini-output li {
-            margin-bottom: 0.25rem;
+        .modal-content {
+            transition: transform 0.25s ease;
+            max-height: 90vh;
         }
-        #gemini-output p {
-            margin-bottom: 0.75rem;
+        .modal.hidden {
+            pointer-events: none;
+        }
+        .modal.hidden .modal-overlay {
+            opacity: 0;
+        }
+        .modal.hidden .modal-content {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-[var(--dark-bg-secondary)]/80 backdrop-blur-md shadow-lg sticky top-0 z-50">
+    <!-- Modal for AI Concierge -->
+    <div id="aiModal" class="modal hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class_="modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <!-- Content -->
+        <div class="modal-content bg-surface w-full max-w-2xl rounded-2xl shadow-xl z-10 overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-strong">
+                <h3 class="text-xl font-display font-semibold text-primary">✨ AI Lifestyle Concierge</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times fa-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div id="modalBody" class="p-6 md:p-8 overflow-y-auto">
+                <div id="modalLoading" class="text-center">
+                    <div class="flex justify-center items-center mb-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                    </div>
+                    <p class="font-display text-lg text-primary">กำลังรังสรรค์... </p>
+                    <p class="text-gray-400">AI กำลังออกแบบ 'วันพักผ่อนที่สมดุล' ที่สมบูรณ์แบบสำหรับคุณ... กรุณารอสักครู่ครับ</p>
+                </div>
+                <div id="modalResult" class="hidden prose prose-invert max-w-none text-gray-300 prose-headings:text-primary prose-strong:text-white">
+                    <!-- AI content will be injected here -->
+                </div>
+                <div id="modalError" class="hidden text-center">
+                    <p class="font-display text-lg text-red-500">เกิดข้อผิดพลาด</p>
+                    <p class="text-gray-400">ขออภัยครับ ไม่สามารถเรียกใช้ AI ในขณะนี้ได้ กรุณาลองใหม่อีกครั้งในภายหลัง</p>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-black/20 border-t border-strong text-right">
+                <button onclick="closeModal()" class="btn-outline px-5 py-2 text-sm rounded-lg">
+                    ปิด
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+    <header class="bg-surface/90 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-strong">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-10">
-                <span class="text-sm font-semibold text-[var(--light-text-muted)] hidden sm:block">พฤศจิกายน 2568</span>
+                <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-10 opacity-90">
+                <span class="text-sm font-semibold text-gray-500 hidden sm:block">พฤศจิกายน 2568</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#overview" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">ภาพรวม</a>
-                <a href="#progress" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">ความคืบหน้า</a>
-                <a href="#facilities" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">สิ่งอำนวยความสะดวก</a>
-                <a href="#community" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">ชุมชน</a>
-                <a href="#article" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">บทความพิเศษ</a>
-                <a href="#events" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">อีเวนต์</a>
-                <a href="#video" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">วิดีโอ</a>
-                <a href="#podcast" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">Podcast</a>
-                <a href="#contact" class="nav-link text-[var(--light-text-body)] hover:text-primary border-b-2 border-transparent pb-1 text-sm">ติดต่อเรา</a>
+                <a href="#overview" class="nav-link border-b-2 border-transparent pb-1 text-sm">ภาพรวม</a>
+                <a href="#progress" class="nav-link border-b-2 border-transparent pb-1 text-sm">ความคืบหน้า</a>
+                <a href="#facilities" class="nav-link border-b-2 border-transparent pb-1 text-sm">สิ่งอำนวยความสะดวก</a>
+                <a href="#community" class="nav-link border-b-2 border-transparent pb-1 text-sm">สมดุลชีวิต</a>
+                <a href="#spotlight" class="nav-link border-b-2 border-transparent pb-1 text-sm">Spotlight</a>
+                <a href="#article" class="nav-link border-b-2 border-transparent pb-1 text-sm">บทความพิเศษ</a>
+                <a href="#events" class="nav-link border-b-2 border-transparent pb-1 text-sm">ปฏิทิน</a>
+                <a href="#contact" class="nav-link border-b-2 border-transparent pb-1 text-sm">ติดต่อเรา</a>
             </div>
             <div class="flex items-center md:hidden">
-                <button id="mobile-menu-button" class="text-[var(--light-text-body)] focus:outline-none">
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
                     <i class="fas fa-bars fa-lg"></i>
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-[var(--dark-bg-secondary)]">
-            <a href="#overview" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">ภาพรวม</a>
-            <a href="#progress" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">ความคืบหน้า</a>
-            <a href="#facilities" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">สิ่งอำนวยความสะดวก</a>
-            <a href="#community" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">ชุมชน</a>
-            <a href="#article" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">บทความพิเศษ</a>
-            <a href="#events" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">อีเวนต์</a>
-            <a href="#video" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">วิดีโอ</a>
-            <a href="#podcast" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">Podcast</a>
-            <a href="#contact" class="block py-2 px-6 text-sm text-[var(--light-text-body)] hover:bg-[var(--dark-bg-accent)]">ติดต่อเรา</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-surface border-t border-strong">
+            <a href="#overview" class="block py-3 px-6 text-sm hover:bg-black/20">ภาพรวม</a>
+            <a href="#progress" class="block py-3 px-6 text-sm hover:bg-black/20">ความคืบหน้า</a>
+            <a href="#facilities" class="block py-3 px-6 text-sm hover:bg-black/20">สิ่งอำนวยความสะดวก</a>
+            <a href="#community" class="block py-3 px-6 text-sm hover:bg-black/20">สมดุลชีวิต</a>
+            <a href="#spotlight" class="block py-3 px-6 text-sm hover:bg-black/20">Spotlight</a>
+            <a href="#article" class="block py-3 px-6 text-sm hover:bg-black/20">บทความพิเศษ</a>
+            <a href="#events" class="block py-3 px-6 text-sm hover:bg-black/20">ปฏิทิน</a>
+            <a href="#contact" class="block py-3 px-6 text-sm hover:bg-black/20">ติดต่อเรา</a>
         </div>
     </header>
 
     <main>
-        <section id="in-memoriam" class="py-12 bg-[var(--dark-bg-primary)] text-center border-b border-[var(--dark-bg-accent)]">
-            <div class="container mx-auto px-6">
-                <img src="https://media.thairath.co.th/image/NZKEL66HiztA9OCWRpJRe7h4z66zG2IJbJ4qLPyb3uwe9vA1.png" alt="In Memoriam Logo" class="h-24 w-auto mx-auto mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-[var(--light-text-heading)]">น้อมเกล้าน้อมกระหม่อมถวายความอาลัย</h2>
-                <h3 class="text-xl md:text-2xl font-semibold text-[var(--light-text-heading)] mt-4">สมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง</h3>
-                <p class="text-lg text-[var(--light-text-body)] mt-2">เสด็จสวรรคต วันที่ ๒๔ ตุลาคม ๒๕๖๘</p>
-                <p class="text-lg italic text-[var(--light-text-body)] mt-6">ปวงข้าพระพุทธเจ้าขอน้อมรำลึกในพระมหากรุณาธิคุณอันหาที่สุดมิได้</p>
-                
-                <div class="mt-6 text-[var(--light-text-body)]">
-                    <p>ข้าพระพุทธเจ้า</p>
-                    <p>คณะผู้บริหารและพนักงาน บริษัท โคปาคาบาน่า กรุ๊ป</p>
-                    <p>และโครงการ โคปาคาบาน่า คอรัล รีฟ จอมเทียน</p>
+
+        <!-- Section: In Memoriam -->
+        <section id="memoriam" class="pt-16 md:pt-24 pb-12 md:pb-16 bg-black">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <img src="https://media.thairath.co.th/image/NZKEL66HiztA9OCWRpJRe7h4z66zG2IJbJ4qLPyb3uwe9vA1.png" alt="น้อมถวายความอาลัย" class="h-32 md:h-40 mx-auto mb-8">
+                    <h2 class="text-2xl md:text-3xl font-display font-semibold text-white mb-4">
+                        น้อมเกล้าน้อมกระหม่อมถวายความอาลัย
+                    </h2>
+                    <h3 class="text-xl md:text-2xl font-display text-gray-200 mb-6">
+                        สมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง
+                    </h3>
+                    <p class="text-lg text-gray-300 mb-8">
+                        เสด็จสวรรคต วันที่ ๒๔ ตุลาคม ๒๕๖๘
+                    </p>
+                    <p class="text-lg text-gray-300 mb-10">
+                        ปวงข้าพระพุทธเจ้าขอน้อมรำลึกในพระมหากรุณาธิคุณอันหาที่สุดมิได้
+                    </p>
+                    <div class="text-base text-gray-400">
+                        <p>ข้าพระพุทธเจ้า</p>
+                        <p>คณะผู้บริหารและพนักงาน บริษัท โคปาคาบาน่า กรุ๊ป</p>
+                        <p>และโครงการ โคปาคาบาน่า คอรัล รีฟ จอมเทียน</p>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <section id="overview" class="pt-16 md:pt-24">
-            <div class="container mx-auto px-6 pb-16">
-                 <div class="text-center lg:text-left">
+        
+        <!-- Section: Overview -->
+        <section id="overview" class="pt-16 md:pt-24 pb-16 md:pb-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-4xl mx-auto">
                     <p class="text-sm font-semibold text-primary mb-2">พฤศจิกายน 2568</p>
-                    <h1 class="text-3xl md:text-5xl font-bold text-[var(--light-text-heading)] mb-4">บทสนทนาแห่งชีวิต: ค้นพบความหมายใหม่ของการพักผ่อนที่ Copacabana Coral Reef</h1>
-                    <p class="text-lg md:text-xl text-[var(--light-text-body)]">พฤศจิกายน... เป็นเดือนที่มักชวนให้เรานิ่งขึ้นเล็กน้อย ท่ามกลางลมหนาวบางๆ ที่เริ่มมาเยือน นี่คือช่วงเวลาที่เราได้ทบทวนถึงสิ่งที่ผ่านมา และเริ่มมองไปข้างหน้าเพื่อวางแผนสำหรับอนาคต</p>
+                    <h1 class="text-3xl md:text-5xl font-display font-bold text-white mb-6">มุมมองใหม่แห่งการใช้ชีวิต</h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-12">
+                        อัปเดตความคืบหน้าและไลฟ์สไตล์ที่ Copacabana Coral Reef
+                    </p>
                 </div>
 
-                <div class="grid lg:grid-cols-2 gap-12 items-center mt-12">
-                    <div class="text-[var(--light-text-body)] leading-relaxed">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-gray-300 leading-relaxed text-lg">
                         <p>
-                           ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว สิ่งที่เราทุกคนต่างถวิลหา อาจไม่ใช่แค่ความสำเร็จ แต่คือ "คุณภาพ" ที่แท้จริงของการใช้ชีวิต การมี "พื้นที่" ที่ไม่ใช่แค่สวยงาม แต่เป็นพื้นที่ที่ "เข้าใจ" และ "โอบกอด" เราในทุกมิติของชีวิตกลายเป็นสิ่งจำเป็น
-                           <br><br>
-                           ที่ Copacabana Coral Reef Jomtien เรามุ่งมั่นรังสรรค์ "พื้นที่" ที่เป็นมากกว่าที่พักอาศัย แต่เป็นพื้นที่สำหรับทุกช่วงเวลาสำคัญของคุณ จดหมายข่าวฉบับนี้ จึงไม่ใช่เพียงการรายงานความคืบหน้า แต่คือการแบ่งปันมุมมอง ว่า "บ้าน" ที่แท้จริง ที่ผสมผสานความหรูหราเข้ากับการพักผ่อนอย่างลงตัวนั้น... มีหน้าตาเป็นอย่างไร
+                            เข้าสู่เดือนพฤศจิกายน... เป็นสัญญาณของการเริ่มต้นไตรมาสสุดท้ายของปีนะคะ นี่คือช่วงเวลาที่หลายท่านเริ่มทบทวนสิ่งที่ผ่านมา และวางแผนสำหรับอนาคตที่กำลังจะมาถึง เป็นช่วงเวลาของการมองหา 'การยกระดับ' คุณภาพชีวิตให้ดียิ่งขึ้น
+                        </p>
+                        <br>
+                        <p>
+                            ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว การมี <strong>"พื้นที่ส่วนตัว"</strong> ที่ตอบโจทย์การใช้ชีวิตในทุกมิติกลายเป็นสิ่งจำเป็นเหลือเกินค่ะ ที่ Copacabana Coral Reef Jomtien เราไม่ได้มุ่งมั่นเพียงแค่การสร้างที่อยู่อาศัย แต่เรากำลังรังสรรค์ "พื้นที่" ที่งดงาม... และใช้งานได้จริง สำหรับทุกช่วงเวลาสำคัญของคุณ
+                        </p>
+                        <br>
+                        <p>
+                            จดหมายข่าวฉบับนี้ จะขอนำเสนอความคืบหน้าล่าสุดของโครงการ และแบ่งปันมุมมองใหม่ๆ ของการใช้ชีวิต ที่ซึ่งความหรูหราที่เรามองเห็น ถูกผสมผสานเข้ากับการพักผ่อนที่เราสัมผัสได้... อย่างลงตัวค่ะ
                         </p>
                     </div>
-                    <div id="image-slider" class="relative rounded-2xl shadow-lg overflow-hidden aspect-video">
-                        <!-- Slides -->
-                        <div class="slide"><img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/5N5rmbCM/AF1-B7931-CCB7-4838-980-B-FDDEBFA6-B379.png" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/66vgyd6v/D964-C5-BD-79-D8-4919-95-D9-81-D6328-EDABB-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/J7kvGb76/D5-AF34-E9-11-BF-4-D4-E-9528-FB21-FD689324-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/fLZJdbhd/1f64f31d-56ce-49e6-8dbe-cfdb88c74b78-topaz-sharpen-upscale-2.5x.png" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/mr7PhHKR/3363b30c-24f7-4f10-998e-03915113f01b-topaz-sharpen-upscale-2.4x.png" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/gkrr851g/Gemini_Generated_Image_1hbblp1hbblp1hbb-topaz-upscale-2.5x_(1).png" class="w-full h-full object-cover"></div>
-                        <div class="slide"><img src="https://i.postimg.cc/PxYntYQF/2df78a5d-a637-43b5-8905-98e06a10d69a.jpg" class="w-full h-full object-cover"></div>
+                    
+                    <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
+                        <!-- Slideshow Container -->
+                        <div id="overview-slider" class="relative w-full h-full">
+                            <!-- Slide Images -->
+                            <div class="slide active"><img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="w-full h-full object-cover" alt="Lobby Perspective"></div>
+                            <div class="slide"><img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="w-full h-full object-cover" alt="Beach Club View"></div>
+                            <div class="slide"><img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="w-full h-full object-cover" alt="Aerial View"></div>
+                            <div class="slide"><img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="w-full h-full object-cover" alt="Evening Perspective"></div>
+                            <div class="slide"><img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201-a.jpg" class="w-full h-full object-cover" alt="Pool View"></div>
 
-                        <!-- Navigation Buttons -->
-                        <button id="prevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
-                            &#10094;
-                        </button>
-                        <button id="nextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
-                            &#10095;
-                        </button>
+                            <!-- Navigation Buttons -->
+                            <button id="overviewPrevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="overviewNextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-16 text-center text-xs text-[var(--light-text-muted)]">
-                    รูปภาพนี้สร้างขึ้นโดยคอมพิวเตอร์เพื่อวัตถุประสงค์ในการโฆษณาเท่านั้น รายละเอียดอาจเปลี่ยนแปลงได้ตามข้อกำหนดทางวิศวกรและกฎระเบียบ
+                <div class="mt-12 text-center text-xs text-gray-500">
+                    รูปภาพนี้สร้างขึ้นโดยคอมพิวเตอร์เพื่อวัตถุประสงค์ในการโฆษณาเท่านั้น รายละเอียดอาจเปลี่ยนแปลงได้ตามข้อกำหนดทางวิศวกรรมและกฎระเบียบ
                 </div>
             </div>
         </section>
 
-        <section id="progress" class="py-16 md:py-24 bg-light-accent">
+        <!-- Section: Progress -->
+        <section id="progress" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6">
-                <div class="mx-auto text-left bg-[var(--dark-bg-secondary)] p-8 rounded-2xl shadow-lg">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-center text-[var(--light-text-heading)]">ภาพฝันที่เด่นชัด: สัมผัสทิวทัศน์จริงจากชั้นที่ 30</h2>
-                    <h4 class="text-lg font-semibold mb-8 text-center text-[var(--light-text-muted)]">คำสัญญาที่กำลังก่อตัวเป็นความจริง</h4>
+                <div class="max-w-5xl mx-auto text-left">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">ทิวทัศน์จากอนาคต: สัมผัสจริงที่ชั้น 30</h2>
+                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400">ความมุ่งมั่นที่ยังคงดำเนินต่อไป</h4>
                     
-                    <div class="grid lg:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <!-- Updated: YouTube Video moved up -->
-                            <div class="mb-8 rounded-2xl shadow-lg overflow-hidden aspect-video">
-                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/bTMjc2pu1n0?si=AH_ow7pS4SI3w4oM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
+                    <!-- Main Video -->
+                    <div class="video-responsive mb-12 shadow-xl">
+                        <iframe src="https://www.youtube.com/embed/bTMjc2pu1n0?si=AH_ow7pS4SI3w4oM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
 
-                            <div id="progress-slider" class="relative rounded-2xl shadow-lg overflow-hidden aspect-video">
-                                <!-- Slides updated here -->
-                                <div class="slide"><img src="https://i.postimg.cc/L5cdszFS/228988-0-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover"></div>
+                    <div class="grid lg:grid-cols-5 gap-10 items-start">
+                        <!-- Left Column: Slider -->
+                        <div class="lg:col-span-3">
+                            <div id="progress-slider" class="relative rounded-2xl shadow-xl overflow-hidden aspect-video mb-6">
+                                <!-- Slides -->
+                                <div class="slide active"><img src="https://i.postimg.cc/L5cdszFS/228988-0-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover"></div>
                                 <div class="slide"><img src="https://i.postimg.cc/wMCKBhYY/228989-0-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover"></div>
                                 <div class="slide"><img src="https://i.postimg.cc/7PsZkcCT/8307651A-57E7-4255-89F2-B24C1C7BCEE2-1-201-a.jpg" class="w-full h-full object-cover"></div>
                                 <div class="slide"><img src="https://i.postimg.cc/SRB0KWbF/228990-0-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover"></div>
                                 <div class="slide"><img src="https://i.postimg.cc/BbrWvxf0/228991-0-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover"></div>
                                 <div class="slide"><img src="https://i.postimg.cc/8cK5XXvM/17EA998F-86B8-4E5F-BACD-76CABE7C7E86-1-201-a.jpg" class="w-full h-full object-cover"></div>
-                                <!-- End of slides -->
-
                                 <!-- Navigation Buttons -->
-                                <button id="progressPrevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
-                                    &#10094;
+                                <button id="progressPrevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-chevron-left"></i>
                                 </button>
-                                <button id="progressNextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
-                                    &#10095;
+                                <button id="progressNextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 focus:outline-none z-10 opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-chevron-right"></i>
                                 </button>
                             </div>
                             
-                            <div class="mt-4 grid grid-cols-3 gap-4">
-                                <img src="https://i.postimg.cc/L5cdszFS/228988-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 1" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
-                                <img src="https://i.postimg.cc/wMCKBhYY/228989-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 2" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
-                                <img src="https://i.postimg.cc/7PsZkcCT/8307651A-57E7-4255-89F2-B24C1C7BCEE2-1-201-a.jpg" alt="Construction Thumbnail 3" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
-                                <img src="https://i.postimg.cc/SRB0KWbF/228990-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 4" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
-                                <img src="https://i.postimg.cc/BbrWvxf0/228991-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 5" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
-                                <img src="https://i.postimg.cc/8cK5XXvM/17EA998F-86B8-4E5F-BACD-76CABE7C7E86-1-201-a.jpg" alt="Construction Thumbnail 6" class="rounded-lg shadow-md w-full h-full object-cover aspect-video">
+                            <!-- Thumbnails -->
+                            <div class="grid grid-cols-3 gap-4">
+                                <img src="https://i.postimg.cc/L5cdszFS/228988-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 1" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
+                                <img src="https://i.postimg.cc/wMCKBhYY/228989-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 2" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
+                                <img src="https://i.postimg.cc/7PsZkcCT/8307651A-57E7-4255-89F2-B24C1C7BCEE2-1-201-a.jpg" alt="Construction Thumbnail 3" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
+                                <img src="https://i.postimg.cc/SRB0KWbF/228990-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 4" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
+                                <img src="https://i.postimg.cc/BbrWvxf0/228991-0-gigapixel-high-fidelity-v2-2x.png" alt="Construction Thumbnail 5" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
+                                <img src="https://i.postimg.cc/8cK5XXvM/17EA998F-86B8-4E5F-BACD-76CABE7C7E86-1-201-a.jpg" alt="Construction Thumbnail 6" class="rounded-lg shadow-md w-full h-full object-cover aspect-video opacity-80 hover:opacity-100 cursor-pointer transition-opacity">
                             </div>
                         </div>
-                        <div class="text-[var(--light-text-body)] leading-relaxed text-sm">
-                           <p>มีคำกล่าวว่า "ยิ่งสูง วิสัยทัศน์ยิ่งกว้างไกล" คำกล่าวนี้สะท้อนความเป็นจริงได้เสมอ</p>
-                           <p class="mt-4">ณ เดือนพฤศจิกายน 2568 โครงสร้างอาคาร Copacabana Coral Reef ได้ดำเนินงานขึ้นสู่ชั้นที่ 30 แล้ว นี่ไม่ใช่เพียงตัวเลขของความคืbหน้า แต่คือบทพิสูจน์ของความมุ่งมั่น คือการยืนยันถึง "ทิวทัศน์" อันงดงามที่คุณจะได้สัมผัสจริงในอนาคตอันใกล้นี้</p>
-                           <p class="mt-4">ทุกครั้งที่โครงสร้างสูงขึ้นหนึ่งชั้น มันคือภาพสะท้อนของ "ประสบการณ์จริง" ที่ชัดเจนขึ้น...</p>
-                           <div class="mt-4">
-                                <ul class="list-disc list-inside space-y-2 mt-2">
-                                    <li><strong>The Horizon is Yours:</strong> เส้นขอบฟ้าจรดผืนน้ำจอมเทียน ได้กลายเป็นส่วนหนึ่งของพื้นที่พักผ่อนส่วนตัว ที่ซึ่งวิสัยทัศน์ของคุณไม่มีสิ่งใดขวางกั้น</li>
-                                    <li><strong>Proof of Experience:</strong> เราไม่ได้กำลังสร้างเพียงโครงสร้างอาคาร แต่กำลังรังสรรค์ "ประสบการณ์" ของการตื่นนอนพร้อมวิวทะเลแบบพาโนรามา ที่จะเติมเต็มพลังในทุกเช้า</li>
-                                    <li><strong>A Promise Taking Shape:</strong> ความตั้งใจจริงของเราที่ดำเนินไปอย่างไม่หยุดยั้ง คือหลักประกันที่หนักแน่นที่สุด ว่าคำสัญญาของเรากำลังถูกเติมเต็มในทุกๆ วัน และอนาคตที่คุณรอคอยนั้น ใกล้ความเป็นจริงเข้ามาทุกขณะ</li>
-                                </ul>
+                        
+                        <!-- Right Column: Text -->
+                        <div class="lg:col-span-2 text-gray-300 leading-relaxed">
+                           <p>มีคำกล่าวที่ทรงพลังว่า "ยิ่งสูง วิสัยทัศน์ยิ่งกว้างไกล" คำกล่าวนี้ไม่เพียงแต่เป็นความจริงเชิงปรัชญา แต่ยังสะท้อนความเป็นจริงทางกายภาพที่ชัดเจนที่สุด โดยเฉพาะอย่างยิ่ง ณ ที่แห่งนี้, บนจุดยืนที่กำลังจะกลายเป็นสัญลักษณ์ใหม่ของจอมเทียน</p>
+                           <p class="mt-4">ณ เดือนพฤศจิกายน 2568 โครงสร้างอาคาร Copacabana Coral Reef Jomtien ได้ดำเนินงานทะยานขึ้นสู่ชั้นที่ 30 อย่างมั่นคงและสง่างามแล้ว ความสูงระดับนี้ไม่ใช่เพียงตัวเลขของความคืบหน้าทางวิศวกรรม แต่คือบทพิสูจน์ของความมุ่งมั่นที่จับต้องได้ (Tangible Proof) มันคือการยืนยันอย่างเป็นรูปธรรมถึง "ทิวทัศน์" อันงดงามตระการตาและไม่มีที่สิ้นสุด ที่คุณจะได้ครอบครองและสัมผัสจริงในอนาคตอันใกล้นี้</p>
+                           <p class="mt-4">ทุกครั้งที่โครงสร้างของเราสูงขึ้นอีกหนึ่งชั้น มันคือภาพสะท้อนของ "ประสบการณ์จริง" ที่กำลังจะเกิดขึ้น ซึ่งชัดเจนยิ่งขึ้นกว่าที่เคย มันคือการยกระดับการมองเห็นที่เหนือกว่า ที่ซึ่งทัศนียภาพเดิมๆ จะถูกแทนที่ด้วยมุมมองใหม่ที่เปิดกว้าง...</p>
+                           
+                           <div class="mt-6 border-l-4 border-primary pl-4">
+                               <p class="font-semibold text-gray-200"><strong class="text-primary">The Horizon is Yours:</strong> เส้นขอบฟ้าที่เคยอยู่ไกลลิบ บัดนี้จรดอยู่กับผืนน้ำจอมเทียนสีครามกว้างไกลสุดสายตา ได้ถูกดึงเข้ามาเป็นส่วนหนึ่งของพื้นที่พักผ่อนส่วนตัวของคุณอย่างแท้จริง</p>
+                               <p class="mt-4 font-semibold text-gray-200"><strong class="text-primary">Proof of Experience:</strong> เราไม่ได้กำลังสร้างเพียงโครงสร้างอาคาร แต่เรากำลังรังสรรค์ "ประสบการณ์" การใช้ชีวิตที่เหนือระดับ คือสุนทรียภาพของการตื่นนอนพร้อมวิวทะเลแบบพาโนรามา</p>
+                               <p class="mt-4 font-semibold text-gray-200"><strong class="text-primary">A Promise Taking Shape:</strong> ความตั้งใจจริงของเราที่ดำเนินไปอย่างไม่หยุดยั้ง คือคำมั่นสัญญาที่กำลังเป็นรูปเป็นร่าง... และอนาคตที่คุณรอคอยนั้น ใกล้ความเป็นจริงเข้ามาทุกขณะจิต</p>
                            </div>
-                           <p class="mt-4">เรายังคงสร้างมาตรฐานใหม่ที่สูงขึ้น ทั้งในแง่ของโครงสร้างอาคาร และคุณภาพชีวิตที่คุณจะได้รับภายในปี 2027</p>
+
+                           <p class="mt-6">เรามุ่งมั่นและยังคงเดินหน้าสร้างมาตรฐานใหม่ที่สูงขึ้นอย่างต่อเนื่อง ไม่เพียงแต่ในแง่ของโครงสร้างอาคารอันแข็งแกร่งเท่านั้น แต่ยังรวมถึงมาตรฐานของ "คุณภาพชีวิต" ที่เหนือระดับที่คุณจะได้รับ ภายในปี 2027</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Section: Facilities -->
         <section id="facilities" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
-                <div class="mx-auto text-left bg-[var(--dark-bg-secondary)] p-8 rounded-2xl shadow-lg">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-center text-[var(--light-text-heading)]">พื้นที่... เพื่อชีวิตที่ 'สมดุล': นิยามใหม่ของสิ่งอำนวยความสะดวก</h2>
-                    <h4 class="text-lg font-semibold mb-8 text-center text-[var(--light-text-muted)]">เพราะ 'บ้าน' คือพื้นที่สำหรับทุกบทบาทของชีวิต</h4>
-                    
-                    <p class="text-[var(--light-text-body)] leading-relaxed mb-6">"บ้าน" ที่ดี คือสถานที่ที่โอบรับเราในทุกบทบาทของชีวิต Copacabana Coral Reef จึงได้รับการออกแบบมาเพื่อรองรับไลฟ์สไตล์ที่หลากหลาย เพื่อให้คุณค้นพบความสมดุลที่แท้จริง</p>
-    
-                    <div class="mt-8">
-                        <h3 class="text-2xl font-bold text-primary mb-4">พื้นที่สำหรับ 'สมาธิ' และ 'แรงบันดาลใจ' (Productive Space)</h3>
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="text-[var(--light-text-body)] leading-relaxed">
-                                <p>Coral Sky Business Lounge บนชั้น 50 ถูกออกแบบมาเพื่อรองรับการทำงานยุคใหม่ ไม่ว่าจะเป็น Co-Working Space ที่เปิดโล่ง หรือมุมสงบส่วนตัวสำหรับการทำงานที่ใช้สมาธิ พร้อมทิวทัศน์ของท้องทะเลที่ช่วยปลุก "แรงบันดาลใจ" ในตัวคุณ</p>
-                            </div>
-                            <div>
-                                <img src="https://i.postimg.cc/PxB7Sqyw/9C53AF9B-9D19-469E-9581-4A806DBEC868_1_201_a.jpg" alt="Co-working Space" class="rounded-2xl shadow-md">
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="mt-12">
-                        <h3 class="text-2xl font-bold text-primary mb-4">พื้นที่สำหรับ 'ครอบครัว' และ 'ความทรงจำ' (Family & Activity Space)</h3>
-                         <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="md:order-2 text-[var(--light-text-body)] leading-relaxed">
-                                <p>วันหยุดคือช่วงเวลาที่ล้ำค่าของครอบครัว Wave Pool และ Kids Club ไม่ใช่แค่สระว่ายน้ำหรือห้องเด็กเล่น แต่คือ "พื้นที่สร้างความสัมพันธ์" ที่สมาชิกในครอบครัวจะได้ใช้เวลาร่วมกันอย่างมีคุณภาพ ในสภาพแวดล้อมที่ผ่อนคลายและเป็นส่วนตัว</p>
-                            </div>
-                            <div class="md:order-1">
-                                <img src="https://i.postimg.cc/FR89y5Br/Sales-Kit-Booklet-20250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high.jpg" alt="Family & Activity Space" class="rounded-2xl shadow-md">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-12">
-                        <h3 class="text-2xl font-bold text-primary mb-4">พื้นที่เพื่อ 'ดูแล' กายและใจ (Wellness Space)</h3>
-                         <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="text-[var(--light-text-body)] leading-relaxed">
-                                <p>การดูแลตัวเองไม่ใช่ทางเลือก แต่คือสิ่งสำคัญที่สุด High Ceiling Gym ขนาด 360 ตร.ม. พร้อมวิวทะเลเต็มตา คือสถานที่สำหรับ "การกลับมาดูแลตัวเอง" เพื่อสร้างสมดุล หรือเลือกปลดปล่อยความเหนื่อยล้าใน Onsen และ Jacuzzi ส่วนตัว เพื่อเตรียมร่างกายและจิตใจให้แข็งแรงอยู่เสมอ</p>
-                            </div>
-                            <div>
-                                <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" alt="Wellness Space" class="rounded-2xl shadow-md">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Gemini AI Feature Button -->
-                    <div class="mt-16 text-center border-t border-[var(--dark-bg-accent)] pt-8">
-                        <h3 class="text-2xl font-bold text-primary mb-4">✨ AI Lifestyle Concierge</h3>
-                        <p class="text-[var(--light-text-body)] leading-relaxed max-w-2xl mx-auto mb-6">ให้ AI ช่วยจินตนาการถึงการใช้ชีวิตที่สมดุลของคุณที่นี่ คลิกเพื่อสร้างตารางเวลาพักผ่อน 1 วัน ที่ผสมผสานทุกกิจกรรมไว้สำหรับคุณ</p>
-                        <button id="open-gemini-modal" class="btn-primary font-bold py-3 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-105">
-                            ให้ AI ช่วยออกแบบ 'วันพักผ่อนที่สมดุล' ของคุณ
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-       <section id="community" class="py-16 md:py-24 bg-light-accent">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--light-text-heading)]">สมดุลแห่งการใช้ชีวิต: ความสงบ... ท่ามกลาง 'ชีพจร' แห่งจอมเทียน</h2>
-                    <h4 class="text-lg font-semibold text-[var(--light-text-muted)]">เชื่อมต่อ... แต่ไม่วุ่นวาย</h4>
+                <div class="max-w-5xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">ยกระดับคุณภาพชีวิต</h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">พื้นที่ส่วนกลางที่ถูก 'คัดสรร' มาเพื่อตอบโจทย์การใช้งานจริง</p>
+                    <p class="text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10">
+                        "บ้าน" ที่ดีในมุมมองของเรา คือสถานที่ที่ตอบโจทย์ทุก 'บทบาท' และทุก 'กิจกรรม' ของชีวิตได้อย่างไร้รอยต่อ Copacabana Coral Reef จึงได้รับการออกแบบมาเพื่อรองรับไลฟ์สไตล์ที่หลากหลายเหล่านี้... ไม่ว่าจะเป็นวันที่คุณต้องการสมาธิ หรือวันที่คุณต้องการความผ่อนคลายสูงสุด
+                    </p>
                 </div>
                 
-                <!-- Replaced the 2-column grid with a single, focused text block -->
-                <div class="max-w-4xl mx-auto text-left bg-[var(--dark-bg-secondary)] p-8 rounded-2xl shadow-lg">
-                    <p class="text-[var(--light-text-body)] leading-relaxed">
-                        ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว และชีวิตมักเรียกร้องให้เราต้อง "เลือก" อยู่เสมอ... เรามักถูกตั้งคำถามว่า เราจะรักษาสมดุลระหว่าง "โลกภายนอก" ที่เต็มไปด้วยโอกาส กับ "โลกภายใน" ที่โหยหาความสงบได้อย่างไร
-                        <br><br>
-                        โดยเฉพาะในพื้นที่ที่มีศักยภาพสูงอย่างเขตพัฒนาพิเศษภาคตะวันออก (EEC) ซึ่งทุกการเชื่อมต่อคือความได้เปรียบ ทั้งการเดินทางสู่สนามบินอู่ตะเภาในเวลาไม่นาน หรือการเข้าถึงศูนย์กลางเศรษฐกิจแห่งอนาคต... การ "เชื่อมต่อ" (Connectivity) จึงกลายเป็นสิ่งจำเป็นอย่างหลีกเลี่ยงไม่ได้
-                        <br><br>
-                        แต่ในขณะเดียวกัน "คุณภาพชีวิต" ที่แท้จริง อาจไม่ได้วัดกันที่ความเร็วที่เราเชื่อมต่อกับโลกภายนอกเท่านั้น แต่อยู่ที่ความสามารถในการ "ตัดขาด" (Disconnect) เมื่อเราต้องการ
-                        <br><br>
-                        แนวคิดของการมีที่อยู่อาศัยที่เข้าใจความต้องการที่สวนทางกันนี้ จึงไม่ใช่แค่การเลือกทำเลที่ตั้ง แต่คือการเลือก "คุณภาพ" ของการใช้ชีวิต
-                        <br><br>
-                        ลองจินตนาการถึงการที่เราสามารถเป็นส่วนหนึ่งของความเคลื่อนไหวทางเศรษฐกิจที่สำคัญที่สุดของประเทศ แต่ในก้าวถัดไป... เราสามารถกลับคืนสู่ "ความสงบ" (Tranquility) ที่เป็นส่วนตัวอย่างแท้จริง
-                        <br><br>
-                        ที่ซึ่งบรรยากาศของการพักผ่อนถูก "สงวน" และ "รักษา" ไว้ ไม่ถูกรบกวนโดยความวุ่นวายชั่วคราว (นโยบายไม่รับการเช่าระยะสั้น) ที่ที่เรามีพื้นที่ส่วนตัวอย่างสระว่ายน้ำส่วนตัว หรือออนเซ็นที่รอให้เราได้ผ่อนคลายในตอนท้ายของวัน
-                        <br><br>
-                        นี่คือการออกแบบ "วิถีชีวิตที่เลือกได้" (Choosable Lifestyle)
-                        <br><br>
-                        มันคือความหรูหราของการที่รู้ว่า โลกทั้งใบอยู่ใกล้แค่เอื้อม... แต่เราก็สามารถเลือกที่จะปิดประตู สัมผัสความเงียบสงบ และเป็นส่วนตัวได้อย่างสมบูรณ์ ในวินาทีที่เราต้องการ โดยไม่ต้องประนีประนอม
-                    </p>
+                <div class="space-y-16">
+                    <!-- 1. Productive Space -->
+                    <div class="grid lg:grid-cols-2 gap-10 items-center">
+                        <div class="rounded-2xl shadow-xl overflow-hidden aspect-video">
+                            <img src="https://i.postimg.cc/PxB7Sqyw/9C53AF9B-9D19-469E-9581-4A806DBEC868_1_201_a.jpg" alt="Coral Sky Business Lounge" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-gray-300">
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่สำหรับ 'ความคิด' และ 'แรงบันดาลใจ' (Productive Space)</h3>
+                            <p class="leading-relaxed">
+                                Coral Sky Business Lounge บนชั้น 50 ถูกออกแบบมาเพื่อรองรับการทำงานยุคใหม่ ไม่ว่าจะเป็น Co-Working Space ที่เปิดโล่ง หรือมุมสงบส่วนตัวสำหรับการทำงานที่ต้องการสมาธิ... ทั้งหมดนี้มาพร้อมทิวทัศน์ของท้องทะเลที่ช่วยจุดประกายแรงบันดาลใจใหม่ๆ ได้เสมอ
+                            </p>
+                        </div>
+                    </div>
                     
-                    <!-- Added Link -->
-                    <div class="mt-6">
-                        <a href="https://thbho.github.io/BalanceCopa2.html" target="_blank" class="text-lg font-semibold text-primary hover:underline">
-                            อ่านเนื้อหาเพิ่มเติมเกี่ยวกับแนวคิดนี้ &rarr;
-                        </a>
+                    <!-- 2. Family Space -->
+                    <div class="grid lg:grid-cols-2 gap-10 items-center">
+                        <div class="lg:order-2 rounded-2xl shadow-xl overflow-hidden aspect-video">
+                            <img src="https://i.postimg.cc/FR89y5Br/Sales-Kit-Booklet-20250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high.jpg" alt="Family & Activity Space" class="w-full h-full object-cover">
+                        </div>
+                        <div class="lg:order-1 text-gray-300">
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่สำหรับ 'ครอบครัว' และ 'ความทรงจำ' (Family & Activity Space)</h3>
+                            <p class="leading-relaxed">
+                                เพราะวันหยุดคือช่วงเวลาของครอบครัว... Wave Pool และ Kids Club จึงเป็นมากกว่าสิ่งอำนวยความสะดวก แต่คือ "พื้นที่สร้างความสัมพันธ์" ที่สมาชิกในครอบครัวจะได้ใช้เวลาร่วมกันอย่างมีคุณภาพ ในสภาพแวดล้อมที่ผ่อนคลายและเป็นส่วนตัวที่สุด
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 3. Wellness Space -->
+                    <div class="grid lg:grid-cols-2 gap-10 items-center">
+                        <div class="rounded-2xl shadow-xl overflow-hidden aspect-video">
+                            <img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201_a.jpg" alt="Wellness Space" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-gray-300">
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่เพื่อ 'สุขภาพกาย' และ 'ความสงบในใจ' (Wellness Space)</h3>
+                            <p class="leading-relaxed">
+                                การดูแลสุขภาพคือสิ่งสำคัญ High Ceiling Gym ขนาด 360 ตร.ม. พร้อมวิวทะเลเต็มตา คือสถานที่สำหรับการออกกำลังกายเพื่อสร้างสมดุล หรือเลือกผ่อนคลายกล้ามเนื้อใน Onsen และ Jacuzzi ส่วนตัว เพื่อเตรียมความพร้อมร่างกายและจิตใจให้แข็งแรงอยู่เสมอ
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-       </section>
-      
-        <section id="article" class="py-16 md:py-24">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--light-text-heading)]">บทความพิเศษ: 'คุณภาพของความคิด' ในยุคดิจิทัล</h2>
+                <!-- AI Concierge Button -->
+                <div class="mt-20 text-center">
+                     <button onclick="openModalAndCallAI()" class="btn-primary text-base md:text-lg font-display px-8 py-4 rounded-xl shadow-lg shadow-black/30 transform hover:scale-105 transition-transform">
+                        <i class="fas fa-magic mr-2"></i>
+                        ให้ AI ช่วยออกแบบ 'วันพักผ่อนที่สมดุล' ของคุณ
+                    </button>
                 </div>
-                <div class="max-w-4xl mx-auto text-left bg-[var(--dark-bg-secondary)] p-8 rounded-2xl shadow-lg">
-                    <p class="text-[var(--light-text-body)] leading-relaxed">
-                        เราเชื่อมั่นว่า "คุณภาพชีวิต" ไม่ได้หยุดอยู่แค่การเลือกที่อยู่อาศัยที่งดงาม แต่ยังรวมถึง "คุณภาพของความคิด" ที่ใช้ในการตัดสินใจด้วย
-                        <br><br>
-                        ในยุคดิจิทัลที่เรากำลังเผชิญกับ <strong>'ภาวะข้อมูลท่วมท้น' (Information Deluge)</strong> การรักษาคุณภาพของความคิดนั้นท้าทายยิ่งกว่าเดิมค่ะ อัลกอริทึมและอินฟลูเอนเซอร์ต่างรู้วิธีที่จะใช้ประโยชน์จากจุดอ่อนทางจิตวิทยาของเรา โดยเฉพาะการสื่อสารที่เน้นดึงดูด 'อารมณ์' (System 1) และสร้าง 'ความสัมพันธ์เสมือน' (Parasocial Relationships) มากกว่าความถูกต้องของข้อเท็จจริง
-                        <br><br>
-                        สิ่งนี้ทำให้เกิดปรากฏการณ์ที่น่าสนใจที่เรียกว่า <strong>'The Rapport Paradox'</strong> หรือ 'ความย้อนแย้งของความสัมพันธ์ส่วนตัว' คือการที่คนเรามักจะ 'เชื่อใจ' บุคคลที่เราติดตาม มากกว่าข้อเท็จจริงที่เป็นกลาง หรือแม้แต่แหล่งข้อมูล AI ที่เป็นกลางก็ตาม
-                        <br><br>
-                        ในโลกที่ซับซ้อนนี้... <strong>'การคิดเชิงวิพากษ์' (Critical Thinking)</strong> จึงกลายเป็นทักษะที่สำคัญที่สุด ไม่ใช่แค่เพื่อการตัดสินใจครั้งสำคัญ แต่เพื่อการนำทางชีวิตของเราเองค่ะ
-                        <br><br>
-                        และนี่คือมุมมองที่น่าสนใจ ว่าในอนาคต AI อาจไม่ได้ถูกออกแบบมาเพื่อ 'ให้คำตอบสำเร็จรูป' แต่จะถูกออกแบบใหม่ให้เป็น <strong>'โค้ชด้านการคิดเชิงวิพากษ์' (Critical Thinking Coach)</strong> หรือ 'คู่หูแบบลูกผสม' (Hybrid Partner) ที่คอยกระตุ้นการวิเคราะห์ของเรา... คอยตั้งคำถามที่ท้าทายในสไตล์โสเครตีส (Socratic-style questions) เพื่อให้เราได้ฝึกฝนทักษะการคิดนี้ให้เฉียบคมอยู่เสมอ
-                        <br><br>
-                        แน่นอนว่า มันก็มีความท้าทายที่ต้องระวัง ที่เรียกว่า <strong>'Rapport Paradox: Phase 2'</strong> หรือ 'ความเชื่อมั่นเชิงเครื่องมือ' (Instrumental Trust) นั่นคือการที่เราเริ่มไว้วางใจ AI มากเกินไปเพราะมันสะดวกสบายและทำงานร่วมกับเราได้ดี จนเราลดการป้องกันเชิงวิพากษ์... และหยุดการตรวจสอบผลลัพธ์ของมันด้วยตัวเอง
-                        <br><br>
-                        เป้าหมายสูงสุดจึงไม่ใช่การให้ AI 'คิดแทน' แต่คือการให้เรา <strong>'คิดไปพร้อมกับ AI' (Think *with* AI)</strong> เพื่อให้มั่นใจว่า 'มนุษย์' อย่างเรา ยังคงเป็นผู้ขับเคลื่อนกระบวนการทางปัญญาของตนเองอยู่เสมอค่ะ
-                        <br><br>
-                        สำหรับท่านที่สนใจเรียนรู้เพิ่มเติมเกี่ยวกับ 5 กับดักทางสมองเบื้องต้นที่โซเชียลมีเดียใช้กับเรา สามารถศึกษาได้จาก Infographic และวิดีโอ ดังต่อไปนี้:
-                    </p>
-                    
-                    <div class="my-6">
-                        <a href="https://thbho.github.io/5BrainTraps.html" target="_blank" class="text-lg font-semibold text-primary hover:underline">
-                            เรียนรู้ 5 กับดักจิตวิทยา (Infographic) &rarr;
-                        </a>
-                    </div>
-                    
-                    <div class="mt-8 rounded-2xl shadow-lg overflow-hidden aspect-video">
-                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/eVYDr2vGzZw?si=4FWOAYjBcZQPtF3o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+            </div>
+        </section>
+
+        <!-- Section: Community / Lifestyle -->
+        <section id="community" class="py-16 md:py-24 bg-surface">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">สมดุลแห่งการใช้ชีวิต</h2>
+                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400">ความสงบ... ท่ามกลาง 'ชีพจร' แห่งจอมเทียน</h4>
+
+                    <div class="bg-black/20 p-8 md:p-10 rounded-2xl shadow-lg text-gray-300 leading-relaxed text-base md:text-lg">
+                        <p>
+                            ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว และชีวิตมักเรียกร้องให้เราต้อง "เลือก" อยู่เสมอ... เรามักถูกตั้งคำถามว่า เราจะรักษาสมดุลระหว่าง "โลกภายนอก" ที่เต็มไปด้วยโอกาส กับ "โลกภายใน" ที่โหยหาความสงบได้อย่างไร
+                        </p>
+                        <p class="mt-4">
+                            โดยเฉพาะในพื้นที่ที่มีศักยภาพสูงอย่างเขตพัฒนาพิเศษภาคตะวันออก (EEC) ซึ่งทุกการเชื่อมต่อคือความได้เปรียบ... การ "เชื่อมต่อ" (Connectivity) จึงกลายเป็นสิ่งจำเป็นอย่างหลีกเลี่ยงไม่ได้ แต่ในขณะเดียวกัน "คุณภาพชีวิต" ที่แท้จริง อาจไม่ได้วัดกันที่ความเร็วที่เราเชื่อมต่อกับโลกภายนอกเท่านั้น แต่อยู่ที่ความสามารถในการ "ตัดขาด" (Disconnect) เมื่อเราต้องการ
+                        </p>
+                        <p class="mt-4">
+                            แนวคิดของการมีที่อยู่อาศัยที่เข้าใจความต้องการที่สวนทางกันนี้ จึงไม่ใช่แค่การเลือกทำเลที่ตั้ง แต่คือการเลือก "คุณภาพ" ของการใช้ชีวิต
+                        </p>
+                        <p class="mt-4">
+                            ลองจินตนาการถึงการที่เราสามารถเป็นส่วนหนึ่งของความเคลื่อนไหวทางเศรษฐกิจที่สำคัญที่สุดของประเทศ แต่ในก้าวถัดไป... เราสามารถกลับคืนสู่ "ความสงบ" (Tranquility) ที่เป็นส่วนตัวอย่างแท้จริง ที่ซึ่งบรรยากาศของการพักผ่อนถูก "สงวน" และ "รักษา" ไว้
+                        </p>
+                        <p class="mt-4">
+                            นี่คือการออกแบบ <strong>"วิถีชีวิตที่เลือกได้" (Choosable Lifestyle)</strong>
+                        </p>
+                        <p class="mt-4">
+                            มันคือความหรูหราของการที่รู้ว่า โลกทั้งใบอยู่ใกล้แค่เอื้อม... แต่เราก็สามารถเลือกที่จะปิดประตู สัมผัสความเงียบสงบ และเป็นส่วนตัวได้อย่างสมบูรณ์ ในวินาทีที่เราต้องการ โดยไม่ต้องประนีประนอม
+                        </p>
+                        
+                        <div class="mt-8 pt-6 border-t border-strong">
+                             <a href="https://thbho.github.io/BalanceCopa2.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
+                                อ่านเนื้อหาเพิ่มเติมเกี่ยวกับแนวคิดนี้ &rarr;
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="events" class="py-16 md:py-24 bg-light-accent">
+        <!-- Section: Spotlight -->
+        <section id="spotlight" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">SPOTLIGHT: อนาคตที่จับต้องได้ของทำเลจอมเทียน</h2>
+                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12">
+                        อัปเดตเมกะโปรเจกต์ "EECiti" หรือ "กรุงเทพฯ 2"
+                    </p>
+
+                    <div class="bg-surface p-8 md:p-12 rounded-2xl shadow-xl text-gray-300 leading-relaxed space-y-5">
+                        <p>
+                            ใน Newsletter ฉบับนี้ เราอยากพาทุกท่านไปอัปเดตภาพอนาคตอันน่าตื่นเต้นของ "ทำเล" ที่เราทุกคนเลือกเป็นบ้านและเป็นที่ลงทุน ซึ่งกำลังจะเปลี่ยนแปลงไปอย่างก้าวกระโดดด้วยเมกะโปรเจกต์ระดับชาติอย่าง "EECiti" หรือที่เรียกกันว่า "กรุงเทพฯ 2" ครับ
+                        </p>
+                        <h3 class="text-xl font-display font-semibold text-primary pt-4">"กรุงเทพฯ 2" คืออะไร และทำไมจึงสำคัญกับเรา?</h3>
+                        <p>
+                            EECiti คือโครงการสร้างศูนย์กลางธุรกิจและเมืองใหม่อัจฉริยะในพื้นที่ EEC ซึ่งเป็นกลยุทธ์สำคัญของประเทศในการกระจายศูนย์กลางความเจริญและเศรษฐกิจที่เคยกระจุกตัวอยู่เพียงในกรุงเทพฯ นี่ไม่ใช่แค่นิคมอุตสาหกรรมทั่วไป แต่คือการ "สร้างเมืองใหม่จากศูนย์" (Clean Slate) ซึ่งหมายความว่าเมืองนี้จะถูกออกแบบมาอย่างสมบูรณ์แบบเพื่ออนาคตโดยแท้จริง
+                        </p>
+
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">1. ดึงดูด "คลื่น" เศรษฐกิจและบุคลากรคุณภาพสูง</h4>
+                        <p>
+                            เป้าหมายหลักของ EECiti คือการเป็นฐานที่ตั้งของ "อุตสาหกรรม S-curve ใหม่" แห่งอนาคต (การแพทย์แม่นยำ, ธุรกิจสุขภาพ, เทคโนโลยี BCG) อุตสาหกรรมเหล่านี้จะดึงดูดบุคลากรทักษะสูง ผู้บริหาร และผู้เชี่ยวชาญจากทั่วโลก ซึ่งเป็นกลุ่มคนที่มีกำลังซื้อสูงและมองหาที่พักอาศัยคุณภาพระดับพรีเมียม การมีอยู่ของ Copacabana Coral Reef จึงเป็นการเตรียมพร้อมที่สมบูรณ์แบบ เพื่อรองรับอุปสงค์ (Demand) ที่จะเพิ่มขึ้นอย่างมหาศาล
+                        </p>
+
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">2. เมืองอัจฉริยะที่ "ไร้ปัญหา" เมืองเก่า</h4>
+                        <p>
+                            EECiti ถูกสร้างขึ้นเพื่อแก้ปัญหาที่กรุงเทพฯ เผชิญ เช่น การวางผังเมืองที่ปลอดภัยจากน้ำท่วม และโครงสร้างพื้นฐานอัจฉริยะอย่าง "อุโมงค์สาธารณูปโภคส่วนกลาง" (CUT) ที่จะนำทุกอย่างลงใต้ดิน การที่ "เพื่อนบ้าน" ของเราเป็นเมืองที่ทันสมัย มีระเบียบ และมีคุณภาพชีวิตสูง จะส่งผลโดยตรงต่อมูลค่าและความน่าอยู่ของพื้นที่จอมเทียนโดยรอบ
+                        </p>
+
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">บทสรุป: ความมั่นใจในการลงทุน</h4>
+                        <p>
+                            การที่ภาครัฐลงทุนเม็ดเงินก้อนแรกกว่า 74,000 ล้านบาท เพื่อเตรียมโครงสร้างพื้นฐานทั้งหมดให้ "พร้อม" สำหรับการลงทุนภาคเอกชนอีกกว่า 1.34 ล้านล้านบาท คือการการันตีว่าโครงการนี้ "เกิดขึ้นจริง" และกำลังเดินหน้าเต็มกำลัง
+                        </p>
+                        <p class="font-semibold text-gray-200">
+                            การตัดสินใจของท่านที่เลือก Copacabana Coral Reef Jomtien ไม่เพียงแต่เป็นการเลือกที่อยู่อาศัยที่หรูหราที่สุดแห่งหนึ่ง แต่ยังเป็นการวางตำแหน่งการลงทุนของท่านไว้ ณ "ศูนย์กลาง" ของการเติบโตที่ยิ่งใหญ่ที่สุดครั้งหนึ่งของประเทศไทยอย่างแท้จริงครับ
+                        </p>
+                        
+                        <div class="mt-8 pt-6 border-t border-strong">
+                             <a href="https://thbho.github.io/EECitiPlan.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
+                                ชม Infographic: EECiti Building a Second Bangkok &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Article -->
+        <section id="article" class="py-16 md:py-24 bg-surface">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">บทความพิเศษ: มุมมองเพื่อการตัดสินใจ</h2>
+                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12">
+                        ยุคดิจิทัลและการคิดเชิงวิพากษ์ (Critical Thinking)
+                    </p>
+                    
+                    <div class="grid lg:grid-cols-2 gap-10 items-start">
+                        <!-- Left Column: Text -->
+                        <div class="text-gray-300 leading-relaxed space-y-5">
+                            <p>
+                                ในฐานะผู้อ่านที่มีวิสัยทัศน์ ขวัญเชื่อว่า "คุณภาพชีวิต" ไม่ได้หยุดอยู่แค่การเลือกที่อยู่อาศัย แต่ยังรวมถึง "คุณภาพของความคิด" ที่ใช้ในการตัดสินใจด้วยค่ะ
+                            </p>
+                            <p>
+                                ในยุคที่ข้อมูลท่วมท้น (Information Deluge) อัลกอริทึมและอินฟลูเอนเซอร์มักดึงดูดเราด้วยอารมณ์และความรู้สึก "ผูกพัน" (Rapport) มากกว่าข้อเท็จจริง... ปรากฏการณ์ที่เรียกว่า "The Rapport Paradox" นี้ ทำให้เรามักเผลอเชื่อ "ความสัมพันธ์เสมือน" (Parasocial Relationships) มากกว่าข้อมูลที่เป็นกลาง
+                            </p>
+                            <p>
+                                นี่คือยุคที่ทักษะการ "คิดเชิงวิพากษ์" (Critical Thinking) กลายเป็นเครื่องมือที่จำเป็นที่สุด เพื่อให้เราสามารถนำทางในโลกดิจิทัลได้อย่างเท่าทัน และ "คิดไปพร้อมกับ AI" แทนที่จะ "เชื่อ" AI ทั้งหมด เพื่อให้มั่นใจว่ามนุษย์ยังคงเป็นผู้ขับเคลื่อนกระบวนการตัดสินใจครั้งสำคัญของตนเองค่ะ
+                            </p>
+                             <div class="pt-4">
+                                 <a href="https://thbho.github.io/5BrainTraps.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
+                                    เรียนรู้ 5 กับดักจิตวิทยา (Infographic) &rarr;
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column: Video -->
+                        <div class="video-responsive">
+                             <iframe src="https://www.youtube.com/embed/eVYDr2vGzZw?si=4FWOAYjBcZQPtF3o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Events -->
+        <section id="events" class="py-16 md:py-24">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--light-text-heading)]">Pattaya's Calendar</h2>
-                    <p class="text-lg text-[var(--light-text-muted)] max-w-3xl mx-auto">ปฏิทินกิจกรรมในเดือนพฤศจิกายน</p>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Pattaya's Calendar</h2>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto">ปฏิทินกิจกรรมและข้อมูลสำคัญในเดือนพฤศจิกายน</p>
                 </div>
-                <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8 justify-center">
-                    <!-- Loy Krathong Card -->
-                    <div class="border border-[var(--dark-bg-accent)] rounded-2xl flex flex-col overflow-hidden shadow-sm bg-[var(--dark-bg-secondary)] max-w-sm mx-auto w-full">
-                        <img src="https://tse4.mm.bing.net/th/id/OIP.vVkK1kzbfDCfzFhgqGoA7wHaE7?pid=Api&P=0&h=180" alt="Loy Krathong Festival" class="w-full h-48 object-cover">
+                
+                <!-- Event Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Loy Krathong -->
+                    <div class="border border-strong rounded-2xl flex flex-col overflow-hidden shadow-lg bg-surface">
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.vVkK1kzbfDCfzFhgqGoA7wHaE7?pid=Api&P=0&h=180" alt="เทศกาลลอยกระทง" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
                                 <p class="text-sm font-semibold text-primary">14 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg my-2 text-[var(--light-text-heading)]">เทศกาลลอยกระทง (Loy Krathong Festival)</h4>
-                                <p class="text-sm text-[var(--light-text-body)] mb-4">ร่วมสืบสานประเพณีไทยในคืนวันเพ็ญเดือนสิบสอง เพื่อระลึกถึงพระแม่คงคา ตามจุดต่างๆ ทั่วชายหาดพัทยาและวัดในพื้นที่</p>
+                                <h4 class="font-bold text-lg font-display my-2">เทศกาลลอยกระทง</h4>
+                                <p class="text-sm text-gray-400 mb-4">ร่วมสืบสานประเพณีไทยในคืนวันเพ็ญเดือนสิบสอง เพื่อระลึกถึงพระแม่คงคา ตามจุดต่างๆ ทั่วชายหาดพัทยาและวัดในพื้นที่</p>
                             </div>
-                            <a href="https://www.facebook.com/TAT.Pattaya" target="_blank" class="text-xs text-[var(--light-text-muted)] hover:text-primary">อ้างอิง: ททท. สำนักงานพัทยา</a>
+                            <span class="text-xs text-gray-500">อ้างอิง: ททท. สำนักงานพัทยา</span>
                         </div>
                     </div>
-
-                    <!-- Miss Universe Card -->
-                    <div class="border border-[var(--dark-bg-accent)] rounded-2xl flex flex-col overflow-hidden shadow-sm bg-[var(--dark-bg-secondary)] max-w-sm mx-auto w-full">
+                    <!-- Miss Universe -->
+                    <div class="border border-strong rounded-2xl flex flex-col overflow-hidden shadow-lg bg-surface">
                         <img src="https://media.philstar.com/photos/2025/11/04/miss-universe-thailand_2025-11-04_16-10-53.jpg" alt="Miss Universe 2025 Preliminary Events" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
-                            <div>
+                             <div>
                                 <p class="text-sm font-semibold text-primary">12 - 16 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg my-2 text-[var(--light-text-heading)]">Miss Universe 2025 Preliminary Events</h4>
-                                <p class="text-sm text-[var(--light-text-body)] mb-4">พัทยาเป็นส่วนหนึ่งในการจัดกิจกรรมเก็บตัว รวมถึงแฟชั่นโชว์ชุดว่ายน้ำ ณ Columbia Pictures Aquaverse (14 พ.ย.) และการสัมภาษณ์ (15 พ.ย.)</p>
+                                <h4 class="font-bold text-lg font-display my-2">Miss Universe 2025 Preliminary</h4>
+                                <p class="text-sm text-gray-400 mb-4">พัทยาเป็นเจ้าภาพกิจกรรมเก็บตัวที่สำคัญ รวมถึงรอบซ้อม (13 พ.ย.), แฟชั่นโชว์ชุดว่ายน้ำที่ Columbia Pictures Aquaverse (14 พ.ย.) และรอบสัมภาษณ์ (15 พ.ย.)</p>
                             </div>
-                            <a href="#" target="_blank" class="text-xs text-[var(--light-text-muted)] hover:text-primary">อ้างอิง: Miss Universe Organization</a>
+                             <span class="text-xs text-gray-500">อ้างอิง: Miss Universe Organization</span>
                         </div>
                     </div>
-
-                    <!-- Pattaya Fireworks Card -->
-                    <div class="border border-[var(--dark-bg-accent)] rounded-2xl flex flex-col overflow-hidden shadow-sm bg-[var(--dark-bg-secondary)] max-w-sm mx-auto w-full">
+                    <!-- Fireworks Festival -->
+                     <div class="border border-strong rounded-2xl flex flex-col overflow-hidden shadow-lg bg-surface">
                         <img src="https://i.postimg.cc/t4gSQ2pp/DB367694-FA5E-4EB8-A491-F49F27E5E20B-1-201-a.jpg" alt="Pattaya International Fireworks Festival 2025" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
                                 <p class="text-sm font-semibold text-primary">28 - 29 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg my-2 text-[var(--light-text-heading)]">Pattaya International Fireworks Festival 2025</h4>
-                                <p class="text-sm text-[var(--light-text-body)] mb-4">เทศกาลดอกไม้ไฟนานาชาติประจำปี ภายใต้ธีม "The Light of Eternal Loyalty" พร้อมการแสดงประกอบดนตรี, ร้านค้า, และการแสดงสดริมชายหาด</p>
+                                <h4 class="font-bold text-lg font-display my-2">Pattaya International Fireworks Festival</h4>
+                                <p class="text-sm text-gray-400 mb-4">งานแสดงดอกไม้ไฟระดับโลกประจำปีที่ยิ่งใหญ่ตระการตา ริมชายหาดพัทยากลาง พร้อมการแสดงดนตรีและร้านค้ามากมาย</p>
                             </div>
-                            <a href="#" target="_blank" class="text-xs text-[var(--light-text-muted)] hover:text-primary">อ้างอิง: Pattaya City</a>
+                            <span class="text-xs text-gray-500">อ้างอิง: Pattaya City</span>
                         </div>
                     </div>
-
-                    <!-- Mourning Information Card -->
-                    <div class="border border-[var(--dark-bg-accent)] rounded-2xl flex flex-col overflow-hidden shadow-sm bg-[var(--dark-bg-secondary)] w-full lg:col-span-3">
-                        <div class="p-6 flex flex-col justify-between flex-grow">
+                </div>
+                
+                <!-- Mourning Information Card -->
+                <div class="mt-12">
+                     <div class="border border-strong rounded-2xl flex flex-col md:flex-row overflow-hidden shadow-lg bg-surface">
+                        <div class="p-6 md:p-8 flex flex-col justify-center flex-grow">
                             <div>
-                                <h4 class="font-bold text-xl mb-4 text-[var(--light-text-heading)]">แนวทางปฏิบัติและการร่วมถวายความอาลัย</h4>
-                                
-                                <div class="space-y-4 text-[var(--light-text-body)] text-sm">
-                                    <div>
-                                        <h5 class="font-semibold text-[var(--light-text-heading)]">๑. แนวทางการไว้ทุกข์และการงดกิจกรรมบันเทิง</h5>
-                                        <ul class="list-disc list-outside pl-5 mt-2 space-y-1">
-                                            <li><strong>ภาคเอกชนและประชาชน:</strong> รัฐบาลขอความร่วมมือแต่งกายด้วยชุดสีดำและร่วมแสดงความอาลัยเป็นเวลา ๙๐ วัน</li>
-                                            <li><strong>กิจกรรมบันเทิง:</strong> ขอความร่วมมือจากสถานบันเทิงและสถานบริการต่าง ๆ ทั่วประเทศ งดหรือจำกัดกิจกรรมเพื่อความบันเทิงเป็นระยะเวลา ๓๐ วัน เพื่อแสดงความเคารพและร่วมถวายความอาลัย</li>
-                                        </ul>
-                                    </div>
-
-                                    <div>
-                                        <h5 class="font-semibold text-[var(--light-text-heading)]">๒. การถวายสักการะและการลงนามถวายความอาลัย</h5>
-                                        <p class="mt-2">ณ พระบรมมหาราชวัง (สำนักพระราชวัง)</p>
-                                        <ul class="list-disc list-outside pl-5 mt-2 space-y-1">
-                                            <li><strong>๙ พ.ย. ๒๕๖๘ เป็นต้นไป:</strong> กราบถวายบังคมพระบรมศพ ณ พระที่นั่งดุสิตมหาปราสาท (๐๙.๐๐ น. - ๒๑.๐๐ น.)</li>
-                                        </ul>
-                                    </div>
-
-                                    <div>
-                                        <h5 class="font-semibold text-[var(--light-text-heading)]">๓. การร่วมเป็นเจ้าภาพในพระราชพิธีบำเพ็ญพระราชกุศล</h5>
-                                        <p class="mt-2">พระราชทานพระบรมราชานุญาตให้หน่วยงานภาครัฐ ภาคเอกชน และประชาชนทั่วไป ได้ร่วมเป็นเจ้าภาพฯ ภายหลังจากการพระราชพิธีทรงบำเพ็ญพระราชกุศลครบ ๑๐๐ วัน</p>
-                                    </div>
+                                <p class="text-sm font-semibold text-primary">ข้อมูลสำคัญ</p>
+                                <h4 class="font-bold text-lg font-display my-2 text-white">แนวทางปฏิบัติและการร่วมถวายความอาลัย</h4>
+                                <div class="text-sm text-gray-300 space-y-3 mt-4">
+                                    <p><strong>๑. แนวทางการไว้ทุกข์และการงดกิจกรรมบันเทิง</strong><br>
+                                        รัฐบาลขอความร่วมมือภาคเอกชนและประชาชนแต่งกายด้วยชุดสีดำและร่วมแสดงความอาลัยเป็นเวลา ๙๐ วัน และขอความร่วมมือสถานบันเทิงงดหรือจำกัดกิจกรรมเพื่อความบันเทิงเป็นเวลา ๓๐ วัน
+                                    </p>
+                                    <p><strong>๒. การถวายสักการะและการลงนามถวายความอาลัย ณ พระบรมมหาราชวัง</strong><br>
+                                        • <strong>ตั้งแต่วันที่ ๙ พฤศจิกายน ๒๕๖๘ เป็นต้นไป:</strong><br>
+                                        พระราชทานพระบรมราชานุญาตให้ประชาชนเข้าเฝ้าฯ กราบถวายบังคมพระบรมศพ ณ พระที่นั่งดุสิตมหาปราสาท (เวลา ๐๙.๐๐ น. - ๒๑.๐๐ น.)
+                                    </p>
+                                    <p><strong>๓. การร่วมเป็นเจ้าภาพในพระราชพิธีบำเพ็ญพระราชกุศล</strong><br>
+                                        พระราชทานพระบรมราชานุญาตให้หน่วยงานและประชาชนทั่วไป ได้ร่วมเป็นเจ้าภาพฯ ภายหลังจากการพระราชพิธีทรงบำเพ็ญพระราชกุศลครบ ๑๐๐ วัน
+                                    </p>
                                 </div>
                             </div>
-                            <span class="text-xs text-[var(--light-text-muted)] mt-6">อ้างอิง: สำนักพระราชวัง และประกาศจากรัฐบาล</span>
+                            <span class="text-xs text-gray-500 mt-4 block">อ้างอิง: สำนักพระราชวัง และ สำนักนายกรัฐมนตรี</span>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </section>
 
-        <section id="video" class="py-16 md:py-24">
+        <!-- Section: Podcast -->
+        <section id="podcast" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--light-text-heading)]">วิดีโอ</h2>
-                <p class="text-lg text-[var(--light-text-muted)] max-w-2xl mx-auto">รับชมวิดีอล่าสุดของเรา</p>
-                <div class="mt-8 max-w-4xl mx-auto rounded-2xl shadow-lg overflow-hidden aspect-video">
-                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/oMGJN50S1S0?si=ACwPPffcZXW4NFpQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Podcast</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">ติดตามเรื่องราวและบทวิเคราะห์จากเรา</g>
+                <div class="mt-8 mx-auto max-w-2xl bg-black/20 p-8 rounded-2xl shadow-lg border border-strong">
+                    <!-- Spotify Embed with dark theme -->
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/show/3NPkIctQjuOuay6zmHhDPa?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
             </div>
         </section>
 
-        <section id="podcast" class="py-16 md:py-24 bg-light-accent">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--light-text-heading)]">Podcast</h2>
-                <p class="text-lg text-[var(--light-text-muted)] max-w-2xl mx-auto">ติดตามเรื่องราวและบทวิเคราะห์จากเรา</p>
-                <div class="mt-8 mx-auto bg-[var(--dark-bg-secondary)] p-8 rounded-2xl shadow-lg">
-                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/show/3NPkIctQjuOuay6zmHhDPa?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-            </div>
-        </section>
-
-        <footer id="contact" class="py-16">
+        <!-- Footer -->
+        <footer id="contact" class="py-16 border-t border-strong">
             <div class="container mx-auto px-6">
-                <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div class="grid md:grid-cols-3 gap-10 text-center md:text-left">
                     <!-- Column 1: Project Info -->
                     <div>
-                        <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mb-4 mx-auto md:mx-0">
-                        <p class="text-[var(--light-text-muted)] mt-2">The Jewels of The Sea</p>
+                        <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mb-4 mx-auto md:mx-0 opacity-80">
+                        <p class="text-gray-400 mt-2 text-sm">The Jewels of The Sea</p>
                     </div>
                     
                     <!-- Column 2: Follow Us -->
                     <div>
-                        <h4 class="font-bold text-lg mb-4 text-[var(--light-text-heading)]">ติดตามเรา</h4>
+                        <h4 class="font-bold text-lg font-display mb-4 text-white">ติดตามเรา</h4>
                         <div class="space-y-2 text-sm">
-                            <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                 <i class="fab fa-facebook-f w-4 text-center"></i> <span>Facebook: Copacabana Coral Reef Jomtien</span>
                             </a>
-                            <a href="https://bit.ly/3JWui6E" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://bit.ly/3JWui6E" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                 <i class="fab fa-instagram w-4 text-center"></i> <span>Instagram: @copacabanacoralreef</span>
                             </a>
-                            <a href="https://bit.ly/4gnb6Ls" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://bit.ly/4gnb6Ls" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                 <i class="fab fa-tiktok w-4 text-center"></i> <span>Tiktok: copacabanagroup</span>
                             </a>
-                            <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=7c50363837034944&nd=1&dlsi=682078a48efd4595" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=7c50363837034944&nd=1&dlsi=682078a48efd4595" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                 <i class="fas fa-podcast w-4 text-center"></i> <span>Podcast: CSR Copacabana Jomtien</span>
                             </a>
-                            <a href="https://bit.ly/4m59erJ" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://bit.ly/4m59erJ" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                  <i class="fas fa-globe w-4 text-center"></i> <span>Official website: copacabanagroup.com</span>
                             </a>
-                            <a href="https://bit.ly/3JWumTW" target="_blank" class="flex justify-center md:justify-start items-center gap-2 text-[var(--light-text-body)] hover:text-primary">
+                            <a href="https://bit.ly/3JWumTW" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                  <i class="fab fa-youtube w-4 text-center"></i> <span>YouTube: Copacabana Pattaya Condo Official</span>
                             </a>
                         </div>
@@ -521,64 +667,19 @@
     
                     <!-- Column 3: Contact Us -->
                     <div>
-                        <h4 class="font-bold text-lg mb-4 text-[var(--light-text-heading)]">ติดต่อเรา</h4>
-                        <address class="not-italic text-[var(--light-text-body)] space-y-2 text-sm">
+                        <h4 class="font-bold text-lg font-display mb-4 text-white">ติดต่อเรา</h4>
+                        <address class="not-italic text-gray-400 space-y-2 text-sm">
                             <p><i class="fas fa-phone text-primary mr-2"></i><span>โทร:</span> +66 95 945 1665</p>
                             <p><i class="fas fa-envelope text-primary mr-2"></i><span>อีเมล:</span> Marketing_coral@copacabanacoralreef.com</p>
                             <p><i class="fas fa-map-marker-alt text-primary mr-2"></i><span>สำนักงานขาย:</span> 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150</p>
                         </address>
                     </div>
                 </div>
-                <div class="mt-12 border-t border-[var(--dark-bg-accent)] pt-8 text-center text-sm text-[var(--light-text-muted)]">
+                <div class="mt-12 border-t border-strong pt-8 text-center text-sm text-gray-500">
                     <p>&copy; 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์</p>
                 </div>
             </div>
         </footer>
-
-        <!-- Gemini AI Modal -->
-        <div id="gemini-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 opacity-0 pointer-events-none">
-            <div class="modal-container w-full max-w-2xl bg-[var(--dark-bg-secondary)] rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0">
-                <!-- Modal Header -->
-                <div class="flex justify-between items-center p-6 border-b border-[var(--dark-bg-accent)]">
-                    <h3 class="text-xl font-bold text-[var(--light-text-heading)]">✨ AI Lifestyle Concierge</h3>
-                    <button id="close-gemini-modal" class="text-[var(--light-text-muted)] hover:text-[var(--light-text-heading)] transition-colors">
-                        <i class="fas fa-times fa-lg"></i>
-                    </button>
-                </div>
-                
-                <!-- Modal Body -->
-                <div class="p-8 max-h-[70vh] overflow-y-auto">
-                    <!-- Loading Spinner -->
-                    <div id="gemini-loading" class="text-center py-12">
-                        <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
-                        <p class="mt-4 text-[var(--light-text-body)]">กำลังสร้างสรรค์ตารางเวลาที่สมดุล... กรุณารอสักครู่ครับ</p>
-                    </div>
-                    
-                    <!-- Gemini Output -->
-                    <div id="gemini-output-container" class="hidden">
-                        <p class="text-[var(--light-text-heading)] font-semibold mb-4">นี่คือแนวทางการใช้เวลา 1 วันที่ 'สมดุล' สำหรับคุณครับ:</p>
-                        <div id="gemini-output" class="prose prose-invert text-[var(--light-text-body)] leading-relaxed">
-                            <!-- Content will be injected here -->
-                        </div>
-                    </div>
-
-                    <!-- Error Message -->
-                    <div id="gemini-error" class="hidden text-center py-12">
-                         <i class="fas fa-exclamation-triangle fa-3x text-red-500"></i>
-                        <p class="mt-4 text-red-400">เกิดข้อผิดพลาดในการติดต่อ AI ครับ</p>
-                        <p class="text-sm text-[var(--light-text-muted)] mt-2">กรุณาลองใหม่อีกครั้งในภายหลัง</p>
-                    </div>
-                </div>
-                
-                <!-- Modal Footer -->
-                <div class="p-6 bg-[var(--dark-bg-primary)] border-t border-[var(--dark-bg-accent)] text-right">
-                    <button id="close-gemini-modal-footer" class="text-sm font-semibold text-[var(--light-text-body)] bg-[var(--dark-bg-accent)] hover:bg-[var(--lyons-blue-dark)] px-4 py-2 rounded-lg transition-colors">
-                        ปิด
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- End Gemini AI Modal -->
     </main>
 
 <script>
@@ -586,10 +687,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
+    // Toggle mobile menu
     mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
     
+    // Close mobile menu on link click
     document.querySelectorAll('#mobile-menu a').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
@@ -599,6 +702,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
     const sections = document.querySelectorAll('section, footer');
 
+    // Highlight nav link on scroll
     function changeNavOnScroll() {
         let current = '';
         sections.forEach(section => {
@@ -609,16 +713,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         navLinks.forEach(link => {
-            link.classList.remove('active');
+            link.classList.remove('active', 'border-primary');
             const href = link.getAttribute('href');
             if (href && href.substring(1) === current) {
-                link.classList.add('active');
+                link.classList.add('active', 'border-primary');
             }
         });
     }
 
     window.addEventListener('scroll', changeNavOnScroll);
     
+    // Smooth scroll for all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -629,191 +734,148 @@ document.addEventListener('DOMContentLoaded', function () {
                     targetElement.scrollIntoView({
                         behavior: 'smooth'
                     });
+                    // Close mobile menu after clicking a link
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
                 }
             }
         });
     });
 
     
-    // Image Slider Logic - Slider 1 (Overview)
-    const slides1 = document.querySelectorAll('#image-slider .slide');
-    const prevBtn1 = document.getElementById('prevBtn');
-    const nextBtn1 = document.getElementById('nextBtn');
-    let currentSlide1 = 0;
-    let slideInterval1;
+    // --- Image Slider Logic ---
+    function initializeSlider(sliderId, prevBtnId, nextBtnId, intervalTime = 4000) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
+        
+        const slides = slider.querySelectorAll('.slide');
+        const prevBtn = document.getElementById(prevBtnId);
+        const nextBtn = document.getElementById(nextBtnId);
+        let currentSlide = 0;
+        let slideInterval;
 
-    function showSlide1(n) {
-        slides1.forEach((slide, index) => {
-            slide.classList.remove('active');
-            if (index !== n) {
-                slide.style.display = 'none';
-            }
-        });
-        currentSlide1 = (n + slides1.length) % slides1.length;
-        slides1[currentSlide1].style.display = 'block';
-        setTimeout(() => {
-            slides1[currentSlide1].classList.add('active');
-        }, 10); 
+        function showSlide(n) {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index !== n) {
+                    slide.style.display = 'none';
+                }
+            });
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].style.display = 'block';
+            // Force reflow for transition
+            void slides[currentSlide].offsetWidth; 
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+        
+        function startSlideShow() {
+            stopSlideShow(); // Clear existing interval
+            slideInterval = setInterval(nextSlide, intervalTime);
+        }
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                stopSlideShow();
+                nextSlide();
+                startSlideShow();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                stopSlideShow();
+                prevSlide();
+                startSlideShow();
+            });
+        }
+
+        if (slides.length > 0) {
+            showSlide(0);
+            startSlideShow();
+            
+            // Pause on hover
+            slider.addEventListener('mouseenter', stopSlideShow);
+            slider.addEventListener('mouseleave', startSlideShow);
+        }
     }
 
-    function nextSlide1() { showSlide1(currentSlide1 + 1); }
-    function prevSlide1() { showSlide1(currentSlide1 - 1); }
-    
-    function startSlideShow1() { slideInterval1 = setInterval(nextSlide1, 4000); }
-    function stopSlideShow1() { clearInterval(slideInterval1); }
-
-    nextBtn1.addEventListener('click', () => {
-        stopSlideShow1();
-        nextSlide1();
-        startSlideShow1();
-    });
-
-    prevBtn1.addEventListener('click', () => {
-        stopSlideShow1();
-        prevSlide1();
-        startSlideShow1();
-    });
-
-    if (slides1.length > 0) {
-        showSlide1(0);
-        startSlideShow1();
-    }
-
-
-    // Image Slider Logic - Slider 2 (Progress)
-    const slides2 = document.querySelectorAll('#progress-slider .slide');
-    const prevBtn2 = document.getElementById('progressPrevBtn');
-    const nextBtn2 = document.getElementById('progressNextBtn');
-    let currentSlide2 = 0;
-    let slideInterval2;
-
-    function showSlide2(n) {
-        slides2.forEach((slide, index) => {
-            slide.classList.remove('active');
-            if (index !== n) {
-                slide.style.display = 'none';
-            }
-        });
-        currentSlide2 = (n + slides2.length) % slides2.length;
-        slides2[currentSlide2].style.display = 'block';
-        setTimeout(() => {
-            slides2[currentSlide2].classList.add('active');
-        }, 10); 
-    }
-
-    function nextSlide2() { showSlide2(currentSlide2 + 1); }
-    function prevSlide2() { showSlide2(currentSlide2 - 1); }
-
-    function startSlideShow2() { slideInterval2 = setInterval(nextSlide2, 4000); }
-    function stopSlideShow2() { clearInterval(slideInterval2); }
-
-    nextBtn2.addEventListener('click', () => {
-        stopSlideShow2();
-        nextSlide2();
-        startSlideShow2();
-    });
-
-    prevBtn2.addEventListener('click', () => {
-        stopSlideShow2();
-        prevSlide2();
-        startSlideShow2();
-    });
-
-    if (slides2.length > 0) {
-        showSlide2(0);
-        startSlideShow2();
-    }
+    // Initialize all sliders
+    initializeSlider('overview-slider', 'overviewPrevBtn', 'overviewNextBtn');
+    initializeSlider('progress-slider', 'progressPrevBtn', 'progressNextBtn');
     
     // Initial Load
     changeNavOnScroll();
+});
+
+// --- Modal Logic ---
+const modal = document.getElementById('aiModal');
+const modalBody = document.getElementById('modalBody');
+const modalLoading = document.getElementById('modalLoading');
+const modalResult = document.getElementById('modalResult');
+const modalError = document.getElementById('modalError');
+
+function openModal() {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+function showModalLoading() {
+    modalLoading.style.display = 'block';
+    modalResult.style.display = 'none';
+    modalError.style.display = 'none';
+}
+
+function showModalResult(content) {
+    // Sanitize and format content (simple markdown to HTML)
+    let htmlContent = content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')     // Italic
+        .replace(/(\n\s*\n)/g, '</p><p>')          // Paragraphs
+        .replace(/\n/g, '<br>');                   // Line breaks
     
-    // --- NEW GEMINI API & MODAL LOGIC ---
-    
-    const modal = document.getElementById('gemini-modal');
-    const modalOverlay = document.querySelector('.modal-overlay');
-    const modalContainer = document.querySelector('.modal-container');
-    const openModalBtn = document.getElementById('open-gemini-modal');
-    const closeModalBtn = document.getElementById('close-gemini-modal');
-    const closeModalFooterBtn = document.getElementById('close-gemini-modal-footer');
-    
-    const loadingEl = document.getElementById('gemini-loading');
-    const outputContainerEl = document.getElementById('gemini-output-container');
-    const outputEl = document.getElementById('gemini-output');
-    const errorEl = document.getElementById('gemini-error');
-
-    function openModal() {
-        if (!modal) return;
-        modal.classList.remove('pointer-events-none', 'opacity-0');
-        modalContainer.classList.remove('scale-95', 'opacity-0');
-        // Reset state
-        loadingEl.style.display = 'block';
-        outputContainerEl.style.display = 'none';
-        errorEl.style.display = 'none';
-        outputEl.innerHTML = '';
-        
-        // Call Gemini API
-        callGeminiAPI();
+    // Wrap in <p> if not already
+    if (!htmlContent.startsWith('<p>')) {
+        htmlContent = '<p>' + htmlContent + '</p>';
     }
 
-    function closeModal() {
-        if (!modal) return;
-        modalContainer.classList.add('scale-95', 'opacity-0');
-        modal.classList.add('opacity-0');
-        setTimeout(() => {
-            modal.classList.add('pointer-events-none');
-        }, 300); // Wait for transition
-    }
+    modalResult.innerHTML = htmlContent;
+    modalLoading.style.display = 'none';
+    modalResult.style.display = 'block';
+    modalError.style.display = 'none';
+}
 
-    if (openModalBtn) {
-        openModalBtn.addEventListener('click', openModal);
-    }
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', closeModal);
-    }
-    if (closeModalFooterBtn) {
-        closeModalFooterBtn.addEventListener('click', closeModal);
-    }
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                closeModal();
-            }
-        });
-    }
+function showModalError() {
+    modalLoading.style.display = 'none';
+    modalResult.style.display = 'none';
+    modalError.style.display = 'block';
+}
 
-    /**
-     * Formats plain text from Gemini into simple HTML.
-     * Replaces newlines with <p> tags and asterisks with <strong>.
-     */
-    function formatGeminiResponse(text) {
-        return text
-            .split('\n\n') // Split by double newlines for paragraphs
-            .map(paragraph => {
-                // Process lists
-                if (paragraph.trim().startsWith('*')) {
-                    const listItems = paragraph.split('\n')
-                        .map(item => item.trim().substring(1).trim()) // remove '*'
-                        .filter(item => item.length > 0)
-                        .map(item => `<li>${item}</li>`)
-                        .join('');
-                    return `<ul>${listItems}</ul>`;
-                }
-                
-                // Process headings and paragraphs
-                return `<p>${paragraph
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold **text**
-                    .replace(/\*(.*?)\*/g, '<strong>$1</strong>') // Bold *text* (for simplicity)
-                    .replace(/\n/g, '<br>') // Handle single newlines within a paragraph
-                }</p>`;
-            })
-            .join('');
-    }
+function openModalAndCallAI() {
+    openModal();
+    showModalLoading();
+    callGeminiAPI();
+}
 
+// --- Gemini API Call Logic ---
 
-    /**
-     * Calls the Gemini API with exponential backoff.
-     */
-    async function fetchWithBackoff(apiUrl, payload, retries = 3, delay = 1000) {
+/**
+ * Fetches data from the Gemini API with exponential backoff.
+ */
+async function fetchWithBackoff(apiUrl, payload, maxRetries = 5, baseDelay = 1000) {
+    let retries = 0;
+    while (retries < maxRetries) {
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -821,75 +883,82 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) {
-                if (response.status === 429 && retries > 0) {
-                    // Throttled, retry with backoff
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    return fetchWithBackoff(apiUrl, payload, retries - 1, delay * 2);
-                }
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-
-        } catch (error) {
-            if (retries > 0) {
-                // Retry on network errors
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 429 || response.status >= 500) {
+                // Throttling or server error, retry
+                retries++;
+                const delay = baseDelay * Math.pow(2, retries);
+                // console.log(`Retrying in ${delay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
-                return fetchWithBackGff(apiUrl, payload, retries - 1, delay * 2);
-            }
-            // Do not log retry errors to console
-            if (retries === 0) {
-                console.error("Final attempt failed:", error);
-            }
-            throw error;
-        }
-    }
-
-    /**
-     * Calls the Gemini API to generate a balanced day schedule.
-     */
-    async function callGeminiAPI() {
-        const apiKey = ""; // API key will be injected by the environment
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        
-        const systemPrompt = "Act as an elegant and inspiring lifestyle concierge, in the tone of Suquan Bulakul (สู่ขวัญ บูลกุล). Your response must be in Thai. Create a sample 1-day 'Balanced Day' schedule. The schedule must beautifully integrate all three facility types: Productive (Coral Sky Business Lounge), Family/Activity (Wave Pool, Kids Club), and Wellness (High Ceiling Gym, Onsen, Jacuzzi). Write in an encouraging, reflective, and sophisticated tone. Format the output clearly, perhaps with morning, afternoon, and evening sections. Do not use markdown, just plain text with newlines and asterisks for emphasis if needed.";
-        
-        const userQuery = "Please design a balanced day schedule for me at Copacabana Coral Reef.";
-
-        const payload = {
-            contents: [{ parts: [{ text: userQuery }] }],
-            systemInstruction: {
-                parts: [{ text: systemPrompt }]
-            },
-        };
-
-        try {
-            const result = await fetchWithBackoff(apiUrl, payload);
-            const candidate = result.candidates?.[0];
-
-            if (candidate && candidate.content?.parts?.[0]?.text) {
-                const text = candidate.content.parts[0].text;
-                // Format plain text to simple HTML
-                outputEl.innerHTML = formatGeminiResponse(text);
-                loadingEl.style.display = 'none';
-                outputContainerEl.style.display = 'block';
-                errorEl.style.display = 'none';
             } else {
-                throw new Error("Invalid API response structure");
+                // Client error, don't retry
+                throw new Error(`API request failed with status ${response.status}`);
             }
-
         } catch (error) {
-            // Do not log to console, just show error in UI
-            // console.error("Error calling Gemini API:", error);
-            loadingEl.style.display = 'none';
-            outputContainerEl.style.display = 'none';
-            errorEl.style.display = 'block';
+            if (retries >= maxRetries) {
+                throw error;
+            }
+            retries++;
+            const delay = baseDelay * Math.pow(2, retries);
+            // console.log(`Retrying in ${delay}ms... (Fetch error)`);
+            await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
-    
-    // --- END NEW LOGIC ---
+    throw new Error('Max retries reached');
+}
 
-});
+
+async function callGeminiAPI() {
+    // API Key - leave as an empty string.
+    const apiKey = ""; 
+    const apiUrl = `https://generativelace.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+    const systemPrompt = `
+        คุณคือ 'AI Lifestyle Concierge' ของโครงการ Copacabana Coral Reef Jomtien
+        ภารกิจของคุณคือการสร้าง "ตารางเวลา 1 วันตัวอย่าง" ที่สมดุลและหรูหราให้กับผู้อยู่อาศัย
+        
+        **กฎและโทนเสียง (สำคัญมาก):**
+        1.  **โทนเสียง:** ต้องเป็น "สไตล์คุณสู่ขวัญ บูลกุล" - คือ สง่างาม (Elegant), สร้างแรงบันดาลใจ (Inspiring), สื่อถึงความรู้สึก (Emotional), และไตร่ตรอง (Reflective)
+        2.  **ภาษา:** ใช้ภาษาไทยที่สวยงาม, อบอุ่น, ให้ความรู้สึกเหมือน "พี่สาว" หรือ "เพื่อน" ที่เข้าใจชีวิตกำลังแนะนำสิ่งดีๆ ให้
+        3.  **เน้นประสบการณ์:** ไม่ใช่แค่บอกว่าทำอะไร แต่ให้เน้นว่า "รู้สึก" อย่างไร
+        4.  **ผสมผสาน:** ต้องผสมผสานกิจกรรมจาก 3 ส่วนหลัก:
+            * **Productive:** (เช่น Coral Sky Business Lounge, Co-Working Space)
+            * **Family/Activity:** (เช่น Wave Pool, Kids Club)
+            * **Wellness:** (เช่น High Ceiling Gym, Onsen, Jacuzzi, Rooftop Pool)
+        5.  **รูปแบบ:**
+            * เริ่มต้นด้วย "คำทักทาย" ที่สร้างแรงบันดาลใจ (เช่น "สำหรับวันพักผ่อนที่สมบูรณ์แบบ...")
+            * แบ่งเป็นช่วงเวลา (เช่น เช้า, บ่าย, เย็น)
+            * สรุปจบด้วย "ข้อความปิดท้าย" ที่ยกระดับจิตใจ
+        6.  **ห้าม:** ห้ามใช้ภาษาทางการ, ห้ามเป็น Bullet Point แบบแห้งๆ
+    `;
+
+    const userQuery = "ช่วยสร้าง 'ตารางวันพักผ่อนที่สมดุล 1 วัน' ที่ Copacabana Coral Reef ให้หน่อย โดยใช้สิ่งอำนวยความสะดวกทั้ง 3 ส่วน (Productive, Family, Wellness) และเขียนด้วยโทนเสียงสไตล์คุณสู่ขวัญ";
+
+    const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        systemInstruction: {
+            parts: [{ text: systemPrompt }]
+        },
+    };
+
+    try {
+        const result = await fetchWithBackoff(apiUrl, payload);
+        const candidate = result.candidates?.[0];
+
+        if (candidate && candidate.content?.parts?.[0]?.text) {
+            const text = candidate.content.parts[0].text;
+            showModalResult(text);
+        } else {
+            console.error("Invalid API response structure:", result);
+            showModalError();
+        }
+    } catch (error) {
+        console.error("Error calling Gemini API:", error);
+        showModalError();
+    }
+}
+
 </script>
 
 </body>
