@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title will be set by JavaScript -->
     <title>Copacabana Coral Reef Newsletter - November 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- ใช้ฟอนต์ Sarabun และ Kanit (สำหรับบางส่วนที่ต้องการความเด่น) -->
+    <!-- Sarabun and Kanit for TH -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Noto Sans for RU and ZH -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -26,7 +29,7 @@
         }
 
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Sarabun', 'Noto Sans', sans-serif; /* Add Noto Sans */
             background-color: var(--color-background);
             color: var(--color-text-secondary);
             -webkit-font-smoothing: antialiased;
@@ -34,7 +37,7 @@
         }
         
         h1, h2, h3, h4, h5, h6, .font-display {
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Kanit', 'Noto Sans SC', sans-serif; /* Add Noto Sans SC */
             color: var(--color-text-primary);
         }
 
@@ -50,7 +53,7 @@
 
         .btn-primary {
             background-color: var(--color-accent);
-            color: #000000; /* ตัวอักษรสีเข้มบนปุ่มสีทอง */
+            color: #000000;
             transition: background-color 0.3s, transform 0.2s;
             font-weight: 600;
         }
@@ -120,46 +123,81 @@
             height: 100%;
             border: 0;
         }
+        
+        /* Language Switcher Styles */
+        .lang-btn {
+            opacity: 0.6;
+            transition: all 0.2s ease-in-out;
+            font-size: 1.25rem; /* 20px */
+            cursor: pointer;
+            filter: grayscale(80%);
+        }
+        .lang-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+        .lang-btn.active {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.1);
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 2px;
+        }
 
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Modal for AI Concierge Removed -->
-
     <header class="bg-surface/90 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-strong">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-10 opacity-90">
-                <span class="text-sm font-semibold text-gray-500 hidden sm:block">พฤศจิกายน 2568</span>
+                <span data-key="headerDate" class="text-sm font-semibold text-gray-500 hidden sm:block"></span>
             </div>
+            
+            <!-- Desktop Nav -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#overview" class="nav-link border-b-2 border-transparent pb-1 text-sm">ภาพรวม</a>
-                <a href="#progress" class="nav-link border-b-2 border-transparent pb-1 text-sm">ความคืบหน้า</a>
-                <a href="#facilities" class="nav-link border-b-2 border-transparent pb-1 text-sm">สิ่งอำนวยความสะดวก</a>
-                <a href="#community" class="nav-link border-b-2 border-transparent pb-1 text-sm">สมดุลชีวิต</a>
-                <a href="#spotlight" class="nav-link border-b-2 border-transparent pb-1 text-sm">Spotlight</a>
-                <a href="#article" class="nav-link border-b-2 border-transparent pb-1 text-sm">บทความพิเศษ</a>
-                <a href="#events" class="nav-link border-b-2 border-transparent pb-1 text-sm">ปฏิทิน</a>
-                <a href="#podcast" class="nav-link border-b-2 border-transparent pb-1 text-sm">Podcast</a>
-                <a href="#contact" class="nav-link border-b-2 border-transparent pb-1 text-sm">ติดต่อเรา</a>
+                <a href="#overview" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navOverview"></a>
+                <a href="#progress" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navProgress"></a>
+                <a href="#facilities" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navFacilities"></a>
+                <a href="#community" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navCommunity"></a>
+                <a href="#spotlight" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navSpotlight"></a>
+                <a href="#article" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navArticle"></a>
+                <a href="#events" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navEvents"></a>
+                <a href="#podcast" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navPodcast"></a>
+                <a href="#contact" class="nav-link border-b-2 border-transparent pb-1 text-sm" data-key="navContact"></a>
             </div>
-            <div class="flex items-center md:hidden">
-                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
-                    <i class="fas fa-bars fa-lg"></i>
-                </button>
+
+            <div class="flex items-center">
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-3 md:space-x-4">
+                    <button id="lang-th" class="lang-btn active" title="ภาษาไทย">🇹🇭</button>
+                    <button id="lang-en" class="lang-btn" title="English">🇬🇧</button>
+                    <button id="lang-ru" class="lang-btn" title="Русский">🇷🇺</button>
+                    <button id="lang-zh" class="lang-btn" title="中文">🇨🇳</button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden ml-4">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                </div>
             </div>
         </nav>
+        
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-surface border-t border-strong">
-            <a href="#overview" class="block py-3 px-6 text-sm hover:bg-black/20">ภาพรวม</a>
-            <a href="#progress" class="block py-3 px-6 text-sm hover:bg-black/20">ความคืบหน้า</a>
-            <a href="#facilities" class="block py-3 px-6 text-sm hover:bg-black/20">สิ่งอำนวยความสะดวก</a>
-            <a href="#community" class="block py-3 px-6 text-sm hover:bg-black/20">สมดุลชีวิต</a>
-            <a href="#spotlight" class="block py-3 px-6 text-sm hover:bg-black/20">Spotlight</a>
-            <a href="#article" class="block py-3 px-6 text-sm hover:bg-black/20">บทความพิเศษ</a>
-            <a href="#events" class="block py-3 px-6 text-sm hover:bg-black/20">ปฏิทิน</a>
-            <a href="#podcast" class="block py-3 px-6 text-sm hover:bg-black/20">Podcast</a>
-            <a href="#contact" class="block py-3 px-6 text-sm hover:bg-black/20">ติดต่อเรา</a>
+            <a href="#overview" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navOverview"></a>
+            <a href="#progress" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navProgress"></a>
+            <a href="#facilities" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navFacilities"></a>
+            <a href="#community" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navCommunity"></a>
+            <a href="#spotlight" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navSpotlight"></a>
+            <a href="#article" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navArticle"></a>
+            <a href="#events" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navEvents"></a>
+            <a href="#podcast" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navPodcast"></a>
+            <a href="#contact" class="block py-3 px-6 text-sm hover:bg-black/20" data-key="navContact"></a>
         </div>
     </header>
 
@@ -170,22 +208,17 @@
             <div class="container mx-auto px-6 text-center">
                 <div class="max-w-2xl mx-auto">
                     <img src="https://i.postimg.cc/X7PB2Fsk/NZKEL66Hizt-A9OCWRp-JRe7h4z66z-G2IJb-J4q-LPyb3uwe9v-A1-topaz-upscale-4x.png" alt="น้อมถวายความอาลัย" class="h-32 md:h-40 mx-auto mb-8">
-                    <h2 class="text-2xl md:text-3xl font-display font-semibold text-white mb-4">
-                        น้อมเกล้าน้อมกระหม่อมถวายความอาลัย
+                    <h2 class="text-2xl md:text-3xl font-display font-semibold text-white mb-4" data-key="memoTitle">
                     </h2>
-                    <h3 class="text-xl md:text-2xl font-display text-gray-200 mb-6">
-                        สมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง
+                    <h3 class="text-xl md:text-2xl font-display text-gray-200 mb-6" data-key="memoName">
                     </h3>
-                    <p class="text-lg text-gray-300 mb-8">
-                        เสด็จสวรรคต วันที่ ๒๔ ตุลาคม ๒๕๖๘
+                    <p class="text-lg text-gray-300 mb-8" data-key="memoDate">
                     </p>
-                    <p class="text-lg text-gray-300 mb-10">
-                        ปวงข้าพระพุทธเจ้าขอน้อมรำลึกในพระมหากรุณาธิคุณอันหาที่สุดมิได้
+                    <p class="text-lg text-gray-300 mb-10" data-key="memoThanks">
                     </p>
                     <div class="text-base text-gray-400">
-                        <p>ข้าพระพุทธเจ้า</p>
-                        <p>ผู้บริหาร คณะกรรมการ และพนักงาน โคปาคาบาน่า กรุ๊ป</p>
-            
+                        <p data-key="memoFrom"></p>
+                        <p data-key="memoOrg"></p>
                     </div>
                 </div>
             </div>
@@ -195,26 +228,19 @@
         <section id="overview" class="pt-16 md:pt-24 pb-16 md:pb-24">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-4xl mx-auto">
-                    <p class="text-sm font-semibold text-primary mb-2">พฤศจิกายน 2568</p>
-                    <h1 class="text-3xl md:text-5xl font-display font-bold text-white mb-6">มุมมองใหม่แห่งการใช้ชีวิต</h1>
-                    <p class="text-lg md:text-xl text-gray-300 mb-12">
-                        อัปเดตความคืบหน้าและไลฟ์สไตล์ที่ Copacabana Coral Reef
+                    <p class="text-sm font-semibold text-primary mb-2" data-key="overviewMonth"></p>
+                    <h1 class="text-3xl md:text-5xl font-display font-bold text-white mb-6" data-key="overviewTitle"></h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-12" data-key="overviewSubtitle">
                     </p>
                 </div>
 
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="text-gray-300 leading-relaxed text-lg">
-                        <p>
-                            เข้าสู่เดือนพฤศจิกายน... เป็นสัญญาณของการเริ่มต้นไตรมาสสุดท้ายของปี นี่คือช่วงเวลาที่หลายท่านเริ่มทบทวนสิ่งที่ผ่านมา และวางแผนสำหรับอนาคตที่กำลังจะมาถึง เป็นช่วงเวลาของการมองหา 'การยกระดับ' คุณภาพชีวิตให้ดียิ่งขึ้น
-                        </p>
+                        <p data-key="overviewP1"></p>
                         <br>
-                        <p>
-                            ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว การมี <strong>"พื้นที่ส่วนตัว"</strong> ที่ตอบโจทย์การใช้ชีวิตในทุกมิติกลายเป็นสิ่งจำเป็นเหลือเกิน ที่Copacabana Coral Reef Jomtien เราไม่ได้มุ่งมั่นเพียงแค่การสร้างที่อยู่อาศัย แต่เรากำลังรังสรรค์ "พื้นที่" ที่งดงาม... และใช้งานได้จริง สำหรับทุกช่วงเวลาสำคัญของคุณ
-                        </p>
+                        <p data-key="overviewP2"></p>
                         <br>
-                        <p>
-                            Newsletter ฉบับนี้ จะขอนำเสนอความคืบหน้าล่าสุดของโครงการ และแบ่งปันมุมมองใหม่ๆ ของการใช้ชีวิต ที่ซึ่งความหรูหราที่เรามองเห็น ถูกผสมผสานเข้ากับการพักผ่อนที่เราสัมผัสได้... อย่างลงตัว
-                        </p>
+                        <p data-key="overviewP3"></p>
                     </div>
                     
                     <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
@@ -243,8 +269,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-12 text-center text-xs text-gray-500">
-                    รูปภาพนี้สร้างขึ้นโดยคอมพิวเตอร์เพื่อวัตถุประสงค์ในการโฆษณาเท่านั้น รายละเอียดอาจเปลี่ยนแปลงได้ตามข้อกำหนดทางวิศวกรรมและกฎระเบียบ
+                <div class="mt-12 text-center text-xs text-gray-500" data-key="imgDisclaimer">
                 </div>
             </div>
         </section>
@@ -253,8 +278,8 @@
         <section id="progress" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6">
                 <div class="max-w-5xl mx-auto text-left">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">สร้างอนาคต, ทีละชั้น </h2>
-                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400">ก้าวสู่ชั้นที่ 31 อย่างมั่นคง</h4>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center" data-key="progTitle"></h2>
+                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400" data-key="progSubtitle"></h4>
                     
                     <!-- Main Video -->
                     <div class="video-responsive mb-12 shadow-xl">
@@ -294,17 +319,17 @@
                         
                         <!-- Right Column: Text -->
                         <div class="lg:col-span-2 text-gray-300 leading-relaxed">
-                           <p>มีคำกล่าวที่ทรงพลังว่า "ยิ่งสูง วิสัยทัศน์ยิ่งกว้างไกล" คำกล่าวนี้ไม่เพียงแต่เป็นความจริงเชิงปรัชญา แต่ยังสะท้อนความเป็นจริงทางกายภาพที่ชัดเจนที่สุด โดยเฉพาะอย่างยิ่ง ณ ที่แห่งนี้, บนจุดยืนที่กำลังจะกลายเป็นสัญลักษณ์ใหม่ของจอมเทียน</p>
-                           <p class="mt-4">ณ เดือนพฤศจิกายน 2568 โครงสร้างอาคาร Copacabana Coral Reef Jomtien ได้ดำเนินการก่อสร้างสู่ชั้นที่ 31 เป็นที่เรียบร้อยแล้ว ความสูงระดับนี้ไม่ใช่เพียงตัวเลขของความคืบหน้าทางวิศวกรรม แต่คือบทพิสูจน์ของความมุ่งมั่นที่จับต้องได้ (Tangible Proof)  นี่คือบทพิสูจน์ที่เป็นรูปธรรม... ว่าทิวทัศน์อันงดงาม คือสิ่งที่คุณจะได้ครอบครองและสัมผัสจริง ในอนาคตอันใกล้นี้</p>
-                           <p class="mt-4">ทุกครั้งที่โครงสร้างของเราสูงขึ้นอีกหนึ่งชั้น มันคือภาพสะท้อนของ "ประสบการณ์จริง" ที่กำลังจะเกิดขึ้น ซึ่งชัดเจนยิ่งขึ้นกว่าที่เคย มันคือการยกระดับการมองเห็นที่เหนือกว่า ที่ซึ่งทัศนียภาพเดิมๆ จะถูกแทนที่ด้วยมุมมองใหม่ที่เปิดกว้าง...</p>
+                           <p data-key="progP1"></p>
+                           <p class="mt-4" data-key="progP2"></p>
+                           <p class="mt-4" data-key="progP3"></p>
                            
                            <div class="mt-6 border-l-4 border-primary pl-4">
-                               <p class="font-semibold text-gray-200"><strong class="text-primary">The Horizon is Yours:</strong> เส้นขอบฟ้าที่เคยอยู่ไกลลิบ บัดนี้จรดอยู่กับผืนน้ำจอมเทียนสีครามกว้างไกลสุดสายตา ได้ถูกดึงเข้ามาเป็นส่วนหนึ่งของพื้นที่พักผ่อนส่วนตัวของคุณอย่างแท้จริง</p>
-                               <p class="mt-4 font-semibold text-gray-200"><strong class="text-primary">Proof of Experience:</strong> เราไม่ได้กำลังสร้างเพียงโครงสร้างอาคาร แต่เรากำลังรังสรรค์ "ประสบการณ์" การใช้ชีวิตที่เหนือระดับ คือสุนทรียภาพของการตื่นนอนพร้อมวิวทะเลแบบพาโนรามา</p>
-                               <p class="mt-4 font-semibold text-gray-200"><strong class="text-primary">A Promise Taking Shape:</strong> ความตั้งใจจริงของเราที่ดำเนินไปอย่างไม่หยุดยั้ง คือคำมั่นสัญญาที่กำลังเป็นรูปเป็นร่าง... และอนาคตที่คุณรอคอยนั้น ใกล้ความเป็นจริงเข้ามาทุกขณะ</p>
+                               <p class="font-semibold text-gray-200" data-key="progBullet1"></p>
+                               <p class="mt-4 font-semibold text-gray-200" data-key="progBullet2"></p>
+                               <p class="mt-4 font-semibold text-gray-200" data-key="progBullet3"></p>
                            </div>
 
-                           <p class="mt-6">เรามุ่งมั่นและยังคงเดินหน้าสร้างมาตรฐานใหม่ที่สูงขึ้นอย่างต่อเนื่อง ไม่เพียงแต่ในแง่ของโครงสร้างอาคารอันแข็งแกร่งเท่านั้น แต่ยังรวมถึงมาตรฐานของ "คุณภาพชีวิต" ที่เหนือระดับที่คุณจะได้รับ ภายในปี 2028</p>
+                           <p class="mt-6" data-key="progP4"></p>
                         </div>
                     </div>
                 </div>
@@ -315,10 +340,9 @@
         <section id="facilities" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="max-w-5xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">ยกระดับคุณภาพชีวิต</h2>
-                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">พื้นที่ส่วนกลางที่ถูก 'คัดสรร' มาเพื่อตอบโจทย์การใช้งานจริง</p>
-                    <p class="text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10">
-                        "บ้าน" ที่ดีในมุมมองของเรา คือสถานที่ที่ตอบโจทย์ทุก 'บทบาท' และทุก 'กิจกรรม' ของชีวิตได้อย่างไร้รอยต่อ Copacabana Coral Reef จึงได้รับการออกแบบมาเพื่อรองรับไลฟ์สไตล์ที่หลากหลายเหล่านี้... ไม่ว่าจะเป็นวันที่คุณต้องการสมาธิ หรือวันที่คุณต้องการความผ่อนคลายสูงสุด
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-key="facTitle"></h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12" data-key="facSubtitle"></p>
+                    <p class="text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10" data-key="facP1">
                     </p>
                 </div>
                 
@@ -329,10 +353,8 @@
                             <img src="https://i.postimg.cc/PxB7Sqyw/9C53AF9B-9D19-469E-9581-4A806DBEC868_1_201_a.jpg" alt="Coral Sky Business Lounge" class="w-full h-full object-cover">
                         </div>
                         <div class="text-gray-300">
-                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่สำหรับ 'ความคิด' และ 'แรงบันดาลใจ' (Productive Space)</h3>
-                            <p class="leading-relaxed">
-                                Coral Sky Business Lounge บนชั้น 50 ถูกออกแบบมาเพื่อรองรับการทำงานยุคใหม่ ไม่ว่าจะเป็น Co-Working Space ที่เปิดโล่ง หรือมุมสงบส่วนตัวสำหรับการทำงานที่ต้องการสมาธิ... ทั้งหมดนี้มาพร้อมทิวทัศน์ของท้องทะเลที่ช่วยจุดประกายแรงบันดาลใจใหม่ๆ ได้เสมอ
-                            </p>
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary" data-key="facProdTitle"></h3>
+                            <p class="leading-relaxed" data-key="facProdDesc"></p>
                         </div>
                     </div>
                     
@@ -342,10 +364,8 @@
                             <img src="https://i.postimg.cc/FR89y5Br/Sales-Kit-Booklet-20250601-Resize-for-Tablet-compressed-gigapixel-high-fidelity-v2-2x-gigapixel-high.jpg" alt="Family & Activity Space" class="w-full h-full object-cover">
                         </div>
                         <div class="lg:order-1 text-gray-300">
-                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่สำหรับ 'ครอบครัว' และ 'ความทรงจำ' (Family & Activity Space)</h3>
-                            <p class="leading-relaxed">
-                                เพราะวันหยุดคือช่วงเวลาของครอบครัว... Wave Pool และ Kids Club จึงเป็นมากกว่าสิ่งอำนวยความสะดวก แต่คือ "พื้นที่สร้างความสัมพันธ์" ที่สมาชิกในครอบครัวจะได้ใช้เวลาร่วมกันอย่างมีคุณภาพ ในสภาพแวดล้อมที่ผ่อนคลายและเป็นส่วนตัวที่สุด
-                            </p>
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary" data-key="facFamTitle"></h3>
+                            <p class="leading-relaxed" data-key="facFamDesc"></p>
                         </div>
                     </div>
                     
@@ -355,15 +375,11 @@
                             <img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201_a.jpg" alt="Wellness Space" class="w-full h-full object-cover">
                         </div>
                         <div class="text-gray-300">
-                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary">พื้นที่เพื่อ 'สุขภาพกาย' และ 'ความสงบในใจ' (Wellness Space)</h3>
-                            <p class="leading-relaxed">
-                                การดูแลสุขภาพคือสิ่งสำคัญ High Ceiling Gym ขนาดใหญ่ พร้อมวิวทะเลเต็มตา คือสถานที่สำหรับการออกกำลังกายเพื่อสร้างสมดุล หรือเลือกผ่อนคลายกล้ามเนื้อใน Onsen และ Jacuzzi ส่วนตัว เพื่อเตรียมความพร้อมร่างกายและจิตใจให้แข็งแรงอยู่เสมอ
-                            </p>
+                            <h3 class="text-2xl font-display font-semibold mb-4 text-primary" data-key="facWellTitle"></h3>
+                            <p class="leading-relaxed" data-key="facWellDesc"></p>
                         </div>
                     </div>
                 </div>
-
-                <!-- AI Concierge Button Removed -->
 
             </div>
         </section>
@@ -372,36 +388,23 @@
         <section id="community" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6">
                 <div class="max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">สมดุลแห่งการใช้ชีวิต</h2>
-                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400">ค้นพบความสงบ... ท่ามกลาง ความสะดวกสบาย ใจกลางจอมเทียน</h4>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center" data-key="commTitle"></h2>
+                    <h4 class="text-lg font-display font-semibold mb-10 text-center text-gray-400" data-key="commSubtitle"></h4>
 
                     <div class="mb-10 rounded-2xl shadow-xl overflow-hidden aspect-video">
                         <img src="https://i.postimg.cc/2STh77jY/70594029-7cb6-443f-88e6-fdd727ef19f5-1-topaz-upscale-2-3x.png" alt="สมดุลแห่งการใช้ชีวิต" class="w-full h-full object-cover">
                     </div>
 
                     <div class="bg-black/20 p-8 md:p-10 rounded-2xl shadow-lg text-gray-300 leading-relaxed text-base md:text-lg">
-                        <p>
-                            ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว และชีวิตมักเรียกร้องให้เราต้อง "เลือก" อยู่เสมอ... เรามักถูกตั้งคำถามว่า เราจะรักษาสมดุลระหว่าง "โลกภายนอก" ที่เต็มไปด้วยโอกาส กับ "โลกภายใน" ที่โหยหาความสงบได้อย่างไร
-                        </p>
-                        <p class="mt-4">
-                            โดยเฉพาะในพื้นที่ที่มีศักยภาพสูงอย่างเขตพัฒนาพิเศษภาคตะวันออก (EEC) ซึ่งทุกการเชื่อมต่อคือความได้เปรียบ... การ "เชื่อมต่อ" (Connectivity) จึงกลายเป็นสิ่งจำเป็นอย่างหลีกเลี่ยงไม่ได้ แต่ในขณะเดียวกัน "คุณภาพชีวิต" ที่แท้จริง อาจไม่ได้วัดกันที่ความเร็วที่เราเชื่อมต่อกับโลกภายนอกเท่านั้น แต่อยู่ที่ความสามารถในการ "ตัดขาด" (Disconnect) เมื่อเราต้องการ
-                        </p>
-                        <p class="mt-4">
-                            แนวคิดของการมีที่อยู่อาศัยที่เข้าใจความต้องการที่สวนทางกันนี้ จึงไม่ใช่แค่การเลือกทำเลที่ตั้ง แต่คือการเลือก "คุณภาพ" ของการใช้ชีวิต
-                        </p>
-                        <p class="mt-4">
-                            ลองจินตนาการถึงการที่เราสามารถเป็นส่วนหนึ่งของความเคลื่อนไหวทางเศรษฐกิจที่สำคัญที่สุดของประเทศ แต่ในก้าวถัดไป... เราสามารถกลับคืนสู่ "ความสงบ" (Tranquility) ที่เป็นส่วนตัวอย่างแท้จริง ที่ซึ่งบรรยากาศของการพักผ่อนยังถูกเก็บ "รักษา" ไว้
-                        </p>
-                        <p class="mt-4">
-                            นี่คือการออกแบบ <strong>"วิถีชีวิตที่เลือกได้" (Choosable Lifestyle)</strong>
-                        </p>
-                        <p class="mt-4">
-                            มันคือความสุขที่รู้ว่า โลกทั้งใบอยู่ใกล้แค่เอื้อม... แต่เราก็สามารถเลือกที่จะปิดประตู สัมผัสความเงียบสงบ และเป็นส่วนตัวได้อย่างสมบูรณ์ ในวินาทีที่เราต้องการ 
-                        </p>
+                        <p data-key="commP1"></p>
+                        <p class="mt-4" data-key="commP2"></p>
+                        <p class="mt-4" data-key="commP3"></p>
+                        <p class="mt-4" data-key="commP4"></p>
+                        <p class="mt-4" data-key="commP5"></p>
+                        <p class="mt-4" data-key="commP6"></p>
                         
                         <div class="mt-8 pt-6 border-t border-strong">
-                             <a href="https://thbho.github.io/BalanceCopa2.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
-                                อ่านเนื้อหาเพิ่มเติมเกี่ยวกับแนวคิดนี้ &rarr;
+                             <a href="https://thbho.github.io/BalanceCopa2.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors" data-key="commLink">
                             </a>
                         </div>
                     </div>
@@ -413,9 +416,8 @@
         <section id="spotlight" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">SPOTLIGHT: อนาคตที่จับต้องได้ของทำเลจอมเทียน</h2>
-                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12">
-                        อัปเดตเมกะโปรเจกต์ "EECiti" หรือ "กรุงเทพฯ 2"
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center" data-key="spotTitle"></h2>
+                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12" data-key="spotSubtitle">
                     </p>
 
                     <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -424,35 +426,22 @@
                     </div>
 
                     <div class="bg-surface p-8 md:p-12 rounded-2xl shadow-xl text-gray-300 leading-relaxed space-y-5">
-                        <p>
-                            ใน Newsletter ฉบับนี้ เราอยากพาทุกท่านไปอัปเดตภาพอนาคตอันน่าตื่นเต้นของ "ทำเล" ที่เราทุกคนเลือกเป็นบ้านและเป็นที่ลงทุน ซึ่งกำลังจะเปลี่ยนแปลงไปอย่างก้าวกระโดดด้วยเมกะโปรเจกต์ระดับชาติอย่าง "EECiti" หรือที่เรียกกันว่า "กรุงเทพฯ 2"
-                        </p>
-                        <h3 class="text-xl font-display font-semibold text-primary pt-4">"กรุงเทพฯ 2" คืออะไร และทำไมจึงสำคัญกับเรา?</h3>
-                        <p>
-                            EECiti คือโครงการสร้างศูนย์กลางธุรกิจและเมืองใหม่อัจฉริยะในพื้นที่ EEC ซึ่งเป็นกลยุทธ์สำคัญของประเทศในการกระจายศูนย์กลางความเจริญและเศรษฐกิจที่เคยกระจุกตัวอยู่เพียงในกรุงเทพฯ นี่ไม่ใช่แค่นิคมอุตสาหกรรมทั่วไป แต่คือการ "สร้างเมืองใหม่จากศูนย์" (Clean Slate) ซึ่งหมายความว่าเมืองนี้จะถูกออกแบบมาอย่างสมบูรณ์แบบเพื่ออนาคตโดยแท้จริง
-                        </p>
+                        <p data-key="spotP1"></p>
+                        <h3 class="text-xl font-display font-semibold text-primary pt-4" data-key="spotQ1"></h3>
+                        <p data-key="spotA1"></p>
 
-                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">1. ดึงดูด "คลื่น" เศรษฐกิจและบุคลากรคุณภาพสูง</h4>
-                        <p>
-                            เป้าหมายหลักของ EECiti คือการเป็นฐานที่ตั้งของ "อุตสาหกรรม S-curve ใหม่" แห่งอนาคต (การแพทย์แม่นยำ, ธุรกิจสุขภาพ, เทคโนโลยี BCG) อุตสาหกรรมเหล่านี้จะดึงดูดบุคลากรทักษะสูง ผู้บริหาร และผู้เชี่ยวชาญจากทั่วโลก ซึ่งเป็นกลุ่มคนที่มีกำลังซื้อสูงและมองหาที่พักอาศัยคุณภาพระดับพรีเมียม  Copacabana Coral Reef จึงเป็นคำตอบที่สมบูรณ์แบบ เพื่อรองรับอุปสงค์ (Demand) มหาศาลที่จะเกิดขึ้นในอนาคตอันใกล้นี้
-                        </p>
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2" data-key="spotH1"></h4>
+                        <p data-key="spotD1"></p>
 
-                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">2. เมืองอัจฉริยะที่ "ไร้ปัญหา" เมืองเก่า</h4>
-                        <p>
-                            EECiti ถูกสร้างขึ้นเพื่อแก้ปัญหาที่กรุงเทพฯ เผชิญ เช่น การวางผังเมืองที่ปลอดภัยจากน้ำท่วม และโครงสร้างพื้นฐานอัจฉริยะอย่าง "อุโมงค์สาธารณูปโภคส่วนกลาง" (CUT) ที่จะนำทุกอย่างลงใต้ดิน การที่ "เพื่อนบ้าน" ของเราเป็นเมืองที่ทันสมัย มีระเบียบ และมีคุณภาพชีวิตสูง จะส่งผลโดยตรงต่อมูลค่าและความน่าอยู่ของพื้นที่จอมเทียนโดยรอบ
-                        </p>
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2" data-key="spotH2"></h4>
+                        <p data-key="spotD2"></p>
 
-                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2">บทสรุป: ความมั่นใจในการลงทุน</h4>
-                        <p>
-                            การที่ภาครัฐลงทุนเม็ดเงินก้อนแรกกว่า 74,000 ล้านบาท เพื่อเตรียมโครงสร้างพื้นฐานทั้งหมดให้ "พร้อม" สำหรับการลงทุนภาคเอกชนอีกกว่า 1.34 ล้านล้านบาท คือการการันตีว่าโครงการนี้ "เกิดขึ้นจริง" และกำลังเดินหน้าเต็มกำลัง
-                        </p>
-                        <p class="font-semibold text-gray-200">
-                            การตัดสินใจของท่านที่เลือก Copacabana Coral Reef Jomtien ไม่เพียงแต่เป็นการเลือกที่อยู่อาศัยที่หรูหราที่สุดแห่งหนึ่ง แต่ยังเป็นการวางตำแหน่งการลงทุนของท่านไว้ ณ "ศูนย์กลาง" ของการเติบโตที่ยิ่งใหญ่ที่สุดครั้งหนึ่งของประเทศไทยอย่างแท้จริง
-                        </p>
+                        <h4 class="text-lg font-display font-semibold text-gray-200 pt-2" data-key="spotH3"></h4>
+                        <p data-key="spotD3"></p>
+                        <p class="font-semibold text-gray-200" data-key="spotD4"></p>
                         
                         <div class="mt-8 pt-6 border-t border-strong">
-                             <a href="https://thbho.github.io/EECitiPlan.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
-                                ชม Infographic: EECiti Building a Second Bangkok &rarr;
+                             <a href="https://thbho.github.io/EECitiPlan.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors" data-key="spotLink">
                             </a>
                         </div>
                     </div>
@@ -464,27 +453,19 @@
         <section id="article" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center">บทความพิเศษ: มุมมองเพื่อการตัดสินใจ</h2>
-                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12">
-                        ยุคดิจิทัลและการคิดเชิงวิพากษ์ (Critical Thinking)
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4 text-center" data-key="artTitle"></h2>
+                    <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12" data-key="artSubtitle">
                     </p>
                     
                     <div class="grid lg:grid-cols-2 gap-10 items-start">
                         <!-- Left Column: Text -->
                         <div class="text-gray-300 leading-relaxed space-y-5">
-                            <p>
-                                เราเชื่อว่า "คุณภาพชีวิต" ไม่ได้หยุดอยู่แค่การเลือกที่อยู่อาศัย แต่ยังรวมถึง "คุณภาพของความคิด" ที่ใช้ในการตัดสินใจด้วย
-                            </p>
-                            <p>
-                                ในยุคที่ข้อมูลท่วมท้น (Information Deluge) อัลกอริทึมและอินฟลูเอนเซอร์มักดึงดูดเราด้วยอารมณ์และความรู้สึก "ผูกพัน" (Rapport) มากกว่าข้อเท็จจริง... ปรากฏการณ์ที่เรียกว่า "The Rapport Paradox" นี้ ทำให้เรามักเผลอเชื่อ "ความสัมพันธ์เสมือน" (Parasocial Relationships) มากกว่าข้อมูลที่เป็นกลาง
-                            </p>
-                            <p>
-                                นี่คือยุคที่ทักษะการ "คิดเชิงวิพากษ์" (Critical Thinking) กลายเป็นเครื่องมือที่จำเป็นที่สุด เพื่อให้เราสามารถนำทางในโลกดิจิทัลได้อย่างเท่าทัน และ "คิดไปพร้อมกับ AI" แทนที่จะ "เชื่อ" AI ทั้งหมด เพื่อให้มั่นใจว่ามนุษย์ยังคงเป็นผู้ขับเคลื่อนกระบวนการตัดสินใจครั้งสำคัญของตนเอง
-                            </p>
+                            <p data-key="artP1"></p>
+                            <p data-key="artP2"></p>
+                            <p data-key="artP3"></p>
                             
                              <div class="pt-6"> <!-- Adjusted padding top -->
-                                 <a href="https://thbho.github.io/5BrainTraps.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors">
-                                    เรียนรู้ 5 กับดักจิตวิทยา (Infographic) &rarr;
+                                 <a href="https://thbho.github.io/5BrainTraps.html" target="_blank" class="text-primary font-semibold font-display hover:text-accent-hover transition-colors" data-key="artLink">
                                 </a>
                             </div>
                         </div>
@@ -510,8 +491,8 @@
         <section id="events" class="py-16 md:py-24">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Pattaya's Calendar</h2>
-                    <p class="text-lg text-gray-400 max-w-3xl mx-auto">ปฏิทินกิจกรรมและข้อมูลสำคัญในเดือนพฤศจิกายน</p>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-3" data-key="calTitle"></h2>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto" data-key="calSubtitle"></p>
                 </div>
                 
                 <!-- Event Cards -->
@@ -521,11 +502,11 @@
                         <img src="https://tse4.mm.bing.net/th/id/OIP.vVkK1kzbfDCfzFhgqGoA7wHaE7?pid=Api&P=0&h=180" alt="เทศกาลลอยกระทง" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
-                                <p class="text-sm font-semibold text-primary"> 5 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg font-display my-2">เทศกาลลอยกระทง</h4>
-                                <p class="text-sm text-gray-400 mb-4">ร่วมสืบสานประเพณีไทยในคืนวันเพ็ญเดือนสิบสอง เพื่อระลึกถึงพระแม่คงคา ตามจุดต่างๆ ทั่วชายหาดพัทยาและวัดในพื้นที่</p>
+                                <p class="text-sm font-semibold text-primary" data-key="calEv1Date"></p>
+                                <h4 class="font-bold text-lg font-display my-2" data-key="calEv1Title"></h4>
+                                <p class="text-sm text-gray-400 mb-4" data-key="calEv1Desc"></p>
                             </div>
-                            <span class="text-xs text-gray-500">อ้างอิง: ททท. สำนักงานพัทยา</span>
+                            <span class="text-xs text-gray-500" data-key="calEv1Source"></span>
                         </div>
                     </div>
                     <!-- Miss Universe -->
@@ -533,11 +514,11 @@
                         <img src="https://media.philstar.com/photos/2025/11/04/miss-universe-thailand_2025-11-04_16-10-53.jpg" alt="Miss Universe 2025 Preliminary Events" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
                              <div>
-                                <p class="text-sm font-semibold text-primary">12 - 16 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg font-display my-2">Miss Universe 2025 Preliminary</h4>
-                                <p class="text-sm text-gray-400 mb-4">พัทยาเป็นเจ้าภาพกิจกรรมเก็บตัวที่สำคัญ รวมถึงรอบซ้อม (13 พ.ย.), แฟชั่นโชว์ชุดว่ายน้ำที่ Columbia Pictures Aquaverse (14 พ.ย.) และรอบสัมภาษณ์ (15 พ.ย.)</p>
+                                <p class="text-sm font-semibold text-primary" data-key="calEv2Date"></p>
+                                <h4 class="font-bold text-lg font-display my-2" data-key="calEv2Title"></h4>
+                                <p class="text-sm text-gray-400 mb-4" data-key="calEv2Desc"></p>
                             </div>
-                             <span class="text-xs text-gray-500">อ้างอิง: Miss Universe Organization</span>
+                             <span class="text-xs text-gray-500" data-key="calEv2Source"></span>
                         </div>
                     </div>
                     <!-- Fireworks Festival -->
@@ -545,11 +526,11 @@
                         <img src="https://i.postimg.cc/t4gSQ2pp/DB367694-FA5E-4EB8-A491-F49F27E5E20B-1-201-a.jpg" alt="Pattaya International Fireworks Festival 2025" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
-                                <p class="text-sm font-semibold text-primary">28 - 29 พฤศจิกายน 2568</p>
-                                <h4 class="font-bold text-lg font-display my-2">Pattaya International Fireworks Festival</h4>
-                                <p class="text-sm text-gray-400 mb-4">งานแสดงดอกไม้ไฟระดับโลกประจำปีที่ยิ่งใหญ่ตระการตา ริมชายหาดพัทยากลาง พร้อมการแสดงดนตรีและร้านค้ามากมาย</p>
+                                <p class="text-sm font-semibold text-primary" data-key="calEv3Date"></p>
+                                <h4 class="font-bold text-lg font-display my-2" data-key="calEv3Title"></h4>
+                                <p class="text-sm text-gray-400 mb-4" data-key="calEv3Desc"></p>
                             </div>
-                            <span class="text-xs text-gray-500">อ้างอิง: Pattaya City</span>
+                            <span class="text-xs text-gray-500" data-key="calEv3Source"></span>
                         </div>
                     </div>
                 </div>
@@ -559,22 +540,15 @@
                      <div class="border border-strong rounded-2xl flex flex-col md:flex-row overflow-hidden shadow-lg bg-surface">
                         <div class="p-6 md:p-8 flex flex-col justify-center flex-grow">
                             <div>
-                                <p class="text-sm font-semibold text-primary">ข้อมูลสำคัญ</p>
-                                <h4 class="font-bold text-lg font-display my-2 text-white">แนวทางปฏิบัติและการร่วมถวายความอาลัย</h4>
+                                <p class="text-sm font-semibold text-primary" data-key="calMemoInfo"></p>
+                                <h4 class="font-bold text-lg font-display my-2 text-white" data-key="calMemoTitle"></h4>
                                 <div class="text-sm text-gray-300 space-y-3 mt-4">
-                                    <p><strong>๑. แนวทางการไว้ทุกข์และการงดกิจกรรมบันเทิง</strong><br>
-                                        รัฐบาลขอความร่วมมือภาคเอกชนและประชาชนแต่งกายด้วยชุดสีดำและร่วมแสดงความอาลัยเป็นเวลา ๙๐ วัน และขอความร่วมมือสถานบันเทิงงdหรือจำกัดกิจกรรมเพื่อความบันเทิงเป็นเวลา ๓๐ วัน
-                                    </p>
-                                    <p><strong>๒. การถวายสักการะและการลงนามถวายความอาลัย ณ พระบรมมหาราชวัง</strong><br>
-                                        • <strong>ตั้งแต่วันที่ ๙ พฤศจิกายน ๒๕๖๘ เป็นต้นไป:</strong><br>
-                                        พระราชทานพระบรมราชานุญาตให้ประชาชนเข้าเฝ้าฯ กราบถวายบังคมพระบรมศพ ณ พระที่นั่งดุสิตมหาปราสาท (เวลา ๐๙.๐๐ น. - ๒๑.๐๐ น.)
-                                    </p>
-                                    <p><strong>๓. การร่วมเป็นเจ้าภาพในพระราชพิธีบำเพ็ญพระราชกุศล</strong><br>
-                                        พระราชทานพระบรมราชานุญาตให้หน่วยงานและประชาชนทั่วไป ได้ร่วมเป็นเจ้าภาพฯ ภายหลังจากการพระราชพิธีทรงบำเพ็ญพระราชกุศลครบ ๑๐๐ วัน
-                                    </p>
+                                    <p data-key="calMemoP1"></p>
+                                    <p data-key="calMemoP2"></p>
+                                    <p data-key="calMemoP3"></p>
                                 </div>
                             </div>
-                            <span class="text-xs text-gray-500 mt-4 block">อ้างอิง: สำนักพระราชวัง และ สำนักนายกรัฐมนตรี</span>
+                            <span class="text-xs text-gray-500 mt-4 block" data-key="calMemoSource"></span>
                         </div>
                     </div>
                 </div>
@@ -585,8 +559,8 @@
         <!-- Section: Podcast -->
         <section id="podcast" class="py-16 md:py-24 bg-surface">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Podcast</h2>
-                <p class="text-lg text-gray-400 max-w-2xl mx-auto">ติดตามเรื่องราวและบทวิเคราะห์จากเรา</p>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mb-3" data-key="podTitle"></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto" data-key="podSubtitle"></p>
                 <div class="mt-8 mx-auto max-w-2xl bg-black/20 p-8 rounded-2xl shadow-lg border border-strong">
                     <!-- Spotify Embed with dark theme -->
                     <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/show/3NPkIctQjuOuay6zmHhDPa?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -601,12 +575,12 @@
                     <!-- Column 1: Project Info -->
                     <div>
                         <img src="https://i.postimg.cc/hjh1hwwb/Coral-Rlogo-copa2.png" alt="Copacabana Coral Reef Logo" class="h-12 mb-4 mx-auto md:mx-0 opacity-80">
-                        <p class="text-gray-400 mt-2 text-sm">The Jewels of The Sea</p>
+                        <p class="text-gray-400 mt-2 text-sm" data-key="footSub"></p>
                     </div>
                     
                     <!-- Column 2: Follow Us -->
                     <div>
-                        <h4 class="font-bold text-lg font-display mb-4 text-white">ติดตามเรา</h4>
+                        <h4 class="font-bold text-lg font-display mb-4 text-white" data-key="footFollow"></h4>
                         <div class="space-y-2 text-sm">
                             <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex justify-center md:justify-start items-center gap-3 text-gray-400 hover:text-primary">
                                 <i class="fab fa-facebook-f w-4 text-center"></i> <span>Facebook: Copacabana Coral Reef Jomtien</span>
@@ -631,42 +605,513 @@
     
                     <!-- Column 3: Contact Us -->
                     <div>
-                        <h4 class="font-bold text-lg font-display mb-4 text-white">ติดต่อเรา</h4>
+                        <h4 class="font-bold text-lg font-display mb-4 text-white" data-key="footContact"></h4>
                         <address class="not-italic text-gray-400 space-y-2 text-sm">
-                            <p><i class="fas fa-phone text-primary mr-2"></i><span>โทร:</span> +66 95 945 1665</p>
-                            <p><i class="fas fa-envelope text-primary mr-2"></i><span>อีเมล:</span> Marketing_coral@copacabanacoralreef.com</p>
-                            <p><i class="fas fa-map-marker-alt text-primary mr-2"></i><span>สำนักงานขาย:</span> 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150</p>
+                            <p><i class="fas fa-phone text-primary mr-2"></i><span data-key="footPhone"></span> +66 95 945 1665</p>
+                            <p><i class="fas fa-envelope text-primary mr-2"></i><span data-key="footEmail"></span> Marketing_coral@copacabanacoralreef.com</p>
+                            <p><i class="fas fa-map-marker-alt text-primary mr-2"></i><span data-key="footAddress"></span> 385/16 หมู่ 12 ถนนจอมเทียนสายสอง ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150</p>
                         </address>
                     </div>
                 </div>
                 <div class="mt-12 border-t border-strong pt-8 text-center text-sm text-gray-500">
-                    <p>&copy; 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์</p>
+                    <p data-key="footCR"></p>
                 </div>
             </div>
         </footer>
     </main>
 
 <script>
+// --- Translations Database ---
+const translations = {
+    // --- THAI (Source from the correct file) ---
+    th: {
+        title: "Copacabana Coral Reef Newsletter - พฤศจิกายน 2568",
+        headerDate: "พฤศจิกายน 2568",
+        navOverview: "ภาพรวม",
+        navProgress: "ความคืบหน้า",
+        navFacilities: "สิ่งอำนวยความสะดวก",
+        navCommunity: "สมดุลชีวิต",
+        navSpotlight: "Spotlight",
+        navArticle: "บทความพิเศษ",
+        navEvents: "ปฏิทิน",
+        navPodcast: "Podcast",
+        navContact: "ติดต่อเรา",
+        memoTitle: "น้อมเกล้าน้อมกระหม่อมถวายความอาลัย",
+        memoName: "สมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง",
+        memoDate: "เสด็จสวรรคต วันที่ ๒๔ ตุลาคม ๒๕๖๘",
+        memoThanks: "ปวงข้าพระพุทธเจ้าขอน้อมรำลึกในพระมหากรุณาธิคุณอันหาที่สุดมิได้",
+        memoFrom: "ข้าพระพุทธเจ้า",
+        memoOrg: "ผู้บริหาร คณะกรรมการ และพนักงาน โคปาคาบาน่า กรุ๊ป",
+        overviewMonth: "พฤศจิกายน 2568",
+        overviewTitle: "มุมมองใหม่แห่งการใช้ชีวิต",
+        overviewSubtitle: "อัปเดตความคืบหน้าและไลฟ์สไตล์ที่ Copacabana Coral Reef",
+        overviewP1: "เข้าสู่เดือนพฤศจิกายน... เป็นสัญญาณของการเริ่มต้นไตรมาสสุดท้ายของปี นี่คือช่วงเวลาที่หลายท่านเริ่มทบทวนสิ่งที่ผ่านมา และวางแผนสำหรับอนาคตที่กำลังจะมาถึง เป็นช่วงเวลาของการมองหา 'การยกระดับ' คุณภาพชีวิตให้ดียิ่งขึ้น",
+        overviewP2: "ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว การมี <strong>\"พื้นที่ส่วนตัว\"</strong> ที่ตอบโจทย์การใช้ชีวิตในทุกมิติกลายเป็นสิ่งจำเป็นเหลือเกิน ที่Copacabana Coral Reef Jomtien เราไม่ได้มุ่งมั่นเพียงแค่การสร้างที่อยู่อาศัย แต่เรากำลังรังสรรค์ \"พื้นที่\" ที่งดงาม... และใช้งานได้จริง สำหรับทุกช่วงเวลาสำคัญของคุณ",
+        overviewP3: "Newsletter ฉบับนี้ จะขอนำเสนอความคืบหน้าล่าสุดของโครงการ และแบ่งปันมุมมองใหม่ๆ ของการใช้ชีวิต ที่ซึ่งความหรูหราที่เรามองเห็น ถูกผสมผสานเข้ากับการพักผ่อนที่เราสัมผัสได้... อย่างลงตัว",
+        imgDisclaimer: "รูปภาพนี้สร้างขึ้นโดยคอมพิวเตอร์เพื่อวัตถุประสงค์ในการโฆษณาเท่านั้น รายละเอียดอาจเปลี่ยนแปลงได้ตามข้อกำหนดทางวิศวกรรมและกฎระเบียบ",
+        progTitle: "อัปเดตการก่อสร้าง",
+        progSubtitle: "สร้างอนาคตทีละชั้น, ก้าวสู่ชั้นที่ 31 อย่างมั่นคง",
+        progP1: "มีคำกล่าวที่ทรงพลังว่า \"ยิ่งสูง วิสัยทัศน์ยิ่งกว้างไกล\" คำกล่าวนี้ไม่เพียงแต่เป็นความจริงเชิงปรัชญา แต่ยังสะท้อนความเป็นจริงทางกายภาพที่ชัดเจนที่สุด โดยเฉพาะอย่างยิ่ง ณ ที่แห่งนี้, บนจุดยืนที่กำลังจะกลายเป็นสัญลักษณ์ใหม่ของจอมเทียน",
+        progP2: "ณ เดือนพฤศจิกายน 2568 โครงสร้างอาคาร Copacabana Coral Reef Jomtien ได้ดำเนินการก่อสร้างสู่ชั้นที่ 31 เป็นที่เรียบร้อยแล้ว ความสูงระดับนี้ไม่ใช่เพียงตัวเลขของความคืบหน้าทางวิศวกรรม แต่คือบทพิสูจน์ของความมุ่งมั่นที่จับต้องได้ (Tangible Proof)  นี่คือบทพิสูจน์ที่เป็นรูปธรรม... ว่าทิวทัศน์อันงดงาม คือสิ่งที่คุณจะได้ครอบครองและสัมผัสจริง ในอนาคตอันใกล้นี้",
+        progP3: "ทุกครั้งที่โครงสร้างของเราสูงขึ้นอีกหนึ่งชั้น มันคือภาพสะท้อนของ \"ประสบการณ์จริง\" ที่กำลังจะเกิดขึ้น ซึ่งชัดเจนยิ่งขึ้นกว่าที่เคย มันคือการยกระดับการมองเห็นที่เหนือกว่า ที่ซึ่งทัศนียภาพเดิมๆ จะถูกแทนที่ด้วยมุมมองใหม่ที่เปิดกว้าง...",
+        progBullet1: "<strong class=\"text-primary\">The Horizon is Yours:</strong> เส้นขอบฟ้าที่เคยอยู่ไกลลิบ บัดนี้จรดอยู่กับผืนน้ำจอมเทียนสีครามกว้างไกลสุดสายตา ได้ถูกดึงเข้ามาเป็นส่วนหนึ่งของพื้นที่พักผ่อนส่วนตัวของคุณอย่างแท้จริง",
+        progBullet2: "<strong class=\"text-primary\">Proof of Experience:</strong> เราไม่ได้กำลังสร้างเพียงโครงสร้างอาคาร แต่เรากำลังรังสรรค์ \"ประสบการณ์\" การใช้ชีวิตที่เหนือระดับ คือสุนทรียภาพของการตื่นนอนพร้อมวิวทะเลแบบพาโนรามา",
+        progBullet3: "<strong class=\"text-primary\">A Promise Taking Shape:</strong> ความตั้งใจจริงของเราที่ดำเนินไปอย่างไม่หยุดยั้ง คือคำมั่นสัญญาที่กำลังเป็นรูปเป็นร่าง... และอนาคตที่คุณรอคอยนั้น ใกล้ความเป็นจริงเข้ามาทุกขณะ",
+        progP4: "เรามุ่งมั่นและยังคงเดินหน้าสร้างมาตรฐานใหม่ที่สูงขึ้นอย่างต่อเนื่อง ไม่เพียงแต่ในแง่ของโครงสร้างอาคารอันแข็งแกร่งเท่านั้น แต่ยังรวมถึงมาตรฐานของ \"คุณภาพชีวิต\" ที่เหนือระดับที่คุณจะได้รับ ภายในปี 2028",
+        facTitle: "ยกระดับคุณภาพชีวิต",
+        facSubtitle: "พื้นที่ส่วนกลางที่ถูก 'คัดสรร' มาเพื่อตอบโจทย์การใช้งานจริง",
+        facP1: "\"บ้าน\" ที่ดีในมุมมองของเรา คือสถานที่ที่ตอบโจทย์ทุก 'บทบาท' และทุก 'กิจกรรม' ของชีวิตได้อย่างไร้รอยต่อ Copacabana Coral Reef จึงได้รับการออกแบบมาเพื่อรองรับไลฟ์สไตล์ที่หลากหลายเหล่านี้... ไม่ว่าจะเป็นวันที่คุณต้องการสมาธิ หรือวันที่คุณต้องการความผ่อนคลายสูงสุด",
+        facProdTitle: "พื้นที่สำหรับ 'ความคิด' และ 'แรงบันดาลใจ' (Productive Space)",
+        facProdDesc: "Coral Sky Business Lounge บนชั้น 50 ถูกออกแบบมาเพื่อรองรับการทำงานยุคใหม่ ไม่ว่าจะเป็น Co-Working Space ที่เปิดโล่ง หรือมุมสงบส่วนตัวสำหรับการทำงานที่ต้องการสมาธิ... ทั้งหมดนี้มาพร้อมทิวทัศน์ของท้องทะเลที่ช่วยจุดประกายแรงบันดาลใจใหม่ๆ ได้เสมอ",
+        facFamTitle: "พื้นที่สำหรับ 'ครอบครัว' และ 'ความทรงจำ' (Family & Activity Space)",
+        facFamDesc: "เพราะวันหยุดคือช่วงเวลาของครอบครัว... Wave Pool และ Kids Club จึงเป็นมากกว่าสิ่งอำนวยความสะดวก แต่คือ \"พื้นที่สร้างความสัมพันธ์\" ที่สมาชิกในครอบครัวจะได้ใช้เวลาร่วมกันอย่างมีคุณภาพ ในสภาพแวดล้อมที่ผ่อนคลายและเป็นส่วนตัวที่สุด",
+        facWellTitle: "พื้นที่เพื่อ 'สุขภาพกาย' และ 'ความสงบในใจ' (Wellness Space)",
+        facWellDesc: "การดูแลสุขภาพคือสิ่งสำคัญ High Ceiling Gym ขนาดใหญ่ พร้อมวิวทะเลเต็มตา คือสถานที่สำหรับการออกกำลังกายเพื่อสร้างสมดุล หรือเลือกผ่อนคลายกล้ามเนื้อใน Onsen และ Jacuzzi ส่วนตัว เพื่อเตรียมความพร้อมร่างกายและจิตใจให้แข็งแรงอยู่เสมอ",
+        commTitle: "สมดุลแห่งการใช้ชีวิต",
+        commSubtitle: "ค้นพบความสงบ... ท่ามกลาง ความสะดวกสบาย ใจกลางจอมเทียน",
+        commP1: "ในโลกที่ทุกอย่างหมุนไปอย่างรวดเร็ว และชีวิตมักเรียกร้องให้เราต้อง \"เลือก\" อยู่เสมอ... เรามักถูกตั้งคำถามว่า เราจะรักษาสมดุลระหว่าง \"โลกภายนอก\" ที่เต็มไปด้วยโอกาส กับ \"โลกภายใน\" ที่โหยหาความสงบได้อย่างไร",
+        commP2: "โดยเฉพาะในพื้นที่ที่มีศักยภาพสูงอย่างเขตพัฒนาพิเศษภาคตะวันออก (EEC) ซึ่งทุกการเชื่อมต่อคือความได้เปรียบ... การ \"เชื่อมต่อ\" (Connectivity) จึงกลายเป็นสิ่งจำเป็นอย่างหลีกเลี่ยงไม่ได้ แต่ในขณะเดียวกัน \"คุณภาพชีวิต\" ที่แท้จริง อาจไม่ได้วัดกันที่ความเร็วที่เราเชื่อมต่อกับโลกภายนอกเท่านั้น แต่อยู่ที่ความสามารถในการ \"ตัดขาด\" (Disconnect) เมื่อเราต้องการ",
+        commP3: "แนวคิดของการมีที่อยู่อาศัยที่เข้าใจความต้องการที่สวนทางกันนี้ จึงไม่ใช่แค่การเลือกทำเลที่ตั้ง แต่คือการเลือก \"คุณภาพ\" ของการใช้ชีวิต",
+        commP4: "ลองจินตนาการถึงการที่เราสามารถเป็นส่วนหนึ่งของความเคลื่อนไหวทางเศรษฐกิจที่สำคัญที่สุดของประเทศ แต่ในก้าวถัดไป... เราสามารถกลับคืนสู่ \"ความสงบ\" (Tranquility) ที่เป็นส่วนตัวอย่างแท้จริง ที่ซึ่งบรรยากาศของการพักผ่อนยังถูกเก็บ \"รักษา\" ไว้",
+        commP5: "นี่คือการออกแบบ <strong>\"วิถีชีวิตที่เลือกได้\" (Choosable Lifestyle)</strong>",
+        commP6: "มันคือความสุขที่รู้ว่า โลกทั้งใบอยู่ใกล้แค่เอื้อม... แต่เราก็สามารถเลือกที่จะปิดประตู สัมผัสความเงียบสงบ และเป็นส่วนตัวได้อย่างสมบูรณ์ ในวินาทีที่เราต้องการ",
+        commLink: "อ่านเนื้อหาเพิ่มเติมเกี่ยวกับแนวคิดนี้ &rarr;",
+        spotTitle: "SPOTLIGHT: อนาคตที่จับต้องได้ของทำเลจอมเทียน",
+        spotSubtitle: "อัปเดตเมกะโปรเจกต์ \"EECiti\" หรือ \"กรุงเทพฯ 2\"",
+        spotP1: "ใน Newsletter ฉบับนี้ เราอยากพาทุกท่านไปอัปเดตภาพอนาคตอันน่าตื่นเต้นของ \"ทำเล\" ที่เราทุกคนเลือกเป็นบ้านและเป็นที่ลงทุน ซึ่งกำลังจะเปลี่ยนแปลงไปอย่างก้าวกระโดดด้วยเมกะโปรเจกต์ระดับชาติอย่าง \"EECiti\" หรือที่เรียกกันว่า \"กรุงเทพฯ 2\"",
+        spotQ1: "\"กรุงเทพฯ 2\" คืออะไร และทำไมจึงสำคัญกับเรา?",
+        spotA1: "EECiti คือโครงการสร้างศูนย์กลางธุรกิจและเมืองใหม่อัจฉริยะในพื้นที่ EEC ซึ่งเป็นกลยุทธ์สำคัญของประเทศในการกระจายศูนย์กลางความเจริญและเศรษฐกิจที่เคยกระจุกตัวอยู่เพียงในกรุงเทพฯ นี่ไม่ใช่แค่นิคมอุตสาหกรรมทั่วไป แต่คือการ \"สร้างเมืองใหม่จากศูนย์\" (Clean Slate) ซึ่งหมายความว่าเมืองนี้จะถูกออกแบบมาอย่างสมบูรณ์แบบเพื่ออนาคตโดยแท้จริง",
+        spotH1: "1. ดึงดูด \"คลื่น\" เศรษฐกิจและบุคลากรคุณภาพสูง",
+        spotD1: "เป้าหมายหลักของ EECiti คือการเป็นฐานที่ตั้งของ \"อุตสาหกรรม S-curve ใหม่\" แห่งอนาคต (การแพทย์แม่นยำ, ธุรกิจสุขภาพ, เทคโนโลยี BCG) อุตสาหกรรมเหล่านี้จะดึงดูดบุคลากรทักษะสูง ผู้บริหาร และผู้เชี่ยวชาญจากทั่วโลก ซึ่งเป็นกลุ่มคนที่มีกำลังซื้อสูงและมองหาที่พักอาศัยคุณภาพระดับพรีเมียม  Copacabana Coral Reef จึงเป็นคำตอบที่สมบูรณ์แบบ เพื่อรองรับอุปสงค์ (Demand) มหาศาลที่จะเกิดขึ้นในอนาคตอันใกล้นี้",
+        spotH2: "2. เมืองอัจฉริยะที่ \"ไร้ปัญหา\" เมืองเก่า",
+        spotD2: "EECiti ถูกสร้างขึ้นเพื่อแก้ปัญหาที่กรุงเทพฯ เผชิญ เช่น การวางผังเมืองที่ปลอดภัยจากน้ำท่วม และโครงสร้างพื้นฐานอัจฉริยะอย่าง \"อุโมงค์สาธารณูปโภคส่วนกลาง\" (CUT) ที่จะนำทุกอย่างลงใต้ดิน การที่ \"เพื่อนบ้าน\" ของเราเป็นเมืองที่ทันสมัย มีระเบียบ และมีคุณภาพชีวิตสูง จะส่งผลโดยตรงต่อมูลค่าและความน่าอยู่ของพื้นที่จอมเทียนโดยรอบ",
+        spotH3: "บทสรุป: ความมั่นใจในการลงทุน",
+        spotD3: "การที่ภาครัฐลงทุนเม็ดเงินก้อนแรกกว่า 74,000 ล้านบาท เพื่อเตรียมโครงสร้างพื้นฐานทั้งหมดให้ \"พร้อม\" สำหรับการลงทุนภาคเอกชนอีกกว่า 1.34 ล้านล้านบาท คือการการันตีว่าโครงการนี้ \"เกิดขึ้นจริง\" และกำลังเดินหน้าเต็มกำลัง",
+        spotD4: "การตัดสินใจของท่านที่เลือก Copacabana Coral Reef Jomtien ไม่เพียงแต่เป็นการเลือกที่อยู่อาศัยที่หรูหราที่สุดแห่งหนึ่ง แต่ยังเป็นการวางตำแหน่งการลงทุนของท่านไว้ ณ \"ศูนย์กลาง\" ของการเติบโตที่ยิ่งใหญ่ที่สุดครั้งหนึ่งของประเทศไทยอย่างแท้จริง",
+        spotLink: "ชม Infographic: EECiti Building a Second Bangkok &rarr;",
+        artTitle: "บทความพิเศษ: มุมมองเพื่อการตัดสินใจ",
+        artSubtitle: "ยุคดิจิทัลและการคิดเชิงวิพากษ์ (Critical Thinking)",
+        artP1: "เราเชื่อว่า \"คุณภาพชีวิต\" ไม่ได้หยุดอยู่แค่การเลือกที่อยู่อาศัย แต่ยังรวมถึง \"คุณภาพของความคิด\" ที่ใช้ในการตัดสินใจด้วย",
+        artP2: "ในยุคที่ข้อมูลท่วมท้น (Information Deluge) อัลกอริทึมและอินฟลูเอนเซอร์มักดึงดูดเราด้วยอารมณ์และความรู้สึก \"ผูกพัน\" (Rapport) มากกว่าข้อเท็จจริง... ปรากฏการณ์ที่เรียกว่า \"The Rapport Paradox\" นี้ ทำให้เรามักเผลอเชื่อ \"ความสัมพันธ์เสมือน\" (Parasocial Relationships) มากกว่าข้อมูลที่เป็นกลาง",
+        artP3: "นี่คือยุคที่ทักษะการ \"คิดเชิงวิพากษ์\" (Critical Thinking) กลายเป็นเครื่องมือที่จำเป็นที่สุด เพื่อให้เราสามารถนำทางในโลกดิจิทัลได้อย่างเท่าทัน และ \"คิดไปพร้อมกับ AI\" แทนที่จะ \"เชื่อ\" AI ทั้งหมด เพื่อให้มั่นใจว่ามนุษย์ยังคงเป็นผู้ขับเคลื่อนกระบวนการตัดสินใจครั้งสำคัญของตนเอง",
+        artLink: "เรียนรู้ 5 กับดักจิตวิทยา (Infographic) &rarr;",
+        calTitle: "Pattaya's Calendar",
+        calSubtitle: "ปฏิทินกิจกรรมและข้อมูลสำคัญในเดือนพฤศจิกายน",
+        calEv1Date: "5 พฤศจิกายน 2568",
+        calEv1Title: "เทศกาลลอยกระทง",
+        calEv1Desc: "ร่วมสืบสานประเพณีไทยในคืนวันเพ็ญเดือนสิบสอง เพื่อระลึกถึงพระแม่คงคา ตามจุดต่างๆ ทั่วชายหาดพัทยาและวัดในพื้นที่",
+        calEv1Source: "อ้างอิง: ททท. สำนักงานพัทยา",
+        calEv2Date: "12 - 16 พฤศจิกายน 2568",
+        calEv2Title: "Miss Universe 2025 Preliminary",
+        calEv2Desc: "พัทยาเป็นเจ้าภาพกิจกรรมเก็บตัวที่สำคัญ รวมถึงรอบซ้อม (13 พ.ย.), แฟชั่นโชว์ชุดว่ายน้ำที่ Columbia Pictures Aquaverse (14 พ.ย.) และรอบสัมภาษณ์ (15 พ.ย.)",
+        calEv2Source: "อ้างอิง: Miss Universe Organization",
+        calEv3Date: "28 - 29 พฤศจิกายน 2568",
+        calEv3Title: "Pattaya International Fireworks Festival",
+        calEv3Desc: "งานแสดงดอกไม้ไฟระดับโลกประจำปีที่ยิ่งใหญ่ตระการตา ริมชายหาดพัทยากลาง พร้อมการแสดงดนตรีและร้านค้ามากมาย",
+        calEv3Source: "อ้างอิง: Pattaya City",
+        calMemoInfo: "ข้อมูลสำคัญ",
+        calMemoTitle: "แนวทางปฏิบัติและการร่วมถวายความอาลัย",
+        calMemoP1: "<strong>๑. แนวทางการไว้ทุกข์และการงดกิจกรรมบันเทิง</strong><br>รัฐบาลขอความร่วมมือภาคเอกชนและประชาชนแต่งกายด้วยชุดสีดำและร่วมแสดงความอาลัยเป็นเวลา ๙๐ วัน และขอความร่วมมือสถานบันเทิงงdหรือจำกัดกิจกรรมเพื่อความบันเทิงเป็นเวลา ๓๐ วัน",
+        calMemoP2: "<strong>๒. การถวายสักการะและการลงนามถวายความอาลัย ณ พระบรมมหาราชวัง</strong><br>• <strong>ตั้งแต่วันที่ ๙ พฤศจิกายน ๒๕๖๘ เป็นต้นไป:</strong><br>พระราชทานพระบรมราชานุญาตให้ประชาชนเข้าเฝ้าฯ กราบถวายบังคมพระบรมศพ ณ พระที่นั่งดุสิตมหาปราสาท (เวลา ๐๙.๐๐ น. - ๒๑.๐๐ น.)",
+        calMemoP3: "<strong>๓. การร่วมเป็นเจ้าภาพในพระราชพิธีบำเพ็ญพระราชกุศล</strong><br>พระราชทานพระบรมราชานุญาตให้หน่วยงานและประชาชนทั่วไป ได้ร่วมเป็นเจ้าภาพฯ ภายหลังจากการพระราชพิธีทรงบำเพ็ญพระราชกุศลครบ ๑๐๐ วัน",
+        calMemoSource: "อ้างอิง: สำนักพระราชวัง และ สำนักนายกรัฐมนตรี",
+        podTitle: "Podcast",
+        podSubtitle: "ติดตามเรื่องราวและบทวิเคราะห์จากเรา",
+        footSub: "The Jewels of The Sea",
+        footFollow: "ติดตามเรา",
+        footContact: "ติดต่อเรา",
+        footPhone: "โทร:",
+        footEmail: "อีเมล:",
+        footAddress: "สำนักงานขาย:",
+        footCR: "© 2025 Copacabana Coral Reef Jomtien. สงวนลิขสิทธิ์"
+    },
+    // --- ENGLISH ---
+    en: {
+        title: "Copacabana Coral Reef Newsletter - November 2025",
+        headerDate: "November 2025",
+        navOverview: "Overview",
+        navProgress: "Progress",
+        navFacilities: "Facilities",
+        navCommunity: "Balance",
+        navSpotlight: "Spotlight",
+        navArticle: "Special Article",
+        navEvents: "Calendar",
+        navPodcast: "Podcast",
+        navContact: "Contact Us",
+        memoTitle: "In Reverent Memory",
+        memoName: "Her Majesty Queen Sirikit, The Queen Mother",
+        memoDate: "Passed away on October 24, 2025",
+        memoThanks: "We humbly remember Her Majesty's boundless grace and compassion",
+        memoFrom: "From",
+        memoOrg: "The executives, committee, and staff of Copacabana Group",
+        overviewMonth: "November 2025",
+        overviewTitle: "A New Perspective on Living",
+        overviewSubtitle: "Progress and Lifestyle Updates at Copacabana Coral Reef",
+        overviewP1: "Entering November... it signals the beginning of the year's final quarter. This is a time when many begin to reflect on the past and plan for the future, a time for seeking an 'elevation' in quality of life.",
+        overviewP2: "In a world that spins so quickly, having a <strong>\"personal space\"</strong> that addresses every dimension of life has become nothing short of essential. At Copacabana Coral Reef Jomtien, we aren't just building residences; we are crafting \"spaces\" that are both beautiful... and functional, for every one of your important moments.",
+        overviewP3: "This newsletter will present the latest project updates and share new perspectives on living, where the luxury we see is seamlessly blended with the relaxation we feel.",
+        imgDisclaimer: "Images are computer-generated for advertising purposes only. Details may change due to engineering and regulatory requirements.",
+        progTitle: "Construction Update",
+        progSubtitle: "Building the future, one floor at a time. Steadily rising to the 31st floor.",
+        progP1: "There is a powerful saying: \"The higher you go, the broader the vision.\" This is not just a philosophical truth; it reflects the clearest physical reality, especially here, at a standpoint poised to become Jomtien's new symbol.",
+        progP2: "As of November 2025, the structure of Copacabana Coral Reef Jomtien has successfully reached the 31st floor. This height isn't just a number representing engineering progress; it is Tangible Proof. It is a concrete affirmation... that the magnificent vistas are what you will possess and experience in the near future.",
+        progP3: "Every new floor we add is a clearer reflection of the \"real experience\" to come. It is an elevation of sight, where old views are replaced by new, expansive perspectives...",
+        progBullet1: "<strong class=\"text-primary\">The Horizon is Yours:</strong> The distant horizon, where the vast, deep blue Jomtien sea meets the sky, is now drawn in as part of your personal sanctuary.",
+        progBullet2: "<strong class=\"text-primary\">Proof of Experience:</strong> We are not just building a structure; we are crafting an \"experience\" of elevated living—the aesthetic joy of waking up to panoramic sea views.",
+        progBullet3: "<strong class=\"text-primary\">A Promise Taking Shape:</strong> Our relentless, daily commitment is a promise taking form... and the future you await is drawing closer with every moment.",
+        progP4: "We remain committed to setting new, higher standards, not only in terms of a strong structure but also in the exceptional \"quality of life\" you will receive, by 2028.",
+        facTitle: "Elevating Quality of Life",
+        facSubtitle: "Communal areas 'curated' for real-world living",
+        facP1: "A good \"home,\" in our view, is a place that seamlessly caters to every 'role' and 'activity' in life. Copacabana Coral Reef is designed for these diverse lifestyles... whether it's a day needing focus or a day needing ultimate relaxation.",
+        facProdTitle: "Space for 'Thought' and 'Inspiration' (Productive Space)",
+        facProdDesc: "The Coral Sky Business Lounge on the 50th floor is designed for the modern professional. Be it an open-plan Co-Working Space or a quiet corner for deep work... all accompanied by sea views that always spark new inspiration.",
+        facFamTitle: "Space for 'Family' and 'Memories' (Family & Activity Space)",
+        facFamDesc: "Because holidays are family time... the Wave Pool and Kids Club are more than amenities; they are \"spaces for connection\" where family members can spend quality time together in a relaxed, private environment.",
+        facWellTitle: "Space for 'Body' and 'Inner Peace' (Wellness Space)",
+        facWellDesc: "Health is paramount. The large High Ceiling Gym with full sea views is the place for balanced exercise, or choose to relax muscles in the private Onsen and Jacuzzi, preparing body and mind to stay strong.",
+        commTitle: "The Balance of Life",
+        commSubtitle: "Discover serenity... amidst the convenience in the heart of Jomtien.",
+        commP1: "In a world that spins fast, where life often demands we \"choose\"... we are often asked: how do we balance the \"external world\" full of opportunity with the \"inner world\" that craves peace?",
+        commP2: "Especially in a high-potential area like the EEC, where every connection is an advantage... \"Connectivity\" becomes essential. Yet, true \"quality of life\" isn't just measured by how fast we connect, but by our ability to \"Disconnect\" when we need to.",
+        commP3: "The concept of a residence that understands these conflicting needs isn't just about location; it's about choosing the \"quality\" of life.",
+        commP4: "Imagine being part of the nation's most significant economic movement, yet in the next step... returning to truly private \"Tranquility,\" where the atmosphere of rest is still \"preserved.\"",
+        commP5: "This is the design of a <strong>\"Choosable Lifestyle.\"</strong>",
+        commP6: "It is the happiness of knowing the world is at your fingertips... yet you can choose to close the door, embrace the quiet, and be completely private, the moment you desire.",
+        commLink: "Read more about this concept &rarr;",
+        spotTitle: "SPOTLIGHT: The Tangible Future of Jomtien's Location",
+        spotSubtitle: "An update on the \"EECiti\" or \"Bangkok 2\" megaproject",
+        spotP1: "In this newsletter, we want to update you on the exciting future of the \"location\" we've all chosen for our homes and investments, which is set to leap forward with the national megaproject \"EECiti,\" also known as \"Bangkok 2.\"",
+        spotQ1: "What is \"Bangkok 2,\" and why does it matter to us?",
+        spotA1: "EECiti is a project to build a new smart city and business hub in the EEC, a key national strategy to decentralize the prosperity once concentrated only in Bangkok. This isn't just an industrial estate; it's \"building a new city from a Clean Slate\" designed for the future.",
+        spotH1: "1. Attracting a \"Wave\" of High-Quality Economy and Talent",
+        spotD1: "EECiti's main goal is to host \"New S-curve Industries\" (Precision Medicine, Wellness, BCG Tech). These industries will attract high-skilled talent and executives from around the world—a group with high purchasing power seeking premium living. Copacabana Coral Reef is the perfect answer to meet this massive future demand.",
+        spotH2: "2. A Smart City \"Without\" Old Problems",
+        spotD2: "EECiti is built to solve Bangkok's problems, with flood-safe urban planning and smart infrastructure like the \"Common Utility Tunnel\" (CUT) that puts all cables underground. Having a modern, orderly \"neighbor\" directly increases the value and livability of the entire Jomtien area.",
+        spotH3: "Conclusion: Confidence in Investment",
+        spotD3: "The government's initial 74 billion baht investment to prepare infrastructure for a further 1.34 trillion baht in private investment guarantees this project is \"happening\" and moving at full speed.",
+        spotD4: "Your decision to choose Copacabana Coral Reef Jomtien is not just selecting a luxury residence; it is positioning your investment at the very \"center\" of one of Thailand's greatest growth stories.",
+        spotLink: "View Infographic: EECiti Building a Second Bangkok &rarr;",
+        artTitle: "Special Article: A Perspective for Decision-Making",
+        artSubtitle: "The Digital Age and Critical Thinking",
+        artP1: "We believe \"quality of life\" doesn't stop at choosing a home; it includes the \"quality of thought\" used in making decisions.",
+        artP2: "In an era of \"Information Deluge,\" algorithms and influencers often appeal to our emotions and feelings of \"Rapport\" more than facts. This \"Rapport Paradox\" causes us to trust \"Parasocial Relationships\" more than neutral data.",
+        artP3: "This is an age where \"Critical Thinking\" has become the most essential skill, allowing us to navigate the digital world wisely and \"think with AI\" rather than just \"believing\" AI, ensuring humans remain the drivers of their own critical decisions.",
+        artLink: "Learn the 5 Psychological Traps (Infographic) &rarr;",
+        calTitle: "Pattaya's Calendar",
+        calSubtitle: "Events and important information for November",
+        calEv1Date: "November 5, 2025",
+        calEv1Title: "Loy Krathong Festival",
+        calEv1Desc: "Join the Thai tradition on the full moon night to pay respects to the water goddess, at various locations along Pattaya Beach and local temples.",
+        calEv1Source: "Source: TAT Pattaya Office",
+        calEv2Date: "November 12 - 16, 2025",
+        calEv2Title: "Miss Universe 2025 Preliminary",
+        calEv2Desc: "Pattaya hosts key activities, including rehearsals (Nov 13), a swimsuit fashion show at Columbia Pictures Aquaverse (Nov 14), and closed-door interviews (Nov 15).",
+        calEv2Source: "Source: Miss Universe Organization",
+        calEv3Date: "November 28 - 29, 2025",
+        calEv3Title: "Pattaya International Fireworks Festival",
+        calEv3Desc: "A spectacular annual world-class fireworks display over Pattaya Central Beach, complete with music, food stalls, and live performances.",
+        calEv3Source: "Source: Pattaya City",
+        calMemoInfo: "Important Information",
+        calMemoTitle: "Guidelines for Mourning and Observance",
+        calMemoP1: "<strong>1. Mourning Attire and Entertainment</strong><br>The government requests cooperation from the private sector and public to wear black attire and express condolences for 90 days. Entertainment venues are asked to refrain from or limit entertainment for 30 days.",
+        calMemoP2: "<strong>2. Paying Respects at the Grand Palace</strong><br>• <strong>From November 9, 2025:</strong><br>The public is graciously permitted to enter and pay respects before the Royal Urn at the Dusit Maha Prasat Throne Hall (09:00 - 21:00).",
+        calMemoP3: "<strong>3. Sponsoring Royal Merit-Making Ceremonies</strong><br>Agencies and the general public will be permitted to co-host ceremonies after the completion of the 100-day Royal Merit-Making rites.",
+        calMemoSource: "Source: Bureau of the Royal Household & Prime Minister's Office",
+        podTitle: "Podcast",
+        podSubtitle: "Follow our stories and analysis",
+        footSub: "The Jewels of The Sea",
+        footFollow: "Follow Us",
+        footContact: "Contact Us",
+        footPhone: "Phone:",
+        footEmail: "Email:",
+        footAddress: "Sales Office:",
+        footCR: "© 2025 Copacabana Coral Reef Jomtien. All rights reserved."
+    },
+    // --- RUSSIAN (Machine Translated) ---
+    ru: {
+        title: "Новостная рассылка Copacabana Coral Reef - Ноябрь 2025",
+        headerDate: "Ноябрь 2025",
+        navOverview: "Обзор",
+        navProgress: "Прогресс",
+        navFacilities: "Удобства",
+        navCommunity: "Баланс",
+        navSpotlight: "В центре внимания",
+        navArticle: "Статья",
+        navEvents: "Календарь",
+        navPodcast: "Подкаст",
+        navContact: "Контакты",
+        memoTitle: "В благоговейной памяти",
+        memoName: "Ее Величество Королева Сирикит, Королева-Мать",
+        memoDate: "Скончалась 24 октября 2025 г.",
+        memoThanks: "Мы смиренно чтим безграничную милость и сострадание Ее Величества",
+        memoFrom: "От",
+        memoOrg: "Руководители, комитет и сотрудники Copacabana Group",
+        overviewMonth: "Ноябрь 2025",
+        overviewTitle: "Новый взгляд на жизнь",
+        overviewSubtitle: "Новости о ходе строительства и образе жизни в Copacabana Coral Reef",
+        overviewP1: "Наступает ноябрь... он сигнализирует о начале последнего квартала года. Это время, когда многие начинают размышлять о прошлом и планировать будущее, время поиска «повышения» качества жизни.",
+        overviewP2: "В мире, который вращается так быстро, наличие <strong>«личного пространства»</strong>, отвечающего всем измерениям жизни, стало абсолютно необходимым. В Copacabana Coral Reef Jomtien мы не просто строим жилье; мы создаем «пространства», которые одновременно красивы... и функциональны, для каждого вашего важного момента.",
+        overviewP3: "В этой рассылке будут представлены последние новости о проекте и новые взгляды на жизнь, где роскошь, которую мы видим, гармонично сочетается с отдыхом, который мы чувствуем.",
+        imgDisclaimer: "Изображения созданы компьютером только в рекламных целях. Детали могут изменяться в соответствии с инженерными и нормативными требованиями.",
+        progTitle: "Новости строительства",
+        progSubtitle: "Строим будущее, этаж за этажом. Уверенно поднимаемся на 31-й этаж.",
+        progP1: "Есть сильное изречение: «Чем выше поднимаешься, тем шире кругозор». Это не просто философская истина; она отражает самую ясную физическую реальность, особенно здесь, в месте, которое готово стать новым символом Джомтьена.",
+        progP2: "По состоянию на ноябрь 2025 года, конструкция Copacabana Coral Reef Jomtien успешно достигла 31-го этажа. Эта высота — не просто цифра, отражающая инженерный прогресс; это Осязаемое Доказательство. Это конкретное подтверждение... что великолепные виды — это то, чем вы будете обладать и наслаждаться в ближайшем будущем.",
+        progP3: "Каждый новый этаж, который мы добавляем, — это более ясное отражение «реального опыта», который вас ждет. Это повышение уровня обзора, где старые виды заменяются новыми, широкими перспективами...",
+        progBullet1: "<strong class=\"text-primary\">Горизонт принадлежит вам:</strong> Далекий горизонт, где бескрайнее, темно-синее море Джомтьена встречается с небом, теперь втянут в ваше личное святилище.",
+        progBullet2: "<strong class=\"text-primary\">Доказательство опыта:</strong> Мы не просто строим конструкцию; мы создаем «опыт» возвышенной жизни — эстетическое удовольствие от пробуждения с панорамным видом на море.",
+        progBullet3: "<strong class=\"text-primary\">Обещание, обретающее форму:</strong> Наша неустанная, ежедневная приверженность — это обещание, обретающее форму... и будущее, которого вы ждете, приближается с каждым мгновением.",
+        progP4: "Мы по-прежнему привержены установлению новых, более высоких стандартов не только с точки зрения прочной конструкции, но и в исключительном «качестве жизни», которое вы получите к 2028 году.",
+        facTitle: "Повышение качества жизни",
+        facSubtitle: "Общественные зоны, 'тщательно подобранные' для реальной жизни",
+        facP1: "Хороший «дом», на наш взгляд, — это место, которое безупречно подходит для каждой «роли» и «деятельности» в жизни. Copacabana Coral Reef спроектирован для этих разнообразных стилей жизни... будь то день, требующий сосредоточенности, или день, требующий полного расслабления.",
+        facProdTitle: "Пространство для 'мысли' и 'вдохновения' (Productive Space)",
+        facProdDesc: "Coral Sky Business Lounge на 50-м этаже создан для современного профессионала. Будь то коворкинг открытой планировки или тихий уголок для глубокой работы... все это сопровождается видами на море, которые всегда рождают новое вдохновение.",
+        facFamTitle: "Пространство для 'семьи' и 'воспоминаний' (Family & Activity Space)",
+        facFamDesc: "Потому что праздники — это время для семьи... Бассейн с волнами и Детский клуб — это больше, чем просто удобства; это «пространства для связи», где члены семьи могут проводить качественное время вместе в расслабленной, частной обстановке.",
+        facWellTitle: "Пространство для 'тела' и 'внутреннего покоя' (Wellness Space)",
+        facWellDesc: "Здоровье имеет первостепенное значение. Просторный тренажерный зал с высокими потолками и полным видом на море — это место для сбалансированных тренировок, или вы можете расслабить мышцы в частном онсэне и джакузи, подготавливая тело и разум к тому, чтобы оставаться сильными.",
+        commTitle: "Баланс жизни",
+        commSubtitle: "Откройте для себя безмятежность... среди удобств в самом сердце Джомтьена.",
+        commP1: "В быстро вращающемся мире, где жизнь часто требует от нас «выбирать»... нам часто задают вопрос: как нам сбалансировать «внешний мир», полный возможностей, с «внутренним миром», жаждущим покоя?",
+        commP2: "Особенно в таком высокопотенциальном районе, как ВВК, где каждая связь — это преимущество... «Связанность» (Connectivity) становится необходимой. Тем не менее, истинное «качество жизни» измеряется не только тем, как быстро мы связываемся, но и нашей способностью «Отключаться» (Disconnect), когда нам это нужно.",
+        commP3: "Концепция резиденции, которая понимает эти противоречивые потребности, — это не просто выбор местоположения; это выбор «качества» жизни.",
+        commP4: "Представьте, что вы являетесь частью самого значительного экономического движения страны, но в следующий момент... возвращаетесь к поистине частному «Спокойствию» (Tranquility), где атмосфера отдыха все еще «сохранена».",
+        commP5: "Это дизайн <strong>«Выбираемого образа жизни» (Choosable Lifestyle).</strong>",
+        commP6: "Это счастье знать, что мир у вас под рукой... но вы также можете закрыть дверь, насладиться тишиной и быть полностью наедине с собой в тот момент, когда пожелаете.",
+        commLink: "Подробнее об этой концепции &rarr;",
+        spotTitle: "В ЦЕНТРЕ ВНИМАНИЯ: Осязаемое будущее местоположения Джомтьен",
+        spotSubtitle: "Обновление мегапроекта «EECiti» или «Бангкок 2»",
+        spotP1: "В этой рассылке мы хотим ознакомить вас с захватывающим будущим «местоположения», которое мы все выбрали для наших домов и инвестиций, и которое готово совершить скачок вперед благодаря национальному мегапроекту «EECiti», также известному как «Бангкок 2».",
+        spotQ1: "Что такое «Бангкок 2» и почему это важно для нас?",
+        spotA1: "EECiti — это проект по созданию нового умного города и делового центра в ВВК, ключевая национальная стратегия по децентрализации процветания, некогда сконцентрированного только в Бангкоке. Это не просто промышленная зона; это «строительство нового города с чистого листа», спроектированного для будущего.",
+        spotH1: "1. Привлечение «волны» высококачественной экономики и талантов",
+        spotD1: "Основная цель EECiti — разместить «Новые отрасли S-кривой» (Точная медицина, Велнес, BCG Tech). Эти отрасли привлекут высококвалифицированных специалистов и руководителей со всего мира — группу с высокой покупательной способностью, ищущую премиальное жилье. Copacabana Coral Reef — идеальный ответ для удовлетворения этого огромного будущего спроса.",
+        spotH2: "2. Умный город «без» старых проблем",
+        spotD2: "EECiti создан для решения проблем Бангкока, с безопасным городским планированием от наводнений и умной инфраструктурой, такой как «Общий туннель для коммуникаций» (CUT), который убирает все кабели под землю. Наличие современного, упорядоченного «соседа» напрямую повышает ценность и пригодность для жизни всего района Джомтьен.",
+        spotH3: "Вывод: Уверенность в инвестициях",
+        spotD3: "Первоначальные инвестиции правительства в размере 74 миллиардов бат для подготовки инфраструктуры к дальнейшим 1,34 триллионам бат частных инвестиций гарантируют, что этот проект «реализуется» и движется полным ходом.",
+        spotD4: "Ваше решение выбрать Copacabana Coral Reef Jomtien — это не просто выбор роскошной резиденции; это позиционирование ваших инвестиций в самом «центре» одной из величайших историй роста Таиланда.",
+        spotLink: "Смотреть инфографику: EECiti строит второй Бангкок &rarr;",
+        artTitle: "Специальная статья: Перспектива для принятия решений",
+        artSubtitle: "Цифровая эпоха и критическое мышление",
+        artP1: "Мы считаем, что «качество жизни» не ограничивается выбором дома; оно включает в себя «качество мысли», используемое при принятии решений.",
+        artP2: "В эпоху «Информационного потопа» алгоритмы и влиятельные лица часто апеллируют к нашим эмоциям и чувствам «Раппорта» больше, чем к фактам. Этот «Парадокс Раппорта» заставляет нас доверять «Парасоциальным отношениям» больше, чем нейтральным данным.",
+        artP3: "Это эпоха, когда «Критическое мышление» стало самым важным навыком, позволяющим нам мудро ориентироваться в цифровом мире и «думать вместе с ИИ», а не просто «верить» ИИ, гарантируя, что люди остаются движущей силой своих собственных важных решений.",
+        artLink: "Узнайте о 5 психологических ловушках (Инфографика) &rarr;",
+        calTitle: "Календарь Паттайи",
+        calSubtitle: "События и важная информация на ноябрь",
+        calEv1Date: "5 ноября 2025 г.",
+        calEv1Title: "Фестиваль Лой Кратонг",
+        calEv1Desc: "Присоединяйтесь к тайской традиции в ночь полнолуния, чтобы воздать должное богине воды в различных местах вдоль пляжа Паттайи и в местных храмах.",
+        calEv1Source: "Источник: Офис ТАТ в Паттайе",
+        calEv2Date: "12 - 16 ноября 2025 г.",
+        calEv2Title: "Предварительные мероприятия Мисс Вселенная 2025",
+        calEv2Desc: "Паттайя принимает ключевые мероприятия, включая репетиции (13 ноября), показ мод в купальниках в Columbia Pictures Aquaverse (14 ноября) и закрытые интервью (15 ноября).",
+        calEv2Source: "Источник: Организация Мисс Вселенная",
+        calEv3Date: "28 - 29 ноября 2025 г.",
+        calEv3Title: "Международный фестиваль фейерверков в Паттайе",
+        calEv3Desc: "Захватывающее ежегодное шоу фейерверков мирового класса над Центральным пляжем Паттайи, сопровождаемое музыкой, фуд-кортами и живыми выступлениями.",
+        calEv3Source: "Источник: Город Паттайя",
+        calMemoInfo: "Важная информация",
+        calMemoTitle: "Руководство по трауру и соблюдению",
+        calMemoP1: "<strong>1. Траурная одежда и развлечения</strong><br>Правительство просит о сотрудничестве частный сектор и общественность носить черную одежду и выражать соболезнования в течение 90 дней. Развлекательным заведениям предлагается воздержаться или ограничить развлечения на 30 дней.",
+        calMemoP2: "<strong>2. Выражение почтения в Большом дворце</strong><br>• <strong>С 9 ноября 2025 г.:</strong><br>Общественности милостиво разрешено входить и выражать почтение перед Королевской урной в Тронном зале Дусит Маха Прасат (09:00 - 21:00).",
+        calMemoP3: "<strong>3. Спонсорство королевских церемоний пожертвований</strong><br>Агентствам и широкой общественности будет разрешено совместно проводить церемонии после завершения 100-дневных королевских обрядов пожертвований.",
+        calMemoSource: "Источник: Бюро Королевского двора и Канцелярия Премьер-министра",
+        podTitle: "Подкаст",
+        podSubtitle: "Следите за нашими историями и анализом",
+        footSub: "Драгоценности моря",
+        footFollow: "Подписывайтесь на нас",
+        footContact: "Свяжитесь с нами",
+        footPhone: "Телефон:",
+        footEmail: "Эл. почта:",
+        footAddress: "Офис продаж:",
+        footCR: "© 2025 Copacabana Coral Reef Jomtien. Все права защищены."
+    },
+    // --- CHINESE (Simplified) ---
+    zh: {
+        title: "Copacabana Coral Reef 简报 - 2025 年 11 月",
+        headerDate: "2025 年 11 月",
+        navOverview: "概述",
+        navProgress: "进展",
+        navFacilities: "设施",
+        navCommunity: "生活平衡",
+        navSpotlight: "焦点",
+        navArticle: "专题文章",
+        navEvents: "日历",
+        navPodcast: "播客",
+        navContact: "联系我们",
+        memoTitle: "致以崇高敬意",
+        memoName: "诗丽吉王后陛下，王太后",
+        memoDate: "于 2025 年 10 月 24 日逝世",
+        memoThanks: "我们谦卑地铭记陛下的无边恩典与慈悲",
+        memoFrom: "来自",
+        memoOrg: "Copacabana 集团的管理层、委员会和员工",
+        overviewMonth: "2025 年 11 月",
+        overviewTitle: "生活的新视角",
+        overviewSubtitle: "Copacabana Coral Reef 的进展和生活方式更新",
+        overviewP1: "进入十一月……这标志着今年最后一个季度的开始。这是一个许多人开始反思过去、规划未来的时刻，一个寻求生活质量“提升”的时刻。",
+        overviewP2: "在一个瞬息万变的世界里，拥有一个能满足生活各个方面的 <strong>“个人空间”</strong> 变得至关重要。在 Copacabana Coral Reef Jomtien，我们不仅在建造住宅；我们正在为您生命中的每一个重要时刻，打造既美观……又实用的“空间”。",
+        overviewP3: "本期简报将介绍最新的项目进展，分享关于生活的新视角，在这里，我们所见的奢华与我们所感的放松……完美融合。",
+        imgDisclaimer: "图片为电脑合成，仅供广告宣传之用。细节可能因工程和法规要求而有所变更。",
+        progTitle: "施工进度更新",
+        progSubtitle: "逐层构筑未来，稳步迈向第31层。",
+        progP1: "有句强有力的话：“站得越高，视野越广。” 这不仅是一个哲学真理；它反映了最清晰的物理现实，尤其是在这里，在这个即将成为中天新象征的立足点上。",
+        progP2: "截至 2025 年 11 月，Copacabana Coral Reef Jomtien 的结构已成功达到第 31 层。这个高度不仅是工程进展的数字；它是“有形的证明”。它具体地证实了……壮丽的景观就是您在不久的将来将拥有和体验到的。",
+        progP3: "我们每增加一个新楼层，都是对即将到来的“真实体验”的更清晰反映。这是一种视野的提升，旧的景观被新的、广阔的视角所取代……",
+        progBullet1: "<strong class=\"text-primary\">地平线属于您：</strong> 遥远的地平线，广阔、深蓝的中天海与天空相接的地方，现在被纳入您的私人庇护所。",
+        progBullet2: "<strong class=\"text-primary\">体验的证明：</strong> 我们不只是在建造一个结构；我们正在打造一种“提升的生活体验”——在全景海景中醒来的美学乐趣。",
+        progBullet3: "<strong class=\"text-primary\">一个正在成形的承诺：</strong> 我们坚持不懈的日常承诺是一个正在成形的承诺……您所期待的未来正每时每刻都在靠近。",
+        progP4: "我们仍然致力于设立新的、更高的标准，不仅是在坚固的结构方面，而且在您将于 2028 年获得的卓越“生活质量”方面。",
+        facTitle: "提升生活品质",
+        facSubtitle: "为现实生活而“策划”的公共区域",
+        facP1: "在我们看来，一个好的“家”，是一个能无缝满足生活中每个“角色”和“活动”的地方。Copacabana Coral Reef 专为这些多样化的生活方式而设计……无论是需要专注的一天，还是需要极致放松的一天。",
+        facProdTitle: "为“思想”和“灵感”而设的空间 (Productive Space)",
+        facProdDesc: "位于 50 层的 Coral Sky 商务酒廊专为现代专业人士设计。无论是开放式共享办公空间，还是适合深度工作的安静角落……所有这些都伴随着能时刻激发新灵感的海景。",
+        facFamTitle: "为“家庭”和“记忆”而设的空间 (Family & Activity Space)",
+        facFamDesc: "因为假期是家庭时间……造浪池和儿童俱乐部不仅仅是便利设施；它们是“建立联系的空间”，家庭成员可以在轻松、私密的环境中共享优质时光。",
+        facWellTitle: "为“身体”和“内心平静”而设的空间 (Wellness Space)",
+        facWellDesc: "健康至关重要。宽敞的高天花板健身房拥有全海景，是进行均衡锻炼的场所，您也可以选择在私人温泉和按摩浴缸中放松肌肉，让身心保持强壮。",
+        commTitle: "生活的平衡",
+        commSubtitle: "在便捷的中天中心...发现宁静。",
+        commP1: "在一个快速旋转的世界里，生活常常要求我们“选择”……我们经常被问到：我们如何在充满机遇的“外部世界”和渴望和平的“内心世界”之间保持平衡？",
+        commP2: "尤其是在像东部经济走廊 (EEC) 这样高潜力的地区，每一次连接都是一种优势……“连通性” (Connectivity) 变得至关重要。然而，真正的“生活质量”不仅在于我们连接的速度，还在于我们需要时“断开” (Disconnect) 的能力。",
+        commP3: "一个理解这些冲突需求的住宅概念不仅仅是关于位置；它是关于选择生活的“质量”。",
+        commP4: "想象一下，您是国家最重要的经济运动的一部分，但下一步……您就可以回到真正私密的“宁静” (Tranquility) 之中，那里的休息氛围仍被“保存”着。",
+        commP5: "这是一种 <strong>“可选择的生活方式” (Choosable Lifestyle)</strong> 的设计。",
+        commP6: "这是一种幸福，您知道世界触手可及……但您也可以选择关上门，拥抱安静，在您需要的那一刻完全私密。",
+        commLink: "阅读更多关于此概念的信息 &rarr;",
+        spotTitle: "焦点：中天地理位置的切实未来",
+        spotSubtitle: "“EECiti”或“曼谷 2 期”大型项目更新",
+        spotP1: "在本期简报中，我们想向您更新我们都选择作为家园和投资的“地理位置”的激动人心的未来，它将随着国家大型项目“EECiti”（也称为“曼谷 2 期”）而飞跃发展。",
+        spotQ1: "什么是“曼谷 2 期”，为什么它对我们很重要？",
+        spotA1: "EECiti 是在 EEC 地区建立一个新的智能城市和商业中心的项目，这是国家分散曾经集中在曼谷的繁荣的关键战略。这不仅仅是一个工业区；这是“从零开始建设新城”，专为未来而设计。",
+        spotH1: "1. 吸引高品质经济和人才的“浪潮”",
+        spotD1: "EECiti 的主要目标是成为“新 S 曲线产业”（精准医疗、健康、BCG 技术）的基地。这些产业将吸引来自世界各地的高技能人才和高管——这是一个购买力强、寻求高端生活的人群。Copacabana Coral Reef 是满足未来巨大需求的完美答案。",
+        spotH2: "2. 一个“没有”旧问题的智慧城市",
+        spotD2: "EECiti 的建立是为了解决曼谷的问题，拥有防洪的城市规划和智能基础设施，如“公共设施隧道”(CUT)，将所有电缆埋入地下。拥有一个现代化、有序的“邻居”，将直接提高整个中天地区的价值和宜居性。",
+        spotH3: "结论：投资信心",
+        spotD3: "政府首期投资 740 亿泰铢，为后续 1.34 万亿泰铢的私人投资准备基础设施，这保证了该项目正在“真实发生”并全速推进。",
+        spotD4: "您选择 Copacabana Coral Reef Jomtien 的决定，不仅是选择了一个豪华住宅；更是将您的投资定位在泰国最伟大的增长故事之一的“中心”。",
+        spotLink: "查看信息图：EECiti 建设第二个曼谷 &rarr;",
+        artTitle: "专题文章：决策的视角",
+        artSubtitle: "数字时代与批判性思维",
+        artP1: "我们相信，“生活质量”不仅在于选择一个家；它还包括用于决策的“思想质量”。",
+        artP2: "在一个“信息泛滥”的时代，算法和影响者常常通过情感和“亲和力” (Rapport) 而非事实来吸引我们……这种“亲和力悖论”使我们倾向于相信“准社会关系” (Parasocial Relationships) 而非中立数据。",
+        artP3: "在这个时代，“批判性思维”已成为最基本的技能，使我们能够明智地驾驭数字世界，“与 AI 一起思考”而不是仅仅“相信”AI，确保人类仍然是自己关键决策的驱动者。",
+        artLink: "了解 5 个心理陷阱 (信息图) &rarr;",
+        calTitle: "芭堤雅日历",
+        calSubtitle: "11 月的活动和重要信息",
+        calEv1Date: "2025 年 11 月 5 日",
+        calEv1Title: "水灯节",
+        calEv1Desc: "在月圆之夜加入泰国传统，在芭堤雅海滩和当地寺庙的各个地点向水女神致敬。",
+        calEv1Source: "来源：泰国旅游局芭堤雅办事处",
+        calEv2Date: "2025 年 11 月 12 日至 16 日",
+        calEv2Title: "2025 环球小姐预赛",
+        calEv2Desc: "芭堤雅举办关键活动，包括彩排（11 月 13 日）、在哥伦比亚电影水世界举行的泳装时装秀（11 月 14 日）和闭门面试（11 月 15 日）。",
+        calEv2Source: "来源：环球小姐组织",
+        calEv3Date: "2025 年 11 月 28 日至 29 日",
+        calEv3Title: "芭堤雅国际烟花节",
+        calEv3Desc: "在芭堤雅中央海滩举行的壮观的年度世界级烟花表演，配有音乐、美食摊位和现场表演。",
+        calEv3Source: "来源：芭堤雅市",
+        calMemoInfo: "重要信息",
+        calMemoTitle: "哀悼和纪念指南",
+        calMemoP1: "<strong>1. 哀悼着装和娱乐活动</strong><br>政府请求私营部门和公众合作，穿着黑色服装并表示哀悼 90 天。娱乐场所被要求在 30 天内避免或限制娱乐活动。",
+        calMemoP2: "<strong>2. 在大皇宫致敬</strong><br>• <strong>自 2025 年 11 月 9 日起：</strong><br>蒙恩准许公众进入律实玛哈巴萨皇殿 (Dusit Maha Prasat Throne Hall) 瞻仰皇家灵柩 (09:00 - 21:00)。",
+        calMemoP3: "<strong>3. 赞助皇家功德仪式</strong><br>在 100 天皇家功德仪式完成后，将允许机构和公众共同主办仪式。",
+        calMemoSource: "来源：皇家内务府和总理办公室",
+        podTitle: "播客 (Podcast)",
+        podSubtitle: "关注我们的故事和分析",
+        footSub: "海洋瑰宝",
+        footFollow: "关注我们",
+        footContact: "联系我们",
+        footPhone: "电话:",
+        footEmail: "电子邮件:",
+        footAddress: "销售办公室:",
+        footCR: "© 2025 Copacabana Coral Reef Jomtien. 版权所有。"
+    }
+};
+
+
 document.addEventListener('DOMContentLoaded', function () {
+    // --- Mobile Menu ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    // Toggle mobile menu
     mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
     
-    // Close mobile menu on link click
     document.querySelectorAll('#mobile-menu a').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
         });
     });
 
+    // --- Language Switcher Logic ---
+    const langButtons = {
+        'th': document.getElementById('lang-th'),
+        'en': document.getElementById('lang-en'),
+        'ru': document.getElementById('lang-ru'),
+        'zh': document.getElementById('lang-zh')
+    };
+    
+    // Function to update active button
+    function setActiveLangButton(lang) {
+        // Set document language
+        document.documentElement.lang = lang;
+        
+        for (const key in langButtons) {
+            if (key === lang) {
+                langButtons[key].classList.add('active');
+            } else {
+                langButtons[key].classList.remove('active');
+            }
+        }
+    }
+
+    // Main translation function
+    function changeLanguage(lang) {
+        if (!translations[lang]) {
+            console.error("Language not found:", lang);
+            return;
+        }
+        
+        const langData = translations[lang];
+        
+        // Update all elements with data-key
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (langData[key]) {
+                el.innerHTML = langData[key];
+            } else {
+                // Fallback to English if key not found, then Thai
+                el.innerHTML = translations['en'][key] || translations['th'][key] || '';
+                if (!translations['en'][key] && !translations['th'][key]) {
+                    console.warn("Translation key missing for all languages:", key);
+                }
+            }
+        });
+        
+        // Update page title
+        document.title = langData.title || translations['en'].title;
+        
+        // Update active button
+        setActiveLangButton(lang);
+    }
+
+    // Add event listeners to buttons
+    langButtons.th.addEventListener('click', () => changeLanguage('th'));
+    langButtons.en.addEventListener('click', () => changeLanguage('en'));
+    langButtons.ru.addEventListener('click', () => changeLanguage('ru'));
+    langButtons.zh.addEventListener('click', () => changeLanguage('zh'));
+
+
+    // --- Nav & Scroll Logic ---
     const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
     const sections = document.querySelectorAll('section, footer');
 
-    // Highlight nav link on scroll
     function changeNavOnScroll() {
         let current = '';
         sections.forEach(section => {
@@ -687,7 +1132,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', changeNavOnScroll);
     
-    // Smooth scroll for all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -698,7 +1142,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     targetElement.scrollIntoView({
                         behavior: 'smooth'
                     });
-                    // Close mobile menu after clicking a link
                     if (mobileMenu.classList.contains('hidden') === false) {
                         mobileMenu.classList.add('hidden');
                     }
@@ -728,7 +1171,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             currentSlide = (n + slides.length) % slides.length;
             slides[currentSlide].style.display = 'block';
-            // Force reflow for transition
             void slides[currentSlide].offsetWidth; 
             slides[currentSlide].classList.add('active');
         }
@@ -737,7 +1179,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function prevSlide() { showSlide(currentSlide - 1); }
         
         function startSlideShow() {
-            stopSlideShow(); // Clear existing interval
+            stopSlideShow(); 
             slideInterval = setInterval(nextSlide, intervalTime);
         }
         function stopSlideShow() {
@@ -763,8 +1205,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (slides.length > 0) {
             showSlide(0);
             startSlideShow();
-            
-            // Pause on hover
             slider.addEventListener('mouseenter', stopSlideShow);
             slider.addEventListener('mouseleave', startSlideShow);
         }
@@ -774,11 +1214,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeSlider('overview-slider', 'overviewPrevBtn', 'overviewNextBtn');
     initializeSlider('progress-slider', 'progressPrevBtn', 'progressNextBtn');
     
-    // Initial Load
+    // --- Initial Load ---
+    changeLanguage('th'); // Load Thai by default
     changeNavOnScroll();
 });
-
-// --- Modal & Gemini API Logic Removed ---
 
 </script>
 
