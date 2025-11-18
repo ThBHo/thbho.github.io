@@ -1,0 +1,215 @@
+import React, { useState, useCallback } from 'react';
+
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${import.meta.env.VITE_GEMINI_KEY || ''}`;
+
+const SYSTEM_PROMPT = `You are a world-class cinematic video prompt engineer for AI video tools (like Kling, Runway, Luma).
+Create 12 unique, highly dynamic 5-8 second video prompts from the uploaded photo.
+
+Every prompt MUST include:
+• Dynamic camera movement (orbit, dolly zoom, parallax, push-in + tilt, etc.)
+• Realistic model micro-actions (gaze shift, breath, hair sway, subtle smile)
+• Dramatic evolving lighting (golden hour sweep, volumetric rays, rim light pulse)
+
+Style: Cinematic, moody, hyper-realistic, fashion-film aesthetic. Inspired by @threeandhour, @wideroom, @parhomovisuals.
+
+Return ONLY valid JSON:
+{
+  "prompts": [
+    {
+      "prompt": "Full English video prompt here...",
+      "summary_th": "Short Thai tag (3-5 words)"
+    }
+  ]
+}`;
+
+export default function App() {
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [keywords, setKeywords] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [copiedId, setCopiedId] = useState('');
+
+  const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+  const handleFiles = (fileList) => {
+    const array = Array.from(fileList);
+    setFiles(array);
+    setPreviews(array.map(f => URL.createObjectURL(f)));
+    setResults([]);
+  };
+
+  const generate = async () => {
+    if (!files.length) return;
+    setLoading(true);
+    setResults([]);
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const base64 = await toBase64(file);
+
+      const payload = {
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT + (keywords ? `\n\nUser theme: ${keywords}` : '') }] },
+        contents: [{
+          role: "user",
+          parts: [
+            { inlineData: { mimeType: file.type, data: base64 } },
+            { text: "Create 12 cinematic video prompts from this image." }
+          ]
+        }],
+        generationConfig: {
+          responseMimeType: "application/json",
+          temperature: 0.9,
+          topP: 0.95
+        }
+      };
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        const text = data.candidates[0]?.content?.parts[0]?.text || '';
+        const json = JSON.parse(text.replace(/```json|```/g, ''));
+
+        setResults(prev => [...prev, {
+          id: i,
+          name: file.name,
+          preview: previews[i],
+          prompts: json.prompts || []
+        }]);
+      } catch (err) {
+        setResults(prev => [...prev, {
+          id: i,
+          name: file.name,
+          preview: previews[i],
+          error: 'Failed to generate prompts'
+        }]);
+      }
+    }
+    setLoading(false);
+  };
+
+  const copyText = (text, id) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(''), 1500);
+  };
+
+  const clearAll = () => {
+    setFiles([]);
+    setPreviews(prev => prev.forEach(URL.revokeObjectURL));
+    setPreviews([]);
+    setResults([]);
+    setKeywords('');
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white p-6 font-sans">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-2">Cinematic Video Prompt Generator</h1>
+        <p className="text-center text-gray-400 mb-10">Turn photos into dynamic 5–8s video prompts • Gemini 1.5 Flash</p>
+
+        <div className="space-y-8">
+          {/* Upload */}
+          <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => handleFiles(e.target.files)}
+              className="hidden"
+              id="upload"
+            />
+            <label
+              htmlFor="upload"
+              className="block cursor-pointer text-center p-12 border-2 border-dashed border-gray-700 rounded-xl hover:border-gray-600 transition"
+            >
+              <div className="text-6xl mb-4">↑</div>
+              <p className="text-xl">Drop images or click to upload</p>
+              <p className="text-sm text-gray-500 mt-2">Supports multiple images</p>
+            </label>
+
+            {previews.length > 0 && (
+              <div className="grid grid-cols-8 gap-3 mt-6">
+                {previews.map((src, i) => (
+                  <img key={i} src={src} className="w-full aspect-square object-cover rounded-lg" />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Keywords */}
+          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+            <label className="block text-sm font-medium mb-2">Theme / Mood / Style (optional)</label>
+            <textarea
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+              placeholder="e.g. cyberpunk neon, soft morning light, dramatic noir, fashion editorial"
+              className="w-full bg-black border border-gray-800 rounded-lg px-4 py-3 focus:border-blue-500 outline-none"
+              rows={2}
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-4">
+            <button
+              onClick={generate}
+              disabled={!files.length || loading}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center gap-3"
+            >
+              {loading ? <>Generating... {results.length}/{files.length}</> : `Generate Prompts (${files.length})`}
+            </button>
+            {files.length > 0 && (
+              <button onClick={clearAll} className="px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition">
+                Clear
+              </button>
+            )}
+          </div>
+
+          {/* Results */}
+          {results.map((result) => (
+            <div key={result.id} className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-800">
+              <div className="flex items-center gap-4 p-4 bg-gray-800">
+                <img src={result.preview} className="w-20 h-20 object-cover rounded-lg" />
+                <div>
+                  <h3 className="font-semibold">{result.name}</h3>
+                  {result.error && <p className="text-red-400 text-sm">{result.error}</p>}
+                </div>
+              </div>
+
+              <div className="p-6 grid md:grid-cols-2 gap-4">
+                {result.prompts?.map((p, i) => {
+                  const id = `${result.id}-${i}`;
+                  return (
+                    <div
+                      key={i}
+                      className="group relative bg-black/40 border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition"
+                    >
+                      <div className="text-xs text-blue-400 font-medium mb-1">• {p.summary_th}</div>
+                      <p className="text-sm leading-relaxed">{p.prompt}</p>
+                      <button
+                        onClick={() => copyText(p.prompt, id)}
+                        className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition bg-gray-800 hover:bg-gray-700 p-2 rounded"
+                      >
+                        {copiedId === id ? '✓' : '📋'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
