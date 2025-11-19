@@ -5,30 +5,45 @@ const API_KEY = ""; // Leave as-is, will be handled by the environment
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
 const MAX_RETRIES = 5;
 
-// --- System Instruction ---
-// This prompt guides the AI to match your requested style
-const SYSTEM_PROMPT = `You are an expert creative director and videographer, specializing in turning still photos into beautiful, realistic videos.
+// --- System Instructions ---
 
-Your style is **highly dynamic, descriptive, and narrative.** While inspired by the calm, cinematic aesthetic of @threeandhour and @wideroom, your focus is on creating prompts that feel like a complete, 6-second shot with significant movement and high-end visual storytelling.
+const SYSTEM_PROMPT_STANDARD = `You are an expert creative director and videographer.
+Your style is **highly dynamic, descriptive, and narrative.**
+Based on the user's uploaded photo, generate 12 distinct video prompts.
+Each prompt must:
+1.  Describe a 4-6 second clip.
+2.  Combine: Dynamic Camera Movement, Specific Model Action, and Dynamic Light & Shadow.
+3.  Be a complete, cohesive sentence.
 
-**This is a new style direction:** AVOID simple or static prompts. Every single prompt must be dynamic.
+**Examples of Tone:**
+* "The camera smoothly orbits around the model by 60 degrees, revealing slightly more of a chiseled male model leaning back. He brushes damp hair from his forehead with effortless intensity."
+* "Backlighting casts dramatic silhouettes across his body, isolating contours and creating mood as the camera slowly pushes in."
 
-Based on the user's uploaded photo, generate 12 distinct video prompts. Each prompt must:
-1.  **Describe a 4-6 second clip.**
-2.  **Combine all three elements:**
-    * **Dynamic Camera Movement:** (e.g., "The camera smoothly orbits 60 degrees," "A slow push-in that accelerates," "A parallax slide reveals...").
-    * **Specific Model Action:** (e.g., "brushes damp hair from his forehead," "leans back," "turns to the camera").
-    * **Dynamic Light & Shadow:** (e.g., "backlighting casts dramatic silhouettes," "light sweeps across his body," "contours are isolated by mood").
+Return a JSON object with a single key "prompts" containing an array of 12 objects. Each object: { "prompt": string, "summary_th": string }.
+`;
 
-**Use these user-provided examples as your primary inspiration for tone and complexity:**
-* **Example 1:** "The camera smoothly orbits around the model by 60 degrees, revealing slightly more of a chiseled male model leaning back against the seating. He brushes damp hair from his forehead with effortless intensity."
-* **Example 2:** "In this captivating image, a male model's chiseled physique becomes the canvas for a mesmerizing play of light. Over a span of six seconds, backlighting casts dramatic silhouettes across his body, isolating contours and creating mood."
+const SYSTEM_PROMPT_TIMELINE = `You are an expert video prompt engineer specializing in the **Veo3 structure**.
+Based on the user's uploaded photo, generate 12 distinct video prompts using the **exact Veo3 Timeline Pattern**.
 
-Return *only* a JSON object with a single key "prompts". This key should contain an array of 12 objects. Each object must have two keys:
-1.  "prompt": The full, detailed video prompt in English.
-2.  "summary_th": A very short (2-4 word) summary of the prompt's main focus in *Thai*, e.g., "กล้องหมุนและแอคชั่น", "การเล่นแสงและเงา", "การเคลื่อนไหวของกล้อง", "การกระทำและแสง".
+**Pattern Structure (Strictly Follow This):**
+"1. SECOND 0-2: [Description of scene, movement, and light]. 2. SECOND 2-4: [Evolution of the movement]. 3. SECOND 4-6: [Conclusion of the action]. Sound throughout: [Description of atmospheric sound/sfx]."
 
-Do not include any other text or markdown.
+**Requirements:**
+1.  Each prompt must be broken down into these specific time slots (0-2, 2-4, 4-6).
+2.  Include "Sound throughout" at the end of every prompt.
+3.  Focus on Cinematic Lighting, Micro-movements, and Atmosphere.
+
+Return a JSON object with a single key "prompts" containing an array of 12 objects. Each object: { "prompt": string, "summary_th": string }.
+`;
+
+const SYSTEM_PROMPT_REWRITE = `You are a professional screenplay writer and video prompt editor.
+Your task is to take a set of distinct video prompt concepts provided by the user and **rewrite them into ONE single, seamless, and highly detailed cinematic video generation prompt.**
+
+* **Goal:** Create a fluid narrative flow. Do not just list the inputs. Weave them together into a masterpiece description.
+* **Tone:** Atmospheric, high-fidelity, dynamic, realistic.
+* **Length:** Comprehensive but concise enough for AI video generators (Runway/Kling).
+
+Return only the raw text of the rewritten prompt. Do not use markdown or JSON.
 `;
 
 // --- JSON Schema for AI Response ---
@@ -52,13 +67,6 @@ const JSON_SCHEMA = {
 
 // --- Helper Functions ---
 
-/**
- * Fetches data with exponential backoff.
- * @param {string} url - The URL to fetch.
- * @param {object} options - The fetch options.
- * @param {number} [timeout=60000] - Timeout in milliseconds.
- * @returns {Promise<Response>} - The fetch response.
- */
 const fetchWithBackoff = async (url, options, timeout = 60000) => {
   let retries = 0;
   while (retries < MAX_RETRIES) {
@@ -68,68 +76,45 @@ const fetchWithBackoff = async (url, options, timeout = 60000) => {
     try {
       const response = await fetch(url, {
         ...options,
-        signal: controller.signal // Add abort signal
+        signal: controller.signal
       });
-      clearTimeout(id); // Clear the timeout if fetch is successful
+      clearTimeout(id);
 
-      if (response.ok) {
-        return response;
-      }
+      if (response.ok) return response;
 
-      // Don't retry on client errors, but do on server errors
       if (response.status >= 400 && response.status < 500) {
         const errorText = await response.text();
-        console.error(`Client error: ${response.status} ${response.statusText}`, errorText);
-        throw new Error(`Client error: ${response.status} ${response.statusText}. Check console for details.`);
+        console.error(`Client error: ${response.status}`, errorText);
+        throw new Error(`Client error: ${response.status} ${response.statusText}`);
       }
-
-      // Log server errors before retrying
-      console.warn(`Server error: ${response.status} ${response.statusText}. Retrying... (Attempt ${retries + 1}/${MAX_RETRIES})`);
-
+      console.warn(`Server error: ${response.status}. Retrying...`);
     } catch (error) {
-      clearTimeout(id); // Clear timeout on error as well
-      if (error.name === 'AbortError') {
-        console.warn(`Fetch aborted (timeout after ${timeout / 1000}s). Retrying... (Attempt ${retries + 1}/${MAX_RETRIES})`);
-      } else if (error.message.startsWith('Client error:')) {
-        // Re-throw client errors to stop retrying
-        throw error;
-      } else {
-        // Log other errors (like network errors)
-        console.warn(`Fetch attempt failed: ${error.message}. Retrying... (Attempt ${retries + 1}/${MAX_RETRIES})`);
+      clearTimeout(id);
+      if (error.name !== 'AbortError') {
+        console.warn(`Fetch failed: ${error.message}. Retrying...`);
       }
     }
     const delay = Math.pow(2, retries) * 1000 + Math.random() * 1000;
     await new Promise(resolve => setTimeout(resolve, delay));
     retries++;
   }
-  throw new Error("Failed to fetch from API after several retries. The server might be busy or the request took too long.");
+  throw new Error("Failed to fetch from API after several retries.");
 };
 
-
-/**
- * Converts a File object to a base64 string, stripping the prefix.
- * @param {File} file - The file to convert.
- * @returns {Promise<string>} - The base64-encoded string without the data prefix.
- */
 const toBase64 = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = () => {
-    // Strips 'data:image/jpeg;base64,' or similar
     const base64Data = reader.result.split(',')[1];
     resolve(base64Data);
   };
   reader.onerror = error => reject(error);
 });
 
-/**
- * Copies text to the clipboard.
- * @param {string} text - The text to copy.
- */
 const copyToClipboard = (text) => {
   const textArea = document.createElement("textarea");
   textArea.value = text;
-  textArea.style.position = "fixed";  // Avoid scrolling to bottom
+  textArea.style.position = "fixed";
   textArea.style.opacity = "0";
   document.body.appendChild(textArea);
   textArea.focus();
@@ -144,64 +129,39 @@ const copyToClipboard = (text) => {
 
 // --- React Components ---
 
-/**
- * Icon for loading spinner
- */
 const LoadingIcon = () => (
-  <svg
-    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <circle
-      className="opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      strokeWidth="4"
-    ></circle>
-    <path
-      className="opacity-75"
-      fill="currentColor"
-      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-    ></path>
+  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
   </svg>
 );
 
-/**
- * Icon for copy button
- */
 const CopyIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
   </svg>
 );
 
-/**
- * Icon for image upload
- */
 const UploadIcon = () => (
     <svg className="mx-auto h-12 w-12 text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
     </svg>
 );
 
-/**
- * Component for uploading an image
- * @param {object} props
- * @param {(files: FileList) => void} props.onImageUpload - Callback when images are selected.
- */
+const MagicWandIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+    <path d="M5 3v4"/><path d="M9 5H3"/><path d="M18 19v4"/><path d="M22 21h-6"/>
+  </svg>
+);
+
 const ImageUploader = ({ onImageUpload }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (e) => {
     const files = e.target.files;
-    if (files && files.length > 0) {
-      onImageUpload(files);
-    }
+    if (files && files.length > 0) onImageUpload(files);
   };
 
   const handleDrop = (e) => {
@@ -209,21 +169,7 @@ const ImageUploader = ({ onImageUpload }) => {
     e.stopPropagation();
     setIsDragging(false);
     const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      onImageUpload(files);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+    if (files && files.length > 0) onImageUpload(files);
   };
 
   return (
@@ -234,44 +180,27 @@ const ImageUploader = ({ onImageUpload }) => {
           isDragging ? 'border-blue-500 bg-gray-700' : 'bg-gray-800'
         }`}
         onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
       >
         <div className="space-y-2 text-center">
           <UploadIcon />
           <div className="flex text-sm text-gray-400">
-            <span className="font-medium text-blue-400 hover:text-blue-300">
-              Click to upload
-            </span>
+            <span className="font-medium text-blue-400 hover:text-blue-300">Click to upload</span>
             <p className="pl-1">or drag and drop</p>
           </div>
           <p className="text-xs text-gray-500">PNG, JPG, GIF (Multiple files allowed)</p>
         </div>
       </label>
-      <input
-        id="file-upload"
-        name="file-upload"
-        type="file"
-        className="sr-only"
-        accept="image/png, image/jpeg, image/gif"
-        onChange={handleFileChange}
-        multiple // <-- Allow multiple files
-      />
+      <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} multiple />
     </div>
   );
 };
 
-/**
- * Component to display the list of generated prompts
- * @param {object} props
- * @param {Array<{imagePreviewUrl: string, fileName: string, prompts: Array<{prompt: string, summary_th: string}>, error?: string}>} props.results - Array of prompt result objects.
- * @param {boolean} props.isLoading - Loading state.
- * @param {string | null} props.error - General error message.
- */
-const PromptList = ({ results, isLoading, error }) => {
+const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewrittenPrompt }) => {
   const [copiedIndex, setCopiedIndex] = useState(null);
-  const [selectedPrompts, setSelectedPrompts] = useState({}); // { 'id': 'prompt text' }
-  const [combinedPrompt, setCombinedPrompt] = useState("");
+  const [selectedPrompts, setSelectedPrompts] = useState({});
+  
   const selectedCount = Object.keys(selectedPrompts).length;
 
   const handleCopy = (text, index) => {
@@ -283,25 +212,15 @@ const PromptList = ({ results, isLoading, error }) => {
   const handleSelectPrompt = (promptId, promptText) => {
     setSelectedPrompts((prev) => {
       const newSelected = { ...prev };
-      if (newSelected[promptId]) {
-        delete newSelected[promptId];
-      } else {
-        newSelected[promptId] = promptText;
-      }
+      if (newSelected[promptId]) delete newSelected[promptId];
+      else newSelected[promptId] = promptText;
       return newSelected;
     });
-    // Clear combined prompt if selection changes
-    setCombinedPrompt("");
   };
 
-  const handleCombinePrompts = () => {
-    const combinedText = Object.values(selectedPrompts).join('; ');
-    setCombinedPrompt(combinedText);
-  };
-
-  const clearCombined = () => {
-    setCombinedPrompt("");
-    setSelectedPrompts({});
+  const handleSmartRewriteClick = () => {
+    const promptsToRewrite = Object.values(selectedPrompts);
+    onRewrite(promptsToRewrite);
   };
 
   if (isLoading) {
@@ -321,76 +240,74 @@ const PromptList = ({ results, isLoading, error }) => {
     );
   }
 
-  if (results.length === 0) {
-    return null; // Don't show anything if there are no prompts and it's not loading
-  }
+  if (results.length === 0) return null;
 
   return (
     <div className="w-full space-y-8 pt-8">
-      <div className="flex min-h-[40px] items-center justify-between">
+      {/* Action Bar */}
+      <div className="sticky top-4 z-10 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-gray-800/90 p-4 shadow-xl backdrop-blur-md border border-gray-700">
         <h2 className="text-xl font-semibold text-white">Generated Prompts</h2>
-        {selectedCount > 1 && (
-          <button
-            onClick={handleCombinePrompts}
-            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-green-700"
-          >
-            รวม Prompts ที่เลือก ({selectedCount})
-          </button>
-        )}
-      </div>
-
-      {combinedPrompt && (
-        <div className="relative rounded-lg border border-green-700 bg-gray-700 p-4">
-          <h3 className="mb-2 text-lg font-semibold text-green-300">Prompt ที่รวมแล้ว</h3>
-          <textarea
-            readOnly
-            value={combinedPrompt}
-            className="h-24 w-full rounded-md border-gray-600 bg-gray-800 p-2 text-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <div className="mt-2 flex gap-2">
+        
+        <div className="flex items-center gap-2">
+          {selectedCount > 1 && (
             <button
-              onClick={() => handleCopy(combinedPrompt, 'combined')}
-              className="flex items-center gap-2 rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-700"
+              onClick={handleSmartRewriteClick}
+              disabled={isRewriting}
+              className="flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:bg-purple-700 disabled:opacity-50 hover:shadow-purple-500/25"
             >
-              {copiedIndex === 'combined' ? (
+              {isRewriting ? (
                 <>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 6 9 17l-5-5"></path>
-                  </svg>
-                  คัดลอกแล้ว
+                  <LoadingIcon /> Rewriting...
                 </>
               ) : (
                 <>
-                  <CopyIcon /> คัดลอก
+                  <MagicWandIcon /> ✨ Smart Rewrite ({selectedCount})
                 </>
               )}
             </button>
+          )}
+        </div>
+      </div>
+
+      {/* Rewritten Result Area */}
+      {rewrittenPrompt && (
+        <div className="relative animate-in fade-in slide-in-from-top-4 duration-500 rounded-lg border border-purple-500/50 bg-gradient-to-b from-gray-800 to-gray-900 p-6 shadow-2xl">
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="flex items-center gap-2 text-lg font-semibold text-purple-300">
+              <MagicWandIcon /> Smart Rewritten Prompt
+            </h3>
             <button
-              onClick={clearCombined}
-              className="rounded-md bg-gray-500 px-3 py-1 text-sm text-white transition-colors hover:bg-gray-400"
+              onClick={() => handleCopy(rewrittenPrompt, 'rewritten')}
+              className="rounded-md bg-gray-700 px-3 py-1 text-sm text-white transition-colors hover:bg-gray-600"
             >
-              ล้าง
+              {copiedIndex === 'rewritten' ? 'Copied!' : 'Copy'}
             </button>
           </div>
+          <textarea
+            readOnly
+            value={rewrittenPrompt}
+            className="h-32 w-full rounded-md border-gray-700 bg-gray-950 p-3 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
         </div>
       )}
 
+      {/* Prompt Cards */}
       {results.map((result, index) => (
-        <div key={index} className="overflow-hidden rounded-lg bg-gray-800 shadow-lg">
-          <div className="flex items-center gap-4 bg-gray-700 p-4">
+        <div key={index} className="overflow-hidden rounded-lg bg-gray-800 shadow-lg ring-1 ring-gray-700">
+          <div className="flex items-center gap-4 bg-gray-750 border-b border-gray-700 p-4">
             <img
               src={result.imagePreviewUrl}
               alt={result.fileName}
-              className="h-16 w-16 flex-shrink-0 rounded-md object-cover"
+              className="h-16 w-16 flex-shrink-0 rounded-md object-cover shadow-sm"
             />
-            <h3 className="min-w-0 truncate text-lg font-semibold text-white" title={result.fileName}>
+            <h3 className="min-w-0 truncate text-lg font-semibold text-white opacity-90" title={result.fileName}>
               {result.fileName}
             </h3>
           </div>
 
           {result.error ? (
             <div className="p-4 text-center text-red-400">
-              <p><strong>Error processing this image:</strong> {result.error}</p>
+              <p><strong>Error:</strong> {result.error}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
@@ -400,29 +317,42 @@ const PromptList = ({ results, isLoading, error }) => {
                 return (
                   <div
                     key={pIndex}
-                    className={`relative rounded-lg bg-gray-900/50 p-4 pl-10 transition-shadow ${
-                      isSelected ? 'ring-2 ring-blue-500 shadow-md' : 'ring-0'
+                    onClick={() => handleSelectPrompt(promptId, prompt.prompt)}
+                    className={`group relative cursor-pointer rounded-lg border p-4 pl-10 transition-all duration-200 ${
+                      isSelected 
+                        ? 'border-purple-500 bg-purple-900/20 shadow-md shadow-purple-900/10' 
+                        : 'border-gray-700 bg-gray-900/50 hover:border-gray-600 hover:bg-gray-800'
                     }`}
                   >
-                    <input
-                      type="checkbox"
-                      id={promptId}
-                      checked={isSelected}
-                      onChange={() => handleSelectPrompt(promptId, prompt.prompt)}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 rounded border-gray-600 bg-gray-700 text-blue-500 transition-all focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-gray-900"
-                    />
-                    <label htmlFor={promptId} className="pr-12 text-gray-300">
-                      <span className="font-semibold text-blue-300">({prompt.summary_th})</span> {prompt.prompt}
-                    </label>
+                    <div className={`absolute left-3 top-6 h-5 w-5 rounded border transition-colors ${
+                        isSelected ? 'border-purple-500 bg-purple-500' : 'border-gray-600 bg-gray-800'
+                    }`}>
+                       {isSelected && (
+                         <svg className="text-white w-full h-full p-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                           <polyline points="20 6 9 17 4 12" />
+                         </svg>
+                       )}
+                    </div>
+                    
+                    <div className="pr-10">
+                       <span className="mb-1 inline-block rounded bg-blue-900/50 px-2 py-0.5 text-xs font-medium text-blue-200 border border-blue-800">
+                         {prompt.summary_th}
+                       </span>
+                       <p className="text-sm leading-relaxed text-gray-300 group-hover:text-gray-100">
+                         {prompt.prompt}
+                       </p>
+                    </div>
+
                     <button
-                      onClick={() => handleCopy(prompt.prompt, promptId)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-2 text-gray-400 transition-colors hover:bg-gray-700 hover:text-white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopy(prompt.prompt, promptId);
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-700 hover:text-white opacity-0 group-hover:opacity-100"
                       title="Copy prompt"
                     >
                       {copiedIndex === promptId ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M20 6 9 17l-5-5"></path>
-                        </svg>
+                        <span className="text-green-400 font-bold text-xs">Copied</span>
                       ) : (
                         <CopyIcon />
                       )}
@@ -438,9 +368,6 @@ const PromptList = ({ results, isLoading, error }) => {
   );
 };
 
-/**
- * Main App Component
- */
 export default function App() {
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviewUrls, setImagePreviewUrls] = useState([]);
@@ -448,22 +375,33 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [keywords, setKeywords] = useState(""); // <-- New state for keywords
+  const [keywords, setKeywords] = useState("");
+  
+  // New State for Features
+  const [promptMode, setPromptMode] = useState('standard'); // 'standard' | 'timeline'
+  const [isRewriting, setIsRewriting] = useState(false);
+  const [rewrittenPrompt, setRewrittenPrompt] = useState("");
+
+  // Inject Tailwind (DOM check only)
+  useEffect(() => {
+    const scriptId = 'tailwindcss-cdn-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = "https://cdn.tailwindcss.com";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   useEffect(() => {
-    // Create data URLs for preview when imageFiles change
     if (!imageFiles || imageFiles.length === 0) {
       setImagePreviewUrls([]);
       return;
     }
-
     const objectUrls = imageFiles.map(file => URL.createObjectURL(file));
     setImagePreviewUrls(objectUrls);
-
-    // Clean up the object URLs
-    return () => {
-      objectUrls.forEach(url => URL.revokeObjectURL(url));
-    };
+    return () => objectUrls.forEach(url => URL.revokeObjectURL(url));
   }, [imageFiles]);
 
   const handleImageUpload = (files) => {
@@ -471,13 +409,11 @@ export default function App() {
     setImageFiles(filesArray);
     setResults([]);
     setError(null);
-
-    Promise.all(filesArray.map(toBase64))
-      .then(setImageB64s)
-      .catch(err => {
-        console.error("Error converting to base64:", err);
-        setError("Failed to process image files.");
-      });
+    setRewrittenPrompt("");
+    Promise.all(filesArray.map(toBase64)).then(setImageB64s).catch(err => {
+        console.error(err);
+        setError("Failed to process images.");
+    });
   };
 
   const clearImages = () => {
@@ -486,9 +422,41 @@ export default function App() {
     setImageB64s([]);
     setResults([]);
     setError(null);
-    setKeywords(""); // <-- Clear keywords
+    setKeywords("");
+    setRewrittenPrompt("");
   };
 
+  // --- Logic for Smart Rewrite ---
+  const handleRewrite = async (promptsToRewrite) => {
+    setIsRewriting(true);
+    setRewrittenPrompt("");
+    
+    const combinedInput = promptsToRewrite.join("\n\n");
+    
+    const payload = {
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT_REWRITE }] },
+      contents: [{ parts: [{ text: `Here are the concepts to combine:\n\n${combinedInput}` }] }]
+    };
+
+    try {
+      const response = await fetchWithBackoff(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text) setRewrittenPrompt(text);
+      else throw new Error("Empty response for rewrite");
+    } catch (err) {
+      console.error("Rewrite failed:", err);
+      alert("Failed to rewrite prompts. Please try again.");
+    } finally {
+      setIsRewriting(false);
+    }
+  };
+
+  // --- Logic for Generate Prompts ---
   const handleGeneratePrompts = async () => {
     if (imageB64s.length === 0) {
       setError("Please upload one or more images first.");
@@ -498,6 +466,7 @@ export default function App() {
     setIsLoading(true);
     setError(null);
     setResults([]);
+    setRewrittenPrompt("");
 
     const allResults = [];
 
@@ -505,27 +474,22 @@ export default function App() {
       const b64 = imageB64s[i];
       const file = imageFiles[i];
 
-      // <-- Dynamically create system prompt
-      let currentSystemPrompt = SYSTEM_PROMPT;
+      // Select System Prompt based on Mode
+      let baseSystemPrompt = promptMode === 'timeline' ? SYSTEM_PROMPT_TIMELINE : SYSTEM_PROMPT_STANDARD;
+
+      // Inject User Keywords / Instructions (Modified Logic)
       if (keywords.trim() !== "") {
-        currentSystemPrompt += `\n\n**IMPORTANT USER KEYWORDS:** Please ensure all 12 prompts are heavily influenced by the following user-provided keywords, theme, and tone: [${keywords.trim()}]`;
+        baseSystemPrompt += `\n\n**USER'S CUSTOM INSTRUCTIONS & THEME:**\nThe user has explicitly requested the following details, special commands, or themes to be integrated into the generated prompts:\n"${keywords.trim()}"\n\n**INSTRUCTION:** Ensure that EVERY generated prompt reflects these user requirements. If they ask for a specific style, camera angle, or lighting, prioritize that over the default style.`;
       }
 
       const payload = {
-        systemInstruction: {
-          parts: [{ text: currentSystemPrompt }] // <-- Use dynamic prompt
-        },
+        systemInstruction: { parts: [{ text: baseSystemPrompt }] },
         contents: [
           {
             role: "user",
             parts: [
-              {
-                inlineData: {
-                  mimeType: file.type,
-                  data: b64
-                }
-              },
-              { text: "Generate the video prompts for this image." }
+              { inlineData: { mimeType: file.type, data: b64 } },
+              { text: `Generate 12 video prompts in ${promptMode === 'timeline' ? 'Veo3 Timeline' : 'Cinematic Narrative'} style.` }
             ]
           }
         ],
@@ -538,38 +502,30 @@ export default function App() {
       try {
         const response = await fetchWithBackoff(API_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
         const result = await response.json();
-        const candidate = result.candidates?.[0];
-
-        if (candidate && candidate.content?.parts?.[0]?.text) {
-          const jsonText = candidate.content.parts[0].text;
+        const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (jsonText) {
           const parsedData = JSON.parse(jsonText);
-          if (!parsedData.prompts || parsedData.prompts.length === 0) {
-             throw new Error("The AI returned an empty response.");
-          }
           allResults.push({
             imagePreviewUrl: imagePreviewUrls[i],
             fileName: file.name,
             prompts: parsedData.prompts || []
           });
         } else {
-          // Log the actual API response to help debug
-          console.error("Invalid API response structure. Full response:", JSON.stringify(result, null, 2));
-          throw new Error("Invalid response structure from API. Check console for details.");
+          throw new Error("Invalid API response.");
         }
       } catch (err) {
-        console.error(`Error generating prompts for ${file.name}:`, err, err.stack); // Log full error and stack
+        console.error(`Error for ${file.name}:`, err);
         allResults.push({
           imagePreviewUrl: imagePreviewUrls[i],
           fileName: file.name,
           prompts: [],
-          error: err.message // Just pass the message
+          error: err.message
         });
       }
     }
@@ -579,83 +535,118 @@ export default function App() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-start justify-center bg-gray-900 font-['Inter'] text-white">
-      <div className="container mx-auto max-w-3xl p-4 py-12 md:p-8">
-        <header className="text-center">
-          <h1 className="text-3xl font-bold text-white md:text-4xl">
+    <div className="flex min-h-screen w-full items-start justify-center bg-gray-900 font-sans text-white">
+      <div className="container mx-auto max-w-4xl p-4 py-12 md:p-8">
+        <header className="text-center mb-10">
+          <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             Cinematic Video Prompt Generator
           </h1>
-          <p className="mt-2 text-lg text-gray-400">
+          <p className="mt-3 text-lg text-gray-400">
             Inspired by @threeandhour & @widerooms
           </p>
         </header>
 
-        <main className="mt-10 flex flex-col items-center">
-          <div className="w-full max-w-xl">
-            <ImageUploader
-              onImageUpload={handleImageUpload}
-            />
+        <main className="flex flex-col items-center space-y-8">
+          
+          {/* Upload Section */}
+          <div className="w-full max-w-2xl">
+            <ImageUploader onImageUpload={handleImageUpload} />
           </div>
 
+          {/* Previews */}
           {imagePreviewUrls.length > 0 && (
-            <div className="mt-6 w-full max-w-xl">
-              <h3 className="mb-2 text-sm font-medium text-gray-300">Selected Images:</h3>
+            <div className="w-full max-w-2xl">
               <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 md:grid-cols-8">
                 {imagePreviewUrls.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={`Preview ${index + 1}`}
-                    className="h-16 w-16 rounded-lg object-cover shadow-md"
-                  />
+                  <img key={index} src={url} alt="Preview" className="h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-gray-700" />
                 ))}
               </div>
             </div>
           )}
 
-          {/* <-- New Keywords Textarea --> */}
-          <div className="mt-6 w-full max-w-xl">
-            <label htmlFor="keywords" className="mb-2 block text-sm font-medium text-gray-300">
-              เพิ่มเติม (ไม่บังคับ): คีย์เวิร์ด, ธีม, โทน
-            </label>
-            <textarea
-              id="keywords"
-              rows="2"
-              value={keywords}
-              onChange={(e) => setKeywords(e.target.value)}
-              className="w-full rounded-lg border-gray-600 bg-gray-800 p-2.5 text-white placeholder-gray-500 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g., vintage, dark mood, happy, 80s film"
-            ></textarea>
-          </div>
+          {/* Controls Section */}
+          <div className="w-full max-w-2xl space-y-4 rounded-xl bg-gray-800 p-6 shadow-lg border border-gray-700">
+            
+            {/* Keywords / Instructions */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-300">
+                Additional Instructions / Keywords / Theme (Optional) <br/>
+                <span className="text-xs text-gray-500 font-normal">(e.g., "Slow motion", "Vintage look", "Ensure model is smiling", "No blurry background")</span>
+              </label>
+              <textarea
+                rows="3"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+                className="w-full rounded-lg border-gray-600 bg-gray-900 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                placeholder="ใส่คำสั่งพิเศษ, ธีม, หรือสิ่งที่ต้องการเน้น เช่น 'ขอภาพสโลว์โมชั่น', 'โทนสีอบอุ่น', 'นางแบบต้องยิ้มแย้ม'..."
+              ></textarea>
+            </div>
 
-          <div className="mt-8 flex w-full max-w-xl items-center justify-center gap-4">
-            <button
-              onClick={handleGeneratePrompts}
-              disabled={imageFiles.length === 0 || isLoading}
-              className="flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-lg transition-all duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <LoadingIcon />
-                  Generating ({results.length + 1} / {imageFiles.length})...
-                </>
-              ) : (
-                `Generate Prompts (${imageFiles.length})`
-              )}
-            </button>
-            {imageFiles.length > 0 && !isLoading && (
+            {/* Mode Selector */}
+            <div>
+              <label className="mb-3 block text-sm font-medium text-gray-300">Select Prompt Style</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => setPromptMode('standard')}
+                  className={`flex items-center justify-center rounded-lg border p-3 transition-all ${
+                    promptMode === 'standard'
+                      ? 'border-blue-500 bg-blue-600/20 text-blue-400'
+                      : 'border-gray-600 bg-gray-700/50 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  <span className="font-semibold">🎬 Standard Narrative</span>
+                </button>
+                <button
+                  onClick={() => setPromptMode('timeline')}
+                  className={`flex items-center justify-center rounded-lg border p-3 transition-all ${
+                    promptMode === 'timeline'
+                      ? 'border-purple-500 bg-purple-600/20 text-purple-400'
+                      : 'border-gray-600 bg-gray-700/50 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  <span className="font-semibold">⏱️ Veo3 Timeline (0-6s)</span>
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-gray-500">
+                {promptMode === 'standard' 
+                  ? "Best for Runway Gen-3, Kling, and general video AI. Focuses on fluid description." 
+                  : "Best for advanced control. Splits prompt into 0-2s, 2-4s, 4-6s segments with sound."}
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-2">
               <button
-                onClick={clearImages}
-                className="rounded-lg bg-gray-600 px-6 py-3 text-base font-medium text-white shadow-lg transition-colors hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                onClick={handleGeneratePrompts}
+                disabled={imageFiles.length === 0 || isLoading}
+                className="flex-1 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-bold text-white shadow-lg transition-all hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Clear
+                {isLoading ? "Generating..." : `Generate Prompts (${imageFiles.length})`}
               </button>
-            )}
+              
+              {imageFiles.length > 0 && !isLoading && (
+                <button
+                  onClick={clearImages}
+                  className="rounded-lg bg-gray-700 px-6 py-3 font-medium text-gray-300 hover:bg-gray-600 transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
 
+          {/* Output List */}
           <div className="w-full">
-            <PromptList results={results} isLoading={isLoading} error={error} />
+            <PromptList 
+              results={results} 
+              isLoading={isLoading} 
+              error={error} 
+              onRewrite={handleRewrite}
+              isRewriting={isRewriting}
+              rewrittenPrompt={rewrittenPrompt}
+            />
           </div>
+
         </main>
       </div>
     </div>
