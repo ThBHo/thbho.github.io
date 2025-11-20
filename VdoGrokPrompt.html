@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 // --- Constants ---
-const API_KEY = ""; // Leave as-is, will be handled by the environment
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+// The execution environment provides the key at runtime. 
+// Do not add API key validation logic regarding empty strings.
+const API_KEY = ""; 
 const MAX_RETRIES = 5;
 
 // --- System Instructions ---
@@ -46,6 +47,13 @@ Your task is to take a set of distinct video prompt concepts provided by the use
 Return only the raw text of the rewritten prompt. Do not use markdown or JSON.
 `;
 
+const SYSTEM_PROMPT_TRANSLATE = `You are a professional translator specializing in cinematic and video production terminology.
+Translate the following video prompt from English to **Thai**.
+* **Tone:** Professional, descriptive, and natural for Thai video creators.
+* **Requirement:** Keep the technical meaning accurate but make it sound beautiful in Thai.
+* **Format:** Return ONLY the translated Thai text.
+`;
+
 // --- JSON Schema for AI Response ---
 const JSON_SCHEMA = {
   type: "OBJECT",
@@ -67,6 +75,8 @@ const JSON_SCHEMA = {
 
 // --- Helper Functions ---
 
+const getApiUrl = () => `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+
 const fetchWithBackoff = async (url, options, timeout = 60000) => {
   let retries = 0;
   while (retries < MAX_RETRIES) {
@@ -82,6 +92,19 @@ const fetchWithBackoff = async (url, options, timeout = 60000) => {
 
       if (response.ok) return response;
 
+      // Handle specific 429 error (Rate Limit)
+      if (response.status === 429) {
+        console.warn("Rate limit hit (429).");
+        throw new Error("⚠️ ใช้งานเกินโควต้า (Rate Limit Exceeded). กรุณารอประมาณ 1 นาทีแล้วลองใหม่");
+      }
+
+      // Handle specific 403 error (Permission/Leaked Key)
+      if (response.status === 403) {
+        const errorText = await response.text();
+        console.error(`Client error: ${response.status}`, errorText);
+        throw new Error(`🚫 API Key ไม่ถูกต้องหรือถูกระงับ (Error 403)`);
+      }
+
       if (response.status >= 400 && response.status < 500) {
         const errorText = await response.text();
         console.error(`Client error: ${response.status}`, errorText);
@@ -91,6 +114,10 @@ const fetchWithBackoff = async (url, options, timeout = 60000) => {
     } catch (error) {
       clearTimeout(id);
       if (error.name !== 'AbortError') {
+        // If it's our custom error (starting with emoji or specific text), throw immediately without retrying
+        if (error.message.includes("⚠️") || error.message.includes("🚫")) {
+            throw error;
+        }
         console.warn(`Fetch failed: ${error.message}. Retrying...`);
       }
     }
@@ -127,10 +154,20 @@ const copyToClipboard = (text) => {
   document.body.removeChild(textArea);
 };
 
+const downloadTextFile = (filename, text) => {
+  const element = document.createElement('a');
+  const file = new Blob([text], {type: 'text/plain'});
+  element.href = URL.createObjectURL(file);
+  element.download = filename;
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
+
 // --- React Components ---
 
 const LoadingIcon = () => (
-  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
   </svg>
@@ -139,12 +176,35 @@ const LoadingIcon = () => (
 const CopyIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+);
+
+const TranslateIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>
+);
+
+const DownloadIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="7 10 12 15 17 10"></polyline>
+    <line x1="12" y1="15" x2="12" y2="3"></line>
+  </svg>
+);
+
+const CopyAllIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M8 2h12a2 2 0 0 1 2 2v12"></path>
+    <rect x="2" y="8" width="12" height="12" rx="2"></rect>
   </svg>
 );
 
 const UploadIcon = () => (
-    <svg className="mx-auto h-12 w-12 text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+    <svg className="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
     </svg>
 );
@@ -176,8 +236,10 @@ const ImageUploader = ({ onImageUpload }) => {
     <div className="w-full">
       <label
         htmlFor="file-upload"
-        className={`relative flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-600 p-6 transition-colors duration-200 ease-in-out hover:border-gray-400 ${
-          isDragging ? 'border-blue-500 bg-gray-700' : 'bg-gray-800'
+        className={`relative flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all duration-300 ease-in-out hover:border-sky-400 cursor-pointer ${
+          isDragging 
+            ? 'border-sky-500 bg-sky-50' 
+            : 'border-slate-300 bg-white/60 hover:bg-white/80'
         }`}
         onDrop={handleDrop}
         onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
@@ -185,11 +247,11 @@ const ImageUploader = ({ onImageUpload }) => {
       >
         <div className="space-y-2 text-center">
           <UploadIcon />
-          <div className="flex text-sm text-gray-400">
-            <span className="font-medium text-blue-400 hover:text-blue-300">Click to upload</span>
+          <div className="flex text-sm text-slate-600 font-medium">
+            <span className="text-sky-500 hover:text-sky-600">Click to upload</span>
             <p className="pl-1">or drag and drop</p>
           </div>
-          <p className="text-xs text-gray-500">PNG, JPG, GIF (Multiple files allowed)</p>
+          <p className="text-xs text-slate-400">PNG, JPG, GIF (Multiple files allowed)</p>
         </div>
       </label>
       <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} multiple />
@@ -197,16 +259,43 @@ const ImageUploader = ({ onImageUpload }) => {
   );
 };
 
-const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewrittenPrompt }) => {
+const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewrittenPrompt, aspectRatio, qualityBoost }) => {
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [selectedPrompts, setSelectedPrompts] = useState({});
+  const [translations, setTranslations] = useState({});
+  const [translatingIds, setTranslatingIds] = useState({});
   
   const selectedCount = Object.keys(selectedPrompts).length;
 
+  // Format prompt with optional parameters
+  const formatPrompt = (text) => {
+    let formatted = text;
+    if (qualityBoost) {
+        formatted += ", 4k, highly detailed, cinematic lighting, masterpiece --no text, watermark, blurry, distorted, low quality, bad anatomy";
+    }
+    if (aspectRatio && aspectRatio !== 'none') formatted += ` --ar ${aspectRatio}`;
+    return formatted;
+  };
+
   const handleCopy = (text, index) => {
-    copyToClipboard(text);
+    copyToClipboard(formatPrompt(text));
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const handleCopyAll = (prompts, resultIndex) => {
+      const allText = prompts.map(p => formatPrompt(p.prompt)).join('\n\n');
+      copyToClipboard(allText);
+      setCopiedIndex(`all-${resultIndex}`);
+      setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const handleDownload = (fileName, prompts) => {
+    const allText = prompts.map(p => {
+        return `[${p.summary_th}]\n${formatPrompt(p.prompt)}\n`;
+    }).join('\n-----------------------------------\n\n');
+    
+    downloadTextFile(`prompts_${fileName}.txt`, allText);
   };
 
   const handleSelectPrompt = (promptId, promptText) => {
@@ -223,19 +312,54 @@ const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewritt
     onRewrite(promptsToRewrite);
   };
 
+  const handleTranslate = async (text, id, e) => {
+    e.stopPropagation();
+    if (translations[id] || translatingIds[id]) return;
+
+    setTranslatingIds(prev => ({ ...prev, [id]: true }));
+    
+    try {
+      const payload = {
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT_TRANSLATE }] },
+        contents: [{ parts: [{ text }] }]
+      };
+      
+      const response = await fetchWithBackoff(getApiUrl(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      const translatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (translatedText) {
+        setTranslations(prev => ({ ...prev, [id]: translatedText }));
+      }
+    } catch (err) {
+      console.error("Translation failed:", err);
+      if (!err.message.includes("⚠️") && !err.message.includes("🚫")) {
+        alert("Translation failed: " + err.message);
+      }
+    } finally {
+      setTranslatingIds(prev => ({ ...prev, [id]: false }));
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="w-full space-y-3 pt-8">
-        <div className="h-24 w-full animate-pulse rounded-lg bg-gray-700"></div>
-        <div className="h-24 w-full animate-pulse rounded-lg bg-gray-700"></div>
+        <div className="h-24 w-full animate-pulse rounded-xl bg-slate-200"></div>
+        <div className="h-24 w-full animate-pulse rounded-xl bg-slate-100"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="mt-6 rounded-lg border border-red-700 bg-red-900/20 p-4 text-center text-red-400">
-        <p><strong>Error:</strong> {error}</p>
+      <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-6 text-center text-red-600">
+        <p className="font-bold text-lg mb-2">เกิดข้อผิดพลาด</p>
+        <p>{String(error)}</p>
       </div>
     );
   }
@@ -245,19 +369,19 @@ const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewritt
   return (
     <div className="w-full space-y-8 pt-8">
       {/* Action Bar */}
-      <div className="sticky top-4 z-10 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-gray-800/90 p-4 shadow-xl backdrop-blur-md border border-gray-700">
-        <h2 className="text-xl font-semibold text-white">Generated Prompts</h2>
+      <div className="sticky top-4 z-10 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-white/80 p-4 shadow-lg shadow-slate-200/50 backdrop-blur-md border border-white">
+        <h2 className="text-xl font-bold text-slate-700">Generated Prompts</h2>
         
         <div className="flex items-center gap-2">
           {selectedCount > 1 && (
             <button
               onClick={handleSmartRewriteClick}
               disabled={isRewriting}
-              className="flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:bg-purple-700 disabled:opacity-50 hover:shadow-purple-500/25"
+              className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-400 to-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:from-sky-500 hover:to-blue-600 disabled:opacity-50 hover:scale-[1.02]"
             >
               {isRewriting ? (
                 <>
-                  <LoadingIcon /> Rewriting...
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div> Rewriting...
                 </>
               ) : (
                 <>
@@ -271,46 +395,72 @@ const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewritt
 
       {/* Rewritten Result Area */}
       {rewrittenPrompt && (
-        <div className="relative animate-in fade-in slide-in-from-top-4 duration-500 rounded-lg border border-purple-500/50 bg-gradient-to-b from-gray-800 to-gray-900 p-6 shadow-2xl">
+        <div className="relative animate-in fade-in slide-in-from-top-4 duration-500 rounded-xl border border-sky-200 bg-gradient-to-br from-white to-slate-50 p-6 shadow-xl">
           <div className="mb-3 flex items-center justify-between">
-            <h3 className="flex items-center gap-2 text-lg font-semibold text-purple-300">
+            <h3 className="flex items-center gap-2 text-lg font-bold text-sky-600">
               <MagicWandIcon /> Smart Rewritten Prompt
             </h3>
             <button
               onClick={() => handleCopy(rewrittenPrompt, 'rewritten')}
-              className="rounded-md bg-gray-700 px-3 py-1 text-sm text-white transition-colors hover:bg-gray-600"
+              className="rounded-lg bg-sky-100 px-4 py-1.5 text-sm font-medium text-sky-600 transition-colors hover:bg-sky-200"
             >
               {copiedIndex === 'rewritten' ? 'Copied!' : 'Copy'}
             </button>
           </div>
           <textarea
             readOnly
-            value={rewrittenPrompt}
-            className="h-32 w-full rounded-md border-gray-700 bg-gray-950 p-3 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={formatPrompt(rewrittenPrompt)}
+            className="h-32 w-full rounded-lg border-slate-200 bg-white/80 p-4 text-slate-600 shadow-inner focus:outline-none focus:ring-2 focus:ring-sky-300"
           />
         </div>
       )}
 
       {/* Prompt Cards */}
       {results.map((result, index) => (
-        <div key={index} className="overflow-hidden rounded-lg bg-gray-800 shadow-lg ring-1 ring-gray-700">
-          <div className="flex items-center gap-4 bg-gray-750 border-b border-gray-700 p-4">
-            <img
-              src={result.imagePreviewUrl}
-              alt={result.fileName}
-              className="h-16 w-16 flex-shrink-0 rounded-md object-cover shadow-sm"
-            />
-            <h3 className="min-w-0 truncate text-lg font-semibold text-white opacity-90" title={result.fileName}>
-              {result.fileName}
-            </h3>
+        <div key={index} className="overflow-hidden rounded-2xl bg-white/70 shadow-xl shadow-slate-200/50 ring-1 ring-white/60 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-4 bg-white/40 border-b border-white/50 p-4">
+            <div className="flex items-center gap-3 overflow-hidden">
+                <img
+                src={result.imagePreviewUrl}
+                alt={result.fileName}
+                className="h-12 w-12 flex-shrink-0 rounded-lg object-cover shadow-sm ring-1 ring-white"
+                />
+                <h3 className="min-w-0 truncate text-lg font-bold text-slate-700" title={result.fileName}>
+                {result.fileName}
+                </h3>
+            </div>
+            <div className="flex items-center gap-2">
+                 {/* Copy All Button */}
+                 <button
+                  onClick={() => handleCopyAll(result.prompts, index)}
+                  className="flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
+                  title="Copy all prompts to clipboard"
+                >
+                  {copiedIndex === `all-${index}` ? (
+                      <span className="text-green-500">✓ Copied</span>
+                  ) : (
+                      <>
+                        <CopyAllIcon /> Copy All
+                      </>
+                  )}
+                </button>
+                {/* Download Button */}
+                <button
+                  onClick={() => handleDownload(result.fileName, result.prompts)}
+                  className="flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
+                  title="Download as .txt"
+                >
+                  <DownloadIcon /> Save .txt
+                </button>
+            </div>
           </div>
 
           {result.error ? (
-            <div className="p-4 text-center text-red-400">
-              <p><strong>Error:</strong> {result.error}</p>
+            <div className="p-4 text-center text-red-500">
+              <p><strong>Error:</strong> {String(result.error)}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 p-6 md:grid-cols-2">
               {result.prompts.map((prompt, pIndex) => {
                 const promptId = `${index}-${pIndex}`;
                 const isSelected = !!selectedPrompts[promptId];
@@ -318,45 +468,72 @@ const PromptList = ({ results, isLoading, error, onRewrite, isRewriting, rewritt
                   <div
                     key={pIndex}
                     onClick={() => handleSelectPrompt(promptId, prompt.prompt)}
-                    className={`group relative cursor-pointer rounded-lg border p-4 pl-10 transition-all duration-200 ${
+                    className={`group relative cursor-pointer rounded-xl border p-5 pl-12 transition-all duration-200 hover:shadow-md ${
                       isSelected 
-                        ? 'border-purple-500 bg-purple-900/20 shadow-md shadow-purple-900/10' 
-                        : 'border-gray-700 bg-gray-900/50 hover:border-gray-600 hover:bg-gray-800'
+                        ? 'border-sky-300 bg-sky-50 shadow-sm' 
+                        : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50/50'
                     }`}
                   >
-                    <div className={`absolute left-3 top-6 h-5 w-5 rounded border transition-colors ${
-                        isSelected ? 'border-purple-500 bg-purple-500' : 'border-gray-600 bg-gray-800'
+                    <div className={`absolute left-4 top-6 h-5 w-5 rounded-md border transition-colors flex items-center justify-center ${
+                        isSelected ? 'border-sky-400 bg-sky-400' : 'border-slate-300 bg-slate-50'
                     }`}>
                        {isSelected && (
-                         <svg className="text-white w-full h-full p-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                         <svg className="text-white w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                            <polyline points="20 6 9 17 4 12" />
                          </svg>
                        )}
                     </div>
                     
-                    <div className="pr-10">
-                       <span className="mb-1 inline-block rounded bg-blue-900/50 px-2 py-0.5 text-xs font-medium text-blue-200 border border-blue-800">
+                    <div className="pr-8">
+                       <span className="mb-2 inline-block rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-600 border border-blue-200">
                          {prompt.summary_th}
                        </span>
-                       <p className="text-sm leading-relaxed text-gray-300 group-hover:text-gray-100">
+                       <p className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800 font-medium">
                          {prompt.prompt}
                        </p>
+                       
+                       {/* Translation Result */}
+                       {translations[promptId] && (
+                         <div className="mt-3 rounded-lg bg-emerald-50 p-3 border border-emerald-100 animate-in fade-in slide-in-from-top-1">
+                            <p className="text-sm text-emerald-700 font-light italic">
+                              <span className="not-italic mr-2 text-lg">🇹🇭</span>{translations[promptId]}
+                            </p>
+                         </div>
+                       )}
                     </div>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCopy(prompt.prompt, promptId);
-                      }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-700 hover:text-white opacity-0 group-hover:opacity-100"
-                      title="Copy prompt"
-                    >
-                      {copiedIndex === promptId ? (
-                        <span className="text-green-400 font-bold text-xs">Copied</span>
-                      ) : (
-                        <CopyIcon />
-                      )}
-                    </button>
+                    {/* Buttons Container */}
+                    <div className="absolute right-2 top-2 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {/* Translate Button */}
+                        <button
+                          onClick={(e) => handleTranslate(prompt.prompt, promptId, e)}
+                          disabled={translatingIds[promptId]}
+                          className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-sky-100 hover:text-sky-500 bg-white border border-slate-100 shadow-sm"
+                          title="Translate to Thai"
+                        >
+                          {translatingIds[promptId] ? (
+                             <div className="h-4 w-4 animate-spin rounded-full border-2 border-sky-400 border-t-transparent"></div>
+                          ) : (
+                             <TranslateIcon />
+                          )}
+                        </button>
+
+                        {/* Copy Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCopy(prompt.prompt, promptId);
+                          }}
+                          className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-emerald-100 hover:text-emerald-500 bg-white border border-slate-100 shadow-sm"
+                          title="Copy prompt"
+                        >
+                          {copiedIndex === promptId ? (
+                            <span className="text-emerald-500 font-bold text-xs">✓</span>
+                          ) : (
+                            <CopyIcon />
+                          )}
+                        </button>
+                    </div>
                   </div>
                 );
               })}
@@ -378,9 +555,11 @@ export default function App() {
   const [keywords, setKeywords] = useState("");
   
   // New State for Features
-  const [promptMode, setPromptMode] = useState('standard'); // 'standard' | 'timeline'
+  const [promptMode, setPromptMode] = useState('standard'); 
   const [isRewriting, setIsRewriting] = useState(false);
   const [rewrittenPrompt, setRewrittenPrompt] = useState("");
+  const [aspectRatio, setAspectRatio] = useState("16:9"); // Default YouTube
+  const [qualityBoost, setQualityBoost] = useState(false);
 
   // Inject Tailwind (DOM check only)
   useEffect(() => {
@@ -439,7 +618,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetchWithBackoff(API_URL, {
+      const response = await fetchWithBackoff(getApiUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -450,7 +629,12 @@ export default function App() {
       else throw new Error("Empty response for rewrite");
     } catch (err) {
       console.error("Rewrite failed:", err);
-      alert("Failed to rewrite prompts. Please try again.");
+      // Check for 429 error string from helper
+      if (err.message.includes("⚠️")) {
+        alert(err.message);
+      } else {
+        alert("Failed to rewrite prompts: " + err.message);
+      }
     } finally {
       setIsRewriting(false);
     }
@@ -500,7 +684,7 @@ export default function App() {
       };
 
       try {
-        const response = await fetchWithBackoff(API_URL, {
+        const response = await fetchWithBackoff(getApiUrl(), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -535,13 +719,13 @@ export default function App() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-start justify-center bg-gray-900 font-sans text-white">
+    <div className="flex min-h-screen w-full items-start justify-center bg-gradient-to-br from-gray-50 via-slate-50 to-zinc-100 font-sans text-slate-800">
       <div className="container mx-auto max-w-4xl p-4 py-12 md:p-8">
         <header className="text-center mb-10">
-          <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+          <h1 className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-4xl font-extrabold text-transparent md:text-5xl drop-shadow-sm">
             Cinematic Video Prompt Generator
           </h1>
-          <p className="mt-3 text-lg text-gray-400">
+          <p className="mt-3 text-lg text-slate-500 font-medium">
             Inspired by @threeandhour & @widerooms
           </p>
         </header>
@@ -558,59 +742,93 @@ export default function App() {
             <div className="w-full max-w-2xl">
               <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 md:grid-cols-8">
                 {imagePreviewUrls.map((url, index) => (
-                  <img key={index} src={url} alt="Preview" className="h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-gray-700" />
+                  <img key={index} src={url} alt="Preview" className="h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-white" />
                 ))}
               </div>
             </div>
           )}
 
           {/* Controls Section */}
-          <div className="w-full max-w-2xl space-y-4 rounded-xl bg-gray-800 p-6 shadow-lg border border-gray-700">
+          <div className="w-full max-w-2xl space-y-5 rounded-2xl bg-white/80 p-8 shadow-xl shadow-slate-200/50 backdrop-blur-lg border border-white">
             
             {/* Keywords / Instructions */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-300">
-                Additional Instructions / Keywords / Theme (Optional) <br/>
-                <span className="text-xs text-gray-500 font-normal">(e.g., "Slow motion", "Vintage look", "Ensure model is smiling", "No blurry background")</span>
+              <label className="mb-2 block text-sm font-bold text-slate-600">
+                Additional Instructions / Theme (Optional) <br/>
+                <span className="text-xs text-slate-400 font-normal">(e.g., "Slow motion", "Vintage look", "Ensure model is smiling")</span>
               </label>
               <textarea
                 rows="3"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
-                className="w-full rounded-lg border-gray-600 bg-gray-900 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                placeholder="ใส่คำสั่งพิเศษ, ธีม, หรือสิ่งที่ต้องการเน้น เช่น 'ขอภาพสโลว์โมชั่น', 'โทนสีอบอุ่น', 'นางแบบต้องยิ้มแย้ม'..."
+                className="w-full rounded-xl border-slate-200 bg-white p-3.5 text-slate-700 placeholder-slate-400 shadow-sm transition-all focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none"
+                placeholder="คำสั่งพิเศษ, ธีม, หรือสิ่งที่ต้องการเน้น..."
               ></textarea>
+            </div>
+
+             {/* Options Row: Aspect Ratio & Quality */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {/* Aspect Ratio */}
+                <div>
+                    <label className="mb-2 block text-sm font-bold text-slate-600">Aspect Ratio</label>
+                    <select 
+                        value={aspectRatio}
+                        onChange={(e) => setAspectRatio(e.target.value)}
+                        className="w-full rounded-xl border-slate-200 bg-white p-3.5 text-slate-700 shadow-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                    >
+                        <option value="none">Default (None)</option>
+                        <option value="16:9">16:9 (YouTube)</option>
+                        <option value="9:16">9:16 (Reels/TikTok)</option>
+                        <option value="21:9">21:9 (Cinematic)</option>
+                        <option value="1:1">1:1 (Square)</option>
+                        <option value="4:3">4:3 (Classic)</option>
+                    </select>
+                </div>
+
+                {/* Quality Boost */}
+                <div>
+                    <label className="mb-2 block text-sm font-bold text-slate-600">Settings</label>
+                    <label className="flex items-center space-x-3 p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-slate-50 transition-colors">
+                        <input 
+                            type="checkbox" 
+                            checked={qualityBoost}
+                            onChange={(e) => setQualityBoost(e.target.checked)}
+                            className="w-5 h-5 text-sky-500 rounded focus:ring-sky-400 border-gray-300" 
+                        />
+                        <span className="text-slate-700 font-medium">✨ Quality & Clean Up (4k, No Blur)</span>
+                    </label>
+                </div>
             </div>
 
             {/* Mode Selector */}
             <div>
-              <label className="mb-3 block text-sm font-medium text-gray-300">Select Prompt Style</label>
+              <label className="mb-3 block text-sm font-bold text-slate-600">Select Prompt Style</label>
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setPromptMode('standard')}
-                  className={`flex items-center justify-center rounded-lg border p-3 transition-all ${
+                  className={`flex items-center justify-center rounded-xl border p-3.5 transition-all duration-200 ${
                     promptMode === 'standard'
-                      ? 'border-blue-500 bg-blue-600/20 text-blue-400'
-                      : 'border-gray-600 bg-gray-700/50 text-gray-400 hover:bg-gray-700'
+                      ? 'border-sky-400 bg-sky-50 text-sky-600 shadow-inner'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-sky-200 hover:bg-sky-50/50 hover:text-sky-500'
                   }`}
                 >
-                  <span className="font-semibold">🎬 Standard Narrative</span>
+                  <span className="font-bold">🎬 Standard Narrative</span>
                 </button>
                 <button
                   onClick={() => setPromptMode('timeline')}
-                  className={`flex items-center justify-center rounded-lg border p-3 transition-all ${
+                  className={`flex items-center justify-center rounded-xl border p-3.5 transition-all duration-200 ${
                     promptMode === 'timeline'
-                      ? 'border-purple-500 bg-purple-600/20 text-purple-400'
-                      : 'border-gray-600 bg-gray-700/50 text-gray-400 hover:bg-gray-700'
+                      ? 'border-blue-400 bg-blue-50 text-blue-600 shadow-inner'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-blue-200 hover:bg-blue-50/50 hover:text-blue-500'
                   }`}
                 >
-                  <span className="font-semibold">⏱️ Veo3 Timeline (0-6s)</span>
+                  <span className="font-bold">⏱️ Veo3 Timeline</span>
                 </button>
               </div>
-              <p className="mt-2 text-xs text-gray-500">
+              <p className="mt-2 text-xs text-slate-400 text-center">
                 {promptMode === 'standard' 
-                  ? "Best for Runway Gen-3, Kling, and general video AI. Focuses on fluid description." 
-                  : "Best for advanced control. Splits prompt into 0-2s, 2-4s, 4-6s segments with sound."}
+                  ? "Fluid description for Runway/Kling." 
+                  : "Precise 0-6s segmentation for Veo3."}
               </p>
             </div>
 
@@ -619,7 +837,7 @@ export default function App() {
               <button
                 onClick={handleGeneratePrompts}
                 disabled={imageFiles.length === 0 || isLoading}
-                className="flex-1 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-bold text-white shadow-lg transition-all hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 rounded-xl bg-gradient-to-r from-sky-400 to-blue-500 px-6 py-4 font-bold text-white shadow-lg shadow-sky-200 transition-all hover:from-sky-500 hover:to-blue-600 hover:shadow-sky-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {isLoading ? "Generating..." : `Generate Prompts (${imageFiles.length})`}
               </button>
@@ -627,7 +845,7 @@ export default function App() {
               {imageFiles.length > 0 && !isLoading && (
                 <button
                   onClick={clearImages}
-                  className="rounded-lg bg-gray-700 px-6 py-3 font-medium text-gray-300 hover:bg-gray-600 transition-colors"
+                  className="rounded-xl bg-white px-6 py-4 font-semibold text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-slate-700 transition-colors"
                 >
                   Clear
                 </button>
@@ -644,6 +862,8 @@ export default function App() {
               onRewrite={handleRewrite}
               isRewriting={isRewriting}
               rewrittenPrompt={rewrittenPrompt}
+              aspectRatio={aspectRatio}
+              qualityBoost={qualityBoost}
             />
           </div>
 
