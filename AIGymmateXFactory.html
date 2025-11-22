@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="page_title">AI GYMMATEX FACTORY | ปลุกชีวิตให้ AI</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="AI GYMMATEX FACTORY | คอร์สสร้าง Hybrid AI Persona" data-key="og_title">
+    <meta property="og:description" content="เปลี่ยนคุณจากผู้ใช้ให้เป็น Hybrid Creator ผสานตัวตนและความคิดสร้างสรรค์เข้ากับ Generative AI ผ่านโปรเจกต์จริง" data-key="og_description">
+    <meta property="og:image" content="https://i.postimg.cc/P5nB3xXZ/003-Hybrid-AI-Persona-Banner-1600-x-400-px.png">
+    <meta property="og:url" content="https://thbho.github.io/">
+    <meta property="og:type" content="website">
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1c1c1c',
+                        secondary: '#262626',
+                        accent: '#f59e0b',
+                        'accent-light': '#fbbf24',
+                        'accent-dark': '#b45309',
+                    },
+                    fontFamily: {
+                        sans: ['IBM Plex Sans Thai', 'Inter', 'Noto Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        :root {
+            --glass-bg: rgba(30, 30, 30, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-color: rgba(245, 158, 11, 0.3);
+            
+            --tee-color: #fbbf24; 
+            --b-color: #f59e0b;      
+            --hour-color: #fdba74;
+        }
+
+        body {
+            background-color: #0f0f10;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(64, 64, 64, 0.08) 0px, transparent 50%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1c1c1c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Reveal on Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Chat Specifics */
+        .chat-msg-user {
+            background: #3f3f46;
+            border-radius: 18px 18px 0 18px;
+            margin-left: auto;
+        }
+        .chat-msg-ai {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 18px 18px 18px 0;
+            margin-right: auto;
+        }
+        
+        /* Loader */
+        .dot-flashing {
+            position: relative;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: #fbbf24;
+            color: #fbbf24;
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: 0.5s;
+        }
+        .dot-flashing::before, .dot-flashing::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+        .dot-flashing::before {
+            left: -10px;
+            width: 6px; height: 6px; border-radius: 5px;
+            background-color: #fbbf24; color: #fbbf24;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 0s;
+        }
+        .dot-flashing::after {
+            left: 10px;
+            width: 6px; height: 6px; border-radius: 5px;
+            background-color: #fbbf24; color: #fbbf24;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 1s;
+        }
+        @keyframes dot-flashing {
+            0% { background-color: #fbbf24; }
+            50%, 100% { background-color: rgba(251, 191, 36, 0.2); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="glass-panel border-t-0 border-x-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <i data-lucide="cpu" class="text-accent h-6 w-6"></i>
+                        <span class="text-xl font-bold tracking-wider text-white">AI <span class="text-gradient">GYMMATEX</span></span>
+                    </div>
+                    
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="#courses" data-key="nav_courses" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all">หลักสูตร</a>
+                        <a href="#instructors" data-key="nav_instructors" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all">ผู้สอน</a>
+                        <a href="#gemini-chat" data-key="nav_chat" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1"><i data-lucide="message-square" class="w-4 h-4"></i> คุยกับ AI</a>
+                        <a href="#register" data-key="nav_register" class="px-3 py-2 rounded-md text-sm font-medium bg-accent text-black font-bold hover:bg-accent-light hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all transform hover:-translate-y-0.5">ลงทะเบียน</a>
+                        
+                        <div class="h-6 w-px bg-gray-700 mx-3"></div>
+                        
+                        <!-- External Links -->
+                        <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" data-key="nav_highlight" data-link-key="highlight_url" class="px-3 py-2 rounded-md text-sm font-medium text-accent hover:text-accent-light transition-colors">Highlight</a>
+                        <a href="https://threeandhour.github.io/GymMateX" target="_blank" data-key="nav_fitness" data-link-key="fitness_url" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white transition-colors">Fitness</a>
+                        
+                        <div class="h-6 w-px bg-gray-700 mx-3"></div>
+
+                        <!-- Language Switcher -->
+                        <div id="lang-switcher-desktop" class="flex items-center bg-black/30 rounded-lg p-1">
+                            <button data-lang="th" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white/10 text-gray-400 transition-colors">TH</button>
+                            <button data-lang="en" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white/10 text-gray-400 transition-colors">EN</button>
+                            <button data-lang="ru" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white/10 text-gray-400 transition-colors">RU</button>
+                            <button data-lang="zh" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white/10 text-gray-400 transition-colors">CN</button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden flex items-center">
+                        <button id="mobile-menu-button" class="text-gray-300 hover:text-white p-2">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#courses" data-key="nav_courses_mob" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">หลักสูตร</a>
+                <a href="#instructors" data-key="nav_instructors_mob" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">ผู้สอน</a>
+                <a href="#gemini-chat" data-key="nav_chat_mob" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">คุยกับ AI</a>
+                <a href="#register" data-key="nav_register_mob" class="block px-3 py-2 rounded-md text-base font-medium text-accent hover:text-accent-light hover:bg-white/10">ลงทะเบียน</a>
+                <div class="border-t border-gray-700 my-2"></div>
+                <a href="#" data-key="nav_highlight_mob" data-link-key="highlight_url" class="block px-3 py-2 text-sm text-accent">Highlight</a>
+                <a href="#" data-key="nav_fitness_mob" data-link-key="fitness_url" class="block px-3 py-2 text-sm text-gray-400">Fitness</a>
+                
+                <div class="flex justify-center space-x-4 py-4 border-t border-gray-700 mt-2">
+                    <button data-lang="th" class="lang-btn text-sm font-bold text-gray-400">TH</button>
+                    <button data-lang="en" class="lang-btn text-sm font-bold text-gray-400">EN</button>
+                    <button data-lang="ru" class="lang-btn text-sm font-bold text-gray-400">RU</button>
+                    <button data-lang="zh" class="lang-btn text-sm font-bold text-gray-400">CN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="relative pt-20 pb-12 overflow-hidden">
+        
+        <!-- Hero Section -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+            <!-- Banner Image (Separated) -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-800 group reveal active mb-8">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
+                <img src="https://i.postimg.cc/P5nB3xXZ/003-Hybrid-AI-Persona-Banner-1600-x-400-px.png" alt="Banner" class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105">
+            </div>
+
+            <!-- Header Text (Moved Below Banner) -->
+            <div class="text-center max-w-4xl mx-auto reveal">
+                <span class="inline-block py-1 px-3 rounded-full bg-accent/20 text-accent text-xs font-bold mb-4 border border-accent/30 backdrop-blur-sm">NEW COURSE 2025</span>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg" data-key="header_title">ปลุกชีวิตให้ AI</h1>
+                <p class="text-lg md:text-2xl text-gray-300 drop-shadow-md" data-key="header_subtitle">คอร์ส Hybrid AI Persona</p>
+            </div>
+        </div>
+
+        <!-- Video & Announcement -->
+        <div class="max-w-4xl mx-auto px-4 mt-16 text-center reveal">
+             <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(245,158,11,0.15)] border border-gray-800 bg-black">
+                <!-- UPDATED: Fixed YouTube Embed URL structure -->
+                <iframe id="video-iframe" class="w-full h-full" src="https://www.youtube.com/embed/Wo1OzcHjSak" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="mt-8">
+                <a href="https://thbho.github.io/ThAnnouncement.html" target="_blank" data-key="announcement_link" data-link-key="announcement_url" class="inline-flex items-center gap-2 text-accent hover:text-white transition-colors border-b border-accent hover:border-white pb-1 text-lg">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span>ประกาศล่าสุด</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Learning Outcomes -->
+        <section id="learn" class="max-w-7xl mx-auto px-4 py-20 reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4" data-key="learn_title">สิ่งที่คุณจะได้เรียนรู้</h2>
+                <div class="h-1 w-24 bg-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="fingerprint" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3" data-key="learn_1_title">ค้นหา 'จิตวิญญาณ'</h3>
+                    <p class="text-gray-400 leading-relaxed" data-key="learn_1_desc">เรียนรู้วิธีผสานตัวตนและความเชี่ยวชาญของคุณเข้ากับ AI ไม่ต้องเขียนโค้ด ใช้เอกลักษณ์เฉพาะของคุณ</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="clapperboard" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3" data-key="learn_2_title">Creative Director</h3>
+                    <p class="text-gray-400 leading-relaxed" data-key="learn_2_desc">ใช้ Framework ง่ายๆ อย่าง MBTI เพื่อสร้างคาแรกเตอร์ที่สม่ำเสมอและน่าเชื่อถือ ให้ผู้คนรู้สึกผูกพัน</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="rocket" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3" data-key="learn_3_title">Digital Twin</h3>
+                    <p class="text-gray-400 leading-relaxed" data-key="learn_3_desc">เปลี่ยนไอเดียให้กลายเป็น AI Persona ที่โต้ตอบได้จริง เพื่อใช้สอนงาน, โค้ชชิ่ง หรือสร้างแบรนด์</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" data-link-key="dual_avatar_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-700 bg-gray-800/50 hover:bg-gray-700 hover:border-accent transition-all text-gray-300 hover:text-white">
+                    <span data-key="dual_avatar_link">กลยุทธ์ Dual-Avatar</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="max-w-6xl mx-auto px-4 py-20 reveal">
+             <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden">
+                <!-- Background decorative blob -->
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+
+                <h2 class="text-3xl font-bold text-white mb-10 border-l-4 border-accent pl-4" data-key="courses_title">รายละเอียดหลักสูตร</h2>
+                
+                <div class="space-y-6">
+                    <!-- Course Item 1 -->
+                    <div class="group relative bg-black/40 rounded-xl p-6 border border-gray-800 hover:border-accent/50 transition-colors">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-accent group-hover:text-accent-light transition-colors" data-key="course_1_title">Hybrid AI Persona</h3>
+                                <p class="text-gray-400 text-sm mt-1" data-key="course_1_desc">หลักสูตรฉบับเต็ม 6 ครั้ง (ครั้งละ 2-3 ชม.)</p>
+                            </div>
+                            <a href="https://thbho.github.io/ThInfoCourse.html" target="_blank" data-link-key="course_1_url" class="shrink-0 px-5 py-2 rounded-lg bg-accent text-black font-bold text-sm hover:bg-accent-light transition-colors text-center" data-key="course_1_button">ดู Course Outline</a>
+                        </div>
+                    </div>
+
+                    <!-- Course Item 2 -->
+                    <div class="group relative bg-black/40 rounded-xl p-6 border border-gray-800 hover:border-orange-500/50 transition-colors">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-orange-400 group-hover:text-orange-300 transition-colors" data-key="course_2_title">GymMateX Fitness</h3>
+                                <p class="text-gray-400 text-sm mt-1" data-key="course_2_desc">หลักสูตรพิเศษสำหรับสายฟิตเนส</p>
+                            </div>
+                            <a href="https://threeandhour.github.io/GymMateX/" target="_blank" data-link-key="course_2_url" class="shrink-0 px-5 py-2 rounded-lg bg-orange-600 text-white font-bold text-sm hover:bg-orange-500 transition-colors text-center" data-key="course_2_button">ดูรายละเอียด</a>
+                        </div>
+                    </div>
+
+                    <!-- Course Item 3 -->
+                    <div class="group relative bg-black/40 rounded-xl p-6 border border-gray-800 hover:border-red-500/50 transition-colors">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-red-400 group-hover:text-red-300 transition-colors" data-key="course_3_title">Gen. AI & Hybrid (1-Day)</h3>
+                                <p class="text-gray-400 text-sm mt-1" data-key="course_3_desc">หลักสูตรเร่งรัด เรียนรู้เร็วใน 1 วัน</p>
+                            </div>
+                            <a href="https://drive.google.com/file/d/1C42vRSGPBZ1aOSwk_FuC1w7p77720pgC/view?usp=sharing" target="_blank" data-link-key="course_3_url" class="shrink-0 px-5 py-2 rounded-lg bg-red-700 text-white font-bold text-sm hover:bg-red-600 transition-colors text-center" data-key="course_3_button">ดูรายละเอียด</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Blueprint Parallaxish -->
+        <section class="max-w-7xl mx-auto px-4 py-12 reveal">
+            <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-gray-900 to-black border border-gray-800 p-8 md:p-16 text-center">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <h2 class="relative text-3xl md:text-4xl font-bold text-gradient mb-6" data-key="future_title">พิมพ์เขียวแห่งอนาคต</h2>
+                <p class="relative text-gray-300 mb-8 max-w-2xl mx-auto" data-key="future_desc">สำรวจวิสัยทัศน์และศักยภาพที่ไร้ขีดจำกัดของ AI Persona</p>
+                <a href="https://threeandhour.github.io/GymMateX/ThFutureHAP.html" target="_blank" data-link-key="future_url" data-key="future_button" class="relative inline-block px-8 py-3 rounded-lg border border-accent text-accent hover:bg-accent hover:text-black font-bold transition-all duration-300 uppercase tracking-widest text-sm">อ่านบทความ</a>
+            </div>
+        </section>
+
+        <!-- Instructors -->
+        <section id="instructors" class="max-w-7xl mx-auto px-4 py-20 reveal">
+            <div class="text-center mb-12">
+                 <a href="https://thbho.github.io/Th3StylesTeach.html" target="_blank" data-link-key="instructors_styles_url" class="group">
+                    <h2 class="text-3xl font-bold text-white group-hover:text-accent transition-colors" data-key="instructors_title">พบกับผู้สอน</h2>
+                    <p class="text-sm text-gray-500 mt-2 flex items-center justify-center gap-1 group-hover:text-accent/80">คลิกเพื่อดูสไตล์การสอน <i data-lucide="external-link" class="w-3 h-3"></i></p>
+                 </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Instructor 1 -->
+                <div class="glass-panel p-6 rounded-xl border-t-4 border-yellow-400 flex flex-col items-center text-center hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-yellow-400 mb-4 overflow-hidden">
+                        <img src="https://i.postimg.cc/8kWC94dK/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-1.jpg" class="w-full h-full object-cover rounded-full" alt="Three">
+                    </div>
+                    <h3 class="text-xl font-bold text-white" data-key="ins_1_name">ที (Three)</h3>
+                    <span class="px-2 py-0.5 rounded text-xs bg-yellow-400/20 text-yellow-400 font-semibold mb-4 mt-1" data-key="ins_1_role">Storyteller (INFP)</span>
+                    <p class="text-gray-400 text-sm italic" data-key="ins_1_desc">"AI คือคู่หูที่ดีที่สุดในการเล่าเรื่อง..."</p>
+                </div>
+
+                <!-- Instructor 2 -->
+                <div class="glass-panel p-6 rounded-xl border-t-4 border-amber-500 flex flex-col items-center text-center hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-amber-500 mb-4 overflow-hidden">
+                        <img src="https://i.postimg.cc/vmdHqmp6/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-3.jpg" class="w-full h-full object-cover rounded-full" alt="B.">
+                    </div>
+                    <h3 class="text-xl font-bold text-white" data-key="ins_2_name">บี (B.)</h3>
+                    <span class="px-2 py-0.5 rounded text-xs bg-amber-500/20 text-amber-500 font-semibold mb-4 mt-1" data-key="ins_2_role">Strategist (INFJ)</span>
+                    <p class="text-gray-400 text-sm italic" data-key="ins_2_desc">"AI คือเครื่องมือที่ทรงพลัง..."</p>
+                </div>
+
+                <!-- Instructor 3 -->
+                <div class="glass-panel p-6 rounded-xl border-t-4 border-orange-300 flex flex-col items-center text-center hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-orange-300 mb-4 overflow-hidden">
+                        <img src="https://i.postimg.cc/3x23vTdr/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg" class="w-full h-full object-cover rounded-full" alt="Hour">
+                    </div>
+                    <h3 class="text-xl font-bold text-white" data-key="ins_3_name">อาวว์ (Hour)</h3>
+                    <span class="px-2 py-0.5 rounded text-xs bg-orange-300/20 text-orange-300 font-semibold mb-4 mt-1" data-key="ins_3_role">Entrepreneur (ESTP)</span>
+                    <p class="text-gray-400 text-sm italic" data-key="ins_3_desc">"ทฤษฎีมีไว้แค่พอเข้าใจ..."</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="https://thbho.github.io/ThInstructors.html" target="_blank" data-link-key="instructors_all_url" data-key="instructors_button" class="text-gray-400 hover:text-white underline text-sm transition-colors">ดูโปรไฟล์ทั้งหมด</a>
+            </div>
+        </section>
+
+        <!-- AI Chat Interface -->
+        <section id="gemini-chat" class="max-w-5xl mx-auto px-4 py-20 reveal">
+            <div class="glass-panel rounded-2xl overflow-hidden border border-gray-700 shadow-2xl flex flex-col md:flex-row h-[600px] md:h-[500px]">
+                
+                <!-- Sidebar (Persona Selection) -->
+                <div class="w-full md:w-1/3 bg-black/60 border-r border-gray-700 p-6 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i data-lucide="sparkles" class="text-accent w-5 h-5"></i>
+                            <span data-key="chat_title">คุยกับ AI</span>
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-2" data-key="chat_desc">เลือกผู้สอนที่คุณอยากคุยด้วย</p>
+                    </div>
+
+                    <div class="space-y-3 flex-grow overflow-y-auto">
+                        <button class="persona-btn w-full text-left p-3 rounded-lg border border-gray-700 hover:bg-white/5 hover:border-accent transition-all flex items-center gap-3 group" data-persona="tee">
+                            <div class="w-10 h-10 rounded-full bg-yellow-500/20 border border-yellow-500 flex items-center justify-center text-yellow-500 font-bold">T</div>
+                            <div>
+                                <div class="font-bold text-gray-200 group-hover:text-yellow-400 text-sm" data-key="chat_btn_1">ที</div>
+                                <div class="text-[10px] text-gray-500">Storyteller</div>
+                            </div>
+                        </button>
+
+                        <button class="persona-btn w-full text-left p-3 rounded-lg border border-gray-700 hover:bg-white/5 hover:border-amber-500 transition-all flex items-center gap-3 group" data-persona="b">
+                            <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center text-amber-500 font-bold">B</div>
+                            <div>
+                                <div class="font-bold text-gray-200 group-hover:text-amber-500 text-sm" data-key="chat_btn_2">บี</div>
+                                <div class="text-[10px] text-gray-500">Strategist</div>
+                            </div>
+                        </button>
+
+                        <button class="persona-btn w-full text-left p-3 rounded-lg border border-gray-700 hover:bg-white/5 hover:border-orange-400 transition-all flex items-center gap-3 group" data-persona="hour">
+                            <div class="w-10 h-10 rounded-full bg-orange-400/20 border border-orange-400 flex items-center justify-center text-orange-400 font-bold">H</div>
+                            <div>
+                                <div class="font-bold text-gray-200 group-hover:text-orange-400 text-sm" data-key="chat_btn_3">อาวว์</div>
+                                <div class="text-[10px] text-gray-500">Entrepreneur</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="w-full md:w-2/3 bg-gray-900/50 flex flex-col relative">
+                    <!-- Placeholder -->
+                    <div id="chat-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 z-0">
+                        <div class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center mb-4 animate-float">
+                            <i data-lucide="bot" class="w-8 h-8 text-gray-500"></i>
+                        </div>
+                        <p class="text-gray-400" data-key="chat_placeholder">เลือก Persona เพื่อเริ่มการสนทนา...</p>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="chat-window" class="flex-grow p-4 space-y-4 overflow-y-auto z-10 custom-scrollbar"></div>
+
+                    <!-- Input -->
+                    <div class="p-4 border-t border-gray-700 bg-gray-900/80 z-20">
+                         <div id="loading-indicator" class="hidden mb-2 ml-2">
+                             <div class="flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-full w-fit">
+                                <div class="dot-flashing"></div>
+                                <span class="text-xs text-gray-400 ml-2">AI is typing...</span>
+                             </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" id="chat-input" disabled class="flex-grow bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent placeholder-gray-500 disabled:opacity-50" placeholder="..." data-key-placeholder="chat_input_placeholder">
+                            <button id="send-chat-btn" disabled class="bg-accent text-black p-2 rounded-lg hover:bg-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                         <p class="text-center text-[10px] text-gray-600 mt-2" data-key="chat_disclaimer">Demo AI Version</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sandbox -->
+        <section class="max-w-4xl mx-auto px-4 mb-20 reveal">
+            <div class="rounded-xl bg-gradient-to-r from-gray-800 to-gray-900 p-1">
+                <div class="bg-black rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white" data-key="sandbox_title">Project Sandbox: WIDEROOMS</h2>
+                        <p class="text-gray-400 mt-2" data-key="sandbox_desc">ธุรกิจทดลองใหม่ ที่ run โดย Hybrid AI Persona</p>
+                    </div>
+                    <a href="https://thbho.github.io/ThWiderooms.html" target="_blank" data-link-key="sandbox_url" data-key="sandbox_button" class="whitespace-nowrap px-6 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-white font-medium transition-colors">
+                        สำรวจ WIDEROOMS
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer id="register" class="bg-black border-t border-gray-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <!-- Contact Form -->
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <span class="w-1 h-8 bg-accent rounded-full block"></span>
+                        <span data-key="contact_title">สนใจ? ติดต่อเรา!</span>
+                    </h2>
+                     <div class="mb-6 glass-panel rounded-xl overflow-hidden">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/55KEOao92gO9TxH9dG5xBp?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <form id="contact-form" action="https://formspree.io/f/mnnvbyyo" method="POST" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="name" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="ชื่อของคุณ" data-key-placeholder="form_name_placeholder" required>
+                            <input type="text" name="contact" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="Line/WhatsApp/Tel" data-key-placeholder="form_contact_placeholder" required>
+                        </div>
+                        <textarea name="message" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors h-32 resize-none" placeholder="ข้อความของคุณ" data-key-placeholder="form_message_placeholder" required></textarea>
+                        <button type="submit" class="w-full bg-accent hover:bg-accent-light text-black font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.01]" data-key="form_submit_button">ส่งข้อความ</button>
+                    </form>
+                    <p id="form-status" class="mt-4 text-center h-6 text-sm"></p>
+                </div>
+
+                <!-- Google Form Registration -->
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <span class="w-1 h-8 bg-accent rounded-full block"></span>
+                        <span data-key="register_title">ลงทะเบียน</span>
+                    </h2>
+                    <div class="glass-panel rounded-xl overflow-hidden h-[600px] border border-gray-700">
+                         <iframe id="google-form-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSf9VMIX4XNkNrOXWjb8y1AvxBzJu8N4X4pHL5pPhE9J0PrGlw/viewform?embedded=true" class="w-full h-full" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                <p>&copy; 2025 AI GYMMATEX FACTORY. All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <span data-key="footer_contact">Contact:</span>
+                    <a href="mailto:threeandhour@gmail.com" class="text-gray-300 hover:text-accent transition-colors">threeandhour@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. ICONS & UI INITIALIZATION ---
+        lucide.createIcons();
+
+        // --- 2. SCROLL ANIMATION OBSERVER ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar glass effect on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+            } else {
+                nav.classList.remove('py-2');
+            }
+        });
+
+        // --- 3. MULTI-LANGUAGE LOGIC (Preserved & Optimized) ---
+        const translations = {
+            th: {
+                page_title: "AI GYMMATEX FACTORY | ปลุกชีวิตให้ AI",
+                og_title: "AI GYMMATEX FACTORY | คอร์สสร้าง Hybrid AI Persona",
+                og_description: "เปลี่ยนคุณจากผู้ใช้ให้เป็น Hybrid Creator ผสานตัวตนและความคิดสร้างสรรค์เข้ากับ Generative AI ผ่านโปรเจกต์จริง",
+                nav_courses: "หลักสูตร", nav_instructors: "ผู้สอน", nav_chat: "คุยกับ AI", nav_register: "ลงทะเบียน", nav_highlight: "Highlight", nav_fitness: "Fitness",
+                header_title: "ปลุกชีวิตให้ AI", header_subtitle: "คอร์ส Hybrid AI Persona",
+                announcement_link: "ประกาศล่าสุด",
+                learn_title: "สิ่งที่คุณจะได้เรียนรู้",
+                learn_1_title: "ค้นหา 'จิตวิญญาณ'", learn_1_desc: "เรียนรู้วิธีผสานตัวตนและความเชี่ยวชาญของคุณเข้ากับ AI ไม่ต้องเขียนโค้ด ใช้เอกลักษณ์เฉพาะของคุณ",
+                learn_2_title: "Creative Director", learn_2_desc: "ใช้ Framework ง่ายๆ อย่าง MBTI เพื่อสร้างคาแรกเตอร์ที่สม่ำเสมอและน่าเชื่อถือ ให้ผู้คนรู้สึกผูกพัน",
+                learn_3_title: "Digital Twin", learn_3_desc: "เปลี่ยนไอเดียให้กลายเป็น AI Persona ที่โต้ตอบได้จริง เพื่อใช้สอนงาน, โค้ชชิ่ง หรือสร้างแบรนด์",
+                dual_avatar_link: "กลยุทธ์ Dual-Avatar",
+                courses_title: "รายละเอียดหลักสูตร",
+                course_1_title: "Hybrid AI Persona", course_1_desc: "หลักสูตรฉบับเต็ม 6 ครั้ง (ครั้งละ 2-3 ชม.)", course_1_button: "ดู Course Outline",
+                course_2_title: "GymMateX Fitness", course_2_desc: "หลักสูตรพิเศษสำหรับสายฟิตเนส", course_2_button: "ดูรายละเอียด",
+                course_3_title: "Gen. AI & Hybrid", course_3_desc: "หลักสูตรเร่งรัด เรียนรู้เร็วใน 1 วัน", course_3_button: "ดูรายละเอียด",
+                future_title: "พิมพ์เขียวแห่งอนาคต", future_desc: "สำรวจวิสัยทัศน์และศักยภาพที่ไร้ขีดจำกัดของ AI Persona", future_button: "อ่านบทความ",
+                instructors_title: "พบกับผู้สอน",
+                ins_1_name: "ที (Three)", ins_1_role: "The Storyteller (INFP)", ins_1_desc: "\"AI คือคู่หูที่ดีที่สุดในการเล่าเรื่อง...\"",
+                ins_2_name: "บี (B.)", ins_2_role: "The Strategist (INFJ)", ins_2_desc: "\"AI คือเครื่องมือที่ทรงพลัง...\"",
+                ins_3_name: "อาวว์ (Hour)", ins_3_role: "The Entrepreneur (ESTP)", ins_3_desc: "\"ทฤษฎีมีไว้แค่พอเข้าใจ...\"",
+                instructors_button: "ดูโปรไฟล์ทั้งหมด",
+                chat_title: "คุยกับ AI", chat_desc: "เลือกผู้สอนที่คุณอยากคุยด้วย", chat_disclaimer: "(Demo AI Version)",
+                chat_btn_1: "ที", chat_btn_2: "บี", chat_btn_3: "อาวว์",
+                chat_placeholder: "เลือก Persona เพื่อเริ่มการสนทนา...", chat_input_placeholder: "พิมพ์คำถามของคุณที่นี่...",
+                sandbox_title: "Project Sandbox: WIDEROOMS", sandbox_desc: "ธุรกิจทดลองใหม่ ที่ run โดย Hybrid AI Persona", sandbox_button: "สำรวจ WIDEROOMS",
+                contact_title: "สนใจ? ติดต่อเรา!", form_name_placeholder: "ชื่อของคุณ", form_contact_placeholder: "Line/WhatsApp/Tel", form_message_placeholder: "ข้อความของคุณ", form_submit_button: "ส่งข้อความ",
+                register_title: "ลงทะเบียน",
+                footer_contact: "Contact: ",
+                form_success: "ส่งข้อความเรียบร้อยแล้ว!", form_error: "เกิดข้อผิดพลาด",
+                chat_user_label: "คุณ", chat_error: "ขออภัยครับ ไม่สามารถเชื่อมต่อกับ AI ได้", chat_api_error: "Error API",
+                persona_tee_prompt: "คุณคือ 'ที' (Three), Creative Director (INFP)...",
+                persona_b_prompt: "คุณคือ 'บี' (B.), Chief Strategy & Technology Officer (INFJ)...",
+                persona_hour_prompt: "คุณคือ 'อาวว์' (Hour), Head of Business Development (ESTP)...",
+            },
+            en: {
+                page_title: "AI GYMMATEX FACTORY | Awaken Your AI",
+                og_title: "AI GYMMATEX FACTORY | Hybrid AI Persona Course",
+                og_description: "Transform from a user into a Hybrid Creator...",
+                nav_courses: "Courses", nav_instructors: "Instructors", nav_chat: "Chat AI", nav_register: "Register", nav_highlight: "Highlight", nav_fitness: "Fitness",
+                header_title: "Awaken Your AI", header_subtitle: "The Hybrid AI Persona Course",
+                announcement_link: "Latest Announcement",
+                learn_title: "What You Will Learn",
+                learn_1_title: "Discover the 'Soul'", learn_1_desc: "Merge your identity and expertise with AI—no code required.",
+                learn_2_title: "Creative Director", learn_2_desc: "Create a consistent and believable character that people can connect with.",
+                learn_3_title: "Digital Twin", learn_3_desc: "Interactive AI Persona for teaching, coaching, or building a unique brand.",
+                dual_avatar_link: "Dual-Avatar Strategy",
+                courses_title: "Course Details",
+                course_1_title: "Hybrid AI Persona", course_1_desc: "Full 6-session course (2-3 hours each).", course_1_button: "View Outline",
+                course_2_title: "GymMateX Fitness", course_2_desc: "Special course for the fitness community.", course_2_button: "View Details",
+                course_3_title: "Gen. AI & Hybrid", course_3_desc: "Intensive 1-Day workshop.", course_3_button: "View Details",
+                future_title: "The Near Future", future_desc: "Explore the vision and limitless potential of Hybrid AI Personas.", future_button: "Read Article",
+                instructors_title: "Meet Instructors",
+                ins_1_name: "Three", ins_1_role: "Storyteller (INFP)", ins_1_desc: "\"AI is the ultimate storytelling partner...\"",
+                ins_2_name: "B.", ins_2_role: "Strategist (INFJ)", ins_2_desc: "\"AI is a powerful tool...\"",
+                ins_3_name: "Hour", ins_3_role: "Entrepreneur (ESTP)", ins_3_desc: "\"Theory is just for basics...\"",
+                instructors_button: "View All Profiles",
+                chat_title: "Chat with AI", chat_desc: "Choose an instructor to chat with.", chat_disclaimer: "(Demo AI Version)",
+                chat_btn_1: "Three", chat_btn_2: "B.", chat_btn_3: "Hour",
+                chat_placeholder: "Select a persona to start chatting...", chat_input_placeholder: "Type your question here...",
+                sandbox_title: "Project Sandbox: WIDEROOMS", sandbox_desc: "A new business experiment run by AI.", sandbox_button: "Explore",
+                contact_title: "Contact Us", form_name_placeholder: "Name", form_contact_placeholder: "Contact Info", form_message_placeholder: "Message", form_submit_button: "Send",
+                register_title: "Register",
+                footer_contact: "Contact: ",
+                form_success: "Message sent!", form_error: "Error sending message",
+                chat_user_label: "You", chat_error: "Connection failed", chat_api_error: "Error",
+                persona_tee_prompt: "You are 'Three'...",
+                persona_b_prompt: "You are 'B.'...",
+                persona_hour_prompt: "You are 'Hour'...",
+            },
+            ru: {
+                page_title: "AI GYMMATEX FACTORY | Пробуди свой ИИ",
+                og_title: "AI GYMMATEX FACTORY | Курс по созданию гибридного AI Persona",
+                og_description: "Превратитесь из пользователя в гибридного создателя...",
+                nav_courses: "Курсы", nav_instructors: "Инструкторы", nav_chat: "Чат с ИИ", nav_register: "Регистрация", nav_highlight: "Highlight", nav_fitness: "Фитнес",
+                header_title: "Пробуди свой ИИ", header_subtitle: "Курс Hybrid AI Persona",
+                announcement_link: "Последние объявления",
+                learn_title: "Что вы узнаете",
+                learn_1_title: "Найдите 'душу'", learn_1_desc: "Научитесь объединять свою личность и опыт с ИИ — кодирование не требуется.",
+                learn_2_title: "Креативный директор", learn_2_desc: "Используйте MBTI для создания последовательного и правдоподобного персонажа.",
+                learn_3_title: "Цифровой двойник", learn_3_desc: "Интерактивная AI Persona для обучения, коучинга или создания бренда.",
+                dual_avatar_link: "Стратегия Dual-Avatar",
+                courses_title: "Детали курса",
+                course_1_title: "Hybrid AI Persona", course_1_desc: "Полный курс из 6 занятий (2-3 часа каждое).", course_1_button: "Программа курса",
+                course_2_title: "GymMateX Fitness", course_2_desc: "Специальный курс для фитнес-сообщества.", course_2_button: "Подробнее",
+                course_3_title: "Gen. AI & Hybrid", course_3_desc: "Интенсивный однодневный семинар.", course_3_button: "Подробнее",
+                future_title: "Будущее рядом", future_desc: "Исследуйте видение и безграничный потенциал гибридных AI Persona.", future_button: "Читать статью",
+                instructors_title: "Инструкторы",
+                ins_1_name: "Три (Three)", ins_1_role: "Storyteller (INFP)", ins_1_desc: "\"ИИ — лучший партнер для историй...\"",
+                ins_2_name: "Б. (B.)", ins_2_role: "Strategist (INFJ)", ins_2_desc: "\"ИИ — это мощный инструмент...\"",
+                ins_3_name: "Час (Hour)", ins_3_role: "Entrepreneur (ESTP)", ins_3_desc: "\"Теория — это только база...\"",
+                instructors_button: "Все профили",
+                chat_title: "Чат с ИИ", chat_desc: "Выберите инструктора для общения.", chat_disclaimer: "(Демо-версия ИИ)",
+                chat_btn_1: "Три", chat_btn_2: "Б.", chat_btn_3: "Час",
+                chat_placeholder: "Выберите персону для начала...", chat_input_placeholder: "Введите ваш вопрос...",
+                sandbox_title: "Проект Sandbox: WIDEROOMS", sandbox_desc: "Новый бизнес-эксперимент под управлением ИИ.", sandbox_button: "Исследовать",
+                contact_title: "Свяжитесь с нами", form_name_placeholder: "Имя", form_contact_placeholder: "Контакты", form_message_placeholder: "Сообщение", form_submit_button: "Отправить",
+                register_title: "Регистрация",
+                footer_contact: "Контакты: ",
+                form_success: "Сообщение отправлено!", form_error: "Ошибка отправки",
+                chat_user_label: "Вы", chat_error: "Ошибка соединения", chat_api_error: "Ошибка",
+                persona_tee_prompt: "Вы — «Три»...",
+                persona_b_prompt: "Вы — «Б.»...",
+                persona_hour_prompt: "Вы — «Час»...",
+            },
+            zh: {
+                page_title: "AI GYMMATEX FACTORY | 唤醒你的AI",
+                og_title: "AI GYMMATEX FACTORY | 混合AI角色课程",
+                og_description: "从用户转变为混合创造者...",
+                nav_courses: "课程", nav_instructors: "讲师", nav_chat: "与AI聊天", nav_register: "注册", nav_highlight: "亮点", nav_fitness: "健身",
+                header_title: "唤醒你的AI", header_subtitle: "混合AI角色课程",
+                announcement_link: "最新公告",
+                learn_title: "您将学到什么",
+                learn_1_title: "发现AI的'灵魂'", learn_1_desc: "学习将您的身份和专业知识与AI融合——无需编码。",
+                learn_2_title: "创意总监", learn_2_desc: "使用MBTI创建一致且可信的角色。",
+                learn_3_title: "数字孪生", learn_3_desc: "用于教学、辅导或建立品牌的互动AI角色。",
+                dual_avatar_link: "双头像策略",
+                courses_title: "课程详情",
+                course_1_title: "混合AI角色", course_1_desc: "完整的6节课程（每节2-3小时）。", course_1_button: "课程大纲",
+                course_2_title: "GymMateX 健身", course_2_desc: "专为健身社区设计的特别课程。", course_2_button: "查看详情",
+                course_3_title: "生成式AI与混合", course_3_desc: "为期1天的强化研讨会。", course_3_button: "查看详情",
+                future_title: "近期未来", future_desc: "探索混合AI角色的愿景和无限潜力。", future_button: "阅读文章",
+                instructors_title: "认识讲师",
+                ins_1_name: "三 (Three)", ins_1_role: "Storyteller (INFP)", ins_1_desc: "“AI是终极的故事讲述伙伴...”",
+                ins_2_name: "B.", ins_2_role: "Strategist (INFJ)", ins_2_desc: "“AI是一个强大的工具...”",
+                ins_3_name: "时 (Hour)", ins_3_role: "Entrepreneur (ESTP)", ins_3_desc: "“理论只是基础...”",
+                instructors_button: "查看所有简介",
+                chat_title: "与AI聊天", chat_desc: "选择您想聊天的讲师。", chat_disclaimer: "(AI演示版)",
+                chat_btn_1: "三", chat_btn_2: "B.", chat_btn_3: "时",
+                chat_placeholder: "选择角色开始聊天...", chat_input_placeholder: "在此输入您的问题...",
+                sandbox_title: "项目沙盒: WIDEROOMS", sandbox_desc: "由AI运营的新商业实验。", sandbox_button: "探索",
+                contact_title: "联系我们", form_name_placeholder: "名字", form_contact_placeholder: "联系方式", form_message_placeholder: "留言", form_submit_button: "发送",
+                register_title: "注册",
+                footer_contact: "联系方式: ",
+                form_success: "消息已发送！", form_error: "发送错误",
+                chat_user_label: "您", chat_error: "连接失败", chat_api_error: "错误",
+                persona_tee_prompt: "你是“三”...",
+                persona_b_prompt: "你是“B.”...",
+                persona_hour_prompt: "你是“时”...",
+            }
+        };
+
+        // Fallback for RU/ZH full content for demo purposes use EN
+        Object.keys(translations.en).forEach(key => {
+            if(!translations.ru[key]) translations.ru[key] = translations.en[key];
+            if(!translations.zh[key]) translations.zh[key] = translations.en[key];
+        });
+
+        const linkTranslations = {
+            th: {
+                highlight_url: "https://threeandhour.github.io/GymMateX/ThDualAvatar.html",
+                fitness_url: "https://threeandhour.github.io/GymMateX",
+                announcement_url: "https://thbho.github.io/ThAnnouncement.html",
+                // UPDATED: Clean Embed URL
+                video_url: "https://www.youtube.com/embed/Wo1OzcHjSak",
+                dual_avatar_url: "https://threeandhour.github.io/GymMateX/ThDualAvatar.html",
+                course_1_url: "https://thbho.github.io/ThInfoCourse.html",
+                course_2_url: "https://threeandhour.github.io/GymMateX/",
+                course_3_url: "https://drive.google.com/file/d/1C42vRSGPBZ1aOSwk_FuC1w7p77720pgC/view?usp=sharing",
+                future_url: "https://threeandhour.github.io/GymMateX/ThFutureHAP.html",
+                instructors_styles_url: "https://thbho.github.io/Th3StylesTeach.html",
+                instructors_all_url: "https://thbho.github.io/ThInstructors.html",
+                sandbox_url: "https://thbho.github.io/ThWiderooms.html",
+            },
+            en: {
+                highlight_url: "https://threeandhour.github.io/GymMateX/EnDualAvatar.html",
+                fitness_url: "https://threeandhour.github.io/GymMateX/EngWebsite.html",
+                announcement_url: "https://thbho.github.io/EngAnnouncement.html",
+                // UPDATED: Clean Embed URL
+                video_url: "https://www.youtube.com/embed/Wo1OzcHjSak",
+                dual_avatar_url: "https://threeandhour.github.io/GymMateX/EnDualAvatar.html",
+                course_1_url: "https://thbho.github.io/EngInfoCourse.html",
+                course_2_url: "https://threeandhour.github.io/GymMateX/EngWebsite.html",
+                course_3_url: "https://drive.google.com/file/d/1C42vRSGPBZ1aOSwk_FuC1w7p77720pgC/view?usp=sharing",
+                future_url: "https://threeandhour.github.io/GymMateX/EnFutureHAP.html",
+                instructors_styles_url: "https://thbho.github.io/Eng3StylesTeach.html",
+                instructors_all_url: "https://thbho.github.io/EngInstructors.html",
+                sandbox_url: "https://thbho.github.io/EngWiderooms.html",
+            }
+        };
+        linkTranslations.ru = { ...linkTranslations.en };
+        linkTranslations.zh = { ...linkTranslations.en };
+
+        let currentLang = localStorage.getItem('lang') || 'th';
+
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key').replace(/_mob$/, '');
+                if (translations[lang][key]) el.innerText = translations[lang][key];
+            });
+
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                if (translations[lang][key]) el.placeholder = translations[lang][key];
+            });
+
+            document.querySelectorAll('[data-link-key]').forEach(el => {
+                const key = el.getAttribute('data-link-key').replace(/_mob$/, '');
+                if(linkTranslations[lang][key] && el.tagName === 'A') el.href = linkTranslations[lang][key];
+            });
+
+            if(linkTranslations[lang]['video_url']){
+                const vid = document.getElementById('video-iframe');
+                if(vid) vid.src = linkTranslations[lang]['video_url'];
+            }
+
+            document.title = translations[lang]['page_title'];
+            
+            // Highlight active lang buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.dataset.lang === lang) {
+                    btn.classList.add('text-accent', 'underline');
+                    btn.classList.remove('text-gray-400');
+                } else {
+                    btn.classList.remove('text-accent', 'underline');
+                    btn.classList.add('text-gray-400');
+                }
+            });
+
+            resetChat();
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => setLanguage(e.target.dataset.lang));
+        });
+
+        // --- 4. FORM HANDLING ---
+        const form = document.getElementById("contact-form");
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const status = document.getElementById("form-status");
+            const data = new FormData(event.target);
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {'Accept': 'application/json'}
+                });
+                if (response.ok) {
+                    status.innerHTML = translations[currentLang].form_success;
+                    status.classList.add('text-green-400');
+                    form.reset();
+                } else {
+                    status.innerHTML = translations[currentLang].form_error;
+                    status.classList.add('text-red-400');
+                }
+            } catch (error) {
+                status.innerHTML = translations[currentLang].form_error;
+                status.classList.add('text-red-400');
+            }
+        });
+
+        // --- 5. CHAT LOGIC ---
+        const personaBtns = document.querySelectorAll('.persona-btn');
+        const chatWindow = document.getElementById('chat-window');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-chat-btn');
+        const placeholder = document.getElementById('chat-placeholder');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        let activePersona = null;
+        
+        // ** API Key Configuration **
+        const apiKey = ""; 
+
+        const personas = {
+            tee: { nameKey: "chat_btn_1", promptKey: "persona_tee_prompt" },
+            b:   { nameKey: "chat_btn_2", promptKey: "persona_b_prompt" },
+            hour:{ nameKey: "chat_btn_3", promptKey: "persona_hour_prompt" }
+        };
+
+        function resetChat() {
+            activePersona = null;
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+            chatWindow.innerHTML = '';
+            placeholder.style.display = 'flex';
+            personaBtns.forEach(b => {
+                b.classList.remove('bg-gray-800', 'border-accent');
+                b.classList.add('border-gray-700');
+            });
+        }
+
+        personaBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                personaBtns.forEach(b => {
+                    b.classList.remove('bg-gray-800', 'border-accent');
+                    b.classList.add('border-gray-700');
+                });
+                btn.classList.remove('border-gray-700');
+                btn.classList.add('bg-gray-800', 'border-accent');
+                
+                activePersona = btn.dataset.persona;
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+                placeholder.style.display = 'none';
+                
+                const personaName = translations[currentLang][personas[activePersona].nameKey];
+                chatInput.placeholder = `${translations[currentLang].chat_input_placeholder} (@${personaName})`;
+                chatInput.focus();
+            });
+        });
+
+        async function callGemini(question) {
+            if (!activePersona) return;
+            
+            // UI Update: User Message
+            addMessageToChat(question, 'user');
+            chatInput.value = '';
+            setLoading(true);
+
+            // CHANGED: Removed the strict check for empty apiKey
+            // The environment might inject the key, so we proceed to the call.
+            
+            const prompt = translations[currentLang][personas[activePersona].promptKey];
+            const fullPrompt = `${prompt}\n\nUser Question: ${question}`;
+            
+            try {
+                // CHANGED: Switched to the environment-supported model 'gemini-2.5-flash-preview-09-2025'
+                // This resolves the "Model Not Found" error in the preview environment.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: fullPrompt }] }] })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `HTTP Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                let text = "AI Error.";
+                if (result.candidates && result.candidates[0].content) {
+                    text = result.candidates[0].content.parts[0].text;
+                }
+                addMessageToChat(text, 'ai');
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                // Show more specific error to user
+                let errorMsg = "ขออภัย เกิดข้อผิดพลาดในการเชื่อมต่อ";
+                if (error.message.includes('API key')) errorMsg = "API Key ไม่ถูกต้อง หรือสิทธิ์ไม่ผ่าน";
+                if (error.message.includes('not found')) errorMsg = "ไม่พบโมเดล (Model Not Found)";
+                addMessageToChat(`⚠️ ${errorMsg} (${error.message})`, 'ai');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function addMessageToChat(text, sender) {
+            const div = document.createElement('div');
+            div.classList.add('max-w-[85%]', 'p-3', 'text-sm', 'leading-relaxed', 'animate-fade-in-up');
+            
+            if (sender === 'user') {
+                div.classList.add('chat-msg-user', 'text-white');
+                div.innerHTML = text;
+            } else {
+                div.classList.add('chat-msg-ai', 'text-gray-200');
+                // Simple markdown-ish bold parser
+                div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+            }
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function setLoading(isLoading) {
+            loadingIndicator.style.display = isLoading ? 'block' : 'none';
+            chatInput.disabled = isLoading;
+            sendBtn.disabled = isLoading;
+            if(!isLoading) chatInput.focus();
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const val = chatInput.value.trim();
+            if(val) callGemini(val);
+        });
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                const val = chatInput.value.trim();
+                if(val) callGemini(val);
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Init Language
+        setLanguage(currentLang);
+
+    </script>
+</body>
+</html>
