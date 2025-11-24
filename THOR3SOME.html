@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thor Ayanundana | Official Profile</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- React & Tailwind Libraries -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Outfit', 'Noto Sans Thai', sans-serif; background-color: #0f172a; color: #e2e8f0; }
         .gradient-text {
@@ -23,9 +28,16 @@
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Modal Animation */
+        /* Animations */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
     </style>
 </head>
 <body>
@@ -34,7 +46,24 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- ICONS (SVG Components) ---
+        // --- DATA CONSTANTS ---
+        const PROFILE_IMAGES = [
+            "https://i.postimg.cc/hj6T5qmk/My_Jd_1_17.jpg",
+            "https://i.postimg.cc/KjTBXsr3/Mggg_1_10.jpg",
+            "https://i.postimg.cc/QNKpWHGc/My_Jd_1_33.jpg",
+            "https://i.postimg.cc/6ptRSc73/My_Jd_1_7.jpg",
+            "https://i.postimg.cc/K8xLVfKF/My_Jd_1_10.jpg",
+            "https://i.postimg.cc/tChW2wgq/My_Jd_1_11.jpg",
+            "https://i.postimg.cc/tRnhVYQ6/Mggg_1_8.jpg",
+            "https://i.postimg.cc/nh27tm75/My_project_1_4.jpg",
+            "https://i.postimg.cc/VkgMctM0/My_Jd_1_3.jpg",
+            "https://i.postimg.cc/sfGpZvds/Myiui_1_4.jpg",
+            "https://i.postimg.cc/MTNVF8RK/Mggg_1_13.jpg",
+            "https://i.postimg.cc/cH2wbNYx/Mggg_1_11.jpg",
+            "https://i.postimg.cc/dt8r4p0V/My_Jd_1_19.jpg"
+        ];
+
+        // --- ICONS ---
         const IconUser = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
         const IconBriefcase = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>;
         const IconPalette = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>;
@@ -46,7 +75,7 @@
         const IconGlobe = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>;
         const IconFileText = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>;
         const IconX = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
-        const IconEye = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>;
+        const IconEye = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>;
         const IconPlay = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>;
 
         // --- CONTENT DATA (Bilingual) ---
@@ -99,7 +128,7 @@
                     items: [
                         { 
                             isEmbed: true,
-                            title: "Hybrid AI Series", 
+                            title: "Hybrid AI Playlist", 
                             desc: "Now Playing: YouTube Playlist", 
                             embedSrc: "https://www.youtube.com/embed/videoseries?list=PLXigNrjSidjspyg1g9LP-KFI0zm02wZjz&autoplay=1&mute=1&loop=1"
                         },
@@ -208,7 +237,16 @@
         const App = () => {
             const [lang, setLang] = useState('en');
             const [showCV, setShowCV] = useState(false);
+            const [currentImageIndex, setCurrentImageIndex] = useState(0);
             const t = content[lang];
+
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % PROFILE_IMAGES.length);
+                }, 3000); 
+
+                return () => clearInterval(timer);
+            }, []);
 
             const toggleLang = () => setLang(prev => prev === 'en' ? 'th' : 'en');
 
@@ -247,7 +285,7 @@
                             <div className="bg-slate-800 rounded-2xl w-full max-w-3xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh]">
                                 <div className="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800 rounded-t-2xl">
                                     <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                                        <IconFileText className="text-cyan-400"/> {t.cvModal.title}
+                                        <IconFileText /> {t.cvModal.title}
                                     </h3>
                                     <button onClick={() => setShowCV(false)} className="text-slate-400 hover:text-white transition">
                                         <IconX />
@@ -316,7 +354,7 @@
                                         {t.cvModal.close}
                                     </button>
                                     <button className="px-6 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-semibold flex items-center gap-2 shadow-lg">
-                                         <IconFileText size={16}/> {t.cvModal.download}
+                                         <IconFileText /> {t.cvModal.download}
                                     </button>
                                 </div>
                             </div>
@@ -324,12 +362,12 @@
                     )}
 
                     {/* Hero Section */}
-                    <section className="relative pt-32 pb-20 px-4 flex flex-col items-center text-center justify-center min-h-[90vh] overflow-hidden">
+                    <section className="relative pt-32 pb-20 px-4 flex flex-col lg:flex-row items-center justify-center min-h-[90vh] overflow-hidden gap-12 max-w-7xl mx-auto">
                         {/* Background Elements */}
-                        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl"></div>
+                        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                        <div className="relative z-10 max-w-4xl mx-auto">
+                        <div className="relative z-10 w-full lg:w-1/2 text-center lg:text-left">
                             <p className="text-cyan-400 font-semibold tracking-wide mb-4 animate-fade-in-up">{t.hero.greeting}</p>
                             <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white tracking-tight">
                                 {t.hero.name}
@@ -337,17 +375,25 @@
                             <h2 className="text-2xl md:text-3xl text-slate-400 mb-8 font-light">
                                 {t.hero.title}
                             </h2>
-                            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                            <p className="text-lg md:text-xl text-slate-400 max-w-2xl lg:max-w-full mx-auto lg:mx-0 mb-10 leading-relaxed">
                                 {t.hero.subtitle}
                             </p>
-                            <div className="flex flex-col md:flex-row gap-4 justify-center">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <a href="#gallery" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg shadow-cyan-500/25 transition transform hover:scale-105">
                                     {t.hero.cta}
                                 </a>
                                 <button onClick={() => setShowCV(true)} className="px-8 py-3 rounded-full border border-slate-600 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition font-semibold flex items-center justify-center gap-2">
-                                    <IconFileText size={18}/> {t.about.cvBtn}
+                                    <IconFileText /> {t.about.cvBtn}
                                 </button>
                             </div>
+                        </div>
+                        
+                        <div className="relative z-10 w-full lg:w-1/2 flex justify-center lg:justify-end animate-float">
+                            <img 
+                                src="https://i.postimg.cc/9fzvdGYB/9686DDD2-10D9-47B9-AE7B-FF77DEF2E26F.png" 
+                                alt="Thor Main Infographic" 
+                                className="w-full max-w-md lg:max-w-lg rounded-2xl shadow-2xl shadow-cyan-500/20 border border-slate-700/50 object-cover"
+                            />
                         </div>
                     </section>
 
@@ -358,12 +404,20 @@
                                 <div className="w-full md:w-1/2">
                                     <div className="relative w-full aspect-[4/5] bg-slate-700 rounded-2xl overflow-hidden shadow-2xl group">
                                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60 z-10"></div>
-                                         <img src="https://i.postimg.cc/5NqV7dCK/_Draft_(All_MV03)_FeelSoTrue-topaz-face-text-upscale-1.8x.jpg" alt="Thor Ayanundana" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                                         {/* Slideshow Logic */}
+                                         {PROFILE_IMAGES.map((img, index) => (
+                                            <img 
+                                                key={index}
+                                                src={img} 
+                                                alt={`Thor Profile ${index + 1}`} 
+                                                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+                                            />
+                                         ))}
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/2">
                                     <div className="flex items-center gap-2 mb-4 text-cyan-400">
-                                        <IconUser size={24} />
+                                        <IconUser />
                                         <span className="uppercase tracking-widest font-bold text-sm">Identity</span>
                                     </div>
                                     <h2 className="text-4xl font-bold mb-6 text-white">{t.about.heading}</h2>
@@ -381,7 +435,7 @@
                                     </div>
 
                                     <button onClick={() => setShowCV(true)} className="w-full py-3 border-2 border-slate-700 hover:border-cyan-500 text-slate-300 hover:text-white rounded-xl transition flex items-center justify-center gap-2 font-semibold">
-                                        <IconFileText size={20}/> {t.about.cvBtn}
+                                        <IconFileText /> {t.about.cvBtn}
                                     </button>
                                 </div>
                             </div>
@@ -394,7 +448,7 @@
                         <div className="max-w-6xl mx-auto px-4 relative z-10">
                             <div className="text-center mb-16">
                                 <div className="inline-flex items-center gap-2 text-cyan-400 mb-2">
-                                    <IconBriefcase size={20} />
+                                    <IconBriefcase />
                                     <span className="uppercase tracking-widest font-bold text-sm">Professional</span>
                                 </div>
                                 <h2 className="text-4xl font-bold mb-2 text-white">{t.work.heading}</h2>
@@ -418,7 +472,7 @@
                              <div className="flex justify-between items-end mb-12">
                                 <div>
                                     <div className="inline-flex items-center gap-2 text-pink-500 mb-2">
-                                        <IconEye size={20} />
+                                        <IconEye />
                                         <span className="uppercase tracking-widest font-bold text-sm">Showcase</span>
                                     </div>
                                     <h2 className="text-4xl font-bold text-white">{t.gallery.heading}</h2>
@@ -475,7 +529,7 @@
                                     <div className="flex flex-col md:flex-row gap-12">
                                         <div className="w-full md:w-2/3">
                                             <div className="inline-flex items-center gap-2 text-pink-500 mb-4">
-                                                <IconPalette size={20} />
+                                                <IconPalette />
                                                 <span className="uppercase tracking-widest font-bold text-sm">Passion</span>
                                             </div>
                                             <h2 className="text-4xl font-bold mb-4 text-white">{t.passion.heading}</h2>
@@ -511,7 +565,7 @@
                     <section id="love" className="py-20">
                         <div className="max-w-4xl mx-auto px-4 text-center">
                             <div className="inline-flex items-center gap-2 text-pink-500 mb-4">
-                                <IconHeart size={20} />
+                                <IconHeart />
                                 <span className="uppercase tracking-widest font-bold text-sm">Private Life</span>
                             </div>
                             <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white">{t.love.heading}</h2>
@@ -539,21 +593,21 @@
                             <h2 className="text-3xl font-bold text-white mb-8">{t.footer.contact}</h2>
                             <div className="flex justify-center gap-6 mb-12">
                                 <a href="https://x.com/widerooms" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-cyan-600 hover:text-white transition text-slate-400">
-                                    <IconTwitter size={24} />
+                                    <IconTwitter />
                                 </a>
                                 <a href="https://www.youtube.com/@threeandhour" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-red-600 hover:text-white transition text-slate-400">
-                                    <IconYoutube size={24} />
+                                    <IconYoutube />
                                 </a>
                                 <a href="https://www.instagram.com/th_b_ho/" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-pink-600 hover:text-white transition text-slate-400">
-                                    <IconInstagram size={24} />
+                                    <IconInstagram />
                                 </a>
                                 <a href="https://threeandhour.github.io/GymMateX/" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-purple-600 hover:text-white transition text-slate-400">
-                                    <IconGlobe size={24} />
+                                    <IconGlobe />
                                 </a>
                             </div>
                             
                             <div className="flex justify-center items-center gap-2 text-slate-500 mb-8">
-                                <IconMapPin size={16} />
+                                <IconMapPin />
                                 <span>Bangkok - Pattaya - Sattahip</span>
                             </div>
 
