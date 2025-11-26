@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattaya Market Recap & Vision: 2025-2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-blue': '#023e8a',
+                        'brand-cyan': '#00b4d8', 
+                        'brand-orange': '#fb8500',
+                        'brand-light': '#caf0f8',
+                        'brand-dark': '#03045e'
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Noto Sans Thai', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f0f9ff;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* Card hover effects */
+        .info-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .lang-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background-color: #fb8500;
+            border-color: #fb8500;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Header Section -->
+    <header class="bg-brand-blue text-white py-12 px-4 shadow-xl relative overflow-hidden">
+        <!-- Language Switcher -->
+        <div class="absolute top-4 right-4 flex flex-wrap gap-2 z-10">
+            <button onclick="setLanguage('en')" class="lang-btn active" id="btn-en">ENG</button>
+            <button onclick="setLanguage('th')" class="lang-btn" id="btn-th">ไทย</button>
+            <button onclick="setLanguage('ru')" class="lang-btn" id="btn-ru">РУС</button>
+            <button onclick="setLanguage('zh')" class="lang-btn" id="btn-zh">中文</button>
+        </div>
+
+        <div class="max-w-6xl mx-auto text-center relative z-0">
+            <h1 id="headerTitle" class="text-4xl md:text-6xl font-black mb-4 tracking-tight">MARKET RECAP & VISION</h1>
+            <p id="headerSubtitle" class="text-xl md:text-2xl font-light text-brand-cyan mb-2">From the Recovery of 2025 to the Smart Evolution of 2026</p>
+            <div class="h-1 w-24 bg-brand-orange mx-auto mt-6 rounded-full"></div>
+            <p id="headerBody" class="mt-6 max-w-2xl mx-auto text-blue-100 leading-relaxed">
+                Pattaya is witnessing a pivotal transformation. Following a year of explosive recovery, the market is maturing into a hub for wellness, sustainability, and luxury lifestyle, underpinned by massive EEC infrastructure investments.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 gap-12 my-8">
+
+        <!-- SECTION 1: 2025 RECAP -->
+        <section>
+            <div class="flex items-center mb-6">
+                <span class="text-4xl mr-4">&#128640;</span> <!-- Rocket Unicode -->
+                <h2 id="s1Title" class="text-3xl md:text-4xl font-bold text-brand-dark">2025: The Great Return</h2>
+            </div>
+            <p id="s1Intro" class="mb-8 text-lg text-gray-700 bg-white p-6 rounded-lg shadow-sm border-l-8 border-brand-orange">
+                2025 marked a definitive comeback for Pattaya. The region experienced a dramatic surge in international interest, fundamentally shifting the real estate landscape from basic rental yields to high-end lifestyle investments.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Card 1: Arrival Surge -->
+                <div class="info-card bg-white rounded-xl shadow-lg p-6 border-t-4 border-brand-cyan">
+                    <h3 id="c1Title" class="text-xl font-bold text-gray-800 mb-2">International Arrivals Surge</h3>
+                    <p id="c1Subtitle" class="text-sm text-gray-500 mb-6">Comparison of annual visitor volume indices.</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="arrivalsChart"></canvas>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-brand-light rounded-lg">
+                        <p class="text-brand-dark font-medium">
+                            <span class="text-2xl font-bold text-brand-orange mr-2">35%</span> 
+                            <span id="c1StatText">Increase in international arrivals, signaling a robust tourism recovery.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Market Shift -->
+                <div class="info-card bg-white rounded-xl shadow-lg p-6 border-t-4 border-brand-blue">
+                    <h3 id="c2Title" class="text-xl font-bold text-gray-800 mb-2">Market Composition Shift</h3>
+                    <p id="c2Subtitle" class="text-sm text-gray-500 mb-6">Dominant buyer preferences in 2025.</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="marketShiftChart"></canvas>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-brand-light rounded-lg">
+                        <p id="c2StatText" class="text-brand-dark font-medium">
+                            Demand pivoted strongly towards <span class="text-brand-orange font-bold">Luxury Holiday Homes</span>, driven largely by Eastern European investors.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: 2026 OUTLOOK -->
+        <section class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-3xl shadow-inner">
+            <div class="flex items-center mb-6">
+                <span class="text-4xl mr-4">&#127793;</span> <!-- Seedling Unicode -->
+                <h2 id="s2Title" class="text-3xl md:text-4xl font-bold text-brand-dark">2026 Outlook: Wellness & Scarcity</h2>
+            </div>
+            <p id="s2Intro" class="mb-8 text-lg text-gray-700">
+                The coming year is defined by "Smart Evolution." Buyers are becoming more sophisticated, prioritizing health-tech integration and green building standards, while land scarcity drives value appreciation.
+            </p>
+
+            <!-- Inserted Image 1: Futuristic/Smart City Vision -->
+            <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+                <img src="https://i.postimg.cc/3NFFmb1d/Gemini-Generated-Image-bbwb1ibbwb1ibbwb-topaz-text-upscale-1-7x.jpg" alt="Future smart city vision" class="w-full h-64 md:h-80 object-cover hover:scale-105 transition-transform duration-500">
+                <div class="bg-brand-dark text-blue-100 p-3 text-sm italic text-center" id="img1Caption">Thinking ahead: The integration of smart technology and sustainable living.</div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature Cards: Wellness & Sustainability -->
+                <div class="lg:col-span-1 flex flex-col gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-start space-x-4 border-l-4 border-green-500">
+                        <div class="text-4xl text-green-500">&#127973;</div> <!-- Building Unicode -->
+                        <div>
+                            <h4 id="fc1Title" class="font-bold text-lg text-gray-800">Green Buildings</h4>
+                            <p id="fc1Text" class="text-sm text-gray-600 mt-1">Eco-friendly materials and energy efficiency becoming standard buyer requirements.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-start space-x-4 border-l-4 border-blue-500">
+                        <div class="text-4xl text-blue-500">&#129658;</div> <!-- Stethoscope/Health Unicode -->
+                        <div>
+                            <h4 id="fc2Title" class="font-bold text-lg text-gray-800">Health-Tech</h4>
+                            <p id="fc2Text" class="text-sm text-gray-600 mt-1">Integration of wellness technology in residential spaces.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-start space-x-4 border-l-4 border-brand-orange">
+                        <div class="text-4xl text-brand-orange">&#128205;</div> <!-- Pin Unicode -->
+                        <div>
+                            <h4 id="fc3Title" class="font-bold text-lg text-gray-800">Land Scarcity</h4>
+                            <p id="fc3Text" class="text-sm text-gray-600 mt-1">Prime beachfront land is vanishing, forcing vertically integrated luxury.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Projection Chart -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                    <h3 id="c3Title" class="text-xl font-bold text-gray-800 mb-2">Jomtien Price Projections (2026)</h3>
+                    <p id="c3Subtitle" class="text-sm text-gray-500 mb-6">Estimated price index growth due to supply constraints.</p>
+                    
+                    <div class="chart-container" style="max-width: 100%;">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p id="c3StatText" class="text-lg text-brand-dark">
+                            Projected increase of <span class="text-3xl font-black text-brand-orange">5-7%</span> in Jomtien area.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EEC PROGRESS -->
+        <section>
+            <div class="flex items-center mb-6">
+                <span class="text-4xl mr-4">&#127981;</span> <!-- Factory/Industry Unicode -->
+                <h2 id="s3Title" class="text-3xl md:text-4xl font-bold text-brand-dark">EEC Progress: The Engine</h2>
+            </div>
+            <p id="s3Intro" class="mb-8 text-lg text-gray-700">
+                The Eastern Economic Corridor (EEC) is not just a plan—it's a reality. Concrete timelines for aviation cities and massive capital injections are cementing the region's status as Thailand's economic powerhouse.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+                <!-- Investment Bubble Chart -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+                    <h3 id="c4Title" class="text-xl font-bold text-gray-800 mb-2">Investment Magnitude</h3>
+                    <p id="c4Subtitle" class="text-sm text-gray-500 mb-6">Relative scale of infrastructure projects (Conceptual).</p>
+                    
+                    <div class="chart-container flex-grow">
+                        <canvas id="investmentChart"></canvas>
+                    </div>
+                    <p id="c4StatText" class="mt-4 text-sm text-gray-600 italic text-center">
+                        Multi-hundred billion baht investments driving regional growth.
+                    </p>
+                </div>
+
+                 <!-- Progress Timeline & Image Column -->
+                <div class="flex flex-col gap-8">
+                     <!-- Inserted Image 2: EEC/Industrial Hub -->
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://i.postimg.cc/Kv3jHpNm/freepik-photo-of-eec-thailand-maga-trend-base-on-this-arti-63909.png" alt="EEC Infrastructure" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500">
+                        <div class="bg-brand-dark text-blue-100 p-2 text-xs italic text-center" id="img2Caption">EEC Infrastructure: Powering Thailand's future.</div>
+                    </div>
+
+                    <!-- Timeline (HTML/CSS) -->
+                    <div class="bg-brand-dark rounded-xl shadow-lg p-8 text-white flex-grow">
+                        <h3 id="tlTitle" class="text-xl font-bold text-brand-cyan mb-6">Key Milestones & Infrastructure</h3>
+                        
+                        <div class="relative border-l-4 border-brand-orange ml-4 space-y-10">
+                            <!-- Item 1 -->
+                            <div class="relative pl-8">
+                                <div class="absolute -left-3.5 top-1 h-6 w-6 bg-brand-orange rounded-full border-4 border-brand-dark"></div>
+                                <h4 id="tl1Title" class="text-xl font-bold">U-Tapao Aviation City</h4>
+                                <p id="tl1Text" class="text-blue-200 mt-2">Advancing with concrete timelines to become a regional aviation hub.</p>
+                            </div>
+                            <!-- Item 2 -->
+                            <div class="relative pl-8">
+                                <div class="absolute -left-3.5 top-1 h-6 w-6 bg-brand-cyan rounded-full border-4 border-brand-dark"></div>
+                                <h4 id="tl2Title" class="text-xl font-bold">EECiti Development</h4>
+                                <p id="tl2Text" class="text-blue-200 mt-2">Smart city initiatives rolling out to support digital industries.</p>
+                            </div>
+                            <!-- Item 3 -->
+                            <div class="relative pl-8">
+                                <div class="absolute -left-3.5 top-1 h-6 w-6 bg-white rounded-full border-4 border-brand-dark"></div>
+                                <h4 id="tl3Title" class="text-xl font-bold">Economic Powerhouse Status</h4>
+                                <p id="tl3Text" class="text-blue-200 mt-2">Combined investments cementing the EEC as the industrial heart of Thailand.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center mt-12">
+        <p id="footerText">&copy; 2025 Market Intelligence Report. All Rights Reserved.</p>
+        <p id="footerSubText" class="text-sm mt-2">Data based on latest market recaps and 2026 outlook projections.</p>
+    </footer>
+
+    <!-- JAVASCRIPT IMPLEMENTATION (Translation & Charts) -->
+    <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            en: {
+                headerTitle: "MARKET RECAP & VISION",
+                headerSubtitle: "From the Recovery of 2025 to the Smart Evolution of 2026",
+                headerBody: "Pattaya is witnessing a pivotal transformation. Following a year of explosive recovery, the market is maturing into a hub for wellness, sustainability, and luxury lifestyle, underpinned by massive EEC infrastructure investments.",
+                s1Title: "2025: The Great Return",
+                s1Intro: "2025 marked a definitive comeback for Pattaya. The region experienced a dramatic surge in international interest, fundamentally shifting the real estate landscape from basic rental yields to high-end lifestyle investments.",
+                c1Title: "International Arrivals Surge",
+                c1Subtitle: "Comparison of annual visitor volume indices.",
+                c1StatText: "Increase in international arrivals, signaling a robust tourism recovery.",
+                c2Title: "Market Composition Shift",
+                c2Subtitle: "Dominant buyer preferences in 2025.",
+                c2StatText: "Demand pivoted strongly towards <span class=\"text-brand-orange font-bold\">Luxury Holiday Homes</span>, driven largely by Eastern European investors.",
+                s2Title: "2026 Outlook: Wellness & Scarcity",
+                s2Intro: "The coming year is defined by \"Smart Evolution.\" Buyers are becoming more sophisticated, prioritizing health-tech integration and green building standards, while land scarcity drives value appreciation.",
+                img1Caption: "Thinking ahead: The integration of smart technology and sustainable living.",
+                fc1Title: "Green Buildings",
+                fc1Text: "Eco-friendly materials and energy efficiency becoming standard buyer requirements.",
+                fc2Title: "Health-Tech",
+                fc2Text: "Integration of wellness technology in residential spaces.",
+                fc3Title: "Land Scarcity",
+                fc3Text: "Prime beachfront land is vanishing, forcing vertically integrated luxury.",
+                c3Title: "Jomtien Price Projections (2026)",
+                c3Subtitle: "Estimated price index growth due to supply constraints.",
+                c3StatText: "Projected increase of <span class=\"text-3xl font-black text-brand-orange\">5-7%</span> in Jomtien area.",
+                s3Title: "EEC Progress: The Engine",
+                s3Intro: "The Eastern Economic Corridor (EEC) is not just a plan—it's a reality. Concrete timelines for aviation cities and massive capital injections are cementing the region's status as Thailand's economic powerhouse.",
+                c4Title: "Investment Magnitude",
+                c4Subtitle: "Relative scale of infrastructure projects (Conceptual).",
+                c4StatText: "Multi-hundred billion baht investments driving regional growth.",
+                img2Caption: "EEC Infrastructure: Powering Thailand's future.",
+                tlTitle: "Key Milestones & Infrastructure",
+                tl1Title: "U-Tapao Aviation City",
+                tl1Text: "Advancing with concrete timelines to become a regional aviation hub.",
+                tl2Title: "EECiti Development",
+                tl2Text: "Smart city initiatives rolling out to support digital industries.",
+                tl3Title: "Economic Powerhouse Status",
+                tl3Text: "Combined investments cementing the EEC as the industrial heart of Thailand.",
+                footerText: "&copy; 2025 Market Intelligence Report. All Rights Reserved.",
+                footerSubText: "Data based on latest market recaps and 2026 outlook projections.",
+                // Chart Labels
+                chartArrivalsL1: "2024 (Baseline)",
+                chartArrivalsL2: "2025 (Recap)",
+                chartArrivalsTitle: "Year-over-Year Growth",
+                chartShiftL1: "Luxury Holiday Homes (Eastern Europe Demand)",
+                chartShiftL2: "Traditional Rental Yield Investments",
+                chartPriceL4: "2026 (Proj)",
+                chartInvestL1: "U-Tapao Aviation City",
+                chartInvestL2: "EECiti Smart City",
+                chartInvestL3: "Other Infrastructure",
+                chartInvestTooltip: "Investment Scale: High Priority"
+            },
+            th: {
+                headerTitle: "สรุปภาพรวมตลาดและวิสัยทัศน์",
+                headerSubtitle: "จากการฟื้นตัวในปี 2025 สู่ยุควิวัฒนาการอัจฉริยะปี 2026",
+                headerBody: "พัทยากำลังอยู่ในช่วงการเปลี่ยนแปลงที่สำคัญ หลังจากการฟื้นตัวอย่างก้าวกระโดด ตลาดกำลังเติบโตสู่การเป็นศูนย์กลางด้านสุขภาพ ความยั่งยืน และไลฟ์สไตล์หรูหรา โดยได้รับการสนับสนุนจากการลงทุนโครงสร้างพื้นฐาน EEC ขนาดใหญ่",
+                s1Title: "2025: การกลับมาครั้งยิ่งใหญ่",
+                s1Intro: "ปี 2025 เป็นปีแห่งการกลับมาอย่างชัดเจนของพัทยา ภูมิภาคนี้มีความสนใจจากต่างประเทศเพิ่มขึ้นอย่างมาก เปลี่ยนภูมิทัศน์อสังหาริมทรัพย์จากการเน้นผลตอบแทนค่าเช่าพื้นฐานไปสู่การลงทุนเพื่อไลฟ์สไตล์ระดับไฮเอนด์",
+                c1Title: "นักท่องเที่ยวต่างชาติพุ่งสูงขึ้น",
+                c1Subtitle: "การเปรียบเทียบดัชนีปริมาณนักท่องเที่ยวรายปี",
+                c1StatText: "นักท่องเที่ยวต่างชาติเพิ่มขึ้น ส่งสัญญาณการฟื้นตัวของการท่องเที่ยวที่แข็งแกร่ง",
+                c2Title: "การเปลี่ยนแปลงองค์ประกอบตลาด",
+                c2Subtitle: "ความต้องการหลักของผู้ซื้อในปี 2025",
+                c2StatText: "ความต้องการเปลี่ยนไปเน้น <span class=\"text-brand-orange font-bold\">บ้านพักตากอากาศหรู</span> อย่างมาก โดยได้รับแรงหนุนหลักจากนักลงทุนยุโรปตะวันออก",
+                s2Title: "แนวโน้มปี 2026: สุขภาพและความขาดแคลน",
+                s2Intro: "ปีที่จะมาถึงถูกกำหนดด้วย \"วิวัฒนาการอัจฉริยะ\" ผู้ซื้อมีความซับซ้อนมากขึ้น ให้ความสำคัญกับการบูรณาการเทคโนโลยีสุขภาพและมาตรฐานอาคารสีเขียว ในขณะที่ความขาดแคลนที่ดินผลักดันให้มูลค่าสูงขึ้น",
+                img1Caption: "คิดไปข้างหน้า: การผสมผสานเทคโนโลยีอัจฉริยะและการใช้ชีวิตที่ยั่งยืน",
+                fc1Title: "อาคารสีเขียว",
+                fc1Text: "วัสดุที่เป็นมิตรต่อสิ่งแวดล้อมและประสิทธิภาพพลังงานกลายเป็นความต้องการมาตรฐานของผู้ซื้อ",
+                fc2Title: "เทคโนโลยีสุขภาพ (Health-Tech)",
+                fc2Text: "การบูรณาการเทคโนโลยีเพื่อสุขภาพในพื้นที่อยู่อาศัย",
+                fc3Title: "ความขาดแคลนที่ดิน",
+                fc3Text: "ที่ดินติดชายหาดชั้นนำกำลังหมดไป บังคับให้เกิดความหรูหราในแนวตั้ง",
+                c3Title: "ประมาณการราคาจอมเทียน (2026)",
+                c3Subtitle: "การเติบโตของดัชนีราคาโดยประมาณเนื่องจากข้อจำกัดด้านอุปทาน",
+                c3StatText: "คาดการณ์การเพิ่มขึ้น <span class=\"text-3xl font-black text-brand-orange\">5-7%</span> ในพื้นที่จอมเทียน",
+                s3Title: "ความคืบหน้า EEC: กลไกขับเคลื่อน",
+                s3Intro: "เขตพัฒนาพิเศษภาคตะวันออก (EEC) ไม่ใช่แค่แผนงาน แต่เป็นความจริง ลำดับเวลาที่ชัดเจนสำหรับเมืองการบินและการอัดฉีดเงินทุนมหาศาลกำลังตอกย้ำสถานะของภูมิภาคในฐานะศูนย์กลางเศรษฐกิจของประเทศไทย",
+                c4Title: "ขนาดการลงทุน",
+                c4Subtitle: "ขนาดสัมพัทธ์ของโครงการโครงสร้างพื้นฐาน (แนวคิด)",
+                c4StatText: "การลงทุนหลายแสนล้านบาทขับเคลื่อนการเติบโตของภูมิภาค",
+                img2Caption: "โครงสร้างพื้นฐาน EEC: ขับเคลื่อนอนาคตประเทศไทย",
+                tlTitle: "เหตุการณ์สำคัญและโครงสร้างพื้นฐาน",
+                tl1Title: "เมืองการบินอู่ตะเภา",
+                tl1Text: "ก้าวหน้าด้วยลำดับเวลาที่ชัดเจนเพื่อเป็นศูนย์กลางการบินระดับภูมิภาค",
+                tl2Title: "การพัฒนา EECiti",
+                tl2Text: "ความคิดริเริ่มเมืองอัจฉริยะกำลังเปิดตัวเพื่อรองรับอุตสาหกรรมดิจิทัล",
+                tl3Title: "สถานะศูนย์กลางเศรษฐกิจ",
+                tl3Text: "การลงทุนรวมตอกย้ำ EEC ในฐานะหัวใจอุตสาหกรรมของประเทศไทย",
+                footerText: "&copy; 2025 รายงานข่าวกรองตลาด สงวนลิขสิทธิ์",
+                footerSubText: "ข้อมูลอ้างอิงจากสรุปตลาดล่าสุดและประมาณการแนวโน้มปี 2026",
+                chartArrivalsL1: "2024 (พื้นฐาน)",
+                chartArrivalsL2: "2025 (สรุป)",
+                chartArrivalsTitle: "การเติบโตแบบปีต่อปี",
+                chartShiftL1: "บ้านพักตากอากาศหรู (ความต้องการจากยุโรปตะวันออก)",
+                chartShiftL2: "การลงทุนเพื่อผลตอบแทนค่าเช่าแบบดั้งเดิม",
+                chartPriceL4: "2026 (ประมาณการ)",
+                chartInvestL1: "เมืองการบินอู่ตะเภา",
+                chartInvestL2: "เมืองอัจฉริยะ EECiti",
+                chartInvestL3: "โครงสร้างพื้นฐานอื่นๆ",
+                chartInvestTooltip: "ขนาดการลงทุน: ลำดับความสำคัญสูง"
+            },
+            ru: {
+                headerTitle: "ОБЗОР РЫНКА И ВИДЕНИЕ",
+                headerSubtitle: "От восстановления 2025 года к умной эволюции 2026 года",
+                headerBody: "Паттайя переживает поворотную трансформацию. После года взрывного восстановления рынок превращается в центр велнеса, устойчивого развития и роскошного образа жизни, поддерживаемый масштабными инвестициями в инфраструктуру ЕЭС.",
+                s1Title: "2025: Великое возвращение",
+                s1Intro: "2025 год ознаменовал окончательное возвращение Паттайи. Регион испытал резкий всплеск международного интереса, фундаментально сместив ландшафт недвижимости с базовой доходности от аренды на инвестиции в элитный образ жизни.",
+                c1Title: "Всплеск международных прибытий",
+                c1Subtitle: "Сравнение ежегодных индексов объема посетителей.",
+                c1StatText: "Рост числа международных прибытий сигнализирует о мощном восстановлении туризма.",
+                c2Title: "Сдвиг структуры рынка",
+                c2Subtitle: "Доминирующие предпочтения покупателей в 2025 году.",
+                c2StatText: "Спрос резко сместился в сторону <span class=\"text-brand-orange font-bold\">Роскошных домов для отдыха</span>, в основном за счет инвесторов из Восточной Европы.",
+                s2Title: "Перспективы 2026: Велнес и Дефицит",
+                s2Intro: "Наступающий год определяется «Умной эволюцией». Покупатели становятся более искушенными, отдавая приоритет интеграции медицинских технологий и стандартам зеленого строительства, в то время как дефицит земли стимулирует рост стоимости.",
+                img1Caption: "Взгляд в будущее: интеграция умных технологий и устойчивого образа жизни.",
+                fc1Title: "Зеленые здания",
+                fc1Text: "Экологически чистые материалы и энергоэффективность становятся стандартными требованиями покупателей.",
+                fc2Title: "Health-Tech (Медтех)",
+                fc2Text: "Интеграция оздоровительных технологий в жилые помещения.",
+                fc3Title: "Дефицит земли",
+                fc3Text: "Первоклассная земля на берегу моря исчезает, вынуждая переходить к вертикальной роскоши.",
+                c3Title: "Прогнозы цен на Джомтьен (2026)",
+                c3Subtitle: "Расчетный рост индекса цен из-за ограничений предложения.",
+                c3StatText: "Прогнозируемый рост на <span class=\"text-3xl font-black text-brand-orange\">5-7%</span> в районе Джомтьен.",
+                s3Title: "Прогресс ЕЭС: Двигатель",
+                s3Intro: "Восточный экономический коридор (ЕЭС) — это не просто план, это реальность. Конкретные сроки для авиационных городов и масштабные вливания капитала укрепляют статус региона как экономической электростанции Таиланда.",
+                c4Title: "Масштаб инвестиций",
+                c4Subtitle: "Относительный масштаб инфраструктурных проектов (Концептуальный).",
+                c4StatText: "Инвестиции в сотни миллиардов батов стимулируют региональный рост.",
+                img2Caption: "Инфраструктура ЕЭС: Энергия будущего Таиланда.",
+                tlTitle: "Ключевые вехи и инфраструктура",
+                tl1Title: "Авиационный город У-Тапао",
+                tl1Text: "Продвижение с конкретными сроками, чтобы стать региональным авиационным узлом.",
+                tl2Title: "Развитие EECiti",
+                tl2Text: "Инициативы умного города развертываются для поддержки цифровых индустрий.",
+                tl3Title: "Статус экономической державы",
+                tl3Text: "Совокупные инвестиции укрепляют ЕЭС как промышленное сердце Таиланда.",
+                footerText: "&copy; 2025 Отчет о рыночной разведке. Все права защищены.",
+                footerSubText: "Данные основаны на последних обзорах рынка и прогнозах на 2026 год.",
+                chartArrivalsL1: "2024 (База)",
+                chartArrivalsL2: "2025 (Итог)",
+                chartArrivalsTitle: "Рост в годовом исчислении",
+                chartShiftL1: "Роскошные дома для отдыха (Спрос из Вост. Европы)",
+                chartShiftL2: "Традиционные инвестиции в арендную доходность",
+                chartPriceL4: "2026 (Прогноз)",
+                chartInvestL1: "Авиационный город У-Тапао",
+                chartInvestL2: "Умный город EECiti",
+                chartInvestL3: "Другая инфраструктура",
+                chartInvestTooltip: "Масштаб инвестиций: Высокий приоритет"
+            },
+            zh: {
+                headerTitle: "市场回顾与愿景",
+                headerSubtitle: "从2025年的复苏到2026年的智能演变",
+                headerBody: "芭堤雅正经历着关键的转型。在经历了一年的爆炸性复苏之后，在庞大的EEC基础设施投资的支撑下，市场正成熟为健康、可持续发展和奢华生活方式的中心。",
+                s1Title: "2025年：伟大的回归",
+                s1Intro: "2025年标志着芭堤雅的决定性回归。该地区经历了国际兴趣的急剧激增，从根本上将房地产格局从基本的租金收益转变为高端生活方式投资。",
+                c1Title: "国际抵达人数激增",
+                c1Subtitle: "年度游客量指数比较。",
+                c1StatText: "国际抵达人数增加，表明旅游业强劲复苏。",
+                c2Title: "市场构成转变",
+                c2Subtitle: "2025年主导买家的偏好。",
+                c2StatText: "需求强烈转向<span class=\"text-brand-orange font-bold\">豪华度假屋</span>，主要受东欧投资者的推动。",
+                s2Title: "2026年展望：健康与稀缺",
+                s2Intro: "未来一年被定义为“智能演变”。买家变得越来越成熟，优先考虑健康科技整合和绿色建筑标准，而土地稀缺推动价值增值。",
+                img1Caption: "展望未来：智能技术与可持续生活的融合。",
+                fc1Title: "绿色建筑",
+                fc1Text: "环保材料和能源效率正成为标准买家要求。",
+                fc2Title: "健康科技 (Health-Tech)",
+                fc2Text: "将健康技术整合到居住空间中。",
+                fc3Title: "土地稀缺",
+                fc3Text: "优质海滨土地正在消失，迫使垂直整合的奢华。",
+                c3Title: "中天价格预测 (2026)",
+                c3Subtitle: "由于供应限制导致的预计价格指数增长。",
+                c3StatText: "预计中天地区将增长 <span class=\"text-3xl font-black text-brand-orange\">5-7%</span>。",
+                s3Title: "EEC进展：引擎",
+                s3Intro: "东部经济走廊 (EEC) 不仅仅是一个计划——它是一个现实。航空城和大规模资本注入的具体时间表正在巩固该地区作为泰国经济强国的地位。",
+                c4Title: "投资规模",
+                c4Subtitle: "基础设施项目的相对规模（概念性）。",
+                c4StatText: "数千亿泰铢的投资推动区域增长。",
+                img2Caption: "EEC基础设施：助力泰国的未来。",
+                tlTitle: "关键里程碑和基础设施",
+                tl1Title: "乌塔堡航空城",
+                tl1Text: "按具体时间表推进，成为区域航空枢纽。",
+                tl2Title: "EECiti发展",
+                tl2Text: "正在推出智能城市计划以支持数字产业。",
+                tl3Title: "经济强国地位",
+                tl3Text: "综合投资巩固了EEC作为泰国工业心脏的地位。",
+                footerText: "&copy; 2025 市场情报报告。保留所有权利。",
+                footerSubText: "数据基于最新的市场回顾和2026年展望预测。",
+                chartArrivalsL1: "2024 (基线)",
+                chartArrivalsL2: "2025 (回顾)",
+                chartArrivalsTitle: "同比增长",
+                chartShiftL1: "豪华度假屋 (东欧需求)",
+                chartShiftL2: "传统租金收益投资",
+                chartPriceL4: "2026 (预测)",
+                chartInvestL1: "乌塔堡航空城",
+                chartInvestL2: "EECiti智能城市",
+                chartInvestL3: "其他基础设施",
+                chartInvestTooltip: "投资规模：高优先级"
+            }
+        };
+
+        let currentLang = 'en';
+
+        // --- UTILITY: LABEL WRAPPING ---
+        function wrapLabel(str, maxLen) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxLen) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- GLOBAL CHART CONFIG ---
+        Chart.defaults.font.family = "'Roboto', 'Noto Sans Thai', sans-serif";
+        Chart.defaults.color = '#555';
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART INITIALIZATION VARIABLES ---
+        let arrivalsChart, marketShiftChart, priceChart, investmentChart;
+
+        function initCharts() {
+            // Chart 1: Arrivals
+            const ctxArrivals = document.getElementById('arrivalsChart').getContext('2d');
+            arrivalsChart = new Chart(ctxArrivals, {
+                type: 'bar',
+                data: {
+                    labels: [wrapLabel(translations[currentLang].chartArrivalsL1, 16), wrapLabel(translations[currentLang].chartArrivalsL2, 16)],
+                    datasets: [{
+                        label: 'Index',
+                        data: [100, 135],
+                        backgroundColor: ['#caf0f8', '#00b4d8'],
+                        borderColor: ['#00b4d8', '#023e8a'],
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: commonTooltip,
+                        title: { display: true, text: translations[currentLang].chartArrivalsTitle }
+                    },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Chart 2: Market Shift
+            const ctxShift = document.getElementById('marketShiftChart').getContext('2d');
+            marketShiftChart = new Chart(ctxShift, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        wrapLabel(translations[currentLang].chartShiftL1, 20),
+                        wrapLabel(translations[currentLang].chartShiftL2, 20)
+                    ],
+                    datasets: [{
+                        data: [70, 30],
+                        backgroundColor: ['#fb8500', '#023e8a'],
+                        borderWidth: 2, borderColor: '#ffffff', hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' }, tooltip: commonTooltip }, cutout: '60%'
+                }
+            });
+
+            // Chart 3: Price Projection
+            const ctxPrice = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctxPrice, {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025', translations[currentLang].chartPriceL4],
+                    datasets: [{
+                        label: 'Price Index',
+                        data: [95, 100, 105, 112],
+                        borderColor: '#023e8a', backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                        fill: true, tension: 0.4, pointBackgroundColor: '#fb8500', pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: commonTooltip },
+                    scales: { y: { beginAtZero: false, suggestedMin: 90 } }
+                }
+            });
+
+            // Chart 4: Investment Bubble
+            const ctxInvest = document.getElementById('investmentChart').getContext('2d');
+            investmentChart = new Chart(ctxInvest, {
+                type: 'bubble',
+                data: {
+                    labels: [
+                        wrapLabel(translations[currentLang].chartInvestL1, 16), 
+                        wrapLabel(translations[currentLang].chartInvestL2, 16), 
+                        wrapLabel(translations[currentLang].chartInvestL3, 16)
+                    ],
+                    datasets: [{
+                        label: 'Projects',
+                        data: [{ x: 10, y: 20, r: 40 }, { x: 30, y: 30, r: 25 }, { x: 20, y: 10, r: 20 }],
+                        backgroundColor: ['rgba(251, 133, 0, 0.7)', 'rgba(0, 180, 216, 0.7)', 'rgba(2, 62, 138, 0.7)'],
+                        borderColor: ['#fb8500', '#00b4d8', '#023e8a']
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    const labels = investmentChart.data.labels;
+                                    let label = labels[item.dataIndex];
+                                     if (Array.isArray(label)) return label.join(' ');
+                                     return label;
+                                },
+                                label: function(context) { return translations[currentLang].chartInvestTooltip; }
+                            }
+                        }
+                    },
+                    scales: { x: { display: false, min: 0, max: 40 }, y: { display: false, min: 0, max: 40 } }
+                }
+            });
+        }
+
+        // --- LANGUAGE SWITCHING LOGIC ---
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            // Update Text Content
+            const t = translations[lang];
+            const textIds = [
+                'headerTitle', 'headerSubtitle', 'headerBody',
+                's1Title', 's1Intro', 'c1Title', 'c1Subtitle', 'c2Title', 'c2Subtitle',
+                's2Title', 's2Intro', 'img1Caption', 'fc1Title', 'fc1Text', 'fc2Title', 'fc2Text', 'fc3Title', 'fc3Text', 'c3Title', 'c3Subtitle',
+                's3Title', 's3Intro', 'c4Title', 'c4Subtitle', 'img2Caption', 'tlTitle', 'tl1Title', 'tl1Text', 'tl2Title', 'tl2Text', 'tl3Title', 'tl3Text',
+                'footerText', 'footerSubText'
+            ];
+            textIds.forEach(id => document.getElementById(id).innerText = t[id]);
+
+            // Update HTML Content (for text with spans like bold stats)
+            document.getElementById('c1StatText').innerHTML = t.c1StatText;
+            document.getElementById('c2StatText').innerHTML = t.c2StatText;
+            document.getElementById('c3StatText').innerHTML = t.c3StatText;
+            document.getElementById('c4StatText').innerHTML = t.c4StatText;
+
+            // Update Charts
+            updateCharts();
+        }
+
+        function updateCharts() {
+            const t = translations[currentLang];
+            
+            // Arrivals
+            arrivalsChart.data.labels = [wrapLabel(t.chartArrivalsL1, 16), wrapLabel(t.chartArrivalsL2, 16)];
+            arrivalsChart.options.plugins.title.text = t.chartArrivalsTitle;
+            arrivalsChart.update();
+
+            // Shift
+            marketShiftChart.data.labels = [wrapLabel(t.chartShiftL1, 20), wrapLabel(t.chartShiftL2, 20)];
+            marketShiftChart.update();
+
+            // Price
+            priceChart.data.labels[3] = t.chartPriceL4;
+            priceChart.update();
+
+            // Investment
+            investmentChart.data.labels = [wrapLabel(t.chartInvestL1, 16), wrapLabel(t.chartInvestL2, 16), wrapLabel(t.chartInvestL3, 16)];
+            investmentChart.update();
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initCharts();
+            setLanguage('en'); // Default to English
+        };
+    </script>
+</body>
+</html>
