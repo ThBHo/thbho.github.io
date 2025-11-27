@@ -1,0 +1,717 @@
+import React, { useState } from 'react';
+import { 
+  Rocket, 
+  Brain, 
+  Dna, 
+  Activity, 
+  HeartPulse, 
+  DollarSign, 
+  Scale, 
+  AlertTriangle,
+  Clock,
+  Microscope,
+  Zap,
+  Users,
+  Quote,
+  FileText,
+  Download,
+  Globe
+} from 'lucide-react';
+
+// --- TRANSLATION DATA ---
+// Converted JSX fields to functions to avoid "Objects are not valid as a React child" issues
+const translations = {
+  en: {
+    title: "AI & The Quest for Immortality",
+    subtitle: "Key breakthroughs, predictions, and ethical crossroads in the race for Longevity Escape Velocity.",
+    timelineTitle: "The Timeline Debate",
+    timelineDesc: () => (<span>When will we reach <span className="text-blue-400 font-bold">Longevity Escape Velocity</span> (LEV)? Experts disagree on when medical progress will outpace biological aging.</span>),
+    kurzweilRole: "Futurist",
+    kurzweilPred: "Prediction: 2029–2035 via AI simulation.",
+    deGreyRole: "Biogerontologist",
+    deGreyPred: "Prediction: Mid-to-late 2030s via SENS.",
+    churchRole: "Geneticist",
+    churchPred: "Prediction: 2050. Cites biological complexity.",
+    optimistLabel: "Optimist Consensus",
+    
+    tier1Title: "Basic Care",
+    tier1Desc: "Lifestyle, diet, and supplements.",
+    tier2Title: "Surveillance",
+    tier2Desc: "Deep diagnostics & prediction.",
+    tier3Title: "Cellular Revolution",
+    tier3Desc: "Direct repair & age reversal.",
+    
+    aiDiscoveryTitle: "AI Powering Discovery",
+    aiDiscoveryDesc: "AI shifts drug discovery from years to months, identifying senolytics cheaper and faster.",
+    featDrug: "Drug Discovery",
+    featDrugRes: "Discovered ginkgetin & oleandrin",
+    featDrugMet: "100x Cheaper",
+    featCell: "Cellular Tracking",
+    featCellRes: "DeepScene maps 'Zombie Cells'",
+    featCellMet: "High Accuracy",
+    featPred: "Predictive Health",
+    featPredRes: "LifeClock predicts renal failure",
+    featPredMet: "Years Early",
+    altosTitle: "Altos Labs Strategy",
+    altosDesc: () => (<span>Pursuing <span className="text-white font-semibold">Partial Reprogramming</span> to turn back the cell's clock without losing its identity (avoiding tumor risk), rather than full stem-cell reset.</span>),
+    
+    clinicalTitle: "AI Clinical Performance",
+    statSurg: "Surgical Precision (STAR Robot)",
+    statSurgSub: "Increase vs Manual Methods",
+    statDiag: "Top-3 Diagnostic Accuracy",
+    statDiagSub: "Babylon AI vs Doctors (90.3%)",
+    statTriage: "Triage Safety Score",
+    statTriageSub: "Babylon AI vs Doctors (93.1%)",
+    statEmp: "Perceived Empathy (Chatbots)",
+    statEmpSub: "Likelihood to be rated higher than humans",
+    clinicalQuote: "\"AI outputs can be used as an 'Empathic Enhancer' for clinical communication, balancing human accuracy with AI compassion.\"",
+    
+    costTitle: "The Cost of Immortality",
+    costSub: "PROJECTIONS & RISKS",
+    capClass: "Capital & Class",
+    accessGap: "The Access Gap (Annual Cost)",
+    fastTrack: "Fast Track (Billionaire)",
+    smartTrack: "Smart Track (Middle Class)",
+    gapNote: "Comparison of Tier 3 therapies/MRI vs Basic lifestyle/Tier 1 care.",
+    
+    ethicsTitle: "Ethical Crossroads",
+    eth1Title: "Social Inequality",
+    eth1Desc: "A 'health gap' where longevity becomes a luxury for the rich.",
+    eth2Title: "Social Stasis",
+    eth2Desc: "Risk of gerontocracy: older generations retaining power indefinitely.",
+    eth3Title: "The 2030 Problem",
+    eth3Desc: "Immense pressure on social security as retirement becomes obsolete.",
+    
+    jobsQuote: "\"Death is very likely the single best invention of Life. It is Life's change agent. It clears out the old to make way for the new.\"",
+    jobsAuthor: "Steve Jobs",
+    
+    analogyTitle: "The Cellular Spacecraft Analogy",
+    analogyDesc: () => (<span>"The pursuit of LEV is like building a <span className="text-white font-bold">cellular spacecraft</span>. AI acts as the <span className="text-cyan-300 font-bold">rocket fuel</span> and navigation system. The ultimate challenge is ensuring that when the spacecraft is ready, everyone—not just the billionaires—gets a seat."</span>),
+    
+    downloadEng: "Read Full Report (English)",
+    downloadThai: "Read Full Report (Thai)",
+    footerNote: "Generated based on provided source material regarding AI & Longevity."
+  },
+  th: {
+    title: "AI และภารกิจสู่ความเป็นอมตะ",
+    subtitle: "การค้นพบครั้งสำคัญ คำทำนาย และทางแยกทางจริยธรรมในการแข่งขันสู่ Longevity Escape Velocity",
+    timelineTitle: "ข้อถกเถียงเรื่องไทม์ไลน์",
+    timelineDesc: () => (<span>เราจะไปถึง <span className="text-blue-400 font-bold">Longevity Escape Velocity</span> (LEV) เมื่อไหร่? ผู้เชี่ยวชาญยังมีความเห็นไม่ตรงกันว่าเมื่อใดที่ความก้าวหน้าทางการแพทย์จะแซงหน้าความชราทางชีวภาพ</span>),
+    kurzweilRole: "นักอนาคตศาสตร์",
+    kurzweilPred: "คาดการณ์: 2029–2035 โดยใช้ AI จำลองชีวภาพ",
+    deGreyRole: "นักชีววิทยาชราภาพ",
+    deGreyPred: "คาดการณ์: กลางถึงปลายทศวรรษ 2030 ด้วย SENS",
+    churchRole: "นักพันธุศาสตร์",
+    churchPred: "คาดการณ์: 2050 อ้างถึงความซับซ้อนทางชีวภาพ",
+    optimistLabel: "มติของกลุ่มผู้มองโลกในแง่ดี",
+    
+    tier1Title: "การดูแลขั้นพื้นฐาน",
+    tier1Desc: "ไลฟ์สไตล์ อาหาร และอาหารเสริม",
+    tier2Title: "การเฝ้าระวัง",
+    tier2Desc: "การวินิจฉัยเชิงลึก & การทำนายโรค",
+    tier3Title: "การปฏิวัติระดับเซลล์",
+    tier3Desc: "การซ่อมแซมโดยตรง & การย้อนวัย",
+    
+    aiDiscoveryTitle: "AI ขับเคลื่อนการค้นพบ",
+    aiDiscoveryDesc: "AI เปลี่ยนการค้นพบนารักษาโรคจากระดับปีเป็นเดือน ระบุยา Senolytics ได้ถูกและเร็วกว่า",
+    featDrug: "การค้นพบยา",
+    featDrugRes: "ค้นพบ ginkgetin & oleandrin",
+    featDrugMet: "ถูกลง 100 เท่า",
+    featCell: "การติดตามระดับเซลล์",
+    featCellRes: "DeepScene สร้างแผนที่ 'เซลล์ซอมบี้'",
+    featCellMet: "ความแม่นยำสูง",
+    featPred: "สุขภาพเชิงทำนาย",
+    featPredRes: "LifeClock ทำนายภาวะไตวาย",
+    featPredMet: "ล่วงหน้าหลายปี",
+    altosTitle: "กลยุทธ์ของ Altos Labs",
+    altosDesc: () => (<span>มุ่งเน้น <span className="text-white font-semibold">Partial Reprogramming</span> เพื่อย้อนเวลานาฬิกาของเซลล์โดยไม่สูญเสียอัตลักษณ์เดิม (เลี่ยงความเสี่ยงมะเร็ง) แทนการรีเซ็ตเป็นสเต็มเซลล์เต็มรูปแบบ</span>),
+    
+    clinicalTitle: "ประสิทธิภาพทางคลินิกของ AI",
+    statSurg: "ความแม่นยำในการผ่าตัด (หุ่นยนต์ STAR)",
+    statSurgSub: "เพิ่มขึ้นเมื่อเทียบกับวิธีปกติ",
+    statDiag: "ความแม่นยำในการวินิจฉัย 3 อันดับแรก",
+    statDiagSub: "Babylon AI vs แพทย์ (90.3%)",
+    statTriage: "คะแนนความปลอดภัยในการคัดกรอง",
+    statTriageSub: "Babylon AI vs แพทย์ (93.1%)",
+    statEmp: "ความเห็นอกเห็นใจที่รับรู้ได้ (Chatbots)",
+    statEmpSub: "โอกาสที่จะได้รับคะแนนสูงกว่ามนุษย์",
+    clinicalQuote: "\"ผลลัพธ์จาก AI สามารถใช้เป็น 'ตัวเสริมความเห็นอกเห็นใจ' สำหรับการสื่อสารทางคลินิก สร้างสมดุลระหว่างความแม่นยำของ AI กับความเมตตาของมนุษย์\"",
+    
+    costTitle: "ราคาของความเป็นอมตะ",
+    costSub: "การคาดการณ์ & ความเสี่ยง",
+    capClass: "เงินทุน & ชนชั้น",
+    accessGap: "ช่องว่างการเข้าถึง (ค่าใช้จ่ายต่อปี)",
+    fastTrack: "Fast Track (มหาเศรษฐี)",
+    smartTrack: "Smart Track (ชนชั้นกลาง)",
+    gapNote: "เปรียบเทียบการรักษา Tier 3/MRI กับไลฟ์สไตล์พื้นฐาน/Tier 1",
+    
+    ethicsTitle: "ทางแยกทางจริยธรรม",
+    eth1Title: "ความเหลื่อมล้ำทางสังคม",
+    eth1Desc: "'ช่องว่างทางสุขภาพ' ที่การมีอายุยืนยาวกลายเป็นความหรูหราของคนรวย",
+    eth2Title: "ภาวะสังคมหยุดนิ่ง",
+    eth2Desc: "ความเสี่ยงของระบอบผู้สูงอายุปกครอง: คนรุ่นเก่ากุมอำนาจไว้อย่างไม่มีกำหนด",
+    eth3Title: "ปัญหาระดับปี 2030",
+    eth3Desc: "แรงกดดันมหาศาลต่อประกันสังคมเมื่อการเกษียณอายุกลายเป็นเรื่องล้าสมัย",
+    
+    jobsQuote: "\"ความตายเป็นสิ่งประดิษฐ์ที่ดีที่สุดของชีวิต เป็นตัวแทนการเปลี่ยนแปลงของชีวิต มันกำจัดสิ่งเก่าเพื่อเปิดทางให้สิ่งใหม่\"",
+    jobsAuthor: "สตีฟ จอบส์",
+    
+    analogyTitle: "การเปรียบเทียบกับยานอวกาศระดับเซลล์",
+    analogyDesc: () => (<span>"การไล่ตาม LEV เปรียบเสมือนการสร้าง <span className="text-white font-bold">ยานอวกาศระดับเซลล์</span> โดยมี AI ทำหน้าที่เป็น <span className="text-cyan-300 font-bold">เชื้อเพลิงจรวด</span> และระบบนำทาง ความท้าทายสูงสุดคือการรับรองว่าเมื่อยานพร้อม ทุกคน—ไม่ใช่แค่มหาเศรษฐี—จะได้ที่นั่งไปด้วย"</span>),
+    
+    downloadEng: "อ่านรายงานฉบับเต็ม (อังกฤษ)",
+    downloadThai: "อ่านรายงานฉบับเต็ม (ไทย)",
+    footerNote: "สร้างขึ้นจากข้อมูลแหล่งที่มาที่เกี่ยวกับ AI & Longevity"
+  },
+  ru: {
+    title: "ИИ и Поиск Бессмертия",
+    subtitle: "Ключевые прорывы, прогнозы и этические перекрестки в гонке за Скоростью Убегания от Старости.",
+    timelineTitle: "Спор о Времени",
+    timelineDesc: () => (<span>Когда мы достигнем <span className="text-blue-400 font-bold">Скорости Убегания от Старости</span> (LEV)? Эксперты спорят, когда медицина обгонит биологическое старение.</span>),
+    kurzweilRole: "Футуролог",
+    kurzweilPred: "Прогноз: 2029–2035 с помощью ИИ.",
+    deGreyRole: "Биогеронтолог",
+    deGreyPred: "Прогноз: Конец 2030-х с помощью SENS.",
+    churchRole: "Генетик",
+    churchPred: "Прогноз: 2050. Ссылается на сложность биологии.",
+    optimistLabel: "Консенсус Оптимистов",
+    
+    tier1Title: "Базовый Уход",
+    tier1Desc: "Образ жизни, диета и добавки.",
+    tier2Title: "Наблюдение",
+    tier2Desc: "Глубокая диагностика и прогнозы.",
+    tier3Title: "Клеточная Революция",
+    tier3Desc: "Прямое восстановление и омоложение.",
+    
+    aiDiscoveryTitle: "ИИ Ускоряет Открытия",
+    aiDiscoveryDesc: "ИИ сокращает поиск лекарств с лет до месяцев, находя сенолитики дешевле и быстрее.",
+    featDrug: "Поиск Лекарств",
+    featDrugRes: "Открыты гинкгетин и олеандрин",
+    featDrugMet: "В 100 раз дешевле",
+    featCell: "Клеточное Отслеживание",
+    featCellRes: "DeepScene картирует 'Зомби-клетки'",
+    featCellMet: "Высокая Точность",
+    featPred: "Предиктивное Здоровье",
+    featPredRes: "LifeClock предсказывает отказ почек",
+    featPredMet: "На годы раньше",
+    altosTitle: "Стратегия Altos Labs",
+    altosDesc: () => (<span>Использование <span className="text-white font-semibold">Частичного Репрограммирования</span> для омоложения клеток без потери их идентичности (избегая риска рака).</span>),
+    
+    clinicalTitle: "Клиническая Эффективность ИИ",
+    statSurg: "Хирургическая Точность (Робот STAR)",
+    statSurgSub: "Рост по сравнению с ручными методами",
+    statDiag: "Точность Диагностики (Топ-3)",
+    statDiagSub: "Babylon AI против Врачей (90.3%)",
+    statTriage: "Безопасность Сортировки",
+    statTriageSub: "Babylon AI против Врачей (93.1%)",
+    statEmp: "Эмпатия (Чат-боты)",
+    statEmpSub: "Вероятность быть оцененным выше людей",
+    clinicalQuote: "\"ИИ может использоваться как 'Усилитель Эмпатии', балансируя точность машины с человеческим состраданием.\"",
+    
+    costTitle: "Цена Бессмертия",
+    costSub: "ПРОГНОЗЫ И РИСКИ",
+    capClass: "Капитал и Класс",
+    accessGap: "Разрыв в Доступе (Стоимость в год)",
+    fastTrack: "Быстрый Путь (Миллиардер)",
+    smartTrack: "Умный Путь (Средний Класс)",
+    gapNote: "Сравнение терапий Уровня 3/МРТ с базовым образом жизни.",
+    
+    ethicsTitle: "Этические Перекрестки",
+    eth1Title: "Социальное Неравенство",
+    eth1Desc: "'Разрыв здоровья', где долголетие становится роскошью богатых.",
+    eth2Title: "Социальный Застой",
+    eth2Desc: "Риск геронтократии: старые поколения удерживают власть бесконечно.",
+    eth3Title: "Проблема 2030 года",
+    eth3Desc: "Огромное давление на соцобеспечение, когда выход на пенсию устаревает.",
+    
+    jobsQuote: "\"Смерть — это, вероятно, лучшее изобретение Жизни. Это агент перемен. Она убирает старое, чтобы дать дорогу новому.\"",
+    jobsAuthor: "Стив Джобс",
+    
+    analogyTitle: "Аналогия с Клеточным Космическим Кораблем",
+    analogyDesc: () => (<span>"Погоня за LEV похожа на постройку <span className="text-white font-bold">клеточного космического корабля</span>. ИИ действует как <span className="text-cyan-300 font-bold">ракетное топливо</span>. Главный вызов — обеспечить место для всех, а не только для миллиардеров."</span>),
+    
+    downloadEng: "Полный отчет (Англ)",
+    downloadThai: "Полный отчет (Тайский)",
+    footerNote: "Создано на основе предоставленных материалов об ИИ и Долголетии."
+  },
+  cn: {
+    title: "AI 与永生探索",
+    subtitle: "长寿逃逸速度竞赛中的关键突破、预测与伦理十字路口。",
+    timelineTitle: "时间线之争",
+    timelineDesc: () => (<span>我们何时能达到<span className="text-blue-400 font-bold">长寿逃逸速度</span> (LEV)？专家们对医学进步何时能超越生物衰老意见不一。</span>),
+    kurzweilRole: "未来学家",
+    kurzweilPred: "预测：2029–2035年，通过AI模拟。",
+    deGreyRole: "生物老年学家",
+    deGreyPred: "预测：2030年代中后期，通过SENS。",
+    churchRole: "遗传学家",
+    churchPred: "预测：2050年。理由是生物复杂性。",
+    optimistLabel: "乐观派共识",
+    
+    tier1Title: "基础护理",
+    tier1Desc: "生活方式、饮食和补充剂。",
+    tier2Title: "监测",
+    tier2Desc: "深度诊断与预测。",
+    tier3Title: "细胞革命",
+    tier3Desc: "直接修复与年龄逆转。",
+    
+    aiDiscoveryTitle: "AI 助力发现",
+    aiDiscoveryDesc: "AI 将药物发现从数年缩短至数月，更便宜、更快地识别抗衰老药物。",
+    featDrug: "药物发现",
+    featDrugRes: "发现银杏黄酮和夹竹桃麻素",
+    featDrugMet: "便宜100倍",
+    featCell: "细胞追踪",
+    featCellRes: "DeepScene 绘制 '僵尸细胞' 地图",
+    featCellMet: "高精度",
+    featPred: "预测健康",
+    featPredRes: "LifeClock 预测肾衰竭",
+    featPredMet: "提前数年",
+    altosTitle: "Altos Labs 策略",
+    altosDesc: () => (<span>追求<span className="text-white font-semibold">部分重编程</span>以在不丧失身份（避免肿瘤风险）的情况下逆转细胞时钟，而不是完全干细胞重置。</span>),
+    
+    clinicalTitle: "AI 临床表现",
+    statSurg: "手术精度 (STAR 机器人)",
+    statSurgSub: "相比手动方法的提升",
+    statDiag: "前三名诊断准确率",
+    statDiagSub: "Babylon AI vs 医生 (90.3%)",
+    statTriage: "分诊安全评分",
+    statTriageSub: "Babylon AI vs 医生 (93.1%)",
+    statEmp: "感知同理心 (聊天机器人)",
+    statEmpSub: "被评为高于人类的可能性",
+    clinicalQuote: "\"AI 输出可用作临床沟通的‘同理心增强剂’，平衡人类准确性与 AI 的同情心。\"",
+    
+    costTitle: "永生的代价",
+    costSub: "预测与风险",
+    capClass: "资本与阶级",
+    accessGap: "获取差距 (年成本)",
+    fastTrack: "快速通道 (亿万富翁)",
+    smartTrack: "智能通道 (中产阶级)",
+    gapNote: "比较第3层疗法/MRI与基本生活方式/第1层护理。",
+    
+    ethicsTitle: "伦理十字路口",
+    eth1Title: "社会不平等",
+    eth1Desc: "‘健康差距’，长寿成为富人的奢侈品。",
+    eth2Title: "社会停滞",
+    eth2Desc: "老人政治风险：老一代无限期掌握权力。",
+    eth3Title: "2030年问题",
+    eth3Desc: "当退休过时，社会保障面临巨大压力。",
+    
+    jobsQuote: "\"死亡很可能是生命最好的发明。它是生命的变革推动者。它清除旧事物，为新事物让路。\"",
+    jobsAuthor: "史蒂夫·乔布斯",
+    
+    analogyTitle: "细胞飞船类比",
+    analogyDesc: () => (<span>"追求 LEV 就像建造一艘<span className="text-white font-bold">细胞飞船</span>。AI 充当<span className="text-cyan-300 font-bold">火箭燃料</span>和导航系统。最终的挑战是确保当飞船准备好时，每个人——不仅仅是亿万富翁——都能获得座位。"</span>),
+    
+    downloadEng: "阅读完整报告 (英文)",
+    downloadThai: "阅读完整报告 (泰文)",
+    footerNote: "根据提供的 AI 与长寿相关源材料生成。"
+  }
+};
+
+const Infographic = () => {
+  const [lang, setLang] = useState('en'); // Default language is English
+  // Fallback to English if translation is missing to prevent crash
+  const t = translations[lang] || translations['en'];
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-white pb-12">
+      
+      {/* --- HEADER --- */}
+      <header className="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 pt-8 pb-16 px-4 text-center border-b border-slate-800">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500"></div>
+        
+        {/* Language Switcher */}
+        <div className="absolute top-4 right-4 flex gap-2 z-20">
+            <Globe className="text-slate-400 w-5 h-5 mt-1.5" />
+            <select 
+              value={lang} 
+              onChange={(e) => setLang(e.target.value)}
+              className="bg-slate-800 text-slate-200 text-sm rounded-lg px-2 py-1 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            >
+              <option value="en">English</option>
+              <option value="th">ไทย (Thai)</option>
+              <option value="ru">Русский (Russian)</option>
+              <option value="cn">中文 (Chinese)</option>
+            </select>
+        </div>
+
+        {/* Top Image */}
+        <div className="max-w-3xl mx-auto mb-8 animate-fade-in-down">
+          <img 
+            src="https://i.postimg.cc/NfJbLy8g/Longevity-Escape-Velocity-(1).png" 
+            alt="Longevity Escape Velocity Visualization" 
+            className="w-full h-auto rounded-xl shadow-2xl border border-slate-800/50"
+          />
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="inline-flex items-center justify-center p-2 mb-4 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-300 text-sm font-medium animate-fade-in-up">
+            <SparkleIcon className="w-4 h-4 mr-2" />
+            {lang === 'en' ? "The Future of Human Lifespan" : (lang === 'th' ? "อนาคตของอายุขัยมนุษย์" : (lang === 'ru' ? "Будущее человеческой жизни" : "人类寿命的未来"))}
+          </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-white to-blue-200">
+            {t.title}
+          </h1>
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+            {t.subtitle}
+          </p>
+        </div>
+      </header>
+
+      {/* --- MAIN CONTENT CONTAINER --- */}
+      <main className="max-w-6xl mx-auto px-4 -mt-8 relative z-10">
+        
+        {/* --- SECTION 1: LEV DEFINITION & TIMELINE --- */}
+        <section className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden mb-8">
+          <div className="p-8 md:p-12">
+            <div className="flex flex-col md:flex-row gap-12 items-center">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400">
+                    <Rocket size={32} />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">{t.timelineTitle}</h2>
+                </div>
+                <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                  {t.timelineDesc()}
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="bg-slate-800/50 p-3 rounded-xl border-l-4 border-cyan-500">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-semibold text-cyan-300">Ray Kurzweil</span>
+                      <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">{t.kurzweilRole}</span>
+                    </div>
+                    <div className="text-sm text-slate-400">{t.kurzweilPred}</div>
+                  </div>
+                  <div className="bg-slate-800/50 p-3 rounded-xl border-l-4 border-purple-500">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-semibold text-purple-300">Aubrey de Grey</span>
+                      <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">{t.deGreyRole}</span>
+                    </div>
+                    <div className="text-sm text-slate-400">{t.deGreyPred}</div>
+                  </div>
+                  <div className="bg-slate-800/50 p-3 rounded-xl border-l-4 border-slate-500">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-semibold text-slate-300">George Church</span>
+                      <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">{t.churchRole}</span>
+                    </div>
+                    <div className="text-sm text-slate-400">{t.churchPred}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Visual Metaphor */}
+              <div className="flex-1 w-full flex justify-center">
+                <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-tr from-blue-900/20 to-cyan-900/20 rounded-full flex items-center justify-center border border-slate-700/50 backdrop-blur-sm">
+                  <div className="absolute inset-0 border-4 border-t-cyan-500 border-r-transparent border-b-purple-500 border-l-transparent rounded-full animate-spin-slow"></div>
+                  <div className="text-center z-10">
+                    <div className="text-5xl font-bold text-white mb-2">2035</div>
+                    <div className="text-sm uppercase tracking-widest text-slate-400">{t.optimistLabel}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Tier Strategy Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 border-t border-slate-800 divide-y md:divide-y-0 md:divide-x divide-slate-800 bg-slate-900/50">
+            <StrategyCard 
+              tier="01" 
+              title={t.tier1Title} 
+              icon={<HeartPulse size={24} />}
+              color="text-emerald-400"
+              desc={t.tier1Desc}
+              tags={["IF Fasting", "Metformin", "Rapamycin"]} 
+            />
+            <StrategyCard 
+              tier="02" 
+              title={t.tier2Title} 
+              icon={<Activity size={24} />}
+              color="text-blue-400"
+              desc={t.tier2Desc}
+              tags={["Genomics", "DNA Clocks", "AI Forecasts"]} 
+            />
+            <StrategyCard 
+              tier="03" 
+              title={t.tier3Title} 
+              icon={<Dna size={24} />}
+              color="text-purple-400"
+              desc={t.tier3Desc}
+              tags={["Senolytics", "Reprogramming", "Zombie Cells"]} 
+            />
+          </div>
+        </section>
+
+        {/* --- SECTION 2: AI IMPACT GRID --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          
+          {/* Left: AI in Drug Discovery */}
+          <div className="bg-slate-900 rounded-3xl border border-slate-800 p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-purple-500/20 rounded-lg text-purple-400"><Brain size={24} /></div>
+                <h3 className="text-xl font-bold">{t.aiDiscoveryTitle}</h3>
+              </div>
+              <p className="text-slate-400 mb-6">{t.aiDiscoveryDesc}</p>
+              
+              <div className="space-y-4">
+                <FeatureRow 
+                  title={t.featDrug} 
+                  result={t.featDrugRes} 
+                  metric={t.featDrugMet}
+                />
+                <FeatureRow 
+                  title={t.featCell} 
+                  result={t.featCellRes} 
+                  metric={t.featCellMet}
+                />
+                <FeatureRow 
+                  title={t.featPred} 
+                  result={t.featPredRes} 
+                  metric={t.featPredMet}
+                />
+              </div>
+            </div>
+            
+             <div className="mt-6 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                <div className="text-xs text-purple-300 font-bold uppercase mb-1">{t.altosTitle}</div>
+                <p className="text-sm text-slate-300">
+                   {t.altosDesc()}
+                </p>
+             </div>
+          </div>
+
+          {/* Right: Man vs Machine Stats */}
+          <div className="bg-slate-900 rounded-3xl border border-slate-800 p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-cyan-500/20 rounded-lg text-cyan-400"><Microscope size={24} /></div>
+              <h3 className="text-xl font-bold">{t.clinicalTitle}</h3>
+            </div>
+            
+            <div className="space-y-6">
+              <StatBar 
+                label={t.statSurg} 
+                value={40} 
+                sub={t.statSurgSub}
+                color="bg-emerald-500" 
+              />
+              <StatBar 
+                label={t.statDiag} 
+                value={96.7} 
+                sub={t.statDiagSub}
+                color="bg-blue-500" 
+              />
+              <StatBar 
+                label={t.statTriage} 
+                value={97.0} 
+                sub={t.statTriageSub}
+                color="bg-indigo-500" 
+              />
+               <StatBar 
+                label={t.statEmp} 
+                value={73} 
+                sub={t.statEmpSub}
+                color="bg-purple-500" 
+              />
+            </div>
+            
+            <div className="mt-6 pt-6 border-t border-slate-800">
+               <div className="flex items-start gap-3">
+                 <Zap className="text-yellow-400 mt-1 flex-shrink-0" size={18} />
+                 <p className="text-sm text-slate-400 italic">{t.clinicalQuote}</p>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* --- SECTION 3: MONEY & ETHICS --- */}
+        <section className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden mb-8">
+          <div className="bg-slate-800/50 p-4 border-b border-slate-800 flex items-center justify-between">
+            <h3 className="font-bold text-slate-200 flex items-center gap-2">
+              <Scale size={20} /> {t.costTitle}
+            </h3>
+            <span className="text-xs font-mono text-slate-500">{t.costSub}</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            
+            {/* Investments & Inequality */}
+            <div className="p-8 border-b md:border-b-0 md:border-r border-slate-800">
+              <div className="flex items-center gap-2 mb-4 text-emerald-400">
+                <DollarSign />
+                <span className="font-bold text-lg">{t.capClass}</span>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div className="font-bold text-white text-sm">Altos Labs</div>
+                    <div className="text-emerald-400 font-mono font-bold">$3B</div>
+                </div>
+                <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div className="font-bold text-white text-sm">Retro Bio</div>
+                    <div className="text-emerald-400 font-mono font-bold">$180M</div>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/30 p-4 rounded-xl border border-slate-700/50">
+                <div className="flex items-center gap-2 mb-3 text-slate-300 font-semibold text-sm">
+                   <Users size={16} /> {t.accessGap}
+                </div>
+                <div className="space-y-3">
+                   <div className="flex justify-between items-center text-sm">
+                      <span className="text-amber-300">{t.fastTrack}</span>
+                      <span className="font-mono text-white">$30k - $100k+</span>
+                   </div>
+                   <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                      <div className="bg-amber-400 h-full w-full"></div>
+                   </div>
+                   
+                   <div className="flex justify-between items-center text-sm">
+                      <span className="text-blue-300">{t.smartTrack}</span>
+                      <span className="font-mono text-white">$1k - $3k</span>
+                   </div>
+                   <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                      <div className="bg-blue-400 h-full w-[3%]"></div>
+                   </div>
+                   <p className="text-xs text-slate-500 mt-2">
+                      {t.gapNote}
+                   </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Ethics */}
+            <div className="p-8 relative overflow-hidden flex flex-col justify-between">
+               {/* Background Warning Stripe */}
+               <div className="absolute top-0 right-0 p-4 opacity-5">
+                 <AlertTriangle size={120} />
+               </div>
+
+               <div>
+                <div className="flex items-center gap-2 mb-6 text-amber-400">
+                  <AlertTriangle />
+                  <span className="font-bold text-lg">{t.ethicsTitle}</span>
+                </div>
+
+                <ul className="space-y-4 mb-6">
+                  <EthicalPoint 
+                    title={t.eth1Title} 
+                    desc={t.eth1Desc}
+                  />
+                  <EthicalPoint 
+                    title={t.eth2Title} 
+                    desc={t.eth2Desc}
+                  />
+                  <EthicalPoint 
+                    title={t.eth3Title} 
+                    desc={t.eth3Desc}
+                  />
+                </ul>
+               </div>
+
+               {/* Quote Block */}
+               <div className="bg-slate-950/50 p-4 rounded-xl border-l-2 border-slate-600 italic text-slate-400 text-sm relative">
+                  <Quote className="absolute top-2 right-2 text-slate-800 transform rotate-180" size={24} />
+                  {t.jobsQuote}
+                  <div className="mt-2 text-slate-500 font-semibold not-italic text-xs">— {t.jobsAuthor}</div>
+               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- FOOTER: ANALOGY & DOWNLOADS --- */}
+        <footer className="bg-gradient-to-r from-blue-900 to-slate-900 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden mb-8">
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold text-white mb-4">{t.analogyTitle}</h3>
+            <p className="text-blue-200 text-lg leading-relaxed">
+              {t.analogyDesc()}
+            </p>
+          </div>
+          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            {/* Decorative background circles */}
+            <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl"></div>
+            <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl"></div>
+          </div>
+        </footer>
+
+        {/* --- DOWNLOADS SECTION --- */}
+        <div className="flex flex-col md:flex-row justify-center gap-4 mb-12">
+            <a href="https://drive.google.com/file/d/1JRe7wy3wm_OY1CtBaiKimSHutN1Eo6cw/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 py-3 px-6 rounded-xl border border-slate-700 transition-all group">
+                <FileText size={20} className="text-blue-400 group-hover:text-blue-300" />
+                <span>{t.downloadEng}</span>
+                <Download size={16} className="opacity-50 group-hover:opacity-100 ml-2" />
+            </a>
+            <a href="https://drive.google.com/file/d/1GIv6VNsnQw9P-3oSXAPG6UrhmX2ZWuCO/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 py-3 px-6 rounded-xl border border-slate-700 transition-all group">
+                <FileText size={20} className="text-emerald-400 group-hover:text-emerald-300" />
+                <span>{t.downloadThai}</span>
+                <Download size={16} className="opacity-50 group-hover:opacity-100 ml-2" />
+            </a>
+        </div>
+
+        <div className="text-center pb-8 text-slate-600 text-sm">
+          {t.footerNote}
+        </div>
+
+      </main>
+    </div>
+  );
+};
+
+// --- HELPER COMPONENTS ---
+
+const SparkleIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+  </svg>
+);
+
+const StrategyCard = ({ tier, title, icon, color, desc, tags }) => (
+  <div className="p-8 hover:bg-slate-800 transition-colors duration-300">
+    <div className={`text-sm font-mono font-bold opacity-50 mb-2 ${color}`}>TIER {tier}</div>
+    <div className={`mb-3 ${color}`}>{icon}</div>
+    <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+    <p className="text-slate-400 text-sm mb-4 h-10">{desc}</p>
+    <div className="flex flex-wrap gap-2">
+      {tags.map((tag, i) => (
+        <span key={i} className="text-xs bg-slate-950 text-slate-300 px-2 py-1 rounded border border-slate-800">
+          {tag}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+const FeatureRow = ({ title, result, metric }) => (
+  <div className="flex justify-between items-center py-3 border-b border-slate-800 last:border-0">
+    <div className="text-slate-300 font-medium">{title}</div>
+    <div className="text-right">
+      <div className="text-white text-sm">{result}</div>
+      <div className="text-cyan-400 text-xs font-bold">{metric}</div>
+    </div>
+  </div>
+);
+
+const StatBar = ({ label, value, sub, color }) => (
+  <div>
+    <div className="flex justify-between mb-1">
+      <span className="text-sm font-medium text-slate-200">{label}</span>
+      <span className="text-sm font-bold text-white">{value}%</span>
+    </div>
+    <div className="w-full bg-slate-800 rounded-full h-2.5 mb-1">
+      <div className={`${color} h-2.5 rounded-full`} style={{ width: `${value}%` }}></div>
+    </div>
+    <div className="text-xs text-slate-500">{sub}</div>
+  </div>
+);
+
+const EthicalPoint = ({ title, desc }) => (
+  <li className="flex gap-4">
+    <div className="mt-1 w-2 h-2 rounded-full bg-amber-500 flex-shrink-0"></div>
+    <div>
+      <h4 className="text-white font-bold text-sm">{title}</h4>
+      <p className="text-slate-400 text-sm leading-snug">{desc}</p>
+    </div>
+  </li>
+);
+
+export default Infographic;
