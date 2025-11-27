@@ -11,11 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* Custom Font Settings */
-        h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; }
-        body, p, a, div { font-family: 'Lato', sans-serif; }
-        /* Thai Font Class */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Lato', sans-serif; }
         .font-thai { font-family: 'Kanit', sans-serif; }
 
+        /* Language Display Logic */
+        [lang="th"] { display: none; }
+        body.lang-th [lang="en"] { display: none; }
+        body.lang-th [lang="th"] { display: block; }
+        
         /* Snowfall Animation */
         .snowflake {
             position: absolute;
@@ -83,57 +87,81 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-200 antialiased overflow-x-hidden pb-24"> <!-- Added pb-24 to prevent nav covering footer -->
+<body class="bg-slate-900 text-slate-200 antialiased overflow-x-hidden pb-24 font-sans transition-colors duration-300"> <!-- Added pb-24 to prevent nav covering footer -->
+
+    <!-- LANGUAGE SWITCHER (Fixed Top Right) -->
+    <div class="fixed top-6 right-6 z-50 flex gap-2">
+        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all scale-110 ring-2 ring-yellow-500">
+            🇬🇧
+        </button>
+        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all opacity-70">
+            🇹🇭
+        </button>
+    </div>
 
     <!-- HERO SECTION WITH SLIDER -->
     <header class="relative h-[85vh] flex items-center justify-center overflow-hidden">
         
-        <!-- Hero Slider Images (9 photos from previous newsletters) -->
+        <!-- Hero Slider Images -->
         <div class="hero-slider-container" id="hero-slider">
             <!-- Image 1 (Active initially) -->
-            <img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="hero-slide active" alt="Slide 1">
+            <img src="https://i.postimg.cc/2STh77jY/70594029_7cb6_443f_88e6_fdd727ef19f5_1_topaz_upscale_2_3x.png" class="hero-slide active" alt="Slide 1">
             <!-- Image 2 -->
-            <img src="https://i.postimg.cc/ZRx6Df9p/Image_29-4-2568_BE_at_09.45_(1)-gigapixel-high_fidelity_v2-2x.jpg" class="hero-slide" alt="Slide 2">
+            <img src="https://i.postimg.cc/MpBLnvMT/2Kit_Booklet_20250601_Resize_for_Tablet_compressed-gigapixel-high_fidelity_v2-2x.jpg" class="hero-slide" alt="Slide 2">
             <!-- Image 3 -->
-            <img src="https://i.postimg.cc/rpshBb1V/8A0AA767-3B0A-4D42-8CCA-7EFBAA513301-topaz-face-upscale-2x.png" class="hero-slide" alt="Slide 3">
-             <!-- Image 4 -->
-            <img src="https://i.postimg.cc/qvkDLggC/EBE0F28D-FC45-417B-BF7A-D8822F7D7DD0_1_201_a-gigapixel-high_fidelity_v2-2x.png" class="hero-slide" alt="Slide 4">
-             <!-- Image 5 -->
-            <img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="hero-slide" alt="Slide 5">
+            <img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="hero-slide" alt="Slide 3">
+            <!-- Image 4 -->
+            <img src="https://i.postimg.cc/ZRx6Df9p/Image_29-4-2568_BE_at_09.45_(1)-gigapixel-high_fidelity_v2-2x.jpg" class="hero-slide" alt="Slide 4">
+            <!-- Image 5 -->
+            <img src="https://i.postimg.cc/rpshBb1V/8A0AA767-3B0A-4D42-8CCA-7EFBAA513301-topaz-face-upscale-2x.png" class="hero-slide" alt="Slide 5">
              <!-- Image 6 -->
-            <img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="hero-slide" alt="Slide 6">
+            <img src="https://i.postimg.cc/qvkDLggC/EBE0F28D-FC45-417B-BF7A-D8822F7D7DD0_1_201_a-gigapixel-high_fidelity_v2-2x.png" class="hero-slide" alt="Slide 6">
              <!-- Image 7 -->
-            <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="hero-slide" alt="Slide 7">
+            <img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="hero-slide" alt="Slide 7">
              <!-- Image 8 -->
-            <img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201-a.jpg" class="hero-slide" alt="Slide 8">
+            <img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="hero-slide" alt="Slide 8">
              <!-- Image 9 -->
-            <img src="https://i.postimg.cc/DfH00qsf/7033e318-b3c3-462a-8129-226a35f74004_(2)-gigapixel-high_fidelity_v2-2x.png" class="hero-slide" alt="Slide 9">
+            <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="hero-slide" alt="Slide 9">
         </div>
 
         <!-- Gradient Overlay -->
         <div class="hero-overlay"></div>
 
-        <!-- Snow Container (JS will populate, z-index 10) -->
+        <!-- Snow Container -->
         <div id="snow-container" class="absolute inset-0 pointer-events-none z-10"></div>
 
-        <!-- Hero Content (z-index 20) -->
+        <!-- Hero Content -->
         <div class="relative z-20 text-center px-4 max-w-4xl mx-auto reveal">
-            <span class="inline-block py-1 px-3 border border-yellow-500 rounded-full text-yellow-500 text-sm tracking-widest uppercase mb-4">December 2025 Edition</span>
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                The Grand Finale <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">Year End 2025</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-300 mb-8 font-light max-w-2xl mx-auto">
-                Celebrating a year of milestones, looking ahead to a smarter 2026, and wishing you a joyous holiday season from Copacabana Coral Reef.
-            </p>
             
-            <!-- Hero CTAs (Kept 2 main ones for visual balance) -->
+            <!-- LOGO PLACEMENT: Center Top -->
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Logo" class="h-24 md:h-32 mx-auto mb-8 drop-shadow-2xl animate-fade-in">
+
+            <span class="inline-block py-1 px-3 border border-yellow-500 rounded-full text-yellow-500 text-sm tracking-widest uppercase mb-4">December 2025 Edition</span>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight font-serif">
+                <span lang="en">The Grand Finale <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">Year End 2025</span></span>
+                <span lang="th" class="font-thai">บทสรุปส่งท้ายปี <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">ธันวาคม 2568</span></span>
+            </h1>
+            
+            <!-- INTRO TEXT -->
+            <div class="text-lg md:text-xl text-slate-300 mb-8 font-light max-w-2xl mx-auto leading-relaxed">
+                <p lang="en">
+                    "Welcome to December 2025. This year-end edition marks our ascent to the 32nd floor, alongside a fresh vision for 2026 covering trends in AI, Wellness, and the Pattaya real estate market. Let's celebrate our milestones and step into the future together."
+                </p>
+                <p lang="th" class="font-thai">
+                    "สวัสดีเดือนธันวาคม 2568 ครับ ฉบับส่งท้ายปีนี้ เราขอนำเสนอความสำเร็จของการก่อสร้างที่ทะยานสู่ชั้น 32 พร้อมเปิดวิสัยทัศน์ปี 2569 เจาะลึกเทรนด์ AI, Wellness และทิศทางอสังหาฯ พัทยา มาร่วมเฉลิมฉลองและก้าวสู่อนาคตไปพร้อมกันครับ"
+                </p>
+            </div>
+            
+            <!-- Hero CTAs -->
             <div class="flex flex-col md:flex-row justify-center gap-4">
                 <a href="#construction" class="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold rounded-full transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(234,179,8,0.5)]">
-                    View Progress
+                    <span lang="en">View Progress</span>
+                    <span lang="th" class="font-thai">ดูความคืบหน้า</span>
                 </a>
                 <a href="#wellness" class="px-8 py-3 bg-transparent border border-white text-white hover:bg-white hover:text-slate-900 font-bold rounded-full transition-all">
-                    New! Wellness Trend
+                    <span lang="en">New! Wellness Trend</span>
+                    <span lang="th" class="font-thai">ใหม่! เทรนด์สุขภาพ</span>
                 </a>
             </div>
         </div>
@@ -143,69 +171,73 @@
     <nav class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-[95%] md:max-w-5xl px-2">
         <div class="bg-black/80 backdrop-blur-xl border border-white/10 rounded-full p-2 shadow-2xl overflow-x-auto no-scrollbar">
             <div class="flex items-center justify-start md:justify-center gap-2 min-w-max px-2">
-                <!-- Construction -->
                 <a href="#construction" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    Construction
+                    <span lang="en">Construction</span><span lang="th" class="font-thai">ก่อสร้าง</span>
                 </a>
-                
-                <!-- Timeline -->
                 <a href="#timeline" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    Timeline
+                    <span lang="en">Timeline</span><span lang="th" class="font-thai">ไทม์ไลน์</span>
                 </a>
-                
-                <!-- Market -->
                 <a href="#market" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    Market
+                    <span lang="en">Market</span><span lang="th" class="font-thai">ตลาด</span>
                 </a>
-                
-                <!-- Highlighted AI Report -->
                 <a href="#ai-report" class="px-5 py-2 text-sm md:text-base text-yellow-500 border border-yellow-500/30 font-bold rounded-full hover:bg-yellow-500/10 transition-all flex items-center whitespace-nowrap">
-                    AI Report
+                    <span lang="en">AI Report</span><span lang="th" class="font-thai">รายงาน AI</span>
                 </a>
-
-                <!-- Highlighted Wellness -->
                 <a href="#wellness" class="px-5 py-2 text-sm md:text-base bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-500 transition-all flex items-center whitespace-nowrap shadow-lg">
-                    <i data-lucide="leaf" class="w-3 h-3 mr-2"></i> Wellness
+                    <i data-lucide="leaf" class="w-3 h-3 mr-2"></i> 
+                    <span lang="en">Wellness</span><span lang="th" class="font-thai">สุขภาพ</span>
                 </a>
-                
-                <!-- Events -->
                 <a href="#festivities" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    Events
+                    <span lang="en">Events</span><span lang="th" class="font-thai">กิจกรรม</span>
                 </a>
-                
-                <!-- Contact -->
                 <a href="#contact" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    Contact
+                    <span lang="en">Contact</span><span lang="th" class="font-thai">ติดต่อ</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- CONSTRUCTION UPDATE: The 33rd Floor -->
+    <!-- CONSTRUCTION UPDATE: The 32nd Floor -->
     <section id="construction" class="py-20 px-4 md:px-8 bg-slate-900 relative border-b border-slate-800">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Text Content -->
                 <div class="reveal">
-                    <h2 class="text-4xl font-bold text-white mb-2">Skyward Bound</h2>
-                    <h3 class="text-2xl text-yellow-500 mb-6 serif italic">Reaching Level 33</h3>
+                    <h2 class="text-4xl font-bold text-white mb-2 font-serif">
+                        <span lang="en">Skyward Bound</span>
+                        <span lang="th" class="font-thai">ทะยานสู่ฟากฟ้า</span>
+                    </h2>
+                    <h3 class="text-2xl text-yellow-500 mb-6 italic font-serif">
+                        <span lang="en">Reaching Level 32</span>
+                        <span lang="th" class="font-thai">ความสำเร็จ ณ ชั้น 32</span>
+                    </h3>
                     <div class="h-1 w-20 bg-yellow-500 mb-8"></div>
                     
-                    <p class="text-slate-300 mb-4 leading-relaxed">
-                        As of <strong>December 1, 2025</strong>, we are proud to announce a major milestone. Copacabana Coral Reef has officially reached the <strong>33rd Floor</strong>. The superstructure is rising rapidly, dominating the Jomtien skyline.
-                    </p>
+                    <div class="text-slate-300 mb-4 leading-relaxed">
+                        <p lang="en"><strong>Construction Update, December 2025:</strong> Copacabana Coral Reef has reached the <strong>32nd Floor</strong>. Structural work is progressing steadily according to plan.</p>
+                        <p lang="th" class="font-thai"><strong>อัปเดตความคืบหน้าเดือนธันวาคม 2568:</strong> งานก่อสร้าง Copacabana Coral Reef ดำเนินการถึง <strong>ชั้น 32</strong> แล้วครับ โครงสร้างอาคารมีความคืบหน้าอย่างต่อเนื่องตามแผนงานที่วางไว้</p>
+                    </div>
                     <ul class="space-y-4 mt-6">
                         <li class="flex items-start">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1"></i>
-                            <span class="text-slate-400">Main tower structure completed up to floor 33.</span>
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1 flex-shrink-0"></i>
+                            <span class="text-slate-400">
+                                <span lang="en"><strong>Unstoppable Momentum:</strong> Construction is proceeding swiftly and on schedule, reflecting our commitment to timely delivery.</span>
+                                <span lang="th" class="font-thai"><strong>ความก้าวหน้าที่ไม่หยุดนิ่ง:</strong> การก่อสร้างดำเนินไปอย่างรวดเร็วและต่อเนื่อง เป็นไปตามกำหนดการที่วางไว้อย่างแม่นยำ</span>
+                            </span>
                         </li>
                         <li class="flex items-start">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1"></i>
-                            <span class="text-slate-400">Internal partition walls installation in progress on floors 15-20.</span>
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1 flex-shrink-0"></i>
+                            <span class="text-slate-400">
+                                <span lang="en"><strong>Proven Quality:</strong> Building on the award-winning success of our first project, we uphold the highest standards of craftsmanship you can trust.</span>
+                                <span lang="th" class="font-thai"><strong>คุณภาพที่วางใจได้:</strong> สานต่อความสำเร็จจากโครงการแรกที่ได้รับรางวัล ด้วยมาตรฐานงานก่อสร้างระดับสูงที่คุณเชื่อถือได้</span>
+                            </span>
                         </li>
                         <li class="flex items-start">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1"></i>
-                            <span class="text-slate-400">Swimming pool structural testing scheduled for mid-January.</span>
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mr-3 mt-1 flex-shrink-0"></i>
+                            <span class="text-slate-400">
+                                <span lang="en"><strong>Evolving Excellence:</strong> We continuously learn and innovate, ensuring this project is more modern and perfectly tailored to resident needs.</span>
+                                <span lang="th" class="font-thai"><strong>วิวัฒนาการแห่งความสมบูรณ์แบบ:</strong> เราเรียนรู้และพัฒนาอย่างต่อเนื่อง เพื่อให้โครงการนี้ทันสมัยยิ่งขึ้นและตอบโจทย์ผู้อยู่อาศัยได้อย่างแท้จริง</span>
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -213,14 +245,15 @@
                 <!-- Image Grid -->
                 <div class="relative reveal delay-200">
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- UPDATED: Real Construction Photos -->
                         <img src="https://i.postimg.cc/L5cdszFS/228988-0-gigapixel-high-fidelity-v2-2x.png" class="rounded-2xl object-cover h-64 w-full shadow-2xl transform translate-y-8" alt="Construction Site High">
                         <img src="https://i.postimg.cc/wMCKBhYY/228989-0-gigapixel-high-fidelity-v2-2x.png" class="rounded-2xl object-cover h-64 w-full shadow-2xl" alt="Worker">
                     </div>
                     <!-- Stats Card -->
                     <div class="absolute -bottom-10 -left-10 bg-yellow-500 text-slate-900 p-6 rounded-xl shadow-xl hidden md:block">
-                        <p class="text-sm font-bold uppercase tracking-wider">Current Status</p>
-                        <p class="text-4xl font-bold serif">On Schedule</p>
+                        <p class="text-sm font-bold uppercase tracking-wider" lang="en">Current Status</p>
+                        <p class="text-sm font-bold uppercase tracking-wider font-thai" lang="th">สถานะปัจจุบัน</p>
+                        <p class="text-4xl font-bold font-serif" lang="en">On Schedule</p>
+                        <p class="text-3xl font-bold font-thai" lang="th">ตามกำหนดการ</p>
                     </div>
                 </div>
             </div>
@@ -231,8 +264,24 @@
     <section id="timeline" class="py-20 px-4 md:px-8 bg-slate-900 relative">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12 reveal">
-                <span class="text-yellow-500 text-sm tracking-widest uppercase">From Foundation to Skyline</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mt-2">2025 Year in Review</h2>
+                <span class="text-yellow-500 text-sm tracking-widest uppercase block mb-2">
+                    <span lang="en">From Foundation to Skyline</span>
+                    <span lang="th" class="font-thai">จากรากฐานสู่ยอดตึก</span>
+                </span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white font-serif mb-6">
+                    <span lang="en">2025 Year in Review</span>
+                    <span lang="th" class="font-thai">ภาพรวมปี 2568</span>
+                </h2>
+                
+                <!-- Construction Recap Paragraph -->
+                <div class="text-slate-300 max-w-3xl mx-auto text-lg leading-relaxed">
+                    <p lang="en">
+                        Throughout 2025, Copacabana Coral Reef has demonstrated phenomenal progress. Starting with a solid foundation in Q1, the podium and pool structures emerged in Q2. Momentum accelerated in Q3 as the tower rose, culminating in the conquest of the 32nd floor in December—precisely on schedule. We are steadfastly moving towards <strong>full completion by 2027</strong>, ready to deliver the ultimate beachfront living experience.
+                    </p>
+                    <p lang="th" class="font-thai">
+                        ตลอดปี 2025 Copacabana Coral Reef ได้สร้างปรากฏการณ์แห่งความก้าวหน้าอย่างต่อเนื่อง เริ่มต้นจากการวางรากฐานและชั้นจอดรถที่มั่นคงในไตรมาสแรก ส่งต่อสู่ไตรมาสที่สองที่โครงสร้างโพเดียมและสระว่ายน้ำเริ่มปรากฏโฉมชัดเจน ก่อนจะเร่งความเร็วขึ้นสู่ยอดตึกในไตรมาสที่สาม และปิดท้ายปีอย่างงดงามด้วยการพิชิตชั้น 32 ในเดือนธันวาคม ซึ่งเป็นไปตามแผนงานที่วางไว้อย่างแม่นยำ โดยเรามุ่งมั่นเดินหน้าสู่เป้าหมาย<strong>แล้วเสร็จสมบูรณ์ภายในปี 2027</strong> เพื่อส่งมอบที่สุดแห่งการอยู่อาศัยริมหาดจอมเทียน
+                    </p>
+                </div>
             </div>
 
             <!-- QUARTERLY PROGRESS GRID -->
@@ -243,8 +292,14 @@
                         <img src="https://i.postimg.cc/8k3498cP/DJI-0082-(1).jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q1 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">Q1 2025</div>
                     </div>
-                    <h3 class="text-white font-bold text-lg">Foundation Complete</h3>
-                    <p class="text-slate-400 text-sm mt-1">Structuring the base & parking levels.</p>
+                    <h3 class="text-white font-bold text-lg">
+                        <span lang="en">Foundation Complete</span>
+                        <span lang="th" class="font-thai">ฐานรากเสร็จสมบูรณ์</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">
+                        <span lang="en">Structuring the base & parking levels.</span>
+                        <span lang="th" class="font-thai">วางโครงสร้างฐานรากและชั้นจอดรถ</span>
+                    </p>
                 </div>
                 <!-- Q2 -->
                 <div class="reveal delay-100 group">
@@ -252,8 +307,14 @@
                         <img src="https://i.postimg.cc/MGNJXP5C/May01_CopaCon.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q2 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">Q2 2025</div>
                     </div>
-                    <h3 class="text-white font-bold text-lg">The Rise Begins</h3>
-                    <p class="text-slate-400 text-sm mt-1">Podium levels & pool structure visible.</p>
+                    <h3 class="text-white font-bold text-lg">
+                        <span lang="en">The Rise Begins</span>
+                        <span lang="th" class="font-thai">เริ่มก่อสร้างตัวอาคาร</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">
+                        <span lang="en">Podium levels & pool structure visible.</span>
+                        <span lang="th" class="font-thai">เห็นโครงสร้างโพเดียมและสระว่ายน้ำชัดเจน</span>
+                    </p>
                 </div>
                 <!-- Q3 -->
                 <div class="reveal delay-200 group">
@@ -261,8 +322,14 @@
                         <img src="https://i.postimg.cc/3xhXQ3Hc/32D6B8C2-4790-4F76-A9DA-20ED25FDF270-0-topaz-upscale-2x-sharpen.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q3 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">Q3 2025</div>
                     </div>
-                    <h3 class="text-white font-bold text-lg">Mid-Rise Milestone</h3>
-                    <p class="text-slate-400 text-sm mt-1">Reaching Floor 20. Speed increases.</p>
+                    <h3 class="text-white font-bold text-lg">
+                        <span lang="en">Mid-Rise Milestone</span>
+                        <span lang="th" class="font-thai">ก้าวสู่ครึ่งทาง</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">
+                        <span lang="en">Reaching Floor 20. Speed increases.</span>
+                        <span lang="th" class="font-thai">ถึงชั้น 20 อัตราเร่งการก่อสร้างเพิ่มขึ้น</span>
+                    </p>
                 </div>
                 <!-- Q4 -->
                 <div class="reveal delay-300 group">
@@ -270,33 +337,35 @@
                         <img src="https://i.postimg.cc/NMky4dR3/af394d56-3273-4c81-8b5f-90f16387c4b7_0-gigapixel-high_fidelity_v2-2x.png" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-110" alt="Q4 Progress">
                         <div class="absolute top-4 left-4 bg-yellow-500 text-slate-900 px-3 py-1 rounded text-xs font-bold">Q4 2025</div>
                     </div>
-                    <h3 class="text-yellow-500 font-bold text-lg">Level 33 Achieved</h3>
-                    <p class="text-slate-400 text-sm mt-1">Dominating the skyline. On schedule.</p>
+                    <h3 class="text-yellow-500 font-bold text-lg">
+                        <span lang="en">Level 32 Achieved</span>
+                        <span lang="th" class="font-thai">พิชิตชั้น 32</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">
+                        <span lang="en">Dominating the skyline. On schedule.</span>
+                        <span lang="th" class="font-thai">โดดเด่นเป็นสง่าเหนือเส้นขอบฟ้า และเป็นไปตามแผนงาน</span>
+                    </p>
                 </div>
             </div>
 
             <!-- TIME LAPSE VIDEO PLACEHOLDER -->
             <div class="reveal mt-12">
                 <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700 group cursor-pointer bg-black">
-                    <!-- Aspect Ratio Box (16:9) -->
                     <div class="pb-[56.25%]"></div>
-                    
-                    <!-- Video Content (Replace src with actual embed if available) -->
                     <div class="absolute inset-0 flex items-center justify-center bg-slate-800">
-                        <!-- Background Image for Video Preview -->
                          <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition duration-500" alt="Video Thumbnail">
-                        
-                        <!-- Play Button UI -->
                         <div class="z-10 flex flex-col items-center">
                             <div class="w-20 h-20 bg-yellow-500 rounded-full flex items-center justify-center pl-1 shadow-[0_0_30px_rgba(234,179,8,0.6)] group-hover:scale-110 transition duration-300">
                                 <i data-lucide="play" class="w-10 h-10 text-slate-900 fill-current"></i>
                             </div>
-                            <span class="mt-4 text-white font-bold tracking-widest text-sm uppercase">Watch 2025 Time-Lapse</span>
+                            <span class="mt-4 text-white font-bold tracking-widest text-sm uppercase">
+                                <span lang="en">Watch 2025 Time-Lapse</span>
+                                <span lang="th" class="font-thai">ชมไทม์แลปส์ปี 2568</span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -304,25 +373,41 @@
     <section id="market" class="py-20 bg-slate-800">
         <div class="max-w-7xl mx-auto px-4 md:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Market Recap & Vision</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">From the recovery of 2025 to the smart evolution of 2026.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 font-serif">
+                    <span lang="en">Market Recap & Vision</span>
+                    <span lang="th" class="font-thai">สรุปตลาดและวิสัยทัศน์</span>
+                </h2>
+                <p class="text-slate-400 max-w-2xl mx-auto mb-8">
+                    <span lang="en">From the recovery of 2025 to the smart evolution of 2026.</span>
+                    <span lang="th" class="font-thai">จากการฟื้นตัวในปี 2568 สู่วิวัฒนาการอัจฉริยะในปี 2569</span>
+                </p>
+                
+                <a href="https://thbho.github.io/RecapAndTrend.html" target="_blank" class="inline-flex items-center px-6 py-2 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-600/50 rounded-full transition-all duration-300 group">
+                    <span lang="en">View Market Infographic</span>
+                    <span lang="th" class="font-thai">ดูอินโฟกราฟิกตลาด</span>
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 ml-2 group-hover:scale-110 transition-transform"></i>
+                </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1: 2025 Recap -->
                 <div class="glass-card rounded-2xl overflow-hidden hover:bg-slate-700/50 transition duration-300 reveal group">
                     <div class="h-48 overflow-hidden relative">
-                         <img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" alt="Copacabana Beach Club" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                         <img src="https://i.postimg.cc/L62Yq6Z4/Gemini_Generated_Image_koe46ckoe46ckoe4.png" alt="Copacabana Beach Club" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                          <div class="absolute inset-0 bg-blue-900/30 group-hover:bg-transparent transition"></div>
                     </div>
                     <div class="p-8">
                         <div class="flex items-center mb-3">
                             <i data-lucide="bar-chart-2" class="text-blue-400 mr-2"></i>
-                            <h3 class="text-xl font-bold text-white">2025 Recap</h3>
+                            <h3 class="text-xl font-bold text-white">
+                                <span lang="en">2025 Recap</span>
+                                <span lang="th" class="font-thai">สรุปปี 2568</span>
+                            </h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            2025 was the year of "The Great Return." Pattaya saw a <strong>35% surge</strong> in international arrivals. The market shifted from rental yield focus to luxury holiday homes, driven by strong demand from Eastern Europe.
-                        </p>
+                        <div class="text-slate-400 text-sm leading-relaxed">
+                            <p lang="en">2025 was the year of "The Great Return." Pattaya saw a <strong>35% surge</strong> in international arrivals. The market shifted from rental yield focus to luxury holiday homes, driven by strong demand from Eastern Europe.</p>
+                            <p lang="th" class="font-thai">ปี 2568 คือปีแห่ง "การกลับมาครั้งยิ่งใหญ่" พัทยามีนักท่องเที่ยวต่างชาติเพิ่มขึ้น <strong>35%</strong> ตลาดปรับทิศทางจากการเน้นผลตอบแทนค่าเช่า สู่การเป็นบ้านพักตากอากาศระดับลักซ์ชัวรี่ โดยแรงหนุนหลักจากยุโรปตะวันออก</p>
+                        </div>
                     </div>
                 </div>
 
@@ -335,232 +420,310 @@
                     <div class="p-8">
                          <div class="flex items-center mb-3">
                             <i data-lucide="trending-up" class="text-yellow-500 mr-2"></i>
-                            <h3 class="text-xl font-bold text-white">2026 Outlook</h3>
+                            <h3 class="text-xl font-bold text-white">
+                                <span lang="en">2026 Outlook</span>
+                                <span lang="th" class="font-thai">แนวโน้มปี 2569</span>
+                            </h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            <strong>Wellness & Sustainability.</strong> Buyers will prioritize Green Buildings and Health-Tech. Prices in Jomtien are projected to rise by <strong>5-7%</strong> as land scarcity becomes a reality.
-                        </p>
+                        <div class="text-slate-400 text-sm leading-relaxed">
+                            <p lang="en"><strong>Wellness & Sustainability.</strong> Buyers will prioritize Green Buildings and Health-Tech. Prices in Jomtien are projected to rise by <strong>5-7%</strong> as land scarcity becomes a reality.</p>
+                            <p lang="th" class="font-thai"><strong>สุขภาพและความยั่งยืน</strong> ผู้ซื้อจะให้ความสำคัญกับอาคารเขียวและเทคโนโลยีสุขภาพ ราคาย่านจอมเทียนคาดว่าจะสูงขึ้น <strong>5-7%</strong> เนื่องจากที่ดินหายากขึ้น</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Card 3: EEC Update -->
                 <div class="glass-card rounded-2xl overflow-hidden hover:bg-slate-700/50 transition duration-300 reveal delay-200 group">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" alt="Copacabana Wide View" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <img src="https://i.postimg.cc/Bvm5J9jq/NDs3cf_Mnq_NUZXhn_MSkxd_MJh_M_gigapixel_high_fidelity_v2_2x.png" alt="Copacabana Wide View" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-purple-900/30 group-hover:bg-transparent transition"></div>
                     </div>
                     <div class="p-8">
                          <div class="flex items-center mb-3">
-                            <i data-lucide="train" class="text-purple-400 mr-2"></i>
-                            <h3 class="text-xl font-bold text-white">EEC Progress</h3>
+                            <i data-lucide="plane" class="text-purple-400 mr-2"></i>
+                            <h3 class="text-xl font-bold text-white">
+                                <span lang="en">EEC Progress</span>
+                                <span lang="th" class="font-thai">ความคืบหน้า EEC</span>
+                            </h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            The <strong>High-Speed Rail</strong> linking 3 airports has entered the "Track Laying Phase." U-Tapao Airport's new terminal foundation is 80% complete, aiming for 2027 tests.
-                        </p>
+                        <div class="text-slate-400 text-sm leading-relaxed">
+                            <p lang="en"><strong>U-Tapao Aviation City</strong> and <strong>EECiti</strong> are advancing with concrete timelines. Combined with <strong>multi-hundred billion baht</strong> investments, the EEC is cementing its status as Thailand's economic powerhouse.</p>
+                            <p lang="th" class="font-thai"><strong>เมืองการบินอู่ตะเภา</strong> และ <strong>EECiti</strong> มีความคืบหน้าตามแผนงานชัดเจน พร้อมเม็ดเงินลงทุน<strong>หลายแสนล้านบาท</strong> ย้ำสถานะ EEC ในฐานะขุมพลังทางเศรษฐกิจของไทย</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SPECIAL INSIGHT: AI REPORT 2026 (THAI CONTENT) -->
-    <section id="ai-report" class="py-20 px-4 md:px-8 bg-gradient-to-b from-slate-900 to-black relative font-thai">
+    <!-- SPECIAL INSIGHT: AI REPORT 2026 -->
+    <section id="ai-report" class="py-20 px-4 md:px-8 bg-gradient-to-b from-slate-900 to-black relative">
         <div class="max-w-7xl mx-auto">
-            
-            <!-- Header & Infographic Layout (Re-layout for Full Image Visibility) -->
             <div class="mb-16 reveal grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                
-                <!-- Text Column -->
                 <div class="order-2 lg:order-1">
                     <div class="glass-card p-8 md:p-10 rounded-2xl border-yellow-500/20 relative overflow-hidden">
-                        <!-- Decorative bg element -->
                         <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
                         <span class="text-yellow-500 tracking-widest text-sm uppercase font-bold mb-4 block">Special Report 2026</span>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                            คนไทย 77% พร้อมรับ AI <br>
-                            <span class="text-slate-400 text-2xl md:text-3xl">แต่ทำไมธุรกิจส่วนใหญ่ยัง 'ไปไม่เป็น'?</span>
+                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight font-serif">
+                            <span lang="en">77% of Thais Ready for AI <br/><span class="text-slate-400 text-2xl md:text-3xl">But why are businesses 'stuck'?</span></span>
+                            <span lang="th" class="font-thai">คนไทย 77% พร้อมรับ AI <br/><span class="text-slate-400 text-2xl md:text-3xl">แต่ทำไมธุรกิจส่วนใหญ่ยัง 'ไปไม่เป็น'?</span></span>
                         </h2>
-                        <p class="text-slate-300 text-lg leading-relaxed mb-8">
-                            ส่อง 4 ความจริงน่าทึ่งจากรายงานสถานการณ์ AI ปี 2569 ท่ามกลางกระแส AI ที่เชี่ยวกราก ประเทศไทยยืนอยู่ตรงไหนกันแน่? ความจริงเบื้องหลังกลับซับซ้อนกว่าที่คุณคิด
-                        </p>
+                        <div class="text-slate-300 text-lg leading-relaxed mb-8">
+                            <p lang="en">Explore 4 striking truths from the 2026 AI Situation Report. Amidst the raging AI current, where does Thailand stand? The reality behind the scenes is more complex than you think.</p>
+                            <p lang="th" class="font-thai">เจาะลึก 4 ความจริงจากรายงานสถานการณ์ AI ปี 2569 ท่ามกลางกระแส AI ที่เชี่ยวกราก ประเทศไทยยืนอยู่ตรงไหน? ความจริงเบื้องหลังซับซ้อนกว่าที่คุณคิด</p>
+                        </div>
                         
                         <div>
                             <a href="https://thbho.github.io/AIThailand.html" target="_blank" class="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full transition duration-300 font-bold shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] group">
-                                <span>ดูข้อมูล Infographic เพิ่มเติม</span>
+                                <span lang="en">View Full Infographic</span>
+                                <span lang="th" class="font-thai">ดูอินโฟกราฟิกฉบับเต็ม</span>
                                 <i data-lucide="arrow-right" class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Image Column (Full Image Display - No Cropping) -->
                 <div class="order-1 lg:order-2">
-                     <img src="https://i.postimg.cc/TPRW1znj/Image_202511251654.png" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-700/50 hover:scale-[1.02] transition duration-500" alt="AI Future Thailand Infographic">
+                     <img src="https://i.postimg.cc/fRHNky3F/Create-infographic-image-202511261706.jpg" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-700/50 hover:scale-[1.02] transition duration-500" alt="AI Future Thailand Infographic">
                 </div>
             </div>
 
             <!-- 4 Truths Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                
                 <!-- Truth 1 -->
                 <div class="glass-card p-8 rounded-2xl reveal hover:border-yellow-500/50 transition duration-300">
                     <div class="flex items-start mb-4">
-                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50">01</span>
+                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50 font-serif">01</span>
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-2">ปรากฏการณ์ย้อนแย้ง</h3>
-                            <p class="text-yellow-500 text-sm font-bold">คนไทยพร้อม 77% vs ธุรกิจทำจริง 17.8%</p>
+                            <h3 class="text-xl font-bold text-white mb-2">
+                                <span lang="en">The Paradox</span><span lang="th" class="font-thai">ปรากฏการณ์ย้อนแย้ง</span>
+                            </h3>
+                            <p class="text-yellow-500 text-sm font-bold">
+                                <span lang="en">Thais 77% Ready vs Business 17.8%</span><span lang="th" class="font-thai">คนไทยพร้อม 77% vs ธุรกิจทำจริง 17.8%</span>
+                            </p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        คนไทยมีทัศนคติเชิงบวกต่อ AI สูงกว่าค่าเฉลี่ยโลก แต่ภาคธุรกิจส่วนใหญ่ (73.3%) ยังหยุดอยู่แค่ขั้น "วางแผน" มีเพียงส่วนน้อยที่นำ AI มาใช้ใน Core Business ได้สำเร็จ นี่คือช่องว่างมหาศาลที่รอการเติมเต็ม
-                    </p>
+                    <div class="text-slate-400 text-sm leading-relaxed">
+                        <p lang="en">Thai people have higher positive sentiment towards AI than the global average, but 73.3% of businesses are still just 'planning'. Only a small fraction have successfully implemented AI in Core Business.</p>
+                        <p lang="th" class="font-thai">คนไทยมีทัศนคติเชิงบวกต่อ AI สูงกว่าค่าเฉลี่ยโลก แต่ธุรกิจส่วนใหญ่ (73.3%) ยังแค่ "วางแผน" มีส่วนน้อยมากที่นำ AI มาใช้จริงในธุรกิจหลัก นี่คือช่องว่างมหาศาล</p>
+                    </div>
                 </div>
 
                 <!-- Truth 2 -->
                 <div class="glass-card p-8 rounded-2xl reveal delay-100 hover:border-yellow-500/50 transition duration-300">
                     <div class="flex items-start mb-4">
-                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50">02</span>
+                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50 font-serif">02</span>
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-2">คอขวดคือ "คน" ไม่ใช่เทคโนโลยี</h3>
-                            <p class="text-yellow-500 text-sm font-bold">Skills Gap คืออุปสรรคอันดับ #1 (47%)</p>
+                            <h3 class="text-xl font-bold text-white mb-2">
+                                <span lang="en">Bottleneck is "People"</span><span lang="th" class="font-thai">คอขวดคือ "คน"</span>
+                            </h3>
+                            <p class="text-yellow-500 text-sm font-bold">
+                                <span lang="en">Skills Gap is Obstacle #1 (47%)</span><span lang="th" class="font-thai">ช่องว่างทักษะคืออุปสรรคอันดับ 1 (47%)</span>
+                            </p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        เราลงทุนสร้าง Data Center ใน EEC มูลค่ามหาศาล แต่กลับขาด "คนขับเคลื่อน" ปัญหาการขาดแคลนบุคลากรที่มีทักษะ (Skills Gap) กลายเป็นกำแพงที่สูงกว่าเรื่องงบประมาณหรือความปลอดภัย
-                    </p>
+                    <div class="text-slate-400 text-sm leading-relaxed">
+                        <p lang="en">We invest heavily in EEC Data Centers, but lack the 'drivers'. The shortage of skilled talent (Skills Gap) has become a higher wall than budget or security concerns.</p>
+                        <p lang="th" class="font-thai">เราลงทุน Data Center ใน EEC มหาศาล แต่ขาด "คนขับเคลื่อน" ปัญหาขาดแคลนบุคลากรที่มีทักษะกลายเป็นกำแพงที่สูงกว่าเรื่องงบประมาณหรือความปลอดภัย</p>
+                    </div>
                 </div>
 
                 <!-- Truth 3 -->
                 <div class="glass-card p-8 rounded-2xl reveal delay-200 hover:border-yellow-500/50 transition duration-300">
                     <div class="flex items-start mb-4">
-                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50">03</span>
+                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50 font-serif">03</span>
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-2">The Great Divide</h3>
-                            <p class="text-yellow-500 text-sm font-bold">เงินเดือนสาย Tech พุ่ง 15-30%</p>
+                            <h3 class="text-xl font-bold text-white mb-2">
+                                <span lang="en">The Great Divide</span><span lang="th" class="font-thai">การแบ่งขั้วครั้งใหญ่</span>
+                            </h3>
+                            <p class="text-yellow-500 text-sm font-bold">
+                                <span lang="en">Tech Salaries Soar 15-30%</span><span lang="th" class="font-thai">เงินเดือนสาย Tech พุ่ง 15-30%</span>
+                            </p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        ตลาดแรงงานปี 2569 จะถูกฉีกออกเป็นสองขั้วชัดเจน ผู้เชี่ยวชาญ AI (Prompt Engineering, Ethics) จะเป็นที่ต้องการตัวอย่างบ้าคลั่ง ในขณะที่งานทั่วไปที่ไม่ใช้ทักษะดิจิทัลจะเติบโตช้าลงอย่างเห็นได้ชัด
-                    </p>
+                    <div class="text-slate-400 text-sm leading-relaxed">
+                        <p lang="en">The 2026 labor market will be torn into two clear poles. AI experts will be in frantic demand, while general non-digital roles will grow noticeably slower.</p>
+                        <p lang="th" class="font-thai">ตลาดแรงงานปี 2569 จะถูกฉีกออกเป็นสองขั้ว ผู้เชี่ยวชาญด้าน AI จะเป็นที่ต้องการตัวอย่างสูงในตลาดแรงงาน ในขณะที่งานทั่วไปที่ไม่ใช้ดิจิทัลจะเติบโตช้าลงอย่างเห็นได้ชัด</p>
+                    </div>
                 </div>
 
                 <!-- Truth 4 -->
                 <div class="glass-card p-8 rounded-2xl reveal delay-300 hover:border-yellow-500/50 transition duration-300">
                     <div class="flex items-start mb-4">
-                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50">04</span>
+                        <span class="text-5xl font-bold text-yellow-500 mr-4 opacity-50 font-serif">04</span>
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-2">ยุคแห่ง ROI (2569)</h3>
-                            <p class="text-yellow-500 text-sm font-bold">หมดยุคทดลอง ถึงเวลาวัดผลจริง</p>
+                            <h3 class="text-xl font-bold text-white mb-2">
+                                <span lang="en">The Era of ROI (2026)</span><span lang="th" class="font-thai">ยุคแห่งผลตอบแทน (2569)</span>
+                            </h3>
+                            <p class="text-yellow-500 text-sm font-bold">
+                                <span lang="en">End of Experiments</span><span lang="th" class="font-thai">หมดยุคทดลอง ถึงเวลาวัดผลจริง</span>
+                            </p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        ผู้บริหารเลิกถามว่า "AI ทำอะไรได้?" แต่ถามว่า "AI สร้างเงินได้เท่าไหร่?" โครงการทดลองที่สวยหรูแต่ไม่สร้างรายได้จะถูกตัดงบ เทคโนโลยีจะขยับจาก Chatbot ไปสู่ AI Agents ที่ทำงานอัตโนมัติเพื่อผลลัพธ์ทางธุรกิจ
-                    </p>
+                    <div class="text-slate-400 text-sm leading-relaxed">
+                        <p lang="en">Executives stop asking "What can AI do?" and ask "How much money does AI make?". Tech moves from Chatbots to AI Agents automating business results.</p>
+                        <p lang="th" class="font-thai">ผู้บริหารเลิกถามว่า "AI ทำอะไรได้?" แต่ถามว่า "AI สร้างเงินได้เท่าไหร่?" เทคโนโลยีจะขยับจาก Chatbot ไปสู่ AI Agents ที่ทำงานอัตโนมัติเพื่อผลลัพธ์ทางธุรกิจ</p>
+                    </div>
                 </div>
-
             </div>
 
             <!-- Conclusion Box -->
             <div class="bg-slate-800/50 border-l-4 border-yellow-500 p-8 rounded-r-xl reveal">
-                <h3 class="text-xl font-bold text-white mb-3">บทสรุป: เศรษฐกิจสองความเร็ว (Two-Speed Economy)</h3>
-                <p class="text-slate-300 leading-relaxed mb-4">
-                    AI กำลังแยก "ผู้เร่งความเร็ว" ออกจาก "ผู้ที่ถูกทิ้งไว้ข้างหลัง" อย่างชัดเจน กุญแจสู่ความสำเร็จในปี 2569 ไม่ใช่แค่การมีเทคโนโลยีที่ดีที่สุด แต่คือการมีกลยุทธ์ที่เฉียบคมและการพัฒนา "คน"
-                </p>
-                <p class="text-white font-bold text-lg">
-                    แล้วคุณ... พร้อมที่จะเป็นผู้กำหนดอนาคต หรือจะเป็นเพียงผู้ถูกกำหนด?
+                <h3 class="text-xl font-bold text-white mb-3">
+                    <span lang="en">Summary: Two-Speed Economy</span><span lang="th" class="font-thai">บทสรุป: เศรษฐกิจสองความเร็ว</span>
+                </h3>
+                <div class="text-slate-300 leading-relaxed mb-4">
+                    <p lang="en">AI is clearly separating 'accelerators' from those 'left behind'. The key to success in 2026 isn't just having the best tech, but sharp strategy and people development.</p>
+                    <p lang="th" class="font-thai">AI กำลังแยก "ผู้เร่งความเร็ว" ออกจาก "ผู้ที่ถูกทิ้งไว้ข้างหลัง" กุญแจสู่ความสำเร็จในปี 2569 ไม่ใช่แค่เทคโนโลยี แต่คือกลยุทธ์ที่เฉียบคมและการพัฒนา "คน"</p>
+                </div>
+                <p class="text-white font-bold text-lg font-serif">
+                    <span lang="en">Are you ready to define the future?</span><span lang="th" class="font-thai">คุณพร้อมที่จะเป็นผู้กำหนดอนาคตแล้วหรือยัง?</span>
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- NEW SECTION: WELLNESS & TECH 2026 -->
-    <section id="wellness" class="py-20 px-4 md:px-8 bg-slate-900 relative font-thai">
+    <!-- WELLNESS & TECH 2026 -->
+    <section id="wellness" class="py-20 px-4 md:px-8 bg-slate-900 relative">
          <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
-                 <!-- Image -->
-                <div class="reveal">
-                    <img src="http://googleusercontent.com/image_generation_content/1" class="rounded-2xl shadow-2xl w-full object-cover h-auto border border-white/10" alt="Future Wellness Spa">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                 <div class="reveal">
+                    <!-- UPDATED IMAGE: Wellness Future Trend -->
+                    <img src="https://i.postimg.cc/L52sL8pP/Welness-Gemini-Generated-Image-pl75uopl75uopl75.png" class="rounded-2xl shadow-2xl w-full object-cover h-auto border border-white/10" alt="Future Wellness Spa">
                 </div>
 
-                <!-- Text -->
                 <div class="reveal delay-100">
                     <span class="text-emerald-500 tracking-widest text-sm uppercase font-bold mb-2 block">Wellness Future Trend</span>
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                        Wellness Intelligence <br>
-                        <span class="text-slate-400">เมื่อ 'บ้าน' คือผู้ดูแลสุขภาพคนใหม่</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight font-serif">
+                        Wellness Intelligence
                     </h2>
-                    <p class="text-slate-300 text-lg leading-relaxed mb-6">
-                        ปี 2026 จะเป็นจุดเปลี่ยนสำคัญที่เทคโนโลยีสุขภาพ (HealthTech) จะหลอมรวมเข้ากับที่อยู่อาศัยอย่างสมบูรณ์ ไม่ใช่แค่ Gadget ที่สวมใส่ แต่คือ "โครงสร้างพื้นฐาน" ภายในห้องที่เข้าใจร่างกายคุณ
-                    </p>
-                    <ul class="space-y-4">
+                    <div class="text-slate-300 text-lg leading-relaxed mb-6">
+                        <p lang="en">2026 marks a pivotal moment where HealthTech seamlessly merges with living spaces. It's not just wearable gadgets, but the "infrastructure" within the room that understands your body.</p>
+                        <p lang="th" class="font-thai">ปี 2026 จะเป็นจุดเปลี่ยนสำคัญที่เทคโนโลยีสุขภาพ (HealthTech) จะหลอมรวมเข้ากับที่อยู่อาศัยอย่างสมบูรณ์ ไม่ใช่แค่ Gadget ที่สวมใส่ แต่คือ "โครงสร้างพื้นฐาน" ภายในห้องที่เข้าใจร่างกายคุณ</p>
+                    </div>
+                    <ul class="space-y-6">
                         <li class="flex items-start">
-                            <i data-lucide="sun" class="w-6 h-6 text-yellow-500 mr-3 mt-1"></i>
+                            <i data-lucide="sun" class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0"></i>
                             <div>
-                                <h4 class="text-white font-bold">Bio-Rhythm Syncing</h4>
-                                <p class="text-slate-400 text-sm">แสงและอุณหภูมิที่ปรับอัตโนมัติตามนาฬิกาชีวิต (Circadian Rhythm) เพื่อการนอนหลับและการตื่นที่สมบูรณ์แบบ</p>
+                                <h4 class="text-white font-bold">
+                                    <span lang="en">Bio-Rhythm Syncing</span><span lang="th" class="font-thai">จังหวะชีวภาพ</span>
+                                </h4>
+                                <p class="text-slate-400 text-sm">
+                                    <span lang="en">Lighting and temperature that automatically adjust to your circadian rhythm for perfect sleep.</span>
+                                    <span lang="th" class="font-thai">แสงและอุณหภูมิที่ปรับอัตโนมัติตามนาฬิกาชีวิต เพื่อการนอนหลับที่สมบูรณ์แบบ</span>
+                                </p>
                             </div>
                         </li>
                         <li class="flex items-start">
-                            <i data-lucide="scan-face" class="w-6 h-6 text-emerald-500 mr-3 mt-1"></i>
+                            <i data-lucide="scan-face" class="w-6 h-6 text-emerald-500 mr-3 mt-1 flex-shrink-0"></i>
                             <div>
-                                <h4 class="text-white font-bold">AI Health Mirror</h4>
-                                <p class="text-slate-400 text-sm">กระจกอัจฉริยะที่วิเคราะห์สุขภาพผิว สัญญาณชีพ และความเครียดทันทีที่คุณส่อง พร้อมแนะนำโภชนาการประจำวัน</p>
+                                <h4 class="text-white font-bold">
+                                    <span lang="en">AI Health Mirror</span><span lang="th" class="font-thai">กระจกสุขภาพ AI</span>
+                                </h4>
+                                <p class="text-slate-400 text-sm">
+                                    <span lang="en">Smart mirrors analyzing skin health, vital signs, and stress, offering daily nutritional advice.</span>
+                                    <span lang="th" class="font-thai">กระจกอัจฉริยะที่วิเคราะห์สุขภาพผิว สัญญาณชีพ และความเครียด พร้อมแนะนำโภชนาการ</span>
+                                </p>
                             </div>
                         </li>
                         <li class="flex items-start">
-                            <i data-lucide="wind" class="w-6 h-6 text-blue-400 mr-3 mt-1"></i>
+                            <i data-lucide="wind" class="w-6 h-6 text-blue-400 mr-3 mt-1 flex-shrink-0"></i>
                             <div>
-                                <h4 class="text-white font-bold">Hyper-Personalized Environment</h4>
-                                <p class="text-slate-400 text-sm">AI ที่จดจำสภาวะอารมณ์ของคุณ และปรับเปลี่ยนกลิ่น (Scent), เสียง (Sound), และแสง (Light) เพื่อบำบัดความเครียดโดยอัตโนมัติ</p>
+                                <h4 class="text-white font-bold">
+                                    <span lang="en">Hyper-Personalized Environment</span><span lang="th" class="font-thai">สภาพแวดล้อมเฉพาะบุคคล</span>
+                                </h4>
+                                <p class="text-slate-400 text-sm">
+                                    <span lang="en">AI that recognizes your emotional state and automatically adjusts Scent, Sound, and Light.</span>
+                                    <span lang="th" class="font-thai">AI ที่จดจำสภาวะอารมณ์และปรับเปลี่ยนกลิ่น, เสียง และแสง เพื่อบำบัดความเครียด</span>
+                                </p>
+                        <!-- New Item 4: LEV -->
+                        <li class="flex items-start p-4 rounded-xl bg-gradient-to-r from-slate-800 to-slate-900 border border-yellow-500/30 shadow-lg">
+                            <i data-lucide="infinity" class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="text-white font-bold flex items-center">
+                                    <span lang="en">New Trend: LEV (Longevity Escape Velocity)</span>
+                                    <span lang="th" class="font-thai">เทรนด์ใหม่: LEV (ความเร็วหลุดพ้นความชรา)</span>
+                                    <span class="ml-2 text-[10px] bg-yellow-500 text-black px-1.5 py-0.5 rounded font-bold">HOT</span>
+                                </h4>
+                                <p class="text-slate-300 text-sm mt-1">
+                                    <span lang="en">The concept where science "adds life time" faster than time passes, turning death into just an "option".</span>
+                                    <span lang="th" class="font-thai">แนวคิดที่วิทยาศาสตร์จะ "เติมเวลาชีวิต" ให้เราได้เร็วกว่าเวลาที่ผ่านไป เปลี่ยนความตายให้เป็นเพียง "ทางเลือก"</span>
+                                </p>
+                                <!-- UPDATED LINK -->
+                                <a href="https://drive.google.com/file/d/1JRe7wy3wm_OY1CtBaiKimSHutN1Eo6cw/view?usp=sharing" target="_blank" class="inline-flex items-center mt-3 text-xs text-yellow-500 hover:text-white transition-colors border-b border-yellow-500/50 pb-0.5">
+                                    <span lang="en">Read Full Research</span><span lang="th" class="font-thai">อ่านงานวิจัยฉบับเต็ม</span>
+                                    <i data-lucide="arrow-up-right" class="w-3 h-3 ml-1"></i>
+                                </a>
                             </div>
                         </li>
                     </ul>
+                    
+                    <!-- ADDED DISCLAIMER -->
+                    <div class="mt-6 p-4 bg-white/5 rounded-lg border border-white/10 text-xs text-slate-400">
+                        <p lang="en"><strong class="text-yellow-500">Note:</strong> These features represent conceptual future trends and technological possibilities. Specific smart devices and health-tech equipment mentioned are not included in the standard unit package.</p>
+                        <p lang="th" class="font-thai"><strong class="text-yellow-500">หมายเหตุ:</strong> เนื้อหาข้างต้นเป็นการนำเสนอแนวคิดและเทรนด์เทคโนโลยีในอนาคตเท่านั้น อุปกรณ์ Smart Health และ Gadgets ต่างๆ ที่กล่าวถึง ไม่ได้รวมอยู่ในรายการขายมาตรฐานของห้องชุด</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-     <!-- FUTURE LIVING & FESTIVITIES (Moved to End) -->
+     <!-- FESTIVITIES -->
      <section id="festivities" class="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-white mb-12 reveal">Future Living & Festivities</h2>
+        <h2 class="text-3xl font-bold text-white mb-12 reveal font-serif">
+            <span lang="en">December Festivities</span><span lang="th" class="font-thai">เทศกาลเดือนธันวาคม</span>
+        </h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 h-auto md:h-[600px]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto">
             
-            <!-- Tech Feature (Large) -->
-            <div class="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group reveal">
-                <!-- UPDATED: Using your AI/Brain Concept Image -->
-                <img src="https://i.postimg.cc/FH1j7YcD/Gemini-Generated-Image-isjkb2isjkb2isjk-gigapixel-high-fidelity-v2-2x.png" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Smart Home AI">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-8 flex flex-col justify-end">
-                    <span class="text-cyan-400 font-bold tracking-widest text-xs mb-2">TECH TREND 2026</span>
-                    <h3 class="text-2xl font-bold text-white mb-2">Generative AI in Living</h3>
-                    <p class="text-slate-300 text-sm">
-                        Smart homes are evolving. In 2026, expect <strong>predictive climate control</strong> where your condo cools down before you even know you're hot, and AI security that recognizes residents' walking patterns.
+            <!-- Jet Ski -->
+            <div class="bg-cyan-900/30 border border-cyan-500/20 rounded-3xl p-8 relative overflow-hidden reveal group h-96 flex flex-col justify-end">
+                <img src="https://i.postimg.cc/NFt5xD64/Gemini_Generated_Image_ud29bwud29bwud29.png" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition duration-500" alt="Jet Ski World Cup">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div class="relative z-10">
+                    <div class="absolute top-0 right-0 -mt-20 opacity-80 text-cyan-400"><i data-lucide="trophy" class="w-12 h-12"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">
+                        <span lang="en">🏆 Jet Ski World Cup 2025</span><span lang="th" class="font-thai">🏆 เจ็ตสกีเวิลด์คัพ 2025</span>
+                    </h3>
+                    <p class="text-cyan-100 text-sm">
+                        <strong>Dec 11-15, 2025 | Jomtien Beach</strong><br>
+                        <span lang="en">Witness the world's #1 Grand Prix right in front of Copacabana.</span>
+                        <span lang="th" class="font-thai">ชมการแข่งขันระดับโลก Grand Prix อันดับ 1 หน้าโครงการ Copacabana</span>
                     </p>
                 </div>
             </div>
 
-            <!-- Event 1: Christmas -->
-            <div class="md:col-span-2 bg-red-900/30 border border-red-500/20 rounded-3xl p-8 relative overflow-hidden reveal delay-100 flex flex-col justify-center">
-                <div class="absolute right-0 top-0 opacity-10">
-                    <i data-lucide="gift" class="w-48 h-48 text-red-500"></i>
+            <!-- SEA Games (Replacing Christmas) -->
+            <div class="bg-red-900/30 border border-red-500/20 rounded-3xl p-8 relative overflow-hidden reveal delay-100 flex flex-col justify-end h-96 group">
+                <!-- UPDATED IMAGE: SEA Games Logo -->
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/75/2025_SEA_Games.svg/1100px-2025_SEA_Games.svg.png" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition duration-500" alt="SEA Games 2025">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div class="relative z-10">
+                    <div class="absolute top-0 right-0 -mt-20 opacity-80 text-red-500"><i data-lucide="medal" class="w-12 h-12"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">
+                        <span lang="en">🏅 SEA Games 2025</span><span lang="th" class="font-thai">🏅 ซีเกมส์ 2025</span>
+                    </h3>
+                    <p class="text-red-100 text-sm">
+                        <strong>Dec 9-20, 2025 | Chonburi & Bangkok</strong><br>
+                        <span lang="en">Thailand hosts the 33rd SEA Games. Chonburi is a main venue for water sports.</span>
+                        <span lang="th" class="font-thai">ไทยเป็นเจ้าภาพซีเกมส์ครั้งที่ 33 โดยชลบุรีเป็นสนามหลักสำหรับกีฬาทางน้ำ</span>
+                    </p>
                 </div>
-                <h3 class="text-xl font-bold text-white z-10">🎄 Pattaya Christmas Lighting</h3>
-                <p class="text-red-200 mt-2 z-10 text-sm">
-                    <strong>Dec 24-25, 2025</strong><br>
-                    Experience the longest beach light tunnel in Southeast Asia at Central Festival Beachfront.
-                </p>
             </div>
 
-            <!-- Event 2: Countdown -->
-            <div class="md:col-span-2 bg-blue-900/30 border border-blue-500/20 rounded-3xl relative overflow-hidden reveal delay-200 group">
-                <!-- UPDATED: Using your Fireworks Image as Background -->
+            <!-- Countdown -->
+            <div class="bg-blue-900/30 border border-blue-500/20 rounded-3xl p-8 relative overflow-hidden reveal delay-200 flex flex-col justify-end h-96 group">
                 <img src="https://i.postimg.cc/t4gSQ2pp/DB367694-FA5E-4EB8-A491-F49F27E5E20B-1-201-a.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition duration-500" alt="Fireworks">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-transparent p-8 flex flex-col justify-center">
-                    <h3 class="text-xl font-bold text-white z-10">🎆 Pattaya Countdown 2026</h3>
-                    <p class="text-blue-100 mt-2 z-10 text-sm max-w-[60%]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div class="relative z-10">
+                    <div class="absolute top-0 right-0 -mt-20 opacity-80 text-blue-400"><i data-lucide="party-popper" class="w-12 h-12"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">
+                        <span lang="en">🎆 Pattaya Countdown 2026</span><span lang="th" class="font-thai">🎆 พัทยาเคาท์ดาวน์ 2026</span>
+                    </h3>
+                    <p class="text-blue-100 text-sm">
                         <strong>Dec 29-31, 2025 | Bali Hai Pier</strong><br>
-                        World-class fireworks and concerts to ring in the New Year.
+                        <span lang="en">World-class fireworks and concerts to ring in the New Year.</span>
+                        <span lang="th" class="font-thai">พลุระดับโลกและคอนเสิร์ตสุดมันส์เพื่อต้อนรับปีใหม่</span>
                     </p>
                 </div>
             </div>
@@ -568,61 +731,57 @@
         </div>
     </section>
 
-    <!-- CONTACT & SOCIAL MEDIA (Restored) -->
-    <section id="contact" class="py-20 bg-slate-800 border-t border-slate-700 font-thai">
+    <!-- CONTACT & SOCIAL MEDIA -->
+    <section id="contact" class="py-20 bg-slate-800 border-t border-slate-700">
         <div class="max-w-7xl mx-auto px-4 md:px-8">
             <div class="text-center mb-12 reveal">
-                <h2 class="text-3xl font-bold text-white mb-4">Connect with Us</h2>
+                <h2 class="text-3xl font-bold text-white mb-4 font-serif">
+                    <span lang="en">Connect with Us</span><span lang="th" class="font-thai">ติดต่อเรา</span>
+                </h2>
                 <div class="w-16 h-1 bg-yellow-500 mx-auto"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
-                
-                <!-- 1. Podcast (Updated with Spotify Iframe) -->
+                <!-- Podcast -->
                 <div class="reveal">
                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3NPkIctQjuOuay6zmHhDPa?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
 
-                <!-- 2. Social Media Links -->
+                <!-- Social Media -->
                 <div class="text-center reveal delay-100">
                     <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
                         <i data-lucide="share-2" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Follow Our Journey</h3>
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <span lang="en">Follow Our Journey</span><span lang="th" class="font-thai">ติดตามการเดินทางของเรา</span>
+                    </h3>
                     <div class="flex flex-col space-y-3 items-center">
-                        <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition">
-                            <i data-lucide="facebook" class="w-5 h-5 mr-3"></i> Copacabana Coral Reef Jomtien
-                        </a>
-                        <a href="https://bit.ly/3JWui6E" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition">
-                            <i data-lucide="instagram" class="w-5 h-5 mr-3"></i> @copacabanacoralreef
-                        </a>
+                        <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition"><i data-lucide="facebook" class="w-5 h-5 mr-3"></i> Copacabana Coral Reef Jomtien</a>
+                        <a href="https://bit.ly/3JWui6E" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition"><i data-lucide="instagram" class="w-5 h-5 mr-3"></i> @copacabanacoralreef</a>
                         <a href="https://bit.ly/4gnb6Ls" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition">
                             <svg class="w-5 h-5 mr-3 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                              copacabanagroup
                         </a>
-                        <a href="https://bit.ly/3JWumTW" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition">
-                            <i data-lucide="youtube" class="w-5 h-5 mr-3"></i> Copacabana Pattaya
-                        </a>
-                        <a href="https://bit.ly/4m59erJ" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition">
-                            <i data-lucide="globe" class="w-5 h-5 mr-3"></i> copacabanagroup.com
-                        </a>
+                        <a href="https://bit.ly/3JWumTW" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition"><i data-lucide="youtube" class="w-5 h-5 mr-3"></i> Copacabana Pattaya</a>
+                        <a href="https://bit.ly/4m59erJ" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition"><i data-lucide="globe" class="w-5 h-5 mr-3"></i> copacabanagroup.com</a>
                     </div>
                 </div>
 
-                <!-- 3. Contact & Address -->
+                <!-- Contact -->
                 <div class="text-center reveal delay-200">
                     <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-500">
                         <i data-lucide="map-pin" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Visit Us</h3>
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <span lang="en">Visit Us</span><span lang="th" class="font-thai">เยี่ยมชมโครงการ</span>
+                    </h3>
                     <div class="text-slate-400 text-sm space-y-2">
                         <p class="font-bold text-white">Copacabana Coral Reef Jomtien</p>
-                        <p>385/16 หมู่ 12 ถนนจอมเทียนสายสอง</p>
-                        <p>ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150</p>
+                        <p>385/16 <span lang="en">Moo 12, Jomtien Second Road</span><span lang="th" class="font-thai">หมู่ 12 ถนนจอมเทียนสายสอง</span></p>
+                        <p><span lang="en">Nong Prue, Bang Lamung, Chon Buri</span><span lang="th" class="font-thai">ต.หนองปรือ อ.บางละมุง จ.ชลบุรี</span> 20150</p>
                         <div class="mt-6 pt-6 border-t border-slate-700">
                              <p class="flex items-center justify-center gap-2 mb-2">
-                                <i data-lucide="phone" class="w-4 h-4 text-yellow-500"></i> 
-                                <span class="text-white">+66 95 945 1665</span>
+                                <i data-lucide="phone" class="w-4 h-4 text-yellow-500"></i> <span class="text-white">+66 95 945 1665</span>
                             </p>
                             <p class="flex items-center justify-center gap-2">
                                 <i data-lucide="mail" class="w-4 h-4 text-yellow-500"></i> 
@@ -639,9 +798,13 @@
     <!-- FOOTER -->
     <footer class="bg-black text-slate-500 py-12 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <h2 class="text-2xl font-bold text-white serif tracking-wider">COPACABANA</h2>
-                <p class="text-xs uppercase tracking-widest mt-1">Coral Reef Jomtien</p>
+            <div class="mb-4 md:mb-0 flex items-center justify-center md:justify-start">
+                 <!-- Logo in Footer -->
+                 <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Logo" class="h-16 w-auto mr-4">
+                 <div>
+                    <h2 class="text-2xl font-bold text-white serif tracking-wider">COPACABANA</h2>
+                    <p class="text-xs uppercase tracking-widest mt-1">Coral Reef Jomtien</p>
+                 </div>
             </div>
             
             <div class="text-center md:text-right">
@@ -656,7 +819,7 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Initialize Lucide Icons with safety check
+        // Initialize Lucide Icons
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
                 lucide.createIcons();
@@ -664,6 +827,27 @@
                 console.warn("Lucide icons could not be loaded.");
             }
         });
+
+        // LANGUAGE SWITCHER LOGIC
+        function setLanguage(lang) {
+            const body = document.body;
+            const btnEn = document.getElementById('btn-en');
+            const btnTh = document.getElementById('btn-th');
+
+            if (lang === 'th') {
+                body.classList.add('lang-th');
+                btnTh.classList.add('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
+                btnTh.classList.remove('opacity-70');
+                btnEn.classList.remove('scale-110', 'ring-2', 'ring-yellow-500');
+                btnEn.classList.add('opacity-70');
+            } else {
+                body.classList.remove('lang-th');
+                btnEn.classList.add('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
+                btnEn.classList.remove('opacity-70');
+                btnTh.classList.remove('scale-110', 'ring-2', 'ring-yellow-500');
+                btnTh.classList.add('opacity-70');
+            }
+        }
 
         // ---- HERO SLIDER LOGIC ----
         const heroSlides = document.querySelectorAll('.hero-slide');
