@@ -7,18 +7,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Updated Lucide CDN to ensure availability -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <!-- Added Kanit for Thai Language Support -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Added Fonts: Playfair (EN), Lato (EN), Kanit (TH), Noto Sans SC (CN), Montserrat (RU - fallback) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         /* Custom Font Settings */
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-sans { font-family: 'Lato', sans-serif; }
         .font-thai { font-family: 'Kanit', sans-serif; }
+        .font-cn { font-family: 'Noto Sans SC', sans-serif; }
+        
+        /* Language Display Logic - The Engine */
+        /* Default: Hide non-English */
+        [lang="th"], [lang="ru"], [lang="cn"] { display: none !important; }
+        
+        /* Thai State */
+        body.lang-th [lang="en"], body.lang-th [lang="ru"], body.lang-th [lang="cn"] { display: none !important; }
+        body.lang-th [lang="th"] { display: block !important; }
+        body.lang-th span[lang="th"], body.lang-th a[lang="th"], body.lang-th strong[lang="th"] { display: inline !important; }
+        
+        /* Russian State */
+        body.lang-ru [lang="en"], body.lang-ru [lang="th"], body.lang-ru [lang="cn"] { display: none !important; }
+        body.lang-ru [lang="ru"] { display: block !important; }
+        body.lang-ru span[lang="ru"], body.lang-ru a[lang="ru"], body.lang-ru strong[lang="ru"] { display: inline !important; }
 
-        /* Language Display Logic */
-        [lang="th"] { display: none; }
-        body.lang-th [lang="en"] { display: none; }
-        body.lang-th [lang="th"] { display: block; }
+        /* Chinese State */
+        body.lang-cn [lang="en"], body.lang-cn [lang="th"], body.lang-cn [lang="ru"] { display: none !important; }
+        body.lang-cn [lang="cn"] { display: block !important; }
+        body.lang-cn span[lang="cn"], body.lang-cn a[lang="cn"], body.lang-cn strong[lang="cn"] { display: inline !important; }
         
         /* Snowfall Animation */
         .snowflake {
@@ -87,15 +102,25 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-200 antialiased overflow-x-hidden pb-24 font-sans transition-colors duration-300"> <!-- Added pb-24 to prevent nav covering footer -->
+<body class="bg-slate-900 text-slate-200 antialiased overflow-x-hidden pb-24 font-sans transition-colors duration-300">
 
     <!-- LANGUAGE SWITCHER (Fixed Top Right) -->
     <div class="fixed top-6 right-6 z-50 flex gap-2">
-        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all scale-110 ring-2 ring-yellow-500">
+        <!-- English -->
+        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all scale-110 ring-2 ring-yellow-500" title="English">
             🇬🇧
         </button>
-        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all opacity-70">
+        <!-- Thai -->
+        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all opacity-70" title="Thai">
             🇹🇭
+        </button>
+        <!-- Russian -->
+        <button onclick="setLanguage('ru')" id="btn-ru" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all opacity-70" title="Russian">
+            🇷🇺
+        </button>
+        <!-- Chinese -->
+        <button onclick="setLanguage('cn')" id="btn-cn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all opacity-70" title="Chinese">
+            🇨🇳
         </button>
     </div>
 
@@ -104,36 +129,22 @@
         
         <!-- Hero Slider Images -->
         <div class="hero-slider-container" id="hero-slider">
-            <!-- Image 1 (Active initially) -->
             <img src="https://i.postimg.cc/2STh77jY/70594029_7cb6_443f_88e6_fdd727ef19f5_1_topaz_upscale_2_3x.png" class="hero-slide active" alt="Slide 1">
-            <!-- Image 2 -->
             <img src="https://i.postimg.cc/MpBLnvMT/2Kit_Booklet_20250601_Resize_for_Tablet_compressed-gigapixel-high_fidelity_v2-2x.jpg" class="hero-slide" alt="Slide 2">
-            <!-- Image 3 -->
             <img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="hero-slide" alt="Slide 3">
-            <!-- Image 4 -->
             <img src="https://i.postimg.cc/ZRx6Df9p/Image_29-4-2568_BE_at_09.45_(1)-gigapixel-high_fidelity_v2-2x.jpg" class="hero-slide" alt="Slide 4">
-            <!-- Image 5 -->
             <img src="https://i.postimg.cc/rpshBb1V/8A0AA767-3B0A-4D42-8CCA-7EFBAA513301-topaz-face-upscale-2x.png" class="hero-slide" alt="Slide 5">
-             <!-- Image 6 -->
             <img src="https://i.postimg.cc/qvkDLggC/EBE0F28D-FC45-417B-BF7A-D8822F7D7DD0_1_201_a-gigapixel-high_fidelity_v2-2x.png" class="hero-slide" alt="Slide 6">
-             <!-- Image 7 -->
             <img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="hero-slide" alt="Slide 7">
-             <!-- Image 8 -->
             <img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="hero-slide" alt="Slide 8">
-             <!-- Image 9 -->
             <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="hero-slide" alt="Slide 9">
         </div>
 
-        <!-- Gradient Overlay -->
         <div class="hero-overlay"></div>
-
-        <!-- Snow Container -->
         <div id="snow-container" class="absolute inset-0 pointer-events-none z-10"></div>
 
         <!-- Hero Content -->
         <div class="relative z-20 text-center px-4 max-w-4xl mx-auto reveal">
-            
-            <!-- LOGO PLACEMENT -->
             <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Logo" class="h-24 md:h-32 mx-auto mb-8 drop-shadow-2xl animate-fade-in">
 
             <span class="inline-block py-1 px-3 border border-yellow-500 rounded-full text-yellow-500 text-sm tracking-widest uppercase mb-4">December 2025 Edition</span>
@@ -141,6 +152,8 @@
             <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight font-serif">
                 <span lang="en">The Grand Finale <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">Year End 2025</span></span>
                 <span lang="th" class="font-thai">บทสรุปส่งท้ายปี <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">ธันวาคม 2568</span></span>
+                <span lang="ru">Грандиозный Финал <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">Итоги 2025 года</span></span>
+                <span lang="cn" class="font-cn">年终盛典 <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">2025 辉煌收官</span></span>
             </h1>
             
             <!-- INTRO TEXT -->
@@ -151,6 +164,12 @@
                 <p lang="th" class="font-thai">
                     "สวัสดีเดือนสุดท้ายของปี 2568 ครับ ช่วงเวลาแห่งการเปลี่ยนผ่านนี้ ผมอยากชวนทุกคนมาสำรวจความสำเร็จของ Copacabana Coral Reef Jomtien ที่วันนี้เราได้ปักหมุดหมายใหม่บนชั้นที่ 34 พร้อมๆ กับการถอดรหัสเทรนด์แห่งอนาคต ทั้งปรากฏการณ์ AI, นวัตกรรม Wellness และทิศทางตลาดอสังหาฯ พัทยา มาร่วมกันมองภาพอนาคตและก้าวไปข้างหน้าด้วยกันครับ"
                 </p>
+                <p lang="ru">
+                    "Добро пожаловать в декабрь 2025 года. Этот итоговый выпуск знаменует наше восхождение на 34-й этаж, а также открывает новое видение 2026 года, охватывающее тренды ИИ, Wellness и рынка недвижимости Паттайи. Давайте вместе отпразднуем наши достижения и шагнем в будущее."
+                </p>
+                <p lang="cn" class="font-cn">
+                    "欢迎来到2025年12月。本期年终特刊标志着我们成功登顶第34层，同时也展示了2026年关于AI、健康养生以及芭堤雅房地产市场的全新愿景。让我们共同庆祝这一里程碑，携手迈向未来。"
+                </p>
             </div>
             
             <!-- Hero CTAs -->
@@ -158,10 +177,14 @@
                 <a href="#construction" class="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold rounded-full transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(234,179,8,0.5)]">
                     <span lang="en">View Progress</span>
                     <span lang="th" class="font-thai">ดูความคืบหน้า</span>
+                    <span lang="ru">Ход строительства</span>
+                    <span lang="cn" class="font-cn">查看进度</span>
                 </a>
                 <a href="#wellness" class="px-8 py-3 bg-transparent border border-white text-white hover:bg-white hover:text-slate-900 font-bold rounded-full transition-all">
                     <span lang="en">New! Wellness Trend</span>
                     <span lang="th" class="font-thai">เจาะลึกเทรนด์สุขภาพ</span>
+                    <span lang="ru">Новые тренды Wellness</span>
+                    <span lang="cn" class="font-cn">最新健康趋势</span>
                 </a>
             </div>
         </div>
@@ -172,26 +195,26 @@
         <div class="bg-black/80 backdrop-blur-xl border border-white/10 rounded-full p-2 shadow-2xl overflow-x-auto no-scrollbar">
             <div class="flex items-center justify-start md:justify-center gap-2 min-w-max px-2">
                 <a href="#construction" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    <span lang="en">Construction</span><span lang="th" class="font-thai">ก่อสร้าง</span>
+                    <span lang="en">Construction</span><span lang="th" class="font-thai">ก่อสร้าง</span><span lang="ru">Стройка</span><span lang="cn" class="font-cn">工程进度</span>
                 </a>
                 <a href="#timeline" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    <span lang="en">Timeline</span><span lang="th" class="font-thai">ไทม์ไลน์</span>
+                    <span lang="en">Timeline</span><span lang="th" class="font-thai">ไทม์ไลน์</span><span lang="ru">Таймлайн</span><span lang="cn" class="font-cn">时间轴</span>
                 </a>
                 <a href="#market" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    <span lang="en">Market</span><span lang="th" class="font-thai">ตลาด</span>
+                    <span lang="en">Market</span><span lang="th" class="font-thai">ตลาด</span><span lang="ru">Рынок</span><span lang="cn" class="font-cn">市场</span>
                 </a>
                 <a href="#ai-report" class="px-5 py-2 text-sm md:text-base text-yellow-500 border border-yellow-500/30 font-bold rounded-full hover:bg-yellow-500/10 transition-all flex items-center whitespace-nowrap">
-                    <span lang="en">AI Report</span><span lang="th" class="font-thai">รายงาน AI</span>
+                    <span lang="en">AI Report</span><span lang="th" class="font-thai">รายงาน AI</span><span lang="ru">AI Отчет</span><span lang="cn" class="font-cn">AI报告</span>
                 </a>
                 <a href="#wellness" class="px-5 py-2 text-sm md:text-base bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-500 transition-all flex items-center whitespace-nowrap shadow-lg">
                     <i data-lucide="leaf" class="w-3 h-3 mr-2"></i> 
-                    <span lang="en">Wellness</span><span lang="th" class="font-thai">สุขภาพ</span>
+                    <span lang="en">Wellness</span><span lang="th" class="font-thai">สุขภาพ</span><span lang="ru">Здоровье</span><span lang="cn" class="font-cn">健康</span>
                 </a>
                 <a href="#festivities" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    <span lang="en">Events</span><span lang="th" class="font-thai">กิจกรรม</span>
+                    <span lang="en">Events</span><span lang="th" class="font-thai">กิจกรรม</span><span lang="ru">События</span><span lang="cn" class="font-cn">活动</span>
                 </a>
                 <a href="#contact" class="px-4 py-2 text-sm md:text-base text-white hover:bg-white/10 rounded-full transition-colors flex items-center whitespace-nowrap">
-                    <span lang="en">Contact</span><span lang="th" class="font-thai">ติดต่อ</span>
+                    <span lang="en">Contact</span><span lang="th" class="font-thai">ติดต่อ</span><span lang="ru">Контакты</span><span lang="cn" class="font-cn">联系我们</span>
                 </a>
             </div>
         </div>
@@ -206,16 +229,22 @@
                     <h2 class="text-4xl font-bold text-white mb-2 font-serif">
                         <span lang="en">Skyward Bound</span>
                         <span lang="th" class="font-thai">ทะยานสู่ฟากฟ้า</span>
+                        <span lang="ru">Устремленные ввысь</span>
+                        <span lang="cn" class="font-cn">冲上云霄</span>
                     </h2>
                     <h3 class="text-2xl text-yellow-500 mb-6 italic font-serif">
                         <span lang="en">Reaching Level 34</span>
-                        <span lang="th" class="font-thai">ความสำเร็จ ณ ชั้น 34</span>
+                        <span lang="th" class="font-thai">หมุดหมายใหม่ ณ ชั้น 34</span>
+                        <span lang="ru">Достигнут 34-й этаж</span>
+                        <span lang="cn" class="font-cn">抵达34层新高度</span>
                     </h3>
                     <div class="h-1 w-20 bg-yellow-500 mb-8"></div>
                     
                     <div class="text-slate-300 mb-4 leading-relaxed">
                         <p lang="en"><strong>Construction Update, December 2025:</strong> Copacabana Coral Reef Jomtien has reached the <strong>34th Floor</strong>. Structural work is progressing steadily according to plan.</p>
                         <p lang="th" class="font-thai"><strong>อัปเดตความคืบหน้า ธันวาคม 2568:</strong> งานก่อสร้าง Copacabana Coral Reef Jomtien วันนี้ได้เดินทางมาถึง<strong>ชั้นที่ 34</strong> แล้วครับ โครงสร้างอาคารยังคงเดินหน้าอย่างต่อเนื่องตามแผนงานที่วางไว้ สะท้อนถึงวินัยและการจัดการที่มีประสิทธิภาพ</p>
+                        <p lang="ru"><strong>Новости строительства, Декабрь 2025:</strong> Copacabana Coral Reef Jomtien достиг <strong>34-го этажа</strong>. Структурные работы ведутся стабильно и в соответствии с планом.</p>
+                        <p lang="cn" class="font-cn"><strong>工程进度更新，2025年12月：</strong> Copacabana Coral Reef Jomtien 已建至 <strong>第34层</strong>。主体结构工程正按计划稳步推进。</p>
                     </div>
                     <ul class="space-y-4 mt-6">
                         <li class="flex items-start">
@@ -223,6 +252,8 @@
                             <span class="text-slate-400">
                                 <span lang="en"><strong>Unstoppable Momentum:</strong> Construction is proceeding swiftly and on schedule, reflecting our commitment to timely delivery.</span>
                                 <span lang="th" class="font-thai"><strong>Unstoppable Momentum:</strong> แรงขับเคลื่อนที่ไม่หยุดนิ่ง การก่อสร้างดำเนินไปอย่างรวดเร็วและแม่นยำตามไทม์ไลน์</span>
+                                <span lang="ru"><strong>Неудержимый импульс:</strong> Строительство идет быстро и по графику, что отражает нашу приверженность своевременной сдаче.</span>
+                                <span lang="cn" class="font-cn"><strong>势不可挡:</strong> 施工正如火如荼按计划进行，体现了我们按时交付的承诺。</span>
                             </span>
                         </li>
                         <li class="flex items-start">
@@ -230,6 +261,8 @@
                             <span class="text-slate-400">
                                 <span lang="en"><strong>Proven Quality:</strong> Building on the award-winning success of our first project, we uphold the highest standards of craftsmanship you can trust.</span>
                                 <span lang="th" class="font-thai"><strong>Proven Quality:</strong> ต่อยอดความสำเร็จจากโครงการแรกที่กวาดรางวัลมาแล้ว ด้วยมาตรฐานงานก่อสร้างที่คุณวางใจได้ในทุกรายละเอียด</span>
+                                <span lang="ru"><strong>Доказанное качество:</strong> Опираясь на успех нашего первого отмеченного наградами проекта, мы поддерживаем высочайшие стандарты мастерства.</span>
+                                <span lang="cn" class="font-cn"><strong>品质见证:</strong> 承袭首个获奖项目的成功经验，我们将继续秉持值得您信赖的最高工艺标准。</span>
                             </span>
                         </li>
                         <li class="flex items-start">
@@ -237,6 +270,8 @@
                             <span class="text-slate-400">
                                 <span lang="en"><strong>Evolving Excellence:</strong> We continuously learn and innovate, ensuring this project is more modern and perfectly tailored to resident needs.</span>
                                 <span lang="th" class="font-thai"><strong>Evolving Excellence:</strong> เพราะเราไม่หยุดเรียนรู้ โครงการนี้จึงถูกออกแบบให้ทันสมัยและตอบโจทย์ไลฟ์สไตล์ยุคใหม่ได้ดียิ่งกว่าเดิม</span>
+                                <span lang="ru"><strong>Эволюция совершенства:</strong> Мы постоянно учимся и внедряем инновации, чтобы этот проект был современным и идеально отвечал потребностям жителей.</span>
+                                <span lang="cn" class="font-cn"><strong>精益求精:</strong> 我们不断学习与创新，确保本项目更加现代化，完美契合住户需求。</span>
                             </span>
                         </li>
                     </ul>
@@ -252,8 +287,13 @@
                     <div class="absolute -bottom-10 -left-10 bg-yellow-500 text-slate-900 p-6 rounded-xl shadow-xl hidden md:block">
                         <p class="text-sm font-bold uppercase tracking-wider" lang="en">Current Status</p>
                         <p class="text-sm font-bold uppercase tracking-wider font-thai" lang="th">สถานะปัจจุบัน</p>
+                        <p class="text-sm font-bold uppercase tracking-wider" lang="ru">Статус</p>
+                        <p class="text-sm font-bold uppercase tracking-wider font-cn" lang="cn">当前状态</p>
+                        
                         <p class="text-4xl font-bold font-serif" lang="en">On Schedule</p>
                         <p class="text-3xl font-bold font-thai" lang="th">ตามแผนงาน</p>
+                        <p class="text-2xl font-bold" lang="ru">По графику</p>
+                        <p class="text-3xl font-bold font-cn" lang="cn">按计划进行</p>
                     </div>
                 </div>
             </div>
@@ -267,10 +307,14 @@
                 <span class="text-yellow-500 text-sm tracking-widest uppercase block mb-2">
                     <span lang="en">From Foundation to Skyline</span>
                     <span lang="th" class="font-thai">จากรากฐานสู่ยอดตึก</span>
+                    <span lang="ru">От фундамента до горизонта</span>
+                    <span lang="cn" class="font-cn">从地基到天际线</span>
                 </span>
                 <h2 class="text-3xl md:text-5xl font-bold text-white font-serif mb-6">
                     <span lang="en">2025 Year in Review</span>
                     <span lang="th" class="font-thai">บทสรุปปี 2568</span>
+                    <span lang="ru">Обзор 2025 года</span>
+                    <span lang="cn" class="font-cn">2025年度回顾</span>
                 </h2>
                 
                 <!-- Construction Recap Paragraph -->
@@ -280,6 +324,12 @@
                     </p>
                     <p lang="th" class="font-thai">
                         ตลอดปี 2568 Copacabana Coral Reef Jomtien ได้สร้างปรากฏการณ์แห่งความก้าวหน้าอย่างต่อเนื่อง เริ่มต้นจากการวางรากฐานที่มั่นคงในช่วงต้นปี สู่การก่อรูปของโครงสร้างโพเดียมและสระว่ายน้ำที่ชัดเจนขึ้นเรื่อยๆ โมเมนตัมนี้ถูกส่งต่อไปยังไตรมาสที่สามที่ตัวอาคารเริ่มทะยานสูงขึ้น และปิดท้ายปีอย่างงดงามด้วยการพิชิตชั้น 34 ในเดือนธันวาคม ซึ่งทุกย่างก้าวเป็นไปตามแผนงานที่วางไว้อย่างแม่นยำ เรามุ่งมั่นเดินหน้าสู่เป้าหมาย<strong>แล้วเสร็จสมบูรณ์ภายในปี 2570</strong> เพื่อส่งมอบประสบการณ์การอยู่อาศัยริมหาดจอมเทียนที่ดีที่สุดให้กับคุณ
+                    </p>
+                    <p lang="ru">
+                        На протяжении 2025 года Copacabana Coral Reef демонстрировала феноменальный прогресс. Начав с прочного фундамента в первом квартале, во втором квартале появились структуры подиума и бассейна. В третьем квартале темпы ускорились по мере роста башни, кульминацией чего стало достижение 34-го этажа в декабре — точно по графику. Мы уверенно движемся к <strong>полному завершению к 2027 году</strong>, готовые предоставить лучший опыт жизни на берегу моря.
+                    </p>
+                    <p lang="cn" class="font-cn">
+                        2025年全年，Copacabana Coral Reef Jomtien展现了惊人的进展。第一季度打下坚实基础，第二季度裙楼和泳池结构初现雏形。第三季度随着塔楼的升高，建设势头加速，最终在12月成功抵达第34层——完全按计划进行。我们要坚定地朝着<strong>2027年全面完工</strong>的目标迈进，准备为您呈现极致的海滨生活体验。
                     </p>
                 </div>
             </div>
@@ -291,17 +341,20 @@
                     <div class="relative overflow-hidden rounded-xl h-64 mb-4 border border-slate-700">
                         <img src="https://i.postimg.cc/8k3498cP/DJI-0082-(1).jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q1 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">
-                            <span lang="en">Q1 2025</span>
-                            <span lang="th">ไตรมาส 1/2568</span>
+                            <span lang="en">Q1 2025</span><span lang="th">ไตรมาส 1/2568</span><span lang="ru">Q1 2025</span><span lang="cn">2025年第一季度</span>
                         </div>
                     </div>
                     <h3 class="text-white font-bold text-lg">
                         <span lang="en">Foundation Complete</span>
                         <span lang="th" class="font-thai">รากฐานที่มั่นคง</span>
+                        <span lang="ru">Фундамент готов</span>
+                        <span lang="cn" class="font-cn">地基完工</span>
                     </h3>
                     <p class="text-slate-400 text-sm mt-1">
                         <span lang="en">Structuring the base & parking levels.</span>
                         <span lang="th" class="font-thai">เสร็จสิ้นโครงสร้างฐานรากและชั้นจอดรถ</span>
+                        <span lang="ru">Структурирование основания и парковки.</span>
+                        <span lang="cn" class="font-cn">基础及停车场结构施工。</span>
                     </p>
                 </div>
                 <!-- Q2 -->
@@ -309,17 +362,20 @@
                     <div class="relative overflow-hidden rounded-xl h-64 mb-4 border border-slate-700">
                         <img src="https://i.postimg.cc/MGNJXP5C/May01_CopaCon.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q2 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">
-                            <span lang="en">Q2 2025</span>
-                            <span lang="th">ไตรมาส 2/2568</span>
+                            <span lang="en">Q2 2025</span><span lang="th">ไตรมาส 2/2568</span><span lang="ru">Q2 2025</span><span lang="cn">2025年第二季度</span>
                         </div>
                     </div>
                     <h3 class="text-white font-bold text-lg">
                         <span lang="en">The Rise Begins</span>
                         <span lang="th" class="font-thai">เริ่มก่อรูปตัวอาคาร</span>
+                        <span lang="ru">Начало подъема</span>
+                        <span lang="cn" class="font-cn">拔地而起</span>
                     </h3>
                     <p class="text-slate-400 text-sm mt-1">
                         <span lang="en">Podium levels & pool structure visible.</span>
                         <span lang="th" class="font-thai">โครงสร้างโพเดียมและสระว่ายน้ำปรากฏชัดเจน</span>
+                        <span lang="ru">Видимые уровни подиума и бассейна.</span>
+                        <span lang="cn" class="font-cn">裙楼及泳池结构显现。</span>
                     </p>
                 </div>
                 <!-- Q3 -->
@@ -327,17 +383,20 @@
                     <div class="relative overflow-hidden rounded-xl h-64 mb-4 border border-slate-700">
                         <img src="https://i.postimg.cc/3xhXQ3Hc/32D6B8C2-4790-4F76-A9DA-20ED25FDF270-0-topaz-upscale-2x-sharpen.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Q3 Progress">
                         <div class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-xs font-bold text-white">
-                            <span lang="en">Q3 2025</span>
-                            <span lang="th">ไตรมาส 3/2568</span>
+                            <span lang="en">Q3 2025</span><span lang="th">ไตรมาส 3/2568</span><span lang="ru">Q3 2025</span><span lang="cn">2025年第三季度</span>
                         </div>
                     </div>
                     <h3 class="text-white font-bold text-lg">
                         <span lang="en">Mid-Rise Milestone</span>
                         <span lang="th" class="font-thai">ก้าวสู่ครึ่งทาง</span>
+                        <span lang="ru">Веха средней высоты</span>
+                        <span lang="cn" class="font-cn">中期里程碑</span>
                     </h3>
                     <p class="text-slate-400 text-sm mt-1">
                         <span lang="en">Reaching Floor 20. Speed increases.</span>
                         <span lang="th" class="font-thai">ทะลุชั้น 20 ด้วยอัตราเร่งที่เพิ่มขึ้น</span>
+                        <span lang="ru">Достижение 20-го этажа. Скорость растет.</span>
+                        <span lang="cn" class="font-cn">抵达20层，建设提速。</span>
                     </p>
                 </div>
                 <!-- Q4 -->
@@ -345,30 +404,45 @@
                     <div class="relative overflow-hidden rounded-xl h-64 mb-4 border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.2)]">
                         <img src="https://i.postimg.cc/NMky4dR3/af394d56-3273-4c81-8b5f-90f16387c4b7_0-gigapixel-high_fidelity_v2-2x.png" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-110" alt="Q4 Progress">
                         <div class="absolute top-4 left-4 bg-yellow-500 text-slate-900 px-3 py-1 rounded text-xs font-bold">
-                            <span lang="en">Q4 2025</span>
-                            <span lang="th">ไตรมาส 4/2568</span>
+                            <span lang="en">Q4 2025</span><span lang="th">ไตรมาส 4/2568</span><span lang="ru">Q4 2025</span><span lang="cn">2025年第四季度</span>
                         </div>
                     </div>
                     <h3 class="text-yellow-500 font-bold text-lg">
                         <span lang="en">Level 34 Achieved</span>
                         <span lang="th" class="font-thai">พิชิตชั้น 34</span>
+                        <span lang="ru">Достигнут 34-й уровень</span>
+                        <span lang="cn" class="font-cn">达成34层目标</span>
                     </h3>
                     <p class="text-slate-400 text-sm mt-1">
                         <span lang="en">Dominating the skyline. On schedule.</span>
                         <span lang="th" class="font-thai">โดดเด่นเหนือเส้นขอบฟ้า ดำเนินการตามแผนงานอย่างแม่นยำ</span>
+                        <span lang="ru">Доминирует над горизонтом. По графику.</span>
+                        <span lang="cn" class="font-cn">主宰天际线，按期完成。</span>
                     </p>
                 </div>
             </div>
 
             <!-- TIME LAPSE VIDEO PLACEHOLDER -->
             <div class="reveal mt-12">
-                <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700 bg-black">
-                    <!-- Aspect Ratio Box (16:9) -->
+                <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700 group cursor-pointer bg-black">
                     <div class="pb-[56.25%]"></div>
-                    
+                    <div class="absolute inset-0 flex items-center justify-center bg-slate-800">
+                         <img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition duration-500" alt="Video Thumbnail">
+                        <div class="z-10 flex flex-col items-center">
+                            <div class="w-20 h-20 bg-yellow-500 rounded-full flex items-center justify-center pl-1 shadow-[0_0_30px_rgba(234,179,8,0.6)] group-hover:scale-110 transition duration-300">
+                                <i data-lucide="play" class="w-10 h-10 text-slate-900 fill-current"></i>
+                            </div>
+                            <span class="mt-4 text-white font-bold tracking-widest text-sm uppercase">
+                                <span lang="en">Watch 2025 Time-Lapse</span>
+                                <span lang="th" class="font-thai">ชมไทม์แลปส์ปี 2568</span>
+                                <span lang="ru">Смотреть Таймлапс 2025</span>
+                                <span lang="cn" class="font-cn">观看2025延时摄影</span>
+                            </span>
+                        </div>
+                    </div>
                     <!-- Embedded YouTube Video -->
                     <iframe 
-                        class="absolute top-0 left-0 w-full h-full"
+                        class="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         src="https://www.youtube.com/embed/0M2UxrLgTuI?si=rcE6WGMYsHXakkDH" 
                         title="Copacabana Coral Reef Construction Update"
                         frameborder="0" 
@@ -390,12 +464,16 @@
                     <a href="https://thbho.github.io/RecapAndTrend.html" target="_blank" class="hover:text-yellow-500 transition-colors inline-flex items-center gap-2 group/link">
                         <span lang="en">Market Recap & Vision</span>
                         <span lang="th" class="font-thai">เจาะลึกตลาดและวิสัยทัศน์</span>
+                        <span lang="ru">Обзор рынка и перспективы</span>
+                        <span lang="cn" class="font-cn">市场回顾与展望</span>
                         <i data-lucide="external-link" class="w-6 h-6 md:w-8 md:h-8 opacity-0 group-hover/link:opacity-100 transition-all"></i>
                     </a>
                 </h2>
                 <p class="text-slate-400 max-w-2xl mx-auto mb-8">
                     <span lang="en">From the recovery of 2025 to the smart evolution of 2026.</span>
                     <span lang="th" class="font-thai">จากการฟื้นตัวอย่างแข็งแกร่งในปี 2568 สู่วิวัฒนาการอัจฉริยะในปี 2569</span>
+                    <span lang="ru">От восстановления 2025 года к умной эволюции 2026 года.</span>
+                    <span lang="cn" class="font-cn">从2025年的复苏到2026年的智能进化。</span>
                 </p>
             </div>
 
@@ -412,11 +490,15 @@
                             <h3 class="text-xl font-bold text-white">
                                 <span lang="en">2025 Recap</span>
                                 <span lang="th" class="font-thai">สรุปปี 2568</span>
+                                <span lang="ru">Итоги 2025</span>
+                                <span lang="cn" class="font-cn">2025年回顾</span>
                             </h3>
                         </div>
                         <div class="text-slate-400 text-sm leading-relaxed">
                             <p lang="en">2025 was the year of "The Great Return." Pattaya saw a <strong>35% surge</strong> in international arrivals. The market shifted from rental yield focus to luxury holiday homes, driven by strong demand from Eastern Europe.</p>
                             <p lang="th" class="font-thai">ปี 2568 นับเป็นปีแห่ง "การกลับมาอย่างยิ่งใหญ่" พัทยามีนักท่องเที่ยวต่างชาติเพิ่มขึ้นถึง <strong>35%</strong> ตลาดเริ่มปรับทิศทางจากการเน้นปล่อยเช่า มาสู่การเป็นบ้านพักตากอากาศระดับลักซ์ชัวรี่ โดยมีแรงซื้อหลักจากกลุ่มยุโรปตะวันออกที่น่าจับตามอง</p>
+                            <p lang="ru">2025 стал годом «Великого возвращения». Паттайя увидела <strong>рост на 35%</strong> международных прибытий. Рынок сместился с аренды на элитные дома для отдыха, благодаря спросу из Восточной Европы.</p>
+                            <p lang="cn" class="font-cn">2025年是“盛大回归”的一年。芭堤雅的国际游客数量<strong>激增35%</strong>。在东欧强劲需求的推动下，市场重心从租赁收益转向了豪华度假屋。</p>
                         </div>
                     </div>
                 </div>
@@ -433,11 +515,15 @@
                             <h3 class="text-xl font-bold text-white">
                                 <span lang="en">2026 Outlook</span>
                                 <span lang="th" class="font-thai">แนวโน้มปี 2569</span>
+                                <span lang="ru">Прогноз на 2026</span>
+                                <span lang="cn" class="font-cn">2026年展望</span>
                             </h3>
                         </div>
                         <div class="text-slate-400 text-sm leading-relaxed">
                             <p lang="en"><strong>Wellness & Sustainability.</strong> Buyers will prioritize Green Buildings and Health-Tech. Prices in Jomtien are projected to rise by <strong>5-7%</strong> as land scarcity becomes a reality.</p>
                             <p lang="th" class="font-thai"><strong>สุขภาพและความยั่งยืน</strong> คือเมกะเทรนด์ใหม่ ผู้ซื้อหันมาให้ความสำคัญกับอาคารเขียว (Green Buildings) และเทคโนโลยีเพื่อสุขภาพ ราคาย่านจอมเทียนคาดว่าจะพุ่งสูงขึ้น <strong>5-7%</strong> จากภาวะที่ดินเริ่มขาดแคลน</p>
+                            <p lang="ru"><strong>Здоровье и устойчивость.</strong> Покупатели выберут зеленые здания и Health-Tech. Ожидается рост цен на Джомтьене на <strong>5-7%</strong> из-за дефицита земли.</p>
+                            <p lang="cn" class="font-cn"><strong>健康与可持续性。</strong> 买家将优先考虑绿色建筑和健康科技。由于土地稀缺，乔木提恩的房价预计将上涨<strong>5-7%</strong>。</p>
                         </div>
                     </div>
                 </div>
@@ -454,11 +540,15 @@
                             <h3 class="text-xl font-bold text-white">
                                 <span lang="en">EEC Progress</span>
                                 <span lang="th" class="font-thai">ความคืบหน้า EEC</span>
+                                <span lang="ru">Прогресс ЕЭС</span>
+                                <span lang="cn" class="font-cn">EEC 进展</span>
                             </h3>
                         </div>
                         <div class="text-slate-400 text-sm leading-relaxed">
                             <p lang="en"><strong>U-Tapao Aviation City</strong> and <strong>EECiti</strong> are advancing with concrete timelines. Combined with <strong>multi-hundred billion baht</strong> investments, the EEC is cementing its status as Thailand's economic powerhouse.</p>
                             <p lang="th" class="font-thai"><strong>เมืองการบินอู่ตะเภา</strong> และ <strong>EECiti</strong> มีความคืบหน้าอย่างเป็นรูปธรรม พร้อมเม็ดเงินลงทุน<strong>หลายแสนล้านบาท</strong> ที่กำลังหลั่งไหลเข้ามา ย้ำสถานะ EEC ในฐานะเครื่องยนต์เศรษฐกิจใหม่ของไทย</p>
+                            <p lang="ru"><strong>Авиагород У-Тапао</strong> и <strong>EECiti</strong> продвигаются вперед с конкретными сроками. Вместе с инвестициями в сотни миллиардов бат, ЕЭС укрепляет статус экономической мощи Таиланда.</p>
+                            <p lang="cn" class="font-cn"><strong>乌塔堡航空城</strong>和<strong>EECiti</strong>正按具体时间表推进。结合数千亿泰铢的投资，EEC正在巩固其作为泰国经济引擎的地位。</p>
                         </div>
                     </div>
                 </div>
@@ -480,12 +570,26 @@
                             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight font-serif group-hover/head:text-yellow-500 transition-colors">
                                 <span lang="en">77% of Thais Ready for AI <br/><span class="text-slate-400 text-2xl md:text-3xl group-hover/head:text-yellow-500/80">But why are businesses 'stuck'?</span></span>
                                 <span lang="th" class="font-thai">คนไทย 77% พร้อมรับ AI <br/><span class="text-slate-400 text-2xl md:text-3xl group-hover/head:text-yellow-500/80">แต่ทำไมธุรกิจส่วนใหญ่ยัง 'ไปไม่เป็น'?</span></span>
+                                <span lang="ru">77% тайцев готовы к ИИ <br/><span class="text-slate-400 text-2xl md:text-3xl group-hover/head:text-yellow-500/80">Но почему бизнес «застрял»?</span></span>
+                                <span lang="cn" class="font-cn">77%的泰国人准备迎接AI <br/><span class="text-slate-400 text-2xl md:text-3xl group-hover/head:text-yellow-500/80">但为什么企业却停滞不前？</span></span>
                                 <i data-lucide="external-link" class="inline w-6 h-6 ml-2 opacity-0 group-hover/head:opacity-100 transition-opacity"></i>
                             </h2>
                         </a>
                         <div class="text-slate-300 text-lg leading-relaxed mb-8">
                             <p lang="en">Explore 4 striking truths from the 2026 AI Situation Report. Amidst the raging AI current, where does Thailand stand? The reality behind the scenes is more complex than you think.</p>
                             <p lang="th" class="font-thai">เจาะลึก 4 ความจริงจากรายงานสถานการณ์ AI ปี 2569 ท่ามกลางกระแสความเปลี่ยนแปลงที่เชี่ยวกราก ประเทศไทยยืนอยู่ตรงไหน? ความจริงเบื้องหลังตัวเลขอาจซับซ้อนกว่าที่คุณคิด</p>
+                            <p lang="ru">Изучите 4 поразительные истины из отчета о ситуации с ИИ 2026. Где находится Таиланд в бурном потоке ИИ? Реальность за кулисами сложнее, чем вы думаете.</p>
+                            <p lang="cn" class="font-cn">探索2026年AI现状报告中的4个惊人真相。在汹涌的AI浪潮中，泰国处于何种位置？幕后的现实比你想象的要复杂得多。</p>
+                        </div>
+                        
+                        <div>
+                            <a href="https://thbho.github.io/AIThailand.html" target="_blank" class="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full transition duration-300 font-bold shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] group">
+                                <span lang="en">View Full Infographic</span>
+                                <span lang="th" class="font-thai">ดูอินโฟกราฟิกฉบับเต็ม</span>
+                                <span lang="ru">Смотреть инфографику</span>
+                                <span lang="cn" class="font-cn">查看完整信息图</span>
+                                <i data-lucide="arrow-right" class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -506,15 +610,19 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">
                                 <span lang="en">The Paradox</span><span lang="th" class="font-thai">ปรากฏการณ์ย้อนแย้ง</span>
+                                <span lang="ru">Парадокс</span><span lang="cn" class="font-cn">悖论</span>
                             </h3>
                             <p class="text-yellow-500 text-sm font-bold">
                                 <span lang="en">Thais 77% Ready vs Business 17.8%</span><span lang="th" class="font-thai">คนไทยพร้อม 77% vs ธุรกิจทำจริง 17.8%</span>
+                                <span lang="ru">Готовность людей 77% vs Бизнес 17.8%</span><span lang="cn" class="font-cn">民众准备度 77% vs 企业 17.8%</span>
                             </p>
                         </div>
                     </div>
                     <div class="text-slate-400 text-sm leading-relaxed">
                         <p lang="en">Thai people have higher positive sentiment towards AI than the global average, but 73.3% of businesses are still just 'planning'. Only a small fraction have successfully implemented AI in Core Business.</p>
                         <p lang="th" class="font-thai">คนไทยมีทัศนคติเชิงบวกต่อ AI สูงกว่าค่าเฉลี่ยโลก แต่ธุรกิจส่วนใหญ่ (73.3%) ยังหยุดอยู่แค่ขั้น "วางแผน" มีเพียงส่วนน้อยที่นำ AI มาใช้ขับเคลื่อนธุรกิจหลักได้จริง นี่คือช่องว่างมหาศาลที่รอการเติมเต็ม</p>
+                        <p lang="ru">Тайцы относятся к ИИ позитивнее, чем в среднем по миру, но 73.3% компаний все еще только «планируют». Лишь малая часть внедрила ИИ в основной бизнес.</p>
+                        <p lang="cn" class="font-cn">泰国人对AI的积极态度高于全球平均水平，但73.3%的企业仍处于“计划”阶段。只有极少数企业成功将AI应用于核心业务。</p>
                     </div>
                 </div>
 
@@ -525,15 +633,19 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">
                                 <span lang="en">Bottleneck is "People"</span><span lang="th" class="font-thai">คอขวดคือ "คน"</span>
+                                <span lang="ru">Проблема в «Людях»</span><span lang="cn" class="font-cn">瓶颈在于“人”</span>
                             </h3>
                             <p class="text-yellow-500 text-sm font-bold">
                                 <span lang="en">Skills Gap is Obstacle #1 (47%)</span><span lang="th" class="font-thai">ช่องว่างทักษะคืออุปสรรคอันดับ 1 (47%)</span>
+                                <span lang="ru">Дефицит навыков — преграда №1 (47%)</span><span lang="cn" class="font-cn">技能差距是第一大障碍 (47%)</span>
                             </p>
                         </div>
                     </div>
                     <div class="text-slate-400 text-sm leading-relaxed">
                         <p lang="en">We invest heavily in EEC Data Centers, but lack the 'drivers'. The shortage of skilled talent (Skills Gap) has become a higher wall than budget or security concerns.</p>
                         <p lang="th" class="font-thai">เราลงทุนโครงสร้างพื้นฐานอย่าง Data Center ใน EEC อย่างมหาศาล แต่กลับขาด "คนขับเคลื่อน" ปัญหาการขาดแคลนบุคลากรที่มีทักษะ กลายเป็นกำแพงที่สูงกว่าเรื่องงบประมาณหรือความปลอดภัย</p>
+                        <p lang="ru">Мы инвестируем в дата-центры ЕЭС, но нам не хватает специалистов. Нехватка квалифицированных кадров стала большим препятствием, чем бюджет или безопасность.</p>
+                        <p lang="cn" class="font-cn">我们在EEC数据中心投入巨资，但缺乏“驱动者”。熟练人才的短缺已成为比预算或安全问题更高的障碍。</p>
                     </div>
                 </div>
 
@@ -544,15 +656,19 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">
                                 <span lang="en">The Great Divide</span><span lang="th" class="font-thai">การแบ่งขั้วครั้งใหญ่</span>
+                                <span lang="ru">Великий разрыв</span><span lang="cn" class="font-cn">巨大的鸿沟</span>
                             </h3>
                             <p class="text-yellow-500 text-sm font-bold">
                                 <span lang="en">Tech Salaries Soar 15-30%</span><span lang="th" class="font-thai">เงินเดือนสาย Tech พุ่ง 15-30%</span>
+                                <span lang="ru">Рост зарплат в Tech на 15-30%</span><span lang="cn" class="font-cn">科技薪资飙升 15-30%</span>
                             </p>
                         </div>
                     </div>
                     <div class="text-slate-400 text-sm leading-relaxed">
                         <p lang="en">The 2026 labor market will be torn into two clear poles. AI experts will be in frantic demand, while general non-digital roles will grow noticeably slower.</p>
                         <p lang="th" class="font-thai">ตลาดแรงงานปี 2569 จะถูกฉีกออกเป็นสองขั้วอย่างชัดเจน ผู้เชี่ยวชาญด้าน AI จะเป็นที่ต้องการตัวอย่างสูง ในขณะที่งานทั่วไปที่ไม่ใช้ทักษะดิจิทัลจะเติบโตช้าลงอย่างเห็นได้ชัด</p>
+                        <p lang="ru">Рынок труда 2026 года расколется на два полюса. Эксперты по ИИ будут нарасхват, в то время как рост обычных нецифровых ролей замедлится.</p>
+                        <p lang="cn" class="font-cn">2026年的劳动力市场将分裂为明显的两极。AI专家将供不应求，而一般非数字职位的增长将明显放缓。</p>
                     </div>
                 </div>
 
@@ -563,15 +679,19 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">
                                 <span lang="en">The Era of ROI (2026)</span><span lang="th" class="font-thai">ยุคแห่งผลตอบแทน (2569)</span>
+                                <span lang="ru">Эра ROI (2026)</span><span lang="cn" class="font-cn">ROI 时代 (2026)</span>
                             </h3>
                             <p class="text-yellow-500 text-sm font-bold">
                                 <span lang="en">End of Experiments</span><span lang="th" class="font-thai">หมดยุคทดลอง ถึงเวลาวัดผลจริง</span>
+                                <span lang="ru">Конец экспериментов</span><span lang="cn" class="font-cn">实验结束，成果为王</span>
                             </p>
                         </div>
                     </div>
                     <div class="text-slate-400 text-sm leading-relaxed">
                         <p lang="en">Executives stop asking "What can AI do?" and ask "How much money does AI make?". Tech moves from Chatbots to AI Agents automating business results.</p>
                         <p lang="th" class="font-thai">คำถามของผู้บริหารจะเปลี่ยนจาก "AI ทำอะไรได้?" เป็น "AI สร้างเงินได้เท่าไหร่?" เทคโนโลยีจะขยับจาก Chatbot ธรรมดา ไปสู่ AI Agents ที่ทำงานอัตโนมัติเพื่อสร้างผลลัพธ์ทางธุรกิจที่จับต้องได้</p>
+                        <p lang="ru">Руководители перестают спрашивать «Что может ИИ?» и спрашивают «Сколько денег приносит ИИ?». Технологии переходят от чат-ботов к ИИ-агентам, автоматизирующим бизнес.</p>
+                        <p lang="cn" class="font-cn">高管不再问“AI能做什么？”，而是问“AI能赚多少钱？”。技术从聊天机器人转向自动实现业务成果的AI代理。</p>
                     </div>
                 </div>
             </div>
@@ -580,13 +700,17 @@
             <div class="bg-slate-800/50 border-l-4 border-yellow-500 p-8 rounded-r-xl reveal">
                 <h3 class="text-xl font-bold text-white mb-3">
                     <span lang="en">Summary: Two-Speed Economy</span><span lang="th" class="font-thai">บทสรุป: เศรษฐกิจสองความเร็ว</span>
+                    <span lang="ru">Итог: Двухскоростная экономика</span><span lang="cn" class="font-cn">总结：双速经济</span>
                 </h3>
                 <div class="text-slate-300 leading-relaxed mb-4">
                     <p lang="en">AI is clearly separating 'accelerators' from those 'left behind'. The key to success in 2026 isn't just having the best tech, but sharp strategy and people development.</p>
                     <p lang="th" class="font-thai">AI กำลังแยก "ผู้เร่งความเร็ว" ออกจาก "ผู้ที่ถูกทิ้งไว้ข้างหลัง" กุญแจสู่ความสำเร็จในปี 2569 ไม่ใช่แค่การมีเทคโนโลยีที่ดีที่สุด แต่คือกลยุทธ์ที่เฉียบคมและการพัฒนา "คน" ให้พร้อมรับมือกับการเปลี่ยนแปลง</p>
+                    <p lang="ru">ИИ четко отделяет «ускорителей» от «отстающих». Ключ к успеху в 2026 году — не просто лучшие технологии, а острая стратегия и развитие людей.</p>
+                    <p lang="cn" class="font-cn">AI正在清晰地将“加速者”与“落后者”区分开来。2026年成功的关键不仅仅是拥有最好的技术，还在于敏锐的战略和人才发展。</p>
                 </div>
                 <p class="text-white font-bold text-lg font-serif">
                     <span lang="en">Are you ready to define the future?</span><span lang="th" class="font-thai">คุณพร้อมที่จะเป็นผู้กำหนดอนาคตแล้วหรือยัง?</span>
+                    <span lang="ru">Готовы ли вы определить будущее?</span><span lang="cn" class="font-cn">你准备好定义未来了吗？</span>
                 </p>
             </div>
         </div>
@@ -604,6 +728,7 @@
                         <!-- Hover Indicator -->
                         <div class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-md text-emerald-400 border border-emerald-500/30 text-xs px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center translate-y-2 group-hover:translate-y-0">
                             <span lang="en">View Full Trend</span><span lang="th" class="font-thai">ดูเทรนด์ฉบับเต็ม</span>
+                            <span lang="ru">Полный тренд</span><span lang="cn" class="font-cn">查看完整趋势</span>
                             <i data-lucide="arrow-up-right" class="w-3 h-3 ml-2"></i>
                         </div>
                     </a>
@@ -617,6 +742,8 @@
                     <div class="text-slate-300 text-lg leading-relaxed mb-6">
                         <p lang="en">2026 marks a pivotal moment where HealthTech seamlessly merges with living spaces. It's not just wearable gadgets, but the "infrastructure" within the room that understands your body.</p>
                         <p lang="th" class="font-thai">ปี 2569 จะเป็นจุดเปลี่ยนสำคัญที่เทคโนโลยีสุขภาพ (HealthTech) จะหลอมรวมเข้ากับที่อยู่อาศัยอย่างสมบูรณ์ ไม่ใช่แค่ Gadget ที่สวมใส่ แต่คือ "โครงสร้างพื้นฐาน" ภายในห้องที่เข้าใจร่างกายคุณ</p>
+                        <p lang="ru">2026 год знаменует момент слияния HealthTech с жилым пространством. Это не просто гаджеты, а «инфраструктура» комнаты, понимающая ваше тело.</p>
+                        <p lang="cn" class="font-cn">2026年标志着健康科技与生活空间无缝融合的关键时刻。这不仅仅是可穿戴设备，而是房间内理解你身体的“基础设施”。</p>
                     </div>
                     <ul class="space-y-6">
                         <li class="flex items-start">
@@ -624,10 +751,13 @@
                             <div>
                                 <h4 class="text-white font-bold">
                                     <span lang="en">Bio-Rhythm Syncing</span><span lang="th" class="font-thai">จังหวะชีวภาพ</span>
+                                    <span lang="ru">Синхронизация биоритмов</span><span lang="cn" class="font-cn">生物节律同步</span>
                                 </h4>
                                 <p class="text-slate-400 text-sm">
                                     <span lang="en">Lighting and temperature that automatically adjust to your circadian rhythm for perfect sleep.</span>
                                     <span lang="th" class="font-thai">แสงและอุณหภูมิที่ปรับอัตโนมัติตามนาฬิกาชีวิต เพื่อการนอนหลับที่สมบูรณ์แบบ</span>
+                                    <span lang="ru">Освещение и температура подстраиваются под ваши циркадные ритмы для идеального сна.</span>
+                                    <span lang="cn" class="font-cn">自动调节光线和温度以适应您的昼夜节律，实现完美睡眠。</span>
                                 </p>
                             </div>
                         </li>
@@ -636,10 +766,13 @@
                             <div>
                                 <h4 class="text-white font-bold">
                                     <span lang="en">AI Health Mirror</span><span lang="th" class="font-thai">กระจกสุขภาพ AI</span>
+                                    <span lang="ru">Умное зеркало здоровья</span><span lang="cn" class="font-cn">AI健康镜</span>
                                 </h4>
                                 <p class="text-slate-400 text-sm">
                                     <span lang="en">Smart mirrors analyzing skin health, vital signs, and stress, offering daily nutritional advice.</span>
                                     <span lang="th" class="font-thai">กระจกอัจฉริยะที่วิเคราะห์สุขภาพผิว สัญญาณชีพ และความเครียด พร้อมแนะนำโภชนาการ</span>
+                                    <span lang="ru">Умные зеркала анализируют кожу, жизненные показатели и стресс, давая советы по питанию.</span>
+                                    <span lang="cn" class="font-cn">智能镜子分析皮肤健康、生命体征和压力，提供每日营养建议。</span>
                                 </p>
                             </div>
                         </li>
@@ -648,10 +781,13 @@
                             <div>
                                 <h4 class="text-white font-bold">
                                     <span lang="en">Hyper-Personalized Environment</span><span lang="th" class="font-thai">สภาพแวดล้อมเฉพาะบุคคล</span>
+                                    <span lang="ru">Персонализированная среда</span><span lang="cn" class="font-cn">超个性化环境</span>
                                 </h4>
                                 <p class="text-slate-400 text-sm">
                                     <span lang="en">AI that recognizes your emotional state and automatically adjusts Scent, Sound, and Light.</span>
                                     <span lang="th" class="font-thai">AI ที่จดจำสภาวะอารมณ์และปรับเปลี่ยนกลิ่น, เสียง และแสง เพื่อบำบัดความเครียด</span>
+                                    <span lang="ru">ИИ распознает ваши эмоции и настраивает аромат, звук и свет для снятия стресса.</span>
+                                    <span lang="cn" class="font-cn">识别您情绪状态的AI，自动调节气味、声音和光线。</span>
                                 </p>
                             </div>
                         </li>
@@ -663,12 +799,16 @@
                                     <h4 class="text-white font-bold flex items-center group-hover/lev:text-yellow-500 transition-colors">
                                         <span lang="en">New Trend: LEV (Longevity Escape Velocity)</span>
                                         <span lang="th" class="font-thai">เทรนด์ใหม่: LEV (ความเร็วหลุดพ้นความชรา)</span>
+                                        <span lang="ru">Тренд: LEV (Скорость убегания от старости)</span>
+                                        <span lang="cn" class="font-cn">新趋势：LEV (长寿逃逸速度)</span>
                                         <span class="ml-2 text-[10px] bg-yellow-500 text-black px-1.5 py-0.5 rounded font-bold group-hover/lev:bg-yellow-400">HOT</span>
                                     </h4>
                                 </a>
                                 <p class="text-slate-300 text-sm mt-1">
                                     <span lang="en">The concept where science "adds life time" faster than time passes, turning death into just an "option".</span>
                                     <span lang="th" class="font-thai">แนวคิดที่วิทยาศาสตร์จะ "เติมเวลาชีวิต" ให้เราได้เร็วกว่าเวลาที่ผ่านไป เปลี่ยนความตายให้เป็นเพียง "ทางเลือก"</span>
+                                    <span lang="ru">Концепция, когда наука «добавляет жизнь» быстрее, чем идет время, превращая смерть в «опцию».</span>
+                                    <span lang="cn" class="font-cn">科学“增加寿命”的速度快于时间流逝的概念，使死亡变成一种“选项”。</span>
                                 </p>
                             </div>
                         </li>
@@ -678,6 +818,8 @@
                     <div class="mt-6 p-4 bg-white/5 rounded-lg border border-white/10 text-xs text-slate-400">
                         <p lang="en"><strong class="text-yellow-500">Note:</strong> These features represent conceptual future trends and technological possibilities. Specific smart devices and health-tech equipment mentioned are not included in the standard unit package.</p>
                         <p lang="th" class="font-thai"><strong class="text-yellow-500">หมายเหตุ:</strong> เนื้อหาข้างต้นเป็นการนำเสนอแนวคิดและเทรนด์เทคโนโลยีในอนาคตเท่านั้น อุปกรณ์ Smart Health และ Gadgets ต่างๆ ที่กล่าวถึง ไม่ได้รวมอยู่ในรายการขายมาตรฐานของห้องชุด</p>
+                        <p lang="ru"><strong class="text-yellow-500">Примечание:</strong> Эти функции представляют собой концептуальные будущие тренды. Упомянутые умные устройства и оборудование Health-Tech не входят в стандартный пакет квартиры.</p>
+                        <p lang="cn" class="font-cn"><strong class="text-yellow-500">注意:</strong> 这些功能代表概念性的未来趋势和技术可能性。提及的具体智能设备和健康科技设备不包含在标准单元配套中。</p>
                     </div>
                 </div>
             </div>
@@ -688,6 +830,7 @@
      <section id="festivities" class="py-20 px-4 md:px-8 max-w-7xl mx-auto">
         <h2 class="text-3xl font-bold text-white mb-12 reveal font-serif">
             <span lang="en">December Festivities</span><span lang="th" class="font-thai">เทศกาลเดือนธันวาคม</span>
+            <span lang="ru">Декабрьские празднества</span><span lang="cn" class="font-cn">十二月庆典</span>
         </h2>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto">
@@ -700,16 +843,20 @@
                     <div class="absolute top-0 right-0 -mt-20 opacity-80 text-cyan-400"><i data-lucide="trophy" class="w-12 h-12"></i></div>
                     <h3 class="text-xl font-bold text-white mb-2">
                         <span lang="en">🏆 Jet Ski World Cup 2025</span><span lang="th" class="font-thai">🏆 เจ็ตสกีเวิลด์คัพ 2568</span>
+                        <span lang="ru">🏆 Jet Ski World Cup 2025</span><span lang="cn" class="font-cn">🏆 2025 摩托艇世界杯</span>
                     </h3>
                     <p class="text-cyan-100 text-sm mb-4">
                         <strong>Dec 17-21, 2025 | Jomtien Beach</strong><br>
                         <span lang="en">Witness the world's #1 Grand Prix right in front of Copacabana Jomtien.</span>
                         <span lang="th" class="font-thai">17-21 ธ.ค. 2568 | ชมการแข่งขันระดับโลก Grand Prix อันดับ 1 หน้าโครงการ Copacabana Jomtien</span>
+                        <span lang="ru">Станьте свидетелем Гран-при №1 в мире прямо перед Copacabana Jomtien.</span>
+                        <span lang="cn" class="font-cn">在 Copacabana Jomtien 前见证世界第一大奖赛。</span>
                     </p>
                     
                     <!-- Added Official Website Button -->
                     <a href="https://www.jetski-worldcup.com/" target="_blank" class="inline-flex items-center px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-black border border-cyan-500/50 rounded-full text-xs font-bold transition-all duration-300 w-fit">
                         <span lang="en">Official Website</span><span lang="th" class="font-thai">เว็บไซต์ทางการ</span>
+                        <span lang="ru">Официальный сайт</span><span lang="cn" class="font-cn">官方网站</span>
                         <i data-lucide="external-link" class="w-3 h-3 ml-2"></i>
                     </a>
                 </div>
@@ -717,22 +864,27 @@
 
             <!-- SEA Games -->
             <div class="bg-red-900/30 border border-red-500/20 rounded-3xl p-8 relative overflow-hidden reveal delay-100 flex flex-col justify-end h-96 group">
+                <!-- UPDATED IMAGE: SEA Games Logo -->
                 <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/75/2025_SEA_Games.svg/1100px-2025_SEA_Games.svg.png" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition duration-500" alt="SEA Games 2025">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 <div class="relative z-10">
                     <div class="absolute top-0 right-0 -mt-20 opacity-80 text-red-500"><i data-lucide="medal" class="w-12 h-12"></i></div>
                     <h3 class="text-xl font-bold text-white mb-2">
                         <span lang="en">🏅 SEA Games 2025</span><span lang="th" class="font-thai">🏅 ซีเกมส์ 2568</span>
+                        <span lang="ru">🏅 Игры ЮВА 2025</span><span lang="cn" class="font-cn">🏅 2025 东南亚运动会</span>
                     </h3>
                     <p class="text-red-100 text-sm mb-4">
                         <strong>Dec 9-20, 2025 | Chonburi & Bangkok</strong><br>
                         <span lang="en">Thailand hosts the 33rd SEA Games. Chonburi is a main venue for water sports.</span>
                         <span lang="th" class="font-thai">9-20 ธ.ค. 2568 | ไทยเป็นเจ้าภาพซีเกมส์ครั้งที่ 33 โดยชลบุรีเป็นสนามหลักสำหรับกีฬาทางน้ำ</span>
+                        <span lang="ru">Таиланд принимает 33-е Игры ЮВА. Чонбури — главная площадка водных видов спорта.</span>
+                        <span lang="cn" class="font-cn">泰国主办第33届东南亚运动会。春武里是水上运动的主要场地。</span>
                     </p>
 
                     <!-- Added Official Website Button -->
                     <a href="https://www.seagames2025.org/" target="_blank" class="inline-flex items-center px-4 py-2 bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/50 rounded-full text-xs font-bold transition-all duration-300 w-fit">
                         <span lang="en">Official Website</span><span lang="th" class="font-thai">เว็บไซต์ทางการ</span>
+                        <span lang="ru">Официальный сайт</span><span lang="cn" class="font-cn">官方网站</span>
                         <i data-lucide="external-link" class="w-3 h-3 ml-2"></i>
                     </a>
                 </div>
@@ -746,16 +898,20 @@
                     <div class="absolute top-0 right-0 -mt-20 opacity-80 text-blue-400"><i data-lucide="party-popper" class="w-12 h-12"></i></div>
                     <h3 class="text-xl font-bold text-white mb-2">
                         <span lang="en">🎆 Pattaya Countdown 2026</span><span lang="th" class="font-thai">🎆 พัทยาเคาท์ดาวน์ 2569</span>
+                        <span lang="ru">🎆 Паттайя Каунтдаун 2026</span><span lang="cn" class="font-cn">🎆 2026 芭堤雅跨年</span>
                     </h3>
                     <p class="text-blue-100 text-sm mb-4">
                         <strong>Dec 29-31, 2025 | Bali Hai Pier</strong><br>
                         <span lang="en">World-class fireworks and concerts to ring in the New Year.</span>
                         <span lang="th" class="font-thai">29-31 ธ.ค. 2568 | พลุระดับโลกและคอนเสิร์ตสุดมันส์เพื่อต้อนรับปีใหม่</span>
+                        <span lang="ru">Фейерверки мирового класса и концерты в честь Нового года.</span>
+                        <span lang="cn" class="font-cn">世界级烟花和音乐会迎接新年。</span>
                     </p>
 
                     <!-- Added Official Page Button -->
                     <a href="https://www.facebook.com/Prpattayacity" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-500/20 hover:bg-blue-500 text-blue-300 hover:text-white border border-blue-500/50 rounded-full text-xs font-bold transition-all duration-300 w-fit">
                         <span lang="en">Event Updates</span><span lang="th" class="font-thai">ติดตามข่าวสาร</span>
+                        <span lang="ru">Обновления</span><span lang="cn" class="font-cn">活动更新</span>
                         <i data-lucide="external-link" class="w-3 h-3 ml-2"></i>
                     </a>
                 </div>
@@ -770,6 +926,7 @@
             <div class="text-center mb-12 reveal">
                 <h2 class="text-3xl font-bold text-white mb-4 font-serif">
                     <span lang="en">Connect with Us</span><span lang="th" class="font-thai">ติดต่อเรา</span>
+                    <span lang="ru">Связаться с нами</span><span lang="cn" class="font-cn">联系我们</span>
                 </h2>
                 <div class="w-16 h-1 bg-yellow-500 mx-auto"></div>
             </div>
@@ -787,6 +944,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-white mb-4">
                         <span lang="en">Follow Our Journey</span><span lang="th" class="font-thai">ติดตามการเดินทางของเรา</span>
+                        <span lang="ru">Следите за нами</span><span lang="cn" class="font-cn">关注我们的旅程</span>
                     </h3>
                     <div class="flex flex-col space-y-3 items-center">
                         <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex items-center text-slate-300 hover:text-yellow-500 transition"><i data-lucide="facebook" class="w-5 h-5 mr-3"></i> Copacabana Coral Reef Jomtien</a>
@@ -807,11 +965,18 @@
                     </div>
                     <h3 class="text-xl font-bold text-white mb-4">
                         <span lang="en">Visit Us</span><span lang="th" class="font-thai">เยี่ยมชมโครงการ</span>
+                        <span lang="ru">Посетите нас</span><span lang="cn" class="font-cn">参观我们</span>
                     </h3>
                     <div class="text-slate-400 text-sm space-y-2">
                         <p class="font-bold text-white">Copacabana Coral Reef Jomtien</p>
-                        <p>385/16 <span lang="en">Moo 12, Jomtien Second Road</span><span lang="th" class="font-thai">หมู่ 12 ถนนจอมเทียนสายสอง</span></p>
-                        <p><span lang="en">Nong Prue, Bang Lamung, Chon Buri</span><span lang="th" class="font-thai">ต.หนองปรือ อ.บางละมุง จ.ชลบุรี</span> 20150</p>
+                        <p>
+                            385/16 <span lang="en">Moo 12, Jomtien Second Road</span><span lang="th" class="font-thai">หมู่ 12 ถนนจอมเทียนสายสอง</span>
+                            <span lang="ru">Moo 12, Jomtien Second Road</span><span lang="cn" class="font-cn">Moo 12, Jomtien Second Road</span>
+                        </p>
+                        <p>
+                            <span lang="en">Nong Prue, Bang Lamung, Chon Buri</span><span lang="th" class="font-thai">ต.หนองปรือ อ.บางละมุง จ.ชลบุรี</span>
+                            <span lang="ru">Nong Prue, Bang Lamung, Chon Buri</span><span lang="cn" class="font-cn">Nong Prue, Bang Lamung, Chon Buri</span> 20150
+                        </p>
                         <div class="mt-6 pt-6 border-t border-slate-700">
                              <p class="flex items-center justify-center gap-2 mb-2">
                                 <i data-lucide="phone" class="w-4 h-4 text-yellow-500"></i> <span class="text-white">+66 95 945 1665</span>
@@ -864,21 +1029,24 @@
         // LANGUAGE SWITCHER LOGIC
         function setLanguage(lang) {
             const body = document.body;
-            const btnEn = document.getElementById('btn-en');
-            const btnTh = document.getElementById('btn-th');
+            const btns = document.querySelectorAll('.fixed button');
 
-            if (lang === 'th') {
-                body.classList.add('lang-th');
-                btnTh.classList.add('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
-                btnTh.classList.remove('opacity-70');
-                btnEn.classList.remove('scale-110', 'ring-2', 'ring-yellow-500');
-                btnEn.classList.add('opacity-70');
-            } else {
-                body.classList.remove('lang-th');
-                btnEn.classList.add('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
-                btnEn.classList.remove('opacity-70');
-                btnTh.classList.remove('scale-110', 'ring-2', 'ring-yellow-500');
-                btnTh.classList.add('opacity-70');
+            // Reset classes
+            body.classList.remove('lang-th', 'lang-ru', 'lang-cn');
+            btns.forEach(btn => {
+                btn.classList.remove('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
+                btn.classList.add('opacity-70');
+            });
+
+            // Set new active state
+            const activeBtn = document.getElementById('btn-' + lang);
+            if (activeBtn) {
+                activeBtn.classList.add('scale-110', 'ring-2', 'ring-yellow-500', 'opacity-100');
+                activeBtn.classList.remove('opacity-70');
+            }
+
+            if (lang !== 'en') {
+                body.classList.add('lang-' + lang);
             }
         }
 
