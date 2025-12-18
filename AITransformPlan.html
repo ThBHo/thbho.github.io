@@ -19,7 +19,7 @@
             --accent-secondary: #f59e0b; /* Amber */
             --accent-success: #10b981; /* Green */
             --accent-danger: #f43f5e; /* Rose */
-            --nav-height: 70px;
+            --nav-height: 80px; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,11 +53,15 @@
         }
 
         .nav-logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-light);
+            display: flex;
+            align-items: center;
         }
-        .nav-logo span { color: var(--accent-primary); }
+
+        .nav-logo img {
+            height: 55px; 
+            width: auto;
+            object-fit: contain;
+        }
 
         /* LANGUAGE SWITCHER */
         .lang-switch {
@@ -104,20 +108,60 @@
         .hero h1 { font-size: 48px; line-height: 1.2; margin-bottom: 20px; }
         .hero h1 span { color: var(--accent-primary); }
         
+        /* CTA GROUP */
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
         .cta-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            margin-top: 20px;
             padding: 12px 30px;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--accent-primary);
-            border: 1px solid var(--accent-primary);
             border-radius: 30px;
             font-weight: 600;
             transition: 0.3s;
+            font-size: 16px;
         }
-        .cta-btn:hover { background: var(--accent-primary); color: white; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+
+        .cta-btn.primary {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+        .cta-btn.primary:hover { background: var(--accent-primary); color: white; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+
+        .cta-btn.secondary {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-secondary);
+            border: 1px solid var(--accent-secondary);
+        }
+        .cta-btn.secondary:hover { background: var(--accent-secondary); color: white; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+
+
+        /* VIDEO WRAPPER */
+        .video-wrapper {
+            margin: 50px auto 20px;
+            max-width: 900px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
         /* CARDS & GRID */
         .section-title {
@@ -229,6 +273,26 @@
         .timeline-list li { margin-bottom: 8px; color: var(--text-dim); list-style: none; position: relative; padding-left: 20px; }
         .timeline-list li::before { content: '•'; color: var(--accent-primary); position: absolute; left: 0; font-weight: bold;}
 
+        /* BOTTOM CTA SECTION */
+        .bottom-cta-section {
+            margin-top: 80px;
+            padding: 50px 20px;
+            text-align: center;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px 16px 0 0;
+        }
+        .bottom-cta-section h3 {
+            font-size: 28px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .bottom-cta-section p {
+            color: var(--text-dim);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .grid-2 { grid-template-columns: 1fr; }
@@ -242,7 +306,9 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="nav-logo">COPACABANA <span>GROUP</span></div>
+        <div class="nav-logo">
+            <img src="https://i.postimg.cc/pdbFfCwb/226EC476-BACF-4AFF-A104-954B9F9BC2BE.png" alt="Copacabana Group Logo">
+        </div>
         <div class="lang-switch">
             <button class="lang-btn active" onclick="setLang('en')">EN</button>
             <button class="lang-btn" onclick="setLang('th')">TH</button>
@@ -255,9 +321,19 @@
             <h3 data-key="company">COPACABANA GROUP</h3>
             <h1 data-key="program_title">Hybrid AI Transforming Program<br><span>by THOR</span></h1>
             <p data-key="duration">6 - 12 Months Strategic Plan</p>
-            <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="cta-btn">
-                <i class="fa-solid fa-up-right-from-square"></i> <span data-key="view_proposal">View Full Strategic Proposal 2026</span>
-            </a>
+            
+            <div class="cta-group">
+                <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="cta-btn primary">
+                    <i class="fa-solid fa-up-right-from-square"></i> <span data-key="view_proposal">View Full Strategic Proposal 2026</span>
+                </a>
+                <!-- Moved the second button to the bottom -->
+            </div>
+
+            <!-- INTRO VIDEO -->
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/ioYtDKDGduo" title="Intro Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
         </div>
     </section>
 
@@ -424,6 +500,17 @@
 
     </div>
 
+    <!-- BOTTOM CTA SECTION -->
+    <div class="bottom-cta-section">
+        <div class="container">
+            <h3 data-key="bottom_title">Ready to Dive Deeper?</h3>
+            <p data-key="bottom_desc">Explore the detailed execution plan and milestones for the next 12 months.</p>
+            <a href="https://docs.google.com/presentation/d/1gdCLhJ-Vj1Z7WqWbFpmKhEQ9wYIB2Kepq_zKu36e5Pc/edit?usp=sharing" target="_blank" class="cta-btn secondary" style="font-size: 18px; padding: 15px 40px;">
+                <i class="fa-solid fa-file-powerpoint"></i> <span data-key="view_slides">View 6-12 Months Plan Slides</span>
+            </a>
+        </div>
+    </div>
+
     <script>
         const translations = {
             en: {
@@ -431,6 +518,9 @@
                 program_title: "Hybrid AI Transforming Program<br><span>by THOR</span>",
                 duration: "6 - 12 Months Strategic Plan",
                 view_proposal: "View Full Strategic Proposal 2026",
+                view_slides: "View 6-12 Months Plan Slides",
+                bottom_title: "Ready to Dive Deeper?",
+                bottom_desc: "Explore the detailed execution plan and milestones for the next 12 months.",
                 benefits_title: "Strategic Benefits",
                 company_benefits: "Company Benefits (Strategic)",
                 cb_1_title: "Addressing the '3 Pitfalls'",
@@ -487,6 +577,9 @@
                 program_title: "โครงการพลิกโฉมองค์กรด้วย Hybrid AI<br><span>โดย THOR</span>",
                 duration: "แผนกลยุทธ์ 6 - 12 เดือน",
                 view_proposal: "ดูข้อเสนอเชิงกลยุทธ์ฉบับเต็ม 2026",
+                view_slides: "ดูสไลด์แผนงาน 6-12 เดือนฉบับเต็ม",
+                bottom_title: "พร้อมเจาะลึกรายละเอียดหรือยัง?",
+                bottom_desc: "สำรวจแผนการดำเนินงานและเป้าหมายสำคัญในอีก 12 เดือนข้างหน้า",
                 benefits_title: "ประโยชน์เชิงกลยุทธ์",
                 company_benefits: "ประโยชน์ต่อองค์กร (Company)",
                 cb_1_title: "ปิดจุดตาย 3 ประการของ AI",
