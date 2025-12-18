@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid AI Transforming Program | Copacabana Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CORE VARIABLES */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-primary: #06b6d4; /* Cyan */
+            --accent-secondary: #f59e0b; /* Amber */
+            --accent-success: #10b981; /* Green */
+            --accent-danger: #f43f5e; /* Rose */
+            --nav-height: 70px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            padding-top: var(--nav-height);
+        }
+
+        h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        .nav-logo span { color: var(--accent-primary); }
+
+        /* LANGUAGE SWITCHER */
+        .lang-switch {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            padding: 5px 15px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hero h3 { color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; }
+        .hero h1 { font-size: 48px; line-height: 1.2; margin-bottom: 20px; }
+        .hero h1 span { color: var(--accent-primary); }
+        
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 30px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .cta-btn:hover { background: var(--accent-primary); color: white; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+
+        /* CARDS & GRID */
+        .section-title {
+            font-size: 32px;
+            color: var(--accent-primary);
+            margin: 60px 0 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .icon-box {
+            width: 50px; height: 50px;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-primary);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+
+        /* BENEFITS LIST */
+        .benefit-item { margin-bottom: 20px; }
+        .benefit-title {
+            color: var(--text-light);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        .benefit-desc { font-size: 15px; color: var(--text-dim); margin-left: 25px; }
+        .benefit-icon { color: var(--accent-secondary); margin-right: 8px; width: 20px; text-align: center;}
+
+        /* WELLNESS BOX */
+        .wellness-box {
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-success);
+        }
+
+        /* INFOGRAPHIC */
+        .infographic-container {
+            width: 100%;
+            text-align: center;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .infographic-img {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* PROCESS STEPS */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .process-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .step-icon { font-size: 36px; color: var(--accent-primary); margin-bottom: 15px; }
+
+        /* ROADMAP */
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            background: var(--bg-card);
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .timeline-date {
+            background: rgba(6, 182, 212, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+        .timeline-content { padding: 30px; }
+        .timeline-list li { margin-bottom: 8px; color: var(--text-dim); list-style: none; position: relative; padding-left: 20px; }
+        .timeline-list li::before { content: '•'; color: var(--accent-primary); position: absolute; left: 0; font-weight: bold;}
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .timeline-item { grid-template-columns: 1fr; }
+            .timeline-date { flex-direction: row; gap: 15px; padding: 15px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .hero h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">COPACABANA <span>GROUP</span></div>
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" onclick="setLang('th')">TH</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <h3 data-key="company">COPACABANA GROUP</h3>
+            <h1 data-key="program_title">Hybrid AI Transforming Program<br><span>by THOR</span></h1>
+            <p data-key="duration">6 - 12 Months Strategic Plan</p>
+            <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="cta-btn">
+                <i class="fa-solid fa-up-right-from-square"></i> <span data-key="view_proposal">View Full Strategic Proposal 2026</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- SECTION 1: BENEFITS -->
+        <h2 class="section-title" data-key="benefits_title">Strategic Benefits</h2>
+        <div class="grid-2">
+            
+            <!-- Company Benefits -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fa-solid fa-building"></i></div>
+                    <h3 data-key="company_benefits">Company Benefits</h3>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-shield-virus" style="color: var(--accent-danger);"></i> <span data-key="cb_1_title">Addressing the '3 Pitfalls'</span></span>
+                    <p class="benefit-desc" data-key="cb_1_desc">Closing gaps in People, Process, and Tech with Real Skills & Governance.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-rocket"></i> <span data-key="cb_2_title">Operational Excellence</span></span>
+                    <p class="benefit-desc" data-key="cb_2_desc">Shift to "AI Agents" for automation and New Business Units.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-magnifying-glass-chart"></i> <span data-key="cb_3_title">Data-Driven Deep Dive</span></span>
+                    <p class="benefit-desc" data-key="cb_3_desc">"Discover & Recommend" model to solve department pain points accurately.</p>
+                </div>
+
+                <div class="wellness-box">
+                    <strong style="display:block; margin-bottom:10px; color:var(--accent-success);" data-key="wellness_title">Organizational Wellness:</strong>
+                    <div style="margin-bottom:5px;"><i class="fa-solid fa-dumbbell" style="margin-right:5px;"></i> <span data-key="wellness_1">Muscular: Competitive Strength</span></div>
+                    <div style="margin-bottom:5px;"><i class="fa-solid fa-stopwatch" style="margin-right:5px;"></i> <span data-key="wellness_2">Lean: Efficient Management</span></div>
+                    <div><i class="fa-solid fa-wind" style="margin-right:5px;"></i> <span data-key="wellness_3">Flexible: Ready for Sandbox</span></div>
+                </div>
+            </div>
+
+            <!-- Employee Benefits -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fa-solid fa-users"></i></div>
+                    <h3 data-key="employee_benefits">Employee Benefits</h3>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-graduation-cap"></i> <span data-key="eb_1_title">Future-Ready Skills</span></span>
+                    <p class="benefit-desc" data-key="eb_1_desc">Professional "Working with AI" training (not just basic usage).</p>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-fingerprint"></i> <span data-key="eb_2_title">Personalized Growth</span></span>
+                    <p class="benefit-desc" data-key="eb_2_desc">"Hybrid Personalized" learning designed to solve individual work problems.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-crown"></i> <span data-key="eb_3_title">Leadership</span></span>
+                    <p class="benefit-desc" data-key="eb_3_desc">Opportunity to become Change Agents and scale success.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <span class="benefit-title"><i class="benefit-icon fa-solid fa-sack-dollar"></i> <span data-key="eb_4_title">Tangible Rewards</span></span>
+                    <p class="benefit-desc" data-key="eb_4_desc">Performance-based rewards from Sandbox efficiency gains.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: INFOGRAPHIC -->
+        <h2 class="section-title" data-key="map_title">Strategic Value Map</h2>
+        <div class="infographic-container">
+            <img src="https://i.postimg.cc/sD9hgGm2/Image-202512111826-topaz-upscale-2x-text.png" alt="Strategic Value Map" class="infographic-img">
+            <p style="margin-top: 15px; color: var(--text-dim);" data-key="map_caption">Visual overview connecting Company Benefits and Employee Growth.</p>
+        </div>
+
+        <!-- SECTION 3: PROCESS -->
+        <h2 class="section-title" data-key="process_title">Key Process</h2>
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="step-icon"><i class="fa-solid fa-flag"></i></div>
+                <h4 data-key="step_1_title">1. Find Leaders</h4>
+                <p style="font-size:14px; color:var(--text-dim);" data-key="step_1_desc">Identify "Green Flag Leaders" in each dept.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <h4 data-key="step_2_title">2. Study Workflow</h4>
+                <p style="font-size:14px; color:var(--text-dim);" data-key="step_2_desc">Analyze Pain Points & Categorize Jobs.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-icon"><i class="fa-solid fa-vial"></i></div>
+                <h4 data-key="step_3_title">3. Test & Execute</h4>
+                <p style="font-size:14px; color:var(--text-dim);" data-key="step_3_desc">Leaders implement AI for real results.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                <h4 data-key="step_4_title">4. Balance</h4>
+                <p style="font-size:14px; color:var(--text-dim);" data-key="step_4_desc">Align Employee Needs with Company Goals.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 4: ROADMAP -->
+        <h2 class="section-title" data-key="roadmap_title">Implementation Roadmap</h2>
+        
+        <!-- Phase 1 -->
+        <div class="timeline-item">
+            <div class="timeline-date">
+                <strong style="font-size: 24px; color: var(--accent-primary);">Phase 1</strong>
+                <span data-key="p1_time">Month 1-2</span>
+            </div>
+            <div class="timeline-content">
+                <h3 style="color: var(--accent-primary);" data-key="p1_title">Assessment & Selection</h3>
+                <ul class="timeline-list">
+                    <li data-key="p1_li1">Survey AI literacy & clarify upskill goals.</li>
+                    <li data-key="p1_li2">Select "Green Flag" Leaders.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="timeline-item">
+            <div class="timeline-date">
+                <strong style="font-size: 24px; color: var(--accent-secondary);">Phase 2</strong>
+                <span data-key="p2_time">Month 2+</span>
+            </div>
+            <div class="timeline-content">
+                <h3 style="color: var(--accent-secondary);" data-key="p2_title">Department Deep Dive</h3>
+                <ul class="timeline-list">
+                    <li data-key="p2_li1">Focus on specific departments (2 weeks - 1 month each).</li>
+                    <li data-key="p2_li2">Trial & Error experiments.</li>
+                    <li data-key="p2_li3">Leaders guide peers in adoption.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="timeline-item">
+            <div class="timeline-date">
+                <strong style="font-size: 24px; color: var(--accent-success);">Phase 3</strong>
+                <span data-key="p3_time">Month 5-6</span>
+            </div>
+            <div class="timeline-content">
+                <h3 style="color: var(--accent-success);" data-key="p3_title">Evaluation & Impact</h3>
+                <ul class="timeline-list">
+                    <li data-key="p3_li1">Compare: No AI vs 100% AI vs Hybrid.</li>
+                    <li data-key="p3_li2">Evaluate workload reduction & ROI.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="timeline-item">
+            <div class="timeline-date">
+                <strong style="font-size: 24px; color: var(--text-light);">Phase 4</strong>
+                <span data-key="p4_time">Month 6+</span>
+            </div>
+            <div class="timeline-content">
+                <h3 style="color: var(--text-light);" data-key="p4_title">Scale & Evolution</h3>
+                <ul class="timeline-list">
+                    <li data-key="p4_li1">Scale success to all departments.</li>
+                    <li data-key="p4_li2">Prepare for "Full Agentic AI".</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                company: "COPACABANA GROUP",
+                program_title: "Hybrid AI Transforming Program<br><span>by THOR</span>",
+                duration: "6 - 12 Months Strategic Plan",
+                view_proposal: "View Full Strategic Proposal 2026",
+                benefits_title: "Strategic Benefits",
+                company_benefits: "Company Benefits (Strategic)",
+                cb_1_title: "Addressing the '3 Pitfalls'",
+                cb_1_desc: "Closing gaps in People, Process, and Tech with Real Skills & Governance.",
+                cb_2_title: "Operational Excellence",
+                cb_2_desc: "Shift to \"AI Agents\" for automation and New Business Units.",
+                cb_3_title: "Data-Driven Deep Dive",
+                cb_3_desc: "\"Discover & Recommend\" model to solve department pain points accurately.",
+                wellness_title: "Organizational Wellness:",
+                wellness_1: "Muscular: Competitive Strength",
+                wellness_2: "Lean: Efficient Management",
+                wellness_3: "Flexible: Ready for Sandbox",
+                employee_benefits: "Employee Benefits (Career)",
+                eb_1_title: "Future-Ready Skills",
+                eb_1_desc: "Professional \"Working with AI\" training (not just basic usage).",
+                eb_2_title: "Personalized Growth",
+                eb_2_desc: "\"Hybrid Personalized\" learning designed to solve individual work problems.",
+                eb_3_title: "Leadership",
+                eb_3_desc: "Opportunity to become Change Agents and scale success.",
+                eb_4_title: "Tangible Rewards",
+                eb_4_desc: "Performance-based rewards from Sandbox efficiency gains.",
+                map_title: "Strategic Value Map",
+                map_caption: "Visual overview connecting Company Benefits and Employee Growth.",
+                process_title: "Key Process",
+                step_1_title: "1. Find Leaders",
+                step_1_desc: "Identify \"Green Flag Leaders\" in each dept.",
+                step_2_title: "2. Study Workflow",
+                step_2_desc: "Analyze Pain Points & Categorize Jobs.",
+                step_3_title: "3. Test & Execute",
+                step_3_desc: "Leaders implement AI for real results.",
+                step_4_title: "4. Balance",
+                step_4_desc: "Align Employee Needs with Company Goals.",
+                roadmap_title: "Implementation Roadmap",
+                p1_time: "Month 1-2",
+                p1_title: "Assessment & Selection",
+                p1_li1: "Survey AI literacy & clarify upskill goals.",
+                p1_li2: "Select \"Green Flag\" Leaders.",
+                p2_time: "Month 2+",
+                p2_title: "Department Deep Dive",
+                p2_li1: "Focus on specific departments (2 weeks - 1 month each).",
+                p2_li2: "Trial & Error experiments.",
+                p2_li3: "Leaders guide peers in adoption.",
+                p3_time: "Month 5-6",
+                p3_title: "Evaluation & Impact",
+                p3_li1: "Compare: No AI vs 100% AI vs Hybrid.",
+                p3_li2: "Evaluate workload reduction & ROI.",
+                p4_time: "Month 6+",
+                p4_title: "Scale & Evolution",
+                p4_li1: "Scale success to all departments.",
+                p4_li2: "Prepare for \"Full Agentic AI\".",
+            },
+            th: {
+                company: "COPACABANA GROUP",
+                program_title: "โครงการพลิกโฉมองค์กรด้วย Hybrid AI<br><span>โดย THOR</span>",
+                duration: "แผนกลยุทธ์ 6 - 12 เดือน",
+                view_proposal: "ดูข้อเสนอเชิงกลยุทธ์ฉบับเต็ม 2026",
+                benefits_title: "ประโยชน์เชิงกลยุทธ์",
+                company_benefits: "ประโยชน์ต่อองค์กร (Company)",
+                cb_1_title: "ปิดจุดตาย 3 ประการของ AI",
+                cb_1_desc: "แก้ปัญหา คน, กระบวนการ, เทคโนโลยี ด้วยทักษะจริง (Real Skills) และธรรมาภิบาล (Governance)",
+                cb_2_title: "ความเป็นเลิศด้านปฏิบัติการ",
+                cb_2_desc: "เปลี่ยนสู่ยุค \"AI Agents\" เพื่อลดต้นทุนอัตโนมัติและสร้างธุรกิจใหม่",
+                cb_3_title: "เจาะลึกด้วยข้อมูล",
+                cb_3_desc: "ใช้โมเดล \"ค้นหาและแนะนำ\" เพื่อแก้ Pain Points รายแผนกได้อย่างแม่นยำ",
+                wellness_title: "สุขภาวะองค์กร (Wellness):",
+                wellness_1: "Muscular: แข็งแกร่งในการแข่งขัน",
+                wellness_2: "Lean: กระชับ ลดความซ้ำซ้อน",
+                wellness_3: "Flexible: ยืดหยุ่นพร้อมรับสิ่งใหม่",
+                employee_benefits: "ประโยชน์ต่อพนักงาน (Career)",
+                eb_1_title: "ทักษะแห่งอนาคต",
+                eb_1_desc: "ฝึกฝนการ \"ทำงานร่วมกับ AI\" อย่างมืออาชีพ (ไม่ใช่แค่ผู้ใช้งานทั่วไป)",
+                eb_2_title: "การเติบโตเฉพาะบุคคล",
+                eb_2_desc: "การเรียนรู้แบบ \"Hybrid Personalized\" เพื่อแก้ปัญหาหน้างานของตัวเองได้จริง",
+                eb_3_title: "ความเป็นผู้นำ",
+                eb_3_desc: "โอกาสเติบโตเป็นผู้นำการเปลี่ยนแปลง (Change Agents) และขยายผลความสำเร็จ",
+                eb_4_title: "ผลตอบแทนที่จับต้องได้",
+                eb_4_desc: "รางวัลตามผลงาน (Performance-based) จากการลดต้นทุนในโปรเจกต์ Sandbox",
+                map_title: "แผนภาพมูลค่าเชิงกลยุทธ์",
+                map_caption: "ภาพรวมที่เชื่อมโยงประโยชน์ของบริษัทและการเติบโตของพนักงานเข้าด้วยกัน",
+                process_title: "กระบวนการหลัก",
+                step_1_title: "1. ค้นหาผู้นำ",
+                step_1_desc: "เฟ้นหา \"Green Flag Leaders\" ในแต่ละแผนก",
+                step_2_title: "2. ศึกษางาน",
+                step_2_desc: "วิเคราะห์ Pain Points และแยกแยะประเภทงาน",
+                step_3_title: "3. ทดลองทำ",
+                step_3_desc: "ผู้นำนำ AI ไปใช้แก้ปัญหาจริงให้เห็นผล",
+                step_4_title: "4. สมดุล",
+                step_4_desc: "คำนึงถึงความต้องการพนักงานและบริษัทร่วมกัน",
+                roadmap_title: "แผนการดำเนินงาน",
+                p1_time: "เดือนที่ 1-2",
+                p1_title: "การประเมินและคัดเลือก",
+                p1_li1: "สำรวจพื้นฐาน AI และชี้แจงเป้าหมาย (Upskill ไม่ใช่จับผิด)",
+                p1_li2: "คัดเลือกผู้นำ (Leaders) ที่เพื่อนร่วมงานไว้ใจ",
+                p2_time: "เดือนที่ 2+",
+                p2_title: "เจาะลึกรายแผนก",
+                p2_li1: "โฟกัสทีละแผนก (2 สัปดาห์ - 1 เดือน)",
+                p2_li2: "เรียนรู้จากการทดลอง (Trial & Error)",
+                p2_li3: "ผู้นำช่วยสอนและแนะนำเพื่อนร่วมงาน",
+                p3_time: "เดือนที่ 5-6",
+                p3_title: "วัดผลและประเมินค่า",
+                p3_li1: "เปรียบเทียบ 3 รูปแบบ (ไม่ใช้ AI vs AI 100% vs Hybrid)",
+                p3_li2: "ประเมินการลดภาระงานและความคุ้มค่า (ROI)",
+                p4_time: "เดือนที่ 6+",
+                p4_title: "ขยายผลและพัฒนา",
+                p4_li1: "ขยายความสำเร็จสู่ทุกส่วนงาน",
+                p4_li2: "เตรียมพร้อมสู่ยุค \"Full Agentic AI\"",
+            }
+        };
+
+        function setLang(lang) {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Toggle active button style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Initialize with English primarily, but check logic if user wants default TH? 
+        // Let's stick to EN default as per code structure, user can click TH.
+    </script>
+</body>
+</html>
