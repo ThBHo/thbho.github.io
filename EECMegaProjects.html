@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEC Mega Projects & Luxury Real Estate (Bilingual)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- 
+         Bilingual Update:
+         - Added 'Sarabun' font for Thai language support.
+         - Implemented a JSON-based translation system (data-i18n).
+         - Added logic to update Chart.js labels and datasets dynamically.
+         
+         Palette: 'Future Luxury' (Deep Navy, Vibrant Cyan, Gold).
+         No SVG. No Mermaid.
+    -->
+
+    <style>
+        :root {
+            --font-en: 'Inter', sans-serif;
+            --font-th: 'Sarabun', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-en);
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: font-family 0.3s ease;
+        }
+
+        body.lang-th {
+            font-family: var(--font-th);
+        }
+        
+        /* Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: white;
+            border-radius: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f172a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4; 
+        }
+
+        .lang-btn.active {
+            background-color: #06b6d4; /* Cyan-500 */
+            color: white;
+            border-color: #06b6d4;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg opacity-95 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl tracking-wider text-cyan-400">EEC<span class="text-white">VISION</span></span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <!-- Language Switcher -->
+                    <div class="flex bg-slate-800 rounded-lg p-1 border border-slate-700">
+                        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active px-3 py-1 rounded text-xs font-bold transition-all duration-300 hover:text-cyan-400">ENG</button>
+                        <button onclick="setLanguage('th')" id="btn-th" class="lang-btn px-3 py-1 rounded text-xs font-bold text-gray-400 transition-all duration-300 hover:text-cyan-400">TH</button>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-baseline space-x-4">
+                            <a href="#vision" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_vision">Vision</a>
+                            <a href="#magnets" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_magnets">Mega Projects</a>
+                            <a href="#connectivity" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_city">Smart City</a>
+                            <a href="#realestate" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_living">Luxury Living</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="vision" class="bg-slate-900 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+                <span data-i18n="hero_title_1">The Eastern Economic Corridor</span> <br>
+                <span class="text-cyan-400" data-i18n="hero_title_2">A New Era for Thailand</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-300" data-i18n="hero_subtitle">
+                Integrating World-Class Tourism, Smart Aviation Cities, and High-End Living in Chonburi & Rayong.
+            </p>
+            <div class="mt-10 flex justify-center gap-4 flex-wrap">
+                <div class="bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 w-40">
+                    <div class="text-3xl font-bold text-cyan-400">1.7T</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_investment">THB Investment</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-amber-500/30 rounded-lg p-4 w-40">
+                    <div class="text-3xl font-bold text-amber-500">80K</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_stadium">Seat Stadium</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 w-40">
+                    <div class="text-3xl font-bold text-cyan-400">60M</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_pax">Pax Capacity</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- Section 1: The Magnets (Theme Park & Stadium) -->
+        <section id="magnets">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec1_title">The Tourism Magnets</h2>
+                <div class="w-24 h-1 bg-cyan-500 mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="sec1_desc">
+                    The development of a <strong>Global Theme Park</strong> and a national <strong>80,000-seat Stadium</strong> creates a massive "day-trip" and "event-based" economy.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Text / Context -->
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-amber-500">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center">
+                            <span class="text-2xl mr-2">🎡</span> <span data-i18n="card_entertainment_title">Entertainment Complex</span>
+                        </h3>
+                        <p class="text-gray-600" data-i18n="card_entertainment_desc">
+                            Modeled after global success stories like Disneyland, aims to attract over 10 million annual visitors, driving short-term rental demand.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-cyan-500">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center">
+                            <span class="text-2xl mr-2">🏟️</span> <span data-i18n="card_stadium_title">Sports City Hub</span>
+                        </h3>
+                        <p class="text-gray-600" data-i18n="card_stadium_desc">
+                            The 80,000-seat stadium will host international concerts and sports, creating year-round demand spikes for hospitality.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Visualization: Visitor Comparison -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-4 tracking-wide" data-i18n="chart_visitor_title">Projected Daily Visitor Capacity</h4>
+                    <div class="chart-container">
+                        <canvas id="visitorChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2 text-center italic" data-i18n="chart_visitor_footer">Comparison of daily capacity for major EEC attractions vs Current Benchmarks</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Connectivity & Smart City -->
+        <section id="connectivity" class="bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec2_title">EECiti & Aviation City</h2>
+                <p class="mt-4 text-lg text-gray-600" data-i18n="sec2_desc">
+                    <strong>U-Tapao "Eastern Aviation City"</strong> and <strong>EECiti (Smart City)</strong> provide the infrastructure backbone. High-speed rail links these zones to Bangkok in under 60 minutes.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Chart: Airport Growth -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-4" data-i18n="chart_airport_title">U-Tapao Passenger Growth Forecast</h4>
+                    <div class="chart-container">
+                        <canvas id="airportChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600" data-i18n="chart_airport_footer">
+                        Expansion from a local airfield to a regional hub capable of handling 60M passengers anchors property value.
+                    </p>
+                </div>
+
+                <!-- Diagram: HTML/CSS Structured Flow -->
+                <div class="flex flex-col justify-center">
+                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-6 text-center" data-i18n="diagram_title">The "Golden Triangle" Ecosystem</h4>
+                    
+                    <div class="relative flex flex-col items-center space-y-6">
+                        <!-- Node 1 -->
+                        <div class="w-full max-w-sm bg-gradient-to-r from-slate-800 to-slate-900 text-white p-4 rounded-lg shadow-lg text-center z-10 border-2 border-cyan-400">
+                            <div class="text-2xl mb-1">✈️</div>
+                            <div class="font-bold" data-i18n="node_aviation">U-Tapao Aviation City</div>
+                            <div class="text-xs text-cyan-300" data-i18n="node_aviation_sub">Gateway & Logistics</div>
+                        </div>
+
+                        <!-- Connector -->
+                        <div class="h-8 w-1 bg-gray-300"></div>
+
+                        <!-- Node 2 -->
+                        <div class="w-full max-w-sm bg-white text-slate-800 p-4 rounded-lg shadow-md text-center z-10 border border-gray-200">
+                            <div class="text-2xl mb-1">🏙️</div>
+                            <div class="font-bold text-cyan-600" data-i18n="node_eeciti">EECiti (Smart City)</div>
+                            <div class="text-xs text-gray-500" data-i18n="node_eeciti_sub">Innovation & Digital Park</div>
+                        </div>
+
+                        <!-- Connector Split -->
+                        <div class="w-1/2 h-8 border-l-4 border-r-4 border-gray-300 border-t-0 rounded-b-xl"></div>
+
+                        <!-- Bottom Row -->
+                        <div class="flex justify-between w-full max-w-md gap-4">
+                            <div class="flex-1 bg-amber-50 text-amber-900 p-3 rounded-lg border border-amber-200 text-center shadow-sm">
+                                <div class="text-xl">🚄</div>
+                                <div class="font-bold text-sm" data-i18n="node_hsr">High-Speed Rail</div>
+                                <div class="text-xs" data-i18n="node_hsr_sub">Connectivity</div>
+                            </div>
+                            <div class="flex-1 bg-cyan-50 text-cyan-900 p-3 rounded-lg border border-cyan-200 text-center shadow-sm">
+                                <div class="text-xl">🏖️</div>
+                                <div class="font-bold text-sm" data-i18n="node_residence">Jomtien / Pattaya</div>
+                                <div class="text-xs" data-i18n="node_residence_sub">Living Hub</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Luxury Real Estate Outlook -->
+        <section id="realestate">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec3_title">Future of Real Estate: Jomtien & Pattaya</h2>
+                <div class="w-24 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="sec3_desc">
+                    Mega-tourism and smart city jobs create new demand for <strong>Luxury Residences</strong>. Jomtien emerges as the premium choice for tranquility, while Pattaya becomes a business-leisure hub.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Market Trend Chart -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-sm font-semibold text-gray-400 uppercase" data-i18n="chart_price_title">Price Index: Luxury Condos</h4>
+                        <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded" data-i18n="chart_price_badge">+35% Projected Growth</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="realEstateChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Key Drivers List -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-slate-800 text-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-xl text-amber-400 mb-3" data-i18n="list_invest_title">Why Invest Now?</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
+                                <span class="text-sm text-gray-300" data-i18n="list_invest_1"><strong>Supply:</strong> Prime beachfront land in Jomtien is scarce.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
+                                <span class="text-sm text-gray-300" data-i18n="list_invest_2"><strong>Expats:</strong> Digital Nomads & EECiti staff need high-end housing.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
+                                <span class="text-sm text-gray-300" data-i18n="list_invest_3"><strong>Yield:</strong> Mega events guarantee high rental occupancy.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Buyer Profile Chart -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <h4 class="text-sm font-semibold text-gray-400 uppercase mb-2 text-center" data-i18n="chart_buyer_title">Luxury Buyer Priorities</h4>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="buyerRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 text-white text-center shadow-2xl">
+            <h2 class="text-3xl font-bold text-cyan-400 mb-4" data-i18n="footer_title">The Golden Decade</h2>
+            <p class="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed" data-i18n="footer_desc">
+                The synergy between the entertainment complex, stadium, and Smart City positions the Eastern Seaboard as a primary residential corridor. For luxury real estate in Jomtien and Pattaya, the future is connected and high-value.
+            </p>
+            <button class="mt-8 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-full transition shadow-lg transform hover:scale-105" data-i18n="btn_download">
+                Download Investment Report
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-500 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-4">© 2025 EEC Strategic Analysis Group.</p>
+            <p class="text-xs" data-i18n="copyright_sub">Data estimated based on public EEC development plans and real estate market trends.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            en: {
+                nav_vision: "Vision",
+                nav_magnets: "Mega Projects",
+                nav_city: "Smart City",
+                nav_living: "Luxury Living",
+                hero_title_1: "The Eastern Economic Corridor",
+                hero_title_2: "A New Era for Thailand",
+                hero_subtitle: "Integrating World-Class Tourism, Smart Aviation Cities, and High-End Living in Chonburi & Rayong.",
+                stat_investment: "THB Investment",
+                stat_stadium: "Seat Stadium",
+                stat_pax: "Pax Capacity",
+                sec1_title: "The Tourism Magnets",
+                sec1_desc: "The development of a Global Theme Park and a national 80,000-seat Stadium creates a massive 'day-trip' and 'event-based' economy.",
+                card_entertainment_title: "Entertainment Complex",
+                card_entertainment_desc: "Modeled after global success stories like Disneyland, aims to attract over 10 million annual visitors, driving short-term rental demand.",
+                card_stadium_title: "Sports City Hub",
+                card_stadium_desc: "The 80,000-seat stadium will host international concerts and sports, creating year-round demand spikes for hospitality.",
+                chart_visitor_title: "Projected Daily Visitor Capacity",
+                chart_visitor_footer: "Comparison of daily capacity for major EEC attractions vs Current Benchmarks",
+                sec2_title: "EECiti & Aviation City",
+                sec2_desc: "U-Tapao 'Eastern Aviation City' and EECiti (Smart City) provide the infrastructure backbone. High-speed rail links these zones to Bangkok in under 60 minutes.",
+                chart_airport_title: "U-Tapao Passenger Growth Forecast",
+                chart_airport_footer: "Expansion from a local airfield to a regional hub capable of handling 60M passengers anchors property value.",
+                diagram_title: "The 'Golden Triangle' Ecosystem",
+                node_aviation: "U-Tapao Aviation City",
+                node_aviation_sub: "Gateway & Logistics",
+                node_eeciti: "EECiti (Smart City)",
+                node_eeciti_sub: "Innovation & Digital Park",
+                node_hsr: "High-Speed Rail",
+                node_hsr_sub: "Connectivity",
+                node_residence: "Jomtien / Pattaya",
+                node_residence_sub: "Living Hub",
+                sec3_title: "Future of Real Estate: Jomtien & Pattaya",
+                sec3_desc: "Mega-tourism and smart city jobs create new demand for Luxury Residences. Jomtien emerges as the premium choice for tranquility, while Pattaya becomes a business-leisure hub.",
+                chart_price_title: "Price Index: Luxury Condos",
+                chart_price_badge: "+35% Projected Growth",
+                list_invest_title: "Why Invest Now?",
+                list_invest_1: "<strong>Supply:</strong> Prime beachfront land in Jomtien is scarce.",
+                list_invest_2: "<strong>Expats:</strong> Digital Nomads & EECiti staff need high-end housing.",
+                list_invest_3: "<strong>Yield:</strong> Mega events guarantee high rental occupancy.",
+                chart_buyer_title: "Luxury Buyer Priorities",
+                footer_title: "The Golden Decade",
+                footer_desc: "The synergy between the entertainment complex, stadium, and Smart City positions the Eastern Seaboard as a primary residential corridor. For luxury real estate in Jomtien and Pattaya, the future is connected and high-value.",
+                btn_download: "Download Investment Report",
+                copyright_sub: "Data estimated based on public EEC development plans and real estate market trends.",
+                // Chart Labels
+                c_visitor_labels: ['Proposed Theme Park Complex', 'National Stadium Event Day', 'Central Festival Pattaya', 'Nong Nooch Garden'],
+                c_visitor_dataset: 'Est. Daily Visitors (Peak)',
+                c_airport_labels: ['2023 (Current)', '2027 (Phase 1)', '2030 (Phase 2)', '2035 (Phase 3)', '2040 (Vision)'],
+                c_airport_dataset: 'Passenger Capacity (Millions)',
+                c_price_labels: ['2020', '2021', '2022', '2023', '2024 (Est)', '2026 (Forecast)', '2028 (Forecast)'],
+                c_price_dataset1: 'Luxury Price per SQM (THB)',
+                c_price_dataset2: 'Project Completion Count',
+                c_radar_labels: ['Sea View / Beach Access', 'Proximity to Airport', 'Smart Home Tech', 'Rental Yield ROI', 'Privacy & Security', 'Retail & Dining'],
+                c_radar_dataset: 'Luxury Buyer Priority Score'
+            },
+            th: {
+                nav_vision: "วิสัยทัศน์",
+                nav_magnets: "เมกะโปรเจกต์",
+                nav_city: "สมาร์ทซิตี้",
+                nav_living: "ที่อยู่อาศัยหรู",
+                hero_title_1: "เขตพัฒนาพิเศษภาคตะวันออก (EEC)",
+                hero_title_2: "ยุคใหม่แห่งประเทศไทย",
+                hero_subtitle: "การผนวกการท่องเที่ยวระดับโลก เมืองการบินอัจฉริยะ และการใช้ชีวิตระดับลักซ์ชัวรี่ในชลบุรีและระยอง",
+                stat_investment: "มูลค่าการลงทุน (บาท)",
+                stat_stadium: "ความจุสนาม (ที่นั่ง)",
+                stat_pax: "ความจุผู้โดยสาร",
+                sec1_title: "แม่เหล็กดึงดูดการท่องเที่ยว",
+                sec1_desc: "การสร้างสวนสนุกระดับโลก (ธีมปาร์ค) และสนามกีฬาแห่งชาติ 80,000 ที่นั่ง จะสร้างเศรษฐกิจแบบ 'Day-trip' และ 'Event-based' ขนาดใหญ่",
+                card_entertainment_title: "ศูนย์ความบันเทิงครบวงจร",
+                card_entertainment_desc: "โมเดลเดียวกับดิสนีย์แลนด์ ตั้งเป้าดึงดูดนักท่องเที่ยวกว่า 10 ล้านคนต่อปี หนุนดีมานด์ที่พักระยะสั้น",
+                card_stadium_title: "ศูนย์กลางเมืองกีฬา",
+                card_stadium_desc: "สนามกีฬากว่า 80,000 ที่นั่ง รองรับคอนเสิร์ตและกีฬาระดับโลก สร้างดีมานด์ที่พักตลอดทั้งปี",
+                chart_visitor_title: "คาดการณ์ความจุผู้เข้าชมต่อวัน",
+                chart_visitor_footer: "เปรียบเทียบความจุรายวันของสถานที่ท่องเที่ยวหลักใน EEC กับเกณฑ์มาตรฐานปัจจุบัน",
+                sec2_title: "EECiti และ เมืองการบิน",
+                sec2_desc: "สนามบินอู่ตะเภา 'เมืองการบินภาคตะวันออก' และ EECiti (เมืองอัจฉริยะ) คือกระดูกสันหลัง รถไฟความเร็วสูงเชื่อมต่อกรุงเทพฯ ในไม่ถึง 60 นาที",
+                chart_airport_title: "การเติบโตผู้โดยสารอู่ตะเภา",
+                chart_airport_footer: "การขยายจากสนามบินท้องถิ่นสู่ศูนย์กลางภูมิภาค รองรับ 60 ล้านคน คือฐานมูลค่าอสังหาฯ ระยะยาว",
+                diagram_title: "ระบบนิเวศ 'สามเหลี่ยมทองคำ'",
+                node_aviation: "เมืองการบินอู่ตะเภา",
+                node_aviation_sub: "ประตูการค้า & โลจิสติกส์",
+                node_eeciti: "EECiti (เมืองอัจฉริยะ)",
+                node_eeciti_sub: "นวัตกรรม & ดิจิทัลพาร์ค",
+                node_hsr: "รถไฟความเร็วสูง",
+                node_hsr_sub: "การเชื่อมต่อ",
+                node_residence: "จอมเทียน / พัทยา",
+                node_residence_sub: "ศูนย์กลางที่อยู่อาศัย",
+                sec3_title: "อนาคตอสังหาฯ: จอมเทียน & พัทยา",
+                sec3_desc: "การท่องเที่ยวระดับโลกและงานในเมืองอัจฉริยะสร้างดีมานด์ใหม่สำหรับ 'ที่อยู่อาศัยหรู' จอมเทียนคือคำตอบของความสงบ ส่วนพัทยาคือศูนย์กลางธุรกิจ",
+                chart_price_title: "ดัชนีราคา: คอนโดหรู",
+                chart_price_badge: "+35% การเติบโตที่คาดการณ์",
+                list_invest_title: "ทำไมต้องลงทุนตอนนี้?",
+                list_invest_1: "<strong>อุปทานจำกัด:</strong> ที่ดินติดหาดจอมเทียนเริ่มหายากขึ้นเรื่อยๆ",
+                list_invest_2: "<strong>ชาวต่างชาติ:</strong> Digital Nomads และบุคลากร EECiti ต้องการที่พักมาตรฐานสูง",
+                list_invest_3: "<strong>ผลตอบแทน:</strong> งานอีเวนต์ใหญ่การันตีอัตราการเช่าสูงต่อเนื่อง",
+                chart_buyer_title: "สิ่งที่ผู้ซื้อระดับหรูให้ความสำคัญ",
+                footer_title: "ทศวรรษทองของตะวันออก",
+                footer_desc: "การผนึกกำลังของคอมเพล็กซ์บันเทิง สนามกีฬา และสมาร์ทซิตี้ วางตำแหน่งชายฝั่งตะวันออกให้เป็นระเบียงที่อยู่อาศัยหลัก อนาคตของอสังหาฯ หรูในจอมเทียนและพัทยาคือความเชื่อมโยงและมูลค่าที่สูงขึ้น",
+                btn_download: "ดาวน์โหลดรายงานการลงทุน",
+                copyright_sub: "ข้อมูลประมาณการจากแผนพัฒนา EEC สาธารณะและแนวโน้มตลาดอสังหาริมทรัพย์",
+                // Chart Labels (TH)
+                c_visitor_labels: ['โครงการธีมปาร์คเสนอ', 'วันแข่งสนามกีฬาแห่งชาติ', 'เซ็นทรัลเฟสติวัล พัทยา', 'สวนนงนุช'],
+                c_visitor_dataset: 'ผู้เข้าชมต่อวัน (สูงสุด)',
+                c_airport_labels: ['2566 (ปัจจุบัน)', '2570 (เฟส 1)', '2573 (เฟส 2)', '2578 (เฟส 3)', '2583 (วิสัยทัศน์)'],
+                c_airport_dataset: 'ความจุผู้โดยสาร (ล้านคน)',
+                c_price_labels: ['2563', '2564', '2565', '2566', '2567 (ประเมิน)', '2569 (คาดการณ์)', '2571 (คาดการณ์)'],
+                c_price_dataset1: 'ราคาคอนโดหรูต่อ ตร.ม. (บาท)',
+                c_price_dataset2: 'จำนวนโครงการเสร็จใหม่',
+                c_radar_labels: ['วิวทะเล / ติดหาด', 'ใกล้สนามบิน', 'เทคโนโลยีสมาร์ทโฮม', 'ผลตอบแทนค่าเช่า', 'ความเป็นส่วนตัว', 'ร้านค้า & อาหาร'],
+                c_radar_dataset: 'คะแนนความสำคัญของผู้ซื้อ'
+            }
+        };
+
+        let currentLang = 'en';
+
+        // --- CHART INSTANCES ---
+        let charts = {};
+
+        // --- UTILITY: Label Wrapping ---
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            // Thai text doesn't have spaces usually, but we assume translation might have spaces or we split manually if needed. 
+            // For simple Thai wrapping, we rely on browser/ChartJS default or spaces if present.
+            // Simplified wrapper for bilingual support:
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- MAIN INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            // Default language is English
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // 1. Update UI Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active', 'bg-cyan-500', 'text-white'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+            
+            // 2. Update Body Font Class
+            if (lang === 'th') {
+                document.body.classList.add('lang-th');
+            } else {
+                document.body.classList.remove('lang-th');
+            }
+
+            // 3. Update Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // 4. Update Charts
+            updateCharts(lang);
+        }
+
+        function initCharts() {
+            // Common Options
+            Chart.defaults.font.family = "'Inter', 'Sarabun', sans-serif";
+            Chart.defaults.color = '#64748b';
+            
+            // 1. Visitor Chart
+            const visitorCtx = document.getElementById('visitorChart').getContext('2d');
+            charts.visitor = new Chart(visitorCtx, {
+                type: 'bar',
+                data: {
+                    labels: translations.en.c_visitor_labels.map(wrapLabel),
+                    datasets: [{
+                        label: translations.en.c_visitor_dataset,
+                        data: [45000, 80000, 30000, 15000],
+                        backgroundColor: ['rgba(6, 182, 212, 0.8)', 'rgba(245, 158, 11, 0.8)', 'rgba(148, 163, 184, 0.5)', 'rgba(148, 163, 184, 0.5)'],
+                        borderColor: ['rgba(6, 182, 212, 1)', 'rgba(245, 158, 11, 1)', 'rgba(148, 163, 184, 1)', 'rgba(148, 163, 184, 1)'],
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: titleCallback } } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // 2. Airport Chart
+            const airportCtx = document.getElementById('airportChart').getContext('2d');
+            charts.airport = new Chart(airportCtx, {
+                type: 'line',
+                data: {
+                    labels: translations.en.c_airport_labels.map(wrapLabel),
+                    datasets: [{
+                        label: translations.en.c_airport_dataset,
+                        data: [3, 15.9, 30, 45, 60],
+                        borderColor: '#0f172a',
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        pointBackgroundColor: '#f59e0b',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: true, position: 'top' }, tooltip: { callbacks: { title: titleCallback } } }
+                }
+            });
+
+            // 3. Price Index Chart
+            const realEstateCtx = document.getElementById('realEstateChart').getContext('2d');
+            charts.price = new Chart(realEstateCtx, {
+                type: 'line',
+                data: {
+                    labels: translations.en.c_price_labels.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: translations.en.c_price_dataset1,
+                            data: [110000, 112000, 118000, 125000, 135000, 155000, 180000],
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            yAxisID: 'y',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: translations.en.c_price_dataset2,
+                            data: [5, 4, 6, 8, 12, 15, 10],
+                            type: 'bar',
+                            backgroundColor: 'rgba(245, 158, 11, 0.5)',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { mode: 'index', intersect: false, callbacks: { title: titleCallback } } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left' },
+                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+
+            // 4. Radar Chart
+            const buyerCtx = document.getElementById('buyerRadarChart').getContext('2d');
+            charts.radar = new Chart(buyerCtx, {
+                type: 'radar',
+                data: {
+                    labels: translations.en.c_radar_labels.map(wrapLabel),
+                    datasets: [{
+                        label: translations.en.c_radar_dataset,
+                        data: [95, 80, 85, 90, 88, 75],
+                        fill: true,
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#f59e0b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: { line: { borderWidth: 3 } },
+                    scales: { r: { angleLines: { display: true }, suggestedMin: 50, suggestedMax: 100, pointLabels: { font: { size: 10, weight: 'bold' } } } },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: titleCallback } } }
+                }
+            });
+        }
+
+        function updateCharts(lang) {
+            const t = translations[lang];
+
+            // Update Visitor Chart
+            charts.visitor.data.labels = t.c_visitor_labels.map(wrapLabel);
+            charts.visitor.data.datasets[0].label = t.c_visitor_dataset;
+            charts.visitor.update();
+
+            // Update Airport Chart
+            charts.airport.data.labels = t.c_airport_labels.map(wrapLabel);
+            charts.airport.data.datasets[0].label = t.c_airport_dataset;
+            charts.airport.update();
+
+            // Update Price Chart
+            charts.price.data.labels = t.c_price_labels.map(wrapLabel);
+            charts.price.data.datasets[0].label = t.c_price_dataset1;
+            charts.price.data.datasets[1].label = t.c_price_dataset2;
+            charts.price.update();
+
+            // Update Radar Chart
+            charts.radar.data.labels = t.c_radar_labels.map(wrapLabel);
+            charts.radar.data.datasets[0].label = t.c_radar_dataset;
+            charts.radar.update();
+        }
+
+        // Helper for Tooltips
+        function titleCallback(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        }
+    </script>
+</body>
+</html>
