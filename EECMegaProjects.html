@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEC Mega Projects & Luxury Real Estate (Bilingual)</title>
+    <title>EEC: The Birth of Bangkok 2 (Silicon Beach)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Sarabun:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- 
-         Bilingual Update:
-         - Added 'Sarabun' font for Thai language support.
-         - Implemented a JSON-based translation system (data-i18n).
-         - Added logic to update Chart.js labels and datasets dynamically.
-         
-         Palette: 'Future Luxury' (Deep Navy, Vibrant Cyan, Gold).
-         No SVG. No Mermaid.
+         UPDATE: Enhanced 'Roadmap to 2037' Section
+         - Added graphic timeline with images.
+         - Improved visual hierarchy and readability.
+         - Maintained 4-language support.
     -->
 
     <style>
         :root {
             --font-en: 'Inter', sans-serif;
             --font-th: 'Sarabun', sans-serif;
+            --font-cn: 'Noto Sans SC', sans-serif;
         }
 
         body {
@@ -31,9 +29,8 @@
             transition: font-family 0.3s ease;
         }
 
-        body.lang-th {
-            font-family: var(--font-th);
-        }
+        body.lang-th { font-family: var(--font-th); }
+        body.lang-cn { font-family: var(--font-cn); }
         
         /* Chart Container Styling */
         .chart-container {
@@ -53,26 +50,25 @@
             }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Flag Button Styling */
+        .lang-btn {
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            padding: 2px;
+            border: 2px solid transparent;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #0f172a; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4; 
-        }
-
+        .lang-btn:hover { opacity: 1; transform: scale(1.1); }
         .lang-btn.active {
-            background-color: #06b6d4; /* Cyan-500 */
-            color: white;
+            opacity: 1;
             border-color: #06b6d4;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
         }
+        .lang-btn img { width: 24px; height: 24px; object-fit: cover; border-radius: 50%; display: block; }
+
+        /* Card Hover Effects */
+        .info-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -81,25 +77,27 @@
     <nav class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg opacity-95 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="font-bold text-xl tracking-wider text-cyan-400">EEC<span class="text-white">VISION</span></span>
+                <!-- Logo -->
+                <div class="flex items-center flex-shrink-0">
+                    <span class="font-bold text-xl tracking-wider text-cyan-400">EEC<span class="text-white">SILICON</span></span>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <!-- Language Switcher -->
-                    <div class="flex bg-slate-800 rounded-lg p-1 border border-slate-700">
-                        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active px-3 py-1 rounded text-xs font-bold transition-all duration-300 hover:text-cyan-400">ENG</button>
-                        <button onclick="setLanguage('th')" id="btn-th" class="lang-btn px-3 py-1 rounded text-xs font-bold text-gray-400 transition-all duration-300 hover:text-cyan-400">TH</button>
-                    </div>
-
-                    <!-- Desktop Menu -->
+                <!-- Right Side Container -->
+                <div class="flex items-center gap-6">
                     <div class="hidden md:block">
-                        <div class="ml-4 flex items-baseline space-x-4">
+                        <div class="flex items-baseline space-x-1">
                             <a href="#vision" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_vision">Vision</a>
-                            <a href="#magnets" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_magnets">Mega Projects</a>
-                            <a href="#connectivity" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_city">Smart City</a>
-                            <a href="#realestate" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_living">Luxury Living</a>
+                            <a href="#pillars" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_pillars">3 Pillars</a>
+                            <a href="#timeline" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_timeline">Timeline</a>
+                            <a href="#realestate" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav_living">Real Estate</a>
                         </div>
+                    </div>
+                    <!-- Language Switcher -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-slate-700">
+                        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active"><img src="https://flagcdn.com/w40/gb.png" alt="English"></button>
+                        <button onclick="setLanguage('th')" id="btn-th" class="lang-btn"><img src="https://flagcdn.com/w40/th.png" alt="Thai"></button>
+                        <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn"><img src="https://flagcdn.com/w40/ru.png" alt="Russian"></button>
+                        <button onclick="setLanguage('cn')" id="btn-cn" class="lang-btn"><img src="https://flagcdn.com/w40/cn.png" alt="Chinese"></button>
                     </div>
                 </div>
             </div>
@@ -111,207 +109,266 @@
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             
-            <!-- Added Feature Image -->
             <div class="mb-12 flex justify-center">
-                <img src="https://i.postimg.cc/ZndHc71k/DISNEY.png" alt="EEC Entertainment Complex Vision" class="rounded-xl shadow-2xl border border-cyan-500/50 max-w-full h-auto max-h-[500px] object-contain hover:scale-[1.01] transition-transform duration-700">
+                <img src="https://i.postimg.cc/ZndHc71k/DISNEY.png" alt="EEC Vision" class="rounded-xl shadow-2xl border border-cyan-500/50 max-w-full h-auto max-h-[400px] object-contain hover:scale-[1.01] transition-transform duration-700">
             </div>
 
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-                <span data-i18n="hero_title_1">The Eastern Economic Corridor</span> <br>
-                <span class="text-cyan-400" data-i18n="hero_title_2">A New Era for Thailand</span>
+                <span class="text-cyan-400" data-i18n="hero_title_1">The Birth of "Bangkok 2"</span> <br>
+                <span data-i18n="hero_title_2">Silicon Beach Vision</span>
             </h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-300" data-i18n="hero_subtitle">
-                Integrating World-Class Tourism, Smart Aviation Cities, and High-End Living in Chonburi & Rayong.
+            <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-300" data-i18n="hero_subtitle">
+                A new economic powerhouse decentralizing Bangkok. Integrating Work (Tech Hub), Live (World-Class), and Play (Global Magnets).
             </p>
-            <div class="mt-10 flex justify-center gap-4 flex-wrap">
-                <div class="bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 w-40">
-                    <div class="text-3xl font-bold text-cyan-400">1.7T</div>
-                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_investment">THB Investment</div>
+            
+            <!-- Key Stats -->
+            <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-cyan-400">1.34T</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_investment">EECiti Investment</div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-sm border border-amber-500/30 rounded-lg p-4 w-40">
-                    <div class="text-3xl font-bold text-amber-500">80K</div>
-                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_stadium">Seat Stadium</div>
+                <div class="bg-white/10 backdrop-blur-sm border border-amber-500/30 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-amber-500">200K</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_jobs">High-Skill Jobs</div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 w-40">
-                    <div class="text-3xl font-bold text-cyan-400">60M</div>
-                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_pax">Pax Capacity</div>
+                <div class="bg-white/10 backdrop-blur-sm border border-green-500/30 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-green-400">>30%</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_green">Green Space</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-purple-400">+2T</div>
+                    <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="stat_gdp">GDP Impact (10Y)</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
+    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
 
-        <!-- Section 1: The Magnets (Theme Park & Stadium) -->
-        <section id="magnets">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec1_title">The Tourism Magnets</h2>
-                <div class="w-24 h-1 bg-cyan-500 mx-auto mt-4 rounded-full"></div>
-                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="sec1_desc">
-                    The development of a <strong>Global Theme Park</strong> and a national <strong>80,000-seat Stadium</strong> creates a massive "day-trip" and "event-based" economy.
-                </p>
+        <!-- Video Section -->
+        <section class="animate-fade-in-up">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center justify-center gap-2" data-i18n="video_title">
+                    <span class="text-red-600">▶</span> Analysis: The Trillion Baht Puzzle
+                </h2>
+                <div class="w-16 h-1 bg-cyan-500 mx-auto mt-2 rounded-full"></div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Text / Context -->
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-amber-500">
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center">
-                            <span class="text-2xl mr-2">🎡</span> <span data-i18n="card_entertainment_title">Entertainment Complex</span>
-                        </h3>
-                        <p class="text-gray-600" data-i18n="card_entertainment_desc">
-                            Modeled after global success stories like Disneyland, aims to attract over 10 million annual visitors, driving short-term rental demand.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-cyan-500">
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center">
-                            <span class="text-2xl mr-2">🏟️</span> <span data-i18n="card_stadium_title">Sports City Hub</span>
-                        </h3>
-                        <p class="text-gray-600" data-i18n="card_stadium_desc">
-                            The 80,000-seat stadium will host international concerts and sports, creating year-round demand spikes for hospitality.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Visualization: Visitor Comparison -->
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-4 tracking-wide" data-i18n="chart_visitor_title">Projected Daily Visitor Capacity</h4>
-                    <div class="chart-container">
-                        <canvas id="visitorChart"></canvas>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2 text-center italic" data-i18n="chart_visitor_footer">Comparison of daily capacity for major EEC attractions vs Current Benchmarks</p>
+            <div class="max-w-4xl mx-auto bg-white p-2 rounded-2xl shadow-xl border border-slate-100 ring-4 ring-slate-50/50">
+                <div class="relative w-full rounded-xl overflow-hidden" style="padding-bottom: 56.25%;">
+                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/zuBmGKfHdqQ" title="EEC Analysis" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Connectivity & Smart City -->
-        <section id="connectivity" class="bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200">
-            <div class="mb-10">
-                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec2_title">EECiti & Aviation City</h2>
-                <p class="mt-4 text-lg text-gray-600" data-i18n="sec2_desc">
-                    <strong>U-Tapao "Eastern Aviation City"</strong> and <strong>EECiti (Smart City)</strong> provide the infrastructure backbone. High-speed rail links these zones to Bangkok in under 60 minutes.
+        <!-- Section 1: 3 Pillars of Wealth -->
+        <section id="pillars">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec_pillars_title">The 3 Pillars of Wealth</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="sec_pillars_desc">
+                    The strategic integration of a Smart City, Aviation Hub, and Global Magnets creates the "Aerotropolis Triad".
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <!-- Chart: Airport Growth -->
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-4" data-i18n="chart_airport_title">U-Tapao Passenger Growth Forecast</h4>
-                    <div class="chart-container">
-                        <canvas id="airportChart"></canvas>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-600" data-i18n="chart_airport_footer">
-                        Expansion from a local airfield to a regional hub capable of handling 60M passengers anchors property value.
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pillar 1 -->
+                <div class="info-card bg-white p-6 rounded-xl shadow-md border-t-4 border-cyan-500">
+                    <div class="text-4xl mb-4">🏙️</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="card_eeciti_title">EECiti (Smart City)</h3>
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="card_eeciti_desc">
+                        14,619 Rai at Huay Yai. 1.34 Trillion THB investment. Focus on Finance (CBD), Precision Medicine, and Education.
                     </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• <span data-i18n="detail_cut">Common Utility Tunnel (No Digging)</span></li>
+                        <li>• <span data-i18n="detail_pop">Target Pop: 350,000</span></li>
+                    </ul>
                 </div>
 
-                <!-- Diagram: HTML/CSS Structured Flow -->
-                <div class="flex flex-col justify-center">
-                    <h4 class="text-sm font-semibold text-gray-400 uppercase mb-6 text-center" data-i18n="diagram_title">The "Golden Triangle" Ecosystem</h4>
-                    
-                    <div class="relative flex flex-col items-center space-y-6">
-                        <!-- Node 1 -->
-                        <div class="w-full max-w-sm bg-gradient-to-r from-slate-800 to-slate-900 text-white p-4 rounded-lg shadow-lg text-center z-10 border-2 border-cyan-400">
-                            <div class="text-2xl mb-1">✈️</div>
-                            <div class="font-bold" data-i18n="node_aviation">U-Tapao Aviation City</div>
-                            <div class="text-xs text-cyan-300" data-i18n="node_aviation_sub">Gateway & Logistics</div>
-                        </div>
+                <!-- Pillar 2 -->
+                <div class="info-card bg-white p-6 rounded-xl shadow-md border-t-4 border-indigo-500">
+                    <div class="text-4xl mb-4">✈️</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="card_aviation_title">Eastern Aviation City</h3>
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="card_aviation_desc">
+                        Upgrading U-Tapao to the 3rd Main Airport. 6,500 Rai area with Terminal 3, Commercial Gateway, and Cargo Village.
+                    </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• <span data-i18n="detail_pax">Capacity: 60-70M Pax/Year</span></li>
+                        <li>• <span data-i18n="detail_link">Linked via High-Speed Rail</span></li>
+                    </ul>
+                </div>
 
-                        <!-- Connector -->
-                        <div class="h-8 w-1 bg-gray-300"></div>
-
-                        <!-- Node 2 -->
-                        <div class="w-full max-w-sm bg-white text-slate-800 p-4 rounded-lg shadow-md text-center z-10 border border-gray-200">
-                            <div class="text-2xl mb-1">🏙️</div>
-                            <div class="font-bold text-cyan-600" data-i18n="node_eeciti">EECiti (Smart City)</div>
-                            <div class="text-xs text-gray-500" data-i18n="node_eeciti_sub">Innovation & Digital Park</div>
-                        </div>
-
-                        <!-- Connector Split -->
-                        <div class="w-1/2 h-8 border-l-4 border-r-4 border-gray-300 border-t-0 rounded-b-xl"></div>
-
-                        <!-- Bottom Row -->
-                        <div class="flex justify-between w-full max-w-md gap-4">
-                            <div class="flex-1 bg-amber-50 text-amber-900 p-3 rounded-lg border border-amber-200 text-center shadow-sm">
-                                <div class="text-xl">🚄</div>
-                                <div class="font-bold text-sm" data-i18n="node_hsr">High-Speed Rail</div>
-                                <div class="text-xs" data-i18n="node_hsr_sub">Connectivity</div>
-                            </div>
-                            <div class="flex-1 bg-cyan-50 text-cyan-900 p-3 rounded-lg border border-cyan-200 text-center shadow-sm">
-                                <div class="text-xl">🏖️</div>
-                                <div class="font-bold text-sm" data-i18n="node_residence">Jomtien / Pattaya</div>
-                                <div class="text-xs" data-i18n="node_residence_sub">Living Hub</div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Pillar 3 -->
+                <div class="info-card bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500">
+                    <div class="text-4xl mb-4">🎡</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="card_magnets_title">Global Magnet Projects</h3>
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="card_magnets_desc">
+                        Creating massive demand. 3,000 Rai for "Entertainment Complex" (Disney Model) and 1,500 Rai for Sport Complex.
+                    </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• <span data-i18n="detail_stadium">80,000 Seat Stadium</span></li>
+                        <li>• <span data-i18n="detail_casino">Casino-Hotel Strategy</span></li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Luxury Real Estate Outlook -->
-        <section id="realestate">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900" data-i18n="sec3_title">Future of Real Estate: Jomtien & Pattaya</h2>
-                <div class="w-24 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
-                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="sec3_desc">
-                    Mega-tourism and smart city jobs create new demand for <strong>Luxury Residences</strong>. Jomtien emerges as the premium choice for tranquility, while Pattaya becomes a business-leisure hub.
-                </p>
+        <!-- Section 2: GRAPHIC TIMELINE (UPDATED) -->
+        <section id="timeline" class="py-16 bg-slate-900 relative rounded-3xl overflow-hidden shadow-2xl">
+            <!-- Background Decoration -->
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070')] bg-cover bg-center opacity-10"></div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-16" data-i18n="timeline_title">Roadmap to 2037</h2>
                 
-                <!-- Added Report Link Button -->
-                <a href="https://drive.google.com/file/d/1ozXu93m0LpH3UfUxcODgdtORTtEUlMF6/view?usp=sharing" target="_blank" class="inline-block mt-6 px-6 py-2 border border-slate-300 bg-white text-slate-600 hover:border-cyan-500 hover:text-cyan-600 font-semibold rounded-full transition shadow-sm hover:shadow-md" data-i18n="btn_realestate_report">
-                    📄 View Real Estate Analysis
-                </a>
-            </div>
+                <div class="relative">
+                    <!-- Vertical Connector Line -->
+                    <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-500 via-blue-500 to-purple-500 rounded-full"></div>
 
+                    <!-- 2026: The Start -->
+                    <div class="mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                        <div class="order-1 md:w-5/12 md:text-right pr-4 hidden md:block">
+                            <h3 class="text-2xl font-bold text-cyan-400">2026</h3>
+                            <h4 class="text-lg font-bold text-white mb-2" data-i18n="time_2026_title">PPP Bundling Auction</h4>
+                            <p class="text-sm text-gray-400" data-i18n="time_2026_desc">Single contract for 10 infrastructure systems (74B THB). The "Litmus Test" of confidence.</p>
+                        </div>
+                        
+                        <div class="z-20 order-1 flex items-center justify-center w-14 h-14 bg-slate-800 border-4 border-cyan-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.5)] group-hover:scale-110 transition-transform duration-300">
+                           <span class="text-xl">⚖️</span>
+                        </div>
+                        
+                        <div class="order-1 md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 w-full">
+                            <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-cyan-500/50 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=500" class="w-full h-32 object-cover rounded-lg mb-3 shadow-lg opacity-90 hover:opacity-100 transition">
+                                <div class="md:hidden"> <!-- Mobile Only Text -->
+                                    <h3 class="text-xl font-bold text-cyan-400">2026</h3>
+                                    <h4 class="font-bold text-white" data-i18n="time_2026_title">PPP Bundling Auction</h4>
+                                    <p class="text-xs text-gray-300 mt-1" data-i18n="time_2026_desc">Single contract for 10 infrastructure systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2027: Construction -->
+                    <div class="mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                        <div class="order-1 md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 w-full">
+                             <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-blue-500/50 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=500" class="w-full h-32 object-cover rounded-lg mb-3 shadow-lg opacity-90 hover:opacity-100 transition">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold text-blue-400">2027</h3>
+                                    <h4 class="font-bold text-white" data-i18n="time_2027_title">Construction Begins</h4>
+                                    <p class="text-xs text-gray-300 mt-1" data-i18n="time_2027_desc">Full-scale development of EECiti backbone.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="z-20 order-1 flex items-center justify-center w-14 h-14 bg-slate-800 border-4 border-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:scale-110 transition-transform duration-300">
+                           <span class="text-xl">🏗️</span>
+                        </div>
+
+                        <div class="order-1 md:w-5/12 md:text-left pl-4 hidden md:block">
+                            <h3 class="text-2xl font-bold text-blue-400">2027</h3>
+                            <h4 class="text-lg font-bold text-white mb-2" data-i18n="time_2027_title">Construction Begins</h4>
+                            <p class="text-sm text-gray-400" data-i18n="time_2027_desc">Full-scale development of EECiti backbone and Global Magnet groundwork.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2030: Phase 1 -->
+                    <div class="mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                        <div class="order-1 md:w-5/12 md:text-right pr-4 hidden md:block">
+                            <h3 class="text-2xl font-bold text-amber-400">2030</h3>
+                            <h4 class="text-lg font-bold text-white mb-2" data-i18n="time_2030_title">Phase 1 Operations</h4>
+                            <p class="text-sm text-gray-400" data-i18n="time_2030_desc">Opening of first 5,795 Rai. High-Speed Rail operational.</p>
+                        </div>
+                        
+                        <div class="z-20 order-1 flex items-center justify-center w-14 h-14 bg-slate-800 border-4 border-amber-500 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)] group-hover:scale-110 transition-transform duration-300">
+                           <span class="text-xl">🚅</span>
+                        </div>
+                        
+                        <div class="order-1 md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 w-full">
+                            <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-amber-500/50 transition duration-300">
+                                <!-- UPDATED IMAGE: 2030 Phase 1 -->
+                                <img src="https://i.postimg.cc/G3JNPq9P/Gemini_Generated_Image_ci8vwxci8vwxci8v-topaz-text-upscale-1.7x-crop.jpg" alt="High Speed Rail Phase 1" class="w-full h-32 object-cover rounded-lg mb-3 shadow-lg opacity-90 hover:opacity-100 transition transform group-hover:scale-[1.02] duration-500">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold text-amber-400">2030</h3>
+                                    <h4 class="font-bold text-white" data-i18n="time_2030_title">Phase 1 Operations</h4>
+                                    <p class="text-xs text-gray-300 mt-1" data-i18n="time_2030_desc">Opening of first 5,795 Rai & HSR.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2037: Completion -->
+                    <div class="flex flex-col md:flex-row items-center justify-between w-full group">
+                         <div class="order-1 md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 w-full">
+                             <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-purple-500/50 transition duration-300">
+                                <!-- UPDATED IMAGE: 2037 Completion -->
+                                <img src="https://i.postimg.cc/g2PHDK92/EECiti_model_EEC_gigapixel_high_fidelity_v2_2x.png" alt="EECiti Completion Model" class="w-full h-32 object-cover rounded-lg mb-3 shadow-lg opacity-90 hover:opacity-100 transition transform group-hover:scale-[1.02] duration-500">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold text-purple-400">2037</h3>
+                                    <h4 class="font-bold text-white" data-i18n="time_2037_title">Completion</h4>
+                                    <p class="text-xs text-gray-300 mt-1" data-i18n="time_2037_desc">Top 10 Liveable City in the World.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="z-20 order-1 flex items-center justify-center w-14 h-14 bg-slate-800 border-4 border-purple-500 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:scale-110 transition-transform duration-300">
+                           <span class="text-xl">🏆</span>
+                        </div>
+
+                        <div class="order-1 md:w-5/12 md:text-left pl-4 hidden md:block">
+                            <h3 class="text-2xl font-bold text-purple-400">2037</h3>
+                            <h4 class="text-lg font-bold text-white mb-2" data-i18n="time_2037_title">Completion</h4>
+                            <p class="text-sm text-gray-400" data-i18n="time_2037_desc">Fully realized "Bangkok 2". Top 10 Liveable City in the World.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Real Estate Boom -->
+        <section id="realestate">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Market Trend Chart -->
+                <!-- Market Chart -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-sm font-semibold text-gray-400 uppercase" data-i18n="chart_price_title">Price Index: Luxury Condos</h4>
-                        <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded" data-i18n="chart_price_badge">+35% Projected Growth</span>
+                        <h4 class="text-sm font-semibold text-gray-400 uppercase" data-i18n="chart_land_title">Bang Lamung Land Price Surge</h4>
+                        <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">+126.5% Growth</span>
                     </div>
                     <div class="chart-container">
-                        <canvas id="realEstateChart"></canvas>
+                        <canvas id="landPriceChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Key Drivers List -->
+                <!-- Hot Zones -->
                 <div class="lg:col-span-1 space-y-4">
                     <div class="bg-slate-800 text-white p-6 rounded-xl shadow-md">
-                        <h3 class="font-bold text-xl text-amber-400 mb-3" data-i18n="list_invest_title">Why Invest Now?</h3>
-                        <ul class="space-y-4">
-                            <li class="flex items-start">
-                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
-                                <span class="text-sm text-gray-300" data-i18n="list_invest_1"><strong>Supply:</strong> Prime beachfront land in Jomtien is scarce.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
-                                <span class="text-sm text-gray-300" data-i18n="list_invest_2"><strong>Expats:</strong> Digital Nomads & EECiti staff need high-end housing.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="bg-cyan-500 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">✓</span>
-                                <span class="text-sm text-gray-300" data-i18n="list_invest_3"><strong>Yield:</strong> Mega events guarantee high rental occupancy.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Buyer Profile Chart -->
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                        <h4 class="text-sm font-semibold text-gray-400 uppercase mb-2 text-center" data-i18n="chart_buyer_title">Luxury Buyer Priorities</h4>
-                        <div class="chart-container" style="height: 250px;">
-                            <canvas id="buyerRadarChart"></canvas>
+                        <h3 class="font-bold text-xl text-cyan-400 mb-3" data-i18n="zone_title">Strategic Zones</h3>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-slate-700 rounded-lg border-l-4 border-amber-400">
+                                <h4 class="font-bold text-sm">Jomtien / Na Jomtien</h4>
+                                <p class="text-xs text-gray-300 mt-1" data-i18n="zone_jomtien_desc">"Millionaire's Mile". Ultra-Luxury Condos & Branded Residences. Yield 6-8%.</p>
+                            </div>
+                            <div class="p-3 bg-slate-700 rounded-lg border-l-4 border-green-400">
+                                <h4 class="font-bold text-sm">Huay Yai</h4>
+                                <p class="text-xs text-gray-300 mt-1" data-i18n="zone_huayyai_desc">Top tier location for Executive Pool Villas. Adjacent to EECiti CBD.</p>
+                            </div>
                         </div>
                     </div>
+                    
+                    <!-- Report Link -->
+                    <a href="https://drive.google.com/file/d/1ozXu93m0LpH3UfUxcODgdtORTtEUlMF6/view?usp=sharing" target="_blank" class="block text-center p-4 border border-slate-300 bg-white text-slate-600 hover:border-cyan-500 hover:text-cyan-600 font-semibold rounded-xl transition shadow-sm hover:shadow-md" data-i18n="btn_realestate_report">
+                        📄 View Real Estate Analysis
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Conclusion -->
         <section class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 text-white text-center shadow-2xl">
-            <h2 class="text-3xl font-bold text-cyan-400 mb-4" data-i18n="footer_title">The Golden Decade</h2>
+            <h2 class="text-3xl font-bold text-cyan-400 mb-4" data-i18n="footer_title">The New Economic Lifeline</h2>
             <p class="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed" data-i18n="footer_desc">
-                The synergy between the entertainment complex, stadium, and Smart City positions the Eastern Seaboard as a primary residential corridor. For luxury real estate in Jomtien and Pattaya, the future is connected and high-value.
+                Disneyland and the Stadium are the heart pumping blood through the arteries of High-Speed Rail and Aviation City. This ecosystem ensures sustainability and transforms the Eastern Seaboard into a world-class destination.
             </p>
             <a href="https://drive.google.com/file/d/1lsNIR8kESV-eWFi017uEct0HaSZtBGFd/view?usp=sharing" target="_blank" class="inline-block mt-8 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-full transition shadow-lg transform hover:scale-105" data-i18n="btn_download">
                 Download Investment Report
@@ -324,145 +381,161 @@
     <footer class="bg-slate-950 text-slate-500 py-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="mb-4">© 2025 EEC Strategic Analysis Group.</p>
-            <p class="text-xs" data-i18n="copyright_sub">Data estimated based on public EEC development plans and real estate market trends.</p>
+            <p class="text-xs" data-i18n="copyright_sub">Based on latest EEC development plans and NotebookLM analysis.</p>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script>
-        // --- TRANSLATION DATA ---
         const translations = {
             en: {
-                nav_vision: "Vision",
-                nav_magnets: "Mega Projects",
-                nav_city: "Smart City",
-                nav_living: "Luxury Living",
-                hero_title_1: "The Eastern Economic Corridor",
-                hero_title_2: "A New Era for Thailand",
-                hero_subtitle: "Integrating World-Class Tourism, Smart Aviation Cities, and High-End Living in Chonburi & Rayong.",
-                stat_investment: "THB Investment",
-                stat_stadium: "Seat Stadium",
-                stat_pax: "Pax Capacity",
-                sec1_title: "The Tourism Magnets",
-                sec1_desc: "The development of a Global Theme Park and a national 80,000-seat Stadium creates a massive 'day-trip' and 'event-based' economy.",
-                card_entertainment_title: "Entertainment Complex",
-                card_entertainment_desc: "Modeled after global success stories like Disneyland, aims to attract over 10 million annual visitors, driving short-term rental demand.",
-                card_stadium_title: "Sports City Hub",
-                card_stadium_desc: "The 80,000-seat stadium will host international concerts and sports, creating year-round demand spikes for hospitality.",
-                chart_visitor_title: "Projected Daily Visitor Capacity",
-                chart_visitor_footer: "Comparison of daily capacity for major EEC attractions vs Current Benchmarks",
-                sec2_title: "EECiti & Aviation City",
-                sec2_desc: "U-Tapao 'Eastern Aviation City' and EECiti (Smart City) provide the infrastructure backbone. High-speed rail links these zones to Bangkok in under 60 minutes.",
-                chart_airport_title: "U-Tapao Passenger Growth Forecast",
-                chart_airport_footer: "Expansion from a local airfield to a regional hub capable of handling 60M passengers anchors property value.",
-                diagram_title: "The 'Golden Triangle' Ecosystem",
-                node_aviation: "U-Tapao Aviation City",
-                node_aviation_sub: "Gateway & Logistics",
-                node_eeciti: "EECiti (Smart City)",
-                node_eeciti_sub: "Innovation & Digital Park",
-                node_hsr: "High-Speed Rail",
-                node_hsr_sub: "Connectivity",
-                node_residence: "Jomtien / Pattaya",
-                node_residence_sub: "Living Hub",
-                sec3_title: "Future of Real Estate: Jomtien & Pattaya",
-                sec3_desc: "Mega-tourism and smart city jobs create new demand for Luxury Residences. Jomtien emerges as the premium choice for tranquility, while Pattaya becomes a business-leisure hub.",
+                nav_vision: "Vision", nav_pillars: "3 Pillars", nav_timeline: "Timeline", nav_living: "Real Estate",
+                hero_title_1: "The Birth of \"Bangkok 2\"", hero_title_2: "Silicon Beach Vision",
+                hero_subtitle: "A new economic powerhouse decentralizing Bangkok. Integrating Work (Tech Hub), Live (World-Class), and Play (Global Magnets).",
+                stat_investment: "EECiti Investment", stat_jobs: "High-Skill Jobs", stat_green: "Green Space", stat_gdp: "GDP Impact (10Y)",
+                video_title: "<span class='text-red-600'>▶</span> Analysis: The Trillion Baht Puzzle",
+                sec_pillars_title: "The 3 Pillars of Wealth",
+                sec_pillars_desc: "The strategic integration of a Smart City, Aviation Hub, and Global Magnets creates the 'Aerotropolis Triad'.",
+                card_eeciti_title: "EECiti (Smart City)",
+                card_eeciti_desc: "14,619 Rai at Huay Yai. 1.34 Trillion THB investment. Focus on Finance (CBD), Precision Medicine, and Education.",
+                detail_cut: "Common Utility Tunnel (No Digging)", detail_pop: "Target Pop: 350,000",
+                card_aviation_title: "Eastern Aviation City",
+                card_aviation_desc: "Upgrading U-Tapao to the 3rd Main Airport. 6,500 Rai area with Terminal 3, Commercial Gateway, and Cargo Village.",
+                detail_pax: "Capacity: 60-70M Pax/Year", detail_link: "Linked via High-Speed Rail",
+                card_magnets_title: "Global Magnet Projects",
+                card_magnets_desc: "Creating massive demand. 3,000 Rai for 'Entertainment Complex' (Disney Model) and 1,500 Rai for Sport Complex.",
+                detail_stadium: "80,000 Seat Stadium", detail_casino: "Casino-Hotel Strategy",
+                timeline_title: "Roadmap to 2037",
+                time_2026_title: "PPP Bundling Auction", time_2026_desc: "Single contract for 10 infrastructure systems (74B THB). The 'Litmus Test' of confidence.",
+                time_2027_title: "Construction Begins", time_2027_desc: "Full-scale development of EECiti backbone and Global Magnet groundwork.",
+                time_2030_title: "Phase 1 Operations", time_2030_desc: "Opening of first 5,795 Rai. High-Speed Rail operational.",
+                time_2037_title: "Completion", time_2037_desc: "Fully realized 'Bangkok 2'. Top 10 Liveable City in the World.",
+                chart_land_title: "Bang Lamung Land Price Surge",
+                zone_title: "Strategic Zones",
+                zone_jomtien_desc: "'Millionaire's Mile'. Ultra-Luxury Condos & Branded Residences. Yield 6-8%.",
+                zone_huayyai_desc: "Top tier location for Executive Pool Villas. Adjacent to EECiti CBD.",
                 btn_realestate_report: "📄 View Real Estate Analysis",
-                chart_price_title: "Price Index: Luxury Condos",
-                chart_price_badge: "+35% Projected Growth",
-                list_invest_title: "Why Invest Now?",
-                list_invest_1: "<strong>Supply:</strong> Prime beachfront land in Jomtien is scarce.",
-                list_invest_2: "<strong>Expats:</strong> Digital Nomads & EECiti staff need high-end housing.",
-                list_invest_3: "<strong>Yield:</strong> Mega events guarantee high rental occupancy.",
-                chart_buyer_title: "Luxury Buyer Priorities",
-                footer_title: "The Golden Decade",
-                footer_desc: "The synergy between the entertainment complex, stadium, and Smart City positions the Eastern Seaboard as a primary residential corridor. For luxury real estate in Jomtien and Pattaya, the future is connected and high-value.",
+                footer_title: "The New Economic Lifeline",
+                footer_desc: "Disneyland and the Stadium are the heart pumping blood through the arteries of High-Speed Rail and Aviation City. This ecosystem ensures sustainability.",
                 btn_download: "Download Investment Report",
-                copyright_sub: "Data estimated based on public EEC development plans and real estate market trends.",
+                copyright_sub: "Based on latest EEC development plans and NotebookLM analysis.",
                 // Chart Labels
-                c_visitor_labels: ['Proposed Theme Park Complex', 'National Stadium Event Day', 'Central Festival Pattaya', 'Nong Nooch Garden'],
-                c_visitor_dataset: 'Est. Daily Visitors (Peak)',
-                c_airport_labels: ['2023 (Current)', '2027 (Phase 1)', '2030 (Phase 2)', '2035 (Phase 3)', '2040 (Vision)'],
-                c_airport_dataset: 'Passenger Capacity (Millions)',
-                c_price_labels: ['2020', '2021', '2022', '2023', '2024 (Est)', '2026 (Forecast)', '2028 (Forecast)'],
-                c_price_dataset1: 'Luxury Price per SQM (THB)',
-                c_price_dataset2: 'Project Completion Count',
-                c_radar_labels: ['Sea View / Beach Access', 'Proximity to Airport', 'Smart Home Tech', 'Rental Yield ROI', 'Privacy & Security', 'Retail & Dining'],
-                c_radar_dataset: 'Luxury Buyer Priority Score'
+                c_land_labels: ['2019', '2020', '2021', '2022', '2023', '2024 (Current)'],
+                c_land_dataset: 'Land Price Index (Base 100)'
             },
             th: {
-                nav_vision: "วิสัยทัศน์",
-                nav_magnets: "เมกะโปรเจกต์",
-                nav_city: "สมาร์ทซิตี้",
-                nav_living: "ที่อยู่อาศัยหรู",
-                hero_title_1: "เขตพัฒนาพิเศษภาคตะวันออก (EEC)",
-                hero_title_2: "ยุคใหม่แห่งประเทศไทย",
-                hero_subtitle: "การผนวกการท่องเที่ยวระดับโลก เมืองการบินอัจฉริยะ และการใช้ชีวิตระดับลักซ์ชัวรี่ในชลบุรีและระยอง",
-                stat_investment: "มูลค่าการลงทุน (บาท)",
-                stat_stadium: "ความจุสนาม (ที่นั่ง)",
-                stat_pax: "ความจุผู้โดยสาร",
-                sec1_title: "แม่เหล็กดึงดูดการท่องเที่ยว",
-                sec1_desc: "การสร้างสวนสนุกระดับโลก (ธีมปาร์ค) และสนามกีฬาแห่งชาติ 80,000 ที่นั่ง จะสร้างเศรษฐกิจแบบ 'Day-trip' และ 'Event-based' ขนาดใหญ่",
-                card_entertainment_title: "ศูนย์ความบันเทิงครบวงจร",
-                card_entertainment_desc: "โมเดลเดียวกับดิสนีย์แลนด์ ตั้งเป้าดึงดูดนักท่องเที่ยวกว่า 10 ล้านคนต่อปี หนุนดีมานด์ที่พักระยะสั้น",
-                card_stadium_title: "ศูนย์กลางเมืองกีฬา",
-                card_stadium_desc: "สนามกีฬากว่า 80,000 ที่นั่ง รองรับคอนเสิร์ตและกีฬาระดับโลก สร้างดีมานด์ที่พักตลอดทั้งปี",
-                chart_visitor_title: "คาดการณ์ความจุผู้เข้าชมต่อวัน",
-                chart_visitor_footer: "เปรียบเทียบความจุรายวันของสถานที่ท่องเที่ยวหลักใน EEC กับเกณฑ์มาตรฐานปัจจุบัน",
-                sec2_title: "EECiti และ เมืองการบิน",
-                sec2_desc: "สนามบินอู่ตะเภา 'เมืองการบินภาคตะวันออก' และ EECiti (เมืองอัจฉริยะ) คือกระดูกสันหลัง รถไฟความเร็วสูงเชื่อมต่อกรุงเทพฯ ในไม่ถึง 60 นาที",
-                chart_airport_title: "การเติบโตผู้โดยสารอู่ตะเภา",
-                chart_airport_footer: "การขยายจากสนามบินท้องถิ่นสู่ศูนย์กลางภูมิภาค รองรับ 60 ล้านคน คือฐานมูลค่าอสังหาฯ ระยะยาว",
-                diagram_title: "ระบบนิเวศ 'สามเหลี่ยมทองคำ'",
-                node_aviation: "เมืองการบินอู่ตะเภา",
-                node_aviation_sub: "ประตูการค้า & โลจิสติกส์",
-                node_eeciti: "EECiti (เมืองอัจฉริยะ)",
-                node_eeciti_sub: "นวัตกรรม & ดิจิทัลพาร์ค",
-                node_hsr: "รถไฟความเร็วสูง",
-                node_hsr_sub: "การเชื่อมต่อ",
-                node_residence: "จอมเทียน / พัทยา",
-                node_residence_sub: "ศูนย์กลางที่อยู่อาศัย",
-                sec3_title: "อนาคตอสังหาฯ: จอมเทียน & พัทยา",
-                sec3_desc: "การท่องเที่ยวระดับโลกและงานในเมืองอัจฉริยะสร้างดีมานด์ใหม่สำหรับ 'ที่อยู่อาศัยหรู' จอมเทียนคือคำตอบของความสงบ ส่วนพัทยาคือศูนย์กลางธุรกิจ",
+                nav_vision: "วิสัยทัศน์", nav_pillars: "3 เสาหลัก", nav_timeline: "ไทม์ไลน์", nav_living: "อสังหาฯ",
+                hero_title_1: "กำเนิด \"กรุงเทพฯ 2\"", hero_title_2: "วิสัยทัศน์ Silicon Beach",
+                hero_subtitle: "ขั้วอำนาจเศรษฐกิจใหม่เพื่อกระจายความเสี่ยงจากกรุงเทพฯ ผสาน Work (แหล่งงาน), Live (ระดับโลก) และ Play (แม่เหล็กดึงดูด)",
+                stat_investment: "เงินลงทุน EECiti", stat_jobs: "งานทักษะสูง", stat_green: "พื้นที่สีเขียว", stat_gdp: "ผลต่อ GDP (10ปี)",
+                video_title: "<span class='text-red-600'>▶</span> วิเคราะห์เชิงลึก: ปริศนาล้านล้านบาท",
+                sec_pillars_title: "3 เสาหลักแห่งความมั่งคั่ง",
+                sec_pillars_desc: "การบูรณาการเมืองอัจฉริยะ, เมืองการบิน และโครงการแม่เหล็กระดับโลก สร้างยุทธศาสตร์ 'Aerotropolis Triad'",
+                card_eeciti_title: "EECiti (เมืองใหม่อัจฉริยะ)",
+                card_eeciti_desc: "พื้นที่ 14,619 ไร่ ณ ห้วยใหญ่ ลงทุน 1.34 ล้านล้านบาท เน้นการเงิน (CBD), การแพทย์แม่นยำ และการศึกษา",
+                detail_cut: "อุโมงค์สาธารณูปโภครวม (ไร้เสาไฟ)", detail_pop: "ประชากรเป้าหมาย: 350,000 คน",
+                card_aviation_title: "มหานครการบินภาคตะวันออก",
+                card_aviation_desc: "ยกระดับอู่ตะเภาเป็นสนามบินหลักที่ 3 พื้นที่ 6,500 ไร่ พร้อม Terminal 3 และ Cargo Village",
+                detail_pax: "รองรับ 60-70 ล้านคน/ปี", detail_link: "เชื่อมต่อด้วยรถไฟความเร็วสูง",
+                card_magnets_title: "โครงการแม่เหล็กระดับโลก",
+                card_magnets_desc: "สร้างดีมานด์มหาศาล พื้นที่ 3,000 ไร่สำหรับ 'Entertainment Complex' (Disney Model) และ Sport Complex",
+                detail_stadium: "สนามกีฬา 80,000 ที่นั่ง", detail_casino: "ยุทธศาสตร์พักกาสิโน",
+                timeline_title: "แผนการดำเนินงานสู่ปี 2580",
+                time_2026_title: "ประมูล PPP ครั้งใหญ่", time_2026_desc: "ประมูลรวบ 10 ระบบโครงสร้างพื้นฐาน (7.4 หมื่นล้าน) บททดสอบความเชื่อมั่น",
+                time_2027_title: "เริ่มการก่อสร้าง", time_2027_desc: "เริ่มพัฒนาโครงข่ายหลัก EECiti และเตรียมพื้นที่โครงการแม่เหล็ก",
+                time_2030_title: "เปิดดำเนินการระยะที่ 1", time_2030_desc: "เปิดพื้นที่ 5,795 ไร่แรก พร้อมรถไฟความเร็วสูง",
+                time_2037_title: "โครงการสมบูรณ์", time_2037_desc: "บรรลุเป้าหมาย 'กรุงเทพฯ 2' และเป็น 1 ใน 10 เมืองน่าอยู่ของโลก",
+                chart_land_title: "ราคาที่ดินบางละมุงพุ่งสูง",
+                zone_title: "โซนยุทธศาสตร์",
+                zone_jomtien_desc: "'Millionaire's Mile' คอนโด Ultra-Luxury และ Branded Residence ผลตอบแทน 6-8%",
+                zone_huayyai_desc: "ทำเลทองสำหรับ Pool Villa ผู้บริหาร ติดกับศูนย์กลางธุรกิจ EECiti",
                 btn_realestate_report: "📄 ดูบทวิเคราะห์อสังหาฯ",
-                chart_price_title: "ดัชนีราคา: คอนโดหรู",
-                chart_price_badge: "+35% การเติบโตที่คาดการณ์",
-                list_invest_title: "ทำไมต้องลงทุนตอนนี้?",
-                list_invest_1: "<strong>อุปทานจำกัด:</strong> ที่ดินติดหาดจอมเทียนเริ่มหายากขึ้นเรื่อยๆ",
-                list_invest_2: "<strong>ชาวต่างชาติ:</strong> Digital Nomads และบุคลากร EECiti ต้องการที่พักมาตรฐานสูง",
-                list_invest_3: "<strong>ผลตอบแทน:</strong> งานอีเวนต์ใหญ่การันตีอัตราการเช่าสูงต่อเนื่อง",
-                chart_buyer_title: "สิ่งที่ผู้ซื้อระดับหรูให้ความสำคัญ",
-                footer_title: "ทศวรรษทองของตะวันออก",
-                footer_desc: "การผนึกกำลังของคอมเพล็กซ์บันเทิง สนามกีฬา และสมาร์ทซิตี้ วางตำแหน่งชายฝั่งตะวันออกให้เป็นระเบียงที่อยู่อาศัยหลัก อนาคตของอสังหาฯ หรูในจอมเทียนและพัทยาคือความเชื่อมโยงและมูลค่าที่สูงขึ้น",
+                footer_title: "เส้นเลือดใหญ่ทางเศรษฐกิจใหม่",
+                footer_desc: "สวนสนุกและสนามกีฬาเปรียบเสมือนหัวใจที่สูบฉีดเลือดผ่านเส้นเลือดใหญ่อย่างรถไฟความเร็วสูงและเมืองการบิน เพื่อความยั่งยืน",
                 btn_download: "ดาวน์โหลดรายงานการลงทุน",
-                copyright_sub: "ข้อมูลประมาณการจากแผนพัฒนา EEC สาธารณะและแนวโน้มตลาดอสังหาริมทรัพย์",
-                // Chart Labels (TH)
-                c_visitor_labels: ['โครงการธีมปาร์คเสนอ', 'วันแข่งสนามกีฬาแห่งชาติ', 'เซ็นทรัลเฟสติวัล พัทยา', 'สวนนงนุช'],
-                c_visitor_dataset: 'ผู้เข้าชมต่อวัน (สูงสุด)',
-                c_airport_labels: ['2566 (ปัจจุบัน)', '2570 (เฟส 1)', '2573 (เฟส 2)', '2578 (เฟส 3)', '2583 (วิสัยทัศน์)'],
-                c_airport_dataset: 'ความจุผู้โดยสาร (ล้านคน)',
-                c_price_labels: ['2563', '2564', '2565', '2566', '2567 (ประเมิน)', '2569 (คาดการณ์)', '2571 (คาดการณ์)'],
-                c_price_dataset1: 'ราคาคอนโดหรูต่อ ตร.ม. (บาท)',
-                c_price_dataset2: 'จำนวนโครงการเสร็จใหม่',
-                c_radar_labels: ['วิวทะเล / ติดหาด', 'ใกล้สนามบิน', 'เทคโนโลยีสมาร์ทโฮม', 'ผลตอบแทนค่าเช่า', 'ความเป็นส่วนตัว', 'ร้านค้า & อาหาร'],
-                c_radar_dataset: 'คะแนนความสำคัญของผู้ซื้อ'
+                copyright_sub: "อ้างอิงจากแผนพัฒนา EEC ล่าสุดและบทวิเคราะห์จาก NotebookLM",
+                c_land_labels: ['2562', '2563', '2564', '2565', '2566', '2567 (ปัจจุบัน)'],
+                c_land_dataset: 'ดัชนีราคาที่ดิน (ฐาน 100)'
+            },
+            ru: {
+                nav_vision: "Видение", nav_pillars: "3 Столпа", nav_timeline: "Таймлайн", nav_living: "Недвижимость",
+                hero_title_1: "Рождение \"Бангкока 2\"", hero_title_2: "Видение Silicon Beach",
+                hero_subtitle: "Новый экономический центр, децентрализующий Бангкок. Интеграция Работы (Tech), Жизни (World-Class) и Игры.",
+                stat_investment: "Инвестиции EECiti", stat_jobs: "Рабочие места", stat_green: "Зеленая зона", stat_gdp: "Влияние на ВВП",
+                video_title: "<span class='text-red-600'>▶</span> Анализ: Головоломка на триллион бат",
+                sec_pillars_title: "3 Столпа Богатства",
+                sec_pillars_desc: "Стратегическая интеграция Умного города, Авиационного узла и Глобальных магнитов.",
+                card_eeciti_title: "EECiti (Умный город)",
+                card_eeciti_desc: "14,619 Рай в Хуай Яй. Инвестиции 1.34 трлн THB. Фокус на финансах, медицине и образовании.",
+                detail_cut: "Общий туннель коммуникаций", detail_pop: "Цель: 350,000 жителей",
+                card_aviation_title: "Восточный авиационный город",
+                card_aviation_desc: "Модернизация У-Тапао до 3-го аэропорта. 6,500 Рай, Терминал 3 и Cargo Village.",
+                detail_pax: "60-70 млн пассажиров/год", detail_link: "Связь скоростной ЖД",
+                card_magnets_title: "Глобальные Проекты-Магниты",
+                card_magnets_desc: "Создание спроса. 3,000 Рай для «Развлекательного комплекса» (Disney) и Спортивного комплекса.",
+                detail_stadium: "Стадион на 80,000 мест", detail_casino: "Стратегия Казино-Отель",
+                timeline_title: "Дорожная карта до 2037",
+                time_2026_title: "Аукцион PPP", time_2026_desc: "Единый контракт на 10 систем (74 млрд THB). Тест доверия.",
+                time_2027_title: "Начало строительства", time_2027_desc: "Разработка основы EECiti и подготовка магнитов.",
+                time_2030_title: "Запуск Фазы 1", time_2030_desc: "Открытие первых 5,795 Рай. Запуск скоростной ЖД.",
+                time_2037_title: "Завершение", time_2037_desc: "Полностью реализованный «Бангкок 2». Топ-10 городов мира.",
+                chart_land_title: "Рост цен на землю в Банг Ламунге",
+                zone_title: "Стратегические зоны",
+                zone_jomtien_desc: "«Миля миллионеров». Ультра-люкс кондо. Доходность 6-8%.",
+                zone_huayyai_desc: "Топовое место для вилл с бассейном. Рядом с CBD EECiti.",
+                btn_realestate_report: "📄 Анализ недвижимости",
+                footer_title: "Новая экономическая линия жизни",
+                footer_desc: "Диснейленд и стадион — это сердце, качающее кровь через артерии скоростной железной дороги и авиационного города.",
+                btn_download: "Скачать отчет",
+                copyright_sub: "На основе планов EEC и анализа NotebookLM.",
+                c_land_labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                c_land_dataset: 'Индекс цен на землю'
+            },
+            cn: {
+                nav_vision: "愿景", nav_pillars: "三大支柱", nav_timeline: "时间表", nav_living: "房地产",
+                hero_title_1: "“曼谷第二”的诞生", hero_title_2: "硅滩愿景 (Silicon Beach)",
+                hero_subtitle: "分散曼谷拥堵的新经济强国。整合工作（科技）、生活（世界级）和娱乐（全球磁石）。",
+                stat_investment: "EECiti 投资", stat_jobs: "高技能工作", stat_green: "绿地面积", stat_gdp: "GDP 影响 (10年)",
+                video_title: "<span class='text-red-600'>▶</span> 深度分析：万亿泰铢的拼图",
+                sec_pillars_title: "财富的三大支柱",
+                sec_pillars_desc: "智慧城市、航空枢纽和全球磁石项目的战略整合创造了“航空大都市铁三角”。",
+                card_eeciti_title: "EECiti (智慧城市)",
+                card_eeciti_desc: "位于Huay Yai的14,619莱。1.34万亿泰铢投资。专注于金融、精准医疗和教育。",
+                detail_cut: "公共设施隧道（无挖掘）", detail_pop: "目标人口：350,000",
+                card_aviation_title: "东部航空城",
+                card_aviation_desc: "将乌塔堡升级为第三大机场。6,500莱区域，拥有3号航站楼和货运村。",
+                detail_pax: "容量：6000-7000万乘客/年", detail_link: "通过高铁连接",
+                card_magnets_title: "全球磁石项目",
+                card_magnets_desc: "创造巨大需求。3,000莱用于“娱乐综合体”（迪士尼模式）和体育中心。",
+                detail_stadium: "80,000 座位体育场", detail_casino: "赌场酒店战略",
+                timeline_title: "2037年路线图",
+                time_2026_title: "PPP 捆绑拍卖", time_2026_desc: "10个基础设施系统的单一合同（740亿泰铢）。信心的试金石。",
+                time_2027_title: "开始建设", time_2027_desc: "全面开发EECiti骨干和全球磁石基础工作。",
+                time_2030_title: "第一阶段运营", time_2030_desc: "首批5,795莱开放。高铁投入运营。",
+                time_2037_title: "完工", time_2037_desc: "完全实现的“曼谷第二”。全球十大宜居城市。",
+                chart_land_title: "Bang Lamung 土地价格飙升",
+                zone_title: "战略区域",
+                zone_jomtien_desc: "“百万富翁大道”。超豪华公寓和品牌住宅。收益率 6-8%。",
+                zone_huayyai_desc: "高管泳池别墅的顶级位置。毗邻 EECiti CBD。",
+                btn_realestate_report: "📄 查看房地产分析",
+                footer_title: "新的经济命脉",
+                footer_desc: "迪士尼乐园和体育场是心脏，通过高速铁路和航空城的动脉输送血液。该生态系统确保了可持续性。",
+                btn_download: "下载投资报告",
+                copyright_sub: "基于最新的EEC发展计划和NotebookLM分析。",
+                c_land_labels: ['2019', '2020', '2021', '2022', '2023', '2024 (当前)'],
+                c_land_dataset: '土地价格指数 (基数 100)'
             }
         };
 
         let currentLang = 'en';
+        let landChart;
 
-        // --- CHART INSTANCES ---
-        let charts = {};
-
-        // --- UTILITY: Label Wrapping ---
         function wrapLabel(label) {
             if (label.length <= 16) return label;
-            // Thai text doesn't have spaces usually, but we assume translation might have spaces or we split manually if needed. 
-            // For simple Thai wrapping, we rely on browser/ChartJS default or spaces if present.
-            // Simplified wrapper for bilingual support:
+            if (label.indexOf(' ') === -1 && currentLang === 'cn') return label; 
             const words = label.split(' ');
             const lines = [];
             let currentLine = words[0];
-
             for (let i = 1; i < words.length; i++) {
                 if ((currentLine + " " + words[i]).length <= 16) {
                     currentLine += " " + words[i];
@@ -475,180 +548,70 @@
             return lines;
         }
 
-        // --- MAIN INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
-            // Default language is English
         });
 
         function setLanguage(lang) {
             currentLang = lang;
-            
-            // 1. Update UI Buttons
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active', 'bg-cyan-500', 'text-white'));
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${lang}`).classList.add('active');
             
-            // 2. Update Body Font Class
-            if (lang === 'th') {
-                document.body.classList.add('lang-th');
-            } else {
-                document.body.classList.remove('lang-th');
-            }
+            document.body.className = 'antialiased';
+            if (lang === 'th') document.body.classList.add('lang-th');
+            if (lang === 'cn') document.body.classList.add('lang-cn');
 
-            // 3. Update Text Content
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
+                if (translations[lang] && translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
             });
 
-            // 4. Update Charts
             updateCharts(lang);
         }
 
         function initCharts() {
-            // Common Options
-            Chart.defaults.font.family = "'Inter', 'Sarabun', sans-serif";
+            Chart.defaults.font.family = "'Inter', 'Sarabun', 'Noto Sans SC', sans-serif";
             Chart.defaults.color = '#64748b';
             
-            // 1. Visitor Chart
-            const visitorCtx = document.getElementById('visitorChart').getContext('2d');
-            charts.visitor = new Chart(visitorCtx, {
-                type: 'bar',
-                data: {
-                    labels: translations.en.c_visitor_labels.map(wrapLabel),
-                    datasets: [{
-                        label: translations.en.c_visitor_dataset,
-                        data: [45000, 80000, 30000, 15000],
-                        backgroundColor: ['rgba(6, 182, 212, 0.8)', 'rgba(245, 158, 11, 0.8)', 'rgba(148, 163, 184, 0.5)', 'rgba(148, 163, 184, 0.5)'],
-                        borderColor: ['rgba(6, 182, 212, 1)', 'rgba(245, 158, 11, 1)', 'rgba(148, 163, 184, 1)', 'rgba(148, 163, 184, 1)'],
-                        borderWidth: 1,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: titleCallback } } },
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-
-            // 2. Airport Chart
-            const airportCtx = document.getElementById('airportChart').getContext('2d');
-            charts.airport = new Chart(airportCtx, {
+            // Land Price Chart (Updated Data: +126.5% Growth)
+            const ctx = document.getElementById('landPriceChart').getContext('2d');
+            landChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: translations.en.c_airport_labels.map(wrapLabel),
+                    labels: translations.en.c_land_labels,
                     datasets: [{
-                        label: translations.en.c_airport_dataset,
-                        data: [3, 15.9, 30, 45, 60],
-                        borderColor: '#0f172a',
-                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
-                        pointBackgroundColor: '#f59e0b',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: true, position: 'top' }, tooltip: { callbacks: { title: titleCallback } } }
-                }
-            });
-
-            // 3. Price Index Chart
-            const realEstateCtx = document.getElementById('realEstateChart').getContext('2d');
-            charts.price = new Chart(realEstateCtx, {
-                type: 'line',
-                data: {
-                    labels: translations.en.c_price_labels.map(wrapLabel),
-                    datasets: [
-                        {
-                            label: translations.en.c_price_dataset1,
-                            data: [110000, 112000, 118000, 125000, 135000, 155000, 180000],
-                            borderColor: '#06b6d4',
-                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                            yAxisID: 'y',
-                            fill: true,
-                            tension: 0.3
-                        },
-                        {
-                            label: translations.en.c_price_dataset2,
-                            data: [5, 4, 6, 8, 12, 15, 10],
-                            type: 'bar',
-                            backgroundColor: 'rgba(245, 158, 11, 0.5)',
-                            yAxisID: 'y1'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { tooltip: { mode: 'index', intersect: false, callbacks: { title: titleCallback } } },
-                    scales: {
-                        y: { type: 'linear', display: true, position: 'left' },
-                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
-                    }
-                }
-            });
-
-            // 4. Radar Chart
-            const buyerCtx = document.getElementById('buyerRadarChart').getContext('2d');
-            charts.radar = new Chart(buyerCtx, {
-                type: 'radar',
-                data: {
-                    labels: translations.en.c_radar_labels.map(wrapLabel),
-                    datasets: [{
-                        label: translations.en.c_radar_dataset,
-                        data: [95, 80, 85, 90, 88, 75],
-                        fill: true,
-                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        label: translations.en.c_land_dataset,
+                        data: [100, 115, 135, 160, 190, 226.5], // Illustrative data reaching +126.5%
                         borderColor: '#06b6d4',
-                        pointBackgroundColor: '#f59e0b'
+                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#f59e0b',
+                        pointRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    elements: { line: { borderWidth: 3 } },
-                    scales: { r: { angleLines: { display: true }, suggestedMin: 50, suggestedMax: 100, pointLabels: { font: { size: 10, weight: 'bold' } } } },
-                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: titleCallback } } }
+                    plugins: { 
+                        legend: { display: true, position: 'top' },
+                        tooltip: { callbacks: { title: (items) => items[0].label } }
+                    },
+                    scales: {
+                        y: { beginAtZero: false, title: { display: true, text: 'Index (2019 = 100)' } }
+                    }
                 }
             });
         }
 
         function updateCharts(lang) {
             const t = translations[lang];
-
-            // Update Visitor Chart
-            charts.visitor.data.labels = t.c_visitor_labels.map(wrapLabel);
-            charts.visitor.data.datasets[0].label = t.c_visitor_dataset;
-            charts.visitor.update();
-
-            // Update Airport Chart
-            charts.airport.data.labels = t.c_airport_labels.map(wrapLabel);
-            charts.airport.data.datasets[0].label = t.c_airport_dataset;
-            charts.airport.update();
-
-            // Update Price Chart
-            charts.price.data.labels = t.c_price_labels.map(wrapLabel);
-            charts.price.data.datasets[0].label = t.c_price_dataset1;
-            charts.price.data.datasets[1].label = t.c_price_dataset2;
-            charts.price.update();
-
-            // Update Radar Chart
-            charts.radar.data.labels = t.c_radar_labels.map(wrapLabel);
-            charts.radar.data.datasets[0].label = t.c_radar_dataset;
-            charts.radar.update();
-        }
-
-        // Helper for Tooltips
-        function titleCallback(tooltipItems) {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            return Array.isArray(label) ? label.join(' ') : label;
+            if (!t) return;
+            landChart.data.labels = t.c_land_labels;
+            landChart.data.datasets[0].label = t.c_land_dataset;
+            landChart.update();
         }
     </script>
 </body>
