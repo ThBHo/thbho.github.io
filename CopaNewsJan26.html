@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CopaNews | January 2026 - 2026 & Beyond</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Fonts: Playfair (EN), Lato (EN), Kanit (TH), Noto Sans SC (CN), Montserrat (RU) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Typography */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Lato', sans-serif; }
+        .font-thai { font-family: 'Kanit', sans-serif; }
+        .font-cn { font-family: 'Noto Sans SC', sans-serif; }
+        
+        /* Language Engine */
+        [lang="th"], [lang="ru"], [lang="cn"] { display: none !important; }
+        
+        body.lang-th [lang="en"], body.lang-th [lang="ru"], body.lang-th [lang="cn"] { display: none !important; }
+        body.lang-th [lang="th"] { display: block !important; }
+        body.lang-th span[lang="th"], body.lang-th a[lang="th"], body.lang-th strong[lang="th"] { display: inline !important; }
+        
+        body.lang-ru [lang="en"], body.lang-ru [lang="th"], body.lang-ru [lang="cn"] { display: none !important; }
+        body.lang-ru [lang="ru"] { display: block !important; }
+        body.lang-ru span[lang="ru"], body.lang-ru a[lang="ru"], body.lang-ru strong[lang="ru"] { display: inline !important; }
+
+        body.lang-cn [lang="en"], body.lang-cn [lang="th"], body.lang-cn [lang="ru"] { display: none !important; }
+        body.lang-cn [lang="cn"] { display: block !important; }
+        body.lang-cn span[lang="cn"], body.lang-cn a[lang="cn"], body.lang-cn strong[lang="cn"] { display: inline !important; }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Cyber Grid Background */
+        .cyber-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Slider Styles */
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 0;
+        }
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        .slide img {
+            animation: zoomSlow 20s infinite alternate;
+        }
+        @keyframes zoomSlow {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 antialiased overflow-x-hidden pb-24 font-sans transition-colors duration-300 selection:bg-cyan-500 selection:text-white">
+
+    <!-- LANGUAGE SWITCHER -->
+    <div class="fixed top-6 right-6 z-50 flex gap-2">
+        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-slate-800/50 hover:bg-slate-700 backdrop-blur-md border border-slate-600 flex items-center justify-center transition-all scale-110 ring-2 ring-cyan-500" title="English">🇬🇧</button>
+        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-slate-800/50 hover:bg-slate-700 backdrop-blur-md border border-slate-600 flex items-center justify-center transition-all opacity-70" title="Thai">🇹🇭</button>
+        <button onclick="setLanguage('ru')" id="btn-ru" class="w-10 h-10 rounded-full bg-slate-800/50 hover:bg-slate-700 backdrop-blur-md border border-slate-600 flex items-center justify-center transition-all opacity-70" title="Russian">🇷🇺</button>
+        <button onclick="setLanguage('cn')" id="btn-cn" class="w-10 h-10 rounded-full bg-slate-800/50 hover:bg-slate-700 backdrop-blur-md border border-slate-600 flex items-center justify-center transition-all opacity-70" title="Chinese">🇨🇳</button>
+    </div>
+
+    <!-- HERO SECTION: 2026 & BEYOND -->
+    <header class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <!-- Background Video/Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5 w-[800px] pointer-events-none" alt="Watermark">
+            <img src="https://i.postimg.cc/MpBLnvMT/2Kit_Booklet_20250601_Resize_for_Tablet_compressed-gigapixel-high_fidelity_v2-2x.jpg" class="w-full h-full object-cover opacity-40" alt="Hero BG">
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/60 to-slate-950"></div>
+            <div class="absolute inset-0 cyber-grid opacity-30"></div>
+        </div>
+
+        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto reveal pt-20">
+            <!-- Main Logo Added Here -->
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" 
+                 alt="Copacabana Logo" 
+                 class="h-24 md:h-32 mx-auto mb-8 drop-shadow-[0_0_25px_rgba(6,182,212,0.6)] hover:scale-105 transition-transform duration-500">
+
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-bold tracking-widest uppercase mb-6 animate-float">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span lang="en">January 2026 Edition</span>
+                <span lang="th">ฉบับเดือนมกราคม 2569</span>
+                <span lang="ru">Январь 2026</span>
+                <span lang="cn">2026年1月刊</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight font-serif tracking-tight">
+                <span lang="en">2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">& Beyond</span></span>
+                <span lang="th" class="font-thai">2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">& ก้าวสู่อนาคต</span></span>
+                <span lang="ru">2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">& Будущее</span></span>
+                <span lang="cn" class="font-cn">2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">& 展望未来</span></span>
+            </h1>
+            
+            <div class="text-lg md:text-2xl text-slate-300 mb-10 font-light max-w-3xl mx-auto leading-relaxed">
+                <p lang="en">The future is not just about time, it's about <span class="text-white font-medium">vision</span>. As we ascend to the 36th floor, we invite you to explore the trends that will define our living, our city, and our lifestyle in the decade to come.</p>
+                <p lang="th" class="font-thai">อนาคตไม่ใช่เพียงเรื่องของกาลเวลา แต่คือเรื่องของ <span class="text-white font-medium">'วิสัยทัศน์'</span> ในขณะที่เราก้าวขึ้นสู่ชั้น 36 เราขอเชิญชวนท่านร่วมสำรวจเทรนด์ที่จะมากำหนดนิยามใหม่ของการอยู่อาศัย ความเป็นเมือง และไลฟ์สไตล์แห่งทศวรรษหน้าไปพร้อมกัน</p>
+                <p lang="ru">Будущее — это не просто время, это <span class="text-white font-medium">видение</span>. Поднимаясь на 36-й этаж, мы приглашаем вас изучить тренды, которые определят нашу жизнь, наш город и наш стиль в грядущем десятилетии.</p>
+                <p lang="cn" class="font-cn">未来不仅关乎时间，更关乎<span class="text-white font-medium">愿景</span>。随着我们攀升至第36层，诚邀您共同探索将定义未来十年我们居住、城市及生活方式的全新趋势。</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#construction" class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-full transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)]">
+                    <span lang="en">Construction Update</span><span lang="th">อัปเดตการก่อสร้าง</span><span lang="ru">Ход строительства</span><span lang="cn">工程进度</span>
+                </a>
+                <a href="#trends" class="px-8 py-3 bg-slate-800/50 hover:bg-slate-700 text-white border border-slate-600 rounded-full transition-all backdrop-blur-sm">
+                    <span lang="en">Explore Future Trends</span><span lang="th">เจาะลึกเทรนด์อนาคต</span><span lang="ru">Тренды будущего</span><span lang="cn">探索未来趋势</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- NEW SECTION: PROJECT OVERVIEW & SLIDER -->
+    <section id="overview" class="relative h-[600px] md:h-[850px] w-full overflow-hidden bg-black border-y border-slate-800">
+        <!-- Slider Container -->
+        <div id="overview-slider" class="absolute inset-0 w-full h-full">
+            <div class="slide active"><img src="https://i.postimg.cc/SRCv3p1c/E29-BF254-5-E7-D-47-D9-B213-54-E12-D9-BD97-D-1-201-a.jpg" class="w-full h-full object-cover" alt="Lobby Perspective"></div>
+            <div class="slide"><img src="https://i.postimg.cc/hvT56qZ2/0-D551-D79-DA02-4285-B2-DA-A8-C9-C57-D87-BC-1-201-a.jpg" class="w-full h-full object-cover" alt="Beach Club View"></div>
+            <div class="slide"><img src="https://i.postimg.cc/d3rxpKN2/5-F7-E465-D-6-C5-C-4-DE5-9436-874-DFCC32-B04-1-201-a.jpg" class="w-full h-full object-cover" alt="Aerial View"></div>
+            <div class="slide"><img src="https://i.postimg.cc/449qmz44/9857143-D-0037-4-F8-B-9-F77-3-AF62-A9-D586-B-1-201-a.jpg" class="w-full h-full object-cover" alt="Evening Perspective"></div>
+            <div class="slide"><img src="https://i.postimg.cc/KjBHwypT/CFF14118-6-F45-4-E22-B3-A5-FA2561-EEECFE-1-201-a.jpg" class="w-full h-full object-cover" alt="Pool View"></div>
+            <!-- New Images Added -->
+            <div class="slide"><img src="https://i.postimg.cc/ZRx6Df9p/Image_29-4-2568_BE_at_09.45_(1)-gigapixel-high_fidelity_v2-2x.jpg" class="w-full h-full object-cover" alt="New Overview Image 1"></div>
+            <div class="slide"><img src="https://i.postimg.cc/mr7PhHKR/3363b30c-24f7-4f10-998e-03915113f01b-topaz-sharpen-upscale-2.4x.png" class="w-full h-full object-cover" alt="New Overview Image 2"></div>
+            <div class="slide"><img src="https://i.postimg.cc/rpshBb1V/8A0AA767-3B0A-4D42-8CCA-7EFBAA513301-topaz-face-upscale-2x.png" class="w-full h-full object-cover" alt="New Overview Image 3"></div>
+            <div class="slide"><img src="https://i.postimg.cc/qvkDLggC/EBE0F28D-FC45-417B-BF7A-D8822F7D7DD0_1_201_a-gigapixel-high_fidelity_v2-2x.png" class="w-full h-full object-cover" alt="New Overview Image 4"></div>
+            <div class="slide"><img src="https://i.postimg.cc/DfH00qsf/7033e318-b3c3-462a-8129-226a35f74004_(2)-gigapixel-high_fidelity_v2-2x.png" class="w-full h-full object-cover" alt="New Overview Image 5"></div>
+        </div>
+
+        <!-- Overlays -->
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-black/20 to-slate-950/40 z-10"></div>
+        
+        <!-- Text Content -->
+        <div class="absolute bottom-0 left-0 w-full z-20 pb-20 pt-10 px-4 md:px-16 text-center md:text-left bg-gradient-to-t from-black via-black/80 to-transparent">
+            <div class="max-w-5xl mx-auto reveal">
+                <div class="flex flex-col md:flex-row items-end justify-between gap-8">
+                    <div>
+                        <span class="inline-block px-4 py-1 rounded-full border border-cyan-500/50 bg-cyan-900/30 text-cyan-400 text-xs font-bold tracking-widest uppercase mb-4 backdrop-blur-md">
+                            <span lang="en">Project Overview</span><span lang="th">ภาพรวมโครงการ</span><span lang="ru">Обзор проекта</span><span lang="cn">项目概览</span>
+                        </span>
+                        <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 font-serif leading-tight drop-shadow-2xl">
+                            <span lang="en">Welcome to <span class="text-cyan-400">2026</span></span>
+                            <span lang="th" class="font-thai">ต้อนรับศักราชใหม่ <span class="text-cyan-400">2026</span></span>
+                            <span lang="ru">Добро пожаловать в <span class="text-cyan-400">2026</span></span>
+                            <span lang="cn" class="font-cn">迎接 <span class="text-cyan-400">2026</span></span>
+                        </h2>
+                        <p class="text-lg md:text-xl text-slate-200 max-w-2xl drop-shadow-lg font-light">
+                            <span lang="en">Construction is proceeding perfectly according to plan. As the structure rises, the future we envisioned in <strong>"2026 & Beyond"</strong> is no longer a dream—it is becoming reality before your eyes.</span>
+                            <span lang="th" class="font-thai">งานก่อสร้างดำเนินไปอย่างราบรื่นและเป็นไปตามแผนงานทุกประการ ขณะที่ตัวอาคารสูงตระหง่านขึ้นเรื่อยๆ ภาพแห่งอนาคต <strong>"2026 & Beyond"</strong> ที่เราวาดฝันไว้ ไม่ใช่เพียงจินตนาการอีกต่อไป แต่กำลังก่อรูปร่างเป็นความจริงตรงหน้าคุณ</span>
+                            <span lang="ru">Строительство идет точно по плану. Структура растет, и будущее <strong>«2026 и далее»</strong> перестает быть мечтой — оно становится реальностью на ваших глазах.</span>
+                            <span lang="cn" class="font-cn">施工正按计划完美进行。随着建筑的升起，我们在<strong>“2026与未来”</strong>中构想的未来不再是梦想——它正在您眼前变为现实。</span>
+                        </p>
+                    </div>
+                    
+                    <!-- Progress Stats -->
+                    <div class="flex gap-6 border-t md:border-t-0 md:border-l border-white/20 pt-6 md:pt-0 md:pl-8 min-w-max">
+                        <div>
+                            <div class="text-3xl font-bold text-white">100%</div>
+                            <div class="text-xs text-slate-400 uppercase tracking-wide">Piling</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-cyan-400">36 FL</div>
+                            <div class="text-xs text-slate-400 uppercase tracking-wide">Structure</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-white">On Plan</div>
+                            <div class="text-xs text-slate-400 uppercase tracking-wide">Timeline</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NAVIGATION DOCK -->
+    <nav class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-[95%] md:max-w-4xl px-2">
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-700 rounded-full p-2 shadow-2xl overflow-x-auto no-scrollbar ring-1 ring-white/10">
+            <div class="flex items-center justify-start md:justify-center gap-1 min-w-max px-2">
+                <a href="#overview" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="eye" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Overview</span><span lang="th" class="font-thai">ภาพรวม</span><span lang="ru">Обзор</span><span lang="cn" class="font-cn">概览</span>
+                </a>
+                <a href="#construction" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="hard-hat" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Construction</span><span lang="th" class="font-thai">ก่อสร้าง</span><span lang="ru">Стройка</span><span lang="cn" class="font-cn">工程</span>
+                </a>
+                <a href="#future-living" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="home" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Living</span><span lang="th" class="font-thai">ที่อยู่อาศัย</span><span lang="ru">Жизнь</span><span lang="cn" class="font-cn">居住</span>
+                </a>
+                <a href="#eec" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="zap" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Mega Projects</span><span lang="th" class="font-thai">เมกะโปรเจกต์</span><span lang="ru">Проекты</span><span lang="cn" class="font-cn">大项目</span>
+                </a>
+                <a href="#entertainment" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="music" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Ent. Hub</span><span lang="th" class="font-thai">บันเทิง</span><span lang="ru">Развлечения</span><span lang="cn" class="font-cn">娱乐</span>
+                </a>
+                <a href="#events" class="nav-item px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center">
+                    <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                    <span lang="en">Events</span><span lang="th" class="font-thai">กิจกรรม</span><span lang="ru">События</span><span lang="cn" class="font-cn">活动</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONSTRUCTION UPDATE: JAN 2026 -->
+    <section id="construction" class="py-20 px-4 md:px-8 bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2 reveal">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded text-xs font-bold uppercase tracking-wider">
+                            <span lang="en">On Schedule</span><span lang="th">ตามแผนงาน</span><span lang="ru">По графику</span><span lang="cn">按计划</span>
+                        </span>
+                        <span class="text-slate-500 text-sm font-mono">JAN 2026</span>
+                    </div>
+                    
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2 font-serif">
+                        <span lang="en">Ascending to Level 36</span>
+                        <span lang="th" class="font-thai">ทะยานสู่ชั้น 36</span>
+                        <span lang="ru">Подъем на 36-й уровень</span>
+                        <span lang="cn" class="font-cn">攀升至第36层</span>
+                    </h2>
+                    <div class="h-1 w-20 bg-cyan-500 mb-8"></div>
+                    
+                    <div class="text-slate-300 mb-6 leading-relaxed space-y-4">
+                        <p lang="en"><strong>January 2026 Status:</strong> The new year begins with new heights. We have successfully completed structural work up to the <strong>36th Floor</strong>. Internal systems installation (MEP) is following closely behind on the lower floors.</p>
+                        <p lang="th" class="font-thai"><strong>สถานะเดือนมกราคม 2569:</strong> ต้อนรับศักราชใหม่ด้วยความสูงระดับใหม่ งานโครงสร้างได้ดำเนินการมาถึง <strong>ชั้น 36</strong> เป็นที่เรียบร้อย ในขณะที่งานระบบประกอบอาคาร (MEP) ในชั้นล่างกำลังดำเนินควบคู่กันไปอย่างเป็นระบบ</p>
+                        <p lang="ru"><strong>Статус на Январь 2026:</strong> Новый год начинается с новых высот. Мы успешно завершили структурные работы до <strong>36-го этажа</strong>. Установка внутренних систем идет следом на нижних этажах.</p>
+                        <p lang="cn" class="font-cn"><strong>2026年1月进度：</strong> 新年伊始，再创新高。我们已成功完成至 <strong>第36层</strong> 的结构工程。内部系统安装（MEP）正在低层紧锣密鼓地跟进。</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="p-4 bg-slate-800 rounded-lg border-l-4 border-cyan-500">
+                            <h4 class="text-2xl font-bold text-white">36</h4>
+                            <p class="text-xs text-slate-400 uppercase tracking-wide">
+                                <span lang="en">Current Floor</span><span lang="th">ชั้นปัจจุบัน</span><span lang="ru">Этаж</span><span lang="cn">当前楼层</span>
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-800 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="text-2xl font-bold text-white">2027</h4>
+                            <p class="text-xs text-slate-400 uppercase tracking-wide">
+                                <span lang="en">Completion Year</span><span lang="th">กำหนดเสร็จ</span><span lang="ru">Завершение</span><span lang="cn">完工年份</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-1/2 relative reveal delay-200">
+                    <div class="relative rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(8,145,178,0.2)] border border-slate-700 group">
+                        <!-- MOCKUP Image for construction -->
+                        <img src="https://i.postimg.cc/NMky4dR3/af394d56-3273-4c81-8b5f-90f16387c4b7_0-gigapixel-high_fidelity_v2-2x.png" class="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700" alt="Construction Site">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
+                        
+                        <!-- Overlay Text -->
+                        <div class="absolute bottom-6 left-6">
+                             <p class="text-cyan-400 text-sm font-bold mb-1 flex items-center">
+                                <span class="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
+                                Live Progress
+                             </p>
+                             <p class="text-white text-lg font-bold">Copacabana Coral Reef</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: TRENDS 2026 & BEYOND -->
+    <div id="trends" class="py-10 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan-500 text-sm font-bold tracking-[0.2em] uppercase">The Big Picture</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-6 font-serif">
+                    <span lang="en">2026 & Beyond</span>
+                    <span lang="th" class="font-thai">โลกใบใหม่ ปี 2026</span>
+                    <span lang="ru">2026 и Будущее</span>
+                    <span lang="cn" class="font-cn">2026 与未来</span>
+                </h2>
+                <p class="text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                    <span lang="en">2026 marks the turning point. Explore the evolution of living across three dimensions: from the <strong>Sentient Home</strong>, to the <strong>Global Metropolis</strong>, and the rise of a <strong>National Superpower</strong>.</span>
+                    <span lang="th" class="font-thai">ปี 2026 คือจุดเปลี่ยนสำคัญ ร่วมสำรวจวิวัฒนาการของการใช้ชีวิตใน 3 มิติ: ตั้งแต่เทคโนโลยีในระดับ <strong>"บ้าน"</strong> สู่โครงสร้างพื้นฐานระดับ <strong>"เมือง"</strong> และภาพใหญ่ระดับ <strong>"ประเทศ"</strong></span>
+                    <span lang="ru">2026 год — это поворотный момент. Исследуйте эволюцию жизни в трех измерениях: от <strong>Разумного дома</strong> до <strong>Глобального мегаполиса</strong> и роста <strong>Национальной державы</strong>.</span>
+                    <span lang="cn" class="font-cn">2026年是一个转折点。探索生活在三个维度上的演变：从<strong>感知之家</strong>到<strong>全球大都市</strong>，再到<strong>国家超级大国</strong>的崛起。</span>
+                </p>
+            </div>
+
+            <!-- 1. FUTURE LIVING -->
+            <section id="future-living" class="mb-24 reveal">
+                <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border-t border-cyan-500/50">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-3 bg-cyan-500/20 rounded-lg text-cyan-400"><i data-lucide="brain-circuit" class="w-6 h-6"></i></div>
+                                <h3 class="text-2xl font-bold text-white leading-tight">
+                                    <span lang="en">The Sentient Home</span>
+                                    <span lang="th" class="font-thai">บ้านที่มีชีวิต (Sentient Home)</span>
+                                    <span lang="ru">Разумный Дом</span>
+                                    <span lang="cn" class="font-cn">感知之家</span>
+                                </h3>
+                            </div>
+                            
+                            <h4 class="text-lg text-cyan-200 mb-4 font-serif italic">
+                                <span lang="en">"2026 & Beyond: From Smart to Sentient"</span>
+                                <span lang="th" class="font-thai">"2026 และก้าวต่อไป: จากบ้านอัจฉริยะ สู่บ้านที่คิดเองได้"</span>
+                                <span lang="ru">"От умного дома к мыслящему"</span>
+                                <span lang="cn" class="font-cn">"从智能到感知"</span>
+                            </h4>
+                            
+                            <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                                <span lang="en">We are entering the age of <strong>Agentic AI</strong>—homes that don't just obey, but think. Future living involves <strong>Medicalization</strong> (HBOT, Cryotherapy), <strong>Robot-Ready Design</strong> for humanoid assistants, and <strong>Regenerative Materials</strong> like self-healing concrete.</span>
+                                <span lang="th" class="font-thai">เรากำลังก้าวเข้าสู่ยุค <strong>Agentic AI</strong> ที่บ้านไม่ได้เพียงแค่ทำตามคำสั่ง แต่สามารถ 'คิด' และวางแผนเพื่อคุณได้ เทรนด์แห่งอนาคตยังครอบคลุมถึง <strong>Medicalization</strong> (การยกระดับบ้านให้เป็นพื้นที่ดูแลสุขภาพด้วย HBOT และ Cryotherapy), <strong>Robot-Ready Design</strong> (การออกแบบเพื่อรองรับหุ่นยนต์) และการใช้วัสดุ <strong>Regenerative</strong> ที่สามารถซ่อมแซมตัวเองได้</span>
+                                <span lang="ru">Мы вступаем в эру <strong>Агентного ИИ</strong> — домов, которые думают. Будущее включает <strong>Медикализацию</strong>, дизайн для <strong>Роботов</strong> и <strong>Регенеративные материалы</strong>.</span>
+                                <span lang="cn" class="font-cn">我们要进入<strong>代理AI</strong>时代。未来的居住包括<strong>医疗化</strong>（高压氧、冷冻疗法）、<strong>机器人就绪设计</strong>以及如自愈混凝土般的<strong>再生材料</strong>。</span>
+                            </p>
+
+                            <!-- Key Trends Grid -->
+                            <div class="grid grid-cols-2 gap-3 mb-6">
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="bot" class="w-3 h-3 text-cyan-400"></i> 
+                                    <span lang="en">Agentic AI</span><span lang="th">AI มีเป้าหมาย</span><span lang="ru">Агентный ИИ</span><span lang="cn">代理AI</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 text-pink-400"></i> 
+                                    <span lang="en">Home as Doctor</span><span lang="th">บ้านคือหมอ</span><span lang="ru">Дом-врач</span><span lang="cn">家庭医生</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="leaf" class="w-3 h-3 text-green-400"></i> 
+                                    <span lang="en">Regenerative</span><span lang="th">วัสดุฟื้นฟู</span><span lang="ru">Регенерация</span><span lang="cn">再生材料</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="wifi" class="w-3 h-3 text-blue-400"></i> 
+                                    <span lang="en">6G & Holograms</span><span lang="th">6G & โฮโลแกรม</span><span lang="ru">6G & Голограммы</span><span lang="cn">6G & 全息</span>
+                                </div>
+                            </div>
+                            
+                            <a href="https://thbho.github.io/FutureLiving.html" target="_blank" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors group text-sm font-bold uppercase tracking-wider">
+                                <span lang="en">Read Full Vision</span><span lang="th">อ่านบทวิเคราะห์เต็ม</span><span lang="ru">Читать полностью</span><span lang="cn">阅读完整愿景</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                        <div class="relative group">
+                            <div class="rounded-2xl shadow-2xl overflow-hidden w-full h-64 md:h-80 border border-slate-700 bg-black">
+                                <iframe 
+                                    class="w-full h-full object-cover" 
+                                    src="https://www.youtube.com/embed/ju1B4UJOLwM" 
+                                    title="The Sentient Home" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <!-- Floating Tag -->
+                            <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur border border-white/10 px-4 py-2 rounded-full flex items-center gap-2 pointer-events-none">
+                                <div class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                                <span class="text-xs text-white">Sentient Mode: ON</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. EEC MEGA PROJECTS -->
+            <section id="eec" class="mb-24 reveal">
+                <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border-t border-purple-500/50">
+                    <div class="absolute top-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -ml-32 -mt-32"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        <div class="order-2 lg:order-1 relative group">
+                            <!-- Video Embed -->
+                            <div class="rounded-2xl shadow-2xl overflow-hidden w-full h-64 md:h-80 border border-slate-700 bg-black">
+                                <iframe 
+                                    class="w-full h-full object-cover" 
+                                    src="https://www.youtube.com/embed/TyvXb25s3fw?autoplay=1&mute=1&controls=0&loop=1&playlist=TyvXb25s3fw" 
+                                    title="EEC Mega Projects" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                             <!-- Floating Tag -->
+                             <div class="absolute top-4 right-4 bg-purple-600 px-4 py-2 rounded-lg shadow-lg pointer-events-none">
+                                <span class="text-xs text-white font-bold">EEC Vision 2026</span>
+                            </div>
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-3 bg-purple-500/20 rounded-lg text-purple-400"><i data-lucide="building-2" class="w-6 h-6"></i></div>
+                                <h3 class="text-2xl font-bold text-white leading-tight">
+                                    <span lang="en">EEC: The Global Metropolis</span><span lang="th" class="font-thai">EEC: มหานครระดับโลก</span>
+                                    <span lang="ru">EEC: Глобальный Мегаполис</span><span lang="cn" class="font-cn">EEC: 全球大都市</span>
+                                </h3>
+                            </div>
+                            
+                            <h4 class="text-lg text-purple-200 mb-4 font-serif italic">
+                                <span lang="en">"The Trillion-Baht Future"</span>
+                                <span lang="th" class="font-thai">"อนาคตมูลค่าล้านล้านบาท"</span>
+                                <span lang="ru">"Триллионное будущее"</span>
+                                <span lang="cn" class="font-cn">"万亿泰铢的未来"</span>
+                            </h4>
+                            
+                            <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                                <span lang="en">Discover the full potential of the <strong>Eastern Economic Corridor (EEC)</strong>. From the <strong>Eastern Aviation City</strong> at U-Tapao to the <strong>EECiti Smart City</strong> ("Bangkok 2") and Global Magnet Projects like Disneyland-style parks. This integration transforms Jomtien into a <strong>"Silicon Beach"</strong>, driving a 126.5% land price surge.</span>
+                                <span lang="th" class="font-thai">สัมผัสศักยภาพเต็มรูปแบบของ <strong>เขตพัฒนาพิเศษภาคตะวันออก (EEC)</strong> ตั้งแต่ <strong>เมืองการบินภาคตะวันออก</strong> (อู่ตะเภา) สู่ <strong>EECiti Smart City</strong> (หรือ "กรุงเทพฯ 2") และเมกะโปรเจกต์ระดับโลก การผนึกกำลังครั้งนี้กำลังพลิกโฉมจอมเทียนให้กลายเป็น <strong>"Silicon Beach"</strong> พร้อมดันราคาที่ดินให้พุ่งสูงขึ้นถึง 126.5%</span>
+                                <span lang="ru">Откройте потенциал <strong>EEC</strong>. От <strong>Авиационного города</strong> в У-Тапао до умного города <strong>EECiti</strong> («Бангкок 2») и глобальных проектов. Эта интеграция превращает Джомтьен в <strong>«Силиконовый пляж»</strong>, поднимая цены на землю на 126,5%.</span>
+                                <span lang="cn" class="font-cn">探索<strong>东部经济走廊 (EEC)</strong>的全部潜力。从乌塔堡的<strong>东部航空城</strong>到<strong>EECiti智慧城市</strong>（“曼谷第二”）及迪士尼风格乐园等全球项目。这种整合将中天转型为<strong>“硅滩”</strong>，推动地价飙升126.5%。</span>
+                            </p>
+
+                             <!-- Key Trends Grid -->
+                             <div class="grid grid-cols-2 gap-3 mb-6">
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="coins" class="w-3 h-3 text-yellow-400"></i> 
+                                    <span lang="en">1.34 Trillion THB</span><span lang="th">1.34 ล้านล้านบาท</span><span lang="ru">1,34 трлн THB</span><span lang="cn">1.34万亿泰铢</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="ferris-wheel" class="w-3 h-3 text-purple-400"></i> 
+                                    <span lang="en">Disney-style Park</span><span lang="th">สวนสนุกระดับโลก</span><span lang="ru">Парк развлечений</span><span lang="cn">迪士尼风格乐园</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="plane" class="w-3 h-3 text-blue-400"></i> 
+                                    <span lang="en">Aerotropolis</span><span lang="th">มหานครการบิน</span><span lang="ru">Аэротрополис</span><span lang="cn">航空大都市</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="laptop-2" class="w-3 h-3 text-cyan-400"></i> 
+                                    <span lang="en">Silicon Beach</span><span lang="th">ซิลิคอนบีช</span><span lang="ru">Силиконовый пляж</span><span lang="cn">硅滩</span>
+                                </div>
+                            </div>
+                            
+                            <a href="https://thbho.github.io/EECMegaProjects.html" target="_blank" class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors group text-sm font-bold uppercase tracking-wider">
+                                <span lang="en">See Project Map</span><span lang="th">ดูแผนที่โครงการ</span><span lang="ru">Карта проектов</span><span lang="cn">查看项目地图</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- 3. ENTERTAINMENT HUB -->
+             <section id="entertainment" class="reveal">
+                <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border-t border-pink-500/50">
+                    <div class="absolute bottom-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl -mr-32 -mb-32"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-3 bg-pink-500/20 rounded-lg text-pink-400"><i data-lucide="party-popper" class="w-6 h-6"></i></div>
+                                <h3 class="text-2xl font-bold text-white leading-tight">
+                                    <span lang="en">Entertainment Superpower</span><span lang="th" class="font-thai">มหาอำนาจความบันเทิง</span>
+                                    <span lang="ru">Развлекательная держава</span><span lang="cn" class="font-cn">娱乐超级大国</span>
+                                </h3>
+                            </div>
+                            
+                            <h4 class="text-lg text-pink-200 mb-4 font-serif italic">
+                                <span lang="en">"World Event Hub & The New Thailand"</span>
+                                <span lang="th" class="font-thai">"ศูนย์กลางอีเวนต์โลก & โฉมใหม่ประเทศไทย"</span>
+                                <span lang="ru">"Мировой центр событий"</span>
+                                <span lang="cn" class="font-cn">"世界盛会中心 & 新泰国"</span>
+                            </h4>
+                            
+                            <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                                <span lang="en">Thailand pivots to <strong>"Value Over Volume"</strong>. Chonburi becomes a mega-event base hosting <strong>Tomorrowland (Dec 2026)</strong>. Driven by the <strong>"Lisa Effect"</strong> and new laws for <strong>Integrated Entertainment Complexes</strong> (90% non-gaming, theme parks), we are building a 2.79 Trillion THB economy.</span>
+                                <span lang="th" class="font-thai">ประเทศไทยกำลังปรับทิศทางสู่การท่องเที่ยวที่ <strong>"เน้นมูลค่ามากกว่าปริมาณ"</strong> โดยชลบุรีกำลังก้าวขึ้นเป็นฐานการจัดงานระดับโลก เตรียมพร้อมรับมหกรรม <strong>Tomorrowland</strong> (ธ.ค. 2026) ขับเคลื่อนด้วยกระแส <strong>"Lisa Effect"</strong> และกฎหมาย <strong>Entertainment Complex</strong> ฉบับใหม่ (ที่กำหนดให้มีพื้นที่สวนสนุกและสำหรับครอบครัวถึง 90%) มุ่งสู่เป้าหมายเศรษฐกิจมูลค่า 2.79 ล้านล้านบาท</span>
+                                <span lang="ru">Таиланд переходит к стратегии <strong>«Ценность важнее объема»</strong>. Чонбури примет <strong>Tomorrowland (дек. 2026)</strong>. Благодаря <strong>«Эффекту Лизы»</strong> и новым <strong>Развлекательным комплексам</strong> (90% семейных зон) экономика растет.</span>
+                                <span lang="cn" class="font-cn">泰国转向<strong>“价值高于数量”</strong>。春武里成为大型活动基地，举办<strong>Tomorrowland（2026年12月）</strong>。在<strong>“Lisa效应”</strong>和<strong>综合娱乐中心</strong>新法（90%非博彩、主题公园）的推动下，打造2.79万亿泰铢经济体。</span>
+                            </p>
+
+                             <!-- Key Trends Grid -->
+                             <div class="grid grid-cols-2 gap-3 mb-6">
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="globe-2" class="w-3 h-3 text-pink-400"></i> 
+                                    <span lang="en">World Event Hub</span><span lang="th">ศูนย์กลางอีเวนต์โลก</span><span lang="ru">Центр событий</span><span lang="cn">世界盛会中心</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="music-2" class="w-3 h-3 text-cyan-400"></i> 
+                                    <span lang="en">Tomorrowland '26</span><span lang="th">Tomorrowland '26</span><span lang="ru">Tomorrowland '26</span><span lang="cn">Tomorrowland '26</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="sparkles" class="w-3 h-3 text-yellow-400"></i> 
+                                    <span lang="en">The Lisa Effect</span><span lang="th">Lisa Effect</span><span lang="ru">Эффект Лизы</span><span lang="cn">Lisa 效应</span>
+                                </div>
+                                <div class="bg-slate-800/50 p-2 rounded border border-slate-700/50 text-xs text-slate-300 flex items-center gap-2">
+                                    <i data-lucide="castle" class="w-3 h-3 text-purple-400"></i> 
+                                    <span lang="en">Theme Parks (90%)</span><span lang="th">สวนสนุก (90%)</span><span lang="ru">Парки (90%)</span><span lang="cn">主题公园 (90%)</span>
+                                </div>
+                            </div>
+                            
+                            <a href="https://thbho.github.io/EntHub.html" target="_blank" class="inline-flex items-center text-pink-400 hover:text-pink-300 transition-colors group text-sm font-bold uppercase tracking-wider">
+                                <span lang="en">Discover Attractions</span><span lang="th">ค้นพบสถานที่ท่องเที่ยว</span><span lang="ru">Открыть места</span><span lang="cn">探索景点</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                        <div class="relative group">
+                            <!-- Video Embed -->
+                            <div class="rounded-2xl shadow-2xl overflow-hidden w-full h-64 md:h-80 border border-slate-700 bg-black">
+                                <iframe 
+                                    class="w-full h-full object-cover" 
+                                    src="https://www.youtube.com/embed/0ZBSZnyNlYI" 
+                                    title="Thailand Entertainment Hub 2026" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            
+                            <!-- Floating Tag -->
+                            <div class="absolute top-4 right-4 bg-pink-600/90 backdrop-blur px-4 py-2 rounded-lg shadow-lg pointer-events-none">
+                                <span class="text-xs text-white font-bold">Watch Vision 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- EVENTS JANUARY 2026 -->
+    <section id="events" class="py-20 px-4 md:px-8 bg-slate-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-12 text-center font-serif reveal">
+                <span lang="en">Happening in January 2026</span>
+                <span lang="th" class="font-thai">กิจกรรมน่าสนใจ มกราคม 2569</span>
+                <span lang="ru">События Января 2026</span>
+                <span lang="cn" class="font-cn">2026年1月精彩活动</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Event 1: Sealebration of Light and Legacy -->
+                <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-cyan-500 transition duration-300 reveal group flex flex-col">
+                    <div class="h-40 overflow-hidden rounded-xl mb-4 relative">
+                        <img src="https://i.postimg.cc/t4gSQ2pp/DB367694-FA5E-4EB8-A491-F49F27E5E20B-1-201-a.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Lights">
+                        <div class="absolute top-2 right-2 bg-black/70 text-cyan-400 text-xs font-bold px-2 py-1 rounded">Until Jan 4</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-tight">
+                        <span lang="en">The Sealebration of Light & Legacy</span>
+                        <span lang="th" class="font-thai">เทศกาลแสงสีแห่งมรดกพัทยา</span>
+                        <span lang="ru">Праздник Света и Наследия</span>
+                        <span lang="cn" class="font-cn">光与遗产的庆典</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        <span lang="en">Experience spectacular light art installations at 11 key landmarks across Pattaya, celebrating our cultural heritage.</span>
+                        <span lang="th" class="font-thai">ชมศิลปะไฟประดับสุดตระการตา ณ 11 จุดแลนด์มาร์กทั่วเมืองพัทยา เพื่อเฉลิมฉลองปีใหม่และมรดกทางวัฒนธรรม</span>
+                        <span lang="ru">Насладитесь световыми инсталляциями в 11 ключевых местах Паттайи, прославляющими наше наследие.</span>
+                        <span lang="cn" class="font-cn">在芭堤雅的11个主要地标体验壮观的灯光艺术装置，庆祝我们的文化遗产。</span>
+                    </p>
+                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-4 mt-auto">
+                        <div class="flex items-center text-xs text-slate-500">
+                            <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> 11 Landmarks
+                        </div>
+                        <a href="https://www.pattayamail.com/news/pattaya-turns-11-landmarks-into-a-city-of-light-for-new-year-sealebration-530014" target="_blank" class="text-cyan-400 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center transition-colors">
+                            <span lang="en">Website</span><span lang="th">เว็บไซต์</span>
+                            <i data-lucide="external-link" class="w-3 h-3 ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event 2: Children's Day -->
+                <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-yellow-500 transition duration-300 reveal delay-100 group flex flex-col">
+                    <div class="h-40 overflow-hidden rounded-xl mb-4 relative">
+                         <!-- Use a generic joy/fun image or placeholder -->
+                        <img src="https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Children Day">
+                        <div class="absolute top-2 right-2 bg-black/70 text-yellow-400 text-xs font-bold px-2 py-1 rounded">Jan 10</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-tight">
+                        <span lang="en">National Children's Day</span>
+                        <span lang="th" class="font-thai">วันเด็กแห่งชาติ 2569</span>
+                        <span lang="ru">День Детей</span>
+                        <span lang="cn" class="font-cn">泰国儿童节</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        <span lang="en">A joyful day with gifts and special shows for kids at Pattaya City Hall and Terminal 21.</span>
+                        <span lang="th" class="font-thai">วันแห่งความสุขของหนูๆ พบกิจกรรมแจกของขวัญและการแสดงพิเศษ ณ ศาลาว่าการเมืองพัทยา และ Terminal 21</span>
+                        <span lang="ru">Радостный день с подарками и шоу для детей в мэрии Паттайи и Terminal 21.</span>
+                        <span lang="cn" class="font-cn">在芭堤雅市政厅和 Terminal 21 为孩子们举办充满礼物和特别表演的欢乐日。</span>
+                    </p>
+                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-4 mt-auto">
+                        <div class="flex items-center text-xs text-slate-500">
+                            <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> City Hall / T21
+                        </div>
+                        <a href="https://thepattayanews.com/2025/01/08/celebrate-childrens-day-this-saturday-at-central-pattaya-and-city-hall-with-free-activities-and-gifts/" target="_blank" class="text-yellow-400 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center transition-colors">
+                            <span lang="en">Website</span><span lang="th">เว็บไซต์</span>
+                            <i data-lucide="external-link" class="w-3 h-3 ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event 3: UnKonscious Festival -->
+                <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-purple-500 transition duration-300 reveal delay-200 group flex flex-col">
+                    <div class="h-40 overflow-hidden rounded-xl mb-4 relative">
+                        <!-- Use a generic beach party/festival image -->
+                        <img src="https://static.wixstatic.com/media/8bcc8b_2745e75705b2461093ceba9c8b9efa5c~mv2.jpg/v1/fill/w_1824,h_954,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/UNK26%20Main%20artwork%20event%20page%20cover.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="UnKonscious Festival">
+                        <div class="absolute top-2 right-2 bg-black/70 text-purple-400 text-xs font-bold px-2 py-1 rounded">Jan 29 - Feb 1</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-tight">
+                        <span lang="en">UnKonscious Festival 2026</span>
+                        <span lang="th" class="font-thai">เทศกาลดนตรี UnKonscious</span>
+                        <span lang="ru">Фестиваль UnKonscious</span>
+                        <span lang="cn" class="font-cn">UnKonscious 音乐节</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        <span lang="en">Asia's biggest Trance music festival on the beach. Pool parties and world-class DJs await!</span>
+                        <span lang="th" class="font-thai">เทศกาลดนตรี Trance ริมชายหาดที่ใหญ่ที่สุดในเอเชีย พบกับปาร์ตี้สระน้ำและดีเจระดับโลก!</span>
+                        <span lang="ru">Крупнейший в Азии фестиваль транс-музыки на пляже. Вечеринки у бассейна и диджеи мирового класса!</span>
+                        <span lang="cn" class="font-cn">亚洲最大的海滩 Trance 音乐节。泳池派对和世界级 DJ 等着您！</span>
+                    </p>
+                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-4 mt-auto">
+                        <div class="flex items-center text-xs text-slate-500">
+                            <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Alexa Beach Club
+                        </div>
+                        <a href="https://www.unkonsciousfestival.com/" target="_blank" class="text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center transition-colors">
+                            <span lang="en">Website</span><span lang="th">เว็บไซต์</span>
+                            <i data-lucide="external-link" class="w-3 h-3 ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-16 bg-slate-950 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+                <!-- Address -->
+                <div class="reveal">
+                    <div class="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-cyan-500 mx-auto md:mx-0 mb-4 border border-slate-800 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">
+                        <span lang="en">Visit Us</span><span lang="th" class="font-thai">เยี่ยมชมโครงการ</span>
+                        <span lang="ru">Наш адрес</span><span lang="cn" class="font-cn">访问我们</span>
+                    </h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Copacabana Coral Reef Jomtien<br>
+                        Jomtien Second Road, Pattaya City,<br>
+                        Bang Lamung District, Chon Buri 20150
+                    </p>
+                    <a href="https://maps.app.goo.gl/r6Q8s3sZ3sZ3sZ3sZ" target="_blank" class="text-cyan-500 text-sm mt-3 inline-flex items-center hover:text-cyan-400 transition-colors">
+                        <span lang="en">Get Directions</span><span lang="th" class="font-thai">ดูแผนที่</span> &rarr;
+                    </a>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="reveal delay-100">
+                    <div class="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-cyan-500 mx-auto md:mx-0 mb-4 border border-slate-800 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                        <i data-lucide="phone" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">
+                        <span lang="en">Get in Touch</span><span lang="th" class="font-thai">ติดต่อเรา</span>
+                        <span lang="ru">Свяжитесь с нами</span><span lang="cn" class="font-cn">联系方式</span>
+                    </h4>
+                    <ul class="text-slate-400 text-sm space-y-3">
+                        <li class="flex items-center justify-center md:justify-start gap-2">
+                            <i data-lucide="phone-call" class="w-4 h-4 text-slate-500"></i>
+                            <span>+66 (0) 38 231 988</span>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-slate-500"></i>
+                            <span>info@copacabanacoralreef.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Socials: Follow Our Journey -->
+                <div class="reveal delay-200">
+                    <div class="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-cyan-500 mx-auto md:mx-0 mb-4 border border-slate-800 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                        <i data-lucide="share-2" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">
+                        <span lang="en">Follow Our Journey</span><span lang="th" class="font-thai">ติดตามการเดินทางของเรา</span>
+                        <span lang="ru">Следите за нами</span><span lang="cn" class="font-cn">关注我们的旅程</span>
+                    </h4>
+                    <ul class="text-slate-400 text-sm space-y-3">
+                        <li>
+                            <a href="https://www.facebook.com/CopacabanaCoralReefJomtien" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-cyan-400 transition-colors group">
+                                <i data-lucide="facebook" class="w-4 h-4 text-[#1877F2] group-hover:text-cyan-400 transition-colors"></i>
+                                <span>Copacabana Coral Reef Jomtien</span>
+                            </a>
+                        </li>
+                         <li>
+                            <a href="https://www.instagram.com/copacabanacoralreef" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-cyan-400 transition-colors group">
+                                <i data-lucide="instagram" class="w-4 h-4 text-[#E1306C] group-hover:text-cyan-400 transition-colors"></i>
+                                <span>@copacabanacoralreef</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://line.me/ti/p/~copacabanagroup" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-cyan-400 transition-colors group">
+                                <i data-lucide="message-circle" class="w-4 h-4 text-[#06C755] group-hover:text-cyan-400 transition-colors"></i>
+                                <span>copacabanagroup</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/@CopacabanaPattaya" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-cyan-400 transition-colors group">
+                                <i data-lucide="youtube" class="w-4 h-4 text-[#FF0000] group-hover:text-cyan-400 transition-colors"></i>
+                                <span>Copacabana Pattaya</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.copacabanagroup.com" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-cyan-400 transition-colors group">
+                                <i data-lucide="globe" class="w-4 h-4 text-blue-400 group-hover:text-cyan-400 transition-colors"></i>
+                                <span>copacabanagroup.com</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-slate-500 py-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0 flex items-center">
+                 <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Logo" class="h-12 w-auto mr-4 opacity-80">
+                 <div>
+                    <h2 class="text-xl font-bold text-slate-300 tracking-wider">COPACABANA</h2>
+                    <p class="text-xs uppercase tracking-widest mt-1">Coral Reef Jomtien</p>
+                 </div>
+            </div>
+            
+            <div class="text-center md:text-right">
+                <p class="text-sm">Newsletter Issue: January 2026</p>
+                <div class="text-xs mt-2 text-cyan-500/60">Theme: 2026 & Beyond</div>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-xs opacity-30">
+            &copy; 2026 Copacabana Coral Reef Jomtien. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Icons
+        lucide.createIcons();
+
+        // Language Logic
+        function setLanguage(lang) {
+            const body = document.body;
+            const btns = document.querySelectorAll('.fixed button');
+
+            body.classList.remove('lang-th', 'lang-ru', 'lang-cn');
+            btns.forEach(btn => {
+                btn.classList.remove('scale-110', 'ring-2', 'ring-cyan-500', 'opacity-100');
+                btn.classList.add('opacity-70');
+            });
+
+            const activeBtn = document.getElementById('btn-' + lang);
+            if (activeBtn) {
+                activeBtn.classList.add('scale-110', 'ring-2', 'ring-cyan-500', 'opacity-100');
+                activeBtn.classList.remove('opacity-70');
+            }
+
+            if (lang !== 'en') {
+                body.classList.add('lang-' + lang);
+            }
+        }
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+            reveals.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger once on load
+
+        // Overview Slider Logic
+        const slides = document.querySelectorAll('#overview-slider .slide');
+        let currentSlide = 0;
+        const slideInterval = 4000; // 4 seconds
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, slideInterval);
+    </script>
+</body>
+</html>
