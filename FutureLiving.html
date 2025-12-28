@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2026+: The Sentient Habitat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <!-- Fonts: Inter (Eng/Rus), Noto Sans SC (Chi), Prompt (Thai) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Theme: Cyber-Zen */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #84cc16;
+            --accent-orange: #f97316;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Language Specific Font Overrides */
+        body.lang-th { font-family: 'Prompt', sans-serif; }
+        body.lang-zh { font-family: 'Noto Sans SC', sans-serif; }
+        body.lang-ru { font-family: 'Inter', sans-serif; }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            height: 380px; 
+            max-height: 450px;
+        }
+
+        /* Interactive Cards */
+        .info-card {
+            background-color: var(--bg-card);
+            border-radius: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 20px -5px rgba(6, 182, 212, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Video Embed */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            background: #000;
+        }
+        .video-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Gradients & Utilities */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-warm {
+            background: linear-gradient(135deg, var(--accent-orange), #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+
+        /* Flag Button Styles */
+        .lang-btn {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.6;
+            padding: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .lang-btn svg { width: 100%; height: 100%; object-fit: cover; }
+        .lang-btn:hover { opacity: 1; transform: scale(1.1); border-color: var(--accent-cyan); }
+        .lang-btn.active { opacity: 1; border-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
+    </style>
+</head>
+<body class="antialiased lang-en">
+
+    <!-- Flag Switcher (Fixed Top-Right) -->
+    <div class="fixed top-4 right-4 z-50 flex gap-3 bg-slate-900/90 backdrop-blur-md p-2 rounded-full border border-slate-700 shadow-2xl">
+        <!-- EN Flag -->
+        <button onclick="setLang('en')" class="lang-btn active" id="btn-en" title="English">
+            <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/><path d="M30,0 L30,30 M0,15 L60,15" stroke="#fff" stroke-width="10"/><path d="M30,0 L30,30 M0,15 L60,15" stroke="#C8102E" stroke-width="6"/></svg>
+        </button>
+        <!-- TH Flag -->
+        <button onclick="setLang('th')" class="lang-btn" id="btn-th" title="Thai">
+            <svg viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg"><rect width="90" height="60" fill="#F4F5F8"/><rect y="0" width="90" height="10" fill="#A51931"/><rect y="50" width="90" height="10" fill="#A51931"/><rect y="20" width="90" height="20" fill="#2D2A4A"/></svg>
+        </button>
+        <!-- RU Flag -->
+        <button onclick="setLang('ru')" class="lang-btn" id="btn-ru" title="Russian">
+            <svg viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg"><rect width="90" height="60" fill="#fff"/><rect y="20" width="90" height="20" fill="#0039A6"/><rect y="40" width="90" height="20" fill="#D52B1E"/></svg>
+        </button>
+        <!-- CN Flag -->
+        <button onclick="setLang('zh')" class="lang-btn" id="btn-zh" title="Chinese">
+            <svg viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg"><rect width="90" height="60" fill="#DE2910"/><path d="M15,15 l3,9 h-9 l7,-5 l-2,7 l-2,-7 l7,5 h-9 z" fill="#FFDE00" transform="scale(1.2)"/><path d="M30,5 l1,3 h-3 l2,-2 l-1,3 l-1,-3 l2,2 h-3 z" fill="#FFDE00"/><path d="M35,10 l1,3 h-3 l2,-2 l-1,3 l-1,-3 l2,2 h-3 z" fill="#FFDE00"/><path d="M35,20 l1,3 h-3 l2,-2 l-1,3 l-1,-3 l2,2 h-3 z" fill="#FFDE00"/><path d="M30,25 l1,3 h-3 l2,-2 l-1,3 l-1,-3 l2,2 h-3 z" fill="#FFDE00"/></svg>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full py-20 px-4 md:px-8 overflow-hidden bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div id="hero-badge" class="inline-block px-4 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold mb-5 tracking-wider uppercase animate-fade-in-up">
+                Future Trend Report 2026+
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+                <span id="hero-title-prefix">Integrated Future Living:</span><br>
+                <span class="text-gradient">The Sentient Home Era</span>
+            </h1>
+
+            <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <!-- Updated PDF Link with security attributes -->
+                <a href="https://drive.google.com/file/d/1wW8onYTwAIjw95U2IhoMZouJ0CoZMyI4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-3 px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-500 rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/20">
+                    <div class="p-2 bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-colors">
+                        <span class="text-red-500 text-xl font-bold">PDF</span>
+                    </div>
+                    <div class="text-left">
+                        <p id="pdf-btn-sub" class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Download Full Report</p>
+                        <p class="text-sm text-slate-200 font-medium group-hover:text-cyan-400 transition-colors">
+                            The Sentient Habitat: 2026-2035
+                        </p>
+                    </div>
+                    <span class="ml-2 text-slate-500 group-hover:text-cyan-400 transition-colors text-xl">⬇</span>
+                </a>
+            </div>
+
+            <p id="hero-desc" class="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed mb-10 animate-fade-in-up" style="animation-delay: 0.3s;">
+                When the home becomes 'Sentient' and cares for you proactively: Discover the new vision of Smart Life Balance where AI handles all chores, returning quality time to you.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-3 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <span id="badge-ai" class="px-3 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-purple-300 font-semibold">🧠 Hybrid AI Agent</span>
+                <span id="badge-life" class="px-3 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-cyan-300 font-semibold">⚖️ Smart Life Balance</span>
+                <span id="badge-agri" class="px-3 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-green-300 font-semibold">🌱 Micro-AgriTech</span>
+                <span id="badge-energy" class="px-3 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-orange-300 font-semibold">🔋 Solid-State</span>
+            </div>
+        </div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-slate-950 -z-10 opacity-70"></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-16 space-y-24">
+
+        <!-- SECTION: Video Insight (Privacy Enhanced) -->
+        <section class="max-w-4xl mx-auto animate-fade-in-up" style="animation-delay: 0.5s;">
+            <div class="info-card p-4 md:p-6 bg-slate-800/80 backdrop-blur-sm border border-cyan-500/30">
+                <div class="flex items-center justify-between mb-4 px-2">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-red-500 text-2xl">▶</span> <span id="video-title">Video Insight: The Sentient Home</span>
+                    </h3>
+                    <span id="video-badge" class="text-xs text-cyan-400 border border-cyan-500/30 px-2 py-1 rounded bg-cyan-900/20">Must Watch</span>
+                </div>
+                <div class="video-wrapper">
+                    <!-- Changed to youtube-nocookie for privacy -->
+                    <iframe src="https://www.youtube-nocookie.com/embed/ju1B4UJOLwM" title="The Rise of the Sentient Home" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p id="video-caption" class="text-center text-sm text-slate-400 mt-4 italic">
+                    "We are moving way beyond a home that just obeys commands... to a home that anticipates."
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 1: AI -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div class="lg:col-span-5 space-y-6">
+                <h2 id="sec1-title" class="text-3xl font-bold text-white">AI Philosophy: From Servant to "Caretaker"</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-purple-500 to-cyan-500"></div>
+                <p id="sec1-desc" class="text-slate-300 leading-relaxed">
+                    The core is not voice commands, but using AI as a "3rd Arm" to think and handle routine tasks proactively, with Biometric 2.0 security.
+                </p>
+                <div class="bg-slate-800/50 p-5 rounded-lg border-l-4 border-purple-500 mt-4">
+                    <h4 id="sec1-insight-title" class="text-purple-300 font-bold mb-1">Developer Insight</h4>
+                    <p id="sec1-insight-desc" class="text-sm text-slate-400">Train AI "Local-First" (Edge Computing) for speed and to protect residents' privacy from cloud hacks.</p>
+                </div>
+            </div>
+            <div class="lg:col-span-7">
+                <div class="info-card p-8">
+                    <h3 id="diag1-title" class="text-xl font-bold text-center mb-10 text-white">Hybrid AI Ecosystem + Biometric 2.0</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+                        <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-700 -z-10"></div>
+                        <div class="w-full md:w-1/3 bg-slate-900 border border-cyan-500/30 p-4 rounded-xl text-center shadow-lg">
+                            <div class="text-3xl mb-2">👁️</div>
+                            <h4 id="diag1-node1" class="font-bold text-cyan-400">Advanced Input</h4>
+                            <p id="diag1-node1-desc" class="text-xs text-slate-500 mt-2">Sensors, IoT, Biometric 2.0</p>
+                        </div>
+                        <div class="w-44 h-44 bg-purple-900/20 border-2 border-purple-500 rounded-full flex flex-col justify-center items-center text-center shadow-lg backdrop-blur-md">
+                            <div class="text-4xl mb-1">🧠</div>
+                            <h4 id="diag1-node2" class="font-bold text-white">Hybrid Core</h4>
+                            <p id="diag1-node2-desc" class="text-[10px] text-purple-300 uppercase">Privacy Filter &<br>Decision Engine</p>
+                        </div>
+                        <div class="w-full md:w-1/3 bg-slate-900 border border-green-500/30 p-4 rounded-xl text-center shadow-lg">
+                            <div class="text-3xl mb-2">⚡</div>
+                            <h4 id="diag1-node3" class="font-bold text-green-400">Specialized Agents</h4>
+                            <p id="diag1-node3-desc" class="text-xs text-slate-500 mt-2">Security, Energy, Auto-Maintenance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Lifestyle -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="info-card p-6">
+                    <h3 id="chart1-title" class="text-lg font-bold mb-4 text-center text-white">Daily "Quality Time" Allocation (Hours)</h3>
+                    <div class="chart-container">
+                        <canvas id="lifestyleChart"></canvas>
+                    </div>
+                    <p id="chart1-caption" class="text-center text-xs text-slate-500 mt-4">AI reduces Chores/Errands to near zero</p>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 space-y-6">
+                <h2 id="sec2-title" class="text-3xl font-bold text-white">New Lifestyle: <br>Smart Life Balance</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-cyan-500 to-green-500"></div>
+                <p id="sec2-desc" class="text-slate-300 leading-relaxed">
+                    Automation manages "Invisible Labor" like cleaning and repairs. You gain free time for Wellness and Family every day.
+                </p>
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="bg-slate-800 p-3 rounded border border-slate-700">
+                        <strong id="sec2-box1-title" class="block text-cyan-400 text-sm mb-1">Zero-Chores</strong>
+                        <span id="sec2-box1-desc" class="text-xs text-slate-400">Self-cleaning homes and auto-ordering fridges</span>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded border border-slate-700">
+                        <strong id="sec2-box2-title" class="block text-green-400 text-sm mb-1">Quality Time</strong>
+                        <span id="sec2-box2-desc" class="text-xs text-slate-400">Time lost to traffic/chores is reclaimed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DNA -->
+        <section class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <h2 id="sec3-title" class="text-3xl font-bold text-white mb-2">New Condo DNA: Connected & Sustainable</h2>
+                <p id="sec3-desc" class="text-slate-400">
+                    New standards: Taking care of residents AND itself via Self-Healing Materials and Food Security.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8">
+                    <div class="info-card p-6 h-full">
+                        <h3 id="chart2-title" class="text-lg font-bold mb-2 text-center text-purple-300">Potential Index (Old vs Future)</h3>
+                        <div class="chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 flex flex-col gap-4 justify-center">
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-green-500 shadow-lg">
+                        <h4 class="font-bold text-white mb-1 flex items-center gap-2"><span class="text-xl">🌱</span> Micro-AgriTech</h4>
+                        <p id="sec3-card1" class="text-sm text-slate-400">Smart vertical farms in the kitchen</p>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-orange-500 shadow-lg">
+                        <h4 class="font-bold text-white mb-1 flex items-center gap-2"><span class="text-xl">🧱</span> Self-Healing Mats</h4>
+                        <p id="sec3-card2" class="text-sm text-slate-400">Nano-capsule concrete heals cracks itself</p>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-cyan-500 shadow-lg">
+                        <h4 class="font-bold text-white mb-1 flex items-center gap-2"><span class="text-xl">🧘</span> Sensory Wellness</h4>
+                        <p id="sec3-card3" class="text-sm text-slate-400">Rooms adjust light/sound to brainwaves</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Matrix -->
+        <section class="space-y-8">
+            <div class="text-center">
+                <h2 id="sec4-title" class="text-3xl font-bold text-white">The Grand Tech Matrix</h2>
+                <p id="sec4-desc" class="text-slate-400 mt-2">
+                    Analysis of Readiness vs. Impact of 8 key technologies (2026-2032)
+                </p>
+            </div>
+            <div class="info-card p-4 md:p-8">
+                <div id="techBubbleChart" class="w-full h-[550px]"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Energy -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+             <div class="space-y-6">
+                <h2 id="sec5-title" class="text-3xl font-bold text-white">Future Energy: Solid-State & Net-Zero</h2>
+                <div class="h-1 w-20 bg-orange-500"></div>
+                <p id="sec5-desc1" class="text-slate-300 leading-relaxed">
+                    The key to Net-Zero is smart storage. Solid-State Batteries are the safe game changer (non-flammable) for high-rises.
+                </p>
+                <p id="sec5-desc2" class="text-slate-300 leading-relaxed">
+                    Working with Quantum Grid, buildings become self-sufficient micro-power plants.
+                </p>
+            </div>
+            <div class="info-card p-6">
+                <h3 id="chart3-title" class="text-lg font-bold mb-4 text-center text-white">Energy Reduction & Efficiency (Units)</h3>
+                <div class="chart-container">
+                    <canvas id="energyChart"></canvas>
+                </div>
+                <p id="chart3-caption" class="text-center text-xs text-slate-500 mt-4">Combined effect of AI + Solid-State + Quantum</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-800 pt-16 pb-12 text-center space-y-8 mt-16 bg-slate-900/50">
+            
+            <!-- PDF Link (Footer) -->
+            <div class="flex flex-col items-center gap-4">
+                <a href="https://drive.google.com/file/d/1wW8onYTwAIjw95U2IhoMZouJ0CoZMyI4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-3 px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-500 rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/20">
+                    <div class="p-2 bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-colors">
+                        <span class="text-red-500 text-xl font-bold">PDF</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Download Full Report</p>
+                        <p class="text-sm text-slate-200 font-medium group-hover:text-cyan-400 transition-colors">
+                            The Sentient Habitat: 2026-2035
+                        </p>
+                    </div>
+                    <span class="ml-2 text-slate-500 group-hover:text-cyan-400 transition-colors text-xl">⬇</span>
+                </a>
+            </div>
+
+            <!-- Disclaimer (Footer) -->
+            <div class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 rounded-full shadow-lg">
+                <span class="text-xl">📊</span>
+                <p id="footer-disclaimer" class="text-sm text-slate-300 font-medium">
+                    Content based on Research and Trend Forecasts (2026 & Beyond)
+                </p>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800 w-full max-w-2xl mx-auto">
+                <p id="footer-tagline" class="text-slate-400 text-sm">
+                    Merging High Tech (AI, 6G) with High Touch (Wellness, Community) is the survival path for new real estate.
+                </p>
+                <div id="footer-credit" class="text-xs text-slate-600 mt-4">
+                    Integrated Research by Canvas Infographics | 2026+ Vision | Multilingual Edition
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        const translations = {
+            "en": {
+                "hero-badge": "Future Trend Report 2026+",
+                "hero-title-prefix": "Integrated Future Living:",
+                "hero-desc": "When the home becomes 'Sentient' and cares for you proactively: Discover the new vision of Smart Life Balance where AI handles all chores, returning quality time to you.",
+                "badge-ai": "🧠 Hybrid AI Agent",
+                "badge-life": "⚖️ Smart Life Balance",
+                "badge-agri": "🌱 Micro-AgriTech",
+                "badge-energy": "🔋 Solid-State",
+                "video-title": "Video Insight: The Sentient Home",
+                "video-badge": "Must Watch",
+                "video-caption": "\"We are moving way beyond a home that just obeys commands... to a home that anticipates.\"",
+                "sec1-title": "AI Philosophy: From Servant to \"Caretaker\"",
+                "sec1-desc": "The core is not voice commands, but using AI as a \"3rd Arm\" to think and handle routine tasks proactively, with Biometric 2.0 security.",
+                "sec1-insight-title": "Developer Insight",
+                "sec1-insight-desc": "Train AI \"Local-First\" (Edge Computing) for speed and to protect residents' privacy from cloud hacks.",
+                "diag1-title": "Hybrid AI Ecosystem + Biometric 2.0",
+                "diag1-node1": "Advanced Input",
+                "diag1-node1-desc": "Sensors, IoT, Biometric 2.0",
+                "diag1-node2": "Hybrid Core",
+                "diag1-node2-desc": "Privacy Filter & Decision Engine",
+                "diag1-node3": "Specialized Agents",
+                "diag1-node3-desc": "Security, Energy, Auto-Maintenance",
+                "chart1-title": "Daily \"Quality Time\" Allocation (Hours)",
+                "chart1-caption": "AI reduces Chores/Errands to near zero",
+                "sec2-title": "New Lifestyle: <br>Smart Life Balance",
+                "sec2-desc": "Automation manages \"Invisible Labor\" like cleaning and repairs. You gain free time for Wellness and Family every day.",
+                "sec2-box1-title": "Zero-Chores",
+                "sec2-box1-desc": "Self-cleaning homes and auto-ordering fridges",
+                "sec2-box2-title": "Quality Time",
+                "sec2-box2-desc": "Time lost to traffic/chores is reclaimed",
+                "sec3-title": "New Condo DNA: Connected & Sustainable",
+                "sec3-desc": "New standards: Taking care of residents AND itself via Self-Healing Materials and Food Security.",
+                "chart2-title": "Potential Index (Old vs Future)",
+                "sec3-card1": "Smart vertical farms in the kitchen",
+                "sec3-card2": "Nano-capsule concrete heals cracks itself",
+                "sec3-card3": "Rooms adjust light/sound to brainwaves",
+                "sec4-title": "The Grand Tech Matrix",
+                "sec4-desc": "Analysis of Readiness vs. Impact of 8 key technologies (2026-2032)",
+                "sec5-title": "Future Energy: Solid-State & Net-Zero",
+                "sec5-desc1": "The key to Net-Zero is smart storage. Solid-State Batteries are the safe game changer (non-flammable) for high-rises.",
+                "sec5-desc2": "Working with Quantum Grid, buildings become self-sufficient micro-power plants.",
+                "chart3-title": "Energy Reduction & Efficiency (Units)",
+                "chart3-caption": "Combined effect of AI + Solid-State + Quantum",
+                "pdf-btn-sub": "Download Full Report",
+                "footer-disclaimer": "Content based on Research and Trend Forecasts (2026 & Beyond)",
+                "footer-tagline": "Merging High Tech (AI, 6G) with High Touch (Wellness, Community) is the survival path for new real estate.",
+                "footer-credit": "Integrated Research by Canvas Infographics | 2026+ Vision | Multilingual Edition",
+                // Chart Labels
+                "labels-lifestyle": ["Work", "Sleep", "Chores/Errands", "Leisure & Creative", "Social"],
+                "labels-radar": ["Space", "Security (Bio 2.0)", "Food (AgriTech)", "Durability (Self-Heal)", "Wellness", "Energy (Solid-State)"],
+                "labels-energy": ["Standard Condo", "+ Hybrid AI", "+ Solid-State/Mats", "Net-Zero Goal"],
+                "labels-energy-legend": ["HVAC", "Lighting", "AgriTech Load", "Storage/Gen Offset"],
+                "labels-bubble": ["Hybrid AI", "Net-Zero", "6G Networks", "Quantum Comp", "Neuralink", "Solid-State", "Micro-Agri", "Self-Healing"]
+            },
+            "th": {
+                "hero-badge": "Future Trend Report 2026+",
+                "hero-title-prefix": "บูรณาการชีวิตแห่งอนาคต:",
+                "hero-desc": "เมื่อบ้าน \"คิดเองได้\" (Sentient) และดูแลคุณแบบเชิงรุก: ค้นพบวิสัยทัศน์ใหม่ของ Smart Life Balance ที่ซึ่ง AI จัดการงานบ้านทั้งหมด คืนเวลาคุณภาพให้คุณโฟกัสกับสิ่งที่รัก",
+                "badge-ai": "🧠 Hybrid AI Agent",
+                "badge-life": "⚖️ Smart Life Balance",
+                "badge-agri": "🌱 Micro-AgriTech",
+                "badge-energy": "🔋 Solid-State",
+                "video-title": "Video Insight: The Sentient Home",
+                "video-badge": "Must Watch",
+                "video-caption": "\"เรากำลังก้าวข้ามบ้านที่แค่ทำตามคำสั่ง... สู่บ้านที่คิดล่วงหน้าเพื่อเรา\"",
+                "sec1-title": "ปรัชญา AI: จากผู้รับคำสั่ง สู่ \"ผู้ดูแล\"",
+                "sec1-desc": "หัวใจสำคัญไม่ใช่การสั่งงานด้วยเสียง แต่คือการใช้ AI เป็น \"แขนขาที่ 3\" ที่คิดและจัดการงานซ้ำซ้อนให้เราล่วงหน้า พร้อมระบบความปลอดภัย Biometric 2.0",
+                "sec1-insight-title": "Developer Insight",
+                "sec1-insight-desc": "เทรน AI ให้ทำงานแบบ \"Local-First\" (ประมวลผลในตึก) เพื่อความเร็วสูงสุดและปกป้องข้อมูลส่วนตัว",
+                "diag1-title": "ระบบนิเวศ Hybrid AI + Biometric 2.0",
+                "diag1-node1": "Advanced Input",
+                "diag1-node1-desc": "Sensors, IoT, Biometric 2.0",
+                "diag1-node2": "Hybrid Core",
+                "diag1-node2-desc": "Privacy Filter & Decision Engine",
+                "diag1-node3": "Specialized Agents",
+                "diag1-node3-desc": "Security, Energy, Auto-Maintenance",
+                "chart1-title": "การใช้เวลา \"คุณภาพ\" (ชม./วัน)",
+                "chart1-caption": "AI จัดการงานบ้าน/ธุระ (Chores) จนเกือบเป็นศูนย์",
+                "sec2-title": "วิถีชีวิตใหม่: <br>Smart Life Balance",
+                "sec2-desc": "ระบบ Automation จะเข้ามาจัดการ \"งานที่มองไม่เห็น\" (Invisible Labor) เช่น การทำความสะอาด และการซื้อของ ทำให้คุณมีเวลาว่างเพื่อ สุขภาพ และ ครอบครัว",
+                "sec2-box1-title": "Zero-Chores",
+                "sec2-box1-desc": "บ้านที่ทำความสะอาดตัวเอง และตู้เย็นที่สั่งของเอง",
+                "sec2-box2-title": "Quality Time",
+                "sec2-box2-desc": "เวลาที่เคยเสียไปกับงานบ้าน ถูกคืนกลับมา",
+                "sec3-title": "DNA คอนโดยุคใหม่: เชื่อมต่อและยั่งยืน",
+                "sec3-desc": "มาตรฐานใหม่วัดกันที่ความสามารถในการ \"ดูแลผู้อยู่อาศัย\" และ \"ดูแลตัวเอง\" ด้วยเทคโนโลยี Self-Healing Materials และ Food Security",
+                "chart2-title": "ดัชนีชี้วัดศักยภาพ (Old vs Future)",
+                "sec3-card1": "ตู้ปลูกพืชแนวตั้งอัจฉริยะ (Vertical Farm) ในห้องครัว",
+                "sec3-card2": "ผนังคอนกรีตผสมนาโนแคปซูล ซ่อมแซมรอยร้าวได้เอง",
+                "sec3-card3": "ห้องพักที่ปรับแสง/เสียง/กลิ่น ตามคลื่นสมอง",
+                "sec4-title": "The Grand Tech Matrix: แผนที่เทคโนโลยี",
+                "sec4-desc": "วิเคราะห์ความพร้อม (Readiness) และผลกระทบ (Impact) ของ 8 เทคโนโลยีหลัก (2026-2032)",
+                "sec5-title": "พลังงานแห่งอนาคต: Solid-State & Net-Zero",
+                "sec5-desc1": "กุญแจสู่ Net-Zero คือการกักเก็บ Solid-State Battery คือ Game Changer ที่ปลอดภัยกว่า (ไม่ติดไฟ) เหมาะสำหรับคอนโดสูง",
+                "sec5-desc2": "ทำงานร่วมกับ Quantum Grid อาคารจะกลายเป็นโรงไฟฟ้าขนาดย่อมที่พึ่งพาตัวเองได้",
+                "chart3-title": "การลดพลังงานและประสิทธิภาพ (หน่วย)",
+                "chart3-caption": "ผลรวมของ AI + Solid-State Storage + Quantum Tech",
+                "pdf-btn-sub": "ดาวน์โหลดรายงานฉบับเต็ม",
+                "footer-disclaimer": "เนื้อหานี้มาจาก งานวิจัย และการคาดการณ์ Trend ที่จะเกิดขึ้นในอนาคต (2026 & Beyond)",
+                "footer-tagline": "การผสาน High Tech (AI, Solid-State, 6G) เข้ากับ High Touch (Wellness, AgriTech) คือทางรอดของธุรกิจอสังหาฯ ยุคใหม่",
+                "footer-credit": "งานวิจัยแบบบูรณาการโดย Canvas Infographics | วิสัยทัศน์ 2026+ | ฉบับหลายภาษา",
+                // Labels
+                "labels-lifestyle": ["ทำงาน (Work)", "นอนหลับ (Sleep)", "งานบ้าน (Chores)", "พักผ่อน (Leisure)", "สังคม (Social)"],
+                "labels-radar": ["พื้นที่ (Space)", "ความปลอดภัย (Bio 2.0)", "อาหาร (AgriTech)", "ความทนทาน (Self-Heal)", "สุขภาพ (Wellness)", "พลังงาน (Solid-State)"],
+                "labels-energy": ["คอนโดทั่วไป", "+ Hybrid AI", "+ Solid-State/Mats", "Net-Zero Goal"],
+                "labels-energy-legend": ["แอร์ (HVAC)", "แสงสว่าง", "โหลดการเกษตร", "ชดเชยพลังงาน"],
+                "labels-bubble": ["Hybrid AI", "Net-Zero", "6G Networks", "Quantum Comp", "Neuralink", "Solid-State", "Micro-Agri", "Self-Healing"]
+            },
+            "ru": {
+                "hero-badge": "Отчет о Трендах Будущего 2026+",
+                "hero-title-prefix": "Интеграция Будущего:",
+                "hero-desc": "Когда дом становится «Разумным» и заботится о вас: Откройте для себя Smart Life Balance, где ИИ берет на себя всю рутину.",
+                "badge-ai": "🧠 Гибридный ИИ",
+                "badge-life": "⚖️ Баланс Жизни",
+                "badge-agri": "🌱 Микро-АгроТех",
+                "badge-energy": "🔋 Твердотельная Энергия",
+                "video-title": "Видео-инсайт: Разумный Дом",
+                "video-badge": "Смотреть обязательно",
+                "video-caption": "\"Мы переходим от дома, который просто выполняет команды... к дому, который предугадывает желания.\"",
+                "sec1-title": "Философия ИИ: От Слуги к «Опекуну»",
+                "sec1-desc": "Суть не в голосовых командах, а в использовании ИИ как «Третьей руки» для проактивного решения задач с защитой Biometric 2.0.",
+                "sec1-insight-title": "Инсайт Разработчика",
+                "sec1-insight-desc": "Обучайте ИИ локально (Edge Computing) для скорости и защиты приватности жильцов от взломов облака.",
+                "diag1-title": "Экосистема ИИ + Биометрия 2.0",
+                "diag1-node1": "Продвинутый Ввод",
+                "diag1-node1-desc": "Сенсоры, IoT, Биометрия 2.0",
+                "diag1-node2": "Гибридное Ядро",
+                "diag1-node2-desc": "Фильтр приватности и движок решений",
+                "diag1-node3": "Спец. Агенты",
+                "diag1-node3-desc": "Безопасность, Энергия, Авто-ремонт",
+                "chart1-title": "Распределение «Качественного Времени» (Часы)",
+                "chart1-caption": "ИИ сводит рутину к нулю",
+                "sec2-title": "Новый Стиль Жизни: <br>Умный Баланс",
+                "sec2-desc": "Автоматизация берет на себя «Невидимый труд» (уборка, ремонт). Вы получаете время для Здоровья и Семьи.",
+                "sec2-box1-title": "Ноль Рутины",
+                "sec2-box1-desc": "Самоочищающиеся дома и умные холодильники",
+                "sec2-box2-title": "Качественное Время",
+                "sec2-box2-desc": "Время, потерянное на быт, возвращается к вам",
+                "sec3-title": "ДНК Нового Кондо: Связь и Устойчивость",
+                "sec3-desc": "Новые стандарты: Забота о жильцах И о самом себе с помощью самовосстанавливающихся материалов.",
+                "chart2-title": "Индекс Потенциала (Старое vs Будущее)",
+                "sec3-card1": "Умные вертикальные фермы на кухне",
+                "sec3-card2": "Нано-бетон, заживляющий трещины",
+                "sec3-card3": "Комнаты подстраивают свет/звук под мозг",
+                "sec4-title": "Гранд Тех-Матрица",
+                "sec4-desc": "Анализ Готовности и Влияния 8 ключевых технологий (2026-2032)",
+                "sec5-title": "Энергия Будущего: Solid-State и Net-Zero",
+                "sec5-desc1": "Ключ к Net-Zero — умное хранение. Твердотельные батареи (Solid-State) безопасны и эффективны для высоток.",
+                "sec5-desc2": "Вместе с Квантовой Сетью здания становятся автономными микро-электростанциями.",
+                "chart3-title": "Снижение Энергии и Эффективность",
+                "chart3-caption": "Эффект ИИ + Solid-State + Квантовых Технологий",
+                "pdf-btn-sub": "Скачать Полный Отчет",
+                "footer-disclaimer": "Контент основан на исследованиях и прогнозах трендов (2026 и далее)",
+                "footer-tagline": "Слияние High Tech (ИИ, 6G) и High Touch (Wellness, Сообщество) — путь выживания новой недвижимости.",
+                "footer-credit": "Интегрированное исследование Canvas Infographics | Видение 2026+ | Мультиязычная версия",
+                 // Labels
+                "labels-lifestyle": ["Работа", "Сон", "Быт/Рутина", "Отдых/Творчество", "Социум"],
+                "labels-radar": ["Пространство", "Безопасность", "Еда (АгроТех)", "Прочность", "Здоровье", "Энергия"],
+                "labels-energy": ["Стандарт", "+ ИИ", "+ Solid-State", "Цель Net-Zero"],
+                "labels-energy-legend": ["HVAC (Климат)", "Освещение", "Агро-нагрузка", "Генерация/Хранение"],
+                "labels-bubble": ["Гибридный ИИ", "Net-Zero", "Сети 6G", "Квант. Выч.", "Neuralink", "Solid-State", "Микро-Агро", "Самовосстан."]
+            },
+            "zh": {
+                "hero-badge": "2026+ 未来趋势报告",
+                "hero-title-prefix": "未来生活一体化：",
+                "hero-desc": "当家变得“有感知”并主动照顾你：探索智能生活平衡的新愿景，AI处理所有杂务，将高质量时间还给你。",
+                "badge-ai": "🧠 混合AI代理",
+                "badge-life": "⚖️ 智能生活平衡",
+                "badge-agri": "🌱 微型农业科技",
+                "badge-energy": "🔋 固态能源",
+                "video-title": "视频洞察：感知住宅",
+                "video-badge": "必看",
+                "video-caption": "“我们正在超越只是听从指令的家……走向一个能预知需求的家。”",
+                "sec1-title": "AI哲学：从仆人到“守护者”",
+                "sec1-desc": "核心不是语音指令，而是利用AI作为“第三只手”主动思考和处理日常任务，并配备生物识别2.0安全系统。",
+                "sec1-insight-title": "开发者洞察",
+                "sec1-insight-desc": "采用“本地优先”（边缘计算）训练AI，以获得最高速度并保护居民隐私免受云端黑客攻击。",
+                "diag1-title": "混合AI生态系统 + 生物识别 2.0",
+                "diag1-node1": "高级输入",
+                "diag1-node1-desc": "传感器, 物联网, 生物识别 2.0",
+                "diag1-node2": "混合核心",
+                "diag1-node2-desc": "隐私过滤器 & 决策引擎",
+                "diag1-node3": "专用代理",
+                "diag1-node3-desc": "安全, 能源, 自动维护",
+                "chart1-title": "每日“高质量时间”分配（小时）",
+                "chart1-caption": "AI将杂务/跑腿时间减少至近乎零",
+                "sec2-title": "新生活方式：<br>智能生活平衡",
+                "sec2-desc": "自动化管理“无形劳动”，如清洁和维修。你每天都能获得更多时间用于健康和家庭。",
+                "sec2-box1-title": "零杂务",
+                "sec2-box1-desc": "自洁房屋和自动订购冰箱",
+                "sec2-box2-title": "高质量时间",
+                "sec2-box2-desc": "浪费在交通/家务上的时间被回收",
+                "sec3-title": "新公寓DNA：互联与可持续",
+                "sec3-desc": "新标准：通过自愈材料和食品安全，既照顾居民又照顾自身。",
+                "chart2-title": "潜力指数（旧标准 vs 未来科技）",
+                "sec3-card1": "厨房里的智能垂直农场",
+                "sec3-card2": "纳米胶囊混凝土可自行修复裂缝",
+                "sec3-card3": "根据脑电波调节光线/声音的房间",
+                "sec4-title": "宏大科技矩阵",
+                "sec4-desc": "8项关键技术（2026-2032）的就绪度与影响力分析",
+                "sec5-title": "未来能源：固态电池 & 净零排放",
+                "sec5-desc1": "净零的关键是智能存储。固态电池是高层建筑的安全变革者（不可燃）。",
+                "sec5-desc2": "配合量子电网，建筑将变成自给自足的微型发电厂。",
+                "chart3-title": "能源减少与效率（单位）",
+                "chart3-caption": "AI + 固态存储 + 量子技术的综合效应",
+                "pdf-btn-sub": "下载完整报告",
+                "footer-disclaimer": "内容基于研究及未来趋势预测 (2026 & Beyond)",
+                "footer-tagline": "将高科技（AI, 6G）与高触感（健康, 社区）融合，是新房地产的生存之道。",
+                "footer-credit": "综合研究：Canvas Infographics | 2026+ 愿景 | 多语言版",
+                 // Labels
+                "labels-lifestyle": ["工作", "睡眠", "家务/杂事", "休闲/创意", "社交"],
+                "labels-radar": ["空间", "安全 (生物2.0)", "食物 (农业科技)", "耐用性 (自愈)", "健康", "能源 (固态)"],
+                "labels-energy": ["标准公寓", "+ 混合AI", "+ 固态/材料", "净零目标"],
+                "labels-energy-legend": ["暖通空调", "照明", "农业负载", "存储/发电补偿"],
+                "labels-bubble": ["混合AI", "净零设计", "6G网络", "量子计算", "Neuralink", "固态电池", "微型农业", "自愈材料"]
+            }
+        };
+
+        // --- GLOBAL CHART VARIABLES ---
+        let chartLifestyle = null;
+        let chartRadar = null;
+        let chartEnergy = null;
+
+        // --- HELPER: Font Selection ---
+        function getFont(lang) {
+            if (lang === 'th') return 'Prompt, sans-serif';
+            if (lang === 'zh') return 'Noto Sans SC, sans-serif';
+            return 'Inter, sans-serif';
+        }
+
+        // --- INIT CHARTS ---
+        function initCharts(lang) {
+            const data = translations[lang];
+            const font = getFont(lang);
+
+            // 1. Lifestyle Donut
+            if (chartLifestyle) chartLifestyle.destroy();
+            const ctxLife = document.getElementById('lifestyleChart').getContext('2d');
+            chartLifestyle = new Chart(ctxLife, {
+                type: 'doughnut',
+                data: {
+                    labels: data["labels-lifestyle"],
+                    datasets: [
+                        {
+                            label: '2024',
+                            data: [9, 8, 3, 2, 2],
+                            backgroundColor: ['#334155', '#475569', '#f43f5e', '#0f172a', '#1e293b'],
+                            borderColor: '#0f172a',
+                            weight: 0.5
+                        },
+                        {
+                            label: '2030 (AI)',
+                            data: [9, 8, 0.5, 4.5, 2],
+                            backgroundColor: ['#334155', '#1e293b', '#f43f5e', '#06b6d4', '#84cc16'],
+                            borderColor: '#0f172a',
+                            hoverOffset: 15
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { font: { family: font } } },
+                        tooltip: { callbacks: { title: (items) => items[0].label } }
+                    },
+                    cutout: '45%'
+                }
+            });
+
+            // 2. Radar
+            if (chartRadar) chartRadar.destroy();
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            chartRadar = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: data["labels-radar"],
+                    datasets: [{
+                        label: 'Old Standard',
+                        data: [80, 50, 20, 30, 40, 40],
+                        fill: true,
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                        borderColor: '#94a3b8',
+                        pointBackgroundColor: '#94a3b8'
+                    }, {
+                        label: 'Future Tech',
+                        data: [65, 95, 90, 85, 95, 100],
+                        fill: true,
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#06b6d4',
+                        pointBorderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#334155' },
+                            pointLabels: { color: '#f8fafc', font: { size: 11, family: font } },
+                            ticks: { display: false, backdropColor: 'transparent' }
+                        }
+                    }
+                }
+            });
+
+            // 3. Energy Bar
+            if (chartEnergy) chartEnergy.destroy();
+            const ctxEnergy = document.getElementById('energyChart').getContext('2d');
+            chartEnergy = new Chart(ctxEnergy, {
+                type: 'bar',
+                data: {
+                    labels: data["labels-energy"],
+                    datasets: [
+                        { label: data["labels-energy-legend"][0], data: [50, 35, 25, 10], backgroundColor: '#ef4444' },
+                        { label: data["labels-energy-legend"][1], data: [20, 10, 8, 2], backgroundColor: '#eab308' },
+                        { label: data["labels-energy-legend"][2], data: [0, 5, 5, 5], backgroundColor: '#84cc16' },
+                        { label: data["labels-energy-legend"][3], data: [0, -10, -35, -55], backgroundColor: '#f97316' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { color: '#334155' }, ticks: { font: { family: font } } },
+                        y: { stacked: true, grid: { color: '#334155' } }
+                    }
+                }
+            });
+
+            // 4. Plotly Bubble
+            const trace1 = {
+                x: [2026, 2027, 2028, 2030, 2032, 2028, 2029, 2031],
+                y: [8.5, 9, 7.5, 9.5, 6, 9, 8, 9],
+                text: data["labels-bubble"],
+                mode: 'markers+text',
+                textposition: 'top center',
+                textfont: { family: font, color: '#e2e8f0', size: 11 },
+                marker: {
+                    size: [55, 50, 55, 65, 35, 45, 40, 40],
+                    color: ['#8b5cf6', '#22c55e', '#06b6d4', '#3b82f6', '#ec4899', '#f97316', '#84cc16', '#94a3b8'],
+                    opacity: 0.9,
+                    line: { color: 'white', width: 1 }
+                },
+                type: 'scatter'
+            };
+
+            const layout = {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                xaxis: { 
+                    title: { text: lang==='en'?'Adoption Year':'Year', font: { color: '#94a3b8', family: font } },
+                    gridcolor: '#334155', tickfont: { color: '#94a3b8' }, range: [2025, 2034]
+                },
+                yaxis: { 
+                    title: { text: lang==='en'?'Impact Score':'Impact', font: { color: '#94a3b8', family: font } },
+                    gridcolor: '#334155', tickfont: { color: '#94a3b8' }, range: [4, 11]
+                },
+                showlegend: false,
+                margin: { t: 20, b: 50, l: 50, r: 20 },
+                hovermode: 'closest'
+            };
+            
+            Plotly.newPlot('techBubbleChart', [trace1], layout, { responsive: true, displayModeBar: false });
+        }
+
+        // --- CORE: Switch Language ---
+        function setLang(lang) {
+            // Update Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+
+            // Update Font Class
+            document.body.className = `antialiased lang-${lang}`;
+
+            // Update Text
+            const t = translations[lang];
+            for (const [key, value] of Object.entries(t)) {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (value.includes('<')) el.innerHTML = value;
+                    else el.textContent = value;
+                }
+            }
+
+            // Update Charts
+            initCharts(lang);
+        }
+
+        // --- INIT ---
+        window.onload = function() {
+            setLang('en'); // Start in English
+        };
+
+    </script>
+</body>
+</html>
