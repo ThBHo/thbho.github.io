@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thailand 2026: Global Entertainment Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Added Roboto for standard/Cyrillic, Noto Sans Thai, and Noto Sans SC for Chinese -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Roboto:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Palette Name: Neon Tropical Night
+    Colors:
+    - Primary Dark: #1F2937 (Gray-900)
+    - Card White: #FFFFFF
+    - Accent Purple: #6200EA
+    - Highlight Cyan: #00BFA5
+    - Alert/Pop Pink: #FF4081
+    - Gold: #FFD600
+    -->
+
+    <style>
+        body {
+            /* Fallback fonts for different languages */
+            font-family: 'Roboto', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: #6200EA;
+            z-index: 0;
+        }
+        .flag-btn {
+            cursor: pointer;
+            font-size: 1.5rem; /* Large emoji size */
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            filter: grayscale(100%); /* Inactive state is grayscale */
+            opacity: 0.6;
+        }
+        .flag-btn:hover {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        .flag-btn.active {
+            filter: grayscale(0%);
+            opacity: 1;
+            background-color: #E0E7FF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #6200EA; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🇹🇭</span>
+                <span class="font-bold text-xl text-indigo-900 tracking-tight" data-i18n="navTitle">VISION 2026</span>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-6 text-sm font-medium text-gray-600">
+                    <a href="#overview" class="hover:text-purple-700 transition" data-i18n="navOverview">Overview</a>
+                    <a href="#events" class="hover:text-purple-700 transition" data-i18n="navEvents">Mega Events</a>
+                    <a href="#family" class="hover:text-purple-700 transition" data-i18n="navFamily">Family Hub</a>
+                    <a href="#economy" class="hover:text-purple-700 transition" data-i18n="navGrowth">Growth</a>
+                </div>
+
+                <!-- Language Switcher (Flags) -->
+                <div class="flex items-center space-x-2 bg-gray-50 p-1.5 rounded-xl border border-gray-100">
+                    <span class="flag-btn active" onclick="setLanguage('en')" title="English">🇺🇸</span>
+                    <span class="flag-btn" onclick="setLanguage('th')" title="ภาษาไทย">🇹🇭</span>
+                    <span class="flag-btn" onclick="setLanguage('ru')" title="Русский">🇷🇺</span>
+                    <span class="flag-btn" onclick="setLanguage('cn')" title="中文">🇨🇳</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-indigo-900 text-white pt-16 pb-24 relative overflow-hidden" id="overview">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-900 to-indigo-900 opacity-90"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full border-8 border-cyan-400 opacity-20"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full border-8 border-pink-500 opacity-20"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-block px-4 py-1 mb-4 text-xs font-semibold tracking-wider text-cyan-300 uppercase bg-indigo-800 rounded-full" data-i18n="heroBadge">
+                Ignite Thailand Strategy
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                <span data-i18n="heroTitle1">The World's Newest</span> <br> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500" data-i18n="heroTitle2">Entertainment Superhub</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10" data-i18n="heroDesc">
+                From 2026 onwards, Thailand transcends its "land of smiles" reputation to become the "land of events." 
+                With confirmed mega-festivals like Tomorrowland, upgraded family recreation zones, and world-class infrastructure.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 w-32 md:w-40 border border-white/20">
+                    <div class="text-3xl font-bold text-cyan-400">40M+</div>
+                    <div class="text-xs text-gray-300" data-i18n="statVisitors">Annual Visitors</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 w-32 md:w-40 border border-white/20">
+                    <div class="text-3xl font-bold text-pink-500">฿3.5T</div>
+                    <div class="text-xs text-gray-300" data-i18n="statRevenue">Revenue Target</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 w-32 md:w-40 border border-white/20">
+                    <div class="text-3xl font-bold text-yellow-400">Top 5</div>
+                    <div class="text-xs text-gray-300" data-i18n="statRank">Global Rank</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="container mx-auto px-6 py-12 -mt-24 relative z-20">
+
+        <!-- Featured Hero Image -->
+        <div class="bg-white p-2 md:p-3 rounded-2xl shadow-2xl mb-16 border border-gray-100 transform hover:scale-[1.01] transition-transform duration-500">
+            <img src="https://i.postimg.cc/pX7Kmps6/TH_entertaint_Hub_2026.png" 
+                 alt="Thailand Entertainment Hub 2026 Overview" 
+                 class="w-full h-auto rounded-xl">
+        </div>
+        
+        <!-- Section 1: Economic Forecast -->
+        <div id="economy" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="col-span-1 md:col-span-2 text-center mb-4">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2" data-i18n="ecoTitle">The Economic Surge (2024-2030)</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-i18n="ecoDesc">
+                    Driven by the "Ignite Thailand" policy, the convergence of aviation upgrades and mega-event hosting is projected to drive tourist arrivals past pre-pandemic levels.
+                </p>
+            </div>
+
+            <!-- Chart Card: Arrivals -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-cyan-500">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="mr-2">📈</span> <span data-i18n="chartTitleGrowth">Visitor Growth Projections</span>
+                </h3>
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+                <p class="text-xs text-gray-500 mt-4 text-center italic" data-i18n="sourceRef">Source: Ministry of Tourism & Sports (Projections)</p>
+            </div>
+
+            <!-- Chart Card: Revenue Composition -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-pink-500">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="mr-2">💰</span> <span data-i18n="chartTitleWallet">Wallet Share: The Shift</span>
+                </h3>
+                <p class="text-sm text-gray-600 mb-4" data-i18n="walletDesc">
+                    As Thailand pivots to events, the average tourist spend composition is shifting. Entertainment is becoming a larger slice of the pie.
+                </p>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Mega Events Timeline -->
+        <div id="events" class="bg-white rounded-2xl shadow-xl p-8 mb-16 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center" data-i18n="eventTitle">🗓️ The Mega-Event Calendar</h2>
+                <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12" data-i18n="eventDesc">
+                    Thailand is actively bidding for and securing world-class events. The calendar below highlights confirmed majors.
+                </p>
+
+                <!-- Vertical Timeline -->
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="hidden md:block timeline-line"></div>
+
+                    <!-- Event 1 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-12 relative">
+                        <div class="md:w-5/12 text-center md:text-right p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                            <span class="text-2xl font-bold text-yellow-600 block" data-i18n="ev1Date">Dec 2025</span>
+                            <h4 class="text-xl font-bold text-gray-800" data-i18n="ev1Title">33rd SEA Games</h4>
+                            <p class="text-sm text-gray-600 mt-2" data-i18n="ev1Desc">Bangkok, Chonburi, Songkhla. Catalyst for sports infrastructure upgrades.</p>
+                        </div>
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full border-4 border-white shadow z-10 my-4 md:my-0"></div>
+                        <div class="md:w-5/12 md:pl-8"></div>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between mb-8 md:mb-12 relative">
+                        <div class="md:w-5/12 text-center md:text-left p-4 bg-gray-50 rounded-lg shadow-sm border-r-4 border-purple-600">
+                            <span class="text-2xl font-bold text-purple-600 block" data-i18n="ev2Date">2026 (Target)</span>
+                            <h4 class="text-xl font-bold text-gray-800" data-i18n="ev2Title">Tomorrowland Thailand</h4>
+                            <p class="text-sm text-gray-600 mt-2" data-i18n="ev2Desc">Legendary EDM festival eyes Thailand for ASEAN debut.</p>
+                        </div>
+                        <div class="w-8 h-8 bg-purple-600 rounded-full border-4 border-white shadow z-10 my-4 md:my-0"></div>
+                        <div class="md:w-5/12 md:pr-8"></div>
+                    </div>
+
+                    <!-- Event 3 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-12 relative">
+                        <div class="md:w-5/12 text-center md:text-right p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-blue-500">
+                            <span class="text-2xl font-bold text-blue-600 block" data-i18n="ev3Date">2026-2027</span>
+                            <h4 class="text-xl font-bold text-gray-800" data-i18n="ev3Title">Summer Sonic Bangkok</h4>
+                            <p class="text-sm text-gray-600 mt-2" data-i18n="ev3Desc">Success of the Japanese festival franchise, cementing rock/pop hub.</p>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow z-10 my-4 md:my-0"></div>
+                        <div class="md:w-5/12 md:pl-8"></div>
+                    </div>
+
+                    <!-- Event 4 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between relative">
+                        <div class="md:w-5/12 text-center md:text-left p-4 bg-gray-50 rounded-lg shadow-sm border-r-4 border-pink-500">
+                            <span class="text-2xl font-bold text-pink-600 block" data-i18n="ev4Date">2029 & Beyond</span>
+                            <h4 class="text-xl font-bold text-gray-800" data-i18n="ev4Title">World Expo / FIFA</h4>
+                            <p class="text-sm text-gray-600 mt-2" data-i18n="ev4Desc">Long-term strategic bids for global exhibitions.</p>
+                        </div>
+                        <div class="w-8 h-8 bg-pink-500 rounded-full border-4 border-white shadow z-10 my-4 md:my-0"></div>
+                        <div class="md:w-5/12 md:pr-8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Highlight Section -->
+        <div class="mb-16">
+            <div class="bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-800">
+                <div class="p-6 md:p-8 text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4" data-i18n="videoTitle">🎥 Watch the Vision: Thailand 2026</h2>
+                    <p class="text-gray-400 mb-8 max-w-2xl mx-auto" data-i18n="videoDesc">
+                        Explore the comprehensive strategy behind Thailand's rise as a global entertainment superpower.
+                    </p>
+                    <div class="relative w-full max-w-4xl mx-auto h-0" style="padding-bottom: 56.25%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full rounded-lg shadow-2xl border-4 border-gray-800"
+                            src="https://www.youtube.com/embed/0ZBSZnyNlYI" 
+                            title="Thailand 2026: The Rise of a Global Entertainment Superpower" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Family Recreation & Regional Hubs -->
+        <div id="family" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            
+            <!-- Radar Chart: Regional Comparison -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="radarTitle">👨‍👩‍👧‍👦 Family Recreation Index</h2>
+                <p class="text-sm text-gray-600 mb-6" data-i18n="radarDesc">
+                    Comparison of key regions based on suitability for family travel, safety, and infrastructure.
+                </p>
+                <div class="chart-container">
+                    <canvas id="familyRadarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bubble Chart: Activity Matrix -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="bubbleTitle">🗺️ Regional Experience Matrix</h2>
+                <p class="text-sm text-gray-600 mb-6" data-i18n="bubbleDesc">
+                    X-Axis: Leisure vs. Adventure. Y-Axis: Budget vs. Luxury. Size: Amenity Density.
+                </p>
+                <div class="chart-container">
+                    <canvas id="bubbleMapChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Family Attractions List -->
+        <div class="bg-indigo-50 rounded-2xl p-8 mb-16">
+            <h2 class="text-2xl font-bold text-indigo-900 mb-6 text-center" data-i18n="attractTitle">🏆 Premier Family Destinations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-b-4 border-cyan-400">
+                    <div class="text-4xl mb-3">🎢</div>
+                    <h3 class="text-lg font-bold text-gray-800" data-i18n="card1Title">Theme Parks</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-i18n="card1Desc">Giants like Siam Amazing Park and Ramayana, plus new global franchises.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-b-4 border-green-400">
+                    <div class="text-4xl mb-3">🐘</div>
+                    <h3 class="text-lg font-bold text-gray-800" data-i18n="card2Title">Eco-Learning</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-i18n="card2Desc">Ethical elephant sanctuaries and marine centers offering educational value.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-b-4 border-purple-400">
+                    <div class="text-4xl mb-3">🎭</div>
+                    <h3 class="text-lg font-bold text-gray-800" data-i18n="card3Title">Cultural Immersion</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-i18n="card3Desc">Songkran evolving into a 'World Water Festival' suitable for all ages.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Research CTA -->
+        <div class="text-center mb-16">
+            <div class="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500">
+                <a href="https://drive.google.com/file/d/11zKcoZJwdBop362vhPW3EgOCNmnn66y7/view?usp=sharing" 
+                   target="_blank"
+                   class="block px-10 py-4 bg-white rounded-full hover:bg-gray-50 transition-colors duration-200">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-extrabold text-lg flex items-center justify-center gap-2">
+                        <span>📄</span> <span data-i18n="ctaBtn">View Detailed Research Plan</span>
+                    </span>
+                </a>
+            </div>
+            <p class="mt-4 text-sm text-gray-500" data-i18n="ctaDesc">Access the full strategic breakdown and analysis document</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-12 pb-8 border-t border-gray-200 pt-8">
+            <p class="mb-2">© 2025 Canvas Infographics Analysis.</p>
+            <p data-i18n="footerNote">Data simulated for visualization purposes based on 'Ignite Thailand' 2024 announcements.</p>
+        </footer>
+
+    </main>
+
+    <!-- Translations & Scripts -->
+    <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            en: {
+                navTitle: "VISION 2026",
+                navOverview: "Overview",
+                navEvents: "Mega Events",
+                navFamily: "Family Hub",
+                navGrowth: "Growth",
+                heroBadge: "Ignite Thailand Strategy",
+                heroTitle1: "The World's Newest",
+                heroTitle2: "Entertainment Superhub",
+                heroDesc: "From 2026 onwards, Thailand transcends its 'land of smiles' reputation to become the 'land of events.' With confirmed mega-festivals and upgraded family zones.",
+                statVisitors: "Annual Visitors",
+                statRevenue: "Revenue Target",
+                statRank: "Global Rank",
+                ecoTitle: "The Economic Surge (2024-2030)",
+                ecoDesc: "Driven by the 'Ignite Thailand' policy, the convergence of aviation upgrades and mega-event hosting is projected to drive tourist arrivals past pre-pandemic levels.",
+                chartTitleGrowth: "Visitor Growth Projections",
+                sourceRef: "Source: Ministry of Tourism & Sports (Projections)",
+                chartTitleWallet: "Wallet Share: The Shift",
+                walletDesc: "As Thailand pivots to events, entertainment and experiences are becoming a larger slice of the economic pie.",
+                eventTitle: "🗓️ The Mega-Event Calendar",
+                eventDesc: "Thailand is actively bidding for and securing world-class events. The calendar below highlights confirmed majors.",
+                ev1Date: "Dec 2025",
+                ev1Title: "33rd SEA Games",
+                ev1Desc: "Bangkok, Chonburi, Songkhla. Catalyst for sports infrastructure upgrades.",
+                ev2Date: "2026 (Target)",
+                ev2Title: "Tomorrowland Thailand",
+                ev2Desc: "Legendary EDM festival eyes Thailand for ASEAN debut.",
+                ev3Date: "2026-2027",
+                ev3Title: "Summer Sonic Bangkok",
+                ev3Desc: "Success of the Japanese festival franchise, cementing rock/pop hub.",
+                ev4Date: "2029 & Beyond",
+                ev4Title: "World Expo / FIFA",
+                ev4Desc: "Long-term strategic bids for global exhibitions.",
+                videoTitle: "🎥 Watch the Vision: Thailand 2026",
+                videoDesc: "Explore the comprehensive strategy behind Thailand's rise as a global entertainment superpower.",
+                radarTitle: "👨‍👩‍👧‍👦 Family Recreation Index",
+                radarDesc: "Comparison of key regions based on suitability for family travel, safety, and infrastructure.",
+                bubbleTitle: "🗺️ Regional Experience Matrix",
+                bubbleDesc: "X-Axis: Leisure vs. Adventure. Y-Axis: Budget vs. Luxury. Size: Amenity Density.",
+                attractTitle: "🏆 Premier Family Destinations",
+                card1Title: "Theme Parks",
+                card1Desc: "Giants like Siam Amazing Park and Ramayana, plus new global franchises.",
+                card2Title: "Eco-Learning",
+                card2Desc: "Ethical elephant sanctuaries and marine centers offering educational value.",
+                card3Title: "Cultural Immersion",
+                card3Desc: "Songkran evolving into a 'World Water Festival' suitable for all ages.",
+                ctaBtn: "View Detailed Research Plan",
+                ctaDesc: "Access the full strategic breakdown and analysis document",
+                footerNote: "Data simulated for visualization purposes based on 'Ignite Thailand' 2024 announcements.",
+                // Chart Labels
+                chartLabels: {
+                    growthRev: "Tourism Revenue (Trillion THB)",
+                    growthArr: "Tourist Arrivals (Millions)",
+                    revType: "Accommodation, Food & Bev, Shopping, Entertainment, Transport",
+                    radarKeys: ["Cost", "Safety", "Kid-Friendly", "Culture", "Transport"],
+                    bubbleX: "Energy Level (Chill → Active)",
+                    bubbleY: "Cost/Luxury Index ($ → $$$)",
+                    cities: { bkk: "Bangkok", hkt: "Phuket", cnx: "Chiang Mai", pty: "Pattaya", hhn: "Hua Hin" }
+                }
+            },
+            th: {
+                navTitle: "วิสัยทัศน์ 2026",
+                navOverview: "ภาพรวม",
+                navEvents: "อีเวนต์ยักษ์ใหญ่",
+                navFamily: "ฮับครอบครัว",
+                navGrowth: "การเติบโต",
+                heroBadge: "ยุทธศาสตร์ Ignite Thailand",
+                heroTitle1: "ศูนย์กลางความบันเทิง",
+                heroTitle2: "ระดับโลกแห่งใหม่",
+                heroDesc: "ตั้งแต่ปี 2026 ประเทศไทยจะก้าวข้ามภาพลักษณ์ 'สยามเมืองยิ้ม' สู่ 'เมืองแห่งอีเวนต์' ด้วยเทศกาลระดับโลกอย่าง Tomorrowland และโซนสันทนาการเพื่อครอบครัว",
+                statVisitors: "นักท่องเที่ยว/ปี",
+                statRevenue: "เป้าหมายรายได้",
+                statRank: "อันดับโลก",
+                ecoTitle: "การเติบโตทางเศรษฐกิจ (2024-2030)",
+                ecoDesc: "ขับเคลื่อนโดยนโยบาย 'Ignite Thailand' การยกระดับการบินและการจัดงานระดับโลกจะดึงดูดนักท่องเที่ยวให้เกินระดับก่อนโควิด",
+                chartTitleGrowth: "คาดการณ์การเติบโต",
+                sourceRef: "ที่มา: กระทรวงการท่องเที่ยวและกีฬา (คาดการณ์)",
+                chartTitleWallet: "ส่วนแบ่งการใช้จ่าย",
+                walletDesc: "เมื่อไทยมุ่งเน้นอีเวนต์ สัดส่วนค่าใช้จ่ายด้านความบันเทิงและประสบการณ์จะเพิ่มขึ้นอย่างมีนัยสำคัญ",
+                eventTitle: "🗓️ ปฏิทินอีเวนต์ระดับโลก",
+                eventDesc: "ไทยกำลังประมูลและยืนยันการจัดงานระดับโลก ปฏิทินด้านล่างแสดงงานสำคัญที่ได้รับการยืนยันและเป้าหมายหลัก",
+                ev1Date: "ธ.ค. 2025",
+                ev1Title: "ซีเกมส์ ครั้งที่ 33",
+                ev1Desc: "กรุงเทพฯ, ชลบุรี, สงขลา การยกระดับโครงสร้างพื้นฐานด้านกีฬา",
+                ev2Date: "2026 (เป้าหมาย)",
+                ev2Title: "Tomorrowland Thailand",
+                ev2Desc: "เทศกาล EDM ในตำนานเตรียมเปิดตัวครั้งแรกในอาเซียนที่ไทย",
+                ev3Date: "2026-2027",
+                ev3Title: "Summer Sonic Bangkok",
+                ev3Desc: "สานต่อความสำเร็จจากญี่ปุ่น ตอกย้ำความเป็นฮับเพลงป๊อป/ร็อค",
+                ev4Date: "2029 และต่อไป",
+                ev4Title: "World Expo / FIFA",
+                ev4Desc: "การประมูลเชิงกลยุทธ์ระยะยาวสำหรับงานนิทรรศการระดับโลก",
+                videoTitle: "🎥 ชมวิสัยทัศน์: Thailand 2026",
+                videoDesc: "สำรวจกลยุทธ์เบื้องหลังการก้าวขึ้นเป็นมหาอำนาจความบันเทิงระดับโลกของไทย",
+                radarTitle: "👨‍👩‍👧‍👦 ดัชนีสันทนาการเพื่อครอบครัว",
+                radarDesc: "เปรียบเทียบภูมิภาคหลักตามความเหมาะสมสำหรับการท่องเที่ยวแบบครอบครัว ความปลอดภัย และโครงสร้างพื้นฐาน",
+                bubbleTitle: "🗺️ แผนที่ประสบการณ์รายภาค",
+                bubbleDesc: "แกน X: พักผ่อน vs ผจญภัย, แกน Y: ประหยัด vs หรูหรา, ขนาดวง: ความหนาแน่นของสิ่งอำนวยความสะดวก",
+                attractTitle: "🏆 สุดยอดจุดหมายปลายทางครอบครัว",
+                card1Title: "สวนสนุก",
+                card1Desc: "ยักษ์ใหญ่ที่มีอยู่อย่าง สยามอะเมซิ่งพาร์ค และ สวนน้ำรามายณะ พร้อมการลงทุนใหม่จากต่างชาติ",
+                card2Title: "การเรียนรู้เชิงนิเวศ",
+                card2Desc: "ศูนย์อนุรักษ์ช้างและศูนย์การเรียนรู้ทางทะเลในภูเก็ตที่เน้นการศึกษา",
+                card3Title: "การซึมซับวัฒนธรรม",
+                card3Desc: "สงกรานต์กำลังพัฒนาเป็น 'World Water Festival' ตลอดเดือน เหมาะสำหรับทุกวัย",
+                ctaBtn: "ดูแผนงานวิจัยฉบับเต็ม",
+                ctaDesc: "เข้าถึงเอกสารวิเคราะห์และรายละเอียดเชิงกลยุทธ์ฉบับสมบูรณ์",
+                footerNote: "ข้อมูลจำลองเพื่อการแสดงภาพอ้างอิงจากประกาศ 'Ignite Thailand' ปี 2024",
+                chartLabels: {
+                    growthRev: "รายได้การท่องเที่ยว (ล้านล้านบาท)",
+                    growthArr: "นักท่องเที่ยว (ล้านคน)",
+                    revType: "ที่พัก, อาหาร, ช้อปปิ้ง, บันเทิง&อีเวนต์, การเดินทาง",
+                    radarKeys: ["ความคุ้มค่า", "ความปลอดภัย", "เป็นมิตรต่อเด็ก", "วัฒนธรรม", "การเดินทาง"],
+                    bubbleX: "ระดับพลังงาน (ชิลล์ → แอคทีฟ)",
+                    bubbleY: "ดัชนีความหรูหรา (ประหยัด → หรู)",
+                    cities: { bkk: "กรุงเทพฯ", hkt: "ภูเก็ต", cnx: "เชียงใหม่", pty: "พัทยา", hhn: "หัวหิน" }
+                }
+            },
+            cn: {
+                navTitle: "愿景 2026",
+                navOverview: "概览",
+                navEvents: "大型活动",
+                navFamily: "家庭中心",
+                navGrowth: "增长",
+                heroBadge: "点燃泰国战略",
+                heroTitle1: "世界最新的",
+                heroTitle2: "超级娱乐中心",
+                heroDesc: "从2026年起，泰国将超越“微笑之国”的美誉，成为“盛事之国”。拥有Tomorrowland等顶级音乐节和升级后的家庭娱乐区。",
+                statVisitors: "年度游客",
+                statRevenue: "收入目标",
+                statRank: "全球排名",
+                ecoTitle: "经济激增 (2024-2030)",
+                ecoDesc: "在“点燃泰国”政策的推动下，航空升级和大型活动的举办预计将推动游客人数超过疫情前水平。",
+                chartTitleGrowth: "游客增长预测",
+                sourceRef: "来源：旅游与体育部（预测）",
+                chartTitleWallet: "钱包份额：转变",
+                walletDesc: "随着泰国向活动转型，娱乐和体验在经济蛋糕中所占的比例越来越大。",
+                eventTitle: "🗓️ 大型活动日历",
+                eventDesc: "泰国正在积极申办和锁定世界级活动。以下日历重点介绍了已确认的重大活动。",
+                ev1Date: "2025年12月",
+                ev1Title: "第33届东南亚运动会",
+                ev1Desc: "曼谷、春武里、宋卡。体育基础设施升级的催化剂。",
+                ev2Date: "2026 (目标)",
+                ev2Title: "Tomorrowland 泰国",
+                ev2Desc: "传奇的EDM音乐节着眼于泰国的东盟首秀。",
+                ev3Date: "2026-2027",
+                ev3Title: "Summer Sonic 曼谷",
+                ev3Desc: "延续日本音乐节品牌的成功，巩固流行/摇滚中心的地位。",
+                ev4Date: "2029 及以后",
+                ev4Title: "世博会 / FIFA",
+                ev4Desc: "全球展览和体育大会的长期战略申办。",
+                videoTitle: "🎥 观看愿景：泰国 2026",
+                videoDesc: "探索泰国崛起为全球娱乐超级大国背后的综合战略。",
+                radarTitle: "👨‍👩‍👧‍👦 家庭娱乐指数",
+                radarDesc: "基于家庭旅行适宜性、安全性和基础设施的关键区域比较。",
+                bubbleTitle: "🗺️ 区域体验矩阵",
+                bubbleDesc: "X轴：休闲 vs 冒险。Y轴：预算 vs 奢华。气泡大小：设施密度。",
+                attractTitle: "🏆 首选家庭目的地",
+                card1Title: "主题公园",
+                card1Desc: "现有的巨头如暹罗乐园和罗摩衍那水上乐园，加上潜在的新国际特许经营投资。",
+                card2Title: "生态学习",
+                card2Desc: "清迈的道德大象保护区和普吉岛的海洋中心提供教育价值。",
+                card3Title: "文化沉浸",
+                card3Desc: "泼水节正在演变为适合所有年龄段的为期一个月的“世界泼水节”。",
+                ctaBtn: "查看详细研究计划",
+                ctaDesc: "访问完整的战略细分和分析文档",
+                footerNote: "数据基于2024年“点燃泰国”公告进行的可视化模拟。",
+                chartLabels: {
+                    growthRev: "旅游收入 (万亿泰铢)",
+                    growthArr: "游客人数 (百万)",
+                    revType: "住宿, 餐饮, 购物, 娱乐活动, 交通",
+                    radarKeys: ["性价比", "安全", "亲子友好", "文化", "交通"],
+                    bubbleX: "能量水平 (休闲 → 活跃)",
+                    bubbleY: "奢华指数 ($ → $$$)",
+                    cities: { bkk: "曼谷", hkt: "普吉岛", cnx: "清迈", pty: "芭堤雅", hhn: "华欣" }
+                }
+            },
+            ru: {
+                navTitle: "ВИДЕНИЕ 2026",
+                navOverview: "Обзор",
+                navEvents: "События",
+                navFamily: "Семья",
+                navGrowth: "Рост",
+                heroBadge: "Стратегия Ignite Thailand",
+                heroTitle1: "Новейший мировой",
+                heroTitle2: "Суперхаб развлечений",
+                heroDesc: "С 2026 года Таиланд выходит за рамки репутации «страны улыбок», становясь «страной событий» с мега-фестивалями, такими как Tomorrowland.",
+                statVisitors: "Посетителей/год",
+                statRevenue: "Целевой доход",
+                statRank: "Глобальный рейтинг",
+                ecoTitle: "Экономический рост (2024-2030)",
+                ecoDesc: "Благодаря политике «Ignite Thailand» и мега-событиям, поток туристов превысит допандемийный уровень.",
+                chartTitleGrowth: "Прогноз роста посетителей",
+                sourceRef: "Источник: Министерство туризма и спорта",
+                chartTitleWallet: "Доля кошелька: Сдвиг",
+                walletDesc: "Развлечения и впечатления занимают все большую часть экономики по мере перехода к событийному туризму.",
+                eventTitle: "🗓️ Календарь событий",
+                eventDesc: "Таиланд активно борется за проведение мировых событий. Ниже представлены подтвержденные мега-события.",
+                ev1Date: "Дек 2025",
+                ev1Title: "33-е Игры ЮВА",
+                ev1Desc: "Бангкок, Чонбури, Сонгкхла. Катализатор спортивной инфраструктуры.",
+                ev2Date: "2026 (Цель)",
+                ev2Title: "Tomorrowland Таиланд",
+                ev2Desc: "Легендарный EDM фестиваль планирует дебют в АСЕАН.",
+                ev3Date: "2026-2027",
+                ev3Title: "Summer Sonic Бангкок",
+                ev3Desc: "Успех японской франшизы, укрепление статуса поп/рок хаба.",
+                ev4Date: "2029 и далее",
+                ev4Title: "World Expo / FIFA",
+                ev4Desc: "Долгосрочные стратегические заявки на глобальные выставки.",
+                videoTitle: "🎥 Смотреть: Таиланд 2026",
+                videoDesc: "Изучите стратегию превращения Таиланда в развлекательную сверхдержаву.",
+                radarTitle: "👨‍👩‍👧‍👦 Индекс семейного отдыха",
+                radarDesc: "Сравнение регионов по безопасности, инфраструктуре и удобству для семей.",
+                bubbleTitle: "🗺️ Матрица опыта",
+                bubbleDesc: "Ось X: Отдых vs Приключения. Ось Y: Бюджет vs Люкс. Размер: Плотность удобств.",
+                attractTitle: "🏆 Семейные направления",
+                card1Title: "Тематические парки",
+                card1Desc: "Гиганты вроде Siam Amazing Park и новые международные франшизы.",
+                card2Title: "Эко-обучение",
+                card2Desc: "Этические заповедники слонов и морские центры с образовательной ценностью.",
+                card3Title: "Культура",
+                card3Desc: "Сонгкран превращается в «Мировой фестиваль воды» на целый месяц.",
+                ctaBtn: "Подробный план исследования",
+                ctaDesc: "Полный стратегический анализ и документы",
+                footerNote: "Данные смоделированы для визуализации на основе анонсов 'Ignite Thailand'.",
+                chartLabels: {
+                    growthRev: "Доход от туризма (трлн THB)",
+                    growthArr: "Туристы (млн)",
+                    revType: "Проживание, Еда, Шопинг, Развлечения, Транспорт",
+                    radarKeys: ["Цена", "Безопасность", "Для детей", "Культура", "Транспорт"],
+                    bubbleX: "Энергия (Релакс → Актив)",
+                    bubbleY: "Индекс цены ($ → $$$)",
+                    cities: { bkk: "Бангкок", hkt: "Пхукет", cnx: "Чиангмай", pty: "Паттайя", hhn: "Хуахин" }
+                }
+            }
+        };
+
+        // --- GLOBAL VARIABLES FOR CHARTS ---
+        let growthChart, revenueChart, radarChart, bubbleChart;
+        let currentLang = 'en';
+
+        // --- CHART UTILS ---
+        function formatLabel(str, maxwidth) {
+            // CN: use simple comma split if available, or just return as is (chars wrap naturally in canvas usually, but explicit split helps)
+            if(currentLang === 'cn') {
+                 return str.split(', ');
+            }
+            // RU/EN/TH: Space based splitting
+            var sections = [];
+            var words = str.split(currentLang === 'ru' || currentLang === 'en' ? ", " : ", "); // Split by comma space for list items in chart
+            if (words.length === 1) words = str.split(" "); // Fallback to space split if no commas
+            
+            // Basic logic just returns split array for simplicity in this responsive setup
+            return words; 
+        }
+
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) return label.join(' ');
+                    return label;
+                }
+            }
+        };
+
+        // --- INIT & UPDATE FUNCTIONS ---
+        
+        function updateCharts() {
+            const labels = translations[currentLang].chartLabels;
+
+            // 1. Growth Chart
+            if (growthChart) {
+                growthChart.data.datasets[0].label = labels.growthRev;
+                growthChart.data.datasets[1].label = labels.growthArr;
+                growthChart.update();
+            }
+
+            // 2. Revenue Chart
+            if (revenueChart) {
+                const rawLabels = labels.revType;
+                revenueChart.data.labels = rawLabels.split(", ");
+                revenueChart.update();
+            }
+
+            // 3. Radar Chart
+            if (radarChart) {
+                radarChart.data.labels = labels.radarKeys;
+                radarChart.data.datasets[0].label = labels.cities.bkk;
+                radarChart.data.datasets[1].label = labels.cities.hkt;
+                radarChart.data.datasets[2].label = labels.cities.cnx;
+                radarChart.update();
+            }
+
+            // 4. Bubble Chart
+            if (bubbleChart) {
+                bubbleChart.data.datasets[0].label = labels.cities.bkk;
+                bubbleChart.data.datasets[1].label = labels.cities.hkt;
+                bubbleChart.data.datasets[2].label = labels.cities.pty;
+                bubbleChart.data.datasets[3].label = labels.cities.cnx;
+                bubbleChart.data.datasets[4].label = labels.cities.hhn;
+                bubbleChart.options.scales.x.title.text = labels.bubbleX;
+                bubbleChart.options.scales.y.title.text = labels.bubbleY;
+                bubbleChart.update();
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update Buttons
+            document.querySelectorAll('.flag-btn').forEach(btn => {
+                btn.classList.remove('active');
+                // Simple check if onclick contains the lang code
+                if(btn.getAttribute('onclick').includes(`'${lang}'`)) btn.classList.add('active');
+            });
+
+            // Update Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    // Check if there are nested spans (like in hero title) - specialized handling
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // Re-inject Hero HTML structure for Title 1 & 2 to keep color formatting if strictly needed, 
+            // but for simplicity innerText works. For the gradient title, we need to target specific spans.
+            // (The code above does generic key replacement. Let's ensure chart update is called).
+
+            updateCharts();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const labels = translations['en'].chartLabels; // Init with EN
+
+            // --- CHART 1: Growth ---
+            const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+            growthChart = new Chart(ctxGrowth, {
+                type: 'bar',
+                data: {
+                    labels: ['2023', '2024', '2025 (Est)', '2026 (Target)', '2027 (Target)', '2028 (Target)'],
+                    datasets: [
+                        { type: 'line', label: labels.growthRev, data: [1.2, 2.3, 2.8, 3.2, 3.5, 3.9], borderColor: '#6200EA', borderWidth: 3, yAxisID: 'y1', tension: 0.4, pointBackgroundColor: '#FFD600', pointRadius: 6 },
+                        { type: 'bar', label: labels.growthArr, data: [28, 35, 39, 42, 45, 50], backgroundColor: 'rgba(0, 191, 165, 0.6)', yAxisID: 'y', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+                    plugins: { tooltip: commonTooltip, legend: { position: 'bottom' } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left' },
+                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+
+            // --- CHART 2: Revenue ---
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            revenueChart = new Chart(ctxRev, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.revType.split(", "),
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: ['#6200EA', '#FF4081', '#00BFA5', '#FFD600', '#B0BEC5'],
+                        borderWidth: 0, hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { tooltip: commonTooltip, legend: { position: 'right', labels: { boxWidth: 15, font: { size: 11 } } } }
+                }
+            });
+
+            // --- CHART 3: Radar ---
+            const ctxRadar = document.getElementById('familyRadarChart').getContext('2d');
+            radarChart = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: labels.radarKeys,
+                    datasets: [
+                        { label: labels.cities.bkk, data: [7, 8, 10, 9, 10], fill: true, backgroundColor: 'rgba(98, 0, 234, 0.2)', borderColor: '#6200EA', pointBackgroundColor: '#6200EA' },
+                        { label: labels.cities.hkt, data: [5, 8, 9, 7, 7], fill: true, backgroundColor: 'rgba(0, 191, 165, 0.2)', borderColor: '#00BFA5', pointBackgroundColor: '#00BFA5' },
+                        { label: labels.cities.cnx, data: [9, 9, 7, 10, 6], fill: true, backgroundColor: 'rgba(255, 214, 0, 0.2)', borderColor: '#FFD600', pointBackgroundColor: '#FFD600' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' }, tooltip: commonTooltip },
+                    scales: { r: { angleLines: { color: '#E0E0E0' }, grid: { color: '#E0E0E0' }, pointLabels: { font: { size: 12, weight: '600' } }, suggestedMin: 0, suggestedMax: 10 } }
+                }
+            });
+
+            // --- CHART 4: Bubble ---
+            const ctxBubble = document.getElementById('bubbleMapChart').getContext('2d');
+            bubbleChart = new Chart(ctxBubble, {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        { label: labels.cities.bkk, data: [{x: 8, y: 8, r: 25}], backgroundColor: '#6200EA' },
+                        { label: labels.cities.hkt, data: [{x: 7, y: 9, r: 20}], backgroundColor: '#00BFA5' },
+                        { label: labels.cities.pty, data: [{x: 9, y: 5, r: 15}], backgroundColor: '#FF4081' },
+                        { label: labels.cities.cnx, data: [{x: 4, y: 6, r: 18}], backgroundColor: '#FFD600' },
+                        { label: labels.cities.hhn, data: [{x: 3, y: 7, r: 10}], backgroundColor: '#2962FF' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function(context) { return context.dataset.label; } } } },
+                    scales: {
+                        x: { title: { display: true, text: labels.bubbleX }, min: 0, max: 10, grid: { color: '#f0f0f0' } },
+                        y: { title: { display: true, text: labels.bubbleY }, min: 0, max: 10, grid: { color: '#f0f0f0' } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
