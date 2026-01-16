@@ -2,39 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Business Proposal 2026: Strategic Evolution</title>
     
-    <!-- Meta Tags for Social Media / LINE Thumbnail -->
+    <!-- Meta Tags -->
     <meta property="og:title" content="Business Proposal 2026: Strategic Evolution">
     <meta property="og:description" content="แผนยุทธศาสตร์เพื่อการปฏิรูปองค์กรและบูรณาการ AI (Hybrid AI) โดย THOR (Techatorn Ayanundana)">
     <meta property="og:image" content="https://i.postimg.cc/Vv51Xnwd/unnamed.png">
-    <meta property="og:type" content="website">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Business Proposal 2026: Strategic Evolution">
-    <meta name="twitter:description" content="แผนยุทธศาสตร์เพื่อการปฏิรูปองค์กรและบูรณาการ AI (Hybrid AI) โดย THOR (Techatorn Ayanundana)">
-    <meta name="twitter:image" content="https://i.postimg.cc/Vv51Xnwd/unnamed.png">
-
-    <!-- Fonts -->
+    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Markdown Parser for AI responses -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
 /* -----------------------------------------------------------
-   1. CORE SETTINGS & THEME
+   1. CORE & RESPONSIVE VARIABLES
 ----------------------------------------------------------- */
 :root {
     --bg-dark: #0a0a0a;
     --bg-card: rgba(255, 255, 255, 0.05);
-    --accent-primary: #00C2FF; /* Bright Blue */
-    --accent-secondary: #7B61FF; /* Purple */
+    --accent-primary: #00C2FF;
+    --accent-secondary: #7B61FF;
     --text-main: #ffffff;
     --text-muted: #a0a0a0;
     --gradient-text: linear-gradient(90deg, #00C2FF 0%, #ffffff 100%);
@@ -47,21 +38,24 @@
 body {
     background-color: #1a1a1a;
     margin: 0;
-    padding: 40px;
+    padding: 20px;
     font-family: 'Outfit', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
     color: var(--text-main);
+    overflow-x: hidden;
 }
 
 /* -----------------------------------------------------------
-   2. SLIDE CONTAINER (1280x720 Fixed)
+   2. RESPONSIVE CONTAINER
 ----------------------------------------------------------- */
 .slide-container {
-    width: 1280px;
-    height: 720px;
+    width: 100%;
+    max-width: 1280px;
+    min-height: 720px; /* Use min-height instead of fixed height */
+    height: auto;
     background: radial-gradient(circle at top right, #1a1a2e 0%, #000000 100%);
     border-radius: 20px;
     position: relative;
@@ -71,10 +65,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    margin-bottom: 20px;
 }
 
-/* Background Decor (Blobs) */
+/* Background Decor */
 .slide-container::before {
     content: '';
     position: absolute;
@@ -91,57 +85,37 @@ body {
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 /* -----------------------------------------------------------
-   3. TYPOGRAPHY & ANIMATIONS
+   3. TYPOGRAPHY (Responsive)
 ----------------------------------------------------------- */
-h1, h2, h3 { margin: 0; line-height: 1.1; }
-
-h1 { font-size: 80px; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; }
-h2 { font-size: 56px; font-weight: 700; letter-spacing: -1px; margin-bottom: 30px; }
-h3 { font-size: 24px; font-weight: 600; margin-bottom: 15px; color: var(--accent-primary); }
+h1 { font-size: clamp(40px, 5vw, 80px); font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; }
+h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 700; letter-spacing: -1px; margin-bottom: 30px; line-height: 1.1; }
+h3 { font-size: clamp(20px, 3vw, 28px); font-weight: 600; margin-bottom: 15px; color: var(--accent-primary); line-height: 1.2; }
 
 p, li { 
-    font-size: 20px; 
+    font-size: clamp(16px, 2vw, 20px); 
     line-height: 1.6; 
     color: var(--text-muted); 
     font-weight: 300;
     margin-bottom: 10px;
 }
 
-/* Gradient Text Class */
 .text-gradient {
     background: var(--gradient-text);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* Thai Font Override */
+/* Thai Font */
 body.mode-th .slide-container { font-family: 'Sarabun', sans-serif; }
-body.mode-th h1 { font-weight: 700; line-height: 1.3; letter-spacing: 0; }
-body.mode-th p, body.mode-th li { font-weight: 300; line-height: 1.8; } /* Increased line-height for Thai */
-
-/* Animations */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-1 { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
-.animate-2 { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
-.animate-3 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
-.animate-4 { animation: fadeInUp 0.8s ease-out 0.6s forwards; opacity: 0; }
+body.mode-th h1, body.mode-th h2 { font-weight: 700; line-height: 1.4; letter-spacing: 0; }
+body.mode-th p, body.mode-th li { font-weight: 300; line-height: 1.8; }
 
 /* -----------------------------------------------------------
-   4. COMPONENTS (Cards, Grids, Charts)
+   4. LAYOUTS & GRIDS (Responsive)
 ----------------------------------------------------------- */
-
-/* Glass Card */
 .glass-card {
     background: var(--bg-card);
     backdrop-filter: blur(12px);
@@ -150,28 +124,30 @@ body.mode-th p, body.mode-th li { font-weight: 300; line-height: 1.8; } /* Incre
     border-radius: 16px;
     padding: 30px;
     box-shadow: var(--glass-shadow);
+    height: 100%; /* Fill height in grid */
 }
 
-/* Grid Layouts */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; align-items: center; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 30px; }
+/* Responsive Grids */
+.grid-2, .grid-3, .grid-4 {
+    display: grid;
+    gap: 30px;
+    width: 100%;
+}
 
-/* Section Divider Layout */
-.section-layout { text-align: center; align-items: center; }
-.section-line { width: 80px; height: 6px; background: var(--accent-primary); border-radius: 3px; margin: 40px auto 0; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
 
 /* Timeline */
 .timeline-container { display: flex; justify-content: space-between; margin-top: 60px; position: relative; }
 .timeline-bar { position: absolute; top: 20px; left: 0; width: 100%; height: 2px; background: #333; z-index: -1; }
 .timeline-step { text-align: center; width: 22%; }
-.step-dot { width: 40px; height: 40px; background: #1a1a1a; border: 2px solid var(--accent-primary); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--accent-primary); }
+.step-dot { width: 40px; height: 40px; background: #1a1a1a; border: 2px solid var(--accent-primary); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--accent-primary); z-index: 2; position: relative; }
 
-/* Portfolio Grid */
+/* Portfolio */
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px; }
 .portfolio-item { height: 250px; background-color: #222; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid #444; transition: transform 0.3s ease; }
-.portfolio-item:hover { transform: translateY(-5px); border-color: var(--accent-primary); }
-.portfolio-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
+.portfolio-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
 .portfolio-label { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; background: rgba(0,0,0,0.8); font-weight: bold; }
 
 /* Budget Chart */
@@ -181,17 +157,83 @@ body.mode-th p, body.mode-th li { font-weight: 300; line-height: 1.8; } /* Incre
 .bar-label { position: absolute; top: -40px; width: 150px; left: 50%; transform: translateX(-50%); text-align: center; font-weight: bold; color: #fff; }
 .bar-name { position: absolute; bottom: -40px; width: 100%; text-align: center; color: #aaa; font-size: 18px; }
 
+/* Section Line */
+.section-line { width: 80px; height: 6px; background: var(--accent-primary); border-radius: 3px; margin: 40px auto 0; }
+
 /* -----------------------------------------------------------
-   5. GLOBAL ELEMENTS (Logo, Language Switcher)
+   5. MOBILE & TABLET ADAPTATIONS (Media Queries)
+----------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+    /* Tablet Portrait */
+    .slide-container { padding: 40px; min-height: auto; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .budget-chart { gap: 30px; }
+}
+
+@media screen and (max-width: 768px) {
+    /* Mobile */
+    body { padding: 10px; gap: 20px; }
+    .slide-container { padding: 30px 20px; border-radius: 12px; }
+    
+    /* Stack Grids */
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 20px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    
+    /* Timeline Vertical */
+    .timeline-container { flex-direction: column; align-items: flex-start; margin-top: 30px; padding-left: 20px; }
+    .timeline-bar { width: 2px; height: 100%; left: 39px; top: 0; }
+    .timeline-step { width: 100%; text-align: left; display: flex; align-items: flex-start; gap: 15px; margin-bottom: 30px; }
+    .step-dot { margin: 0; flex-shrink: 0; }
+    
+    /* Budget Chart Vertical Stack */
+    .budget-chart { 
+        flex-direction: column; 
+        align-items: stretch; 
+        height: auto; 
+        border-left: none; 
+        border-bottom: none; 
+        padding-left: 0; 
+        gap: 40px;
+    }
+    .chart-bar { width: 100%; height: 40px !important; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+    .bar-label { position: relative; top: -25px; left: 0; transform: none; text-align: left; width: auto; margin-bottom: 5px; }
+    .bar-name { position: relative; bottom: auto; width: auto; text-align: left; margin-top: 5px; font-size: 14px; }
+    
+    /* Video Responsive */
+    iframe { height: 250px !important; }
+    
+    /* Adjust Logos & Buttons */
+    .company-logo { height: 30px; top: 15px; left: 15px; }
+    .lang-switcher { top: 15px; right: 15px; }
+    .ai-fab { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+    
+    /* Chat Window Mobile */
+    .chat-window { width: 90%; right: 5%; bottom: 80px; height: 60vh; }
+    
+    /* Image full width */
+    .grid-sidebar { display: flex; flex-direction: column; }
+}
+
+/* -----------------------------------------------------------
+   6. UI ELEMENTS
 ----------------------------------------------------------- */
 .company-logo {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 9999;
-    height: 50px; /* Adjust height as needed */
-    width: auto;
+    position: fixed; top: 20px; left: 20px; z-index: 9999;
+    height: 50px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
+
+.lang-switcher {
+    position: fixed; top: 20px; right: 20px; z-index: 9999;
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+    padding: 5px; border-radius: 8px; display: flex; gap: 5px;
+}
+.btn-lang {
+    border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;
+    font-family: 'Outfit', sans-serif; font-weight: bold;
+    background: transparent; color: #aaa; transition: 0.3s;
+}
+.btn-lang.active { background: var(--accent-primary); color: #000; }
 
 .lang-content { display: none; }
 body.mode-en .en { display: block; }
@@ -199,225 +241,49 @@ body.mode-en span.en { display: inline; }
 body.mode-th .th { display: block; }
 body.mode-th span.th { display: inline; }
 
-.lang-switcher {
-  position: fixed; top: 20px; right: 20px; z-index: 9999;
-  background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-  padding: 5px; border-radius: 8px; display: flex; gap: 5px;
-}
-.btn-lang {
-  border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;
-  font-family: 'Outfit', sans-serif; font-weight: bold;
-  background: transparent; color: #aaa; transition: 0.3s;
-}
-.btn-lang.active { background: var(--accent-primary); color: #000; }
-
-/* -----------------------------------------------------------
-   6. GEMINI AI ASSISTANT CHAT WIDGET
------------------------------------------------------------ */
+/* AI Assistant */
 .ai-fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
+    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 20px rgba(0, 194, 255, 0.4);
-    cursor: pointer;
-    z-index: 10000;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 20px rgba(0, 194, 255, 0.4); cursor: pointer; z-index: 10000;
+    border: 2px solid rgba(255,255,255,0.2); transition: 0.3s;
 }
-.ai-fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 15px 30px rgba(0, 194, 255, 0.6);
-}
-.ai-fab i {
-    color: white;
-    font-size: 28px;
-    animation: sparkle 2s infinite ease-in-out;
-}
-@keyframes sparkle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(0.9); }
-}
+.ai-fab i { color: white; font-size: 24px; }
 
 .chat-window {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 380px;
-    height: 500px;
-    background: rgba(20, 20, 30, 0.95);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    z-index: 10000;
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    transform-origin: bottom right;
-    animation: popOpen 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    position: fixed; bottom: 100px; right: 30px; width: 380px; height: 500px;
+    background: rgba(20, 20, 30, 0.95); backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+    z-index: 10000; display: none; flex-direction: column;
 }
-@keyframes popOpen {
-    from { opacity: 0; transform: scale(0.8) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-}
+.chat-header { padding: 15px; background: linear-gradient(90deg, rgba(0,194,255,0.1), rgba(123,97,255,0.1)); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+.chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-input-area { padding: 15px; display: flex; gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+.chat-input { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 10px; color: #fff; }
+.chat-send { background: var(--accent-primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+.chat-bubble { padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 14px; line-height: 1.4; }
+.chat-bubble.ai { background: rgba(255,255,255,0.1); align-self: flex-start; color: #fff; }
+.chat-bubble.user { background: var(--accent-primary); align-self: flex-end; color: #000; }
+.quick-actions { padding: 0 15px 10px; display: flex; gap: 5px; flex-wrap: wrap; }
+.action-chip { background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; color: #ccc; border: 1px solid transparent; }
+.action-chip:hover { border-color: var(--accent-primary); color: #fff; }
 
-.chat-header {
-    padding: 20px;
-    background: linear-gradient(90deg, rgba(0, 194, 255, 0.1), rgba(123, 97, 255, 0.1));
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.chat-header h4 { margin: 0; color: #fff; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-.chat-close { cursor: pointer; color: #aaa; transition: 0.2s; }
-.chat-close:hover { color: #fff; }
-
-.chat-messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.chat-bubble {
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    line-height: 1.5;
-    max-width: 85%;
-    word-wrap: break-word;
-}
-.chat-bubble.ai {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    align-self: flex-start;
-    border-bottom-left-radius: 2px;
-}
-.chat-bubble.user {
-    background: var(--accent-primary);
-    color: #000;
-    align-self: flex-end;
-    border-bottom-right-radius: 2px;
-    font-weight: 500;
-}
-.chat-bubble.loading {
-    background: rgba(255,255,255,0.05);
-    color: #aaa;
-    align-self: flex-start;
-    font-style: italic;
-    font-size: 13px;
-}
-
-.chat-input-area {
-    padding: 15px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    gap: 10px;
-}
-.chat-input {
-    flex: 1;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 25px;
-    padding: 10px 15px;
-    color: #fff;
-    font-family: inherit;
-    outline: none;
-}
-.chat-input:focus { border-color: var(--accent-primary); }
-.chat-send {
-    background: var(--accent-primary);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: #000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-}
-.chat-send:hover { transform: scale(1.1); }
-
-/* Quick Action Chips */
-.quick-actions {
-    padding: 0 20px 10px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.action-chip {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 15px;
-    padding: 5px 12px;
-    font-size: 12px;
-    color: #ccc;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.action-chip:hover {
-    background: rgba(0, 194, 255, 0.2);
-    border-color: var(--accent-primary);
-    color: #fff;
-}
-
-/* -----------------------------------------------------------
-   7. SMART TOOLTIP
------------------------------------------------------------ */
-.info-tip {
-    cursor: help;
-    border-bottom: 2px dotted var(--accent-primary);
-    position: relative;
-    transition: all 0.3s;
-}
-.info-tip:hover {
-    color: var(--accent-primary);
-    background: rgba(0, 194, 255, 0.1);
-}
-
-/* Custom Tooltip Container (injected by JS) */
+/* Tooltip */
+.info-tip { cursor: help; border-bottom: 2px dotted var(--accent-primary); }
 #custom-tooltip {
-    position: absolute;
-    background: rgba(10, 10, 20, 0.98); /* Slightly darker background for better readability */
-    border: 1px solid var(--accent-primary);
-    border-radius: 8px;
-    padding: 15px; /* Increased padding */
-    color: #fff;
-    font-size: 14px;
-    font-family: 'Sarabun', sans-serif;
-    line-height: 1.6;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s;
-    z-index: 99999;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    width: auto; /* Auto width */
-    max-width: 450px; /* Increased max-width for long text */
-    backdrop-filter: blur(10px);
-    white-space: pre-line; /* Allows new lines in tooltip text */
-    text-align: left;
+    position: absolute; background: rgba(10, 10, 20, 0.98); border: 1px solid var(--accent-primary);
+    border-radius: 8px; padding: 15px; color: #fff; font-size: 14px; font-family: 'Sarabun', sans-serif;
+    line-height: 1.6; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 99999;
+    max-width: 300px; white-space: pre-line; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-#custom-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -6px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--accent-primary) transparent transparent transparent;
-}
+
+/* Animations */
+.animate-1 { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+.animate-2 { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
+.animate-3 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
+.animate-4 { animation: fadeInUp 0.8s ease-out 0.6s forwards; opacity: 0; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
@@ -440,12 +306,12 @@ body.mode-th span.th { display: inline; }
     <!-- Chat Window -->
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <h4><i class="fa-solid fa-robot" style="color: var(--accent-primary);"></i> AI Executive Assistant</h4>
-            <i class="fa-solid fa-xmark chat-close" onclick="toggleChat()"></i>
+            <h4 style="color:white; margin:0;"><i class="fa-solid fa-robot" style="color: var(--accent-primary);"></i> AI Assistant</h4>
+            <i class="fa-solid fa-xmark chat-close" onclick="toggleChat()" style="color:#aaa; cursor:pointer;"></i>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="chat-bubble ai">
-                Hello! I am the AI Assistant for this proposal. I can summarize the strategy, explain the budget, or clarify any details about the 'Sandbox' projects. How can I help you today?
+                Hello! I am the AI Assistant for this proposal. I can summarize the strategy, explain the budget, or clarify any details. How can I help?
             </div>
         </div>
         <div class="quick-actions">
@@ -454,7 +320,7 @@ body.mode-th span.th { display: inline; }
             <div class="action-chip" onclick="askAI('What is Hybrid AI?')">🤖 Hybrid AI?</div>
         </div>
         <div class="chat-input-area">
-            <input type="text" class="chat-input" id="userInput" placeholder="Ask about the proposal..." onkeypress="handleEnter(event)">
+            <input type="text" class="chat-input" id="userInput" placeholder="Ask anything..." onkeypress="handleEnter(event)">
             <button class="chat-send" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
@@ -472,21 +338,19 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">วิสัยทัศน์สำหรับการเปลี่ยนแปลงองค์กร ฉบับบูรณาการ <span class="info-tip" data-desc-en="A synergistic approach combining human creativity with AI efficiency." data-desc-th="การทำงานร่วมกันระหว่างมนุษย์และ AI เพื่อประสิทธิภาพสูงสุด">Hybrid AI</span> และการสร้างธุรกิจใหม่มุ่งสู่ปี 2026</span>
             </p>
 
-            <!-- New Link: 6-12 Months Plan (Added to Title Slide) -->
             <div class="animate-3" style="margin-top: 40px;">
-                <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="display: inline-block; background: rgba(0, 194, 255, 0.15); border: 1px solid var(--accent-primary); padding: 15px 30px; border-radius: 50px; text-decoration: none; color: #fff; transition: all 0.3s ease; font-size: 20px; box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);">
+                <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="display: inline-block; background: rgba(0, 194, 255, 0.15); border: 1px solid var(--accent-primary); padding: 15px 30px; border-radius: 50px; text-decoration: none; color: #fff; transition: all 0.3s ease; font-size: 18px; box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);">
                     <span class="lang-content en"><i class="fa-solid fa-rocket" style="margin-right: 10px;"></i> View 6-12 Months Transformation Plan</span>
                     <span class="lang-content th"><i class="fa-solid fa-rocket" style="margin-right: 10px;"></i> ดูแผนปฏิบัติการ 6-12 เดือน (Hybrid AI Transforming)</span>
                 </a>
             </div>
             
-            <!-- Author / Owner Section -->
             <div class="animate-4" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: inline-block;">
                 <p style="font-size: 16px; margin-bottom: 8px; letter-spacing: 2px; color: var(--accent-secondary); text-transform: uppercase; font-weight: 700;">
                     <span class="lang-content en">Proposed & Managed by</span>
                     <span class="lang-content th">เสนอและบริหารงานโดย</span>
                 </p>
-                <h3 style="font-size: 28px; color: #fff; font-weight: 500; margin: 0;">
+                <h3 style="font-size: 24px; color: #fff; font-weight: 500; margin: 0;">
                     <span class="lang-content en">THOR (Techatorn Ayanundana)</span>
                     <span class="lang-content th">เตชธร อายะนันทน์ (THOR)</span>
                 </h3>
@@ -494,7 +358,7 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= NEW SLIDE: OVERALL INTRO VIDEO ================= -->
+    <!-- ================= SLIDE 2: INTRO VIDEO ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center; margin-bottom: 30px;">
@@ -502,7 +366,7 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">บทนำ <span style="font-size: 0.6em; color: var(--accent-primary);">(วิดีโอ)</span></span>
             </h2>
             <div class="glass-card animate-2" style="padding: 10px; height: 100%; display: flex; justify-content: center; align-items: center;">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/M54Vmf4tXJk" title="Overall Intro VDO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px;"></iframe>
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/M54Vmf4tXJk" title="Overall Intro VDO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; width: 100%;"></iframe>
             </div>
             <p class="animate-3" style="text-align: center; margin-top: 20px; font-size: 18px;">
                 <span class="lang-content en">"Hybrid AI : Strategic Evolution 2026"</span>
@@ -515,11 +379,11 @@ body.mode-th span.th { display: inline; }
     <div class="slide-container">
         <div class="content-layer grid-2">
             <div class="animate-1">
-                <h2 style="font-size: 70px; line-height: 1;">
+                <h2>
                     <span class="lang-content en">Adapting to a <br><span class="text-gradient">New Landscape</span></span>
                     <span class="lang-content th">การปรับตัวสู่ <br><span class="text-gradient">ภูมิทัศน์ใหม่</span></span>
                 </h2>
-                <div style="width: 100px; height: 4px; background: var(--accent-primary); margin-top: 30px;"></div>
+                <div class="section-line" style="margin: 30px 0;"></div>
             </div>
             <div class="glass-card animate-2">
                 <p>
@@ -538,7 +402,7 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= SLIDE 4: INDUSTRY CONTEXT (THE STANDARD VIDEO) ================= -->
+    <!-- ================= SLIDE 4: INDUSTRY CONTEXT ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center; margin-bottom: 20px;">
@@ -546,15 +410,15 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">บริบทอุตสาหกรรม <span style="font-size: 0.6em; color: var(--accent-primary);">(อ้างอิง)</span></span>
             </h2>
             <div class="grid-2 animate-2">
-                <div class="glass-card" style="padding: 10px; height: 100%; display: flex; justify-content: center; align-items: center;">
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/xrSEERANcBc" title="The Standard: AI Transformation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; width: 100%; height: 100%;"></iframe>
+                <div class="glass-card" style="padding: 10px; display: flex; justify-content: center; align-items: center;">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/xrSEERANcBc" title="The Standard: AI Transformation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; width: 100%;"></iframe>
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center;">
                     <h3 style="color: #fff; margin-bottom: 20px;">
                         <span class="lang-content en">"3 Pitfalls of AI Adoption"</span>
                         <span class="lang-content th">"3 จุดตายองค์กรไทยใช้ AI"</span>
                     </h3>
-                    <p style="font-size: 20px;">
+                    <p style="font-size: 18px;">
                         <span class="lang-content en">A critical analysis by The Standard on why Thai organizations fail at AI transformation.</span>
                         <span class="lang-content th">บทวิเคราะห์สำคัญจาก The Standard ถึงสาเหตุที่องค์กรไทยส่วนใหญ่ยังไม่ประสบความสำเร็จในการใช้ AI</span>
                     </p>
@@ -566,16 +430,12 @@ body.mode-th span.th { display: inline; }
                         <li class="lang-content en"><b style="color:var(--accent-primary)">3. Tech:</b> Data not ready.</li>
                         <li class="lang-content th"><b style="color:var(--accent-primary)">3. เทคโนโลยี:</b> ข้อมูลยังไม่พร้อม</li>
                     </ul>
-                    <p style="font-size: 18px; margin-top: 20px; color: var(--accent-primary);">
-                        <span class="lang-content en">Our proposal addresses all 3 points.</span>
-                        <span class="lang-content th">*ข้อเสนอของเราถูกออกแบบมาเพื่อแก้ 3 จุดตายนี้*</span>
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 5: STRATEGIC SIGNALS (FROM NEWSLETTER) ================= -->
+    <!-- ================= SLIDE 5: STRATEGIC SIGNALS ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center;">
@@ -583,40 +443,37 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">สัญญาณเชิงกลยุทธ์ <span style="font-size: 0.6em; color: var(--accent-primary);">(ข้อมูล ม.ค. 69)</span></span>
             </h2>
             <div class="grid-3 animate-2">
-                <!-- Signal 1: AI -->
                 <div class="glass-card">
                     <i class="fa-solid fa-robot" style="font-size: 40px; color: var(--accent-secondary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">The AI Shift</span>
                         <span class="lang-content th">จุดเปลี่ยน AI</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">"Executives no longer ask 'What can AI do?', but 'How much money does it make?'" - Moving to AI Agents.</span>
-                        <span class="lang-content th">"ผู้บริหารเลิกถามว่า AI ทำอะไรได้ แต่ถามว่า AI สร้างเงินได้เท่าไหร่" - มุ่งสู่ AI Agents</span>
+                    <p>
+                        <span class="lang-content en">Moving to AI Agents focusing on Revenue.</span>
+                        <span class="lang-content th">มุ่งสู่ AI Agents ที่เน้นสร้างรายได้จริง</span>
                     </p>
                 </div>
-                <!-- Signal 2: Wellness -->
                 <div class="glass-card" style="border: 1px solid var(--accent-primary);">
                     <i class="fa-solid fa-heart-pulse" style="font-size: 40px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">Wellness Intelligence</span>
                         <span class="lang-content th">ความฉลาดด้านสุขภาพ</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Tech merges with living spaces: Bio-Rhythm Syncing, AI Health Mirrors, and Hyper-Personalized Environments.</span>
-                        <span class="lang-content th">เทคโนโลยีผสานที่อยู่อาศัย: การปรับสมดุลนาฬิกาชีวิต, กระจก AI วิเคราะห์สุขภาพ, และสภาพแวดล้อมที่ปรับตามอารมณ์</span>
+                    <p>
+                        <span class="lang-content en">Tech merges with living spaces: Bio-Rhythm Syncing & AI Mirrors.</span>
+                        <span class="lang-content th">เทคโนโลยีผสานที่อยู่อาศัย: ปรับสมดุลนาฬิกาชีวิตและกระจก AI</span>
                     </p>
                 </div>
-                <!-- Signal 3: Construction -->
                 <div class="glass-card">
                     <i class="fa-solid fa-building" style="font-size: 40px; color: #fff; margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">Solid Progress</span>
                         <span class="lang-content th">ความก้าวหน้าที่มั่นคง</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Coral Reef Project hit Floor 38 on schedule. Completion target: 2027. Demonstrates our strong execution.</span>
-                        <span class="lang-content th">โครงการ Coral Reef ถึงชั้น 38 ตามแผน กำหนดเสร็จปี 2570 พิสูจน์ศักยภาพการทำงานที่แข็งแกร่งของเรา</span>
+                    <p>
+                        <span class="lang-content en">Coral Reef hit Floor 38 on schedule. Completion: 2027.</span>
+                        <span class="lang-content th">โครงการ Coral Reef ถึงชั้น 38 ตามแผน กำหนดเสร็จปี 2570</span>
                     </p>
                 </div>
             </div>
@@ -627,7 +484,7 @@ body.mode-th span.th { display: inline; }
     <div class="slide-container">
         <div class="content-layer section-layout">
             <h3 class="animate-1">PART 01</h3>
-            <h2 class="animate-2" style="font-size: 90px;">
+            <h2 class="animate-2">
                 <span class="lang-content en">The 2026 Plan</span>
                 <span class="lang-content th">แผนกลยุทธ์ปี 2026</span>
             </h2>
@@ -639,7 +496,7 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= SLIDE 7: EVOLVING FOCUS (GRID) ================= -->
+    <!-- ================= SLIDE 7: EVOLVING FOCUS ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1">
@@ -647,61 +504,46 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">จุดโฟกัสใหม่ของฉัน <span style="font-size: 0.6em; color: var(--accent-primary);">(2026)</span></span>
             </h2>
             <div class="grid-4">
-                <!-- Card 1 -->
                 <div class="glass-card animate-2">
                     <i class="fa-solid fa-chalkboard-user" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">AI Training</span>
                         <span class="lang-content th">ฝึกอบรม AI</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Lead internal AI transformation. Expand training to Real Estate Agents & Influencers.</span>
-                        <span class="lang-content th">นำการปฏิรูป AI ภายใน ขยายการอบรมสู่ภายนอก (ตัวแทนอสังหาฯ, อินฟลูเอนเซอร์)</span>
+                    <p>
+                        <span class="lang-content en">Internal Transformation & External Expansion.</span>
+                        <span class="lang-content th">ปฏิรูปภายใน & ขยายผลสู่ภายนอก</span>
                     </p>
                 </div>
-                <!-- Card 2 -->
                 <div class="glass-card animate-3">
                     <i class="fa-solid fa-briefcase" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">R&D + Biz Dev</span>
                         <span class="lang-content th">R&D และธุรกิจ</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Launch 'Sandbox' ventures <span class="info-tip" data-desc-en="Focus on Add-on Technology and Ready-to-use equipment for Condos as optional sales extras." data-desc-th="เน้น Add-on Technology และอุปกรณ์ Ready-to-use สำหรับ Condo เพื่อเป็น Option เสริมขายให้ลูกค้า">(Smart Home, Interior)</span> for COPA.</span>
-                        <span class="lang-content th">เปิดตัว Sandbox <span class="info-tip" data-desc-en="Focus on Add-on Technology and Ready-to-use equipment for Condos as optional sales extras." data-desc-th="เน้น Add-on Technology และอุปกรณ์ Ready-to-use สำหรับ Condo เพื่อเป็น Option เสริมขายให้ลูกค้า">(Smart Home, Interior)</span> เพื่อลูกค้า COPA</span>
+                    <p>
+                        <span class="lang-content en">Launch 'Sandbox' ventures <span class="info-tip" data-desc-en="Focus on Add-on Technology and Ready-to-use equipment for Condos as optional sales extras." data-desc-th="เน้น Add-on Technology และอุปกรณ์ Ready-to-use สำหรับ Condo เพื่อเป็น Option เสริมขายให้ลูกค้า">(Smart Home, Interior)</span>.</span>
+                        <span class="lang-content th">เปิดตัว Sandbox <span class="info-tip" data-desc-en="Focus on Add-on Technology and Ready-to-use equipment for Condos as optional sales extras." data-desc-th="เน้น Add-on Technology และอุปกรณ์ Ready-to-use สำหรับ Condo เพื่อเป็น Option เสริมขายให้ลูกค้า">(Smart Home, Interior)</span></span>
                     </p>
                 </div>
-                <!-- Card 3 -->
                 <div class="glass-card animate-4">
                     <i class="fa-solid fa-handshake" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">Networking</span>
                         <span class="lang-content th">เครือข่าย</span>
                     </h3>
-                    <p style="font-size: 18px;">
-                        <!-- English Text with Tooltip -->
-                        <span class="lang-content en info-tip" 
-                              data-desc-th="💡 คำแนะนำสำหรับคุณ (INFP Style Networking)&#10;เพื่อให้ได้ Connection โดยไม่ฝืนตัวเองเกินไป:&#10;&#10;1. อย่าไปเพื่อ 'ขาย': แต่ไปเพื่อ 'สัมภาษณ์' ในงาน Sustainability หรือ Design Week ลองเข้าไปถามคนตามบูธว่า 'เทคโนโลยีของคุณเอาไปใช้กับ High-rise Condo ได้ไหม?' (เป็นการเปิดบทสนทนาที่ทำให้เขาอยากคุยกับคุณ เพราะคุณคือ Potential Client จากนั้นค่อยแลก Contact กัน)&#10;2. ใช้ 'นามบัตรดิจิทัล': เตรียม QR Code ที่สแกนแล้วลิงก์ไปที่ Personal Branding Page ที่คุณกำลังทำ (ที่มีทั้งพาร์ท AI, อสังหา, และเพลง) มันจะทำให้คุณดู 'Cool' และน่าจดจำกว่านามบัตรกระดาษทั่วไปครับ"
-                              data-desc-en="💡 INFP Networking Tip&#10;Connect without forcing it:&#10;&#10;1. Don't 'Sell', just 'Interview': Ask vendors at Design Weeks: 'Can your tech apply to High-rise Condos?' (This sparks conversation as a Potential Client).&#10;2. Use 'Digital Name Card': Link QR to your Personal Branding Page (AI, Real Estate, Music). It looks 'Cool' and is memorable.">
-                            Events & Seminars. Bringing top sales staff to build connections.
-                        </span>
-
-                        <!-- Thai Text with Tooltip -->
-                        <span class="lang-content th info-tip" 
-                              data-desc-th="💡 คำแนะนำสำหรับคุณ (INFP Style Networking)&#10;เพื่อให้ได้ Connection โดยไม่ฝืนตัวเองเกินไป:&#10;&#10;1. อย่าไปเพื่อ 'ขาย': แต่ไปเพื่อ 'สัมภาษณ์' ในงาน Sustainability หรือ Design Week ลองเข้าไปถามคนตามบูธว่า 'เทคโนโลยีของคุณเอาไปใช้กับ High-rise Condo ได้ไหม?' (เป็นการเปิดบทสนทนาที่ทำให้เขาอยากคุยกับคุณ เพราะคุณคือ Potential Client จากนั้นค่อยแลก Contact กัน)&#10;2. ใช้ 'นามบัตรดิจิทัล': เตรียม QR Code ที่สแกนแล้วลิงก์ไปที่ Personal Branding Page ที่คุณกำลังทำ (ที่มีทั้งพาร์ท AI, อสังหา, และเพลง) มันจะทำให้คุณดู 'Cool' และน่าจดจำกว่านามบัตรกระดาษทั่วไปครับ"
-                              data-desc-en="💡 INFP Networking Tip&#10;Connect without forcing it:&#10;&#10;1. Don't 'Sell', just 'Interview': Ask vendors at Design Weeks: 'Can your tech apply to High-rise Condos?' (This sparks conversation as a Potential Client).&#10;2. Use 'Digital Name Card': Link QR to your Personal Branding Page (AI, Real Estate, Music). It looks 'Cool' and is memorable.">
-                            ร่วมงานอีเวนต์ พาเซลส์มือหนึ่งไปสร้างคอนเนคชั่น
-                        </span>
+                    <p>
+                        <span class="lang-content en info-tip" data-desc-en="💡 INFP Networking Tip&#10;Connect without forcing it:&#10;&#10;1. Don't 'Sell', just 'Interview': Ask vendors at Design Weeks: 'Can your tech apply to High-rise Condos?'&#10;2. Use 'Digital Name Card': Link QR to your Personal Branding Page.">Events & Seminars. Bringing top sales staff to build connections.</span>
+                        <span class="lang-content th info-tip" data-desc-th="💡 คำแนะนำสำหรับคุณ (INFP Style Networking)&#10;เพื่อให้ได้ Connection โดยไม่ฝืนตัวเองเกินไป:&#10;&#10;1. อย่าไปเพื่อ 'ขาย': แต่ไปเพื่อ 'สัมภาษณ์' ในงาน Sustainability หรือ Design Week ลองเข้าไปถามคนตามบูธว่า 'เทคโนโลยีของคุณเอาไปใช้กับ High-rise Condo ได้ไหม?'&#10;2. ใช้ 'นามบัตรดิจิทัล': เตรียม QR Code ที่สแกนแล้วลิงก์ไปที่ Personal Branding Page ที่คุณกำลังทำ">ร่วมงานอีเวนต์ พาเซลส์มือหนึ่งไปสร้างคอนเนคชั่น</span>
                     </p>
                 </div>
-                <!-- Card 4 -->
                 <div class="glass-card animate-4" style="animation-delay: 0.8s;">
                     <i class="fa-solid fa-rocket" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>
                         <span class="lang-content en">Future Work</span>
                         <span class="lang-content th">งานแห่งอนาคต</span>
                     </h3>
-                    <p style="font-size: 18px;">
+                    <p>
                         <span class="lang-content en">Flexible, efficiency-driven model with AI core.</span>
                         <span class="lang-content th">โมเดลยืดหยุ่น ประสิทธิภาพสูง ขับเคลื่อนด้วย AI</span>
                     </p>
@@ -717,38 +559,27 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content en">Strategic Roadmap <span style="font-size: 0.6em; color: var(--accent-primary);">(Overview)</span></span>
                 <span class="lang-content th">แผนภาพยุทธศาสตร์ <span style="font-size: 0.6em; color: var(--accent-primary);">(ภาพรวม)</span></span>
             </h2>
-            <div class="glass-card animate-2" style="padding: 20px; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.03);">
-                <!-- Image contained within the slide -->
-                <img src="https://i.postimg.cc/Vv51Xnwd/unnamed.png" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" alt="Strategic Infographic">
+            <div class="glass-card animate-2" style="padding: 20px; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.03);">
+                <img src="https://i.postimg.cc/Vv51Xnwd/unnamed.png" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;" alt="Strategic Infographic">
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 9: EXPERIENCE (PORTFOLIO) ================= -->
+    <!-- ================= SLIDE 9: EXPERIENCE ================= -->
     <div class="slide-container">
         <div class="content-layer">
-            <div style="display: flex; justify-content: space-between; align-items: end;" class="animate-1">
-                <h2>
-                    <span class="lang-content en">Confidence: <span class="text-gradient">2+ Years Hybrid AI</span></span>
-                    <span class="lang-content th">ความมั่นใจ: <span class="text-gradient">ประสบการณ์ Hybrid AI 2+ ปี</span></span>
-                </h2>
-                <p style="text-align: right; max-width: 400px;">
-                    <span class="lang-content en">"Proven track record of working solo to blend AI capabilities with human creativity."</span>
-                    <span class="lang-content th">"พิสูจน์แล้วด้วยผลงานจริง: ทำงานคนเดียวโดยผสาน AI เข้ากับความคิดสร้างสรรค์ของมนุษย์"</span>
-                </p>
-            </div>
-
-            <!-- Portfolio Grid -->
+            <h2 style="margin-bottom: 20px;">
+                <span class="lang-content en">Confidence: <span class="text-gradient">2+ Years Hybrid AI</span></span>
+                <span class="lang-content th">ความมั่นใจ: <span class="text-gradient">ประสบการณ์ Hybrid AI 2+ ปี</span></span>
+            </h2>
             <div class="portfolio-grid animate-2">
-                <!-- Item 1 -->
                 <a href="https://thbho.github.io/CopaNewsJan26.html" target="_blank" class="portfolio-item" style="display: block; text-decoration: none; color: inherit;">
                     <img src="https://i.postimg.cc/TPgSv336/Screenshot-2568-12-03-at-12-51-54.png" class="portfolio-img" alt="Newsletter">
                     <div class="portfolio-label">
-                        <span class="lang-content en">Monthly Newsletters <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7em; vertical-align: top;"></i></span>
-                        <span class="lang-content th">Newsletter รายเดือน (Trends Analysis) <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7em; vertical-align: top;"></i></span>
+                        <span class="lang-content en">Monthly Newsletters</span>
+                        <span class="lang-content th">Newsletter รายเดือน</span>
                     </div>
                 </a>
-                <!-- Item 2 -->
                 <div class="portfolio-item">
                     <img src="https://i.postimg.cc/Gpdtv9Nj/FDADC92F-E208-4DA8-83EF-1DA4E8271C9A.jpg" class="portfolio-img" alt="CSR Event">
                     <div class="portfolio-label">
@@ -756,12 +587,11 @@ body.mode-th span.th { display: inline; }
                         <span class="lang-content th">กิจกรรม CSR และชุมชน</span>
                     </div>
                 </div>
-                <!-- Item 3 -->
                 <div class="portfolio-item">
-                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gS-NSoT4X98" title="Online Content" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="object-fit: cover;"></iframe>
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gS-NSoT4X98" title="Online Content" frameborder="0" allowfullscreen style="object-fit: cover;"></iframe>
                     <div class="portfolio-label">
                         <span class="lang-content en">Online Contents</span>
-                        <span class="lang-content th">คอนเทนต์ออนไลน์ (AI Video)</span>
+                        <span class="lang-content th">คอนเทนต์ออนไลน์</span>
                     </div>
                 </div>
             </div>
@@ -772,7 +602,7 @@ body.mode-th span.th { display: inline; }
     <div class="slide-container">
         <div class="content-layer section-layout">
             <h3 class="animate-1">PART 02</h3>
-            <h2 class="animate-2" style="font-size: 80px;">
+            <h2 class="animate-2">
                 <span class="lang-content en">AI Integration Strategy</span>
                 <span class="lang-content th">กลยุทธ์การบูรณาการ AI</span>
             </h2>
@@ -790,105 +620,81 @@ body.mode-th span.th { display: inline; }
             
             <div class="timeline-container animate-2">
                 <div class="timeline-bar"></div>
-                
                 <div class="timeline-step">
                     <div class="step-dot">1</div>
-                    <h3>Discover</h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Identify pain points with department heads or Leaders.</span>
-                        <span class="lang-content th">ค้นหาปัญหาจริงร่วมกับหัวหน้าแผนก หรือ Leaders</span>
-                    </p>
+                    <div>
+                        <h3>Discover</h3>
+                        <p><span class="lang-content en">Identify pain points with department heads or Leaders.</span><span class="lang-content th">ค้นหาปัญหาจริงร่วมกับหัวหน้าแผนก หรือ Leaders</span></p>
+                    </div>
                 </div>
                 <div class="timeline-step">
                     <div class="step-dot">2</div>
-                    <h3>Recommend</h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Select targeted AI tools for deep-dive.</span>
-                        <span class="lang-content th">เลือกเครื่องมือ AI ที่ตรงจุดเพื่อทดสอบ</span>
-                    </p>
+                    <div>
+                        <h3>Recommend</h3>
+                        <p><span class="lang-content en">Select targeted AI tools.</span><span class="lang-content th">เลือกเครื่องมือ AI ที่ตรงจุด</span></p>
+                    </div>
                 </div>
                 <div class="timeline-step">
                     <div class="step-dot">3</div>
-                    <h3>Guide</h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Implementation support & training.</span>
-                        <span class="lang-content th">ให้คำแนะนำและสนับสนุนการใช้งานจริง</span>
-                    </p>
+                    <div>
+                        <h3>Guide</h3>
+                        <p><span class="lang-content en">Implementation support.</span><span class="lang-content th">ให้คำแนะนำและสนับสนุน</span></p>
+                    </div>
                 </div>
                 <div class="timeline-step">
                     <div class="step-dot">4</div>
-                    <h3>Scale</h3>
-                    <p style="font-size: 18px;">
-                        <span class="lang-content en">Expand success across the org.</span>
-                        <span class="lang-content th">ขยายผลความสำเร็จทั่วองค์กร</span>
-                    </p>
+                    <div>
+                        <h3>Scale</h3>
+                        <p><span class="lang-content en">Expand success across org.</span><span class="lang-content th">ขยายผลความสำเร็จทั่วองค์กร</span></p>
+                    </div>
                 </div>
             </div>
 
-            <!-- PDF Download Link for Implementation Roadmap -->
             <div style="text-align: center; margin-top: 40px;" class="animate-3">
                 <a href="https://drive.google.com/file/d/1pfWM2l0vf9lK8mF3ZUFwFE-6MK-RWv6z/view?usp=sharing" target="_blank" style="display: inline-block; background: rgba(0, 194, 255, 0.15); border: 1px solid var(--accent-primary); padding: 12px 25px; border-radius: 50px; text-decoration: none; color: #fff; transition: all 0.3s ease; font-size: 18px;">
-                    <span class="lang-content en"><i class="fa-solid fa-file-pdf" style="margin-right: 10px; color: #ff4d4d;"></i> Download Implementation Roadmap (PDF)</span>
-                    <span class="lang-content th"><i class="fa-solid fa-file-pdf" style="margin-right: 10px; color: #ff4d4d;"></i> ดาวน์โหลดแผนการดำเนินงานสำหรับ COPA (PDF)</span>
+                    <span class="lang-content en"><i class="fa-solid fa-file-pdf"></i> Download Implementation Roadmap (PDF)</span>
+                    <span class="lang-content th"><i class="fa-solid fa-file-pdf"></i> ดาวน์โหลดแผนการดำเนินงานสำหรับ COPA (PDF)</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 12: TRAINING & EXTERNAL ================= -->
+    <!-- ================= SLIDE 12: TRAINING ================= -->
     <div class="slide-container">
         <div class="content-layer grid-2">
             <div class="animate-1">
                 <h2 style="margin-bottom: 10px;">
                     <span class="lang-content en">The 'Hybrid AI' <br>Training Program</span>
-                    <span class="lang-content th">โปรแกรมฝึกอบรม <br>'<span class="info-tip" data-desc-en="Training staff to work effectively with AI." data-desc-th="การฝึกอบรมบุคลากรให้ทำงานร่วมกับ AI ได้อย่างมีประสิทธิภาพ">Hybrid AI</span>'</span>
+                    <span class="lang-content th">โปรแกรมฝึกอบรม <br>'Hybrid AI'</span>
                 </h2>
                 <p style="margin-bottom: 20px; color: var(--accent-primary);">Internal & External Focus</p>
                 
-                <!-- Training Link -->
                 <p style="font-size: 18px; margin-bottom: 10px;">
-                    <span class="lang-content en">
-                        <i class="fa-solid fa-link" style="color: var(--accent-primary);"></i> 
-                        View Course Guideline Example: <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">AI Gymmate X Factory</a>
-                    </span>
-                    <span class="lang-content th">
-                        <i class="fa-solid fa-link" style="color: var(--accent-primary);"></i> 
-                        ดูตัวอย่างแนวทางของหลักสูตร: <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">AI Gymmate X Factory</a>
-                    </span>
+                    <span class="lang-content en">View Course Guideline Example: <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" style="color: #fff; text-decoration: underline;">AI Gymmate X Factory</a></span>
+                    <span class="lang-content th">ดูตัวอย่างแนวทางของหลักสูตร: <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" style="color: #fff; text-decoration: underline;">AI Gymmate X Factory</a></span>
                 </p>
-
-                <!-- New Link: 6-12 Months Plan -->
                 <p style="font-size: 18px; margin-bottom: 25px;">
-                    <span class="lang-content en">
-                        <i class="fa-solid fa-calendar-check" style="color: var(--accent-primary);"></i> 
-                        Execution Plan: <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">6-12 Months Roadmap</a>
-                    </span>
-                    <span class="lang-content th">
-                        <i class="fa-solid fa-calendar-check" style="color: var(--accent-primary);"></i> 
-                        แผนการดำเนินงานสำหรับ COPA: <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">แผนงาน 6-12 เดือน</a>
-                    </span>
+                    <span class="lang-content en">Execution Plan: <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="color: #fff; text-decoration: underline;">6-12 Months Roadmap</a></span>
+                    <span class="lang-content th">แผนการดำเนินงานสำหรับ COPA: <a href="https://thbho.github.io/AITransformPlan.html" target="_blank" style="color: #fff; text-decoration: underline;">แผนงาน 6-12 เดือน</a></span>
                 </p>
 
-                <!-- STATUS UPDATE BOX -->
                 <div style="background: rgba(255, 193, 7, 0.15); padding: 20px; border-radius: 12px; border: 1px solid #FFC107;">
                     <h3 style="color: #FFC107; font-size: 20px; margin-bottom: 10px;">
                         <span class="lang-content en">Pilot Status (3 Months)</span>
                         <span class="lang-content th">สถานะโครงการนำร่อง (3 เดือน)</span>
                     </h3>
-                    <p style="font-size: 18px; margin-bottom: 10px; color: #fff;">
-                        <span class="lang-content en"><i class="fa-solid fa-check-circle" style="color: #4CAF50;"></i> <b>Result:</b> Excellent feedback from pilot groups.</span>
-                        <span class="lang-content th"><i class="fa-solid fa-check-circle" style="color: #4CAF50;"></i> <b>ผลลัพธ์:</b> ผลตอบรับดีเยี่ยมจากกลุ่มทดลองเรียน</span>
+                    <p style="font-size: 16px; margin-bottom: 10px; color: #fff;">
+                        <span class="lang-content en"><i class="fa-solid fa-check-circle" style="color: #4CAF50;"></i> <b>Result:</b> Excellent feedback.</span>
+                        <span class="lang-content th"><i class="fa-solid fa-check-circle" style="color: #4CAF50;"></i> <b>ผลลัพธ์:</b> ผลตอบรับดีเยี่ยม</span>
                     </p>
-                    <p style="font-size: 18px; margin: 0; color: #fff;">
-                        <span class="lang-content en"><i class="fa-solid fa-triangle-exclamation" style="color: #FFC107;"></i> <b>Pain Point:</b> Lack of budget support for AI tools & work-time conflicts.</span>
-                        <span class="lang-content th"><i class="fa-solid fa-triangle-exclamation" style="color: #FFC107;"></i> <b>ปัญหาที่พบ:</b> พนักงานขาดงบค่า AI และไม่มีเวลาเรียนจริงจังเนื่องจากภาระงาน</span>
+                    <p style="font-size: 16px; margin: 0; color: #fff;">
+                        <span class="lang-content en"><i class="fa-solid fa-triangle-exclamation" style="color: #FFC107;"></i> <b>Pain Point:</b> Lack of budget & time.</span>
+                        <span class="lang-content th"><i class="fa-solid fa-triangle-exclamation" style="color: #FFC107;"></i> <b>ปัญหา:</b> ขาดงบและเวลา</span>
                     </p>
                 </div>
-
             </div>
             
-            <!-- RIGHT COLUMN: INSIDE-OUT STRATEGY -->
-            <div style="display: flex; flex-direction: column; gap: 15px;" class="animate-2">
+            <div class="animate-2">
                 <div class="glass-card" style="border: 1px solid var(--accent-primary); background: rgba(0, 194, 255, 0.05);">
                     <h3 style="color: var(--accent-primary); margin-bottom: 15px;">
                         <span class="lang-content en">Key Strategy: "Inside-Out" Model</span>
@@ -896,32 +702,20 @@ body.mode-th span.th { display: inline; }
                     </h3>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
-                            <div>
-                                <strong style="color: #fff;">Small Unit (หน่วยเล็ก)</strong>
-                                <p style="font-size: 16px; margin: 0;">Study & Test in pilot groups.</p>
-                            </div>
+                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+                            <div><strong style="color: #fff;">Small Unit</strong><p style="font-size: 14px; margin: 0;">Study & Test</p></div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
-                            <div>
-                                <strong style="color: #fff;">Department (แผนก)</strong>
-                                <p style="font-size: 16px; margin: 0;">Expand proven methods to dept level.</p>
-                            </div>
+                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+                            <div><strong style="color: #fff;">Department</strong><p style="font-size: 14px; margin: 0;">Expand proven methods</p></div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
-                            <div>
-                                <strong style="color: #fff;">Organization (องค์กร)</strong>
-                                <p style="font-size: 16px; margin: 0;">Scale to the whole company.</p>
-                            </div>
+                            <div style="width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+                            <div><strong style="color: #fff;">Organization</strong><p style="font-size: 14px; margin: 0;">Scale to company</p></div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="width: 30px; height: 30px; background: var(--accent-primary); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
-                            <div>
-                                <strong style="color: var(--accent-primary);">External Partners</strong>
-                                <p style="font-size: 16px; margin: 0;">Extend to Biz Partners (Agents/Influencers).</p>
-                            </div>
+                            <div style="width: 30px; height: 30px; background: var(--accent-primary); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+                            <div><strong style="color: var(--accent-primary);">External Partners</strong><p style="font-size: 14px; margin: 0;">Extend to Biz Partners</p></div>
                         </div>
                     </div>
                 </div>
@@ -929,53 +723,11 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= SLIDE 13: BUDGET (HIDDEN) ================= -->
-    <!--
-    <div class="slide-container">
-        <div class="content-layer grid-2">
-            <div class="animate-1">
-                <h2>
-                    <span class="lang-content en">Budget Proposal</span>
-                    <span class="lang-content th">ข้อเสนองบประมาณ</span>
-                </h2>
-                <h3 style="font-size: 40px; color: var(--accent-primary);">20,000 - 30,000 <span style="font-size: 20px;">THB/Month</span></h3>
-                <ul style="margin-top: 30px;">
-                    <li class="lang-content en">Flexible / Adaptive Model</li>
-                    <li class="lang-content th">โมเดลยืดหยุ่น ปรับตามจริง</li>
-                    <li class="lang-content en">Covers Multi-Account Tools</li>
-                    <li class="lang-content th">ครอบคลุมค่าสมาชิกหลายบัญชี</li>
-                    <li class="lang-content en">Instructor Fees included</li>
-                    <li class="lang-content th">รวมค่าวิทยากรแล้ว</li>
-                </ul>
-                <p style="margin-top: 20px; font-size: 16px;">
-                    <span class="lang-content en">Ref: <a href="#" style="color: #fff;">CopaVdoPlan</a></span>
-                    <span class="lang-content th">อ้างอิง: <a href="#" style="color: #fff;">CopaVdoPlan</a></span>
-                </p>
-            </div>
-            
-            <div class="budget-chart animate-2">
-                <div class="chart-bar" style="height: 40%; width: 80px; margin-right: 20px;">
-                    <div class="bar-label">Old Way</div>
-                    <div class="bar-name">Outsource</div>
-                </div>
-                <div class="chart-bar highlight" style="height: 85%; width: 80px;">
-                    <div class="bar-label" style="color: var(--accent-primary);">Value</div>
-                    <div class="bar-name" style="color: #fff; font-weight: bold;">Hybrid AI</div>
-                </div>
-                <div class="chart-bar" style="height: 20%; width: 80px; background: #333;">
-                    <div class="bar-label">Cost</div>
-                    <div class="bar-name">Hybrid AI</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-
-    <!-- ================= SLIDE 14: PART 3 HEADER ================= -->
+    <!-- ================= SLIDE 13: PART 3 HEADER ================= -->
     <div class="slide-container">
         <div class="content-layer section-layout">
             <h3 class="animate-1">PART 03</h3>
-            <h2 class="animate-2" style="font-size: 80px;">
+            <h2 class="animate-2">
                 <span class="lang-content en">New Business Units</span>
                 <span class="lang-content th">หน่วยธุรกิจใหม่</span>
             </h2>
@@ -983,145 +735,106 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= SLIDE 15: SANDBOX VENTURES ================= -->
+    <!-- ================= SLIDE 14: SANDBOX VENTURES ================= -->
     <div class="slide-container" style="padding: 0;">
-        <div class="content-layer grid-2" style="gap: 0;">
+        <div class="content-layer grid-sidebar" style="gap: 0;">
             <div style="padding: 60px;" class="animate-1">
                 <h2>
-                    <span class="lang-content en">The '<span class="info-tip" data-desc-en="An isolated environment for testing new business ideas safely." data-desc-th="พื้นที่ทดลองทำธุรกิจใหม่ๆ ที่มีความเสี่ยงต่ำและยืดหยุ่นสูง">Sandbox</span>'</span>
-                    <span class="lang-content th">โครงการ '<span class="info-tip" data-desc-en="An isolated environment for testing new business ideas safely." data-desc-th="พื้นที่ทดลองทำธุรกิจใหม่ๆ ที่มีความเสี่ยงต่ำและยืดหยุ่นสูง">Sandbox</span>'</span>
+                    <span class="lang-content en">The 'Sandbox'</span>
+                    <span class="lang-content th">โครงการ 'Sandbox'</span>
                 </h2>
                 <p class="subtitle" style="margin-bottom: 30px;">
-                    <span class="lang-content en">Agile units adding value to core development. Aligned with 'Wellness Intelligence' trends.</span>
-                    <span class="lang-content th">หน่วยงานคล่องตัว เพิ่มมูลค่าให้ธุรกิจหลัก สอดคล้องกับเทรนด์ 'Wellness Intelligence'</span>
+                    <span class="lang-content en">Agile units adding value.</span>
+                    <span class="lang-content th">หน่วยงานคล่องตัว เพิ่มมูลค่า</span>
                 </p>
                 
-                <!-- Unit 1: Interior -->
                 <div class="glass-card" style="margin-bottom: 20px; border-left: 4px solid var(--accent-primary);">
                     <h3 style="color: #fff; margin-bottom: 5px;">Interior Design</h3>
-                    <p style="font-size: 18px; margin: 0;">Full-service design for clients.</p>
+                    <p style="font-size: 16px; margin: 0;">Full-service design.</p>
                 </div>
                 
-                <!-- Unit 2: Smart Home -->
                 <div class="glass-card" style="border-left: 4px solid var(--accent-secondary); margin-bottom: 20px;">
                     <h3 style="color: #fff; margin-bottom: 5px;">Smart Home Tech</h3>
-                    <p style="font-size: 18px; margin: 0; margin-bottom: 10px;">Modern living integration (AI Mirrors, Bio-Rhythm Sync).</p>
-                    <p style="font-size: 16px; margin: 0;">
-                        <span class="lang-content en">
-                            <i class="fa-solid fa-link" style="color: var(--accent-secondary);"></i> 
-                            Explore Trend: <a href="https://thbho.github.io/SmartLivingTrend.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">Smart Living Trend</a>
-                        </span>
-                        <span class="lang-content th">
-                            <i class="fa-solid fa-link" style="color: var(--accent-secondary);"></i> 
-                            ดูเทรนด์: <a href="https://thbho.github.io/SmartLivingTrend.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">Smart Living Trend</a>
-                        </span>
+                    <p style="font-size: 16px; margin: 0; margin-bottom: 5px;">Modern living integration.</p>
+                    <p style="font-size: 14px; margin: 0;">
+                        <span class="lang-content en"><a href="https://thbho.github.io/SmartLivingTrend.html" target="_blank" style="color: #fff; text-decoration: underline;">Explore Smart Living Trend</a></span>
+                        <span class="lang-content th"><a href="https://thbho.github.io/SmartLivingTrend.html" target="_blank" style="color: #fff; text-decoration: underline;">ดู Smart Living Trend</a></span>
                     </p>
                 </div>
 
-                <!-- UNIFIED UPDATE STATUS (OUTSIDE BOX) -->
                 <div style="background: rgba(0, 194, 255, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--accent-primary); margin-bottom: 20px;">
-                    <p style="font-size: 16px; margin: 0; color: #fff; line-height: 1.5;">
-                        <span class="lang-content en">
-                            <i class="fa-solid fa-circle-check" style="color: var(--accent-primary); margin-right: 5px;"></i> 
-                            <b>Strategic Update:</b> Collaborating with expert partners (University professors in Interior Design & Smart Home specialists) to source suppliers via exclusive connections for both sectors.
-                        </span>
-                        <span class="lang-content th">
-                            <i class="fa-solid fa-circle-check" style="color: var(--accent-primary); margin-right: 5px;"></i> 
-                            <b>อัปเดตเชิงกลยุทธ์:</b> กำลังร่วมมือกับพาร์ทเนอร์ผู้เชี่ยวชาญ (อาจารย์มหาวิทยาลัยด้าน interior, และ กลุ่มผู้เชี่ยวชาญด้าน smart home) ช่วย Sourcing Suppliers จาก Connection เฉพาะทางสำหรับทั้งสองส่วนงาน
-                        </span>
+                    <p style="font-size: 14px; margin: 0; color: #fff; line-height: 1.5;">
+                        <span class="lang-content en"><b>Update:</b> Collaborating with expert partners (University professors & Smart Home specialists) for sourcing.</span>
+                        <span class="lang-content th"><b>อัปเดต:</b> ร่วมมือกับพาร์ทเนอร์ผู้เชี่ยวชาญ (อาจารย์ & กลุ่ม Smart Home) ช่วย Sourcing Suppliers</span>
                     </p>
                 </div>
 
-                <!-- Interior Project Link -->
-                <p style="font-size: 18px;">
-                    <span class="lang-content en">
-                        <i class="fa-solid fa-link" style="color: var(--accent-primary);"></i> 
-                        View Project Details: <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">WIDEROOMS & Smart Home</a>
-                    </span>
-                    <span class="lang-content th">
-                        <i class="fa-solid fa-link" style="color: var(--accent-primary);"></i> 
-                        ดูรายละเอียดโครงการ: <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">WIDEROOMS & Smart Home</a>
-                    </span>
+                <p style="font-size: 16px;">
+                    <span class="lang-content en">View Project: <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" style="color: #fff; text-decoration: underline;">WIDEROOMS & Smart Home</a></span>
+                    <span class="lang-content th">ดูโครงการ: <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" style="color: #fff; text-decoration: underline;">WIDEROOMS & Smart Home</a></span>
                 </p>
             </div>
-            <div style="height: 100%; background: url('https://i.postimg.cc/C5k6kNr5/Photo_&_Smart_Home.jpg') center/cover; position: relative;">
+            <div style="height: 100%; min-height: 300px; background: url('https://i.postimg.cc/C5k6kNr5/Photo_&_Smart_Home.jpg') center/cover; position: relative;">
                 <div style="position: absolute; inset: 0; background: linear-gradient(to right, #1a1a1a, transparent);"></div>
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 16: STRATEGIC OVERVIEW (INFOGRAPHIC) ================= -->
+    <!-- ================= SLIDE 15: STRATEGIC OVERVIEW (INFOGRAPHIC) ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center; margin-bottom: 20px;">
-                <span class="lang-content en">Strategic Value Map <span style="font-size: 0.6em; color: var(--accent-primary);">(Overview)</span></span>
-                <span class="lang-content th">แผนภาพคุณค่าเชิงกลยุทธ์ <span style="font-size: 0.6em; color: var(--accent-primary);">(ภาพรวม)</span></span>
+                <span class="lang-content en">Strategic Value Map</span>
+                <span class="lang-content th">แผนภาพคุณค่าเชิงกลยุทธ์</span>
             </h2>
-            <div class="animate-2" style="height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px;">
-                <!-- Image contained within the slide -->
-                <img src="https://i.postimg.cc/sD9hgGm2/Image-202512111826-topaz-upscale-2x-text.png" style="max-width: 100%; max-height: 550px; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" alt="Strategic Infographic">
+            <div class="animate-2" style="height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px;">
+                <img src="https://i.postimg.cc/sD9hgGm2/Image-202512111826-topaz-upscale-2x-text.png" style="max-width: 100%; max-height: 500px; object-fit: contain; border-radius: 8px;" alt="Strategic Infographic">
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 17: STRATEGIC BENEFITS (TEXT DETAIL) ================= -->
+    <!-- ================= SLIDE 16: STRATEGIC BENEFITS ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center; margin-bottom: 30px;">
                 <span class="lang-content en">Detailed Benefits</span>
-                <span class="lang-content th">รายละเอียดประโยชน์ที่จะได้รับ</span>
+                <span class="lang-content th">รายละเอียดประโยชน์</span>
             </h2>
             <div class="grid-2 animate-2" style="align-items: stretch;">
-                <!-- Card 1: Company -->
-                <div class="glass-card" style="border-left: 6px solid var(--accent-primary); display: flex; flex-direction: column;">
-                    <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-size: 28px;">
-                        <span class="lang-content en">Company Benefits (Strategic Value)</span>
-                        <span class="lang-content th">ประโยชน์ต่อองค์กร (เชิงกลยุทธ์)</span>
+                <div class="glass-card" style="border-left: 6px solid var(--accent-primary);">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 15px; font-size: 24px;">
+                        <span class="lang-content en">Company Benefits</span>
+                        <span class="lang-content th">ประโยชน์ต่อองค์กร</span>
                     </h3>
-                    <ul style="padding-left: 20px; margin: 0; font-size: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around;">
-                        <li class="lang-content en"><b>Addressing 3 Pitfalls:</b> Real skills & clear process (Governance).</li>
-                        <li class="lang-content th"><b>ปิดจุดตาย AI:</b> สร้างบุคลากรที่มีทักษะจริงและกระบวนการชัดเจน</li>
-                        
-                        <li class="lang-content en"><b>Revenue Focus:</b> Shift to "<span class="info-tip" data-desc-en="AI agents capable of performing tasks autonomously." data-desc-th="AI ที่สามารถทำงานต่างๆ ได้โดยอัตโนมัติ">AI Agents</span>" for automation & new income.</li>
-                        <li class="lang-content th"><b>สร้างรายได้:</b> มุ่งสู่ "<span class="info-tip" data-desc-en="AI agents capable of performing tasks autonomously." data-desc-th="AI ที่สามารถทำงานต่างๆ ได้โดยอัตโนมัติ">AI Agents</span>" ลดต้นทุนและเพิ่มรายได้ใหม่</li>
-                        
-                        <li class="lang-content en"><b>Healthy Org:</b> Muscular (Strong), Lean (Efficient), Flexible (Agile).</li>
-                        <li class="lang-content th"><b>องค์กรสุขภาพดี:</b> แข็งแกร่ง, กระชับ, และยืดหยุ่นพร้อมรับสิ่งใหม่</li>
-                        
-                        <li class="lang-content en"><b>Pioneer in EEC:</b> Elevate Copacabana as a Tech-Real Estate Leader.</li>
-                        <li class="lang-content th"><b>ผู้นำ EEC:</b> ยกระดับสู่การเป็นผู้นำ Tech-Real Estate ในภาคตะวันออก</li>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 16px; display: flex; flex-direction: column; gap: 10px;">
+                        <li><b>Addressing 3 Pitfalls:</b> Real skills & Process.</li>
+                        <li><b>Revenue Focus:</b> AI Agents & Automation.</li>
+                        <li><b>Healthy Org:</b> Muscular, Lean, Flexible.</li>
+                        <li><b>Pioneer in EEC:</b> Tech-Real Estate Leader.</li>
                     </ul>
                 </div>
 
-                <!-- Card 2: Employee -->
-                <div class="glass-card" style="border-left: 6px solid var(--accent-secondary); display: flex; flex-direction: column;">
-                    <h3 style="color: var(--accent-secondary); margin-bottom: 20px; font-size: 28px;">
-                        <span class="lang-content en">Employee Benefits (Career Value)</span>
-                        <span class="lang-content th">ประโยชน์ต่อพนักงาน (ความก้าวหน้า)</span>
+                <div class="glass-card" style="border-left: 6px solid var(--accent-secondary);">
+                    <h3 style="color: var(--accent-secondary); margin-bottom: 15px; font-size: 24px;">
+                        <span class="lang-content en">Employee Benefits</span>
+                        <span class="lang-content th">ประโยชน์ต่อพนักงาน</span>
                     </h3>
-                    <ul style="padding-left: 20px; margin: 0; font-size: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around;">
-                        <li class="lang-content en"><b>Future-Ready Skills:</b> Pro-level "Working with AI".</li>
-                        <li class="lang-content th"><b>ทักษะอนาคต:</b> ทำงานร่วมกับ AI ได้อย่างมืออาชีพ</li>
-                        
-                        <li class="lang-content en"><b>Talent Immunity:</b> "Core Drivers" status with retention priority.</li>
-                        <li class="lang-content th"><b>ความมั่นคง:</b> สถานะ "Core Drivers" กำลังสำคัญขององค์กร</li>
-                        
-                        <li class="lang-content en"><b>Leadership:</b> Opportunity to become "Change Agents".</li>
-                        <li class="lang-content th"><b>โอกาสผู้นำ:</b> เติบโตเป็นผู้นำการเปลี่ยนแปลง (Change Agents)</li>
-                        
-                        <li class="lang-content en"><b>Tangible Rewards:</b> Performance-based from efficiency gains.</li>
-                        <li class="lang-content th"><b>ผลตอบแทน:</b> รางวัลจากผลงานการเพิ่มประสิทธิภาพ</li>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 16px; display: flex; flex-direction: column; gap: 10px;">
+                        <li><b>Future-Ready Skills:</b> Working with AI Pro.</li>
+                        <li><b>Talent Immunity:</b> "Core Drivers" status.</li>
+                        <li><b>Leadership:</b> Become "Change Agents".</li>
+                        <li><b>Tangible Rewards:</b> Performance-based.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 18: PART 4 HEADER ================= -->
+    <!-- ================= SLIDE 17: PART 4 HEADER ================= -->
     <div class="slide-container">
         <div class="content-layer section-layout">
             <h3 class="animate-1">PART 04</h3>
-            <h2 class="animate-2" style="font-size: 90px;">
+            <h2 class="animate-2">
                 <span class="lang-content en">3-5 Year Vision</span>
                 <span class="lang-content th">วิสัยทัศน์ 3-5 ปี</span>
             </h2>
@@ -1129,50 +842,33 @@ body.mode-th span.th { display: inline; }
         </div>
     </div>
 
-    <!-- ================= SLIDE 19: VISION (VIDEO BACKGROUND) ================= -->
+    <!-- ================= SLIDE 18: VISION ================= -->
     <div class="slide-container" style="padding: 0; overflow: hidden;">
-        <!-- Background Video (Autoplay, Mute, Loop) -->
         <div style="position: absolute; top: -10%; left: 0; width: 100%; height: 120%; z-index: 0; pointer-events: none;">
-             <iframe width="100%" height="100%" 
-                src="https://www.youtube.com/embed/TyvXb25s3fw?autoplay=1&mute=1&controls=0&loop=1&playlist=TyvXb25s3fw&rel=0&showinfo=0&modestbranding=1" 
-                title="Vision Video" frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen 
-                style="width: 100%; height: 100%; pointer-events: none; object-fit: cover;">
-            </iframe>
+             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/TyvXb25s3fw?autoplay=1&mute=1&controls=0&loop=1&playlist=TyvXb25s3fw&rel=0&showinfo=0&modestbranding=1" title="Vision Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; pointer-events: none; object-fit: cover;"></iframe>
         </div>
-        
-        <!-- Dark Overlay for Readability -->
         <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1;"></div>
 
         <div class="content-layer section-layout" style="position: relative; z-index: 2;">
-            <div class="glass-card animate-1" style="max-width: 900px;">
+            <div class="glass-card animate-1" style="max-width: 900px; margin: 0 20px;">
                 <h3>VISION 2026-2030</h3>
-                <h2 style="font-size: 70px;">
-                    <span class="lang-content en">Future-Ready: <br><span class="info-tip" data-desc-en="Eastern Economic Corridor." data-desc-th="Eastern Economic Corridor: เขตพัฒนาพิเศษภาคตะวันออก">EEC</span> & Smart Cities</span>
-                    <span class="lang-content th">พร้อมสู่อนาคต: <br><span class="info-tip" data-desc-en="Eastern Economic Corridor." data-desc-th="Eastern Economic Corridor: เขตพัฒนาพิเศษภาคตะวันออก">EEC</span> และ Smart Cities</span>
+                <h2 style="font-size: 50px;">
+                    <span class="lang-content en">Future-Ready: <br>EEC & Smart Cities</span>
+                    <span class="lang-content th">พร้อมสู่อนาคต: <br>EEC และ Smart Cities</span>
                 </h2>
-                <p style="color: #fff; font-size: 24px;">
-                    <span class="lang-content en">Designed to make us agile, tech-advanced, and positioned to lead in the upcoming era.</span>
-                    <span class="lang-content th">ออกแบบมาเพื่อให้เราคล่องตัว ล้ำหน้าด้วยเทคโนโลยี และพร้อมเป็นผู้นำในยุคใหม่ที่กำลังจะมาถึง</span>
+                <p style="color: #fff; font-size: 20px;">
+                    <span class="lang-content en">Leading in the upcoming era.</span>
+                    <span class="lang-content th">ผู้นำในยุคใหม่ที่กำลังจะมาถึง</span>
                 </p>
-
-                <!-- New Link: Updated EEC -->
-                <p style="margin-top: 30px; font-size: 20px;">
-                    <span class="lang-content en">
-                        <i class="fa-solid fa-map-location-dot" style="color: var(--accent-primary); margin-right: 8px;"></i>
-                        Explore: <a href="https://thbho.github.io/EECMegaProjects.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">Updated EEC Mega Projects</a>
-                    </span>
-                    <span class="lang-content th">
-                        <i class="fa-solid fa-map-location-dot" style="color: var(--accent-primary); margin-right: 8px;"></i>
-                        สำรวจ: <a href="https://thbho.github.io/EECMegaProjects.html" target="_blank" style="color: #fff; text-decoration: underline; transition: 0.3s;">อัปเดตโครงการเมกะโปรเจกต์ EEC</a>
-                    </span>
+                <p style="margin-top: 20px; font-size: 18px;">
+                    <span class="lang-content en"><a href="https://thbho.github.io/EECMegaProjects.html" target="_blank" style="color: #fff; text-decoration: underline;">Explore Updated EEC Mega Projects</a></span>
+                    <span class="lang-content th"><a href="https://thbho.github.io/EECMegaProjects.html" target="_blank" style="color: #fff; text-decoration: underline;">สำรวจอัปเดตโครงการเมกะโปรเจกต์ EEC</a></span>
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- ================= SLIDE 20: VIDEO (ROADMAP) ================= -->
+    <!-- ================= SLIDE 19: VIDEO (ROADMAP) ================= -->
     <div class="slide-container">
         <div class="content-layer">
             <h2 class="animate-1" style="text-align: center; margin-bottom: 30px;">
@@ -1180,27 +876,22 @@ body.mode-th span.th { display: inline; }
                 <span class="lang-content th">ตัวอย่างทิศทางอนาคต <span style="font-size: 0.6em; color: var(--accent-primary);">(วิดีโอ)</span></span>
             </h2>
             <div class="glass-card animate-2" style="padding: 10px; height: 100%; display: flex; justify-content: center; align-items: center;">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/93xQKNh_4_w" title="Passive Income with AI & Real Estate" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px;"></iframe>
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/93xQKNh_4_w" title="Passive Income with AI & Real Estate" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; width: 100%;"></iframe>
             </div>
-            <p class="animate-3" style="text-align: center; margin-top: 20px; font-size: 18px;">
-                <span class="lang-content en">"Passive Income with AI & Real Estate | Your Biz Partnership Opportunities"</span>
-                <span class="lang-content th">"Passive Income with AI & Real Estate | โอกาสความร่วมมือทางธุรกิจของคุณ"</span>
-            </p>
         </div>
     </div>
 
-    <!-- ================= SLIDE 21: Q&A ================= -->
+    <!-- ================= SLIDE 20: Q&A ================= -->
     <div class="slide-container">
         <div class="content-layer section-layout">
-            <h2 class="animate-1" style="font-size: 100px; color: var(--accent-primary);">Q & A</h2>
-            <p class="animate-2" style="font-size: 30px;">
+            <h2 class="animate-1" style="font-size: 80px; color: var(--accent-primary);">Q & A</h2>
+            <p class="animate-2" style="font-size: 24px;">
                 <span class="lang-content en">Thank You</span>
                 <span class="lang-content th">ขอบคุณครับ</span>
             </p>
             
-            <!-- PDF Download Link -->
-            <div class="animate-3" style="margin-top: 40px;">
-                <a href="https://drive.google.com/file/d/1xkBXHYVErCg8B2V05nqRwoFJE7r4mDec/view?usp=sharing" target="_blank" style="display: inline-block; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px 30px; border-radius: 50px; text-decoration: none; color: #fff; transition: all 0.3s ease; font-size: 18px;">
+            <div class="animate-3" style="margin-top: 30px;">
+                <a href="https://drive.google.com/file/d/1xkBXHYVErCg8B2V05nqRwoFJE7r4mDec/view?usp=sharing" target="_blank" style="display: inline-block; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px 30px; border-radius: 50px; text-decoration: none; color: #fff; transition: all 0.3s ease; font-size: 16px;">
                     <span class="lang-content en"><i class="fa-solid fa-file-pdf" style="margin-right: 10px; color: #ff4d4d;"></i> Download Full Proposal (PDF)</span>
                     <span class="lang-content th"><i class="fa-solid fa-file-pdf" style="margin-right: 10px; color: #ff4d4d;"></i> ดาวน์โหลดข้อเสนอฉบับเต็ม (PDF)</span>
                 </a>
@@ -1210,10 +901,9 @@ body.mode-th span.th { display: inline; }
 
     <!-- JAVASCRIPT -->
     <script>
-        // API KEY SETUP
-        const apiKey = ""; // API Key will be injected by the environment
+        // API KEY SETUP (Empty for template)
+        const apiKey = ""; 
 
-        // State Management
         let currentContext = "";
         let isChatOpen = false;
 
@@ -1221,17 +911,8 @@ body.mode-th span.th { display: inline; }
             document.body.className = 'mode-' + lang;
             document.getElementById('btn-en').className = lang === 'en' ? 'btn-lang active' : 'btn-lang';
             document.getElementById('btn-th').className = lang === 'th' ? 'btn-lang active' : 'btn-lang';
-            
-            // Re-trigger animations (Optional nice-to-have)
-            const elements = document.querySelectorAll('[class*="animate-"]');
-            elements.forEach(el => {
-                el.style.animation = 'none';
-                el.offsetHeight; /* trigger reflow */
-                el.style.animation = '';
-            });
         }
         
-        // Trigger Chart Animation on Load
         window.onload = function() {
             setTimeout(() => {
                 document.querySelectorAll('.chart-bar').forEach(bar => {
@@ -1240,15 +921,12 @@ body.mode-th span.th { display: inline; }
                     setTimeout(() => bar.style.height = h, 500);
                 });
             }, 1000);
-            
-            // Pre-load content for AI context
             collectProposalContent();
             setupTooltips();
         };
 
-        // --- TOOLTIP LOGIC ---
+        // Tooltip Logic
         function setupTooltips() {
-            // Create tooltip element
             const tooltip = document.createElement('div');
             tooltip.id = 'custom-tooltip';
             document.body.appendChild(tooltip);
@@ -1258,139 +936,79 @@ body.mode-th span.th { display: inline; }
                     const lang = document.body.classList.contains('mode-th') ? 'th' : 'en';
                     const text = el.getAttribute(`data-desc-${lang}`);
                     if (!text) return;
-
                     tooltip.innerText = text;
                     tooltip.style.opacity = '1';
-                    
-                    // Positioning
                     const rect = el.getBoundingClientRect();
-                    // Calculate position relative to document, including scroll
-                    tooltip.style.left = (rect.left + window.scrollX + (rect.width / 2) - (tooltip.offsetWidth / 2)) + 'px';
+                    tooltip.style.left = (rect.left + window.scrollX + (rect.width / 2) - 125) + 'px'; // Center roughly
                     tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 10) + 'px';
                 });
-
-                el.addEventListener('mouseleave', () => {
-                    tooltip.style.opacity = '0';
-                });
+                el.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
             });
         }
-
-        // --- AI Chat Logic ---
 
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             isChatOpen = !isChatOpen;
             chatWindow.style.display = isChatOpen ? 'flex' : 'none';
-            if(isChatOpen) {
-                document.getElementById('userInput').focus();
-            }
+            if(isChatOpen) document.getElementById('userInput').focus();
         }
 
         function collectProposalContent() {
-            // Simple scraper to get text from all slides for context
             let content = "";
             document.querySelectorAll('.slide-container').forEach((slide, index) => {
                 content += `Slide ${index + 1}:\n${slide.innerText}\n\n`;
             });
             currentContext = content;
-            console.log("Proposal Context Loaded.");
         }
 
         function appendMessage(text, sender) {
             const chatMessages = document.getElementById('chatMessages');
             const bubble = document.createElement('div');
             bubble.classList.add('chat-bubble', sender);
-            
-            if (sender === 'ai') {
-                // Parse Markdown for AI responses
-                bubble.innerHTML = marked.parse(text);
-            } else {
-                bubble.innerText = text;
-            }
-            
+            if (sender === 'ai') bubble.innerHTML = marked.parse(text);
+            else bubble.innerText = text;
             chatMessages.appendChild(bubble);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
-
-        function askAI(question) {
-            document.getElementById('userInput').value = question;
-            sendMessage();
-        }
+        function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
+        function askAI(question) { document.getElementById('userInput').value = question; sendMessage(); }
 
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const message = input.value.trim();
             if (!message) return;
-
-            // Add user message
             appendMessage(message, 'user');
             input.value = '';
-
-            // Add loading indicator
+            
             const chatMessages = document.getElementById('chatMessages');
             const loadingBubble = document.createElement('div');
             loadingBubble.classList.add('chat-bubble', 'loading');
             loadingBubble.id = 'loadingBubble';
-            loadingBubble.innerText = 'AI is thinking...';
+            loadingBubble.innerText = 'Thinking...';
             chatMessages.appendChild(loadingBubble);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
                 const response = await callGeminiAPI(message);
-                
-                // Remove loading
                 document.getElementById('loadingBubble').remove();
-                
-                // Add AI response
                 appendMessage(response, 'ai');
-
             } catch (error) {
                 console.error("AI Error:", error);
                 document.getElementById('loadingBubble').remove();
-                appendMessage("Sorry, I encountered an error. Please try again.", 'ai');
+                appendMessage("Sorry, error connecting to AI.", 'ai');
             }
         }
 
         async function callGeminiAPI(userQuery) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            
-            const systemPrompt = `
-                You are a helpful and professional AI Executive Assistant for a business proposal presentation titled "Strategic Evolution 2026" by THOR (Techatorn Ayanundana).
-                
-                Your goal is to answer questions based strictly on the provided PROPOSAL CONTENT below.
-                
-                **Tone:** Professional, encouraging, and concise.
-                **Language:** Respond in the same language as the user's question (Thai or English).
-                
-                **PROPOSAL CONTENT:**
-                ${currentContext}
-            `;
-
-            const payload = {
-                contents: [{
-                    parts: [{ text: userQuery }]
-                }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
+            const systemPrompt = `You are a helpful AI Executive Assistant for "Strategic Evolution 2026". Respond based on:\n${currentContext}`;
+            const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             if (!response.ok) throw new Error('API call failed');
-
             const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
         }
-
     </script>
 </body>
 </html>
