@@ -350,6 +350,56 @@
                 margin: 0 auto;
             }
         }
+
+        /* TOOLTIP STYLES */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted var(--accent-primary);
+            cursor: help;
+            margin: 0 2px;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: rgba(15, 23, 42, 0.95);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            border: 1px solid var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.4;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--accent-primary) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(5px);
+        }
     </style>
 </head>
 <body>
@@ -464,16 +514,22 @@
             <div class="process-card">
                 <div class="step-icon"><i class="fa-solid fa-flag"></i></div>
                 <h4 data-key="step_1_title">1. Find Leaders</h4>
-                <p style="font-size:14px; color:var(--text-dim);" data-key="step_1_desc">Identify "Green Flag Leaders" in each dept.</p>
+                <p style="font-size:14px; color:var(--text-dim);" data-key="step_1_desc">
+                    Identify "<span class="tooltip">Green Flag Leaders<span class="tooltip-text">Team members who communicate well and are trusted by peers.</span></span>" in each dept.
+                </p>
             </div>
             <div class="process-card">
                 <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                <h4 data-key="step_2_title">2. Study Workflow</h4>
+                <h4 data-key="step_2_title">
+                    <span class="tooltip">2. Study Workflow<span class="tooltip-text">Categorize tasks: AI-only, Human-only, or Hybrid.</span></span>
+                </h4>
                 <p style="font-size:14px; color:var(--text-dim);" data-key="step_2_desc">Analyze Pain Points & Categorize Jobs.</p>
             </div>
             <div class="process-card">
                 <div class="step-icon"><i class="fa-solid fa-vial"></i></div>
-                <h4 data-key="step_3_title">3. Test & Execute</h4>
+                <h4 data-key="step_3_title">
+                    <span class="tooltip">3. Test & Execute<span class="tooltip-text">Create Sandbox projects to experiment in each department.</span></span>
+                </h4>
                 <p style="font-size:14px; color:var(--text-dim);" data-key="step_3_desc">Leaders implement AI for real results.</p>
             </div>
             <div class="process-card">
@@ -508,7 +564,9 @@
                 <span data-key="p2_time">Month 2+</span>
             </div>
             <div class="timeline-content">
-                <h3 style="color: var(--accent-secondary);" data-key="p2_title">Department Deep Dive</h3>
+                <h3 style="color: var(--accent-secondary);" data-key="p2_title">
+                    <span class="tooltip">Department Deep Dive<span class="tooltip-text">Priority order: Marketing, Sales, Rental, Customer Service, Admin., Design, etc.</span></span>
+                </h3>
                 <ul class="timeline-list">
                     <li data-key="p2_li1">Focus on specific departments (2 weeks - 1 month each).</li>
                     <li data-key="p2_li2">Trial & Error experiments.</li>
@@ -542,7 +600,9 @@
                 <h3 style="color: var(--text-light);" data-key="p4_title">Scale & Evolution</h3>
                 <ul class="timeline-list">
                     <li data-key="p4_li1">Scale success to all departments.</li>
-                    <li data-key="p4_li2">Prepare for "Full Agentic AI".</li>
+                    <li data-key="p4_li2">
+                        Prepare for "<span class="tooltip">Full Agentic AI<span class="tooltip-text">Still needs time; Hybrid approach is likely best.</span></span>".
+                    </li>
                 </ul>
             </div>
         </div>
@@ -577,7 +637,15 @@
                         </div>
                         <div>
                              <ul class="timeline-list" style="margin-top:0;">
-                                <li data-key="case_li3"><strong>Tools:</strong> Gemini Advanced, Higgsfield, VEO, SuperGrok, KLING, Leonardo.AI, etc.</li>
+                                <li data-key="case_li3">
+                                    <strong>Tools:</strong> 
+                                    <span class="tooltip">Gemini Advanced<span class="tooltip-text">Google's most capable AI model for reasoning & coding.</span></span>, 
+                                    <span class="tooltip">Higgsfield<span class="tooltip-text">Controllable video generation app for creators.</span></span>, 
+                                    <span class="tooltip">VEO<span class="tooltip-text">Google's generative video model (1080p+).</span></span>, 
+                                    <span class="tooltip">SuperGrok<span class="tooltip-text">Fast inference speed AI for quick text/data.</span></span>, 
+                                    <span class="tooltip">KLING<span class="tooltip-text">New high-quality text-to-video model.</span></span>, 
+                                    <span class="tooltip">Leonardo.AI<span class="tooltip-text">Creative platform for image assets & texture generation.</span></span>, etc.
+                                </li>
                                 <li data-key="case_li4"><strong>Output:</strong> High-quality Cinematic Videos, Reels, and AI Music Videos.</li>
                             </ul>
                         </div>
@@ -646,10 +714,10 @@
                 map_caption: "Visual overview connecting Company Benefits and Employee Growth.",
                 process_title: "Key Process",
                 step_1_title: "1. Find Leaders",
-                step_1_desc: "Identify \"Green Flag Leaders\" in each dept.",
-                step_2_title: "2. Study Workflow",
+                step_1_desc: 'Identify "<span class="tooltip">Green Flag Leaders<span class="tooltip-text">Team members who communicate well and are trusted by peers.</span></span>" in each dept.',
+                step_2_title: '<span class="tooltip">2. Study Workflow<span class="tooltip-text">Categorize tasks: AI-only, Human-only, or Hybrid.</span></span>',
                 step_2_desc: "Analyze Pain Points & Categorize Jobs.",
-                step_3_title: "3. Test & Execute",
+                step_3_title: '<span class="tooltip">3. Test & Execute<span class="tooltip-text">Create Sandbox projects to experiment in each department.</span></span>',
                 step_3_desc: "Leaders implement AI for real results.",
                 step_4_title: "4. Balance",
                 step_4_desc: "Align Employee Needs with Company Goals.",
@@ -659,7 +727,7 @@
                 p1_li1: "Survey AI literacy & clarify upskill goals.",
                 p1_li2: "Select \"Green Flag\" Leaders.",
                 p2_time: "Month 2+",
-                p2_title: "Department Deep Dive",
+                p2_title: '<span class="tooltip">Department Deep Dive<span class="tooltip-text">Priority order: Marketing, Sales, Rental, Customer Service, Admin., Design, etc.</span></span>',
                 p2_li1: "Focus on specific departments (2 weeks - 1 month each).",
                 p2_li2: "Trial & Error experiments.",
                 p2_li3: "Leaders guide peers in adoption.",
@@ -670,14 +738,14 @@
                 p4_time: "Month 6+",
                 p4_title: "Scale & Evolution",
                 p4_li1: "Scale success to all departments.",
-                p4_li2: "Prepare for \"Full Agentic AI\".",
+                p4_li2: 'Prepare for "<span class="tooltip">Full Agentic AI<span class="tooltip-text">Still needs time; Hybrid approach is likely best.</span></span>".',
                 view_dept_schedule: "View Department Focus Schedule",
                 case_title: "Real-World Use Case: Marketing",
                 case_name: "AI-Powered Video Content Strategy",
                 case_desc: "A concrete example of Hybrid AI implementation in the Marketing Department for <strong>Copacabana Coral Reef Jomtien</strong>.",
                 case_li1: "<strong>Efficiency:</strong> Reduce production costs by 70-80% & time from weeks to days.",
                 case_li2: "<strong>Hybrid Strategy:</strong> Blending real architectural renders with AI for \"Visualizing the Future\".",
-                case_li3: "<strong>Tools:</strong> Gemini Advanced, Higgsfield, VEO, SuperGrok, KLING, Leonardo.AI, etc.",
+                case_li3: '<strong>Tools:</strong> <span class="tooltip">Gemini Advanced<span class="tooltip-text">Google\'s most capable AI model.</span></span>, <span class="tooltip">Higgsfield<span class="tooltip-text">Controllable video generation.</span></span>, <span class="tooltip">VEO<span class="tooltip-text">Google\'s generative video model.</span></span>, <span class="tooltip">SuperGrok<span class="tooltip-text">Fast AI inference engine.</span></span>, <span class="tooltip">KLING<span class="tooltip-text">High-quality AI Video Gen.</span></span>, <span class="tooltip">Leonardo.AI<span class="tooltip-text">Creative image/asset generation.</span></span>, etc.',
                 case_li4: "<strong>Output:</strong> High-quality Cinematic Videos, Reels, and AI Music Videos.",
                 view_case_example: "View AI Video Strategy Example",
             },
@@ -714,10 +782,10 @@
                 map_caption: "ภาพรวมที่เชื่อมโยงประโยชน์ของบริษัทและการเติบโตของพนักงานเข้าด้วยกัน",
                 process_title: "กระบวนการหลัก",
                 step_1_title: "1. ค้นหาผู้นำ",
-                step_1_desc: "เฟ้นหา \"Green Flag Leaders\" ในแต่ละแผนก",
-                step_2_title: "2. ศึกษางาน",
+                step_1_desc: 'เฟ้นหา "<span class="tooltip">Green Flag Leaders<span class="tooltip-text">คนในแผนกที่สามารถสื่อสาร และเพื่อนร่วมงานไว้ใจ</span></span>" ในแต่ละแผนก',
+                step_2_title: '<span class="tooltip">2. ศึกษางาน<span class="tooltip-text">จำแนกว่างานประเภทไหนควรใช้ AI, คน , หรือ ร่วมกัน(Hybrid)</span></span>',
                 step_2_desc: "วิเคราะห์ Pain Points และแยกแยะประเภทงาน",
-                step_3_title: "3. ทดลองทำ",
+                step_3_title: '<span class="tooltip">3. ทดลองทำ<span class="tooltip-text">สร้าง project Sandbox มาทดลองทำในแต่ละแผนก</span></span>',
                 step_3_desc: "ผู้นำนำ AI ไปใช้แก้ปัญหาจริงให้เห็นผล",
                 step_4_title: "4. สมดุล",
                 step_4_desc: "คำนึงถึงความต้องการพนักงานและบริษัทร่วมกัน",
@@ -727,7 +795,7 @@
                 p1_li1: "สำรวจพื้นฐาน AI และชี้แจงเป้าหมาย (Upskill - Reskill)",
                 p1_li2: "คัดเลือกผู้นำ (Leaders) ที่เพื่อนร่วมงานไว้ใจ",
                 p2_time: "เดือนที่ 2+",
-                p2_title: "เจาะลึกรายแผนก",
+                p2_title: '<span class="tooltip">เจาะลึกรายแผนก<span class="tooltip-text">แผนกที่จะให้ความสำคัญก่อนตามลำดับ : Marketing, Sales, Rental, Customer Service, Admin., Design, etc.</span></span>',
                 p2_li1: "โฟกัสทีละแผนก (2 สัปดาห์ - 1 เดือน)",
                 p2_li2: "เรียนรู้จากการทดลอง (Trial & Error)",
                 p2_li3: "ผู้นำช่วยสอนและแนะนำเพื่อนร่วมงาน",
@@ -738,14 +806,14 @@
                 p4_time: "เดือนที่ 6+",
                 p4_title: "ขยายผลและพัฒนา",
                 p4_li1: "ขยายความสำเร็จสู่ทุกส่วนงาน",
-                p4_li2: "เตรียมพร้อมสู่ยุค \"Full Agentic AI\"",
+                p4_li2: 'เตรียมพร้อมสู่ยุค "<span class="tooltip">Full Agentic AI<span class="tooltip-text">ยังต้องใช้เวลา :แนวทาง Hybrid น่าจะดีที่สุด</span></span>"',
                 view_dept_schedule: "ดูตารางโฟกัสรายแผนก (Department Focus Schedule)",
                 case_title: "กรณีศึกษาจริง: ฝ่ายการตลาด",
                 case_name: "กลยุทธ์วิดีโอคอนเทนต์ด้วย AI",
                 case_desc: "ตัวอย่างที่เป็นรูปธรรมของการนำ Hybrid AI มาใช้ในแผนก Marketing สำหรับโครงการ <strong>Copacabana Coral Reef Jomtien</strong>",
                 case_li1: "<strong>ประสิทธิภาพ:</strong> ลดต้นทุนการผลิต 70-80% และลดเวลาจากสัปดาห์เหลือเพียงวัน",
                 case_li2: "<strong>กลยุทธ์ Hybrid:</strong> ผสานภาพ Render จริงเข้ากับ AI เพื่อ \"ฉายภาพอนาคต\" (Visualizing the Future)",
-                case_li3: "<strong>เครื่องมือ:</strong> Gemini Advanced, Higgsfield, VEO, SuperGrok, KLING, Leonardo.AI, etc.",
+                case_li3: '<strong>เครื่องมือ:</strong> <span class="tooltip">Gemini Advanced<span class="tooltip-text">โมเดล AI ตัวท็อปจาก Google สำหรับการคิดวิเคราะห์</span></span>, <span class="tooltip">Higgsfield<span class="tooltip-text">แอปสร้างวิดีโอที่ควบคุม Motion ได้แม่นยำ</span></span>, <span class="tooltip">VEO<span class="tooltip-text">โมเดลสร้างวิดีโอคุณภาพสูงจาก Google</span></span>, <span class="tooltip">SuperGrok<span class="tooltip-text">AI ประมวลผลข้อมูลเร็วแรงพิเศษ</span></span>, <span class="tooltip">KLING<span class="tooltip-text">AI สร้างวิดีโอตัวใหม่ คุณภาพสมจริง</span></span>, <span class="tooltip">Leonardo.AI<span class="tooltip-text">แพลตฟอร์มสร้างภาพและ Assets งานศิลปะ</span></span>, etc.',
                 case_li4: "<strong>ผลลัพธ์:</strong> วิดีโอ Cinematic คุณภาพสูง, Reels และ AI Music Video",
                 view_case_example: "ดูตัวอย่างกลยุทธ์วิดีโอ AI",
             }
