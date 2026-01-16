@@ -23,6 +23,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Markdown Parser for AI responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
 /* -----------------------------------------------------------
@@ -209,6 +211,214 @@ body.mode-th span.th { display: inline; }
 }
 .btn-lang.active { background: var(--accent-primary); color: #000; }
 
+/* -----------------------------------------------------------
+   6. GEMINI AI ASSISTANT CHAT WIDGET
+----------------------------------------------------------- */
+.ai-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0, 194, 255, 0.4);
+    cursor: pointer;
+    z-index: 10000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+.ai-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 30px rgba(0, 194, 255, 0.6);
+}
+.ai-fab i {
+    color: white;
+    font-size: 28px;
+    animation: sparkle 2s infinite ease-in-out;
+}
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(0.9); }
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 380px;
+    height: 500px;
+    background: rgba(20, 20, 30, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: popOpen 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+@keyframes popOpen {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.chat-header {
+    padding: 20px;
+    background: linear-gradient(90deg, rgba(0, 194, 255, 0.1), rgba(123, 97, 255, 0.1));
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header h4 { margin: 0; color: #fff; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+.chat-close { cursor: pointer; color: #aaa; transition: 0.2s; }
+.chat-close:hover { color: #fff; }
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.chat-bubble {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 85%;
+    word-wrap: break-word;
+}
+.chat-bubble.ai {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+.chat-bubble.user {
+    background: var(--accent-primary);
+    color: #000;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    font-weight: 500;
+}
+.chat-bubble.loading {
+    background: rgba(255,255,255,0.05);
+    color: #aaa;
+    align-self: flex-start;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.chat-input-area {
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 10px;
+}
+.chat-input {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 25px;
+    padding: 10px 15px;
+    color: #fff;
+    font-family: inherit;
+    outline: none;
+}
+.chat-input:focus { border-color: var(--accent-primary); }
+.chat-send {
+    background: var(--accent-primary);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.chat-send:hover { transform: scale(1.1); }
+
+/* Quick Action Chips */
+.quick-actions {
+    padding: 0 20px 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.action-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #ccc;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.action-chip:hover {
+    background: rgba(0, 194, 255, 0.2);
+    border-color: var(--accent-primary);
+    color: #fff;
+}
+
+/* -----------------------------------------------------------
+   7. SMART TOOLTIP
+----------------------------------------------------------- */
+.info-tip {
+    cursor: help;
+    border-bottom: 2px dotted var(--accent-primary);
+    position: relative;
+    transition: all 0.3s;
+}
+.info-tip:hover {
+    color: var(--accent-primary);
+    background: rgba(0, 194, 255, 0.1);
+}
+
+/* Custom Tooltip Container (injected by JS) */
+#custom-tooltip {
+    position: absolute;
+    background: rgba(10, 10, 20, 0.98); /* Slightly darker background for better readability */
+    border: 1px solid var(--accent-primary);
+    border-radius: 8px;
+    padding: 15px; /* Increased padding */
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Sarabun', sans-serif;
+    line-height: 1.6;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 99999;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    width: auto; /* Auto width */
+    max-width: 450px; /* Increased max-width for long text */
+    backdrop-filter: blur(10px);
+    white-space: pre-line; /* Allows new lines in tooltip text */
+    text-align: left;
+}
+#custom-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--accent-primary) transparent transparent transparent;
+}
+
     </style>
 </head>
 <body class="mode-en">
@@ -222,17 +432,44 @@ body.mode-th span.th { display: inline; }
         <button class="btn-lang" id="btn-th" onclick="setLang('th')">TH</button>
     </div>
 
+    <!-- AI Floating Action Button -->
+    <div class="ai-fab" onclick="toggleChat()">
+        <i class="fa-solid fa-sparkles"></i>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h4><i class="fa-solid fa-robot" style="color: var(--accent-primary);"></i> AI Executive Assistant</h4>
+            <i class="fa-solid fa-xmark chat-close" onclick="toggleChat()"></i>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-bubble ai">
+                Hello! I am the AI Assistant for this proposal. I can summarize the strategy, explain the budget, or clarify any details about the 'Sandbox' projects. How can I help you today?
+            </div>
+        </div>
+        <div class="quick-actions">
+            <div class="action-chip" onclick="askAI('Summarize this proposal')">📝 Summarize</div>
+            <div class="action-chip" onclick="askAI('Explain the Budget')">💰 Budget?</div>
+            <div class="action-chip" onclick="askAI('What is Hybrid AI?')">🤖 Hybrid AI?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="userInput" placeholder="Ask about the proposal..." onkeypress="handleEnter(event)">
+            <button class="chat-send" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
     <!-- ================= SLIDE 1: TITLE ================= -->
     <div class="slide-container">
         <div class="content-layer" style="text-align: center;">
             <h3 class="animate-1" style="letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; color: var(--accent-secondary);">Strategic Proposal</h3>
             <h1 class="animate-2">
                 <span class="lang-content en">Strategic Evolution <br><span class="text-gradient">& Future Growth</span></span>
-                <span class="lang-content th">วิวัฒนาการเชิงกลยุทธ์ <br><span class="text-gradient">และการเติบโตในอนาคต</span></span>
+                <span class="lang-content th">แผนงานเชิงกลยุทธ์ <br><span class="text-gradient">และการเติบโตในอนาคต</span></span>
             </h1>
             <p class="animate-3" style="max-width: 800px; margin: 0 auto;">
-                <span class="lang-content en">A visionary roadmap for organizational transformation, AI integration, and new business ventures towards 2026.</span>
-                <span class="lang-content th">แผนงานวิสัยทัศน์สำหรับการเปลี่ยนแปลงองค์กร การบูรณาการ AI และการสร้างธุรกิจใหม่มุ่งสู่ปี 2026</span>
+                <span class="lang-content en">A visionary roadmap for organizational transformation, <span class="info-tip" data-desc-en="A synergistic approach combining human creativity with AI efficiency." data-desc-th="การทำงานร่วมกันระหว่างมนุษย์และ AI เพื่อประสิทธิภาพสูงสุด">Hybrid AI</span> integration, and new business ventures towards 2026.</span>
+                <span class="lang-content th">วิสัยทัศน์สำหรับการเปลี่ยนแปลงองค์กร ฉบับบูรณาการ <span class="info-tip" data-desc-en="A synergistic approach combining human creativity with AI efficiency." data-desc-th="การทำงานร่วมกันระหว่างมนุษย์และ AI เพื่อประสิทธิภาพสูงสุด">Hybrid AI</span> และการสร้างธุรกิจใหม่มุ่งสู่ปี 2026</span>
             </p>
 
             <!-- New Link: 6-12 Months Plan (Added to Title Slide) -->
@@ -286,8 +523,8 @@ body.mode-th span.th { display: inline; }
             </div>
             <div class="glass-card animate-2">
                 <p>
-                    <span class="lang-content en">"The market is evolving from basic chatbots to high-value AI Agents and Wellness Tech."</span>
-                    <span class="lang-content th">"ตลาดกำลังเปลี่ยนผ่านจาก Chatbot พื้นฐาน สู่ยุคของ AI Agents และเทคโนโลยี Wellness ที่สร้างมูลค่าสูง"</span>
+                    <span class="lang-content en">"The market is evolving from basic chatbots to high-value <span class="info-tip" data-desc-en="Autonomous AI systems that perform tasks independently." data-desc-th="AI ที่ทำงานอัตโนมัติ คิดและตัดสินใจได้เอง ไม่ใช่แค่รอคำสั่ง">AI Agents</span> and <span class="info-tip" data-desc-en="Technologies enhancing health and well-being in living spaces." data-desc-th="เทคโนโลยีเพื่อสุขภาพ เช่น การวัดค่าต่างๆ ของร่างกายผ่านอุปกรณ์ในบ้าน">Wellness Tech</span>."</span>
+                    <span class="lang-content th">"ตลาดกำลังเปลี่ยนผ่านจาก Chatbot พื้นฐาน สู่ยุคของ <span class="info-tip" data-desc-en="Autonomous AI systems that perform tasks independently." data-desc-th="AI ที่ทำงานอัตโนมัติ คิดและตัดสินใจได้เอง ไม่ใช่แค่รอคำสั่ง">AI Agents</span> และ <span class="info-tip" data-desc-en="Technologies enhancing health and well-being in living spaces." data-desc-th="เทคโนโลยีเพื่อสุขภาพ เช่น การวัดค่าต่างๆ ของร่างกายผ่านอุปกรณ์ในบ้าน">เทคโนโลยี Wellness</span> ที่สร้างมูลค่าสูง"</span>
                 </p>
                 <ul style="margin-top: 30px; padding-left: 20px;">
                     <li class="lang-content en"><b>AI Shift:</b> Automation & Revenue Focus</li>
@@ -418,8 +655,8 @@ body.mode-th span.th { display: inline; }
                         <span class="lang-content th">ฝึกอบรม AI</span>
                     </h3>
                     <p style="font-size: 18px;">
-                        <span class="lang-content en">Lead internal AI transformation. Expand training to Real Estate Agents & Influencers.</span>
-                        <span class="lang-content th">นำการปฏิรูป AI ภายใน ขยายการอบรมสู่ภายนอก (ตัวแทนอสังหาฯ, อินฟลูเอนเซอร์)</span>
+                        <span class="lang-content en">Lead internal AI transformation. Expand training to Real Estate Agents, Influencers, and Customers.</span>
+                        <span class="lang-content th">นำการปฏิรูป AI ภายใน ขยายการอบรมสู่ภายนอก (ตัวแทนอสังหาฯ, อินฟลูเอนเซอร์) และลูกค้าทั่วไป</span>
                     </p>
                 </div>
                 <!-- Card 2 -->
@@ -442,8 +679,19 @@ body.mode-th span.th { display: inline; }
                         <span class="lang-content th">เครือข่าย</span>
                     </h3>
                     <p style="font-size: 18px;">
-                        <span class="lang-content en">Events & Seminars. Bringing top sales staff to build connections.</span>
-                        <span class="lang-content th">ร่วมงานอีเวนต์ พาเซลส์มือหนึ่งไปสร้างคอนเนคชั่น</span>
+                        <!-- English Text with Tooltip -->
+                        <span class="lang-content en info-tip" 
+                              data-desc-th="💡 คำแนะนำสำหรับคุณ (INFP Style Networking)&#10;เพื่อให้ได้ Connection โดยไม่ฝืนตัวเองเกินไป:&#10;&#10;1. อย่าไปเพื่อ 'ขาย': แต่ไปเพื่อ 'สัมภาษณ์' ในงาน Sustainability หรือ Design Week ลองเข้าไปถามคนตามบูธว่า 'เทคโนโลยีของคุณเอาไปใช้กับ High-rise Condo ได้ไหม?' (เป็นการเปิดบทสนทนาที่ทำให้เขาอยากคุยกับคุณ เพราะคุณคือ Potential Client จากนั้นค่อยแลก Contact กัน)&#10;2. ใช้ 'นามบัตรดิจิทัล': เตรียม QR Code ที่สแกนแล้วลิงก์ไปที่ Personal Branding Page ที่คุณกำลังทำ (ที่มีทั้งพาร์ท AI, อสังหา, และเพลง) มันจะทำให้คุณดู 'Cool' และน่าจดจำกว่านามบัตรกระดาษทั่วไปครับ"
+                              data-desc-en="💡 INFP Networking Tip&#10;Connect without forcing it:&#10;&#10;1. Don't 'Sell', just 'Interview': Ask vendors at Design Weeks: 'Can your tech apply to High-rise Condos?' (This sparks conversation as a Potential Client).&#10;2. Use 'Digital Name Card': Link QR to your Personal Branding Page (AI, Real Estate, Music). It looks 'Cool' and is memorable.">
+                            Events & Seminars. Bringing top sales staff to build connections.
+                        </span>
+
+                        <!-- Thai Text with Tooltip -->
+                        <span class="lang-content th info-tip" 
+                              data-desc-th="💡 คำแนะนำสำหรับคุณ (INFP Style Networking)&#10;เพื่อให้ได้ Connection โดยไม่ฝืนตัวเองเกินไป:&#10;&#10;1. อย่าไปเพื่อ 'ขาย': แต่ไปเพื่อ 'สัมภาษณ์' ในงาน Sustainability หรือ Design Week ลองเข้าไปถามคนตามบูธว่า 'เทคโนโลยีของคุณเอาไปใช้กับ High-rise Condo ได้ไหม?' (เป็นการเปิดบทสนทนาที่ทำให้เขาอยากคุยกับคุณ เพราะคุณคือ Potential Client จากนั้นค่อยแลก Contact กัน)&#10;2. ใช้ 'นามบัตรดิจิทัล': เตรียม QR Code ที่สแกนแล้วลิงก์ไปที่ Personal Branding Page ที่คุณกำลังทำ (ที่มีทั้งพาร์ท AI, อสังหา, และเพลง) มันจะทำให้คุณดู 'Cool' และน่าจดจำกว่านามบัตรกระดาษทั่วไปครับ"
+                              data-desc-en="💡 INFP Networking Tip&#10;Connect without forcing it:&#10;&#10;1. Don't 'Sell', just 'Interview': Ask vendors at Design Weeks: 'Can your tech apply to High-rise Condos?' (This sparks conversation as a Potential Client).&#10;2. Use 'Digital Name Card': Link QR to your Personal Branding Page (AI, Real Estate, Music). It looks 'Cool' and is memorable.">
+                            ร่วมงานอีเวนต์ พาเซลส์มือหนึ่งไปสร้างคอนเนคชั่น
+                        </span>
                     </p>
                 </div>
                 <!-- Card 4 -->
@@ -593,7 +841,7 @@ body.mode-th span.th { display: inline; }
             <div class="animate-1">
                 <h2 style="margin-bottom: 10px;">
                     <span class="lang-content en">The 'Hybrid AI' <br>Training Program</span>
-                    <span class="lang-content th">โปรแกรมฝึกอบรม <br>'Hybrid AI'</span>
+                    <span class="lang-content th">โปรแกรมฝึกอบรม <br>'<span class="info-tip" data-desc-en="Training staff to work effectively with AI." data-desc-th="การฝึกอบรมบุคลากรให้ทำงานร่วมกับ AI ได้อย่างมีประสิทธิภาพ">Hybrid AI</span>'</span>
                 </h2>
                 <p style="margin-bottom: 20px; color: var(--accent-primary);">Internal & External Focus</p>
                 
@@ -740,8 +988,8 @@ body.mode-th span.th { display: inline; }
         <div class="content-layer grid-2" style="gap: 0;">
             <div style="padding: 60px;" class="animate-1">
                 <h2>
-                    <span class="lang-content en">The 'Sandbox'</span>
-                    <span class="lang-content th">โครงการ 'Sandbox'</span>
+                    <span class="lang-content en">The '<span class="info-tip" data-desc-en="An isolated environment for testing new business ideas safely." data-desc-th="พื้นที่ทดลองทำธุรกิจใหม่ๆ ที่มีความเสี่ยงต่ำและยืดหยุ่นสูง">Sandbox</span>'</span>
+                    <span class="lang-content th">โครงการ '<span class="info-tip" data-desc-en="An isolated environment for testing new business ideas safely." data-desc-th="พื้นที่ทดลองทำธุรกิจใหม่ๆ ที่มีความเสี่ยงต่ำและยืดหยุ่นสูง">Sandbox</span>'</span>
                 </h2>
                 <p class="subtitle" style="margin-bottom: 30px;">
                     <span class="lang-content en">Agile units adding value to core development. Aligned with 'Wellness Intelligence' trends.</span>
@@ -824,8 +1072,8 @@ body.mode-th span.th { display: inline; }
                         <li class="lang-content en"><b>Addressing 3 Pitfalls:</b> Real skills & clear process (Governance).</li>
                         <li class="lang-content th"><b>ปิดจุดตาย AI:</b> สร้างบุคลากรที่มีทักษะจริงและกระบวนการชัดเจน</li>
                         
-                        <li class="lang-content en"><b>Revenue Focus:</b> Shift to "AI Agents" for automation & new income.</li>
-                        <li class="lang-content th"><b>สร้างรายได้:</b> มุ่งสู่ "AI Agents" ลดต้นทุนและเพิ่มรายได้ใหม่</li>
+                        <li class="lang-content en"><b>Revenue Focus:</b> Shift to "<span class="info-tip" data-desc-en="AI agents capable of performing tasks autonomously." data-desc-th="AI ที่สามารถทำงานต่างๆ ได้โดยอัตโนมัติ">AI Agents</span>" for automation & new income.</li>
+                        <li class="lang-content th"><b>สร้างรายได้:</b> มุ่งสู่ "<span class="info-tip" data-desc-en="AI agents capable of performing tasks autonomously." data-desc-th="AI ที่สามารถทำงานต่างๆ ได้โดยอัตโนมัติ">AI Agents</span>" ลดต้นทุนและเพิ่มรายได้ใหม่</li>
                         
                         <li class="lang-content en"><b>Healthy Org:</b> Muscular (Strong), Lean (Efficient), Flexible (Agile).</li>
                         <li class="lang-content th"><b>องค์กรสุขภาพดี:</b> แข็งแกร่ง, กระชับ, และยืดหยุ่นพร้อมรับสิ่งใหม่</li>
@@ -891,8 +1139,8 @@ body.mode-th span.th { display: inline; }
             <div class="glass-card animate-1" style="max-width: 900px;">
                 <h3>VISION 2026-2030</h3>
                 <h2 style="font-size: 70px;">
-                    <span class="lang-content en">Future-Ready: <br>EEC & Smart Cities</span>
-                    <span class="lang-content th">พร้อมสู่อนาคต: <br>EEC และ Smart Cities</span>
+                    <span class="lang-content en">Future-Ready: <br><span class="info-tip" data-desc-en="Eastern Economic Corridor." data-desc-th="Eastern Economic Corridor: เขตพัฒนาพิเศษภาคตะวันออก">EEC</span> & Smart Cities</span>
+                    <span class="lang-content th">พร้อมสู่อนาคต: <br><span class="info-tip" data-desc-en="Eastern Economic Corridor." data-desc-th="Eastern Economic Corridor: เขตพัฒนาพิเศษภาคตะวันออก">EEC</span> และ Smart Cities</span>
                 </h2>
                 <p style="color: #fff; font-size: 24px;">
                     <span class="lang-content en">Designed to make us agile, tech-advanced, and positioned to lead in the upcoming era.</span>
@@ -952,6 +1200,13 @@ body.mode-th span.th { display: inline; }
 
     <!-- JAVASCRIPT -->
     <script>
+        // API KEY SETUP
+        const apiKey = ""; // API Key will be injected by the environment
+
+        // State Management
+        let currentContext = "";
+        let isChatOpen = false;
+
         function setLang(lang) {
             document.body.className = 'mode-' + lang;
             document.getElementById('btn-en').className = lang === 'en' ? 'btn-lang active' : 'btn-lang';
@@ -975,7 +1230,156 @@ body.mode-th span.th { display: inline; }
                     setTimeout(() => bar.style.height = h, 500);
                 });
             }, 1000);
+            
+            // Pre-load content for AI context
+            collectProposalContent();
+            setupTooltips();
         };
+
+        // --- TOOLTIP LOGIC ---
+        function setupTooltips() {
+            // Create tooltip element
+            const tooltip = document.createElement('div');
+            tooltip.id = 'custom-tooltip';
+            document.body.appendChild(tooltip);
+
+            document.querySelectorAll('.info-tip').forEach(el => {
+                el.addEventListener('mouseenter', (e) => {
+                    const lang = document.body.classList.contains('mode-th') ? 'th' : 'en';
+                    const text = el.getAttribute(`data-desc-${lang}`);
+                    if (!text) return;
+
+                    tooltip.innerText = text;
+                    tooltip.style.opacity = '1';
+                    
+                    // Positioning
+                    const rect = el.getBoundingClientRect();
+                    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                    tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+            });
+        }
+
+        // --- AI Chat Logic ---
+
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            isChatOpen = !isChatOpen;
+            chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+            if(isChatOpen) {
+                document.getElementById('userInput').focus();
+            }
+        }
+
+        function collectProposalContent() {
+            // Simple scraper to get text from all slides for context
+            let content = "";
+            document.querySelectorAll('.slide-container').forEach((slide, index) => {
+                content += `Slide ${index + 1}:\n${slide.innerText}\n\n`;
+            });
+            currentContext = content;
+            console.log("Proposal Context Loaded.");
+        }
+
+        function appendMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const bubble = document.createElement('div');
+            bubble.classList.add('chat-bubble', sender);
+            
+            if (sender === 'ai') {
+                // Parse Markdown for AI responses
+                bubble.innerHTML = marked.parse(text);
+            } else {
+                bubble.innerText = text;
+            }
+            
+            chatMessages.appendChild(bubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function askAI(question) {
+            document.getElementById('userInput').value = question;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            appendMessage(message, 'user');
+            input.value = '';
+
+            // Add loading indicator
+            const chatMessages = document.getElementById('chatMessages');
+            const loadingBubble = document.createElement('div');
+            loadingBubble.classList.add('chat-bubble', 'loading');
+            loadingBubble.id = 'loadingBubble';
+            loadingBubble.innerText = 'AI is thinking...';
+            chatMessages.appendChild(loadingBubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await callGeminiAPI(message);
+                
+                // Remove loading
+                document.getElementById('loadingBubble').remove();
+                
+                // Add AI response
+                appendMessage(response, 'ai');
+
+            } catch (error) {
+                console.error("AI Error:", error);
+                document.getElementById('loadingBubble').remove();
+                appendMessage("Sorry, I encountered an error. Please try again.", 'ai');
+            }
+        }
+
+        async function callGeminiAPI(userQuery) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            const systemPrompt = `
+                You are a helpful and professional AI Executive Assistant for a business proposal presentation titled "Strategic Evolution 2026" by THOR (Techatorn Ayanundana).
+                
+                Your goal is to answer questions based strictly on the provided PROPOSAL CONTENT below.
+                
+                **Tone:** Professional, encouraging, and concise.
+                **Language:** Respond in the same language as the user's question (Thai or English).
+                
+                **PROPOSAL CONTENT:**
+                ${currentContext}
+            `;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: userQuery }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error('API call failed');
+
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+        }
+
     </script>
 </body>
 </html>
