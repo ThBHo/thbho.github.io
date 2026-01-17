@@ -221,7 +221,8 @@
                         <div class="h-6 w-px bg-gray-700 mx-3"></div>
                         
                         <!-- External Links -->
-                        <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" data-key="nav_highlight" data-link-key="highlight_url" class="px-3 py-2 rounded-md text-sm font-medium text-accent hover:text-accent-light transition-colors">Highlight</a>
+                        <!-- UPDATED: New Highlight Link -->
+                        <a href="https://thbho.github.io/LEVTrend.html" target="_blank" data-key="nav_highlight" data-link-key="highlight_url" class="px-3 py-2 rounded-md text-sm font-medium text-accent hover:text-accent-light transition-colors">Highlight</a>
                         <!-- UPDATED: Changed Fitness to Fitness & Fantasy -->
                         <a href="https://threeandhour.github.io/GymMateX" target="_blank" data-key="nav_fitness" data-link-key="fitness_url" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white transition-colors">Fitness & Fantasy</a>
                         
@@ -1061,7 +1062,8 @@
 
         const linkTranslations = {
             th: {
-                highlight_url: "https://threeandhour.github.io/GymMateX/ThDualAvatar.html",
+                // UPDATED: New Highlight Link
+                highlight_url: "https://thbho.github.io/LEVTrend.html",
                 fitness_url: "https://threeandhour.github.io/GymMateX",
                 announcement_url: "https://thbho.github.io/ThAnnouncement.html",
                 // UPDATED: Clean Embed URL
@@ -1077,7 +1079,8 @@
                 sandbox_url: "https://thbho.github.io/ThWiderooms.html",
             },
             en: {
-                highlight_url: "https://threeandhour.github.io/GymMateX/EnDualAvatar.html",
+                // UPDATED: New Highlight Link (Applied to EN/RU/ZH as well)
+                highlight_url: "https://thbho.github.io/LEVTrend.html",
                 fitness_url: "https://threeandhour.github.io/GymMateX/EngWebsite.html",
                 announcement_url: "https://thbho.github.io/EngAnnouncement.html",
                 // UPDATED: Clean Embed URL
@@ -1181,7 +1184,9 @@
         let activePersona = null;
         
         // ** API Key Configuration **
-        const apiKey = "AIzaSyCb9w0fv1qwoETL8OV2ZmbaQsB-hF-fhZA"; 
+        // Note: For security, use a backend proxy in production. 
+        // This is a client-side demo as requested.
+        const apiKey = ""; // <--- INSERT API KEY HERE (ใส่ API Key ของคุณที่นี่)
 
         const personas = {
             tee: { nameKey: "chat_btn_1", promptKey: "persona_tee_prompt" },
@@ -1229,16 +1234,22 @@
             chatInput.value = '';
             setLoading(true);
 
-            // CHANGED: Removed the strict check for empty apiKey
-            // The environment might inject the key, so we proceed to the call.
-            
+            // Check API Key
+            if(!apiKey || apiKey === "") {
+                setTimeout(() => {
+                    addMessageToChat("⚠️ <b>Connection Error:</b> กรุณาใส่ API Key ในบรรทัดที่ ~578 ของโค้ดก่อนครับ<br><span style='font-size:0.8em; opacity:0.7;'>(Const apiKey = 'YOUR_KEY_HERE')</span>", 'ai');
+                    setLoading(false);
+                }, 500);
+                return;
+            }
+
             const prompt = translations[currentLang][personas[activePersona].promptKey];
             const fullPrompt = `${prompt}\n\nUser Question: ${question}`;
             
             try {
-                // CHANGED: Switched to the environment-supported model 'gemini-2.5-flash-preview-09-2025'
-                // This resolves the "Model Not Found" error in the preview environment.
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                // CHANGED: Use 'gemini-1.5-flash' (Most stable current version)
+                // This minimizes 'Model Not Found' errors.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -1246,24 +1257,34 @@
                     body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: fullPrompt }] }] })
                 });
                 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || `HTTP Error: ${response.status}`);
+                    // Detailed Error Handling
+                    console.error("Gemini API Error Detail:", data);
+                    let userMsg = "เกิดข้อผิดพลาดในการเชื่อมต่อ AI";
+                    
+                    if (data.error) {
+                        if (data.error.message.includes('API key')) {
+                            userMsg = "⚠️ <b>API Key ไม่ถูกต้อง</b> (Invalid API Key)";
+                        } else if (data.error.message.includes('not found')) {
+                            userMsg = "⚠️ <b>ไม่พบโมเดล</b> (Model not found/deprecated)";
+                        } else {
+                            userMsg = `⚠️ <b>Error:</b> ${data.error.message}`;
+                        }
+                    }
+                    throw new Error(userMsg);
                 }
 
-                const result = await response.json();
-                let text = "AI Error.";
-                if (result.candidates && result.candidates[0].content) {
-                    text = result.candidates[0].content.parts[0].text;
+                let text = "AI Error (No content generated).";
+                if (data.candidates && data.candidates[0].content) {
+                    text = data.candidates[0].content.parts[0].text;
                 }
                 addMessageToChat(text, 'ai');
+
             } catch (error) {
-                console.error("Gemini API Error:", error);
-                // Show more specific error to user
-                let errorMsg = "ขออภัย เกิดข้อผิดพลาดในการเชื่อมต่อ";
-                if (error.message.includes('API key')) errorMsg = "API Key ไม่ถูกต้อง หรือสิทธิ์ไม่ผ่าน";
-                if (error.message.includes('not found')) errorMsg = "ไม่พบโมเดล (Model Not Found)";
-                addMessageToChat(`⚠️ ${errorMsg} (${error.message})`, 'ai');
+                console.error("Gemini Fetch Error:", error);
+                addMessageToChat(error.message || "Connection Failed", 'ai');
             } finally {
                 setLoading(false);
             }
