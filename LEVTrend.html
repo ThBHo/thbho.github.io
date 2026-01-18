@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI & The Quest for Immortality</title>
     
+    <!-- --- OPEN GRAPH METADATA (For LINE/Facebook Thumbnails) --- -->
+    <meta property="og:title" content="AI & The Quest for Immortality: ภารกิจพิชิตความชรา">
+    <meta property="og:description" content="เจาะลึกอนาคตมนุษยชาติ เมื่อ AI และเทคโนโลยีชีวภาพพาเราก้าวข้ามขีดจำกัดทางอายุขัย สรุปครบจบในหน้าเดียว">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1200&auto=format&fit=crop">
+    <meta property="og:url" content="https://thbho.github.io/LEVTrend.html">
+    <meta property="og:type" content="website">
+    
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -48,6 +55,13 @@
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+        
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -109,6 +123,9 @@
         const Youtube = ({ size = 24, className = "" }) => (
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
         );
+        const RewritingIcon = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        );
 
         // --- DATA ---
         const translations = {
@@ -152,7 +169,7 @@
                 statTriage: "Triage Safety Score",
                 statTriageSub: "Babylon AI vs Doctors (93.1%)",
                 statEmp: "Perceived Empathy (Chatbots)",
-                statEmpSub: "Likelihood to be rated higher than humans",
+                statEmpSub: "13 of 15 studies rate AI higher",
                 clinicalQuote: "\"AI outputs can be used as an 'Empathic Enhancer' for clinical communication, balancing human accuracy with AI compassion.\"",
                 
                 costTitle: "The Cost of Immortality",
@@ -166,10 +183,10 @@
                 ethicsTitle: "Ethical Crossroads",
                 eth1Title: "Social Inequality",
                 eth1Desc: "A 'health gap' where longevity becomes a luxury for the rich.",
-                eth2Title: "Social Stasis",
-                eth2Desc: "Risk of gerontocracy: older generations retaining power indefinitely.",
-                eth3Title: "The 2030 Problem",
-                eth3Desc: "Immense pressure on social security as retirement becomes obsolete.",
+                eth2Title: "Religion Escape Velocity",
+                eth2Desc: "Technology rivaling faith: offering immortality and resurrection (Deadbots).",
+                eth3Title: "Grey Memory",
+                eth3Desc: "Losing ownership of our life stories as AI synthesizes memories.",
                 
                 jobsQuote: "\"Death is very likely the single best invention of Life. It is Life's change agent. It clears out the old to make way for the new.\"",
                 jobsAuthor: "Steve Jobs",
@@ -181,6 +198,14 @@
                 footerNote: "Generated based on provided source material regarding AI & Longevity.",
                 
                 videoTitle: "Featured Video",
+                rewritingTitle: "The Great Rewriting",
+                rewritingSub: "AI is reshaping the pillars of human experience.",
+                pastTitle: "PAST: Memory",
+                pastDesc: "AI generates 'synthetic memories' and 'deadbots', untethering the past from lived experience.",
+                presentTitle: "PRESENT: Empathy",
+                presentDesc: "The Empathy Paradox: AI chatbots are rated significantly more empathetic than humans in 13/15 studies.",
+                futureTitle: "FUTURE: Longevity",
+                futureDesc: "Engineering an escape from biological limits (LEV) via AI-driven biology.",
             },
             th: {
                 title: "AI และภารกิจพิชิต 'ความชรา': ก้าวข้ามขีดจำกัดทางชีวภาพ",
@@ -202,7 +227,7 @@
                 tier3Desc: "การซ่อมแซมและย้อนวัยเซลล์ (Age Reversal) โดยตรง",
                 
                 aiDiscoveryTitle: "AI: The Game Changer ในการค้นพบยา",
-                aiDiscoveryDesc: "AI เข้ามา Disrupt กระบวนการค้นคว้ายา จากที่ใช้เวลาเป็นปีเหลือเพียงไม่กี่เดือน ช่วยผลิตยา Senolytics ให้มีประสิทธิภาพมากขึ้น ในต้นทุนที่ถูกลงมหาศาล",
+                aiDiscoveryDesc: "AI เข้ามา Disrupt กระบวนการค้นคว้ายา จากที่ใช้เวลาเป็นปีเหลือเพียงไม่กี่เดือน ช่วยผลิตยา Senolytics ให้มีประสิทธิภาพขึ้น ในต้นทุนที่ถูกลงมหาศาล",
                 featDrug: "Drug Discovery",
                 featDrugRes: "ค้นพบ Ginkgetin & Oleandrin",
                 featDrugMet: "ต้นทุนลดลง 100 เท่า",
@@ -221,8 +246,8 @@
                 statDiagSub: "Babylon AI vs แพทย์ (90.3%)",
                 statTriage: "ความปลอดภัยในการคัดกรอง (Triage)",
                 statTriageSub: "Babylon AI vs แพทย์ (93.1%)",
-                statEmp: "คะแนนความเห็นอกเห็นใจ (Empathy)",
-                statEmpSub: "โอกาสที่ AI จะได้รับคะแนนสูงกว่าแพทย์",
+                statEmp: "The Empathy Paradox",
+                statEmpSub: "13 จาก 15 งานวิจัยให้คะแนน AI สูงกว่า",
                 clinicalQuote: "\"AI ไม่ได้เข้ามาแทนที่ แต่จะมาเป็น 'Empathic Enhancer' ช่วยสื่อสารกับคนไข้ เติมเต็มความแม่นยำด้วยความเข้าใจ\"",
                 
                 costTitle: "The Cost of Immortality: ราคาของความเป็นอมตะ",
@@ -236,10 +261,10 @@
                 ethicsTitle: "Ethical Crossroads: ทางแยกทางจริยธรรม",
                 eth1Title: "Inequality (ความเหลื่อมล้ำ)",
                 eth1Desc: "เมื่อ 'เวลา' กลายเป็นสินค้าหรูหราที่คนรวยเท่านั้นที่ซื้อได้ ก่อให้เกิด Health Gap มหาศาล",
-                eth2Title: "Social Stasis (ภาวะสังคมหยุดนิ่ง)",
-                eth2Desc: "ความเสี่ยงของสังคมสูงวัยครองอำนาจ (Gerontocracy) ปิดกั้นโอกาสของคนรุ่นใหม่",
-                eth3Title: "The 2030 Problem",
-                eth3Desc: "แรงกดดันต่อระบบประกันสังคมและทรัพยากรโลก เมื่อโครงสร้างประชากรเปลี่ยนไปอย่างสิ้นเชิง",
+                eth2Title: "Religion Escape Velocity",
+                eth2Desc: "เมื่อวิทยาศาสตร์เริ่มให้คำตอบในสิ่งที่เคยเป็นพื้นที่ของ 'ศรัทธา' (ความเป็นอมตะ/การชุบชีวิต)",
+                eth3Title: "Grey Memory & Identity",
+                eth3Desc: "ความเสี่ยงที่เราจะสูญเสียการเป็นเจ้าของเรื่องราวชีวิตตนเอง เมื่อ AI เริ่มสังเคราะห์ความทรงจำแทนเรา",
                 
                 jobsQuote: "\"ความตายอาจเป็นสิ่งประดิษฐ์ที่ดีที่สุดของชีวิต มันคือตัวแทนแห่งการเปลี่ยนแปลง ที่จะคอยผลัดใบเก่าเพื่อเปิดทางให้สิ่งใหม่ได้เติบโต\"",
                 jobsAuthor: "Steve Jobs",
@@ -251,6 +276,14 @@
                 footerNote: "สร้างขึ้นจากข้อมูลแหล่งที่มาที่เกี่ยวกับ AI & Longevity",
                 
                 videoTitle: "วิดีโอแนะนำ",
+                rewritingTitle: "The Great Rewriting: การเขียนนิยามใหม่แห่งมนุษยชาติ",
+                rewritingSub: "เมื่อ AI กำลังเปลี่ยนรากฐานสำคัญ 3 ประการของความเป็นมนุษย์",
+                pastTitle: "อดีต: ความทรงจำ (Memory)",
+                pastDesc: "เรากำลังเข้าสู่ยุค 'Synthetic Memory' ที่ AI สร้างความทรงจำเทียมและ 'Deadbots' ที่ทำให้การจากลาไม่มีอยู่จริง",
+                presentTitle: "ปัจจุบัน: ความเห็นอกเห็นใจ (Empathy)",
+                presentDesc: "The Empathy Paradox: ผลวิจัยชี้ AI ชนะมนุษย์ในการสื่อสารความรู้สึก หรือเรากำลังเผชิญ Ethical Burnout?",
+                futureTitle: "อนาคต: อายุขัย (Longevity)",
+                futureDesc: "การก้าวข้ามขีดจำกัดทางชีวภาพ (Biological Limits) ด้วยวิศวกรรมระดับเซลล์ มุ่งสู่ความเป็นอมตะ",
             },
             ru: {
                 title: "ИИ и Поиск Бессмертия",
@@ -292,7 +325,7 @@
                 statTriage: "Безопасность Сортировки",
                 statTriageSub: "Babylon AI против Врачей (93.1%)",
                 statEmp: "Эмпатия (Чат-боты)",
-                statEmpSub: "Вероятность быть оцененным выше людей",
+                statEmpSub: "В 13 из 15 исследований ИИ оценен выше",
                 clinicalQuote: "\"ИИ может использоваться как 'Усилитель Эмпатии', балансируя точность машины с человеческим состраданием.\"",
                 
                 costTitle: "Цена Бессмертия",
@@ -306,10 +339,10 @@
                 ethicsTitle: "Этические Перекрестки",
                 eth1Title: "Социальное Неравенство",
                 eth1Desc: "'Разрыв здоровья', где долголетие становится роскошью богатых.",
-                eth2Title: "Социальный Застой",
-                eth2Desc: "Риск геронтократии: старые поколения удерживают власть бесконечно.",
-                eth3Title: "Проблема 2030 года",
-                eth3Desc: "Огромное давление на соцобеспечение, когда выход на пенсию устаревает.",
+                eth2Title: "Religion Escape Velocity",
+                eth2Desc: "Технологии соперничают с верой: обещание бессмертия.",
+                eth3Title: "Серая Память",
+                eth3Desc: "Потеря контроля над историей жизни, когда ИИ синтезирует воспоминания.",
                 
                 jobsQuote: "\"Смерть — это, вероятно, лучшее изобретение Жизни. Это агент перемен. Она убирает старое, чтобы дать дорогу новому.\"",
                 jobsAuthor: "Стив Джобс",
@@ -321,6 +354,14 @@
                 footerNote: "Создано на основе предоставленных материалов об ИИ и Долголетии.",
                 
                 videoTitle: "Рекомендуемое видео",
+                rewritingTitle: "Великое Переписывание",
+                rewritingSub: "ИИ меняет столпы человеческого опыта.",
+                pastTitle: "ПРОШЛОЕ: Память",
+                pastDesc: "ИИ создает 'синтетические воспоминания', отделяя прошлое от реальности.",
+                presentTitle: "НАСТОЯЩЕЕ: Эмпатия",
+                presentDesc: "Парадокс Эмпатии: Чат-боты ИИ оцениваются выше людей в 13/15 исследованиях.",
+                futureTitle: "БУДУЩЕЕ: Долголетие",
+                futureDesc: "Побег от биологических ограничений (LEV) через ИИ-биологию.",
             },
             cn: {
                 title: "AI 与永生探索",
@@ -362,7 +403,7 @@
                 statTriage: "分诊安全评分",
                 statTriageSub: "Babylon AI vs 医生 (93.1%)",
                 statEmp: "感知同理心 (聊天机器人)",
-                statEmpSub: "被评为高于人类的可能性",
+                statEmpSub: "15项研究中有13项评分高于人类",
                 clinicalQuote: "\"AI 输出可用作临床沟通的‘同理心增强剂’，平衡人类准确性与 AI 的同情心。\"",
                 
                 costTitle: "永生的代价",
@@ -376,10 +417,10 @@
                 ethicsTitle: "伦理十字路口",
                 eth1Title: "社会不平等",
                 eth1Desc: "‘健康差距’，长寿成为富人的奢侈品。",
-                eth2Title: "社会停滞",
-                eth2Desc: "老人政治风险：老一代无限期掌握权力。",
-                eth3Title: "2030年问题",
-                eth3Desc: "当退休过时，社会保障面临巨大压力。",
+                eth2Title: "Religion Escape Velocity",
+                eth2Desc: "技术挑战信仰：提供永生和复活（数字遗产）。",
+                eth3Title: "灰色记忆",
+                eth3Desc: "随着AI合成记忆，我们失去对自己生活故事的所有权。",
                 
                 jobsQuote: "\"死亡很可能是生命最好的发明。它是生命的变革推动者。它清除旧事物，为新事物让路。\"",
                 jobsAuthor: "史蒂夫·乔布斯",
@@ -391,6 +432,14 @@
                 footerNote: "根据提供的 AI 与长寿相关源材料生成。",
                 
                 videoTitle: "精选视频",
+                rewritingTitle: "伟大的重写",
+                rewritingSub: "AI 正在重塑人类体验的支柱。",
+                pastTitle: "过去：记忆",
+                pastDesc: "AI 生成“合成记忆”和“数字逝者”，将过去与生活体验分离。",
+                presentTitle: "现在：同理心",
+                presentDesc: "同理心悖论：在13/15项研究中，AI聊天机器人的同理心评分显著高于人类。",
+                futureTitle: "未来：长寿",
+                futureDesc: "通过AI驱动的生物学，工程化逃离生物极限 (LEV)。",
             }
         };
 
@@ -409,6 +458,14 @@
                         </span>
                     ))}
                 </div>
+            </div>
+        );
+
+        const RewritingCard = ({ title, subtitle, desc, color }) => (
+            <div className={`p-6 rounded-2xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800 transition-all duration-300 group`}>
+                <div className={`text-xs font-bold uppercase tracking-wider mb-2 ${color}`}>{subtitle}</div>
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">{title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
             </div>
         );
 
@@ -536,9 +593,14 @@
                     {/* --- MAIN CONTENT --- */}
                     <main className="max-w-6xl mx-auto px-4 -mt-8 relative z-10">
                         
-                        {/* SECTION 1 */}
+                        {/* SECTION 1: TIMELINE & STRATEGY */}
                         <section className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden mb-8">
                             <div className="p-8 md:p-12">
+                                {/* ADDED IMAGE FOR SECTION 1 */}
+                                <div className="mb-8 rounded-xl overflow-hidden shadow-lg border border-slate-700/50">
+                                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1000&auto=format&fit=crop" alt="DNA and Future Biology" className="w-full h-64 object-cover" />
+                                </div>
+
                                 <div className="flex flex-col md:flex-row gap-12 items-center">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-4">
@@ -593,9 +655,54 @@
                             </div>
                         </section>
 
-                        {/* SECTION 2 */}
+                        {/* NEW SECTION: THE GREAT REWRITING */}
+                        <section className="mb-8">
+                            <div className="flex items-center gap-3 mb-6 px-2">
+                                <div className="p-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg text-white">
+                                    <RewritingIcon size={24} />
+                                </div>
+                                <div>
+                                    <h2 className="text-2xl md:text-3xl font-bold text-white">{t.rewritingTitle}</h2>
+                                    <p className="text-slate-400 text-sm md:text-base">{t.rewritingSub}</p>
+                                </div>
+                            </div>
+                            
+                            {/* --- AI GENERATED IMAGE REPLACED WITH UNSPLASH --- */}
+                            <div className="w-full mb-6 rounded-xl overflow-hidden shadow-lg border border-slate-700/50">
+                                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop" alt="The Great Rewriting AI Concept" className="w-full h-auto object-cover" />
+                            </div>
+                            {/* ---------------------------------------- */}
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <RewritingCard 
+                                    subtitle="MEMORY"
+                                    title={t.pastTitle}
+                                    desc={t.pastDesc}
+                                    color="text-slate-400"
+                                />
+                                <RewritingCard 
+                                    subtitle="EMPATHY"
+                                    title={t.presentTitle}
+                                    desc={t.presentDesc}
+                                    color="text-cyan-400"
+                                />
+                                <RewritingCard 
+                                    subtitle="LONGEVITY"
+                                    title={t.futureTitle}
+                                    desc={t.futureDesc}
+                                    color="text-purple-400"
+                                />
+                            </div>
+                        </section>
+
+                        {/* SECTION 2: AI IMPACT */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                             <div className="bg-slate-900 rounded-3xl border border-slate-800 p-8 flex flex-col justify-between">
+                                {/* ADDED IMAGE FOR SECTION 2 (LEFT) */}
+                                <div className="mb-6 rounded-xl overflow-hidden shadow-lg border border-slate-700/50">
+                                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=1000&auto=format&fit=crop" alt="AI in Lab" className="w-full h-48 object-cover" />
+                                </div>
+
                                 <div>
                                     <div className="flex items-center gap-3 mb-6">
                                         <div className="p-2 bg-purple-500/20 rounded-lg text-purple-400"><Brain size={24} /></div>
@@ -623,7 +730,7 @@
                                     <StatBar label={t.statSurg} value={40} sub={t.statSurgSub} color="bg-emerald-500" />
                                     <StatBar label={t.statDiag} value={96.7} sub={t.statDiagSub} color="bg-blue-500" />
                                     <StatBar label={t.statTriage} value={97.0} sub={t.statTriageSub} color="bg-indigo-500" />
-                                    <StatBar label={t.statEmp} value={73} sub={t.statEmpSub} color="bg-purple-500" />
+                                    <StatBar label={t.statEmp} value={87} sub={t.statEmpSub} color="bg-purple-500" />
                                 </div>
                                 <div className="mt-6 pt-6 border-t border-slate-800">
                                     <div className="flex items-start gap-3">
@@ -634,7 +741,7 @@
                             </div>
                         </div>
 
-                        {/* SECTION 3 */}
+                        {/* SECTION 3: COST & ETHICS */}
                         <section className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden mb-8">
                             <div className="bg-slate-800/50 p-4 border-b border-slate-800 flex items-center justify-between">
                                 <h3 className="font-bold text-slate-200 flex items-center gap-2">
@@ -682,10 +789,15 @@
                                     </div>
                                 </div>
                                 <div className="p-8 relative overflow-hidden flex flex-col justify-between">
+                                    {/* ADDED IMAGE FOR SECTION 3 (RIGHT/BACKGROUND) */}
+                                    <div className="absolute inset-0 opacity-10 pointer-events-none">
+                                        <img src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=1000&auto=format&fit=crop" alt="Abstract Ethics" className="w-full h-full object-cover" />
+                                    </div>
+
                                     <div className="absolute top-0 right-0 p-4 opacity-5">
                                         <AlertTriangle size={120} />
                                     </div>
-                                    <div>
+                                    <div className="relative z-10">
                                         <div className="flex items-center gap-2 mb-6 text-amber-400">
                                             <AlertTriangle size={24} />
                                             <span className="font-bold text-lg">{t.ethicsTitle}</span>
@@ -696,7 +808,7 @@
                                             <EthicalPoint title={t.eth3Title} desc={t.eth3Desc} />
                                         </ul>
                                     </div>
-                                    <div className="bg-slate-950/50 p-4 rounded-xl border-l-2 border-slate-600 italic text-slate-400 text-sm relative">
+                                    <div className="bg-slate-950/80 backdrop-blur-sm p-4 rounded-xl border-l-2 border-slate-600 italic text-slate-400 text-sm relative z-10">
                                         <Quote className="absolute top-2 right-2 text-slate-800 transform rotate-180" size={24} />
                                         {t.jobsQuote}
                                         <div className="mt-2 text-slate-500 font-semibold not-italic text-xs">— {t.jobsAuthor}</div>
