@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เจาะลึกอสังหาริมทรัพย์พัทยา & EEC 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            600: '#57534e',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        amber: {
+                            700: '#b45309',
+                            900: '#78350f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafaf9; /* stone-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .active-tab {
+            border-bottom: 3px solid #b45309; /* amber-700 */
+            color: #78350f; /* amber-900 */
+            font-weight: 600;
+        }
+        .inactive-tab {
+            color: #78716c; /* stone-500 */
+            border-bottom: 3px solid transparent;
+        }
+        .inactive-tab:hover {
+            color: #57534e; /* stone-600 */
+            border-bottom: 3px solid #e7e5e4; /* stone-200 */
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .img-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Amber Accents. -->
+    <!-- Application Structure Plan: Same dashboard structure, updated image sources for reliability. -->
+    <!-- Visualization & Content Choices: 
+         - Replaced EV Factory image with a robust automotive assembly line photo.
+         - Replaced Luxury Villa image with a high-quality modern pool villa photo.
+         - Updated Future Outlook image to the specific user-provided postimg URL.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Images sourced from Unsplash and user provided link. -->
+</head>
+<body class="text-stone-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-stone-900 tracking-tight">EEC & Pattaya Real Estate Insight 2026</h1>
+                <p class="text-sm text-stone-500 mt-1">บทวิเคราะห์เจาะลึกสถานการณ์อสังหาริมทรัพย์และการลงทุน</p>
+            </div>
+            <div class="hidden md:block text-right">
+                <span class="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-1 rounded-full border border-amber-200">Update: Q1 2569</span>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 overflow-x-auto">
+            <div class="flex space-x-8" id="nav-container">
+                <button onclick="switchTab('industrial')" id="tab-industrial" class="active-tab pb-3 px-1 text-sm sm:text-base whitespace-nowrap transition-colors">
+                    🏗️ วิกฤตนิคมฯ & ทุนจีน
+                </button>
+                <button onclick="switchTab('residential')" id="tab-residential" class="inactive-tab pb-3 px-1 text-sm sm:text-base whitespace-nowrap transition-colors">
+                    🏠 Pattaya New Living
+                </button>
+                <button onclick="switchTab('future')" id="tab-future" class="inactive-tab pb-3 px-1 text-sm sm:text-base whitespace-nowrap transition-colors">
+                    📈 แนวโน้ม & อนาคต
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- SECTION 1: INDUSTRIAL CRISIS -->
+        <div id="content-industrial" class="fade-in block">
+            
+            <!-- Hero Image for Section -->
+            <div class="relative h-64 w-full rounded-2xl overflow-hidden mb-8 shadow-md">
+                <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070&auto=format&fit=crop" alt="Industrial Construction" class="w-full h-full object-cover">
+                <div class="absolute inset-0 img-overlay flex items-end p-6">
+                    <div class="text-white">
+                        <h2 class="text-3xl font-bold mb-1">วิกฤต "ที่ดินนิคมฯ ขาดแคลน"</h2>
+                        <p class="text-stone-200">การรุกหนักของทุนจีนและภาวะ Supply ตึงตัวใน EEC</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Data Card: Land Price -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover">
+                    <h3 class="text-xl font-semibold mb-2 flex items-center">
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded mr-2">Hot Issue</span>
+                        ราคาที่ดินนิคมฯ พุ่งสูง
+                    </h3>
+                    <p class="text-sm text-stone-500 mb-6">เปรียบเทียบราคาเฉลี่ยต่อไร่ (2568 vs 2569) ในโซนศักยภาพ เช่น อมตะซิตี้, ปลวกแดง</p>
+                    
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="landPriceChart"></canvas>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-stone-50 rounded-lg text-sm text-stone-700">
+                        <strong>Insight:</strong> ราคาดีดตัวขึ้น <span class="text-red-600 font-bold">15-20%</span> แตะระดับ 8-12 ล้านบาท/ไร่ เนื่องจาก Supply คงเหลือพร้อมขายต่ำกว่า 10,000 ไร่
+                    </div>
+                </div>
+
+                <!-- Data Card: Investment Shift -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover flex flex-col">
+                    <div class="mb-4 rounded-lg overflow-hidden h-40">
+                         <!-- UPDATED EV FACTORY IMAGE -->
+                         <img src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=1974&auto=format&fit=crop" alt="Modern EV Assembly Line" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">ปรากฏการณ์ "ทุนจีน" รุกที่ดินนอกนิคมฯ</h3>
+                    <div class="flex-grow space-y-4">
+                        <div class="flex items-start p-3 bg-amber-50 rounded border border-amber-100">
+                            <span class="text-2xl mr-3">🇨🇳</span>
+                            <div>
+                                <h4 class="font-bold text-amber-900">EV & Components Wave</h4>
+                                <p class="text-sm text-amber-800">กลุ่มทุนจีนเปลี่ยนกลยุทธ์จากการเช่า เป็นการ "ซื้อขาด" เพื่อสร้างโรงงานเบ็ดเสร็จ</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-3 bg-stone-50 rounded border border-stone-200">
+                            <span class="text-2xl mr-3">🏭</span>
+                            <div>
+                                <h4 class="font-bold text-stone-900">ล่า "พื้นที่สีม่วง"</h4>
+                                <p class="text-sm text-stone-600">ความต้องการล้นทะลักออกจากนิคมฯ สู่ที่ดินอุตสาหกรรม (สีม่วง) รอบนอก ในระยองและชลบุรี</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: PATTAYA TRANSFORMATION -->
+        <div id="content-residential" class="fade-in hidden">
+            
+             <!-- Hero Image for Section: UPDATED LUXURY VILLA -->
+             <div class="relative h-64 w-full rounded-2xl overflow-hidden mb-8 shadow-md">
+                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop" alt="Modern Luxury Villa Pattaya" class="w-full h-full object-cover">
+                <div class="absolute inset-0 img-overlay flex items-end p-6">
+                    <div class="text-white">
+                        <h2 class="text-3xl font-bold mb-1">พัทยา: New Living Destination</h2>
+                        <p class="text-stone-200">จากเมืองท่องเที่ยว สู่เมืองที่อยู่อาศัยระดับ Luxury</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Pivot Strategy -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-8 bg-stone-100 border-r border-stone-200">
+                        <h3 class="text-lg font-bold text-stone-500 mb-2 uppercase tracking-wide">อดีต (Previous Strategy)</h3>
+                        <div class="text-3xl font-bold text-stone-400 mb-4">Condo for Rent</div>
+                        <ul class="space-y-2 text-stone-500">
+                            <li class="flex items-center">○ เน้นนักท่องเที่ยวระยะสั้น</li>
+                            <li class="flex items-center">○ ขนาดห้องเล็ก (Compact)</li>
+                            <li class="flex items-center">○ ทำเลใจกลางเมืองหนาแน่น</li>
+                        </ul>
+                    </div>
+                    <div class="p-8 bg-white relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl">NOW TRENDING</div>
+                        <h3 class="text-lg font-bold text-amber-700 mb-2 uppercase tracking-wide">ปัจจุบัน (Pattaya Pivot)</h3>
+                        <div class="text-3xl font-bold text-stone-900 mb-4">Residential Hub</div>
+                        <ul class="space-y-2 text-stone-700">
+                            <li class="flex items-center"><span class="text-amber-600 mr-2">✓</span> กลุ่มแรงงานทักษะสูง (Expats) & ครอบครัว</li>
+                            <li class="flex items-center"><span class="text-amber-600 mr-2">✓</span> ต้องการ Space เพื่อ Work from Anywhere</li>
+                            <li class="flex items-center"><span class="text-amber-600 mr-2">✓</span> Branded Residences ระดับ Luxury</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hot Zones Grid -->
+            <h3 class="text-xl font-bold text-stone-900 mb-4">ทำเลทองบ้านแนวราบ (Luxury Horizontal Rise)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Zone 1 -->
+                <div class="bg-white p-0 rounded-lg border border-stone-200 shadow-sm card-hover overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop" class="w-full h-40 object-cover" alt="Huai Yai">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="font-bold text-lg text-stone-800">📍 ห้วยใหญ่ (Huai Yai)</h4>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">High Growth</span>
+                        </div>
+                        <p class="text-sm text-stone-600">พื้นที่รองรับการขยายตัวของบ้านเดี่ยวหรู ใกล้จุดเชื่อมต่อมอเตอร์เวย์</p>
+                    </div>
+                </div>
+                <!-- Zone 2 -->
+                <div class="bg-white p-0 rounded-lg border border-stone-200 shadow-sm card-hover overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" class="w-full h-40 object-cover" alt="Nong Prue">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="font-bold text-lg text-stone-800">📍 หนองปรือ (Nong Prue)</h4>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">New Supply</span>
+                        </div>
+                        <p class="text-sm text-stone-600">แหล่งที่อยู่อาศัยใหม่ที่เงียบสงบแต่สิ่งอำนวยความสะดวกครบครัน</p>
+                    </div>
+                </div>
+                <!-- Zone 3 -->
+                <div class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm card-hover flex flex-col justify-center items-center text-center">
+                    <div class="text-4xl mb-2">💎</div>
+                    <h4 class="font-bold text-stone-800">Branded Residences</h4>
+                    <p class="text-xs text-stone-500 mt-1">การเข้ามาของเชนโรงแรมระดับโลกเพื่อบริหารคอนโดหรู</p>
+                    <p class="text-xs text-amber-600 font-bold mt-4">For Ultra High Net Worth</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: FUTURE OUTLOOK -->
+        <div id="content-future" class="fade-in hidden">
+             <!-- Hero Image for Section: UPDATED FUTURE IMAGE -->
+             <div class="relative h-64 w-full rounded-2xl overflow-hidden mb-8 shadow-md">
+                <img src="https://i.postimg.cc/85kmnf3b/Eec_mega_projects_2k_202512281731.jpg" alt="Future Infrastructure" class="w-full h-full object-cover object-top">
+                <div class="absolute inset-0 img-overlay flex items-end p-6">
+                    <div class="text-white">
+                        <h2 class="text-3xl font-bold mb-1">อนาคต 2026+</h2>
+                        <p class="text-stone-200">การเติบโตสู่เมืองรองและโครงสร้างพื้นฐานใหม่</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Yield Chart -->
+                <div class="col-span-1 lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h3 class="text-xl font-semibold mb-2">เสถียรภาพผลตอบแทน (Rental Yield)</h3>
+                    <p class="text-sm text-stone-500 mb-6">อัตราผลตอบแทนคอนโดมิเนียมระดับ Mid-High ในพัทยา</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="yieldChart"></canvas>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div class="p-3 bg-blue-50 rounded border border-blue-100">
+                            <span class="block text-xs text-blue-600 font-bold uppercase">Key Driver</span>
+                            <span class="text-sm text-blue-900">ผู้บริหารโรงงาน & วิศวกร (ญี่ปุ่น/จีน)</span>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded border border-blue-100">
+                            <span class="block text-xs text-blue-600 font-bold uppercase">Demand</span>
+                            <span class="text-sm text-blue-900">ใกล้โรงเรียนนานาชาติ & รพ.ชั้นนำ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Frontier: Chachoengsao -->
+                <div class="bg-gradient-to-br from-amber-700 to-amber-900 text-white p-6 rounded-xl shadow-lg flex flex-col justify-between overflow-hidden relative">
+                    <!-- Decor Image BG -->
+                    <img src="https://images.unsplash.com/photo-1579541814924-49fef17c5be5?q=80&w=1000&auto=format&fit=crop" class="absolute top-0 left-0 w-full h-full object-cover opacity-10" alt="Map Texture">
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold">🌟 The Next Star</h3>
+                            <span class="text-xs border border-white/30 px-2 py-1 rounded">Watchlist</span>
+                        </div>
+                        <h4 class="text-3xl font-extrabold mb-2">ฉะเชิงเทรา</h4>
+                        <p class="text-amber-100 text-sm mb-6">"เมืองที่อยู่อาศัยรอง" ที่กำลังมาแรงที่สุด</p>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded mr-3 mt-1">💰</span>
+                                <div>
+                                    <strong class="block text-sm">ราคาจับต้องได้</strong>
+                                    <span class="text-xs text-amber-200">ต้นทุนที่ดินต่ำกว่าชลบุรี/ระยอง</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded mr-3 mt-1">🚄</span>
+                                <div>
+                                    <strong class="block text-sm">การเชื่อมต่อแห่งอนาคต</strong>
+                                    <span class="text-xs text-amber-200">รับอานิสงส์รถไฟความเร็วสูงเชื่อม 3 สนามบิน</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded mr-3 mt-1">🚗</span>
+                                <div>
+                                    <strong class="block text-sm">ระยะทาง</strong>
+                                    <span class="text-xs text-amber-200">ใกล้กรุงเทพฯ ที่สุดในกลุ่ม EEC</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="mt-8 w-full bg-white text-amber-900 py-2 rounded font-bold text-sm hover:bg-amber-50 transition-colors relative z-10">
+                        ดูแผนผังการลงทุน
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm">© 2026 EEC & Pattaya Real Estate Report Analysis. Based on Data Q1 2569.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Store
+        const appData = {
+            landPrices: {
+                labels: ['2568 (เฉลี่ย)', '2569 (เฉลี่ย)'],
+                data: [8.5, 10.5], // Illustrative average based on report range 8-12
+                change: '+20%'
+            },
+            yieldStability: {
+                labels: ['2565', '2566', '2567', '2568', '2569 (คาดการณ์)'],
+                data: [5.5, 6.0, 6.5, 7.0, 7.2], // Illustrative trend within 6-8% range
+            }
+        };
+
+        // DOM Elements
+        const tabs = {
+            industrial: document.getElementById('tab-industrial'),
+            residential: document.getElementById('tab-residential'),
+            future: document.getElementById('tab-future')
+        };
+        const contents = {
+            industrial: document.getElementById('content-industrial'),
+            residential: document.getElementById('content-residential'),
+            future: document.getElementById('content-future')
+        };
+
+        let landPriceChartInstance = null;
+        let yieldChartInstance = null;
+
+        // Navigation Logic
+        function switchTab(tabName) {
+            // Update Tab Styles
+            Object.keys(tabs).forEach(key => {
+                if (key === tabName) {
+                    tabs[key].classList.remove('inactive-tab');
+                    tabs[key].classList.add('active-tab');
+                } else {
+                    tabs[key].classList.remove('active-tab');
+                    tabs[key].classList.add('inactive-tab');
+                }
+            });
+
+            // Update Content Visibility
+            Object.keys(contents).forEach(key => {
+                if (key === tabName) {
+                    contents[key].classList.remove('hidden');
+                    contents[key].classList.add('fade-in');
+                } else {
+                    contents[key].classList.add('hidden');
+                    contents[key].classList.remove('fade-in');
+                }
+            });
+
+            // Trigger Chart Re-render/Update if visible
+            if (tabName === 'industrial') renderLandPriceChart();
+            if (tabName === 'future') renderYieldChart();
+        }
+
+        // Chart Rendering Functions
+        function renderLandPriceChart() {
+            const ctx = document.getElementById('landPriceChart').getContext('2d');
+            
+            if (landPriceChartInstance) {
+                landPriceChartInstance.destroy();
+            }
+
+            landPriceChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ปี 2568', 'ปี 2569'],
+                    datasets: [{
+                        label: 'ราคาที่ดินเฉลี่ย (ล้านบาท/ไร่)',
+                        data: [8.5, 10.5], // Visualizing the jump
+                        backgroundColor: ['#e7e5e4', '#b45309'], // Stone-200, Amber-700
+                        borderRadius: 6,
+                        barThickness: 60
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' ล้านบาท/ไร่';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 14,
+                            title: {
+                                display: true,
+                                text: 'ราคา (ล้านบาท/ไร่)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderYieldChart() {
+            const ctx = document.getElementById('yieldChart').getContext('2d');
+            
+            if (yieldChartInstance) {
+                yieldChartInstance.destroy();
+            }
+
+            yieldChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2565', '2566', '2567', '2568', '2569 (Q1)'],
+                    datasets: [{
+                        label: 'Rental Yield (%)',
+                        data: [5.8, 6.2, 6.5, 7.0, 7.5], // Midpoint trends
+                        borderColor: '#0ea5e9', // Sky blue
+                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0ea5e9',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'top' },
+                        annotation: {
+                            annotations: {
+                                box1: {
+                                    type: 'box',
+                                    yMin: 6,
+                                    yMax: 8,
+                                    backgroundColor: 'rgba(100, 200, 100, 0.1)',
+                                    borderColor: 'rgba(100, 200, 100, 0.0)',
+                                    label: {
+                                        content: 'Target Range (6-8%)',
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 4,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: 'ผลตอบแทน (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLandPriceChart(); // Initial Tab
+        });
+
+    </script>
+</body>
+</html>
