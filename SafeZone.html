@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattaya & Copacabana Coral Reef: The Safe Zone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #f0f8ff; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; height: 200px; }
+        @media (min-width: 768px) { .chart-container { height: 250px; } }
+        
+        /* Card Effects */
+        .info-card { 
+            background: white; 
+            border-radius: 1.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .info-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 100, 150, 0.15); }
+        
+        /* Partner Logo Box */
+        .partner-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            color: #475569;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+        .partner-box:hover {
+            border-color: #0ea5e9;
+            color: #0ea5e9;
+            background: white;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.1);
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) rotate(-1deg); }
+            20%, 40%, 60%, 80% { transform: translateX(2px) rotate(1deg); }
+        }
+        .animate-shake { animation: shake 0.8s infinite; }
+        
+        @keyframes pulse-shield {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        .animate-shield { animation: pulse-shield 2s infinite; }
+    </style>
+</head>
+<body class="bg-[#f0f9ff]">
+
+    <!-- HERO SECTION -->
+    <header class="relative h-[600px] flex flex-col justify-center items-center text-white text-center overflow-hidden bg-slate-900">
+        <div class="absolute inset-0 z-0">
+            <img src="https://i.postimg.cc/RVS1RWvs/Make-it-more-2k-202601271424.jpg" 
+                 alt="Copacabana Coral Reef & Pattaya Skyline" 
+                 class="w-full h-full object-cover opacity-70">
+        </div>
+        <div class="relative z-10 px-4 max-w-5xl mt-12">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-2xl leading-tight">
+                ทำไม "พัทยา" และ <br/> <span class="text-[#38bdf8]">"Copacabana Coral Reef"</span> <br/> ถึงปลอดภัยจากแผ่นดินไหว?
+            </h1>
+            <p class="text-lg md:text-xl font-light drop-shadow-lg max-w-3xl mx-auto bg-black/20 backdrop-blur-sm p-4 rounded-xl">
+                เจาะลึกมาตรฐานวิศวกรรมและความได้เปรียบทางธรณีวิทยาที่ทำให้นักลงทุนมั่นใจ
+            </p>
+        </div>
+        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#f0f9ff] to-transparent z-0"></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 -mt-24 relative z-20 space-y-16 pb-20">
+
+        <!-- PART 1: REALITY (Animated Comparison) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="info-card p-8 border-t-8 border-[#0284c7]">
+                <h2 class="text-2xl font-bold text-[#0c4a6e] mb-4 flex items-center gap-2">
+                    <span class="bg-[#e0f2fe] p-2 rounded-lg text-[#0284c7]">01</span> 
+                    ความจริงจากเหตุการณ์
+                </h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    <strong>สิ่งที่เกิดขึ้น:</strong> เหตุแผ่นดินไหวในพม่าส่งแรงสั่นสะเทือนถึงกรุงเทพฯ จนอาคารสูงสั่นไหว <br/><br/>
+                    <strong>ความจริงที่พัทยา:</strong> อาคารสูงและคอนโดในพัทยาและ EEC กลับไม่ได้รับผลกระทบใดๆ <strong>"ไม่มีความเสียหาย หรือรอยร้าว"</strong>
+                </p>
+                <div class="h-40 chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Bangkok Animation -->
+                <div class="info-card p-4 flex items-center gap-6 bg-red-50 border border-red-100">
+                    <div class="w-24 h-24 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-inner">
+                        <svg viewBox="0 0 100 100" class="w-16 h-16 animate-shake">
+                            <path d="M30,90 L30,30 L70,30 L70,90 Z" fill="#cbd5e0" stroke="#ef4444" stroke-width="2"/>
+                            <rect x="35" y="40" width="8" height="8" fill="#fff"/>
+                            <rect x="55" y="40" width="8" height="8" fill="#fff"/>
+                            <path d="M10,95 Q50,85 90,95" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-[#ef4444] text-lg">BANGKOK</h3>
+                        <p class="text-sm text-gray-600">ดินอ่อน (Soft Soil) = ขยายสัญญาณคลื่น</p>
+                    </div>
+                </div>
+
+                <!-- Pattaya Animation -->
+                <div class="info-card p-4 flex items-center gap-6 bg-[#f0f9ff] border border-[#bae6fd]">
+                    <div class="w-24 h-24 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-inner relative">
+                        <div class="absolute inset-0 bg-[#0ea5e9] opacity-10 rounded-xl animate-shield"></div>
+                        <svg viewBox="0 0 100 100" class="w-16 h-16">
+                            <path d="M30,90 L30,30 L70,30 L70,90 Z" fill="#0ea5e9" stroke="#0369a1" stroke-width="2"/>
+                            <rect x="35" y="40" width="8" height="8" fill="#fff"/>
+                            <rect x="55" y="40" width="8" height="8" fill="#fff"/>
+                            <path d="M50,60 L60,65 L60,75 L50,80 L40,75 L40,65 Z" fill="#f59e0b" stroke="#fff"/>
+                            <line x1="15" y1="95" x2="85" y2="95" stroke="#0369a1" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-[#0284c7] text-lg">PATTAYA & EEC</h3>
+                        <p class="text-sm text-gray-600">ดินแข็ง (Firm Ground) = ดูดซับแรงสั่นสะเทือน</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISUAL INFOGRAPHIC SUMMARY -->
+        <section class="max-w-5xl mx-auto">
+            <div class="relative bg-white p-2 rounded-3xl shadow-xl border border-slate-100 transform hover:scale-[1.01] transition-transform duration-500 group">
+                <img src="https://i.postimg.cc/MKG5w9vt/Pattaya_Safe.png" 
+                     alt="Pattaya Safety Infographic" 
+                     class="w-full h-auto rounded-2xl">
+            </div>
+        </section>
+
+        <!-- PART 2: 3 FACTORS (Geology, Codes, Preparedness) -->
+        <section class="bg-white rounded-3xl shadow-lg p-8">
+            <h2 class="text-3xl font-bold text-center text-[#0c4a6e] mb-10">
+                ทำไมพัทยาถึงเป็น "Safe Zone"?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 1. Geology -->
+                <div class="text-center space-y-4">
+                    <div class="h-48 bg-[#f8fafc] rounded-2xl flex items-center justify-center p-4 border border-slate-200">
+                        <!-- Geology SVG -->
+                        <svg viewBox="0 0 200 150" class="w-full h-full">
+                            <!-- Soft Soil Layer -->
+                            <rect x="10" y="10" width="80" height="130" fill="#fee2e2" rx="4"/>
+                            <text x="50" y="30" text-anchor="middle" font-size="10" fill="#b91c1c">BKK (Soft)</text>
+                            <path d="M20,60 Q50,50 80,60" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="3"/>
+                            
+                            <!-- Hard Rock Layer -->
+                            <rect x="110" y="10" width="80" height="130" fill="#e0f2fe" rx="4"/>
+                            <text x="150" y="30" text-anchor="middle" font-size="10" fill="#0369a1">Pattaya (Hard)</text>
+                            <path d="M120,60 L180,60 M120,80 L180,80 M120,100 L180,100" stroke="#0369a1" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#0284c7]">1. ความได้เปรียบทางธรณีวิทยา</h3>
+                    <p class="text-sm text-gray-500">ตั้งอยู่บนชั้นดินแข็ง ช่วยลดทอนแรงสั่นสะเทือน</p>
+                </div>
+
+                <!-- 2. Codes -->
+                <div class="text-center space-y-4">
+                    <div class="h-48 chart-container">
+                        <canvas id="buildingRadarChart"></canvas>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#0284c7]">2. กฎหมายควบคุมเข้มงวด</h3>
+                    <p class="text-sm text-gray-500">มาตรฐาน EEC รองรับการลงทุนระดับโลก</p>
+                </div>
+
+                <!-- 3. Preparedness -->
+                <div class="text-center space-y-4">
+                    <div class="h-48 flex items-center justify-center relative">
+                        <canvas id="readinessChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center font-bold text-2xl text-[#0369a1]">100%</div>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#0284c7]">3. การเตรียมพร้อมภัยพิบัติ</h3>
+                    <p class="text-sm text-gray-500">ซ้อมแผนและฝึกอบรมอย่างสม่ำเสมอ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 3: COPACABANA CORAL REEF DEEP DIVE -->
+        <section class="bg-gradient-to-br from-[#0f172a] to-[#0c4a6e] rounded-3xl p-1 text-white shadow-2xl overflow-hidden relative">
+             <!-- Background Texture -->
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+
+            <div class="p-8 md:p-12 relative z-10">
+                <div class="text-center mb-12">
+                    <span class="bg-[#f59e0b] text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Project Focus</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-2">Copacabana Coral Reef</h2>
+                    <p class="text-[#7dd3fc] text-lg">มาตรฐานความปลอดภัยเหนือระดับ (Quality & Safety)</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Engineering & Construction -->
+                    <div class="space-y-8">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#0ea5e9] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#38bdf8]">วิศวกรรมที่เป็นเลิศ</h3>
+                                <p class="text-gray-300 text-sm mt-1">ออกแบบฐานรากเฉพาะสำหรับสภาพดินพัทยา และโครงสร้างต้านทานแผ่นดินไหวเพื่อความมั่นคงสูงสุด</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#f59e0b] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#fcd34d]">มาตรฐานการก่อสร้าง</h3>
+                                <p class="text-gray-300 text-sm mt-1">ติดตั้ง Safety Netting ป้องกันอุบัติเหตุ ลดฝุ่น และมุ่งมั่นส่งมอบงานตรงเวลา</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trusted Partners -->
+                    <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/10">
+                        <h3 class="text-center font-bold text-xl mb-6 text-white flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            Trusted Partners
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
+                                Pornpranakorn <br/><span class="text-[10px] font-normal opacity-70">Main Contractor</span>
+                            </div>
+                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
+                                Stonehenge Inter <br/><span class="text-[10px] font-normal opacity-70">Project Management</span>
+                            </div>
+                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
+                                KTGY <br/><span class="text-[10px] font-normal opacity-70">Architect</span>
+                            </div>
+                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
+                                Beca & Aurecon <br/><span class="text-[10px] font-normal opacity-70">Structure & M&E</span>
+                            </div>
+                            <div class="col-span-2 bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
+                                Green Architects <br/><span class="text-[10px] font-normal opacity-70">Landscape</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & DOWNLOAD LINK -->
+        <footer class="bg-white rounded-t-3xl p-10 text-center shadow-inner border-t border-slate-200">
+            <h2 class="text-2xl font-bold text-[#0c4a6e] mb-4">Invest with Confidence</h2>
+            <p class="max-w-2xl mx-auto text-gray-500 mb-8">
+                ด้วยรากฐานที่มั่นคงบนชั้นดินแข็งและพันธมิตรระดับโลก "Copacabana Coral Reef" คือคำตอบของการลงทุนที่ปลอดภัยและยั่งยืน
+            </p>
+            
+            <!-- Added PDF Button -->
+            <a href="https://drive.google.com/file/d/1b0QUCblIdYQyUbksnD_QKF9YEDFnTN8n/view?usp=sharing" target="_blank" 
+               class="inline-flex items-center gap-2 bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                ดาวน์โหลดรายงานฉบับเต็ม (PDF)
+            </a>
+        </footer>
+
+    </main>
+
+    <script>
+        // Charts
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.color = '#64748b';
+
+        const commonOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+
+        // 1. Impact
+        new Chart(document.getElementById('impactChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Bangkok (สั่นไหว)', 'Pattaya (นิ่งสนิท)'],
+                datasets: [{
+                    data: [8.5, 0],
+                    backgroundColor: ['#ef4444', '#0ea5e9'],
+                    borderRadius: 8
+                }]
+            },
+            options: { ...commonOptions, scales: { y: { beginAtZero: true, max: 10 } } }
+        });
+
+        // 2. Radar
+        new Chart(document.getElementById('buildingRadarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Structure', 'Safety Net', 'Timeline', 'Design', 'Material'],
+                datasets: [{
+                    label: 'Score',
+                    data: [98, 95, 96, 99, 97],
+                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                    borderColor: '#0ea5e9',
+                    pointBackgroundColor: '#0c4a6e'
+                }]
+            },
+            options: { ...commonOptions, scales: { r: { ticks: { display: false } } } }
+        });
+
+        // 3. Donut
+        new Chart(document.getElementById('readinessChart'), {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [100, 0],
+                    backgroundColor: ['#0ea5e9', '#e0f2fe'],
+                    borderWidth: 0
+                }]
+            },
+            options: { ...commonOptions, cutout: '85%', events: [] }
+        });
+    </script>
+</body>
+</html>
