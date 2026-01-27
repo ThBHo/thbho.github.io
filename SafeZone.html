@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pattaya & Copacabana Coral Reef: The Safe Zone</title>
+    <title>Pattaya & EEC: The Safe Zone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Prompt', sans-serif; background-color: #f0f8ff; color: #1e293b; }
+        body { font-family: 'Prompt', sans-serif; background-color: #f0f8ff; color: #1e293b; transition: all 0.3s ease; }
+        
+        /* Font switching for Chinese */
+        body.lang-cn { font-family: 'Noto Sans SC', sans-serif; }
+
         .chart-container { position: relative; width: 100%; height: 200px; }
         @media (min-width: 768px) { .chart-container { height: 250px; } }
         
@@ -23,26 +27,6 @@
         }
         .info-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 100, 150, 0.15); }
         
-        /* Partner Logo Box */
-        .partner-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-weight: bold;
-            color: #475569;
-            background: #f8fafc;
-            transition: all 0.3s;
-        }
-        .partner-box:hover {
-            border-color: #0ea5e9;
-            color: #0ea5e9;
-            background: white;
-            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.1);
-        }
-
         /* Animations */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -57,22 +41,50 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
         }
         .animate-shield { animation: pulse-shield 2s infinite; }
+
+        /* Language Switcher */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: #0ea5e9;
+            border-color: #0ea5e9;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+        }
     </style>
 </head>
-<body class="bg-[#f0f9ff]">
+<body class="bg-[#f0f9ff] lang-th">
+
+    <!-- LANGUAGE SWITCHER (Fixed Top Right) -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2">
+        <button class="lang-btn active" onclick="setLanguage('th')">TH</button>
+        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('ru')">RU</button>
+        <button class="lang-btn" onclick="setLanguage('cn')">CN</button>
+    </div>
 
     <!-- HERO SECTION -->
     <header class="relative h-[600px] flex flex-col justify-center items-center text-white text-center overflow-hidden bg-slate-900">
         <div class="absolute inset-0 z-0">
-            <img src="https://i.postimg.cc/RVS1RWvs/Make-it-more-2k-202601271424.jpg" 
+            <img src="https://i.postimg.cc/DwN5zLt1/Make-it-more-2k-202601271525.jpg" 
                  alt="Copacabana Coral Reef & Pattaya Skyline" 
                  class="w-full h-full object-cover opacity-70">
         </div>
         <div class="relative z-10 px-4 max-w-5xl mt-12">
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-2xl leading-tight">
-                ทำไม "พัทยา" และ <br/> <span class="text-[#38bdf8]">"Copacabana Coral Reef"</span> <br/> ถึงปลอดภัยจากแผ่นดินไหว?
+            <h1 id="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-2xl leading-tight">
+                ทำไม "พัทยา" และ <br/> <span class="text-[#38bdf8]">"EEC"</span> <br/> ถึงปลอดภัยจากแผ่นดินไหว?
             </h1>
-            <p class="text-lg md:text-xl font-light drop-shadow-lg max-w-3xl mx-auto bg-black/20 backdrop-blur-sm p-4 rounded-xl">
+            <p id="hero-sub" class="text-lg md:text-xl font-light drop-shadow-lg max-w-3xl mx-auto bg-black/20 backdrop-blur-sm p-4 rounded-xl">
                 เจาะลึกมาตรฐานวิศวกรรมและความได้เปรียบทางธรณีวิทยาที่ทำให้นักลงทุนมั่นใจ
             </p>
         </div>
@@ -81,14 +93,14 @@
 
     <main class="max-w-7xl mx-auto px-4 -mt-24 relative z-20 space-y-16 pb-20">
 
-        <!-- PART 1: REALITY (Animated Comparison) -->
+        <!-- PART 1: REALITY -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="info-card p-8 border-t-8 border-[#0284c7]">
                 <h2 class="text-2xl font-bold text-[#0c4a6e] mb-4 flex items-center gap-2">
                     <span class="bg-[#e0f2fe] p-2 rounded-lg text-[#0284c7]">01</span> 
-                    ความจริงจากเหตุการณ์
+                    <span id="p1-title">ความจริงจากเหตุการณ์</span>
                 </h2>
-                <p class="text-gray-600 mb-6 leading-relaxed">
+                <p id="p1-desc" class="text-gray-600 mb-6 leading-relaxed">
                     <strong>สิ่งที่เกิดขึ้น:</strong> เหตุแผ่นดินไหวในพม่าส่งแรงสั่นสะเทือนถึงกรุงเทพฯ จนอาคารสูงสั่นไหว <br/><br/>
                     <strong>ความจริงที่พัทยา:</strong> อาคารสูงและคอนโดในพัทยาและ EEC กลับไม่ได้รับผลกระทบใดๆ <strong>"ไม่มีความเสียหาย หรือรอยร้าว"</strong>
                 </p>
@@ -109,8 +121,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-[#ef4444] text-lg">BANGKOK</h3>
-                        <p class="text-sm text-gray-600">ดินอ่อน (Soft Soil) = ขยายสัญญาณคลื่น</p>
+                        <h3 id="anim-bkk-title" class="font-bold text-[#ef4444] text-lg">กรุงเทพฯ</h3>
+                        <p id="anim-bkk-desc" class="text-sm text-gray-600">ดินอ่อน (Soft Soil) = ขยายสัญญาณคลื่น</p>
                     </div>
                 </div>
 
@@ -127,8 +139,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-[#0284c7] text-lg">PATTAYA & EEC</h3>
-                        <p class="text-sm text-gray-600">ดินแข็ง (Firm Ground) = ดูดซับแรงสั่นสะเทือน</p>
+                        <h3 id="anim-pty-title" class="font-bold text-[#0284c7] text-lg">พัทยา & EEC</h3>
+                        <p id="anim-pty-desc" class="text-sm text-gray-600">ดินแข็ง (Firm Ground) = ดูดซับแรงสั่นสะเทือน</p>
                     </div>
                 </div>
             </div>
@@ -143,9 +155,9 @@
             </div>
         </section>
 
-        <!-- PART 2: 3 FACTORS (Geology, Codes, Preparedness) -->
+        <!-- PART 2: 3 FACTORS -->
         <section class="bg-white rounded-3xl shadow-lg p-8">
-            <h2 class="text-3xl font-bold text-center text-[#0c4a6e] mb-10">
+            <h2 id="p2-main-title" class="text-3xl font-bold text-center text-[#0c4a6e] mb-10">
                 ทำไมพัทยาถึงเป็น "Safe Zone"?
             </h2>
             
@@ -155,19 +167,16 @@
                     <div class="h-48 bg-[#f8fafc] rounded-2xl flex items-center justify-center p-4 border border-slate-200">
                         <!-- Geology SVG -->
                         <svg viewBox="0 0 200 150" class="w-full h-full">
-                            <!-- Soft Soil Layer -->
                             <rect x="10" y="10" width="80" height="130" fill="#fee2e2" rx="4"/>
-                            <text x="50" y="30" text-anchor="middle" font-size="10" fill="#b91c1c">BKK (Soft)</text>
+                            <text x="50" y="30" text-anchor="middle" font-size="10" fill="#b91c1c">BKK</text>
                             <path d="M20,60 Q50,50 80,60" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="3"/>
-                            
-                            <!-- Hard Rock Layer -->
                             <rect x="110" y="10" width="80" height="130" fill="#e0f2fe" rx="4"/>
-                            <text x="150" y="30" text-anchor="middle" font-size="10" fill="#0369a1">Pattaya (Hard)</text>
+                            <text x="150" y="30" text-anchor="middle" font-size="10" fill="#0369a1">Pattaya</text>
                             <path d="M120,60 L180,60 M120,80 L180,80 M120,100 L180,100" stroke="#0369a1" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="font-bold text-lg text-[#0284c7]">1. ความได้เปรียบทางธรณีวิทยา</h3>
-                    <p class="text-sm text-gray-500">ตั้งอยู่บนชั้นดินแข็ง ช่วยลดทอนแรงสั่นสะเทือน</p>
+                    <h3 id="f1-title" class="font-bold text-lg text-[#0284c7]">1. ความได้เปรียบทางธรณีวิทยา</h3>
+                    <p id="f1-desc" class="text-sm text-gray-500">ตั้งอยู่บนชั้นดินแข็ง ช่วยลดทอนแรงสั่นสะเทือน</p>
                 </div>
 
                 <!-- 2. Codes -->
@@ -175,8 +184,8 @@
                     <div class="h-48 chart-container">
                         <canvas id="buildingRadarChart"></canvas>
                     </div>
-                    <h3 class="font-bold text-lg text-[#0284c7]">2. กฎหมายควบคุมเข้มงวด</h3>
-                    <p class="text-sm text-gray-500">มาตรฐาน EEC รองรับการลงทุนระดับโลก</p>
+                    <h3 id="f2-title" class="font-bold text-lg text-[#0284c7]">2. กฎหมายควบคุมเข้มงวด</h3>
+                    <p id="f2-desc" class="text-sm text-gray-500">มาตรฐาน EEC รองรับการลงทุนระดับโลก</p>
                 </div>
 
                 <!-- 3. Preparedness -->
@@ -185,22 +194,21 @@
                         <canvas id="readinessChart"></canvas>
                         <div class="absolute inset-0 flex items-center justify-center font-bold text-2xl text-[#0369a1]">100%</div>
                     </div>
-                    <h3 class="font-bold text-lg text-[#0284c7]">3. การเตรียมพร้อมภัยพิบัติ</h3>
-                    <p class="text-sm text-gray-500">ซ้อมแผนและฝึกอบรมอย่างสม่ำเสมอ</p>
+                    <h3 id="f3-title" class="font-bold text-lg text-[#0284c7]">3. การเตรียมพร้อมภัยพิบัติ</h3>
+                    <p id="f3-desc" class="text-sm text-gray-500">ซ้อมแผนและฝึกอบรมอย่างสม่ำเสมอ</p>
                 </div>
             </div>
         </section>
 
-        <!-- PART 3: COPACABANA CORAL REEF DEEP DIVE -->
+        <!-- PART 3: COPACABANA CORAL REEF -->
         <section class="bg-gradient-to-br from-[#0f172a] to-[#0c4a6e] rounded-3xl p-1 text-white shadow-2xl overflow-hidden relative">
-             <!-- Background Texture -->
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
 
             <div class="p-8 md:p-12 relative z-10">
                 <div class="text-center mb-12">
-                    <span class="bg-[#f59e0b] text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Project Focus</span>
+                    <span id="proj-badge" class="bg-[#f59e0b] text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Project Focus</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-2">Copacabana Coral Reef</h2>
-                    <p class="text-[#7dd3fc] text-lg">มาตรฐานความปลอดภัยเหนือระดับ (Quality & Safety)</p>
+                    <p id="proj-sub" class="text-[#7dd3fc] text-lg">มาตรฐานความปลอดภัยเหนือระดับ (Quality & Safety)</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -211,8 +219,8 @@
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-[#38bdf8]">วิศวกรรมที่เป็นเลิศ</h3>
-                                <p class="text-gray-300 text-sm mt-1">ออกแบบฐานรากเฉพาะสำหรับสภาพดินพัทยา และโครงสร้างต้านทานแผ่นดินไหวเพื่อความมั่นคงสูงสุด</p>
+                                <h3 id="eng-title" class="text-xl font-bold text-[#38bdf8]">วิศวกรรมที่เป็นเลิศ</h3>
+                                <p id="eng-desc" class="text-gray-300 text-sm mt-1">ออกแบบฐานรากเฉพาะสำหรับสภาพดินพัทยา และโครงสร้างต้านทานแผ่นดินไหว</p>
                             </div>
                         </div>
 
@@ -221,106 +229,271 @@
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-[#fcd34d]">มาตรฐานการก่อสร้าง</h3>
-                                <p class="text-gray-300 text-sm mt-1">ติดตั้ง Safety Netting ป้องกันอุบัติเหตุ ลดฝุ่น และมุ่งมั่นส่งมอบงานตรงเวลา</p>
+                                <h3 id="const-title" class="text-xl font-bold text-[#fcd34d]">มาตรฐานการก่อสร้าง</h3>
+                                <p id="const-desc" class="text-gray-300 text-sm mt-1">ติดตั้ง Safety Netting ป้องกันอุบัติเหตุ ลดฝุ่น และมุ่งมั่นส่งมอบงานตรงเวลา</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Trusted Partners -->
                     <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/10">
-                        <h3 class="text-center font-bold text-xl mb-6 text-white flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <h3 id="partner-title" class="text-center font-bold text-xl mb-6 text-white flex items-center justify-center gap-2">
                             Trusted Partners
                         </h3>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
-                                Pornpranakorn <br/><span class="text-[10px] font-normal opacity-70">Main Contractor</span>
-                            </div>
-                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
-                                Stonehenge Inter <br/><span class="text-[10px] font-normal opacity-70">Project Management</span>
-                            </div>
-                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
-                                KTGY <br/><span class="text-[10px] font-normal opacity-70">Architect</span>
-                            </div>
-                            <div class="bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
-                                Beca & Aurecon <br/><span class="text-[10px] font-normal opacity-70">Structure & M&E</span>
-                            </div>
-                            <div class="col-span-2 bg-white text-[#0f172a] p-3 rounded text-center text-sm font-bold shadow hover:bg-[#38bdf8] hover:text-white transition cursor-default">
-                                Green Architects <br/><span class="text-[10px] font-normal opacity-70">Landscape</span>
-                            </div>
+                            <div class="partner-box">Pornpranakorn</div>
+                            <div class="partner-box">Stonehenge Inter</div>
+                            <div class="partner-box">KTGY</div>
+                            <div class="partner-box">Beca & Aurecon</div>
+                            <div class="partner-box col-span-2">Green Architects</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FOOTER & DOWNLOAD LINK -->
+        <!-- FOOTER -->
         <footer class="bg-white rounded-t-3xl p-10 text-center shadow-inner border-t border-slate-200">
-            <h2 class="text-2xl font-bold text-[#0c4a6e] mb-4">Invest with Confidence</h2>
-            <p class="max-w-2xl mx-auto text-gray-500 mb-8">
+            <h2 id="footer-title" class="text-2xl font-bold text-[#0c4a6e] mb-4">Invest with Confidence</h2>
+            <p id="footer-desc" class="max-w-2xl mx-auto text-gray-500 mb-8">
                 ด้วยรากฐานที่มั่นคงบนชั้นดินแข็งและพันธมิตรระดับโลก "Copacabana Coral Reef" คือคำตอบของการลงทุนที่ปลอดภัยและยั่งยืน
             </p>
             
-            <!-- Added PDF Button -->
-            <a href="https://drive.google.com/file/d/1b0QUCblIdYQyUbksnD_QKF9YEDFnTN8n/view?usp=sharing" target="_blank" 
+            <a id="btn-download" href="https://drive.google.com/file/d/1b0QUCblIdYQyUbksnD_QKF9YEDFnTN8n/view?usp=sharing" target="_blank" 
                class="inline-flex items-center gap-2 bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                ดาวน์โหลดรายงานฉบับเต็ม (PDF)
+                <span>ดาวน์โหลดรายงานฉบับเต็ม (PDF)</span>
             </a>
         </footer>
 
     </main>
 
     <script>
-        // Charts
-        Chart.defaults.font.family = "'Prompt', sans-serif";
-        Chart.defaults.color = '#64748b';
-
-        const commonOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
-
-        // 1. Impact
-        new Chart(document.getElementById('impactChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Bangkok (สั่นไหว)', 'Pattaya (นิ่งสนิท)'],
-                datasets: [{
-                    data: [8.5, 0],
-                    backgroundColor: ['#ef4444', '#0ea5e9'],
-                    borderRadius: 8
-                }]
+        // --- TRANSLATION DATA ---
+        const translations = {
+            th: {
+                heroTitle: 'ทำไม "พัทยา" และ <br/> <span class="text-[#38bdf8]">"EEC"</span> <br/> ถึงปลอดภัยจากแผ่นดินไหว?',
+                heroSub: 'เจาะลึกมาตรฐานวิศวกรรมและความได้เปรียบทางธรณีวิทยาที่ทำให้นักลงทุนมั่นใจ',
+                p1Title: 'ความจริงจากเหตุการณ์',
+                p1Desc: '<strong>สิ่งที่เกิดขึ้น:</strong> เหตุแผ่นดินไหวในพม่าส่งแรงสั่นสะเทือนถึงกรุงเทพฯ จนอาคารสูงสั่นไหว <br/><br/><strong>ความจริงที่พัทยา:</strong> อาคารสูงและคอนโดในพัทยาและ EEC กลับไม่ได้รับผลกระทบใดๆ <strong>"ไม่มีความเสียหาย หรือรอยร้าว"</strong>',
+                animBkkTitle: 'กรุงเทพฯ',
+                animBkkDesc: 'ดินอ่อน (Soft Soil) = ขยายสัญญาณคลื่น',
+                animPtyTitle: 'พัทยา & EEC',
+                animPtyDesc: 'ดินแข็ง (Firm Ground) = ดูดซับแรงสั่นสะเทือน',
+                p2MainTitle: 'ทำไมพัทยาถึงเป็น "Safe Zone"?',
+                f1Title: '1. ความได้เปรียบทางธรณีวิทยา',
+                f1Desc: 'ตั้งอยู่บนชั้นดินแข็ง ช่วยลดทอนแรงสั่นสะเทือน',
+                f2Title: '2. กฎหมายควบคุมเข้มงวด',
+                f2Desc: 'มาตรฐาน EEC รองรับการลงทุนระดับโลก',
+                f3Title: '3. การเตรียมพร้อมภัยพิบัติ',
+                f3Desc: 'ซ้อมแผนและฝึกอบรมอย่างสม่ำเสมอ',
+                projBadge: 'Project Focus',
+                projSub: 'มาตรฐานความปลอดภัยเหนือระดับ (Quality & Safety)',
+                engTitle: 'วิศวกรรมที่เป็นเลิศ',
+                engDesc: 'ออกแบบฐานรากเฉพาะสำหรับสภาพดินพัทยา และโครงสร้างต้านทานแผ่นดินไหว',
+                constTitle: 'มาตรฐานการก่อสร้าง',
+                constDesc: 'ติดตั้ง Safety Netting ป้องกันอุบัติเหตุ ลดฝุ่น และมุ่งมั่นส่งมอบงานตรงเวลา',
+                partnerTitle: 'Trusted Partners',
+                footerTitle: 'Invest with Confidence',
+                footerDesc: 'ด้วยรากฐานที่มั่นคงบนชั้นดินแข็งและพันธมิตรระดับโลก "Copacabana Coral Reef" คือคำตอบของการลงทุนที่ปลอดภัยและยั่งยืน',
+                btnDownload: 'ดาวน์โหลดรายงานฉบับเต็ม (PDF)',
+                chartImpactLabels: ['กรุงเทพฯ (สั่นไหว)', 'พัทยา (นิ่งสนิท)'],
+                chartRadarLabels: ['โครงสร้าง', 'ความปลอดภัย', 'ระยะเวลา', 'การออกแบบ', 'วัสดุ']
             },
-            options: { ...commonOptions, scales: { y: { beginAtZero: true, max: 10 } } }
-        });
-
-        // 2. Radar
-        new Chart(document.getElementById('buildingRadarChart'), {
-            type: 'radar',
-            data: {
-                labels: ['Structure', 'Safety Net', 'Timeline', 'Design', 'Material'],
-                datasets: [{
-                    label: 'Score',
-                    data: [98, 95, 96, 99, 97],
-                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
-                    borderColor: '#0ea5e9',
-                    pointBackgroundColor: '#0c4a6e'
-                }]
+            en: {
+                heroTitle: 'Why "Pattaya" and <br/> <span class="text-[#38bdf8]">"EEC"</span> <br/> are Safe from Earthquakes?',
+                heroSub: 'Deep dive into engineering standards and geological advantages assuring investors.',
+                p1Title: 'The Reality from the Event',
+                p1Desc: '<strong>What Happened:</strong> The Myanmar earthquake sent tremors to Bangkok, shaking high-rise buildings. <br/><br/><strong>Reality in Pattaya:</strong> High-rises in Pattaya and EEC were completely unaffected. <strong>"No damage, no cracks."</strong>',
+                animBkkTitle: 'Bangkok',
+                animBkkDesc: 'Soft Soil = Amplifies Seismic Waves',
+                animPtyTitle: 'Pattaya & EEC',
+                animPtyDesc: 'Firm Ground = Absorbs/Dampens Waves',
+                p2MainTitle: 'Why is Pattaya a "Safe Zone"?',
+                f1Title: '1. Geological Advantage',
+                f1Desc: 'Located on firm ground/bedrock, naturally dampening seismic energy.',
+                f2Title: '2. Strict Building Codes',
+                f2Desc: 'EEC standards designed to support world-class investment.',
+                f3Title: '3. Disaster Preparedness',
+                f3Desc: 'Regular safety drills and emergency training.',
+                projBadge: 'Project Focus',
+                projSub: 'Superior Safety Standards (Quality & Safety)',
+                engTitle: 'Engineering Excellence',
+                engDesc: 'Foundations designed specifically for Pattaya soil and earthquake-resistant structures.',
+                constTitle: 'Construction Standards',
+                constDesc: 'Safety netting installed for accident prevention and dust control; commitment to on-time delivery.',
+                partnerTitle: 'Trusted Partners',
+                footerTitle: 'Invest with Confidence',
+                footerDesc: 'With solid foundations on firm ground and world-class partners, "Copacabana Coral Reef" is the answer for safe and sustainable investment.',
+                btnDownload: 'Download Full Report (PDF)',
+                chartImpactLabels: ['Bangkok (Shaking)', 'Pattaya (Stable)'],
+                chartRadarLabels: ['Structure', 'Safety Net', 'Timeline', 'Design', 'Material']
             },
-            options: { ...commonOptions, scales: { r: { ticks: { display: false } } } }
-        });
-
-        // 3. Donut
-        new Chart(document.getElementById('readinessChart'), {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [100, 0],
-                    backgroundColor: ['#0ea5e9', '#e0f2fe'],
-                    borderWidth: 0
-                }]
+            ru: {
+                heroTitle: 'Почему "Паттайя" и <br/> <span class="text-[#38bdf8]">"EEC"</span> <br/> безопасны при землетрясениях?',
+                heroSub: 'Глубокий анализ инженерных стандартов и геологических преимуществ для уверенности инвесторов.',
+                p1Title: 'Реальность событий',
+                p1Desc: '<strong>Что случилось:</strong> Землетрясение в Мьянме вызвало толчки в Бангкоке, раскачав высотные здания. <br/><br/><strong>Реальность в Паттайе:</strong> Небоскребы в Паттайе и ЕЭС остались абсолютно нетронутыми. <strong>"Никаких повреждений, никаких трещин."</strong>',
+                animBkkTitle: 'Бангкок',
+                animBkkDesc: 'Мягкий грунт = Усиливает сейсмические волны',
+                animPtyTitle: 'Паттайя и EEC',
+                animPtyDesc: 'Твердый грунт = Поглощает волны',
+                p2MainTitle: 'Почему Паттайя — это "Safe Zone"?',
+                f1Title: '1. Геологическое преимущество',
+                f1Desc: 'Расположена на твердом грунте, который гасит вибрации.',
+                f2Title: '2. Строгие строительные нормы',
+                f2Desc: 'Стандарты EEC для поддержки инвестиций мирового уровня.',
+                f3Title: '3. Готовность к бедствиям',
+                f3Desc: 'Регулярные учения по безопасности и тренировки.',
+                projBadge: 'Фокус проекта',
+                projSub: 'Высшие стандарты безопасности (Качество и Безопасность)',
+                engTitle: 'Инженерное превосходство',
+                engDesc: 'Фундамент разработан специально для грунта Паттайи, сейсмоустойчивая структура.',
+                constTitle: 'Стандарты строительства',
+                constDesc: 'Защитные сетки для предотвращения аварий; соблюдение сроков сдачи.',
+                partnerTitle: 'Надежные партнеры',
+                footerTitle: 'Инвестируйте с уверенностью',
+                footerDesc: 'Благодаря прочному фундаменту и партнерам мирового уровня, "Copacabana Coral Reef" — это надежная инвестиция.',
+                btnDownload: 'Скачать полный отчет (PDF)',
+                chartImpactLabels: ['Бангкок (Тряска)', 'Паттайя (Стабильно)'],
+                chartRadarLabels: ['Структура', 'Безопасность', 'Сроки', 'Дизайн', 'Материалы']
             },
-            options: { ...commonOptions, cutout: '85%', events: [] }
-        });
+            cn: {
+                heroTitle: '为何“芭堤雅”和 <br/> <span class="text-[#38bdf8]">“EEC”</span> <br/> 能免受地震影响？',
+                heroSub: '深入探究工程标准和地质优势，让投资者放心。',
+                p1Title: '事件真相',
+                p1Desc: '<strong>发生了什么：</strong> 缅甸地震震动传至曼谷，导致高层建筑晃动。<br/><br/><strong>芭堤雅的真相：</strong> 芭堤雅和 EEC 的高层建筑完全未受影响。<strong>“无损坏，无裂缝。”</strong>',
+                animBkkTitle: '曼谷',
+                animBkkDesc: '软土层 = 放大地震波',
+                animPtyTitle: '芭堤雅 & EEC',
+                animPtyDesc: '坚硬地层 = 吸收/减弱震动',
+                p2MainTitle: '为什么芭堤雅是“安全区”？',
+                f1Title: '1. 地质优势',
+                f1Desc: '位于坚硬地层/基岩上，自然减弱地震能量。',
+                f2Title: '2. 严格的建筑法规',
+                f2Desc: 'EEC 标准旨在支持世界级的投资。',
+                f3Title: '3. 灾害准备',
+                f3Desc: '定期进行安全演习和紧急培训。',
+                projBadge: '项目重点',
+                projSub: '卓越的安全标准（质量与安全）',
+                engTitle: '卓越工程',
+                engDesc: '专为芭堤雅土质设计的地基和抗震结构。',
+                constTitle: '施工标准',
+                constDesc: '安装安全网以防止事故和控制灰尘；致力于按时交付。',
+                partnerTitle: '值得信赖的合作伙伴',
+                footerTitle: '放心投资',
+                footerDesc: '凭借坚实的地基和世界级的合作伙伴，“Copacabana Coral Reef”是安全和可持续投资的最佳选择。',
+                btnDownload: '下载完整报告 (PDF)',
+                chartImpactLabels: ['曼谷 (晃动)', '芭堤雅 (稳定)'],
+                chartRadarLabels: ['结构', '安全网', '工期', '设计', '材料']
+            }
+        };
+
+        // Global Chart References
+        let impactChart, buildingRadarChart, readinessChart;
+
+        // --- INIT CHARTS ---
+        function initCharts() {
+            Chart.defaults.font.family = "'Prompt', sans-serif";
+            Chart.defaults.color = '#64748b';
+            const commonOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+
+            // 1. Impact
+            const ctx1 = document.getElementById('impactChart').getContext('2d');
+            impactChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: translations.th.chartImpactLabels,
+                    datasets: [{ data: [8.5, 0], backgroundColor: ['#ef4444', '#0ea5e9'], borderRadius: 8 }]
+                },
+                options: { ...commonOptions, scales: { y: { beginAtZero: true, max: 10 } } }
+            });
+
+            // 2. Radar
+            const ctx2 = document.getElementById('buildingRadarChart').getContext('2d');
+            buildingRadarChart = new Chart(ctx2, {
+                type: 'radar',
+                data: {
+                    labels: translations.th.chartRadarLabels,
+                    datasets: [{
+                        label: 'Score',
+                        data: [98, 95, 96, 99, 97],
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: '#0ea5e9',
+                        pointBackgroundColor: '#0c4a6e'
+                    }]
+                },
+                options: { ...commonOptions, scales: { r: { ticks: { display: false } } } }
+            });
+
+            // 3. Donut
+            const ctx3 = document.getElementById('readinessChart').getContext('2d');
+            readinessChart = new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [100, 0],
+                        backgroundColor: ['#0ea5e9', '#e0f2fe'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { ...commonOptions, cutout: '85%', events: [] }
+            });
+        }
+
+        // --- LANGUAGE SWITCHING LOGIC ---
+        function setLanguage(lang) {
+            const t = translations[lang];
+            
+            // 1. Update Body Class (for fonts)
+            document.body.className = `bg-[#f0f9ff] lang-${lang}`;
+            
+            // 2. Update Active Button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase() === lang) btn.classList.add('active');
+            });
+
+            // 3. Update Text Content
+            document.getElementById('hero-title').innerHTML = t.heroTitle;
+            document.getElementById('hero-sub').innerText = t.heroSub;
+            document.getElementById('p1-title').innerText = t.p1Title;
+            document.getElementById('p1-desc').innerHTML = t.p1Desc;
+            document.getElementById('anim-bkk-title').innerText = t.animBkkTitle;
+            document.getElementById('anim-bkk-desc').innerText = t.animBkkDesc;
+            document.getElementById('anim-pty-title').innerText = t.animPtyTitle;
+            document.getElementById('anim-pty-desc').innerText = t.animPtyDesc;
+            document.getElementById('p2-main-title').innerText = t.p2MainTitle;
+            document.getElementById('f1-title').innerText = t.f1Title;
+            document.getElementById('f1-desc').innerText = t.f1Desc;
+            document.getElementById('f2-title').innerText = t.f2Title;
+            document.getElementById('f2-desc').innerText = t.f2Desc;
+            document.getElementById('f3-title').innerText = t.f3Title;
+            document.getElementById('f3-desc').innerText = t.f3Desc;
+            document.getElementById('proj-badge').innerText = t.projBadge;
+            document.getElementById('proj-sub').innerText = t.projSub;
+            document.getElementById('eng-title').innerText = t.engTitle;
+            document.getElementById('eng-desc').innerText = t.engDesc;
+            document.getElementById('const-title').innerText = t.constTitle;
+            document.getElementById('const-desc').innerText = t.constDesc;
+            document.getElementById('partner-title').innerText = t.partnerTitle;
+            document.getElementById('footer-title').innerText = t.footerTitle;
+            document.getElementById('footer-desc').innerText = t.footerDesc;
+            
+            // Button with Icon
+            const btnSpan = document.querySelector('#btn-download span');
+            if(btnSpan) btnSpan.innerText = t.btnDownload;
+
+            // 4. Update Charts
+            impactChart.data.labels = t.chartImpactLabels;
+            impactChart.update();
+
+            buildingRadarChart.data.labels = t.chartRadarLabels;
+            buildingRadarChart.update();
+        }
+
+        // Start
+        window.onload = initCharts;
     </script>
 </body>
 </html>
