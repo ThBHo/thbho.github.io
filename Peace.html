@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Peace Shield: Multi-Language Analysis</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <!-- Sarabun (Thai), Roboto (English/Russian), Noto Sans SC (Chinese) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&family=Roboto:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', 'Sarabun', 'Noto Sans SC', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        
+        /* Language specific font overrides if needed */
+        body.lang-th { font-family: 'Sarabun', sans-serif; }
+        body.lang-zh { font-family: 'Noto Sans SC', sans-serif; }
+        
+        h1, h2, h3 {
+            font-weight: 800;
+        }
+
+        /* Hover & Animation */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .img-cover {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s ease;
+        }
+        .img-container:hover .img-cover {
+            transform: scale(1.05);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Custom Chart Wrapper */
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 lang-th">
+
+    <!-- Navbar -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">P</div>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Organic<span class="text-orange-500">Peace</span></span>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="setLang('en')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-en">ENG</button>
+                    <button onclick="setLang('th')" class="px-3 py-1 text-xs font-bold rounded-full border bg-orange-500 text-white transition" id="btn-th">ไทย</button>
+                    <button onclick="setLang('ru')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-ru">RUS</button>
+                    <button onclick="setLang('zh')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-zh">中文</button>
+                </div>
+            </div>
+            <!-- Mobile Menu (Links) -->
+            <div class="flex justify-center space-x-6 pb-2 text-xs font-bold text-slate-500 md:justify-end md:pb-0 md:text-sm">
+                <a href="#overview" class="hover:text-orange-500 transition" data-i18n="nav_overview">ภาพรวม</a>
+                <a href="#visual-evidence" class="hover:text-orange-500 transition" data-i18n="nav_visuals">หลักฐานภาพ</a>
+                <a href="#analysis" class="hover:text-orange-500 transition" data-i18n="nav_analysis">บทวิเคราะห์</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="overview" class="relative bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <polygon points="50,0 100,0 50,100 0,100" />
+                </svg>
+
+                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                    <div class="sm:text-center lg:text-left">
+                        <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-wider mb-4" data-i18n="hero_badge">
+                            Global Impact Report 2025
+                        </span>
+                        <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
+                            <span class="block xl:inline" data-i18n="hero_title_1">เมื่อเสียงเงียบของ</span>
+                            <span class="block text-orange-500 xl:inline" data-i18n="hero_title_2">ธรรมยาตรา</span>
+                            <span class="block text-2xl mt-2 font-normal text-slate-500" data-i18n="hero_subtitle">ดังกว่าเสียงปืนใหญ่ในทำเนียบขาว</span>
+                        </h1>
+                        <p class="mt-3 text-base text-slate-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0" data-i18n="hero_desc">
+                            วิเคราะห์ปรากฏการณ์ <strong>Organic Sentiment</strong> เมื่อยอดวิวหลักล้านบน Social Media กลายเป็น "โล่ป้องกัน" สงครามโลกที่ทรงพลังที่สุด ผู้นำอย่าง Trump ไม่ได้มองแค่แผนที่ทหาร แต่มองเห็น "ความต้องการสันติภาพ" ของคุณผ่านหน้าจอโทรศัพท์
+                        </p>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+        <!-- Hero Image Composite -->
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-slate-100">
+            <div class="grid grid-rows-2 h-full w-full">
+                <!-- Image 1: THE WALK -->
+                <div class="relative overflow-hidden group img-container h-full border-b-4 border-white">
+                    <img class="img-cover" 
+                         src="https://i.postimg.cc/CK9Hs07L/615934649_10167071410102846_8657168428790424467_n_topaz_upscale_2_1x.jpg" 
+                         alt="Buddhist Monks Walking"
+                         onerror="this.src='https://placehold.co/800x400/orange/white?text=The+Walk'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-orange-900/80 to-transparent flex items-end p-6">
+                        <div>
+                            <p class="text-white font-bold text-3xl shadow-sm" data-i18n="img_walk_title">The Walk (พลังเย็น)</p>
+                            <p class="text-orange-200 text-sm" data-i18n="img_walk_desc">การเดินด้วยความสงบที่สั่นสะเทือนโลก</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 2: THE BOARD -->
+                <div class="relative overflow-hidden group img-container h-full">
+                    <img class="img-cover" 
+                         src="https://i.postimg.cc/CKRs85j2/bc5c5a50_d044_45f5_ae3c_5d39b092cf20_ea88bd1a_topaz_lighting_upscale_2x_face.jpg" 
+                         alt="White House/Political Meeting"
+                         onerror="this.src='https://placehold.co/800x400/darkblue/white?text=The+Board'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-transparent flex items-end p-6">
+                        <div>
+                            <p class="text-white font-bold text-3xl shadow-sm" data-i18n="img_board_title">The Board (อำนาจรัฐ)</p>
+                            <p class="text-blue-200 text-sm" data-i18n="img_board_desc">การตัดสินใจบนยอดพีระมิดอำนาจ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Section: The Big Shift -->
+    <section class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900" data-i18n="shift_title">ทำไมสงครามถึงเกิดยากในยุคนี้?</h2>
+                <p class="mt-4 text-lg text-slate-500" data-i18n="shift_subtitle">เปรียบเทียบกลไกการตัดสินใจของผู้นำระหว่างยุค Analog และ Digital</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Old Era Card -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift border-t-4 border-slate-400">
+                    <div class="h-48 overflow-hidden">
+                        <img class="w-full h-full object-cover" 
+                             src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=800&auto=format&fit=crop" 
+                             alt="Old Era">
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-slate-500 font-semibold" data-i18n="card_old_badge">ยุคอดีต (1940s)</div>
+                        <h3 class="mt-1 text-2xl font-bold text-slate-900" data-i18n="card_old_title">Information Blindness</h3>
+                        <p class="mt-4 text-slate-600" data-i18n="card_old_desc">
+                            ผู้นำรับข้อมูลผ่าน "ตัวกลาง" (สายลับ, หนังสือพิมพ์) ทำให้ไม่รู้อารมณ์จริงของประชาชน การตัดสินใจทำสงครามจึงง่ายเพราะคิดว่าประชาชนจะสนับสนุน
+                        </p>
+                    </div>
+                </div>
+
+                <!-- New Era Card -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift border-t-4 border-orange-500">
+                    <div class="h-48 overflow-hidden">
+                        <img class="w-full h-full object-cover" 
+                             src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop" 
+                             alt="Digital Era">
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-orange-500 font-semibold" data-i18n="card_new_badge">ยุคปัจจุบัน (2025)</div>
+                        <h3 class="mt-1 text-2xl font-bold text-slate-900" data-i18n="card_new_title">Organic Transparency</h3>
+                        <p class="mt-4 text-slate-600" data-i18n="card_new_desc">
+                            ผู้นำโลกเห็นยอดวิว <strong>Walk for Peace</strong> บน Feed รู้ทันทีว่า "Organic Sentiment" คือความสงบ หากฝืนทำสงคราม = การฆ่าตัวตายทางการเมือง
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Evidence Section (Video) -->
+    <section id="visual-evidence" class="py-16 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-orange-600 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                        <span data-i18n="video_badge">Viral Proof</span>
+                    </div>
+                    <h2 class="text-4xl font-bold leading-tight" data-i18n="video_title">ภาพเดียว...เปลี่ยนนโยบายโลก</h2>
+                    <p class="text-slate-300 text-lg" data-i18n="video_desc">
+                        การเดินธุดงค์ของพระสงฆ์ (Dhammayatra) กลายเป็น Viral Content ที่ทรงพลังที่สุด วิดีโอสั้นๆ เหล่านี้ทำงานดีกว่าการประท้วงที่รุนแรง เพราะมันดึงดูด <strong>"ความเห็นอกเห็นใจ" (Empathy)</strong>
+                    </p>
+                </div>
+                <div class="relative">
+                    <div class="video-container border-4 border-slate-700">
+                        <iframe 
+                            width="560" 
+                            height="315" 
+                            src="https://www.youtube.com/embed/5U9x5DkG6zY" 
+                            title="Walk for Peace" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Analytics Section -->
+    <section id="analysis" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900" data-i18n="data_title">Data-Driven Peace Analysis</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Line Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="chart_line_title">ความสัมพันธ์ผกผัน (Viral vs War Risk)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="viralWarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Radar Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="chart_radar_title">ปัจจัยการตัดสินใจของผู้นำ</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="decisionRadarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-orange-500">PEACE 2025</h3>
+            <p class="mt-4 text-slate-400 max-w-2xl mx-auto" data-i18n="footer_quote">
+                "ในโลกที่เชื่อมต่อกันด้วยอินเทอร์เน็ต ความจริงใจ (Authenticity) คืออาวุธที่ทรงพลังที่สุด"
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // --- TRANSLATION DATA ---
+        const i18n = {
+            th: {
+                nav_overview: "ภาพรวม", nav_visuals: "หลักฐานภาพ", nav_analysis: "บทวิเคราะห์",
+                hero_badge: "รายงานผลกระทบโลก 2025",
+                hero_title_1: "เมื่อเสียงเงียบของ", hero_title_2: "ธรรมยาตรา", hero_subtitle: "ดังกว่าเสียงปืนใหญ่ในทำเนียบขาว",
+                hero_desc: "วิเคราะห์ปรากฏการณ์ <strong>Organic Sentiment</strong> เมื่อยอดวิวหลักล้านบน Social Media กลายเป็น \"โล่ป้องกัน\" สงครามโลกที่ทรงพลังที่สุด ผู้นำอย่าง Trump ไม่ได้มองแค่แผนที่ทหาร แต่มองเห็น \"ความต้องการสันติภาพ\" ของคุณผ่านหน้าจอโทรศัพท์",
+                img_walk_title: "The Walk (พลังเย็น)", img_walk_desc: "การเดินด้วยความสงบที่สั่นสะเทือนโลก",
+                img_board_title: "The Board (อำนาจรัฐ)", img_board_desc: "การตัดสินใจบนยอดพีระมิดอำนาจ",
+                shift_title: "ทำไมสงครามถึงเกิดยากในยุคนี้?", shift_subtitle: "เปรียบเทียบกลไกการตัดสินใจของผู้นำระหว่างยุค Analog และ Digital",
+                card_old_badge: "ยุคอดีต (1940s)", card_old_title: "Information Blindness", card_old_desc: "ผู้นำรับข้อมูลผ่าน \"ตัวกลาง\" (สายลับ, หนังสือพิมพ์) ทำให้ไม่รู้อารมณ์จริงของประชาชน การตัดสินใจทำสงครามจึงง่ายเพราะคิดว่าประชาชนจะสนับสนุน",
+                card_new_badge: "ยุคปัจจุบัน (2025)", card_new_title: "Organic Transparency", card_new_desc: "ผู้นำโลกเห็นยอดวิว <strong>Walk for Peace</strong> บน Feed รู้ทันทีว่า \"Organic Sentiment\" คือความสงบ หากฝืนทำสงคราม = การฆ่าตัวตายทางการเมือง",
+                video_badge: "หลักฐานไวรัล", video_title: "ภาพเดียว...เปลี่ยนนโยบายโลก", video_desc: "การเดินธุดงค์ของพระสงฆ์ (Dhammayatra) กลายเป็น Viral Content ที่ทรงพลังที่สุด วิดีโอสั้นๆ เหล่านี้ทำงานดีกว่าการประท้วงที่รุนแรง เพราะมันดึงดูด <strong>\"ความเห็นอกเห็นใจ\" (Empathy)</strong>",
+                data_title: "การวิเคราะห์สันติภาพด้วยข้อมูล",
+                chart_line_title: "ความสัมพันธ์ผกผัน (ไวรัล vs ความเสี่ยงสงคราม)",
+                chart_radar_title: "ปัจจัยการตัดสินใจของผู้นำ",
+                footer_quote: "\"ในโลกที่เชื่อมต่อกันด้วยอินเทอร์เน็ต ความจริงใจ (Authenticity) คืออาวุธที่ทรงพลังที่สุด\"",
+                // Charts
+                chart_line_label1: "คะแนนไวรัลสันติภาพ", chart_line_label2: "โอกาสเกิดสงคราม (%)",
+                chart_radar_label1: "ผู้นำยุคใหม่ (2025)", chart_radar_label2: "ผู้นำยุคเก่า (1940)",
+                radar_labels: ['เสียงสังคม', 'คำแนะนำทหาร', 'ผลกระทบเศรษฐกิจ', 'ภาพลักษณ์โลก', 'ความนิยมเลือกตั้ง']
+            },
+            en: {
+                nav_overview: "Overview", nav_visuals: "Visuals", nav_analysis: "Analysis",
+                hero_badge: "Global Impact Report 2025",
+                hero_title_1: "When the silence of", hero_title_2: "The Walk", hero_subtitle: "Is louder than cannons in the White House",
+                hero_desc: "Analyzing the <strong>Organic Sentiment</strong> phenomenon: When millions of views on Social Media become the most powerful \"Shield\" against World War. Leaders like Trump don't just look at military maps, they see your \"Desire for Peace\" through their phone screens.",
+                img_walk_title: "The Walk (Inner Power)", img_walk_desc: "A peaceful walk that shakes the world.",
+                img_board_title: "The Board (State Power)", img_board_desc: "Decisions made at the peak of power.",
+                shift_title: "Why is War Harder Now?", shift_subtitle: "Comparing decision mechanisms: Analog vs Digital Era.",
+                card_old_badge: "Past Era (1940s)", card_old_title: "Information Blindness", card_old_desc: "Leaders received info via \"Middlemen\" (spies, papers), blind to public emotion. War decisions were easier, assuming public support.",
+                card_new_badge: "Present Era (2025)", card_new_title: "Organic Transparency", card_new_desc: "Leaders see <strong>Walk for Peace</strong> viral views instantly. They know \"Organic Sentiment\" is peace. Waging war now = Political Suicide.",
+                video_badge: "Viral Proof", video_title: "One Image... Changed Global Policy", video_desc: "The Monk's Walk (Dhammayatra) became the most powerful Viral Content. Short videos work better than violent protests because they attract <strong>\"Empathy\"</strong>.",
+                data_title: "Data-Driven Peace Analysis",
+                chart_line_title: "Inverse Correlation (Viral vs War Risk)",
+                chart_radar_title: "Leader's Decision Factors",
+                footer_quote: "\"In an internet-connected world, Authenticity is the most powerful weapon.\"",
+                // Charts
+                chart_line_label1: "Peace Viral Score", chart_line_label2: "War Probability (%)",
+                chart_radar_label1: "Modern Leader (2025)", chart_radar_label2: "Past Leader (1940)",
+                radar_labels: ['Social Feedback', 'Military Advice', 'Economic Impact', 'Global Image', 'Electoral Pop.']
+            },
+            ru: {
+                nav_overview: "Обзор", nav_visuals: "Визуализация", nav_analysis: "Анализ",
+                hero_badge: "Отчет о глобальном влиянии 2025",
+                hero_title_1: "Когда тишина", hero_title_2: "Пути Мира", hero_subtitle: "Громче пушек в Белом доме",
+                hero_desc: "Анализ феномена <strong>Органического Настроения</strong>: когда миллионы просмотров в соцсетях становятся мощнейшим «Щитом» против Мировой Войны. Лидеры, такие как Трамп, видят ваше «Желание Мира» через экраны телефонов.",
+                img_walk_title: "Путь (Внутренняя Сила)", img_walk_desc: "Мирное шествие, потрясшее мир.",
+                img_board_title: "Совет (Власть Государства)", img_board_desc: "Решения на вершине власти.",
+                shift_title: "Почему сейчас сложнее начать войну?", shift_subtitle: "Сравнение механизмов: Аналоговая vs Цифровая эра.",
+                card_old_badge: "Прошлая эра (1940-е)", card_old_title: "Информационная Слепота", card_old_desc: "Лидеры получали инфо через посредников, не зная эмоций людей. Решения о войне давались легче.",
+                card_new_badge: "Наше время (2025)", card_new_title: "Органическая Прозрачность", card_new_desc: "Лидеры видят вирусные видео <strong>Walk for Peace</strong>. Война сейчас = Политическое самоубийство.",
+                video_badge: "Вирусное Доказательство", video_title: "Один кадр... Изменил политику", video_desc: "Шествие монахов (Дхаммаятра) стало мощным вирусным контентом. Это работает лучше протестов, вызывая <strong>«Эмпатию»</strong>.",
+                data_title: "Анализ Мира на основе данных",
+                chart_line_title: "Обратная корреляция (Вирусность vs Риск войны)",
+                chart_radar_title: "Факторы принятия решений",
+                footer_quote: "\"В мире интернета Искренность — самое мощное оружие.\"",
+                // Charts
+                chart_line_label1: "Оценка Вирусности Мира", chart_line_label2: "Вероятность Войны (%)",
+                chart_radar_label1: "Совр. Лидер (2025)", chart_radar_label2: "Прош. Лидер (1940)",
+                radar_labels: ['Соц. Отклик', 'Воен. Совет', 'Эконом. Влияние', 'Глоб. Имидж', 'Выборы']
+            },
+            zh: {
+                nav_overview: "概览", nav_visuals: "视觉证据", nav_analysis: "分析",
+                hero_badge: "2025 全球影响力报告",
+                hero_title_1: "当无声的", hero_title_2: "和平之行", hero_subtitle: "比白宫的大炮更响亮",
+                hero_desc: "分析 <strong>有机情感 (Organic Sentiment)</strong> 现象：当社交媒体上的百万次观看成为抵御世界大战的最强“盾牌”。像特朗普这样的领导人不仅看军事地图，更通过手机屏幕看到你们的“和平愿望”。",
+                img_walk_title: "和平之行 (内在力量)", img_walk_desc: "震撼世界的和平行走。",
+                img_board_title: "和平委员会 (国家权力)", img_board_desc: "权力巅峰的决策。",
+                shift_title: "为什么现在发动战争更难？", shift_subtitle: "决策机制对比：模拟时代 vs 数字时代。",
+                card_old_badge: "过去时代 (1940s)", card_old_title: "信息盲区", card_old_desc: "领导人通过“中间人”（间谍、报纸）获取信息，无视公众情绪。发动战争更容易，因为假设公众支持。",
+                card_new_badge: "当今时代 (2025)", card_new_title: "有机透明度", card_new_desc: "领导人看到 <strong>Walk for Peace</strong> 的病毒式传播。现在发动战争 = 政治自杀。",
+                video_badge: "病毒式证据", video_title: "一张照片... 改变全球政策", video_desc: "僧侣的行走 (Dhammayatra) 成为最强大的病毒式内容。这比暴力抗议更有效，因为它唤起了<strong>“同理心”</strong>。",
+                data_title: "基于数据的和平分析",
+                chart_line_title: "负相关 (病毒式传播 vs 战争风险)",
+                chart_radar_title: "领导人决策因素",
+                footer_quote: "“在互联网连接的世界里，真诚 (Authenticity) 是最强大的武器。”",
+                // Charts
+                chart_line_label1: "和平病毒指数", chart_line_label2: "战争概率 (%)",
+                chart_radar_label1: "现代领导人 (2025)", chart_radar_label2: "过去领导人 (1940)",
+                radar_labels: ['社会反馈', '军事建议', '经济影响', '全球形象', '选举支持']
+            }
+        };
+
+        let currentLang = 'th';
+        let lineChartInstance = null;
+        let radarChartInstance = null;
+
+        function setLang(lang) {
+            currentLang = lang;
+            
+            // 1. Update UI Classes (Buttons)
+            ['en', 'th', 'ru', 'zh'].forEach(l => {
+                const btn = document.getElementById(`btn-${l}`);
+                if (l === lang) {
+                    btn.classList.add('bg-orange-500', 'text-white');
+                    btn.classList.remove('hover:bg-orange-100');
+                } else {
+                    btn.classList.remove('bg-orange-500', 'text-white');
+                    btn.classList.add('hover:bg-orange-100');
+                }
+            });
+
+            // 2. Update Body Font Class
+            document.body.className = `bg-slate-50 lang-${lang}`;
+
+            // 3. Update Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+
+            // 4. Update Charts
+            updateCharts(lang);
+        }
+
+        function initCharts() {
+            // --- Line Chart ---
+            const ctxLine = document.getElementById('viralWarChart').getContext('2d');
+            lineChartInstance = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: i18n.th.chart_line_label1,
+                            data: [20, 25, 60, 85, 90, 95],
+                            borderColor: '#F97316',
+                            backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: i18n.th.chart_line_label2,
+                            data: [70, 65, 40, 20, 15, 10],
+                            borderColor: '#EF4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left' },
+                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+
+            // --- Radar Chart ---
+            const ctxRadar = document.getElementById('decisionRadarChart').getContext('2d');
+            radarChartInstance = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: i18n.th.radar_labels,
+                    datasets: [{
+                        label: i18n.th.chart_radar_label1,
+                        data: [95, 40, 90, 85, 95],
+                        fill: true,
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: '#2563EB',
+                        pointBackgroundColor: '#2563EB'
+                    }, {
+                        label: i18n.th.chart_radar_label2,
+                        data: [10, 95, 60, 40, 30],
+                        fill: true,
+                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
+                        borderColor: '#9CA3AF',
+                        pointBackgroundColor: '#9CA3AF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        r: {
+                            pointLabels: {
+                                font: { size: 12, family: "'Sarabun', 'Roboto', sans-serif" }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts(lang) {
+            if (!lineChartInstance || !radarChartInstance) return;
+
+            // Update Line Chart Labels
+            lineChartInstance.data.datasets[0].label = i18n[lang].chart_line_label1;
+            lineChartInstance.data.datasets[1].label = i18n[lang].chart_line_label2;
+            lineChartInstance.update();
+
+            // Update Radar Chart Labels
+            radarChartInstance.data.labels = i18n[lang].radar_labels;
+            radarChartInstance.data.datasets[0].label = i18n[lang].chart_radar_label1;
+            radarChartInstance.data.datasets[1].label = i18n[lang].chart_radar_label2;
+            radarChartInstance.update();
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            setLang('th'); // Default to Thai
+        });
+
+    </script>
+</body>
+</html>
