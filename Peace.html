@@ -15,27 +15,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&family=Roboto:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
+        /* Base Fonts */
         body {
             font-family: 'Roboto', 'Sarabun', 'Noto Sans SC', sans-serif;
-            background-color: #F3F4F6;
-            color: #1F2937;
+            background-color: #F8FAFC; /* Slate-50 */
+            color: #1E293B; /* Slate-800 */
         }
         
-        /* Language specific font overrides */
+        /* Language Specific Overrides */
         body.lang-th { font-family: 'Sarabun', sans-serif; }
         body.lang-zh { font-family: 'Noto Sans SC', sans-serif; }
         
-        h1, h2, h3 { font-weight: 800; }
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.025em; }
 
-        /* Hover & Animation */
+        /* Smooth Transitions */
+        .transition-all-300 { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Card Hover Effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .hover-lift:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
+        /* Image Containers */
         .img-container {
             position: relative;
             overflow: hidden;
@@ -50,13 +56,15 @@
             transform: scale(1.05);
         }
         
+        /* Responsive Video */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
             border-radius: 1rem;
             box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            background-color: #000;
         }
         .video-container iframe {
             position: absolute;
@@ -66,6 +74,7 @@
             height: 100%;
         }
 
+        /* Chart Wrapper */
         .chart-wrapper {
             position: relative;
             height: 350px;
@@ -73,73 +82,69 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 lang-th">
+<body class="bg-slate-50 lang-th selection:bg-orange-100 selection:text-orange-600">
 
     <!-- Navbar -->
-    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm transition-all-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">P</div>
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-9 h-9 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">P</div>
                     <span class="font-bold text-xl tracking-tight text-slate-800">Organic<span class="text-orange-500">Peace</span></span>
                 </div>
                 
                 <!-- Language Switcher -->
-                <div class="flex items-center space-x-2">
-                    <button onclick="setLang('en')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-en">ENG</button>
-                    <button onclick="setLang('th')" class="px-3 py-1 text-xs font-bold rounded-full border bg-orange-500 text-white transition" id="btn-th">ไทย</button>
-                    <button onclick="setLang('ru')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-ru">RUS</button>
-                    <button onclick="setLang('zh')" class="px-3 py-1 text-xs font-bold rounded-full border hover:bg-orange-100 transition" id="btn-zh">中文</button>
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <button onclick="setLang('en')" class="px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-full border hover:bg-orange-50 transition" id="btn-en">ENG</button>
+                    <button onclick="setLang('th')" class="px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-full border bg-orange-500 text-white transition shadow-sm" id="btn-th">ไทย</button>
+                    <button onclick="setLang('ru')" class="px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-full border hover:bg-orange-50 transition" id="btn-ru">RUS</button>
+                    <button onclick="setLang('zh')" class="px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-full border hover:bg-orange-50 transition" id="btn-zh">中文</button>
                 </div>
             </div>
-            <!-- Mobile Menu -->
-            <div class="flex justify-center space-x-6 pb-2 text-xs font-bold text-slate-500 md:justify-end md:pb-0 md:text-sm">
-                <a href="#overview" class="hover:text-orange-500 transition" data-i18n="nav_overview">ภาพรวม</a>
-                <a href="#visual-evidence" class="hover:text-orange-500 transition" data-i18n="nav_visuals">หลักฐานภาพ</a>
-                <a href="#analysis" class="hover:text-orange-500 transition" data-i18n="nav_analysis">บทวิเคราะห์</a>
+            <!-- Mobile Menu Links -->
+            <div class="flex justify-center space-x-4 sm:space-x-8 pb-3 pt-1 text-xs font-bold text-slate-500 md:justify-end md:pb-0 md:pt-0 md:absolute md:top-5 md:right-48">
+                <a href="#overview" class="hover:text-orange-500 transition border-b-2 border-transparent hover:border-orange-500 py-1" data-i18n="nav_overview">ภาพรวม</a>
+                <a href="#visual-evidence" class="hover:text-orange-500 transition border-b-2 border-transparent hover:border-orange-500 py-1" data-i18n="nav_visuals">หลักฐานภาพ</a>
+                <a href="#analysis" class="hover:text-orange-500 transition border-b-2 border-transparent hover:border-orange-500 py-1" data-i18n="nav_analysis">บทวิเคราะห์</a>
             </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <header id="overview" class="bg-white overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[800px]">
+    <header id="overview" class="bg-white overflow-hidden relative">
+        <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen lg:h-auto">
             
             <!-- Left: Text Content -->
-            <div class="flex items-center justify-center p-8 lg:p-16 xl:p-24 bg-white z-10">
+            <div class="flex items-center justify-center p-8 lg:p-16 xl:p-20 bg-white z-10 order-2 lg:order-1">
                 <div class="max-w-2xl w-full">
-                    <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-wider mb-6" data-i18n="hero_badge">
+                    <span class="inline-block py-1.5 px-4 rounded-full bg-orange-100 text-orange-700 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm" data-i18n="hero_badge">
                         Global Impact Report 2025
                     </span>
-                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl leading-tight">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl leading-[1.15]">
                         <span class="block" data-i18n="hero_title_1">เมื่อเสียงเงียบของ</span>
-                        <span class="block text-orange-500" data-i18n="hero_title_2">ธรรมยาตรา</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500" data-i18n="hero_title_2">ธรรมยาตรา</span>
                         <span class="block text-2xl mt-4 font-normal text-slate-500" data-i18n="hero_subtitle">ดังกว่าเสียงปืนใหญ่ในทำเนียบขาว</span>
                     </h1>
-                    <p class="mt-6 text-lg text-slate-500 leading-relaxed" data-i18n="hero_desc">
-                        วิเคราะห์ปรากฏการณ์ <strong>Organic Sentiment</strong> เมื่อยอดวิวหลักล้านบน Social Media กลายเป็น "โล่ป้องกัน" สงครามโลกที่ทรงพลังที่สุด ผู้นำอย่าง Trump ไม่ได้มองแค่แผนที่ทหาร แต่มองเห็น "ความต้องการสันติภาพ" ของคุณผ่านหน้าจอโทรศัพท์
+                    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-lg" data-i18n="hero_desc">
+                        วิเคราะห์ปรากฏการณ์ <strong>Organic Sentiment</strong> เมื่อยอดวิวหลักล้านบน Social Media กลายเป็น "โล่ป้องกัน" สงครามโลกที่ทรงพลังที่สุด
                     </p>
                     
                     <!-- Action Buttons -->
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        <a href="#analysis" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 md:py-4 md:text-lg md:px-8 shadow-lg hover:shadow-xl transition">
+                        <a href="#analysis" class="inline-flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-bold rounded-xl text-white bg-orange-600 hover:bg-orange-700 shadow-lg hover:shadow-orange-500/30 transition-all-300 transform hover:-translate-y-1">
                             <span data-i18n="btn_read_more">อ่านบทวิเคราะห์</span>
                         </a>
-                        <a href="https://drive.google.com/file/d/1q3bOEqI7HC7645rUPz1SpDvsEt-kL4tF/view?usp=sharing" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border-2 border-slate-900 text-base font-medium rounded-md text-slate-900 bg-transparent hover:bg-slate-900 hover:text-white md:py-4 md:text-lg md:px-8 transition">
+                        <a href="https://drive.google.com/file/d/1q3bOEqI7HC7645rUPz1SpDvsEt-kL4tF/view?usp=sharing" target="_blank" class="inline-flex items-center justify-center px-8 py-3.5 border-2 border-slate-200 text-base font-bold rounded-xl text-slate-700 bg-white hover:border-slate-800 hover:text-slate-900 transition-all-300">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             <span data-i18n="btn_download_pdf">ดาวน์โหลดรายงาน (PDF)</span>
-                        </a>
-                    </div>
-                    <div class="mt-4">
-                        <a href="#visual-evidence" class="text-sm font-semibold text-slate-500 hover:text-orange-500 transition flex items-center">
-                            <span data-i18n="btn_watch_video">หรือ ดูหลักฐานภาพ</span> <span class="ml-1">→</span>
                         </a>
                     </div>
                 </div>
             </div>
 
             <!-- Right: Image Stack -->
-            <div class="relative h-[500px] lg:h-full w-full">
+            <div class="relative w-full h-[500px] lg:h-auto lg:min-h-screen order-1 lg:order-2">
                 <div class="grid grid-rows-2 h-full w-full">
                     
                     <!-- Image 1: THE WALK -->
@@ -147,11 +152,11 @@
                         <img class="img-cover" 
                              src="https://i.postimg.cc/CK9Hs07L/615934649_10167071410102846_8657168428790424467_n_topaz_upscale_2_1x.jpg" 
                              alt="The Walk"
-                             onerror="this.src='https://placehold.co/800x400/orange/white?text=The+Walk'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-orange-900/90 via-transparent to-transparent flex items-end p-8">
-                            <div>
-                                <h3 class="text-white font-bold text-3xl drop-shadow-md" data-i18n="img_walk_title">The Walk (พลังเย็น)</h3>
-                                <p class="text-orange-100 text-sm mt-1 drop-shadow-md font-medium" data-i18n="img_walk_desc">การเดินด้วยความสงบที่สั่นสะเทือนโลก</p>
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8 lg:p-12">
+                            <div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                <h3 class="text-white font-bold text-2xl lg:text-3xl drop-shadow-lg" data-i18n="img_walk_title">The Walk (พลังเย็น)</h3>
+                                <p class="text-orange-200 text-sm lg:text-base mt-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500" data-i18n="img_walk_desc">การเดินด้วยความสงบที่สั่นสะเทือนโลก</p>
                             </div>
                         </div>
                     </div>
@@ -161,11 +166,11 @@
                         <img class="img-cover" 
                              src="https://i.postimg.cc/CKRs85j2/bc5c5a50_d044_45f5_ae3c_5d39b092cf20_ea88bd1a_topaz_lighting_upscale_2x_face.jpg" 
                              alt="The Board"
-                             onerror="this.src='https://placehold.co/800x400/darkblue/white?text=The+Board'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-transparent to-transparent flex items-end p-8">
-                            <div>
-                                <h3 class="text-white font-bold text-3xl drop-shadow-md" data-i18n="img_board_title">The Board (อำนาจรัฐ)</h3>
-                                <p class="text-blue-100 text-sm mt-1 drop-shadow-md font-medium" data-i18n="img_board_desc">การตัดสินใจบนยอดพีระมิดอำนาจ</p>
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/30 to-transparent flex items-end p-8 lg:p-12">
+                            <div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                <h3 class="text-white font-bold text-2xl lg:text-3xl drop-shadow-lg" data-i18n="img_board_title">The Board (อำนาจรัฐ)</h3>
+                                <p class="text-blue-200 text-sm lg:text-base mt-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500" data-i18n="img_board_desc">การตัดสินใจบนยอดพีระมิดอำนาจ</p>
                             </div>
                         </div>
                     </div>
@@ -177,42 +182,44 @@
     </header>
 
     <!-- Content Section: The Big Shift -->
-    <section class="py-16 bg-slate-50">
+    <section class="py-20 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-slate-900" data-i18n="shift_title">ทำไมสงครามถึงเกิดยากในยุคนี้?</h2>
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900" data-i18n="shift_title">ทำไมสงครามถึงเกิดยากในยุคนี้?</h2>
                 <p class="mt-4 text-lg text-slate-500" data-i18n="shift_subtitle">เปรียบเทียบกลไกการตัดสินใจของผู้นำระหว่างยุค Analog และ Digital</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                 <!-- Old Era Card -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift border-t-4 border-slate-400">
-                    <div class="h-48 overflow-hidden">
-                        <img class="w-full h-full object-cover" 
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover-lift border border-slate-100">
+                    <div class="h-56 overflow-hidden relative">
+                        <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
                              src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=800&auto=format&fit=crop" 
                              alt="Old Era">
+                        <div class="absolute inset-0 bg-slate-900/10"></div>
                     </div>
                     <div class="p-8">
-                        <div class="uppercase tracking-wide text-sm text-slate-500 font-semibold" data-i18n="card_old_badge">ยุคอดีต (1940s)</div>
-                        <h3 class="mt-1 text-2xl font-bold text-slate-900" data-i18n="card_old_title">Information Blindness</h3>
-                        <p class="mt-4 text-slate-600" data-i18n="card_old_desc">
+                        <div class="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase tracking-wide mb-3" data-i18n="card_old_badge">ยุคอดีต (1940s)</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3" data-i18n="card_old_title">Information Blindness</h3>
+                        <p class="text-slate-600 leading-relaxed" data-i18n="card_old_desc">
                             ผู้นำรับข้อมูลผ่าน "ตัวกลาง" (สายลับ, หนังสือพิมพ์) ทำให้ไม่รู้อารมณ์จริงของประชาชน
                         </p>
                     </div>
                 </div>
 
-                <!-- New Era Card (Updated) -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift border-t-4 border-orange-500">
-                    <div class="h-48 overflow-hidden relative">
-                        <img class="w-full h-full object-cover" 
+                <!-- New Era Card -->
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover-lift border-2 border-orange-500/20">
+                    <div class="h-56 overflow-hidden relative">
+                        <!-- Updated Image: Digital Witness -->
+                        <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
                              src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop" 
                              alt="Digital Witness">
-                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute inset-0 bg-orange-500/10"></div>
                     </div>
-                    <div class="p-8">
-                        <div class="uppercase tracking-wide text-sm text-orange-500 font-semibold" data-i18n="card_new_badge">ยุคปัจจุบัน (2025)</div>
-                        <h3 class="mt-1 text-2xl font-bold text-slate-900" data-i18n="card_new_title">Organic Transparency</h3>
-                        <p class="mt-4 text-slate-600" data-i18n="card_new_desc">
+                    <div class="p-8 bg-orange-50/30">
+                        <div class="inline-block px-3 py-1 bg-orange-100 text-orange-600 rounded-lg text-xs font-bold uppercase tracking-wide mb-3" data-i18n="card_new_badge">ยุคปัจจุบัน (2025)</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3" data-i18n="card_new_title">Organic Transparency</h3>
+                        <p class="text-slate-600 leading-relaxed" data-i18n="card_new_desc">
                             ผู้นำโลกเห็นยอดวิว <strong>Walk for Peace</strong> บน Feed รู้ทันทีว่า "Organic Sentiment" คือความสงบ
                         </p>
                     </div>
@@ -222,20 +229,28 @@
     </section>
 
     <!-- Visual Evidence Section (Video) -->
-    <section id="visual-evidence" class="py-16 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <div class="inline-flex items-center space-x-2 bg-orange-600 px-3 py-1 rounded-full text-xs font-bold uppercase">
+    <section id="visual-evidence" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Background Glow -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-600 to-red-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                         <span data-i18n="video_badge">Viral Proof</span>
                     </div>
-                    <h2 class="text-4xl font-bold leading-tight" data-i18n="video_title">ภาพเดียว...เปลี่ยนนโยบายโลก</h2>
-                    <p class="text-slate-300 text-lg" data-i18n="video_desc">
+                    <h2 class="text-4xl md:text-5xl font-bold leading-tight" data-i18n="video_title">ภาพเดียว...เปลี่ยนนโยบายโลก</h2>
+                    <p class="text-slate-300 text-lg leading-relaxed font-light" data-i18n="video_desc">
                         การเดินธุดงค์ของพระสงฆ์ (Dhammayatra) กลายเป็น Viral Content ที่ทรงพลังที่สุด วิดีโอสั้นๆ เหล่านี้ทำงานดีกว่าการประท้วงที่รุนแรง เพราะมันดึงดูด <strong>"ความเห็นอกเห็นใจ" (Empathy)</strong>
                     </p>
+                    <div class="flex items-center space-x-4 text-sm text-slate-400">
+                        <div class="flex items-center"><svg class="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> 500M+ Views</div>
+                        <div class="flex items-center"><svg class="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg> 120M+ Shares</div>
+                    </div>
                 </div>
                 <div class="relative">
-                    <div class="video-container border-4 border-slate-700">
+                    <div class="video-container border-4 border-slate-700/50 shadow-2xl">
                         <iframe 
                             width="560" 
                             height="315" 
@@ -252,53 +267,69 @@
     </section>
 
     <!-- Data Analytics Section -->
-    <section id="analysis" class="py-16 bg-white">
+    <section id="analysis" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-extrabold text-slate-900" data-i18n="data_title">Data-Driven Peace Analysis</h2>
+                <div class="h-1 w-20 bg-orange-500 mx-auto mt-6 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Line Chart -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="chart_line_title">ความสัมพันธ์ผกผัน (Viral vs War Risk)</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="viralWarChart"></canvas>
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-orange-500 mr-3"></span>
+                            <span data-i18n="chart_line_title">ความสัมพันธ์ผกผัน (Viral vs War Risk)</span>
+                        </h3>
+                        <div class="chart-wrapper">
+                            <canvas id="viralWarChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Radar Chart -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="chart_radar_title">ปัจจัยการตัดสินใจของผู้นำ</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="decisionRadarChart"></canvas>
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-blue-600 mr-3"></span>
+                            <span data-i18n="chart_radar_title">ปัจจัยการตัดสินใจของผู้นำ</span>
+                        </h3>
+                        <div class="chart-wrapper">
+                            <canvas id="decisionRadarChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NEW SECTION: Infographic Image -->
+    <!-- Infographic Section -->
     <section class="py-16 bg-slate-50 border-t border-slate-200">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8" data-i18n="infographic_title">สรุปภาพรวม (Infographic)</h2>
-            <div class="rounded-3xl overflow-hidden shadow-2xl hover-lift border-8 border-white bg-white">
-                <img src="https://i.postimg.cc/G3vV9LJk/2_P.png" alt="Digital Peace Infographic" class="w-full h-auto">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-10" data-i18n="infographic_title">สรุปภาพรวม (Infographic)</h2>
+            <div class="rounded-3xl overflow-hidden shadow-2xl hover-lift bg-white ring-8 ring-white/50 inline-block max-w-full">
+                <img src="https://i.postimg.cc/G3vV9LJk/2_P.png" alt="Digital Peace Infographic" class="w-full h-auto max-w-[800px] mx-auto">
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white py-12 border-t border-slate-800">
+    <footer class="bg-slate-900 text-white py-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h3 class="text-2xl font-bold text-orange-500">PEACE 2025</h3>
-            <p class="mt-4 text-slate-400 max-w-2xl mx-auto" data-i18n="footer_quote">
+            <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-6 shadow-lg shadow-orange-500/20">P</div>
+            <h3 class="text-2xl font-bold text-white tracking-wide">PEACE 2025</h3>
+            <p class="mt-6 text-slate-400 max-w-2xl mx-auto text-lg font-light italic" data-i18n="footer_quote">
                 "ในโลกที่เชื่อมต่อกันด้วยอินเทอร์เน็ต ความจริงใจ (Authenticity) คืออาวุธที่ทรงพลังที่สุด"
             </p>
-            <div class="mt-8">
-                <a href="https://drive.google.com/file/d/1q3bOEqI7HC7645rUPz1SpDvsEt-kL4tF/view?usp=sharing" target="_blank" class="text-sm text-slate-500 hover:text-orange-500 transition underline decoration-dotted">
+            <div class="mt-10">
+                <a href="https://drive.google.com/file/d/1q3bOEqI7HC7645rUPz1SpDvsEt-kL4tF/view?usp=sharing" target="_blank" class="inline-flex items-center text-sm text-slate-400 hover:text-white transition-colors duration-300 group">
+                    <svg class="w-4 h-4 mr-2 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <span data-i18n="btn_download_pdf">ดาวน์โหลดรายงาน (PDF)</span>
                 </a>
+            </div>
+            <div class="mt-8 text-xs text-slate-600">
+                &copy; 2025 Global Peace Analysis. Images via Unsplash & PostImage. Video via YouTube.
             </div>
         </div>
     </footer>
@@ -403,16 +434,16 @@
             ['en', 'th', 'ru', 'zh'].forEach(l => {
                 const btn = document.getElementById(`btn-${l}`);
                 if (l === lang) {
-                    btn.classList.add('bg-orange-500', 'text-white');
-                    btn.classList.remove('hover:bg-orange-100');
+                    btn.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+                    btn.classList.remove('hover:bg-orange-50');
                 } else {
-                    btn.classList.remove('bg-orange-500', 'text-white');
-                    btn.classList.add('hover:bg-orange-100');
+                    btn.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
+                    btn.classList.add('hover:bg-orange-50');
                 }
             });
 
             // 2. Update Body Class for Fonts
-            document.body.className = `bg-slate-50 lang-${lang}`;
+            document.body.className = `bg-slate-50 lang-${lang} selection:bg-orange-100 selection:text-orange-600`;
 
             // 3. Update Text Content
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -437,9 +468,13 @@
                         {
                             label: i18n.th.chart_line_label1,
                             data: [20, 25, 60, 85, 90, 95],
-                            borderColor: '#F97316',
+                            borderColor: '#F97316', // Orange-500
                             backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                            borderWidth: 3,
+                            borderWidth: 4,
+                            pointBackgroundColor: '#F97316',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#F97316',
                             tension: 0.4,
                             fill: true,
                             yAxisID: 'y'
@@ -447,9 +482,11 @@
                         {
                             label: i18n.th.chart_line_label2,
                             data: [70, 65, 40, 20, 15, 10],
-                            borderColor: '#EF4444',
-                            borderWidth: 2,
+                            borderColor: '#EF4444', // Red-500
+                            borderWidth: 3,
                             borderDash: [5, 5],
+                            pointBackgroundColor: '#EF4444',
+                            pointBorderColor: '#fff',
                             tension: 0.4,
                             yAxisID: 'y1'
                         }
@@ -459,10 +496,14 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
-                    plugins: { legend: { position: 'bottom' } },
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: "'Sarabun', sans-serif" } } },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', titleFont: { size: 13 }, bodyFont: { size: 13 }, padding: 10, cornerRadius: 8 }
+                    },
                     scales: {
-                        y: { type: 'linear', display: true, position: 'left' },
-                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
+                        y: { type: 'linear', display: true, position: 'left', grid: { color: '#E2E8F0' } },
+                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } },
+                        x: { grid: { display: false } }
                     }
                 }
             });
@@ -477,27 +518,36 @@
                         label: i18n.th.chart_radar_label1,
                         data: [95, 40, 90, 85, 95],
                         fill: true,
-                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)', // Blue
                         borderColor: '#2563EB',
-                        pointBackgroundColor: '#2563EB'
+                        pointBackgroundColor: '#2563EB',
+                        pointBorderColor: '#fff'
                     }, {
                         label: i18n.th.chart_radar_label2,
                         data: [10, 95, 60, 40, 30],
                         fill: true,
-                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
-                        borderColor: '#9CA3AF',
-                        pointBackgroundColor: '#9CA3AF'
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)', // Slate
+                        borderColor: '#94A3B8',
+                        pointBackgroundColor: '#94A3B8',
+                        pointBorderColor: '#fff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } },
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: "'Sarabun', sans-serif" } } } 
+                    },
                     scales: {
                         r: {
                             pointLabels: {
-                                font: { size: 12, family: "'Sarabun', 'Roboto', sans-serif" }
-                            }
+                                font: { size: 12, family: "'Sarabun', 'Roboto', sans-serif", weight: 'bold' },
+                                color: '#475569'
+                            },
+                            grid: { color: '#E2E8F0' },
+                            angleLines: { color: '#E2E8F0' },
+                            suggestedMin: 0,
+                            suggestedMax: 100
                         }
                     }
                 }
