@@ -100,7 +100,7 @@
         </div>
 
         <div class="relative z-20 text-center px-4 max-w-5xl mx-auto reveal pt-20">
-            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Logo" class="h-24 md:h-32 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(244,63,94,0.4)] transition-transform hover:scale-105 duration-700">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Logo" class="h-28 md:h-36 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(244,63,94,0.4)] transition-transform hover:scale-105 duration-700">
 
             <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold tracking-[0.2em] uppercase mb-8 animate-float">
                 <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
@@ -205,7 +205,9 @@
             <!-- New Milestone Gallery Slider (Full Width) -->
             <div class="mt-16 w-full h-[600px] relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-stone-700 reveal delay-300 group" id="milestone-gallery-slider">
                 <!-- Slides -->
-                <div class="slide active"><img src="https://i.postimg.cc/X7vZJ4Xk/hf_20260129_074216_a5f2d258_41ca_488c_9ef5_5a7b259adedc.png" alt="Milestone Gallery 1"></div>
+                <!-- NEW First Image Added Here -->
+                <div class="slide active"><img src="https://i.postimg.cc/gjXsh5K6/hf-20260129-090608-400c3a99-e7b9-4f35-a5d1-1c654cbbde22.png" alt="Latest Update"></div>
+                <div class="slide"><img src="https://i.postimg.cc/X7vZJ4Xk/hf_20260129_074216_a5f2d258_41ca_488c_9ef5_5a7b259adedc.png" alt="Milestone Gallery 1"></div>
                 <div class="slide"><img src="https://i.postimg.cc/595FXXsj/Less_and_smaller_2k_202601291417.jpg" alt="Milestone Gallery 2"></div>
                 <div class="slide"><img src="https://i.postimg.cc/s2hHCP3f/hf_20260129_074806_99c51b6f_1457_461c_b105_cb3e177959df.png" alt="Milestone Gallery 3"></div>
                 <div class="slide"><img src="https://i.postimg.cc/hPGJjchb/hf_20260129_074109_bb1e82ea_9290_4561_9bae_025461b8770b.png" alt="Milestone Gallery 4"></div>
@@ -735,24 +737,35 @@
         window.addEventListener('scroll', reveal);
         reveal();
 
-        // General Slider Logic
-        function initSlider(sliderId, interval = 3500) {
-            const container = document.getElementById(sliderId);
-            if (!container) return;
-            const slides = container.querySelectorAll('.slide');
-            if (slides.length === 0) return;
-            
-            let currentSlide = 0;
-            setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, interval);
+        // Facilities Slider Logic
+        const sliderContainer = document.getElementById('facilities-slider');
+        const slides = sliderContainer.querySelectorAll('.slide');
+        let currentSlide = 0;
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        if (slides.length > 0) {
+            setInterval(nextSlide, 3500); // Change slide every 3.5 seconds
         }
 
-        // Initialize Sliders
-        initSlider('milestone-gallery-slider', 4000);
-        initSlider('facilities-slider', 3500);
+        // Milestone Gallery Slider Logic
+        const milestoneSliderContainer = document.getElementById('milestone-gallery-slider');
+        if (milestoneSliderContainer) {
+            const milestoneSlides = milestoneSliderContainer.querySelectorAll('.slide');
+            let currentMilestoneSlide = 0;
+            
+            if (milestoneSlides.length > 0) {
+                setInterval(() => {
+                    milestoneSlides[currentMilestoneSlide].classList.remove('active');
+                    currentMilestoneSlide = (currentMilestoneSlide + 1) % milestoneSlides.length;
+                    milestoneSlides[currentMilestoneSlide].classList.add('active');
+                }, 4000); // Slightly slower for gallery
+            }
+        }
     </script>
 </body>
 </html>
