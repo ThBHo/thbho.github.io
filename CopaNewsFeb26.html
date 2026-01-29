@@ -201,6 +201,32 @@
                     </div>
                 </div>
             </div>
+
+            <!-- New Milestone Gallery Slider (Full Width) -->
+            <div class="mt-16 w-full h-[600px] relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-stone-700 reveal delay-300 group" id="milestone-gallery-slider">
+                <!-- Slides -->
+                <div class="slide active"><img src="https://i.postimg.cc/X7vZJ4Xk/hf_20260129_074216_a5f2d258_41ca_488c_9ef5_5a7b259adedc.png" alt="Milestone Gallery 1"></div>
+                <div class="slide"><img src="https://i.postimg.cc/595FXXsj/Less_and_smaller_2k_202601291417.jpg" alt="Milestone Gallery 2"></div>
+                <div class="slide"><img src="https://i.postimg.cc/s2hHCP3f/hf_20260129_074806_99c51b6f_1457_461c_b105_cb3e177959df.png" alt="Milestone Gallery 3"></div>
+                <div class="slide"><img src="https://i.postimg.cc/hPGJjchb/hf_20260129_074109_bb1e82ea_9290_4561_9bae_025461b8770b.png" alt="Milestone Gallery 4"></div>
+                <div class="slide"><img src="https://i.postimg.cc/yN2qFY8C/hf_20260129_074146_c0db4530_8ca4_403a_a01f_82c0653e3561.png" alt="Milestone Gallery 5"></div>
+                <div class="slide"><img src="https://i.postimg.cc/L4GdqV8j/hf_20260129_075103_79f58a5a_63e2_4cce_9051_33cfdc151503.png" alt="Milestone Gallery 6"></div>
+                <div class="slide"><img src="https://i.postimg.cc/1R8h5dsw/hf_20260129_075814_0b34306f_4ab2_4879_9e2f_d2d4b1b640c2.png" alt="Milestone Gallery 7"></div>
+                <div class="slide"><img src="https://i.postimg.cc/jdjW5tCN/hf_20260129_080525_3da8c07b_e111_4b64_b3a3_3ec77c3bc058.png" alt="Milestone Gallery 8"></div>
+                <div class="slide"><img src="https://i.postimg.cc/7P58YRwX/hf_20260129_075903_b98a33d2_e98d_46b7_a776_beffa068d480.png" alt="Milestone Gallery 9"></div>
+                <div class="slide"><img src="https://i.postimg.cc/wvNCF81s/hf_20260129_074219_59cc8808_1829_4682_8e74_feb178703212.png" alt="Milestone Gallery 10"></div>
+                <div class="slide"><img src="https://i.postimg.cc/KYCXnvv6/hf_20260129_073655_2d3edac2_2a26_44c9_8a83_ea5f2f2fe6ce_(1).png" alt="Milestone Gallery 11"></div>
+                <div class="slide"><img src="https://i.postimg.cc/nLXbjQZg/hf_20260129_073855_df2c8a1c_eaac_4e47_bd3a_7ed75ce1bfbe.png" alt="Milestone Gallery 12"></div>
+                <div class="slide"><img src="https://i.postimg.cc/W4xRMbbC/hf_20260129_071413_2265fb6a_0ffe_48b8_8dc6_a5b02e117f03.png" alt="Milestone Gallery 13"></div>
+                
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-6 left-6 text-white bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                    <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="image" class="w-4 h-4"></i> Project Gallery
+                    </span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -709,20 +735,24 @@
         window.addEventListener('scroll', reveal);
         reveal();
 
-        // Facilities Slider Logic
-        const sliderContainer = document.getElementById('facilities-slider');
-        const slides = sliderContainer.querySelectorAll('.slide');
-        let currentSlide = 0;
-        
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        // General Slider Logic
+        function initSlider(sliderId, interval = 3500) {
+            const container = document.getElementById(sliderId);
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+            
+            let currentSlide = 0;
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, interval);
         }
-        
-        if (slides.length > 0) {
-            setInterval(nextSlide, 3500); // Change slide every 3.5 seconds
-        }
+
+        // Initialize Sliders
+        initSlider('milestone-gallery-slider', 4000);
+        initSlider('facilities-slider', 3500);
     </script>
 </body>
 </html>
