@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEC & Jomtien Real Estate: Deep Insight & Future Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #fdfbf7;
+            color: #1f2937;
+            scroll-behavior: smooth;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 4px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #d97706;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-btn {
+            position: relative;
+        }
+        
+        .nav-active {
+            color: #b45309;
+            font-weight: 700;
+        }
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #b45309;
+            border-radius: 2px;
+        }
+
+        .sim-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #44403c;
+        }
+        .sim-btn:hover {
+            border-color: #78716c;
+            background-color: rgba(255,255,255,0.05);
+        }
+        .sim-btn-active {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+            color: white !important;
+            border-color: #f59e0b !important;
+            box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .glass-panel {
+            background: rgba(41, 37, 36, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Top Banner Image -->
+    <div class="w-full">
+        <img src="https://i.postimg.cc/tTLy9bbt/Screenshot_2569_02_05_at_13_43_21.png" alt="EEC Strategy Overview" class="w-full h-auto object-cover border-b border-stone-200 max-h-[500px]">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl">🏙️</span>
+                    <span class="font-bold text-xl text-stone-800 tracking-tight italic">EEC-Jomtien Connect</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('hero')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="hero">หน้าแรก</button>
+                    <button onclick="scrollToSection('drivers')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="drivers">โครงการหลัก</button>
+                    <button onclick="scrollToSection('simulation')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm font-bold text-amber-600" data-target="simulation">จำลองอนาคต</button>
+                    <button onclick="scrollToSection('analysis')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="analysis">วิเคราะห์ตลาด</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-28">
+
+        <!-- Hero Section -->
+        <section id="hero" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full uppercase tracking-widest border border-amber-200">
+                    <span class="mr-2 text-amber-500 animate-pulse">●</span> วิเคราะห์เจาะลึก 2569
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight">
+                    วิสัยทัศน์ <span class="text-amber-600 font-extrabold">จอมเทียน</span> <br/> ศูนย์กลางการลงทุนแห่ง EEC
+                </h1>
+                <p class="text-lg text-stone-600 leading-relaxed">
+                    เจาะลึกความสัมพันธ์เชิงโครงสร้างระหว่าง <strong>UTP Airport City</strong> และ <strong>Entertainment Complex</strong> ระดับโลก ที่จะพลิกโฉม "จอมเทียน" สู่การเป็นจุดหมายปลายทางของกลุ่ม High-End ทั่วโลก
+                </p>
+                <div class="flex gap-4 pt-4">
+                    <button onclick="scrollToSection('simulation')" class="bg-stone-900 text-white px-8 py-4 rounded-full font-bold hover:bg-stone-800 hover:scale-105 transition-all shadow-xl flex items-center gap-2">
+                        <span>🚀</span> เจาะลึกสถานการณ์อนาคต
+                    </button>
+                </div>
+            </div>
+            
+            <!-- VIDEO CONTAINER REPLACING AI IMAGE -->
+            <div class="relative group">
+                <div class="video-container">
+                    <!-- YouTube Embed: Autoplay, Mute, Loop -->
+                    <iframe 
+                        src="https://www.youtube.com/embed/TyvXb25s3fw?autoplay=1&mute=1&loop=1&playlist=TyvXb25s3fw&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                        title="Jomtien Vision Video" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="absolute -bottom-4 -right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg shadow border border-stone-100 hidden md:block">
+                    <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Live View</p>
+                    <p class="text-xs font-bold text-stone-800">EEC & Jomtien Vision</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Growth Drivers Analysis -->
+        <section id="drivers" class="scroll-mt-24 space-y-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">3 ปัจจัยขับเคลื่อนอสังหาฯ (The Engines)</h2>
+                <p class="text-stone-600 leading-relaxed">การเชื่อมต่อของ EEC และโครงสร้างพื้นฐานใหม่จะสร้าง Demand ที่เปลี่ยนรูปแบบไปจากเดิมอย่างสิ้นเชิง</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Driver 1: UTP (Static Image) -->
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-stone-100 group hover:border-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <div class="image-placeholder mb-6 h-56">
+                        <img src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" alt="UTP Airport City" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Infrastructure</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">UTP Airport City</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed">ศูนย์กลางการบินที่จะนำนักท่องเที่ยวและนักธุรกิจกว่า 60 ล้านคนต่อปี เข้าสู่พื้นที่ ห่างจากจอมเทียนเพียง 40 นาที</p>
+                </div>
+
+                <!-- Driver 2: Disney/Entertainment (AI Image Container 2) -->
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-stone-100 group hover:border-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <div id="img-disney" class="image-placeholder mb-6 h-56">
+                         <div class="spinner"></div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Magnet Project</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Entertainment Complex</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed">โครงการสวนสนุกระดับโลก (Disney/Universal) ที่จะเปลี่ยนกลุ่มเป้าหมายพัทยาเป็นกลุ่มครอบครัวรายได้สูง</p>
+                </div>
+
+                <!-- Driver 3: Market Shift (AI Image Container 3) -->
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-stone-100 group hover:border-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <div id="img-condo" class="image-placeholder mb-6 h-56">
+                         <div class="spinner"></div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Supply Evolution</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Jomtien Luxury Living</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed">การเปลี่ยนจากเมืองตากอากาศสู่ 'Main Residence' ของผู้บริหารใน EEC ทำให้คอนโด Super Luxury เป็นที่ต้องการ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Simulator Section -->
+        <section id="simulation" class="scroll-mt-24 bg-stone-900 text-white rounded-[3.5rem] p-8 md:p-20 relative overflow-hidden shadow-2xl">
+            <!-- Background Decorations -->
+            <div class="absolute top-0 right-0 w-[50rem] h-[50rem] bg-amber-600/10 rounded-full blur-[150px] -mr-96 -mt-96 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-900/10 rounded-full blur-[120px] -ml-80 -mb-80 pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">จำลองสถานการณ์อนาคต (Future Simulator)</h2>
+                    <p class="text-stone-400 text-lg leading-relaxed">
+                        เลือก Scenario ด้านล่าง เพื่อดูผลกระทบต่อผลตอบแทนการลงทุน (ROI) และราคาอสังหาฯ ในจอมเทียน
+                    </p>
+                </div>
+
+                <!-- Scenario Selection Tabs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <!-- Conservative -->
+                    <button onclick="updateSimulation('conservative')" id="btn-conservative" class="sim-btn text-left p-6 rounded-3xl group">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl group-hover:scale-110 transition">🐢</span>
+                            <span class="text-[10px] font-bold uppercase text-stone-500 tracking-widest group-hover:text-stone-300">Base Case</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Conservative</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">เน้นการเติบโตตามแผนภาครัฐเดิม โดยไม่มีแม่เหล็กใหม่</p>
+                    </button>
+
+                    <!-- Moderate -->
+                    <button onclick="updateSimulation('moderate')" id="btn-moderate" class="sim-btn text-left p-6 rounded-3xl group">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl group-hover:scale-110 transition">⚖️</span>
+                            <span class="text-[10px] font-bold uppercase text-amber-500 tracking-widest group-hover:text-amber-300">Growth Case</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Moderate</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">สนามบินอู่ตะเภาและ EECiti เปิดใช้งานจริง</p>
+                    </button>
+
+                    <!-- Aggressive -->
+                    <button onclick="updateSimulation('aggressive')" id="btn-aggressive" class="sim-btn text-left p-6 rounded-3xl group">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl group-hover:scale-110 transition">🚀</span>
+                            <span class="text-[10px] font-bold uppercase text-purple-400 tracking-widest group-hover:text-purple-300">Boom Case</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Aggressive</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">โครงการสวนสนุกระดับโลก (Disney) และกาสิโน</p>
+                    </button>
+                </div>
+
+                <!-- Simulation Output Dashboard -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                    <!-- Metrics -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
+                        <div class="glass-panel p-8 rounded-[2rem] flex flex-col justify-between">
+                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest">คาดการณ์นักท่องเที่ยว (ปี)</div>
+                            <div>
+                                <div id="sim-tourists" class="text-4xl lg:text-5xl font-black text-white mb-4">40 M</div>
+                                <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
+                                    <div id="bar-tourists" class="h-full bg-blue-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] flex flex-col justify-between">
+                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest">ราคาคอนโดเฉลี่ย (ตร.ม.)</div>
+                            <div>
+                                <div id="sim-price" class="text-4xl lg:text-5xl font-black text-amber-500 mb-4">฿85K</div>
+                                <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
+                                    <div id="bar-price" class="h-full bg-amber-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] sm:col-span-2 flex flex-col justify-center">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="text-stone-500 text-xs font-bold uppercase tracking-widest">ผลตอบแทนการเช่า (ROI)</div>
+                                <div id="sim-yield" class="text-3xl font-black text-green-500">5.5%</div>
+                            </div>
+                            <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
+                                <div id="bar-yield" class="h-full bg-green-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Explanation Area -->
+                    <div class="glass-panel p-10 rounded-[2.5rem] flex flex-col justify-center min-h-[320px]">
+                        <h4 id="sim-title" class="text-2xl font-bold mb-6 text-amber-400"></h4>
+                        <div id="sim-desc" class="text-stone-300 leading-relaxed text-lg space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Price Outlook Analysis -->
+        <section id="analysis" class="scroll-mt-24 space-y-12">
+            <div class="max-w-xl">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">การวิเคราะห์แนวโน้มราคา (Price Projection)</h2>
+                <p class="text-stone-600">เปรียบเทียบราคาเฉลี่ยต่อตารางเมตรของคอนโดมิเนียมในจอมเทียน ตั้งแต่ปี 2562 ถึง 2573</p>
+            </div>
+            <div class="bg-white p-8 md:p-16 rounded-[3.5rem] shadow-lg shadow-stone-200/50 border border-stone-100">
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Vision Banner -->
+        <section class="w-full">
+            <img src="https://i.postimg.cc/Y9Jkt77m/Screenshot_2569_02_05_at_13_44_44.png" alt="EEC Conclusion" class="w-full h-auto object-cover rounded-[3rem] shadow-2xl ring-1 ring-stone-200">
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-950 text-stone-500 py-24 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs uppercase tracking-widest font-black text-stone-600 mb-4">© 2026 EEC Insight Group</p>
+            <p class="text-sm max-w-lg mx-auto leading-loose">รายงานนี้จัดทำขึ้นเพื่อการศึกษาแนวโน้มตลาดอสังหาริมทรัพย์ ข้อมูลอาจมีการเปลี่ยนแปลงตามสถานการณ์เศรษฐกิจและนโยบายรัฐ</p>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = ""; 
+
+        // Data for each scenario
+        const simulationData = {
+            conservative: {
+                tourists: "25 M", tP: "35%", price: "฿75K", pP: "35%", yield: "4.5%", yP: "45%",
+                title: "🐢 กรณีพื้นฐาน (Baseline Case)",
+                desc: `
+                    <p><strong>ตัวแปรหลัก:</strong> เน้นการเติบโตจากโครงสร้างพื้นฐานเดิม เช่น รถไฟความเร็วสูงและถนนมอเตอร์เวย์</p>
+                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
+                        <li>ตลาดเติบโตแบบค่อยเป็นค่อยไปตามภาวะเศรษฐกิจ</li>
+                        <li>Demand หลักมาจากกลุ่มผู้เกษียณอายุ (Retirees) และคนไทย</li>
+                        <li>ราคาอสังหาฯ เพิ่มขึ้นเฉลี่ยปีละ 3-4%</li>
+                    </ul>
+                `
+            },
+            moderate: {
+                tourists: "40 M", tP: "55%", price: "฿85K", pP: "55%", yield: "5.5%", yP: "55%",
+                title: "⚖️ กรณีขยายตัว (Growth Case)",
+                desc: `
+                    <p><strong>ตัวแปรหลัก:</strong> สนามบินอู่ตะเภาเฟส 1 เปิดให้บริการ และศูนย์นวัตกรรม EECiti มีคนต่างชาติเข้ามาพักอาศัย</p>
+                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
+                        <li>จอมเทียนเปลี่ยนจากเมืองท่องเที่ยวสู่ 'Main Residence' ของคนทำงาน EEC</li>
+                        <li>ความต้องการคอนโดระดับบนพุ่งสูงขึ้นอย่างรวดเร็ว</li>
+                        <li>อัตราการเข้าพักมั่นคงตลอดทั้งปี</li>
+                    </ul>
+                `
+            },
+            aggressive: {
+                tourists: "80 M", tP: "95%", price: "฿130K", pP: "95%", yield: "8.5%", yP: "90%",
+                title: "🚀 กรณีก้าวกระโดด (Hyper-Boom Case)",
+                desc: `
+                    <p><strong>ตัวแปรหลัก:</strong> โครงการสวนสนุกระดับโลก (Disney/Universal) และกาสิโนถูกกฎหมายเปิดตัว</p>
+                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
+                        <li>เกิดสภาวะ Demand Shock ราคาที่ดินพุ่งสูงแบบก้าวกระโดด</li>
+                        <li>ตลาดอสังหาฯ แข่งขันในระดับโลก เทียบเท่าสิงคโปร์หรือฮ่องกง</li>
+                        <li>Capital Gain สูงถึง 50-80% ภายในระยะเวลา 3-5 ปี</li>
+                    </ul>
+                `
+            }
+        };
+
+        function updateSimulation(scenario) {
+            const data = simulationData[scenario];
+            if (!data) return;
+
+            // Update Buttons
+            document.querySelectorAll('.sim-btn').forEach(btn => btn.classList.remove('sim-btn-active'));
+            const activeBtn = document.getElementById(`btn-${scenario}`);
+            if (activeBtn) activeBtn.classList.add('sim-btn-active');
+
+            // Update Metrics (Text)
+            document.getElementById('sim-tourists').innerText = data.tourists;
+            document.getElementById('sim-price').innerText = data.price;
+            document.getElementById('sim-yield').innerText = data.yield;
+
+            // Update Bars (Width)
+            document.getElementById('bar-tourists').style.width = data.tP;
+            document.getElementById('bar-price').style.width = data.pP;
+            document.getElementById('bar-yield').style.width = data.yP;
+
+            // Update Description (Text/HTML)
+            document.getElementById('sim-title').innerHTML = data.title;
+            document.getElementById('sim-desc').innerHTML = data.desc;
+        }
+
+        async function generateVisual(prompt, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            try {
+                // IMPORTANT: Using imagen-4.0-generate-001 as required
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+                const payload = { instances: [{ prompt: prompt }], parameters: { sampleCount: 1 } };
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) throw new Error('API Error');
+                
+                const res = await response.json();
+                if (res.predictions && res.predictions[0]) {
+                    const b64 = res.predictions[0].bytesBase64Encoded;
+                    container.innerHTML = `<img src="data:image/png;base64,${b64}" class="w-full h-full object-cover transition-opacity duration-1000 opacity-0 transform hover:scale-105 transition-transform duration-1000" onload="this.classList.remove('opacity-0')">`;
+                }
+            } catch (err) {
+                // Fallback UI
+                console.error("Image gen error:", err);
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center p-4 text-center text-stone-400 h-full w-full bg-stone-100">
+                        <span class="text-2xl mb-2">📸</span>
+                        <p class="text-xs">Visual Rendering...</p>
+                    </div>`;
+            }
+        }
+
+        function initCharts() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            // Create Gradient
+            const gradient = ctx.createLinearGradient(0, 400, 0, 0);
+            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.05)'); // Transparent Amber
+            gradient.addColorStop(1, 'rgba(217, 119, 6, 0.4)'); // Solid Amber
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2562', '2564', '2566', '2568', '2570 (F)', '2573 (F)'],
+                    datasets: [{
+                        label: 'ราคาคอนโด (บาท/ตร.ม.)',
+                        data: [58000, 61000, 68000, 78000, 105000, 135000],
+                        borderColor: '#d97706',
+                        backgroundColor: gradient,
+                        fill: true, 
+                        tension: 0.4, 
+                        borderWidth: 4, 
+                        pointRadius: 6, 
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#d97706',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#1c1917',
+                            bodyColor: '#1c1917',
+                            borderColor: '#e7e5e4',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.parsed.y.toLocaleString() + ' บาท/ตร.ม.';
+                                }
+                            }
+                        }
+                    },
+                    scales: { 
+                        y: { 
+                            beginAtZero: false, 
+                            min: 50000, 
+                            grid: { color: '#f5f5f4' },
+                            ticks: { 
+                                callback: v => '฿' + (v/1000) + 'K',
+                                color: '#78716c',
+                                font: { family: 'Sarabun' }
+                            } 
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#78716c',
+                                font: { family: 'Sarabun' }
+                            }
+                        }
+                    } 
+                }
+            });
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                // Update active nav state
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
+                const active = document.querySelector(`button[data-target="${id}"]`);
+                if(active) active.classList.add('nav-active');
+            }
+        }
+
+        window.onload = () => {
+            initCharts();
+            updateSimulation('moderate'); // Default scenario
+            
+            // Re-trigger Image Generations - Note: Hero image replaced by video
+            
+            // 2. Entertainment Image (Disney/Universal Concept)
+            generateVisual("Aerial view of a massive world-class theme park with a fairy tale castle in Thailand, tropical setting, vibrant lights, 8k", "img-disney");
+            
+            // 3. Condo Interior Image
+            generateVisual("Interior of an ultra-luxury penthouse in Jomtien, ocean view, floor to ceiling windows, expensive minimalist furniture, 8k", "img-condo");
+        };
+    </script>
+</body>
+</html>
