@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEC & Jomtien Real Estate: Deep Insight & Future Simulator</title>
+    <title>EEC & Jomtien Real Estate: Multilingual Insight</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Sarabun', 'Roboto', 'Noto Sans SC', sans-serif;
             background-color: #fdfbf7;
             color: #1f2937;
             scroll-behavior: smooth;
@@ -91,6 +91,17 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .lang-btn {
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            opacity: 1;
+            background-color: #e7e5e4;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -104,15 +115,24 @@
     <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-stone-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="flex items-center gap-4">
                     <span class="text-2xl">🏙️</span>
-                    <span class="font-bold text-xl text-stone-800 tracking-tight italic">EEC-Jomtien Connect</span>
+                    <span class="font-bold text-xl text-stone-800 tracking-tight italic hidden sm:block">EEC-Jomtien Connect</span>
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex gap-1 ml-4 bg-stone-100 p-1 rounded-lg">
+                        <button onclick="changeLang('th')" class="lang-btn px-2 py-1 text-xs rounded" id="lang-th">🇹🇭 TH</button>
+                        <button onclick="changeLang('en')" class="lang-btn px-2 py-1 text-xs rounded" id="lang-en">🇬🇧 EN</button>
+                        <button onclick="changeLang('ru')" class="lang-btn px-2 py-1 text-xs rounded" id="lang-ru">🇷🇺 RU</button>
+                        <button onclick="changeLang('zh')" class="lang-btn px-2 py-1 text-xs rounded" id="lang-zh">🇨🇳 ZH</button>
+                    </div>
                 </div>
+
                 <div class="hidden md:flex space-x-8">
-                    <button onclick="scrollToSection('hero')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="hero">หน้าแรก</button>
-                    <button onclick="scrollToSection('drivers')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="drivers">โครงการหลัก</button>
-                    <button onclick="scrollToSection('simulation')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm font-bold text-amber-600" data-target="simulation">จำลองอนาคต</button>
-                    <button onclick="scrollToSection('analysis')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-target="analysis">วิเคราะห์ตลาด</button>
+                    <button onclick="scrollToSection('hero')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-i18n="nav_home">หน้าแรก</button>
+                    <button onclick="scrollToSection('drivers')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-i18n="nav_projects">โครงการหลัก</button>
+                    <button onclick="scrollToSection('simulation')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm font-bold text-amber-600" data-i18n="nav_sim">จำลองอนาคต</button>
+                    <button onclick="scrollToSection('analysis')" class="nav-btn text-stone-600 hover:text-amber-700 transition px-1 py-2 text-sm" data-i18n="nav_market">วิเคราะห์ตลาด</button>
                 </div>
             </div>
         </div>
@@ -124,17 +144,18 @@
         <section id="hero" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
                 <div class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full uppercase tracking-widest border border-amber-200">
-                    <span class="mr-2 text-amber-500 animate-pulse">●</span> วิเคราะห์เจาะลึก 2569
+                    <span class="mr-2 text-amber-500 animate-pulse">●</span> <span data-i18n="hero_tag">วิเคราะห์เจาะลึก 2569</span>
                 </div>
                 <h1 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight">
-                    วิสัยทัศน์ <span class="text-amber-600 font-extrabold">จอมเทียน</span> <br/> ศูนย์กลางการลงทุนแห่ง EEC
+                    <span data-i18n="hero_title_1">วิสัยทัศน์ใหม่</span> <span class="text-amber-600 font-extrabold" data-i18n="hero_title_2">จอมเทียน</span> <br/> 
+                    <span data-i18n="hero_title_3">ศูนย์กลางการลงทุนแห่ง EEC</span>
                 </h1>
-                <p class="text-lg text-stone-600 leading-relaxed">
-                    เจาะลึกความสัมพันธ์เชิงโครงสร้างระหว่าง <strong>UTP Airport City</strong> และ <strong>Global Theme Park</strong> ที่ได้รับการสนับสนุนจากภาครัฐอย่างเต็มที่ ที่จะพลิกโฉม "จอมเทียน" สู่การเป็นจุดหมายปลายทางระดับโลก
+                <p class="text-lg text-stone-600 leading-relaxed" data-i18n="hero_desc">
+                    เจาะลึกความสัมพันธ์เชิงโครงสร้างระหว่าง UTP Airport City และ Global Theme Park ระดับโลก ที่ได้รับการสนับสนุนจากภาครัฐอย่างเต็มที่ ที่จะพลิกโฉม "จอมเทียน" สู่การเป็นจุดหมายปลายทางของกลุ่ม High-End ทั่วโลก
                 </p>
                 <div class="flex gap-4 pt-4">
                     <button onclick="scrollToSection('simulation')" class="bg-stone-900 text-white px-8 py-4 rounded-full font-bold hover:bg-stone-800 hover:scale-105 transition-all shadow-xl flex items-center gap-2">
-                        <span>🚀</span> เจาะลึกสถานการณ์อนาคต
+                        <span>🚀</span> <span data-i18n="hero_cta">เจาะลึกสถานการณ์อนาคต</span>
                     </button>
                 </div>
             </div>
@@ -160,8 +181,8 @@
         <!-- Growth Drivers Analysis -->
         <section id="drivers" class="scroll-mt-24 space-y-12">
             <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-stone-900 mb-4">3 ปัจจัยขับเคลื่อนอสังหาฯ (The Engines)</h2>
-                <p class="text-stone-600 leading-relaxed">การเชื่อมต่อของเมกะโปรเจกต์ EEC และนโยบายสนับสนุนการท่องเที่ยวระดับชาติ จะเป็นแรงส่งสำคัญที่เปลี่ยนโครงสร้างราคาและความต้องการในพื้นที่</p>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4" data-i18n="driver_main_title">3 ปัจจัยขับเคลื่อนอสังหาฯ (The Engines)</h2>
+                <p class="text-stone-600 leading-relaxed" data-i18n="driver_main_desc">การเชื่อมต่อของเมกะโปรเจกต์ EEC และนโยบายสนับสนุนการท่องเที่ยวระดับชาติ จะเป็นแรงส่งสำคัญที่เปลี่ยนโครงสร้างราคาและความต้องการในพื้นที่</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -173,18 +194,13 @@
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Infrastructure</span>
                     </div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">UTP Airport City</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow">
-                        ยกระดับสนามบินอู่ตะเภาสู่ "มหานครการบิน" เต็มรูปแบบ รองรับผู้โดยสารสูงสุด 60 ล้านคน/ปี พร้อมเป็นศูนย์กลางธุรกิจการบินและโลจิสติกส์
-                        เชื่อมต่อด้วย <strong>รถไฟความเร็วสูงเชื่อม 3 สนามบิน</strong> ที่จะย่อเวลาเดินทางจากกรุงเทพฯ เหลือเพียง 45 นาที ทำให้จอมเทียนใกล้กรุงเทพฯ ยิ่งกว่าเดิม
+                    <h3 class="text-xl font-bold text-stone-800 mb-3" data-i18n="d1_title">UTP Airport City</h3>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow" data-i18n="d1_desc">
+                        ยกระดับสนามบินอู่ตะเภาสู่ "มหานครการบิน" เต็มรูปแบบ รองรับผู้โดยสารสูงสุด 60 ล้านคน/ปี เชื่อมต่อด้วยรถไฟความเร็วสูง ย่อเวลาเดินทางจากกรุงเทพฯ เหลือเพียง 45 นาที
                     </p>
-                    <ul class="text-xs text-stone-500 space-y-2 border-t border-stone-100 pt-3">
-                        <li class="flex items-start gap-2"><span class="text-blue-500">✔</span> <strong>Connectivity:</strong> เชื่อมต่อ EEC-กทม. ไร้รอยต่อ</li>
-                        <li class="flex items-start gap-2"><span class="text-blue-500">✔</span> <strong>New Demand:</strong> บุคลากรการบินและนักธุรกิจ</li>
-                    </ul>
                 </div>
 
-                <!-- Driver 2: Disney/Entertainment (UPDATED) -->
+                <!-- Driver 2: Disney/Entertainment -->
                 <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-stone-100 group hover:border-amber-400 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
                     <div class="image-placeholder mb-6 h-56">
                          <img src="https://i.postimg.cc/qRLsf37x/Disney.png" alt="Global Theme Park" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
@@ -192,15 +208,10 @@
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Magnet Project</span>
                     </div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Global Theme Park (Disney / Universal)</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow">
-                        รัฐบาลเร่งเดินหน้าเจรจาดึงดูดสวนสนุกระดับโลก (อาทิ <strong>Disney</strong> หรือ <strong>Universal Studios</strong>) ให้มาลงทุนในพื้นที่ EEC โดยเตรียมมาตรการสนับสนุนและสิทธิประโยชน์ BOI อย่างเต็มที่
-                        เพื่อปั้นให้เป็นแลนด์มาร์คใหม่ที่จะดึงดูดนักท่องเที่ยวกลุ่มครอบครัวจากทั่วโลก เปลี่ยนภาพลักษณ์สู่ <strong>World-Class Family Destination</strong> อย่างแท้จริง
+                    <h3 class="text-xl font-bold text-stone-800 mb-3" data-i18n="d2_title">Global Theme Park (Disney / Universal)</h3>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow" data-i18n="d2_desc">
+                        รัฐบาลเร่งเดินหน้าเจรจาดึงดูดสวนสนุกระดับโลกให้มาลงทุนใน EEC โดยเตรียมมาตรการสนับสนุนเต็มที่ เพื่อปั้นให้เป็นแลนด์มาร์คใหม่ ดึงดูดครอบครัวและนักท่องเที่ยวคุณภาพสูง
                     </p>
-                    <ul class="text-xs text-stone-500 space-y-2 border-t border-stone-100 pt-3">
-                        <li class="flex items-start gap-2"><span class="text-amber-500">✔</span> <strong>Gov Support:</strong> รัฐหนุนเต็มสูบเพื่อเป็นแม่เหล็กท่องเที่ยว</li>
-                        <li class="flex items-start gap-2"><span class="text-amber-500">✔</span> <strong>Family Magnet:</strong> ดึงดูดนักท่องเที่ยวคุณภาพสูงและยั่งยืน</li>
-                    </ul>
                 </div>
 
                 <!-- Driver 3: Jomtien Luxury Living -->
@@ -211,15 +222,10 @@
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Supply Evolution</span>
                     </div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Jomtien Luxury Living Evolution</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow">
-                        การเปลี่ยนผ่านสู่ตลาด <strong>Super Luxury</strong> เมื่อจอมเทียนไม่ได้เป็นเพียงบ้านตากอากาศ แต่คือ "บ้านหลังที่ 1" ของผู้บริหารระดับสูงใน EEC และชาวต่างชาติ (Expat)
-                        ด้วยที่ดินติดชายหาดที่จำกัด (Scarcity) ทำให้เกิดโครงการระดับหรูเพื่อตอบโจทย์ไลฟ์สไตล์ที่เหนือระดับ
+                    <h3 class="text-xl font-bold text-stone-800 mb-3" data-i18n="d3_title">Jomtien Luxury Living Evolution</h3>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-4 flex-grow" data-i18n="d3_desc">
+                        การเปลี่ยนผ่านสู่ตลาด Super Luxury เมื่อจอมเทียนไม่ได้เป็นเพียงบ้านตากอากาศ แต่คือ "บ้านหลังที่ 1" ของผู้บริหาร EEC และชาวต่างชาติ (Expat) ด้วยที่ดินติดหาดที่จำกัด ทำให้มูลค่าพุ่งสูงขึ้น
                     </p>
-                    <ul class="text-xs text-stone-500 space-y-2 border-t border-stone-100 pt-3">
-                        <li class="flex items-start gap-2"><span class="text-green-500">✔</span> <strong>Target Group:</strong> ผู้บริหาร EEC, Digital Nomads</li>
-                        <li class="flex items-start gap-2"><span class="text-green-500">✔</span> <strong>Capital Gain:</strong> มูลค่าที่ดินพุ่งสูงกว่าโซนอื่น</li>
-                    </ul>
                 </div>
             </div>
         </section>
@@ -232,8 +238,8 @@
             
             <div class="relative z-10">
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">จำลองสถานการณ์อนาคต (Future Simulator)</h2>
-                    <p class="text-stone-400 text-lg leading-relaxed">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6" data-i18n="sim_main_title">จำลองสถานการณ์อนาคต (Future Simulator)</h2>
+                    <p class="text-stone-400 text-lg leading-relaxed" data-i18n="sim_main_desc">
                         เลือก Scenario ด้านล่าง เพื่อดูผลกระทบต่อผลตอบแทนการลงทุน (ROI) และราคาอสังหาฯ ในจอมเทียน
                     </p>
                 </div>
@@ -244,30 +250,30 @@
                     <button onclick="updateSimulation('conservative')" id="btn-conservative" class="sim-btn text-left p-6 rounded-3xl group">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-3xl group-hover:scale-110 transition">🐢</span>
-                            <span class="text-[10px] font-bold uppercase text-stone-500 tracking-widest group-hover:text-stone-300">Base Case</span>
+                            <span class="text-[10px] font-bold uppercase text-stone-500 tracking-widest group-hover:text-stone-300" data-i18n="btn_con_sub">Base Case</span>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Conservative</h4>
-                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">เน้นการเติบโตตามแผนภาครัฐเดิม โดยไม่มีแม่เหล็กใหม่</p>
+                        <h4 class="font-bold text-lg mb-2" data-i18n="btn_con_title">Conservative</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed" data-i18n="btn_con_desc">เน้นการเติบโตตามแผนภาครัฐเดิม โดยไม่มีแม่เหล็กใหม่</p>
                     </button>
 
                     <!-- Moderate -->
                     <button onclick="updateSimulation('moderate')" id="btn-moderate" class="sim-btn text-left p-6 rounded-3xl group">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-3xl group-hover:scale-110 transition">⚖️</span>
-                            <span class="text-[10px] font-bold uppercase text-amber-500 tracking-widest group-hover:text-amber-300">Growth Case</span>
+                            <span class="text-[10px] font-bold uppercase text-amber-500 tracking-widest group-hover:text-amber-300" data-i18n="btn_mod_sub">Growth Case</span>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Moderate</h4>
-                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">สนามบินอู่ตะเภาและ EECiti เปิดใช้งานจริง</p>
+                        <h4 class="font-bold text-lg mb-2" data-i18n="btn_mod_title">Moderate</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed" data-i18n="btn_mod_desc">สนามบินอู่ตะเภาและ EECiti เปิดใช้งานจริง</p>
                     </button>
 
-                    <!-- Aggressive (UPDATED) -->
+                    <!-- Aggressive -->
                     <button onclick="updateSimulation('aggressive')" id="btn-aggressive" class="sim-btn text-left p-6 rounded-3xl group">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-3xl group-hover:scale-110 transition">🚀</span>
-                            <span class="text-[10px] font-bold uppercase text-purple-400 tracking-widest group-hover:text-purple-300">Boom Case</span>
+                            <span class="text-[10px] font-bold uppercase text-purple-400 tracking-widest group-hover:text-purple-300" data-i18n="btn_agg_sub">Boom Case</span>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Aggressive</h4>
-                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed">สวนสนุกระดับโลก (Disney) ประกาศลงทุนอย่างเป็นทางการ</p>
+                        <h4 class="font-bold text-lg mb-2" data-i18n="btn_agg_title">Aggressive</h4>
+                        <p class="text-xs text-stone-400 group-hover:text-stone-200 leading-relaxed" data-i18n="btn_agg_desc">ดีลสวนสนุกระดับโลก (Disney) สำเร็จและได้รับการสนับสนุน</p>
                     </button>
                 </div>
 
@@ -276,7 +282,7 @@
                     <!-- Metrics -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
                         <div class="glass-panel p-8 rounded-[2rem] flex flex-col justify-between">
-                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest">คาดการณ์นักท่องเที่ยว (ปี)</div>
+                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest" data-i18n="metric_tourist">คาดการณ์นักท่องเที่ยว (ปี)</div>
                             <div>
                                 <div id="sim-tourists" class="text-4xl lg:text-5xl font-black text-white mb-4">40 M</div>
                                 <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
@@ -285,7 +291,7 @@
                             </div>
                         </div>
                         <div class="glass-panel p-8 rounded-[2rem] flex flex-col justify-between">
-                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest">ราคาคอนโดเฉลี่ย (ตร.ม.)</div>
+                            <div class="text-stone-500 text-xs font-bold uppercase mb-4 tracking-widest" data-i18n="metric_price">ราคาคอนโดเฉลี่ย (ตร.ม.)</div>
                             <div>
                                 <div id="sim-price" class="text-4xl lg:text-5xl font-black text-amber-500 mb-4">฿85K</div>
                                 <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
@@ -295,7 +301,7 @@
                         </div>
                         <div class="glass-panel p-8 rounded-[2rem] sm:col-span-2 flex flex-col justify-center">
                             <div class="flex justify-between items-center mb-4">
-                                <div class="text-stone-500 text-xs font-bold uppercase tracking-widest">ผลตอบแทนการเช่า (ROI)</div>
+                                <div class="text-stone-500 text-xs font-bold uppercase tracking-widest" data-i18n="metric_roi">ผลตอบแทนการเช่า (ROI)</div>
                                 <div id="sim-yield" class="text-3xl font-black text-green-500">5.5%</div>
                             </div>
                             <div class="h-2 w-full bg-stone-700/50 rounded-full overflow-hidden">
@@ -316,8 +322,8 @@
         <!-- Price Outlook Analysis -->
         <section id="analysis" class="scroll-mt-24 space-y-12">
             <div class="max-w-xl">
-                <h2 class="text-3xl font-bold text-stone-900 mb-4">การวิเคราะห์แนวโน้มราคา (Price Projection)</h2>
-                <p class="text-stone-600">เปรียบเทียบราคาเฉลี่ยต่อตารางเมตรของคอนโดมิเนียมในจอมเทียน ตั้งแต่ปี 2562 ถึง 2573</p>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4" data-i18n="chart_title">การวิเคราะห์แนวโน้มราคา</h2>
+                <p class="text-stone-600" data-i18n="chart_desc">เปรียบเทียบราคาเฉลี่ยต่อตารางเมตรของคอนโดมิเนียมในจอมเทียน ตั้งแต่ปี 2019 ถึง 2030</p>
             </div>
             <div class="bg-white p-8 md:p-16 rounded-[3.5rem] shadow-lg shadow-stone-200/50 border border-stone-100">
                 <div class="chart-container">
@@ -336,143 +342,201 @@
     <footer class="bg-stone-950 text-stone-500 py-24 border-t border-stone-800">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-xs uppercase tracking-widest font-black text-stone-600 mb-4">© 2026 EEC Insight Group</p>
-            <p class="text-sm max-w-lg mx-auto leading-loose">รายงานนี้จัดทำขึ้นเพื่อการศึกษาแนวโน้มตลาดอสังหาริมทรัพย์ ข้อมูลอาจมีการเปลี่ยนแปลงตามสถานการณ์เศรษฐกิจและนโยบายรัฐ</p>
+            <p class="text-sm max-w-lg mx-auto leading-loose" data-i18n="footer_text">รายงานนี้จัดทำขึ้นเพื่อการศึกษาแนวโน้มตลาดอสังหาริมทรัพย์ ข้อมูลอาจมีการเปลี่ยนแปลงตามสถานการณ์เศรษฐกิจและนโยบายรัฐ</p>
         </div>
     </footer>
 
     <script>
-        // Data for each scenario
-        const simulationData = {
-            conservative: {
-                tourists: "25 M", tP: "35%", price: "฿75K", pP: "35%", yield: "4.5%", yP: "45%",
-                title: "🐢 กรณีพื้นฐาน (Baseline Case)",
-                desc: `
-                    <p><strong>ตัวแปรหลัก:</strong> เน้นการเติบโตจากโครงสร้างพื้นฐานเดิม เช่น รถไฟความเร็วสูงและถนนมอเตอร์เวย์ โดยไม่มีโครงการสวนสนุกขนาดใหญ่</p>
-                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
-                        <li>ตลาดเติบโตแบบค่อยเป็นค่อยไปตามภาวะเศรษฐกิจ (Organic Growth)</li>
-                        <li>Demand หลักมาจากกลุ่มผู้เกษียณอายุ (Retirees) และคนไทย</li>
-                        <li>ราคาอสังหาฯ เพิ่มขึ้นเฉลี่ยปีละ 3-4%</li>
-                    </ul>
-                `
+        // --- TRANSLATION DATA ---
+        const translations = {
+            th: {
+                nav_home: "หน้าแรก", nav_projects: "โครงการหลัก", nav_sim: "จำลองอนาคต", nav_market: "วิเคราะห์ตลาด",
+                hero_tag: "วิเคราะห์เจาะลึก 2569", hero_title_1: "วิสัยทัศน์", hero_title_2: "จอมเทียน", hero_title_3: "ศูนย์กลางการลงทุนแห่ง EEC",
+                hero_desc: "เจาะลึกความสัมพันธ์เชิงโครงสร้างระหว่าง UTP Airport City และ Global Theme Park ระดับโลก ที่ได้รับการสนับสนุนจากภาครัฐอย่างเต็มที่ ที่จะพลิกโฉม 'จอมเทียน' สู่การเป็นจุดหมายปลายทางของกลุ่ม High-End ทั่วโลก",
+                hero_cta: "เจาะลึกสถานการณ์อนาคต",
+                driver_main_title: "3 ปัจจัยขับเคลื่อนอสังหาฯ (The Engines)",
+                driver_main_desc: "การเชื่อมต่อของเมกะโปรเจกต์ EEC และนโยบายสนับสนุนการท่องเที่ยวระดับชาติ จะเป็นแรงส่งสำคัญที่เปลี่ยนโครงสร้างราคาและความต้องการในพื้นที่",
+                d1_title: "UTP Airport City", d1_desc: "ยกระดับสนามบินอู่ตะเภาสู่ 'มหานครการบิน' เต็มรูปแบบ รองรับผู้โดยสารสูงสุด 60 ล้านคน/ปี เชื่อมต่อด้วยรถไฟความเร็วสูง ย่อเวลาเดินทางจากกรุงเทพฯ เหลือเพียง 45 นาที",
+                d2_title: "Global Theme Park (Disney / Universal)", d2_desc: "รัฐบาลเร่งเดินหน้าเจรจาดึงดูดสวนสนุกระดับโลกให้มาลงทุนใน EEC โดยเตรียมมาตรการสนับสนุนเต็มที่ เพื่อปั้นให้เป็นแลนด์มาร์คใหม่ ดึงดูดครอบครัวและนักท่องเที่ยวคุณภาพสูง",
+                d3_title: "Jomtien Luxury Living", d3_desc: "การเปลี่ยนผ่านสู่ตลาด Super Luxury เมื่อจอมเทียนไม่ได้เป็นเพียงบ้านตากอากาศ แต่คือ 'บ้านหลังที่ 1' ของผู้บริหาร EEC และชาวต่างชาติ (Expat)",
+                sim_main_title: "จำลองสถานการณ์อนาคต (Future Simulator)", sim_main_desc: "เลือก Scenario ด้านล่าง เพื่อดูผลกระทบต่อผลตอบแทนการลงทุน (ROI) และราคาอสังหาฯ ในจอมเทียน",
+                btn_con_sub: "Base Case", btn_con_title: "Conservative", btn_con_desc: "เน้นการเติบโตตามแผนภาครัฐเดิม โดยไม่มีแม่เหล็กใหม่",
+                btn_mod_sub: "Growth Case", btn_mod_title: "Moderate", btn_mod_desc: "สนามบินอู่ตะเภาและ EECiti เปิดใช้งานจริง",
+                btn_agg_sub: "Boom Case", btn_agg_title: "Aggressive", btn_agg_desc: "ดีลสวนสนุกระดับโลก (Disney) สำเร็จและได้รับการสนับสนุน",
+                metric_tourist: "คาดการณ์นักท่องเที่ยว (ปี)", metric_price: "ราคาคอนโดเฉลี่ย (ตร.ม.)", metric_roi: "ผลตอบแทนการเช่า (ROI)",
+                chart_title: "การวิเคราะห์แนวโน้มราคา", chart_desc: "เปรียบเทียบราคาเฉลี่ยต่อตารางเมตรของคอนโดมิเนียมในจอมเทียน ตั้งแต่ปี 2019 ถึง 2030",
+                footer_text: "รายงานนี้จัดทำขึ้นเพื่อการศึกษาแนวโน้มตลาดอสังหาริมทรัพย์ ข้อมูลอาจมีการเปลี่ยนแปลงตามสถานการณ์เศรษฐกิจและนโยบายรัฐ"
             },
-            moderate: {
-                tourists: "40 M", tP: "55%", price: "฿85K", pP: "55%", yield: "5.5%", yP: "55%",
-                title: "⚖️ กรณีขยายตัว (Growth Case)",
-                desc: `
-                    <p><strong>ตัวแปรหลัก:</strong> สนามบินอู่ตะเภาเฟส 1 เปิดให้บริการ และศูนย์นวัตกรรม EECiti มีคนต่างชาติเข้ามาพักอาศัย</p>
-                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
-                        <li>จอมเทียนเปลี่ยนจากเมืองท่องเที่ยวสู่ 'Main Residence' ของคนทำงาน EEC</li>
-                        <li>ความต้องการคอนโดระดับบนพุ่งสูงขึ้นอย่างรวดเร็ว</li>
-                        <li>อัตราการเข้าพักมั่นคงตลอดทั้งปี</li>
-                    </ul>
-                `
+            en: {
+                nav_home: "Home", nav_projects: "Key Projects", nav_sim: "Future Sim", nav_market: "Market Analysis",
+                hero_tag: "Deep Analysis 2026", hero_title_1: "Vision", hero_title_2: "Jomtien", hero_title_3: "EEC Investment Hub",
+                hero_desc: "A deep dive into the synergy between UTP Airport City and fully government-backed Global Theme Parks, transforming Jomtien into a world-class High-End destination.",
+                hero_cta: "Launch Future Simulator",
+                driver_main_title: "3 Real Estate Growth Engines",
+                driver_main_desc: "The connectivity of EEC mega-projects and national tourism support policies will be key drivers changing price structures and demand in the area.",
+                d1_title: "UTP Airport City", d1_desc: "Upgrading U-Tapao Airport to a full 'Aviation Metropolis' supporting 60M passengers/year. High-speed rail connects to Bangkok in just 45 mins.",
+                d2_title: "Global Theme Park (Disney / Universal)", d2_desc: "The government is accelerating negotiations to attract global theme parks to the EEC with full support measures, creating a new landmark for high-quality family tourism.",
+                d3_title: "Jomtien Luxury Living", d3_desc: "Transitioning to the Super Luxury market. Jomtien is no longer just a holiday home, but the 'First Home' for EEC executives and Expats.",
+                sim_main_title: "Future Simulator", sim_main_desc: "Select a Scenario below to see the impact on ROI and property prices in Jomtien.",
+                btn_con_sub: "Base Case", btn_con_title: "Conservative", btn_con_desc: "Growth based on existing government plans without new magnets.",
+                btn_mod_sub: "Growth Case", btn_mod_title: "Moderate", btn_mod_desc: "UTP Airport and EECiti fully operational.",
+                btn_agg_sub: "Boom Case", btn_agg_title: "Aggressive", btn_agg_desc: "Global Theme Park deal (Disney) succeeds with full support.",
+                metric_tourist: "Forecasted Tourists (Year)", metric_price: "Avg Condo Price (sq.m.)", metric_roi: "Rental Yield (ROI)",
+                chart_title: "Price Trend Analysis", chart_desc: "Comparing average condominium prices per square meter in Jomtien from 2019 to 2030.",
+                footer_text: "This report is for real estate market trend study. Data is subject to change based on economic conditions and government policies."
             },
-            aggressive: {
-                tourists: "80 M", tP: "95%", price: "฿130K", pP: "95%", yield: "8.5%", yP: "90%",
-                title: "🚀 กรณีก้าวกระโดด (Hyper-Boom Case)",
-                desc: `
-                    <p><strong>ตัวแปรหลัก:</strong> ดีลใหญ่สำเร็จ! สวนสนุกระดับโลก (Disney/Universal) ประกาศลงทุนอย่างเป็นทางการ พร้อมการสนับสนุนเต็มรูปแบบจากภาครัฐ</p>
-                    <ul class="list-disc list-inside mt-4 space-y-2 text-sm opacity-80">
-                        <li>เกิดสภาวะ Demand Shock ราคาที่ดินพุ่งสูงแบบก้าวกระโดด</li>
-                        <li>จอมเทียนกลายเป็น Destination ระดับโลกเทียบเท่า Orlando หรือ Tokyo</li>
-                        <li>Capital Gain สูงถึง 50-80% ภายในระยะเวลา 3-5 ปี</li>
-                    </ul>
-                `
+            ru: {
+                nav_home: "Главная", nav_projects: "Проекты", nav_sim: "Симулятор", nav_market: "Анализ рынка",
+                hero_tag: "Глубокий анализ 2026", hero_title_1: "Видение", hero_title_2: "Джомтьен", hero_title_3: "Инвестиционный центр EEC",
+                hero_desc: "Глубокое погружение в синергию между аэропортом UTP и глобальными тематическими парками при полной поддержке правительства, превращающее Джомтьен в направление мирового класса.",
+                hero_cta: "Запустить симулятор",
+                driver_main_title: "3 Двигателя Роста Недвижимости",
+                driver_main_desc: "Связность мегапроектов EEC и национальная политика поддержки туризма станут ключевыми факторами изменения структуры цен и спроса.",
+                d1_title: "Аэропорт UTP", d1_desc: "Модернизация аэропорта У-Тапао до полноценного 'Авиационного мегаполиса' (60 млн пас/год). Скоростной поезд до Бангкока за 45 минут.",
+                d2_title: "Глобальный парк развлечений", d2_desc: "Правительство ускоряет переговоры по привлечению глобальных тематических парков (Disney/Universal) в EEC с полными мерами поддержки.",
+                d3_title: "Роскошная жизнь в Джомтьене", d3_desc: "Переход к рынку Super Luxury. Джомтьен становится 'Первым домом' для руководителей EEC и экспатов.",
+                sim_main_title: "Симулятор Будущего", sim_main_desc: "Выберите сценарий ниже, чтобы увидеть влияние на ROI и цены на недвижимость.",
+                btn_con_sub: "Базовый", btn_con_title: "Консервативный", btn_con_desc: "Рост на основе существующих планов без новых магнитов.",
+                btn_mod_sub: "Рост", btn_mod_title: "Умеренный", btn_mod_desc: "Аэропорт UTP и EECiti полностью функционируют.",
+                btn_agg_sub: "Бум", btn_agg_title: "Агрессивный", btn_agg_desc: "Сделка по тематическому парку (Disney) успешна.",
+                metric_tourist: "Прогноз туристов (год)", metric_price: "Ср. цена кондо (кв.м.)", metric_roi: "Доход от аренды (ROI)",
+                chart_title: "Анализ ценовых трендов", chart_desc: "Сравнение средних цен на кондоминиумы за квадратный метр в Джомтьене с 2019 по 2030 год.",
+                footer_text: "Этот отчет предназначен для изучения рыночных тенденций. Данные могут меняться в зависимости от экономических условий."
+            },
+            zh: {
+                nav_home: "首页", nav_projects: "重点项目", nav_sim: "未来模拟", nav_market: "市场分析",
+                hero_tag: "深度分析 2026", hero_title_1: "愿景", hero_title_2: "中天", hero_title_3: "EEC 投资中心",
+                hero_desc: "深入剖析乌塔堡机场城与政府全力支持的全球主题乐园之间的协同效应，将中天打造为世界级高端目的地。",
+                hero_cta: "启动未来模拟器",
+                driver_main_title: "三大房地产增长引擎",
+                driver_main_desc: "EEC 大型项目的互联互通和国家旅游支持政策将是改变该地区价格结构和需求的关键驱动力。",
+                d1_title: "乌塔堡航空城", d1_desc: "将乌塔堡机场升级为全面的“航空大都市”，年客运量达 6000 万人次。高铁仅需 45 分钟即可连接曼谷。",
+                d2_title: "全球主题乐园 (迪士尼/环球)", d2_desc: "政府正在加速谈判，通过全面的支持措施吸引全球主题乐园（如迪士尼或环球影城）投资 EEC，打造新的地标。",
+                d3_title: "中天奢华生活", d3_desc: "向超豪华市场转型。中天不再仅仅是度假屋，而是 EEC 高管和外籍人士的“第一居所”。",
+                sim_main_title: "未来模拟器", sim_main_desc: "选择下方的场景，查看对中天 ROI 和房价的影响。",
+                btn_con_sub: "基准案例", btn_con_title: "保守型", btn_con_desc: "基于现有政府计划的增长，没有新的磁吸项目。",
+                btn_mod_sub: "增长案例", btn_mod_title: "稳健型", btn_mod_desc: "乌塔堡机场和 EECiti 全面运营。",
+                btn_agg_sub: "爆发案例", btn_agg_title: "激进型", btn_agg_desc: "全球主题乐园交易 (迪士尼) 成功并获得全力支持。",
+                metric_tourist: "预测游客 (年)", metric_price: "平均公寓价格 (平米)", metric_roi: "租金回报率 (ROI)",
+                chart_title: "价格趋势分析", chart_desc: "比较 2019 年至 2030 年中天公寓每平方米的平均价格。",
+                footer_text: "本报告仅供房地产市场趋势研究。数据可能会根据经济状况和政府政策而变化。"
             }
         };
 
+        // --- SIMULATION DATA (Multilingual Support) ---
+        const simDataMulti = {
+            conservative: {
+                tourists: "25 M", tP: "35%", price: "฿75K", pP: "35%", yield: "4.5%", yP: "45%",
+                desc: {
+                    th: "<strong>ตัวแปรหลัก:</strong> เน้นการเติบโตจากโครงสร้างพื้นฐานเดิม เช่น รถไฟความเร็วสูงและถนนมอเตอร์เวย์ โดยไม่มีโครงการสวนสนุกขนาดใหญ่<br><br>• ตลาดเติบโตแบบค่อยเป็นค่อยไป (Organic Growth)<br>• Demand หลักมาจากกลุ่มผู้เกษียณอายุ (Retirees) และคนไทย<br>• ราคาอสังหาฯ เพิ่มขึ้นเฉลี่ยปีละ 3-4%",
+                    en: "<strong>Key Factors:</strong> Growth based on existing infrastructure like high-speed rail and motorways, without major theme parks.<br><br>• Gradual Organic Growth<br>• Main Demand: Retirees and Locals<br>• Property prices increase avg. 3-4% annually",
+                    ru: "<strong>Ключевые факторы:</strong> Рост на основе существующей инфраструктуры без крупных парков развлечений.<br><br>• Постепенный органический рост<br>• Основной спрос: Пенсионеры и Местные жители<br>• Цены на недвижимость растут в среднем на 3-4% в год",
+                    zh: "<strong>关键因素：</strong> 基于现有基础设施（如高铁和高速公路）的增长，没有大型主题乐园。<br><br>• 渐进式有机增长<br>• 主要需求：退休人员和本地人<br>• 房价年均增长 3-4%"
+                },
+                title: { th: "กรณีพื้นฐาน", en: "Baseline Case", ru: "Базовый сценарий", zh: "基准案例" }
+            },
+            moderate: {
+                tourists: "40 M", tP: "55%", price: "฿85K", pP: "55%", yield: "5.5%", yP: "55%",
+                desc: {
+                    th: "<strong>ตัวแปรหลัก:</strong> สนามบินอู่ตะเภาเฟส 1 เปิดให้บริการ และศูนย์นวัตกรรม EECiti มีคนต่างชาติเข้ามาพักอาศัย<br><br>• จอมเทียนเปลี่ยนจากเมืองท่องเที่ยวสู่ 'Main Residence' ของคนทำงาน EEC<br>• ความต้องการคอนโดระดับบนพุ่งสูงขึ้น<br>• อัตราการเข้าพักมั่นคงตลอดทั้งปี",
+                    en: "<strong>Key Factors:</strong> U-Tapao Airport Phase 1 opens, and EECiti attracts foreign residents.<br><br>• Jomtien shifts from tourist town to 'Main Residence' for EEC workers<br>• High demand for luxury condos<br>• Stable occupancy rates year-round",
+                    ru: "<strong>Ключевые факторы:</strong> Открытие 1-й фазы аэропорта У-Тапао и EECiti привлекает иностранцев.<br><br>• Джомтьен становится 'Основным жильем' для работников EEC<br>• Высокий спрос на элитные кондо<br>• Стабильная заполняемость круглый год",
+                    zh: "<strong>关键因素：</strong> 乌塔堡机场一期开放，EECiti 吸引外国居民。<br><br>• 中天从旅游城镇转变为 EEC 工人的“主要居所”<br>• 豪华公寓需求大增<br>• 全年入住率稳定"
+                },
+                title: { th: "กรณีขยายตัว", en: "Growth Case", ru: "Сценарий роста", zh: "增长案例" }
+            },
+            aggressive: {
+                tourists: "80 M", tP: "95%", price: "฿130K", pP: "95%", yield: "8.5%", yP: "90%",
+                desc: {
+                    th: "<strong>ตัวแปรหลัก:</strong> ดีลใหญ่สำเร็จ! สวนสนุกระดับโลก (Disney/Universal) ประกาศลงทุนอย่างเป็นทางการ พร้อมการสนับสนุนเต็มรูปแบบจากภาครัฐ<br><br>• เกิดสภาวะ Demand Shock ราคาที่ดินพุ่งสูงแบบก้าวกระโดด<br>• จอมเทียนกลายเป็น Destination ระดับโลกเทียบเท่า Orlando หรือ Tokyo<br>• Capital Gain สูงถึง 50-80% ภายในระยะเวลา 3-5 ปี",
+                    en: "<strong>Key Factors:</strong> Big Deal! Global Theme Park (Disney/Universal) officially announces investment with full government backing.<br><br>• Demand Shock causes land prices to skyrocket<br>• Jomtien becomes a Global Destination rivaling Orlando or Tokyo<br>• Capital Gain up to 50-80% within 3-5 years",
+                    ru: "<strong>Ключевые факторы:</strong> Большая сделка! Глобальный парк развлечений объявляет об инвестициях с полной поддержкой правительства.<br><br>• Шок спроса вызывает резкий рост цен на землю<br>• Джомтьен становится мировым направлением, соперничающим с Орландо или Токио<br>• Прирост капитала до 50-80% в течение 3-5 лет",
+                    zh: "<strong>关键因素：</strong> 重大交易！全球主题乐园（迪士尼/环球）正式宣布投资，并获得政府全力支持。<br><br>• 需求冲击导致地价飙升<br>• 中天成为媲美奥兰多或东京的全球目的地<br>• 3-5 年内资本收益高达 50-80%"
+                },
+                title: { th: "กรณีก้าวกระโดด", en: "Boom Case", ru: "Сценарий бума", zh: "爆发案例" }
+            }
+        };
+
+        let currentLang = 'th';
+        let currentScenario = 'moderate';
+        let chartInstance = null;
+
+        // --- Functions ---
+
+        function changeLang(lang) {
+            currentLang = lang;
+            
+            // Update Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // Update Language Buttons Style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.id === `lang-${lang}`) btn.classList.add('active');
+            });
+
+            // Update Simulation Text
+            updateSimulation(currentScenario);
+            
+            // Update Chart (if needed for labels)
+            // For simple line chart without text labels, redrawing isn't strictly necessary 
+            // but good practice if axis labels were translated.
+        }
+
         function updateSimulation(scenario) {
-            const data = simulationData[scenario];
+            currentScenario = scenario;
+            const data = simDataMulti[scenario];
             if (!data) return;
 
-            // Update Buttons
+            // Buttons State
             document.querySelectorAll('.sim-btn').forEach(btn => btn.classList.remove('sim-btn-active'));
             const activeBtn = document.getElementById(`btn-${scenario}`);
             if (activeBtn) activeBtn.classList.add('sim-btn-active');
 
-            // Update Metrics (Text)
+            // Metrics
             document.getElementById('sim-tourists').innerText = data.tourists;
             document.getElementById('sim-price').innerText = data.price;
             document.getElementById('sim-yield').innerText = data.yield;
 
-            // Update Bars (Width)
+            // Bars
             document.getElementById('bar-tourists').style.width = data.tP;
             document.getElementById('bar-price').style.width = data.pP;
             document.getElementById('bar-yield').style.width = data.yP;
 
-            // Update Description (Text/HTML)
-            document.getElementById('sim-title').innerHTML = data.title;
-            document.getElementById('sim-desc').innerHTML = data.desc;
+            // Text
+            document.getElementById('sim-title').innerHTML = data.title[currentLang];
+            document.getElementById('sim-desc').innerHTML = data.desc[currentLang];
         }
 
         function initCharts() {
             const ctx = document.getElementById('priceChart').getContext('2d');
-            
-            // Create Gradient
             const gradient = ctx.createLinearGradient(0, 400, 0, 0);
-            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.05)'); // Transparent Amber
-            gradient.addColorStop(1, 'rgba(217, 119, 6, 0.4)'); // Solid Amber
+            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.05)');
+            gradient.addColorStop(1, 'rgba(217, 119, 6, 0.4)');
 
-            new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['2562', '2564', '2566', '2568', '2570 (F)', '2573 (F)'],
+                    labels: ['2019', '2021', '2023', '2025', '2027 (F)', '2030 (F)'],
                     datasets: [{
-                        label: 'ราคาคอนโด (บาท/ตร.ม.)',
+                        label: 'Price (THB/sq.m.)',
                         data: [58000, 61000, 68000, 78000, 105000, 135000],
                         borderColor: '#d97706',
                         backgroundColor: gradient,
-                        fill: true, 
-                        tension: 0.4, 
-                        borderWidth: 4, 
-                        pointRadius: 6, 
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#d97706',
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 8
+                        fill: true, tension: 0.4, borderWidth: 4, pointRadius: 6, pointBackgroundColor: '#fff', pointBorderColor: '#d97706', pointBorderWidth: 2
                     }]
                 },
                 options: {
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            titleColor: '#1c1917',
-                            bodyColor: '#1c1917',
-                            borderColor: '#e7e5e4',
-                            borderWidth: 1,
-                            padding: 10,
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.parsed.y.toLocaleString() + ' บาท/ตร.ม.';
-                                }
-                            }
-                        }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: { 
-                        y: { 
-                            beginAtZero: false, 
-                            min: 50000, 
-                            grid: { color: '#f5f5f4' },
-                            ticks: { 
-                                callback: v => '฿' + (v/1000) + 'K',
-                                color: '#78716c',
-                                font: { family: 'Sarabun' }
-                            } 
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: {
-                                color: '#78716c',
-                                font: { family: 'Sarabun' }
-                            }
-                        }
+                        y: { beginAtZero: false, min: 50000, grid: { color: '#f5f5f4' }, ticks: { callback: v => '฿' + (v/1000) + 'K', color: '#78716c' } },
+                        x: { grid: { display: false }, ticks: { color: '#78716c' } }
                     } 
                 }
             });
@@ -480,18 +544,12 @@
 
         function scrollToSection(id) {
             const el = document.getElementById(id);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                // Update active nav state
-                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
-                const active = document.querySelector(`button[data-target="${id}"]`);
-                if(active) active.classList.add('nav-active');
-            }
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
 
         window.onload = () => {
             initCharts();
-            updateSimulation('moderate'); // Default scenario
+            changeLang('th'); // Initialize with Thai
         };
     </script>
 </body>
