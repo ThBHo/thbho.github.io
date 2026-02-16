@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CopaNews | Mar 2026 - Summer Sanctuary</title>
     
-    <!-- Meta Tags -->
+    <!-- Meta Tags for LINE & Social Sharing -->
     <meta property="og:site_name" content="Copacabana Coral Reef">
     <meta property="og:title" content="CopaNews | Mar 2026 - Summer Sanctuary">
     <meta property="og:description" content="ต้อนรับฤดูร้อนด้วยสระว่ายน้ำระดับโลกและพื้นที่สีเขียว พร้อมเจาะลึก 'เมืองการบินอู่ตะเภา' จุดเปลี่ยนเศรษฐกิจไทย">
     <meta property="og:image" content="https://i.postimg.cc/vm8wdL5n/hf-20260210-073724-b3d8b1df-11ac-4cb9-b55e-279759fae5fe.jpg">
+    <meta property="og:image:secure_url" content="https://i.postimg.cc/vm8wdL5n/hf-20260210-073724-b3d8b1df-11ac-4cb9-b55e-279759fae5fe.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <!-- Recommended dimensions for LINE thumbnails -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://thbho.github.io/CopaNewsFeb26.html">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Added Montserrat for Russian support -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -25,24 +32,40 @@
         
         /* Language Engine */
         [lang="th"], [lang="cn"], [lang="ru"] { display: none !important; }
+        
+        /* Thai Active */
         body.lang-th [lang="en"], body.lang-th [lang="cn"], body.lang-th [lang="ru"] { display: none !important; }
         body.lang-th [lang="th"] { display: block !important; }
+        body.lang-th span[lang="th"], body.lang-th a[lang="th"], body.lang-th strong[lang="th"] { display: inline !important; }
+        
+        /* Chinese Active */
         body.lang-cn [lang="en"], body.lang-cn [lang="th"], body.lang-cn [lang="ru"] { display: none !important; }
         body.lang-cn [lang="cn"] { display: block !important; }
+        body.lang-cn span[lang="cn"], body.lang-cn a[lang="cn"] { display: inline !important; }
+
+        /* Russian Active */
         body.lang-ru [lang="en"], body.lang-ru [lang="th"], body.lang-ru [lang="cn"] { display: none !important; }
         body.lang-ru [lang="ru"] { display: block !important; }
+        body.lang-ru span[lang="ru"], body.lang-ru a[lang="ru"] { display: inline !important; }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: floating 5s ease-in-out infinite; }
+        
         .glass-card {
-            background: rgba(20, 40, 40, 0.6);
-            backdrop-filter: blur(16px);
+            background: rgba(28, 25, 23, 0.65);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(100, 255, 218, 0.2);
             height: 100%; /* Force equal height */
             display: flex;
             flex-direction: column;
         }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         .bg-summer {
             background: linear-gradient(to bottom, #0f172a, #042f2e, #0f172a);
@@ -52,10 +75,12 @@
             background: linear-gradient(to bottom, #0f172a, #1e1b4b, #0f172a);
         }
 
+        /* Slider Animations */
         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
         .slide.active { opacity: 1; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
         
+        /* No scrollbar utility */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -67,28 +92,28 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 antialiased overflow-x-hidden pb-24 font-sans selection:bg-teal-500 selection:text-white">
+<body class="bg-stone-950 text-stone-200 antialiased overflow-x-hidden pb-24 font-sans selection:bg-teal-500 selection:text-white">
 
     <!-- LANGUAGE SWITCHER -->
     <div class="fixed top-6 right-6 z-50 flex gap-2">
-        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center transition-all scale-110 ring-2 ring-teal-400 font-bold text-xs">EN</button>
-        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center transition-all opacity-70 font-bold text-xs">TH</button>
-        <button onclick="setLanguage('cn')" id="btn-cn" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center transition-all opacity-70 font-bold text-xs">CN</button>
+        <button onclick="setLanguage('en')" id="btn-en" class="w-10 h-10 rounded-full bg-stone-800/80 border border-stone-600 flex items-center justify-center transition-all scale-110 ring-2 ring-teal-400 font-bold text-xs">EN</button>
+        <button onclick="setLanguage('th')" id="btn-th" class="w-10 h-10 rounded-full bg-stone-800/80 border border-stone-600 flex items-center justify-center transition-all opacity-70 font-bold text-xs">TH</button>
+        <button onclick="setLanguage('cn')" id="btn-cn" class="w-10 h-10 rounded-full bg-stone-800/80 border border-stone-600 flex items-center justify-center transition-all opacity-70 font-bold text-xs">CN</button>
         <button onclick="setLanguage('ru')" id="btn-ru" class="w-10 h-10 rounded-full bg-stone-800/80 border border-stone-600 flex items-center justify-center transition-all opacity-70 text-xs font-bold">RU</button>
     </div>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION: ROMANTIC SUNSET -->
     <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <!-- Pool / Summer Vibe Image -->
+            <!-- Updated Background Image -->
             <img src="https://i.postimg.cc/vm8wdL5n/hf-20260210-073724-b3d8b1df-11ac-4cb9-b55e-279759fae5fe.jpg" class="w-full h-full object-cover opacity-60" alt="Summer Pool">
-            <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-teal-900/20 to-slate-950"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-teal-900/20 to-stone-950"></div>
         </div>
 
         <div class="relative z-20 text-center px-4 max-w-5xl mx-auto reveal pt-20">
-            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Logo" class="h-28 md:h-36 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(45,211,190,0.5)]">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Logo" class="h-28 md:h-36 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(45,211,190,0.5)] transition-transform hover:scale-105 duration-700">
 
-            <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold tracking-[0.2em] uppercase mb-8">
+            <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold tracking-[0.2em] uppercase mb-8 animate-float">
                 <i data-lucide="sun" class="w-4 h-4 fill-current"></i>
                 <span lang="en">March 2026 Edition</span>
                 <span lang="th">ฉบับเดือนมีนาคม 2569</span>
@@ -103,7 +128,7 @@
                 <span lang="ru" class="font-ru">Летнее убежище <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500">Среди воды</span></span>
             </h1>
             
-            <p class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+            <p class="text-stone-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
                 <span lang="en">Escape the heat into a world of cool breezes, crystal waters, and lush greenery. Discover how our pool facilities create the perfect microclimate for your living.</span>
                 <span lang="th" class="font-thai">หลบหนีความร้อนสู่โลกแห่งสายลมเย็น น้ำใส และพื้นที่สีเขียวชอุ่ม ค้นพบว่าสระว่ายน้ำและธรรมชาติของเราช่วยสร้างบรรยากาศการอยู่อาศัยที่สมบูรณ์แบบได้อย่างไร</span>
                 <span lang="cn" class="font-cn">逃离酷暑，进入清凉微风、清澈水域和郁郁葱葱的世界。探索我们的泳池设施如何为您创造完美的微气候。</span>
@@ -120,8 +145,9 @@
                 <a href="#milestone" class="px-6 py-3 border border-slate-500 hover:bg-slate-800 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2">
                     <i data-lucide="hard-hat" class="w-5 h-5"></i> <span lang="en">Level 43 Update</span><span lang="th">อัปเดตชั้น 43</span><span lang="cn">第43层进度</span><span lang="ru">Уровень 43</span>
                 </a>
-                 <a href="#tech-fusion" class="px-6 py-3 border border-purple-500 hover:bg-purple-900/50 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i> <span lang="en">Tech & Wellness</span><span lang="th">เทรนด์เทคโนโลยี</span><span lang="cn">科技与健康</span><span lang="ru">Технологии</span>
+                <!-- Updated Button: Tech & Wellness -->
+                <a href="#tech-fusion" class="px-6 py-3 border border-purple-500 hover:bg-purple-900/50 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="cpu" class="w-5 h-5 text-purple-400"></i> <span lang="en">Tech & Wellness</span><span lang="th">เทคโนโลยี</span><span lang="cn">科技与健康</span><span lang="ru">Технологии</span>
                 </a>
             </div>
         </div>
@@ -133,7 +159,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="reveal">
                     <span class="text-teal-400 font-bold tracking-widest uppercase text-sm mb-2 block">Construction Update</span>
-                    <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 font-serif">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-serif">
                         <span lang="en">Reaching New Heights: <span class="text-teal-400">Level 43</span></span>
                         <span lang="th" class="font-thai">สู่ความสูงใหม่: <span class="text-teal-400">ชั้นที่ 43</span></span>
                         <span lang="cn" class="font-cn">再创新高：<span class="text-teal-400">第43层</span></span>
@@ -152,7 +178,7 @@
             </div>
         </div>
     </section>
-
+    
     <!-- FEATURE: AQUATIC PARADISE (THE POOLS) - MOVED HERE -->
     <section id="aquatic" class="py-24 px-4 bg-summer relative overflow-hidden">
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[120px]"></div>
@@ -164,7 +190,7 @@
                     <span lang="cn" class="font-cn">您的私人 <span class="italic text-teal-400">海洋</span></span>
                     <span lang="ru" class="font-ru">Ваш личный <span class="italic text-teal-400">океан</span></span>
                 </h2>
-                <p class="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
+                <p class="text-slate-300 max-w-3xl mx-auto">
                     <span lang="en">Immerse yourself in our world-class water facilities designed to mimic the rhythm of the ocean. From the adrenaline of the Wave Pool to the serenity of the Rooftop Infinity Pool.</span>
                     <span lang="th" class="font-thai">ดำดิ่งสู่โลกแห่งสายน้ำระดับเวิลด์คลาสที่ออกแบบมาให้สอดคล้องกับจังหวะของมหาสมุทร ตั้งแต่ความตื่นเต้นในสระคลื่นเทียม ไปจนถึงความสงบเงียบในสระว่ายน้ำไร้ขอบบนดาดฟ้า</span>
                     <span lang="cn" class="font-cn">让自己沉浸在我们旨在模仿海洋节奏的世界级水上设施中。从造浪池的刺激到屋顶无边泳池的宁静。</span>
@@ -207,17 +233,17 @@
                 <div class="glass-card p-8 rounded-3xl reveal hover:-translate-y-2 transition-transform duration-300">
                     <div class="w-12 h-12 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 mb-6"><i data-lucide="waves" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-bold text-white mb-3"><span lang="en">Beach Club Wave Pool</span><span lang="th">สระคลื่นเทียมบีชคลับ</span></h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed"><span lang="en">Experience the gentle roll of waves right at your doorstep. Perfect for family fun or a relaxing float.</span><span lang="th">สัมผัสเกลียวคลื่นนุ่มนวลได้ที่หน้าบ้าน เหมาะสำหรับความสนุกสนานในครอบครัวหรือการลอยตัวผ่อนคลาย</span></p>
+                    <p class="text-slate-400 text-sm flex-grow"><span lang="en">Experience the gentle roll of waves right at your doorstep. Perfect for family fun or a relaxing float.</span><span lang="th">สัมผัสเกลียวคลื่นนุ่มนวลได้ที่หน้าบ้าน เหมาะสำหรับความสนุกสนานในครอบครัวหรือการลอยตัวผ่อนคลาย</span></p>
                 </div>
                 <div class="glass-card p-8 rounded-3xl reveal delay-100 hover:-translate-y-2 transition-transform duration-300">
                     <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 mb-6"><i data-lucide="arrow-up" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-bold text-white mb-3"><span lang="en">Rooftop Infinity Pool</span><span lang="th">สระไร้ขอบบนดาดฟ้า</span></h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed"><span lang="en">Swim amongst the clouds. Our high-rise pool offers unobstructed panoramic views of the Gulf of Thailand.</span><span lang="th">ว่ายน้ำท่ามกลางหมู่เมฆ สระว่ายน้ำชั้นบนสุดมอบวิวพาโนรามาของอ่าวไทยแบบไม่มีสิ่งกีดขวาง</span></p>
+                    <p class="text-slate-400 text-sm flex-grow"><span lang="en">Swim amongst the clouds. Our high-rise pool offers unobstructed panoramic views of the Gulf of Thailand.</span><span lang="th">ว่ายน้ำท่ามกลางหมู่เมฆ สระว่ายน้ำชั้นบนสุดมอบวิวพาโนรามาของอ่าวไทยแบบไม่มีสิ่งกีดขวาง</span></p>
                 </div>
                 <div class="glass-card p-8 rounded-3xl reveal delay-200 hover:-translate-y-2 transition-transform duration-300">
                     <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center text-green-400 mb-6"><i data-lucide="leaf" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-bold text-white mb-3"><span lang="en">Green Microclimate</span><span lang="th">พื้นที่สีเขียวบำบัด</span></h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed"><span lang="en">Lush vertical gardens and water curtains naturally cool the air, reducing PM 2.5 and creating a fresh oasis.</span><span lang="th">สวนแนวตั้งและม่านน้ำช่วยลดอุณหภูมิและกรองฝุ่น PM 2.5 สร้างโอเอซิสที่อากาศบริสุทธิ์อย่างเป็นธรรมชาติ</span></p>
+                    <p class="text-slate-400 text-sm flex-grow"><span lang="en">Lush vertical gardens and water curtains naturally cool the air, reducing PM 2.5 and creating a fresh oasis.</span><span lang="th">สวนแนวตั้งและม่านน้ำช่วยลดอุณหภูมิและกรองฝุ่น PM 2.5 สร้างโอเอซิสที่อากาศบริสุทธิ์อย่างเป็นธรรมชาติ</span></p>
                 </div>
             </div>
         </div>
@@ -237,7 +263,7 @@
                         <span lang="ru">Запуск: Авиационный город У-Тапао</span>
                     </a>
                 </h2>
-                <p class="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                <p class="text-slate-300 max-w-3xl mx-auto leading-relaxed">
                     <span lang="en">150km east of Bangkok, a sleeping giant awakens. The "Eastern Aerotropolis" is not just an airport expansion but the cornerstone of the EEC, transforming Thailand's GDP structure for the next 50 years.</span>
                     <span lang="th" class="font-thai">ห่างจากกรุงเทพฯ เพียง 150 กม. ยักษ์หลับกำลังตื่นขึ้น "มหานครการบินภาคตะวันออก" จิ๊กซอว์ชิ้นสำคัญของ EEC ที่จะเปลี่ยนโครงสร้างเศรษฐกิจไทยไปอีก 50 ปีข้างหน้า</span>
                     <span lang="cn" class="font-cn">在曼谷以东150公里处，一个沉睡的巨人正在苏醒。“东部航空大都市”不仅是机场扩建，更是EEC的基石，将在未来50年改变泰国的GDP结构。</span>
@@ -264,7 +290,7 @@
                     <h3 class="text-xl font-bold text-white mb-3">
                         <span lang="en">Aerotropolis</span><span lang="th">เมืองธุรกิจการบิน</span><span lang="cn">航空大都市</span><span lang="ru">Аэротрополис</span>
                     </h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed">
+                    <p class="text-slate-400 text-sm flex-grow">
                         <span lang="en">More than an airport. Inspired by Incheon & Changi, integrating Commercial Gateway, MRO, and Free Trade Zone on 7,214 rai.</span>
                         <span lang="th" class="font-thai">ไม่ใช่แค่สนามบิน แต่คือเมืองธุรกิจและโลจิสติกส์ระดับโลก บนพื้นที่ 7,214 ไร่ โมเดลเดียวกับอินชอนและชางี</span>
                     </p>
@@ -275,7 +301,7 @@
                     <h3 class="text-xl font-bold text-white mb-3">
                         <span lang="en">High-Speed Link</span><span lang="th">เชื่อม 3 สนามบิน</span><span lang="cn">高速连接</span><span lang="ru">Скоростная связь</span>
                     </h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed">
+                    <p class="text-slate-400 text-sm flex-grow">
                         <span lang="en">Seamless High-Speed Rail connecting Don Mueang, Suvarnabhumi, and U-Tapao, expanding urban development beyond Bangkok.</span>
                         <span lang="th" class="font-thai">รถไฟความเร็วสูงเชื่อม 3 สนามบินแบบไร้รอยต่อ ขยายความเจริญจากกรุงเทพฯ สู่ภาคตะวันออกอย่างรวดเร็ว</span>
                     </p>
@@ -286,7 +312,7 @@
                     <h3 class="text-xl font-bold text-white mb-3">
                         <span lang="en">ASEAN Silicon Valley</span><span lang="th">ซิลิคอนวัลเลย์อาเซียน</span><span lang="cn">东盟硅谷</span><span lang="ru">Силиконовая долина</span>
                     </h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed">
+                    <p class="text-slate-400 text-sm flex-grow">
                         <span lang="en">A hub for New S-Curve industries: Aerospace, Robotics, Digital, and Medical. A living laboratory for Southeast Asia.</span>
                         <span lang="th" class="font-thai">ฐานทัพอุตสาหกรรมใหม่: การบิน, หุ่นยนต์, ดิจิทัล และการแพทย์ เป็นห้องแล็บมีชีวิตแห่งเอเชียตะวันออกเฉียงใต้</span>
                     </p>
@@ -297,7 +323,7 @@
                     <h3 class="text-xl font-bold text-white mb-3">
                         <span lang="en">Smart & Green City</span><span lang="th">เมืองอัจฉริยะสีเขียว</span><span lang="cn">智慧绿色城市</span><span lang="ru">Умный зеленый город</span>
                     </h3>
-                    <p class="text-slate-400 text-base flex-grow leading-relaxed">
+                    <p class="text-slate-400 text-sm flex-grow">
                         <span lang="en">Sustainability focus with clean energy, smart resource management, and balanced work-life-green spaces.</span>
                         <span lang="th" class="font-thai">เน้นความยั่งยืนด้วยพลังงานสะอาด การจัดการทรัพยากรอัจฉริยะ และพื้นที่สีเขียวที่สมดุลกับการใช้ชีวิต</span>
                     </p>
@@ -311,7 +337,7 @@
                             <span lang="cn">2000亿投资与时间表</span><span lang="ru">Инвестиции и сроки</span>
                         </h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                         <div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/10">
                             <strong class="text-blue-300 block mb-1">2026</strong>
                             <span class="text-slate-400">Construction Starts (NTP)</span>
@@ -329,19 +355,24 @@
             </div>
             
             <div class="mt-10 text-center reveal delay-200">
-                 <p class="text-slate-400 italic text-lg max-w-2xl mx-auto mb-6">
+                 <p class="text-slate-400 italic max-w-2xl mx-auto mb-6">
                     <span lang="en">"A legacy for the next decade, redefining Thailand on the world map."</span>
                     <span lang="th" class="font-thai">"มรดกสำคัญแห่งทศวรรษที่จะกำหนดนิยามใหม่ของประเทศไทยบนแผนที่โลก"</span>
                 </p>
-                 <a href="https://thbho.github.io/EECTrendNews.html" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full transition-all inline-block shadow-lg">
+                 <!-- Updated Link Here -->
+                 <a href="https://thbho.github.io/UTPCity.html" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full transition-all inline-block shadow-lg">
                     <span lang="en">Read Full Report</span><span lang="th">อ่านรายงานฉบับเต็ม</span><span lang="cn">阅读完整报告</span><span lang="ru">Читать отчет</span>
                 </a>
             </div>
         </div>
     </section>
 
+    <!-- FEATURE: AQUATIC PARADISE (THE POOLS) -->
+        </div>
+    </section>
+
     <!-- NEW SECTION: TECH & WELLNESS (THE GREAT FUSION) -->
-    <section id="tech-fusion" class="py-24 px-4 bg-slate-900 border-t border-purple-900/30 relative overflow-hidden">
+    <section id="tech-fusion" class="py-24 px-4 bg-slate-950 border-t border-purple-900/30 relative overflow-hidden">
         <!-- Background Effects -->
         <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -349,7 +380,7 @@
         <div class="max-w-7xl mx-auto relative z-10">
             <div class="text-center mb-16 reveal">
                 <span class="text-purple-400 font-bold tracking-widest uppercase text-sm flex items-center justify-center gap-2">
-                    <i data-lucide="cpu" class="w-4 h-4"></i> Future Insight
+                    <i data-lucide="cpu" class="w-4 h-4"></i> Tech & Wellness Trend
                 </span>
                 <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 mb-6 font-serif">
                     <!-- Added Link to Title -->
@@ -371,7 +402,7 @@
                             <span lang="en">Transhumanism & Singularity</span>
                             <span lang="th">ทรานส์ฮิวแมนิสม์ (Transhumanism) และ ซิงกูลาริตี้ (Singularity)</span>
                         </h3>
-                        <p class="text-slate-300 text-base leading-relaxed">
+                        <p class="text-slate-300 text-sm leading-relaxed">
                             <span lang="en">"The Great Fusion" converges biology, data, and theology. Philosophers like Peter Thiel view death as a "bug" to be solved. Ray Kurzweil predicts AGI by 2029 and Singularity by 2045—when machine intelligence surpasses human intellect, entering "The Narrow Path" of exponential progress.</span>
                             <span lang="th">"การหลอมรวมครั้งใหญ่" คือจุดบรรจบของชีววิทยา ข้อมูล และเทววิทยา Peter Thiel มองความตายเป็นเพียง 'ข้อผิดพลาด' (Bug) ของระบบชีววิทยา Ray Kurzweil ทำนายว่าปัญญาประดิษฐ์ทั่วไป (AGI) จะเกิดขึ้นจริงในปี 2029 และเราจะเข้าสู่ยุคซิงกูลาริตี้ (Singularity) ในปี 2045 ก้าวเข้าสู่ 'เส้นทางแห่งการเปลี่ยนแปลง' ของความก้าวหน้าแบบก้าวกระโดด</span>
                             <span lang="cn">“大融合”汇聚了生物学、数据和神学。Peter Thiel 将死亡视为需要解决的“漏洞”。Ray Kurzweil 预测 2029 年实现 AGI，2045 年奇点降临——机器智能超越人类，进入指数级进步的“狭窄路径”。</span>
@@ -385,7 +416,7 @@
                             <span lang="en">Brain-Computer Interface (BCI)</span>
                             <span lang="th">การเชื่อมต่อสมองกับเครื่องจักร</span>
                         </h3>
-                        <p class="text-slate-300 text-base leading-relaxed">
+                        <p class="text-slate-300 text-sm leading-relaxed">
                             <span lang="en">BCI is the battlefield. <strong>Neuralink</strong> (invasive chips), <strong>Synchron</strong> (endovascular), and <strong>Neuroswarm</strong> (nanoparticles) aim for the "Internet of Thoughts" with transfer rates of 10<sup>18</sup> bps, granting instant access to all human knowledge.</span>
                             <span lang="th">เทคโนโลยีเชื่อมต่อสมองคอมพิวเตอร์ (BCI) คือสมรภูมิหลัก โดยมีผู้เล่นอย่าง <strong>Neuralink</strong> (ชิปฝังสมอง), <strong>Synchron</strong> (สอดสายผ่านหลอดเลือด), และ <strong>Neuroswarm</strong> (นาโนเทคโนโลยี) ที่มุ่งสร้าง 'อินเทอร์เน็ตแห่งความคิด' ด้วยความเร็วรับส่งข้อมูลระดับสูง เพื่อการเข้าถึงองค์ความรู้ของมนุษยชาติได้ในทันที</span>
                             <span lang="cn">BCI 是主战场。<strong>Neuralink</strong>（植入式）、<strong>Synchron</strong>（血管内）和 <strong>Neuroswarm</strong>（纳米）旨在实现“思想互联网”，传输速率达 10<sup>18</sup> bps，即时获取人类所有知识。</span>
@@ -399,7 +430,7 @@
                             <span lang="en">Life After Biology</span>
                             <span lang="th">ชีวิตหลังชีววิทยา</span>
                         </h3>
-                        <p class="text-slate-300 text-base leading-relaxed">
+                        <p class="text-slate-300 text-sm leading-relaxed">
                             <span lang="en">We face "Life After Biology"—Digital Resurrection and Morphological Freedom. Risks include Brainjacking and the Privacy Void. Decentralized neurodata ownership is crucial as we decide: accept death or evolve into Post-Humans.</span>
                             <span lang="th">เรากำลังก้าวเข้าสู่ยุค 'ชีวิตหลังชีววิทยา' (Life After Biology) ที่มีความเป็นไปได้เรื่อง 'การคืนชีพทางดิจิทัล' และ 'อิสรภาพทางสรีระ' อย่างไรก็ตาม ความเสี่ยงเรื่องความเป็นส่วนตัวทางความคิด (Brainjacking) ทำให้ 'การกระจายศูนย์ข้อมูลประสาท' (Decentralized Neurodata) เป็นสิ่งจำเป็น ในขณะที่เรายืนอยู่บนทางเลือกระหว่างการยอมรับความตายตามธรรมชาติ หรือก้าวสู่การเป็นมนุษย์ยุคใหม่ (Post-Human)</span>
                             <span lang="cn">我们面临“后生物生命”——数字复活和形态自由。风险包括大脑劫持和隐私缺失。去中心化神经数据所有权至关重要，我们将决定：接受死亡还是进化为后人类。</span>
@@ -425,76 +456,64 @@
         </div>
     </section>
 
-    <!-- ARTICLE 5: WELLNESS TREND (LEV) -->
-    <section id="lev" class="py-24 px-4 bg-stone-900 border-t border-stone-800 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-900/10 rounded-full blur-[100px]"></div>
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <span class="text-emerald-500 font-bold tracking-widest uppercase text-sm">Wellness Trend</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mt-4 font-serif">
-                    <span lang="en">"Daily Longevity" & The Path to LEV</span>
-                    <span lang="th" class="font-thai">"Daily Longevity" เตรียมตัวสู่ยุค <span class="text-emerald-400">Longevity Escape Velocity</span></span>
-                    <span lang="cn" class="font-cn">"日常长寿" 与 LEV 之路</span>
-                    <span lang="ru" class="font-ru">"Ежедневное долголетие" и путь к LEV</span>
-                </h2>
-            </div>
+    <!-- ARTICLE 6: GLOBAL VISION (PEACE 2026) -->
+    <section id="peace" class="py-24 px-4 bg-stone-900 border-t border-stone-800 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-900/10 rounded-full blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 reveal space-y-6">
+                     <!-- New Image (Top) - Adjusted to show full image -->
+                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-indigo-500/30">
+                        <img src="https://i.postimg.cc/BvdM3wvR/Screenshot-2569-01-28-at-18-42-09-topaz-lighting-upscale-2x-text.jpg" class="w-full h-auto" alt="Peace Vision">
+                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950/60 to-transparent"></div>
+                    </div>
 
-            <div class="glass-card p-10 rounded-[3rem] reveal border-emerald-500/20 relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <p class="text-stone-300 text-lg mb-6 leading-relaxed">
-                            <span lang="th" class="font-thai">
-                                เรากำลังยืนอยู่ตรงจุดเปลี่ยนครั้งสำคัญของประวัติศาสตร์มนุษย์ เมื่อ “ความชรา” ไม่ได้ถูกมองว่าเป็นชะตากรรมที่หลีกเลี่ยงไม่ได้อีกต่อไป แต่กำลังถูกนิยามใหม่ในฐานะ <strong>โจทย์ทางวิศวกรรม</strong> ที่มนุษย์สามารถออกแบบและแก้ไขได้<br><br>เป้าหมายปลายทางของการเปลี่ยนแปลงครั้งนี้ คือการไปให้ถึง <strong>Longevity Escape Velocity (LEV)</strong> หรือ “จุดหลุดพ้นจากความชรา” — ซึ่งหมายถึงช่วงเวลาที่ความก้าวหน้าทางการแพทย์ สามารถช่วยยืดอายุและคุณภาพชีวิตของเราได้เร็วกว่าเวลาที่ผ่านไปในแต่ละปี
-                            </span>
-                            <span lang="en">
-                                We stand on the precipice of a historic revolution: aging is shifting from an 'inevitable fate' to an <strong>"engineering challenge"</strong>. The goal is <strong>Longevity Escape Velocity (LEV)</strong>—where medical science extends our lifespan faster than time passes.
-                            </span>
-                            <span lang="cn" class="font-cn">
-                                我们正处于历史性革命的边缘：衰老正从“不可避免的命运”转变为<strong>“工程挑战”</strong>。目标是<strong>长寿逃逸速度 (LEV)</strong>——即医学科学延长寿命的速度快于时间流逝的速度。
-                            </span>
-                            <span lang="ru" class="font-ru">
-                                Мы стоим на пороге исторической революции: старение превращается из «неизбежной судьбы» в <strong>«инженерную задачу»</strong>. Цель — <strong>Скорость убегания от старости (LEV)</strong>: когда медицина продлевает жизнь быстрее, чем идет время.
-                            </span>
-                        </p>
-                        <p class="text-stone-300 text-lg mb-8 leading-relaxed">
-                            <span lang="th" class="font-thai">
-                                และในระหว่างที่เรากำลังก้าวไปสู่จุดนั้น แนวคิด <strong>Daily Longevity</strong> จึงกลายเป็นแนวทางการใช้ชีวิตของคนยุคใหม่ ทำหน้าที่เป็น “สะพาน” เชื่อมจากปัจจุบันไปสู่อนาคต ผ่านการดูแลสุขภาพในชีวิตประจำวัน ตั้งแต่การเลือกบริโภคอาหารที่เน้นพืชเป็นหลัก การออกกำลังกายระดับเบาถึงปานกลาง (Zone 2) ที่ช่วยเสริมสร้างความแข็งแรงของหัวใจ ไปจนถึงการใช้อุปกรณ์เทคโนโลยีสวมใส่ เพื่อติดตามและเข้าใจข้อมูลสุขภาพของตนเองอย่างต่อเนื่อง
-                            </span>
-                            <span lang="en">
-                                <strong>"Daily Longevity"</strong> is the lifestyle strategy used as a "bridge" to the future. From plant-forward nutrition and Zone 2 training to wearable health tracking.
-                            </span>
-                            <span lang="cn" class="font-cn">
-                                <strong>“日常长寿”</strong>是通往未来的生活策略“桥梁”。从植物性营养、二区训练到可穿戴健康追踪。
-                            </span>
-                            <span lang="ru" class="font-ru">
-                                <strong>«Ежедневное долголетие»</strong> — это стратегия образа жизни как «мост» в будущее. От растительного питания и тренировок в Зоне 2 до носимых устройств для здоровья.
-                            </span>
-                        </p>
-                        
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="https://thbho.github.io/LEVTrend.html" target="_blank" class="px-8 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2">
-                                <i data-lucide="info"></i>
-                                <span lang="th">Infographic</span><span lang="en">Infographic</span><span lang="cn">信息图</span><span lang="ru">Инфографика</span>
-                            </a>
-                            <a href="https://drive.google.com/file/d/1Wwi5YJ2DnqFmxkJBH--UO0zP3FXWgnAP/view?usp=sharing" target="_blank" class="px-8 py-3 border border-stone-600 hover:bg-stone-800 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2">
-                                <i data-lucide="file-text"></i>
-                                <span lang="th">Download PDF</span><span lang="en">Download PDF</span><span lang="cn">下载 PDF</span><span lang="ru">Скачать PDF</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="relative">
-                         <!-- Updated Wellness Image with Daily Longevity Badge -->
-                         <img src="https://i.postimg.cc/Qtj74xBm/Gemini-Generated-Image-bvveo3bvveo3bvve.png" class="w-full h-auto rounded-3xl shadow-2xl opacity-90" alt="Longevity Lifestyle">
-                         <div class="absolute -bottom-6 -left-6 bg-stone-800 p-4 rounded-2xl border border-emerald-500/30 shadow-lg">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-emerald-500/20 rounded-full text-emerald-400"><i data-lucide="activity"></i></div>
-                                <div>
-                                    <div class="text-xs text-stone-400 uppercase">Target</div>
-                                    <div class="text-white font-bold">Daily Longevity</div>
-                                </div>
-                            </div>
-                         </div>
-                    </div>
+                    <!-- Original Image (Bottom) - Replaced with Infographic - NOW REMOVED AS REQUESTED -->
+                     <!-- Element Removed -->
+                </div>
+                <div class="lg:col-span-7 reveal delay-100">
+                    <span class="text-indigo-400 font-bold tracking-widest uppercase text-sm">Global Insight 2026</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 mb-6 font-serif leading-tight">
+                        <span lang="en">Two Poles of Peace: <br><span class="text-indigo-400">Algorithms & The Human Heart</span></span>
+                        <span lang="th" class="font-thai">สองขั้วอำนาจแห่งสันติภาพ: <br><span class="text-indigo-400">อัลกอริทึม และ หัวใจมหาชน</span></span>
+                        <span lang="cn" class="font-cn">和平的两极：<br><span class="text-indigo-400">算法与人心</span></span>
+                        <span lang="ru" class="font-ru">Два полюса мира: <br><span class="text-indigo-400">Алгоритмы и Сердце</span></span>
+                    </h2>
+                    
+                    <p class="text-stone-300 text-base mb-6 leading-relaxed">
+                        <span lang="th" class="font-thai">
+                            ปี 2026 คือจุดปะทะระหว่าง <strong>Board of Peace (BoP)</strong> องค์กรระดับโลกแบบบนลงล่างของ โดนัลด์ ทรัมป์ ที่เน้นอำนาจเงิน กับ <strong>Walk for Peace</strong> กิจกรรมจาริกแสวงบุญของคณะพระสงฆ์และสุนัข "อาโลกา" ที่สร้างปรากฏการณ์ <strong>"Digital Organicism"</strong> พลังศรัทธาที่ส่งผ่านโลกดิจิทัลจนกลายเป็นแรงกดดันต่อผู้นำโลก
+                        </span>
+                        <span lang="en">
+                            2026 marks the clash between the <strong>Board of Peace (BoP)</strong>, Donald Trump's top-down organization driven by transactional power, and the <strong>Walk for Peace</strong>, a grassroots pilgrimage by monks and the dog "Aloka". This <strong>"Digital Organicism"</strong> phenomenon proves that faith transmitted digitally can pressure world leaders.
+                        </span>
+                        <span lang="cn" class="font-cn">
+                            2026年标志着两极的碰撞：唐纳德·特朗普自上而下的<strong>和平委员会 (BoP)</strong>，与僧侣及神犬“阿洛卡”发起的草根<strong>和平徒步</strong>。这种<strong>“数字有机体”</strong>现象证明，通过数字传播的信仰力量足以向世界领导人施压。
+                        </span>
+                        <span lang="ru" class="font-ru">
+                            2026 год знаменует столкновение между <strong>Советом мира (BoP)</strong> Дональда Трампа, движимым властью сделок, и <strong>Маршем мира</strong>, массовым паломничеством монахов и собаки «Алока». Этот феномен <strong>«Цифрового органицизма»</strong> доказывает, что вера, передаваемая через цифровые каналы, может влиять на мировых лидеров.
+                        </span>
+                    </p>
+                    
+                    <p class="text-stone-400 text-sm mb-8 leading-relaxed border-l-2 border-indigo-500/50 pl-4">
+                        <span lang="th" class="font-thai">
+                            การปะทะกันระหว่าง "อำนาจเงิน" และ "อำนาจแห่งย่างก้าว" สะท้อนถึงการแสวงหาสมดุลใหม่ สันติภาพยุคใหม่ไม่ได้ถูกกำหนดแค่ในห้องประชุมลับ แต่ขับเคลื่อนด้วยอัลกอริทึมและหัวใจของมหาชน
+                        </span>
+                        <span lang="en">
+                            The clash between "Money Power" and "Power of Steps" reflects a search for new balance. Modern peace is driven not just by secret meetings, but by algorithms and the collective public heart.
+                        </span>
+                        <span lang="cn" class="font-cn">
+                            “金钱权力”与“步伐力量”的碰撞反映了对新平衡的寻求。现代和平不仅由秘密会议定义，更由算法和公众的集体之心驱动。
+                        </span>
+                        <span lang="ru" class="font-ru">
+                            Столкновение между «Силой денег» и «Силой шагов» отражает поиск нового баланса. Современный мир движим не только тайными встречами, но также алгоритмами и коллективным сердцем общественности.
+                        </span>
+                    </p>
+
+                    <a href="https://thbho.github.io/Peace.html" target="_blank" class="inline-flex items-center px-8 py-3 bg-indigo-900/50 hover:bg-indigo-800 text-indigo-200 border border-indigo-500/30 rounded-full transition-all group">
+                        <span lang="en">Read Full Analysis</span><span lang="th">อ่านบทวิเคราะห์ฉบับเต็ม</span><span lang="cn">阅读完整分析</span><span lang="ru">Читать полный анализ</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -522,7 +541,7 @@
                         </div>
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <p class="text-slate-400 text-base leading-relaxed flex-grow">
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
                             <span lang="en">Free concerts by top Thai Pop/Rock artists at Pattaya Beach.</span>
                             <span lang="th">คอนเสิร์ตฟรีจากศิลปินไทยป๊อป/ร็อกชั้นนำ ที่ชายหาดพัทยา</span>
                             <span lang="cn">芭堤雅海滩顶级泰国流行/摇滚艺术家的免费音乐会。</span>
@@ -545,7 +564,7 @@
                         </div>
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <p class="text-slate-400 text-base leading-relaxed flex-grow">
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
                             <span lang="en">Join the lively Irish-themed parade with music and festivities through Pattaya city.</span>
                             <span lang="th">ร่วมสนุกกับขบวนพาเหรดธีมไอริช พร้อมดนตรีและการเฉลิมฉลองทั่วเมืองพัทยา</span>
                             <span lang="cn">参加热闹的爱尔兰主题游行，在芭堤雅市区享受音乐和庆祝活动。</span>
@@ -568,7 +587,7 @@
                         </div>
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <p class="text-slate-400 text-base leading-relaxed flex-grow">
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
                             <span lang="en">Runway shows, exhibitions, and fashion events at Central Pattaya (Sunken Plaza).</span>
                             <span lang="th">ชมรันเวย์โชว์ นิทรรศการ และกิจกรรมแฟชั่นสุดเก๋ ที่เซ็นทรัล พัทยา</span>
                             <span lang="cn">在芭堤雅尚泰购物中心举办的时装秀、展览和时尚活动。</span>
@@ -596,7 +615,7 @@
                         <span lang="en">Visit Us</span><span lang="th">เยี่ยมชมโครงการ</span>
                         <span lang="ru">Наш адрес</span><span lang="cn">访问我们</span>
                     </h4>
-                    <p class="text-slate-400 text-base leading-relaxed">
+                    <p class="text-slate-400 text-sm leading-relaxed">
                         Copacabana Coral Reef Jomtien<br>
                         385/16 Moo 12, Jomtien Second Road<br>
                         Nong Prue, Bang Lamung, Chon Buri 20150
@@ -615,7 +634,7 @@
                         <span lang="en">Get in Touch</span><span lang="th">ติดต่อเรา</span>
                         <span lang="ru">Свяжитесь с нами</span><span lang="cn">联系方式</span>
                     </h4>
-                    <ul class="text-slate-400 text-base space-y-3">
+                    <ul class="text-slate-400 text-sm space-y-3">
                         <li class="flex items-center justify-center md:justify-start gap-2">
                             <i data-lucide="phone-call" class="w-4 h-4 text-slate-500"></i>
                             <span>+66 95 945 1665</span>
@@ -637,7 +656,7 @@
                         <span lang="ru">Следите за нами</span><span lang="cn">关注我们的旅程</span>
                     </h4>
                     
-                    <div class="flex flex-col space-y-3 items-center md:items-start text-slate-400 text-base">
+                    <div class="flex flex-col space-y-3 items-center md:items-start text-slate-400 text-sm">
                         <a href="https://bit.ly/4m4VnBL" target="_blank" class="flex items-center hover:text-teal-400 transition"><i data-lucide="facebook" class="w-5 h-5 mr-3"></i> Copacabana Coral Reef Jomtien</a>
                         <a href="https://bit.ly/3JWui6E" target="_blank" class="flex items-center hover:text-teal-400 transition"><i data-lucide="instagram" class="w-5 h-5 mr-3"></i> @copacabanacoralreef</a>
                         <a href="https://bit.ly/4gnb6Ls" target="_blank" class="flex items-center hover:text-teal-400 transition">
