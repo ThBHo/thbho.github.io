@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEC 2026: Kick off เมืองการบินอู่ตะเภา</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chosen Palette: Aviation Blue & Construction Gold -->
+    <!-- Primary: Sky-900 (Deep Blue) -->
+    <!-- Accent: Amber-500 (Gold/Warning for Construction) -->
+    <!-- Background: Slate-50 -->
+    
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #0f172a; /* slate-900 */
+        }
+        
+        .chart-container {
+            position: relative; 
+            width: 100%; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 300px; 
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) { 
+            .chart-container { 
+                height: 350px; 
+            } 
+        }
+
+        .nav-item.active {
+            color: #0369a1; /* sky-700 */
+            border-bottom: 2px solid #0369a1;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Pulse animation for the NTP badge */
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+        }
+        .ntp-badge {
+            animation: pulse-gold 2s infinite;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Application Structure Plan:
+         1. Header: Standard Nav.
+         2. Hero (Revamped): Uses user provided image.
+         3. Project Highlight: U-Tapao card uses user provided image.
+         4. EECiti Highlight: Uses NEW AI Generated Image.
+         5. Disney: Standard clean card (contrast).
+         6. Real Estate Impact.
+         7. Analysis.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. User Image: U-Tapao (Reality/Construction).
+         2. AI Image: EECiti (Futuristic Vision).
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-plane-departure text-sky-700 text-2xl mr-2"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">EEC Aviation Monitor</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('hero')" class="nav-item active px-3 py-2 text-sm font-medium hover:text-sky-700 transition">ภาพรวม</button>
+                    <button onclick="scrollToSection('projects')" class="nav-item px-3 py-2 text-sm font-medium hover:text-sky-700 transition">เมืองการบิน</button>
+                    <button onclick="scrollToSection('real-estate')" class="nav-item px-3 py-2 text-sm font-medium hover:text-sky-700 transition">ผลกระทบอสังหาฯ</button>
+                    <button onclick="scrollToSection('analysis')" class="nav-item px-3 py-2 text-sm font-medium hover:text-sky-700 transition">วิเคราะห์</button>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button class="text-gray-500 hover:text-sky-700"><i class="fa-solid fa-bars text-xl"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section: U-Tapao Focus with Image Background -->
+        <section id="hero" class="relative py-24 overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" class="w-full h-full object-cover object-center" alt="U-Tapao Aviation City Model">
+                <!-- Heavy Overlay for text readability -->
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/40"></div>
+            </div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center md:text-left">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-amber-500/90 border border-amber-400 text-white text-sm font-bold mb-6 ntp-badge shadow-lg backdrop-blur-sm">
+                    <i class="fa-regular fa-calendar-check mr-2"></i> Construction Starts (NTP): กุมภาพันธ์ 2026
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight text-white drop-shadow-md">
+                    Kick off <span class="text-sky-400">เมืองการบินอู่ตะเภา</span>
+                </h1>
+                <h2 class="text-2xl md:text-3xl font-light text-slate-200 mb-8 drop-shadow-sm">
+                    "จากรันเวย์...สู่มหานครระดับโลก"
+                </h2>
+                <p class="mt-4 max-w-2xl text-lg text-slate-300 leading-relaxed drop-shadow-sm">
+                    จุดเปลี่ยนครั้งสำคัญของเศรษฐกิจไทยกับการลงนามเริ่มก่อสร้างอย่างเป็นทางการ (NTP) เพื่อพลิกโฉม EEC สู่ศูนย์กลางการบินและธุรกิจแห่งใหม่ของเอเชีย
+                </p>
+                
+                <!-- Countdown/Status Dashboard -->
+                <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mr-auto">
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
+                        <div class="text-sky-400 font-bold text-xl"><i class="fa-solid fa-file-signature"></i> NTP</div>
+                        <div class="text-xs text-slate-300 mt-1">Notice to Proceed</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
+                        <div class="text-sky-400 font-bold text-xl">Feb 2026</div>
+                        <div class="text-xs text-slate-300 mt-1">กำหนดการเริ่มงาน</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
+                        <div class="text-sky-400 font-bold text-xl">290,000</div>
+                        <div class="text-xs text-slate-300 mt-1">ล้านบาท (มูลค่าลงทุน)</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
+                        <div class="text-sky-400 font-bold text-xl">60M+</div>
+                        <div class="text-xs text-slate-300 mt-1">ผู้โดยสาร/ปี (ระยะสุดท้าย)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section: Aviation First -->
+        <section id="projects" class="py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900">3 เครื่องยนต์เศรษฐกิจหลัก</h2>
+                    <p class="mt-4 text-slate-600 max-w-3xl mx-auto">
+                        การลงนาม NTP ในเดือนก.พ. 2026 จะเป็นตัวจุดชนวนให้โครงการต่อเนื่องอื่นๆ เดินหน้าเต็มกำลัง
+                    </p>
+                </div>
+
+                <!-- Featured Project Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    
+                    <!-- U-Tapao Card (User Image Enhanced) -->
+                    <div class="md:col-span-6 rounded-2xl shadow-lg overflow-hidden cursor-pointer relative group h-[350px] md:h-auto" onclick="updateProjectDetail('aviation')">
+                        <!-- Card Background Image -->
+                        <div class="absolute inset-0">
+                            <img src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="U-Tapao City">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+                        </div>
+                        
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-sm">High Priority</div>
+                        
+                        <div class="p-6 h-full flex flex-col justify-end relative z-10">
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="bg-sky-500/20 backdrop-blur-sm p-2 rounded-full mr-3 border border-sky-400/30">
+                                        <i class="fa-solid fa-plane-up text-sky-400 text-xl"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-white drop-shadow-md">เมืองการบินอู่ตะเภา</h3>
+                                </div>
+                                <p class="text-slate-200 text-sm mb-4 line-clamp-2">
+                                    <span class="font-bold text-sky-400">Highlight:</span> การเปลี่ยนสนามบินทหารสู่ "มหานครการบิน" เริ่มต้นก่อสร้างจริง ก.พ. 2026
+                                </p>
+                            </div>
+                            <div class="mt-2 pt-4 border-t border-white/20 flex justify-between items-center">
+                                <span class="text-xs text-slate-300"><i class="fa-regular fa-clock mr-1"></i> สถานะ: รอลงนาม NTP</span>
+                                <span class="text-amber-400 text-sm font-semibold group-hover:underline">ดูรายละเอียด <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column Split -->
+                    <div class="md:col-span-6 flex flex-col gap-6 h-full">
+                        
+                        <!-- EECiti Card (AI Image Enhanced) -->
+                        <div class="flex-grow rounded-2xl shadow-lg overflow-hidden cursor-pointer relative group min-h-[200px]" onclick="updateProjectDetail('smart')">
+                            <div class="absolute inset-0">
+                                <!-- AI Generated Image Here -->
+                                <img src="http://googleusercontent.com/image_generation_content/0" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Futuristic EECiti">
+                                <div class="absolute inset-0 bg-gradient-to-t from-emerald-900 via-emerald-900/50 to-transparent opacity-90"></div>
+                            </div>
+                            
+                            <div class="p-6 h-full flex flex-col justify-end relative z-10">
+                                <div class="flex items-center mb-1">
+                                    <i class="fa-solid fa-city text-emerald-400 mr-2 text-lg"></i>
+                                    <h3 class="text-lg font-bold text-white drop-shadow-md">EECiti (Smart City)</h3>
+                                </div>
+                                <p class="text-slate-200 text-xs mb-2">เมืองอัจฉริยะรองรับบุคลากรการบินและ Tech Talent</p>
+                                <span class="text-emerald-400 text-xs mt-auto flex items-center group-hover:underline">
+                                    <i class="fa-solid fa-robot mr-1"></i> AI Generated Concept
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Disney Card (Clean Style for Contrast) -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover cursor-pointer min-h-[120px]" onclick="updateProjectDetail('disney')">
+                            <div class="h-1 bg-amber-500"></div>
+                            <div class="p-5 h-full flex flex-col justify-center">
+                                <h3 class="text-lg font-bold text-slate-800 mb-1"><i class="fa-solid fa-wand-magic-sparkles text-amber-500 mr-2"></i>ดิสนีย์แลนด์ ไทย</h3>
+                                <p class="text-slate-500 text-xs">โครงการแม่เหล็กด้านความบันเทิงระดับโลก (Potential Project)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Dynamic Detail Panel -->
+                <div id="project-detail-panel" class="mt-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-200 scroll-mt-24">
+                    <div class="flex flex-col lg:flex-row gap-10 items-start">
+                        <!-- Content Side -->
+                        <div class="w-full lg:w-2/3">
+                            <div class="flex items-center mb-4">
+                                <h3 id="detail-title" class="text-3xl font-bold text-slate-900 mr-4"></h3>
+                                <span id="detail-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-700">Flagship Project</span>
+                            </div>
+                            <div class="prose max-w-none text-slate-600 mb-6">
+                                <p id="detail-desc" class="text-lg leading-relaxed"></p>
+                            </div>
+                            
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <h4 class="font-semibold text-slate-800 mb-3">Key Milestones & Impact:</h4>
+                                <ul id="detail-list" class="space-y-3 text-slate-700"></ul>
+                            </div>
+                        </div>
+
+                        <!-- Chart Side -->
+                        <div class="w-full lg:w-1/3 flex flex-col items-center justify-center">
+                            <div class="w-full bg-slate-50 rounded-xl p-6 border border-slate-100">
+                                <h4 class="text-sm font-bold text-center text-slate-500 mb-4 uppercase tracking-wide">ดัชนีศักยภาพโครงการ</h4>
+                                <div class="chart-container" style="height: 250px;">
+                                    <canvas id="projectImpactChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real Estate Impact Section -->
+        <section id="real-estate" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-end justify-between mb-10">
+                    <div class="md:w-3/4">
+                        <h2 class="text-3xl font-bold text-slate-900">ผลกระทบต่ออสังหาฯ (The Spillover Effect)</h2>
+                        <p class="mt-4 text-slate-600">
+                            เมื่อ <span class="font-bold text-sky-600">เมืองการบินเริ่มตอกเสาเข็ม</span> ความเชื่อมั่นจะผลักดันราคาที่ดินในพื้นที่ใกล้เคียงอย่าง <span class="font-bold text-amber-600">จอมเทียน</span> และ <span class="font-bold text-amber-600">นาจอมเทียน</span> ให้พุ่งสูงขึ้นเพื่อรองรับบุคลากรการบินและนักธุรกิจ
+                        </p>
+                    </div>
+                    <div class="md:w-1/4 mt-4 md:mt-0 text-right">
+                        <select id="market-filter" onchange="updateMarketChart()" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
+                            <option value="price">ราคาที่ดิน (Price Surge)</option>
+                            <option value="demand">Demand ที่อยู่อาศัย</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Chart Col -->
+                    <div class="bg-slate-50 rounded-2xl p-6 shadow-inner border border-slate-100">
+                        <h4 class="text-lg font-semibold text-slate-700 mb-6 text-center" id="chart-title">อัตราการเติบโตหลัง NTP (คาดการณ์ 2026-2027)</h4>
+                        <div class="chart-container">
+                            <canvas id="realEstateChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Insight Col -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-sky-50 p-6 rounded-xl border-l-4 border-sky-500">
+                            <h4 class="font-bold text-sky-900">1. Residential Boom</h4>
+                            <p class="text-sm text-sky-800 mt-2">พื้นที่นาจอมเทียนจะเป็นเป้าหมายหลักสำหรับที่พักอาศัยระดับ Luxury ของผู้บริหารสายการบินและผู้เชี่ยวชาญต่างชาติ</p>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-xl border-l-4 border-amber-500">
+                            <h4 class="font-bold text-amber-900">2. Commercial Hub</h4>
+                            <p class="text-sm text-amber-800 mt-2">การขยายตัวของพื้นที่เชิงพาณิชย์และโรงแรมรอบสนามบินเพื่อรองรับผู้โดยสาร 15.9 ล้านคนในระยะแรก</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl border-l-4 border-slate-400">
+                            <h4 class="font-bold text-slate-900">3. Connectivity Value</h4>
+                            <p class="text-sm text-slate-700 mt-2">ที่ดินใกล้สถานีรถไฟความเร็วสูงเชื่อม 3 สนามบินจะมีมูลค่าเพิ่มสูงสุด</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategic Analysis (Challenges vs Opportunities) -->
+        <section id="analysis" class="py-16 bg-slate-50 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-900">บทวิเคราะห์: ก้าวต่อไปหลัง NTP</h2>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <div class="bg-white p-1 rounded-lg border border-gray-200 inline-flex shadow-sm">
+                        <button onclick="toggleAnalysis('opportunities')" id="btn-opp" class="px-6 py-2 rounded-md text-sm font-bold transition-all">โอกาส (Opportunities)</button>
+                        <button onclick="toggleAnalysis('challenges')" id="btn-chal" class="px-6 py-2 rounded-md text-sm font-bold transition-all">ความท้าทาย (Challenges)</button>
+                    </div>
+                </div>
+
+                <div id="analysis-content" class="bg-white rounded-2xl shadow-lg p-8 md:p-10 transition-all duration-300 min-h-[300px] border border-gray-100">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t-4 border-sky-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-2xl font-bold text-white">EEC Aviation Monitor 2026</h3>
+                    <p class="text-sm mt-2 text-slate-400">เกาะติดสถานการณ์เมืองการบินและเศรษฐกิจภาคตะวันออก</p>
+                </div>
+                <div class="text-right text-xs text-slate-500">
+                    <p>ข้อมูลอ้างอิง: แผนแม่บทการพัฒนาสนามบินอู่ตะเภาและเมืองการบินภาคตะวันออก</p>
+                    <p>&copy; 2026 EEC Insight Analytics.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data Store ---
+        const projectData = {
+            aviation: {
+                title: 'เมืองการบินอู่ตะเภา (U-Tapao Aviation City)',
+                badge: 'Construction Start: Feb 2026',
+                desc: 'หัวใจสำคัญของ EEC ที่กำลังจะเปลี่ยนสถานะจากแผนงานสู่ "การก่อสร้างจริง" (Construction Starts) หลังการลงนาม NTP ในเดือนกุมภาพันธ์ 2026 นี่คือจุดเริ่มต้นของการเปลี่ยนสนามบินทหารสู่มหานครการบินพาณิชย์ระดับโลก (Aerotropolis) ที่เชื่อมโยงการเดินทาง ธุรกิจ และไลฟ์สไตล์เข้าด้วยกัน',
+                points: [
+                    '<strong>ก.พ. 2026 (Highlight):</strong> ลงนามหนังสือแจ้งให้เริ่มงาน (NTP) เริ่มนับหนึ่งการก่อสร้าง',
+                    '<strong>Runway to Metropolis:</strong> โมเดลการพัฒนาเมืองรอบสนามบินเต็มรูปแบบ',
+                    '<strong>Capacity:</strong> รองรับผู้โดยสาร 15.9 ล้านคน/ปี ในระยะที่ 1',
+                    '<strong>Connectivity:</strong> เชื่อมต่อรถไฟความเร็วสูงเข้าสู่ตัวอาคารผู้โดยสารโดยตรง'
+                ],
+                chartData: [95, 90, 85, 90] // Invest, Logistics, Tourism, Tech
+            },
+            disney: {
+                title: 'ดิสนีย์แลนด์ ประเทศไทย (Disney Thailand)',
+                badge: 'Potential Project',
+                desc: 'โครงการแม่เหล็กด้านความบันเทิงระดับโลก ที่คาดว่าจะเข้ามาเติมเต็ม Ecosystem ของ EEC หลังเมืองการบินมีความชัดเจน เพื่อดึงดูดครอบครัวและนักท่องเที่ยว',
+                points: [
+                    'ดึงดูดนักท่องเที่ยวครอบครัวคุณภาพสูง',
+                    'สร้างจุดหมายปลายทางใหม่ (New Destination) ในอาเซียน',
+                    'สร้างงานในภาคบริการกว่า 100,000 อัตรา'
+                ],
+                chartData: [60, 40, 95, 70]
+            },
+            smart: {
+                title: 'เมืองอัจฉริยะ EECiti',
+                badge: 'Supporting Infrastructure',
+                desc: 'ศูนย์กลางนวัตกรรมและที่อยู่อาศัยอัจฉริยะ เพื่อรองรับบุคลากร Digital Nomad และผู้เชี่ยวชาญที่จะหลั่งไหลเข้ามาทำงานในเมืองการบิน ผสมผสานเทคโนโลยี Green Energy และการเดินทางระบบราง',
+                points: [
+                    'โครงสร้างพื้นฐาน 5G และ Data Center',
+                    'Medical Hub ครบวงจร',
+                    'Smart Living สำหรับ Expat และ Tech Talent'
+                ],
+                chartData: [75, 60, 70, 95]
+            }
+        };
+
+        const analysisData = {
+            opportunities: {
+                icon: 'fa-plane-circle-check',
+                color: 'text-sky-600',
+                bg: 'bg-sky-100',
+                title: 'โอกาสทองหลัง NTP (The Golden Takeoff)',
+                items: [
+                    { title: 'Confidence Boost', desc: 'การลงนาม NTP จะปลดล็อกความเชื่อมั่นของนักลงทุนต่างชาติที่รอความชัดเจนมานาน' },
+                    { title: 'Asset Appreciation', desc: 'ราคาที่ดินในรัศมี 30 กม. รอบสนามบิน (บ้านฉาง, สัตหีบ, นาจอมเทียน) มีแนวโน้มปรับตัวสูงขึ้นทันที' },
+                    { title: 'Supply Chain Growth', desc: 'โอกาสของธุรกิจรับเหมา วัสดุก่อสร้าง และบริการที่เกี่ยวเนื่องกับการบิน' }
+                ]
+            },
+            challenges: {
+                icon: 'fa-triangle-exclamation',
+                color: 'text-amber-600',
+                bg: 'bg-amber-100',
+                title: 'ความท้าทายระหว่างการก่อสร้าง',
+                items: [
+                    { title: 'Construction Traffic', desc: 'ผลกระทบจากการจราจรและการขนส่งวัสดุก่อสร้างในพื้นที่รอยต่อระยอง-ชลบุรี' },
+                    { title: 'Environmental Concerns', desc: 'การจัดการฝุ่นละอองและผลกระทบสิ่งแวดล้อมระหว่างการก่อสร้างขนาดใหญ่' },
+                    { title: 'Skilled Labor Shortage', desc: 'ความเสี่ยงขาดแคลนแรงงานทักษะสูงสำหรับงานก่อสร้างระบบสนามบินซับซ้อน' }
+                ]
+            }
+        };
+
+        let projectChartInstance = null;
+        let realEstateChartInstance = null;
+
+        // --- Core Functions ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            // Simple nav active state update
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+            });
+        }
+
+        function updateProjectDetail(key) {
+            const data = projectData[key];
+            const panel = document.getElementById('project-detail-panel');
+            
+            // Text Updates
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-badge').innerText = data.badge;
+            document.getElementById('detail-desc').innerHTML = data.desc;
+            
+            const list = document.getElementById('detail-list');
+            list.innerHTML = '';
+            data.points.forEach(p => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start';
+                li.innerHTML = `<i class="fa-solid fa-check-circle text-sky-500 mt-1 mr-3"></i> <span>${p}</span>`;
+                list.appendChild(li);
+            });
+
+            // Scroll to panel on mobile for better UX
+            if(window.innerWidth < 768) {
+                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Radar Chart Update
+            const ctx = document.getElementById('projectImpactChart').getContext('2d');
+            if(projectChartInstance) projectChartInstance.destroy();
+            
+            projectChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Investment', 'Logistics', 'Tourism', 'Technology'],
+                    datasets: [{
+                        label: 'Impact Score',
+                        data: data.chartData,
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)', // Sky-500
+                        borderColor: 'rgba(14, 165, 233, 1)',
+                        pointBackgroundColor: '#0369a1',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#cbd5e1' },
+                            grid: { color: '#e2e8f0' },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initRealEstateChart() {
+            const ctx = document.getElementById('realEstateChart').getContext('2d');
+            realEstateChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['จอมเทียน', 'นาจอมเทียน', 'บ้านฉาง', 'พัทยากลาง'],
+                    datasets: [{
+                        label: 'Growth %',
+                        data: [85, 92, 75, 50],
+                        backgroundColor: [
+                            'rgba(14, 165, 233, 0.7)', // Sky
+                            'rgba(245, 158, 11, 0.8)', // Amber (Highlight Na Jomtien)
+                            'rgba(14, 165, 233, 0.5)', 
+                            'rgba(148, 163, 184, 0.4)'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function updateMarketChart() {
+            const type = document.getElementById('market-filter').value;
+            const title = document.getElementById('chart-title');
+            
+            if(type === 'price') {
+                title.innerText = "การพุ่งขึ้นของราคาที่ดิน (Price Surge Forecast)";
+                realEstateChartInstance.data.datasets[0].data = [85, 92, 75, 50];
+            } else {
+                title.innerText = "ความต้องการที่อยู่อาศัย (Residential Demand)";
+                realEstateChartInstance.data.datasets[0].data = [80, 88, 70, 60];
+            }
+            realEstateChartInstance.update();
+        }
+
+        function toggleAnalysis(type) {
+            const data = analysisData[type];
+            const container = document.getElementById('analysis-content');
+            
+            // Button Styling
+            const btnOpp = document.getElementById('btn-opp');
+            const btnChal = document.getElementById('btn-chal');
+            
+            if(type === 'opportunities') {
+                btnOpp.className = "px-6 py-2 rounded-md text-sm font-bold bg-sky-600 text-white shadow-md transition-all";
+                btnChal.className = "px-6 py-2 rounded-md text-sm font-bold text-slate-500 hover:text-slate-700 transition-all";
+            } else {
+                btnChal.className = "px-6 py-2 rounded-md text-sm font-bold bg-amber-500 text-white shadow-md transition-all";
+                btnOpp.className = "px-6 py-2 rounded-md text-sm font-bold text-slate-500 hover:text-slate-700 transition-all";
+            }
+
+            // Content Injection
+            container.innerHTML = `
+                <div class="flex flex-col items-center text-center mb-8 fade-in">
+                    <div class="w-16 h-16 rounded-full ${data.bg} flex items-center justify-center mb-3">
+                        <i class="fa-solid ${data.icon} text-3xl ${data.color}"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">${data.title}</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    ${data.items.map(item => `
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                            <h4 class="font-bold text-slate-800 mb-2">${item.title}</h4>
+                            <p class="text-sm text-slate-600">${item.desc}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            // Default to Aviation City details
+            updateProjectDetail('aviation'); 
+            initRealEstateChart();
+            toggleAnalysis('opportunities');
+        });
+
+    </script>
+</body>
+</html>
