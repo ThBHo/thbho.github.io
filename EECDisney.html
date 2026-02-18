@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Disney Catalyst & EEC Strategic Synergies 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Sarabun:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Sarabun', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'tech-bg': '#0f172a',
+                        'tech-card': '#1e293b',
+                        'tech-accent-1': '#22d3ee', // Cyan
+                        'tech-accent-2': '#a78bfa', // Purple
+                        'tech-accent-3': '#f472b6', // Pink
+                        'tech-success': '#34d399',
+                        'tech-danger': '#f87171',
+                        'tech-text': '#f8fafc',
+                        'tech-muted': '#94a3b8'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 380px; }
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-btn {
+            transition: all 0.2s;
+            opacity: 0.6;
+        }
+        .lang-btn.active {
+            opacity: 1;
+            background-color: rgba(34, 211, 238, 0.2);
+            border-color: #22d3ee;
+            color: #22d3ee;
+            font-weight: bold;
+        }
+        /* Image Hover Effects */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom {
+            transition: transform 0.5s ease;
+        }
+        .img-zoom-container:hover .img-zoom {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-tech-bg text-tech-text antialiased selection:bg-tech-accent-1 selection:text-tech-bg pb-10">
+
+    <!-- LANGUAGE SWITCHER (FIXED TOP) -->
+    <div class="fixed top-4 right-4 z-50 flex space-x-2 bg-slate-900/90 p-2 rounded-full backdrop-blur border border-slate-700 shadow-xl">
+        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn px-3 py-1 rounded-full border border-transparent text-xs sm:text-sm text-white hover:bg-slate-700">ENG</button>
+        <button onclick="setLanguage('th')" id="btn-th" class="lang-btn px-3 py-1 rounded-full border border-transparent text-xs sm:text-sm text-white hover:bg-slate-700 active">THAI</button>
+        <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn px-3 py-1 rounded-full border border-transparent text-xs sm:text-sm text-white hover:bg-slate-700">RUS</button>
+        <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn px-3 py-1 rounded-full border border-transparent text-xs sm:text-sm text-white hover:bg-slate-700">CHI</button>
+    </div>
+
+    <!-- HERO SECTION WITH BACKGROUND IMAGE -->
+    <div class="relative w-full overflow-hidden mb-12">
+        <!-- Background Image: Futuristic City/Night View -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2613&auto=format&fit=crop" 
+                 alt="City Night" 
+                 class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-tech-bg/80 via-tech-bg/90 to-tech-bg"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 text-center">
+            <div class="inline-block px-4 py-1 rounded-full bg-tech-accent-2/10 border border-tech-accent-2 text-tech-accent-2 text-sm font-bold mb-2 shadow-[0_0_15px_rgba(167,139,250,0.5)]">
+                DEEP RESEARCH EDITION
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-2xl">
+                <span id="t-main-title">The Disney Catalyst</span>
+            </h1>
+            <h2 class="text-xl md:text-3xl font-light text-tech-muted">
+                <span id="t-sub-title">& EEC Strategic Synergies 2026</span>
+            </h2>
+            
+            <!-- EXECUTIVE SUMMARY + VIDEO -->
+            <div class="max-w-4xl mx-auto glass-panel p-6 md:p-8 rounded-2xl shadow-2xl mt-8 text-left md:text-center border-t border-white/20">
+                <p class="text-lg md:text-xl leading-relaxed mb-8 text-gray-100 font-light">
+                    <span class="text-tech-accent-1 font-bold" id="t-exec-label">Executive Summary:</span> 
+                    <span id="t-exec-text">การดึง Disney มาลงในพื้นที่ EEC ไม่ใช่เพียงเพื่อการท่องเที่ยว แต่เป็น "Strategic Masterstroke" ที่รัฐบาลและกลุ่มทุนใหญ่ใช้เพื่อปลดล็อกโครงสร้างพื้นฐาน</span>
+                </p>
+                
+                <!-- VIDEO WRAPPER -->
+                <div class="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden border border-slate-600 shadow-2xl group ring-4 ring-slate-800/50">
+                    <iframe class="absolute top-0 left-0 w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out" 
+                            src="https://www.youtube.com/embed/TyvXb25s3fw" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-20">
+
+        <!-- SECTION 1: POLITICAL & INFRASTRUCTURE -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+            <div class="space-y-6 flex flex-col justify-center">
+                <div class="border-l-4 border-tech-accent-2 pl-6 py-2">
+                    <h3 class="text-3xl font-bold text-tech-text" id="t-sec1-title">2. Political-Economic Leverage</h3>
+                    <p class="text-lg text-tech-muted mt-2 font-light" id="t-sec1-desc">การงัดข้อและการประนีประนอมทางการเมืองและเศรษฐกิจ</p>
+                </div>
+                
+                <!-- FIXED IMAGE: High Speed Train (Unsplash) -->
+                <div class="w-full h-48 rounded-xl overflow-hidden shadow-lg border border-slate-700 img-zoom-container relative">
+                    <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?q=80&w=2684&auto=format&fit=crop" 
+                         alt="High Speed Train Future" 
+                         class="w-full h-full object-cover img-zoom opacity-90 hover:opacity-100 transition-opacity">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent p-4">
+                        <span class="text-white text-sm font-semibold tracking-wider">INFRASTRUCTURE UNLOCKED</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="glass-panel p-5 rounded-lg">
+                        <h4 class="text-lg font-bold text-tech-accent-2 mb-2 flex items-center">
+                            <span class="mr-2">🏛️</span> <span id="t-pm-strategy">2.1 The "PM Noo" Strategy</span>
+                        </h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 text-sm pl-2">
+                            <li id="t-pm-point1"><strong>Political Credit:</strong> ต้องการโครงการ Flagship ที่จับต้องได้จริง</li>
+                            <li id="t-pm-point2"><strong>Stabilizing Power:</strong> Disney ช่วยตรึงอำนาจทางการเมืองได้ยาวนานกว่า 4 ปี</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-lg">
+                        <h4 class="text-lg font-bold text-tech-accent-1 mb-2 flex items-center">
+                            <span class="mr-2">🚅</span> <span id="t-cp-connection">2.2 The CP & HSR Connection</span>
+                        </h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 text-sm pl-2">
+                            <li id="t-cp-point1"><strong>Profitability Problem:</strong> รถไฟเสี่ยงขาดทุนหากไม่มีผู้โดยสาร</li>
+                            <li id="t-cp-point2"><strong>Magnet Solution:</strong> Disney คือ Guaranteed Traffic ที่ทำให้กล้าลงทุน</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-panel rounded-2xl shadow-lg p-6 flex flex-col">
+                <h4 class="text-center font-semibold mb-6 text-tech-accent-2 text-xl" id="t-chart1-title">Stakeholder Synergy Matrix</h4>
+                <div class="chart-container flex-grow">
+                    <canvas id="synergyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: RISK (DEEP RESEARCH) -->
+        <section class="space-y-8 bg-gradient-to-b from-slate-900 to-slate-800/50 p-8 rounded-3xl border border-slate-700 shadow-2xl relative overflow-hidden">
+            <!-- Background Texture -->
+            <div class="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
+                <img src="https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover grayscale">
+            </div>
+
+            <div class="text-center max-w-4xl mx-auto mb-10 relative z-10">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4 text-white" id="t-sec2-title">3. Geopolitical Risk Assessment 2026</h3>
+                <p class="text-tech-muted text-lg" id="t-sec2-desc">Comparing UAE (Abu Dhabi) vs Thailand (EEC)</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
+                <div class="space-y-6">
+                    <!-- UAE Card -->
+                    <div class="bg-slate-800/90 p-6 rounded-xl border-l-4 border-tech-danger hover:shadow-[0_0_20px_rgba(248,113,113,0.3)] transition-all group">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-white group-hover:text-tech-danger transition-colors" id="t-uae-title">⚠️ UAE: Regional Volatility</h4>
+                            <img src="https://flagcdn.com/w80/ae.png" class="w-10 rounded shadow-sm opacity-80">
+                        </div>
+                        <p class="text-sm text-gray-400 mb-2 leading-relaxed" id="t-uae-p1"><strong>Conflict:</strong> Proximity to Hormuz Strait, Iran-USA tension.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed" id="t-uae-p2"><strong>Target:</strong> American symbols are high-value targets.</p>
+                    </div>
+
+                    <!-- Thai Card -->
+                    <div class="bg-slate-800/90 p-6 rounded-xl border-l-4 border-tech-success hover:shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all group">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-white group-hover:text-tech-success transition-colors" id="t-thai-title">🛡️ Thailand: The "Safe Haven"</h4>
+                            <img src="https://flagcdn.com/w80/th.png" class="w-10 rounded shadow-sm opacity-80">
+                        </div>
+                        <p class="text-sm text-gray-400 mb-2 leading-relaxed" id="t-thai-p1"><strong>Zero Risk:</strong> Diplomatic neutrality, no conflict involvement.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed" id="t-thai-p2"><strong>Premium:</strong> Investors value safety over short-term profit.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-r from-tech-success/10 to-transparent rounded-lg border border-tech-success/30 mt-4 backdrop-blur-sm">
+                        <p class="font-bold text-tech-success text-center text-lg drop-shadow-md" id="t-risk-pivot">
+                            Strategic Pivot: "The World's Safest Magic"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl shadow-lg p-6 border-slate-600">
+                    <h4 class="text-center font-semibold mb-6 text-tech-muted" id="t-chart2-title">Risk & Stability Comparison</h4>
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CONNECTIVITY & NODES (VISUAL CARDS) -->
+        <section class="space-y-10">
+            <div class="text-center">
+                <h3 class="text-3xl font-bold text-tech-text mb-2" id="t-sec3-title">4. The 10-Minute Paradigm</h3>
+                <p class="text-tech-muted" id="t-sec3-desc">Connecting key nodes via Monorail/HSR in 10-15 mins.</p>
+            </div>
+
+            <!-- VISUAL NODE GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- NODE A -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-2xl h-80">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent">
+                        <div class="absolute bottom-0 p-6">
+                            <div class="text-blue-400 font-bold tracking-wider text-xs mb-1">BUSINESS HUB</div>
+                            <h4 class="text-2xl font-bold text-white mb-2" id="t-node-a">Node A: EECiti</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2" id="t-node-a-desc">ศูนย์กลางธุรกิจ & Tech Talent</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NODE B -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-2xl h-80">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2673&auto=format&fit=crop" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent">
+                        <div class="absolute bottom-0 p-6">
+                            <div class="text-emerald-400 font-bold tracking-wider text-xs mb-1">RESIDENTIAL HUB</div>
+                            <h4 class="text-2xl font-bold text-white mb-2" id="t-node-b">Node B: Jomtien</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2" id="t-node-b-desc">ย่านที่อยู่อาศัยระดับบน (Prime Location)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NODE C: UPDATED IMAGE -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-2xl h-80">
+                    <img src="https://i.postimg.cc/wMRmbkZw/grok-image-a384099f-6ac4-4a34-b23c-e28ce8eb0fd5.jpg" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent">
+                        <div class="absolute bottom-0 p-6">
+                            <div class="text-pink-400 font-bold tracking-wider text-xs mb-1">MAGIC MAGNET</div>
+                            <h4 class="text-2xl font-bold text-white mb-2" id="t-node-c">Node C: Magic Magnet</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2" id="t-node-c-desc">Disney / Stadium / จุดสร้าง Traffic</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONNECTIVITY CHART -->
+            <div class="glass-panel p-6 rounded-xl border-t-4 border-blue-500">
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="connectivityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: MARKET SHIFT -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1 glass-panel p-6 rounded-xl shadow-lg">
+                <h4 class="text-center font-semibold mb-6 text-tech-accent-1 text-xl" id="t-sec4-title">5. Market Shift: BKK to EEC</h4>
+                <div class="chart-container">
+                    <canvas id="marketShiftChart"></canvas>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2 space-y-6">
+                <h3 class="text-3xl font-bold text-tech-text flex items-center">
+                    <span class="mr-3">📈</span> Market Analysis
+                </h3>
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-2xl border border-tech-accent-1/30 shadow-[0_0_30px_rgba(34,211,238,0.1)]">
+                    <p class="font-semibold text-tech-accent-1 text-lg mb-4 flex items-center" id="t-rec-label">
+                        <span class="inline-block w-2 h-2 bg-tech-accent-1 rounded-full mr-2 animate-pulse"></span> Recommendation:
+                    </p>
+                    <p class="text-xl text-gray-200 leading-relaxed font-light italic" id="t-rec-text">Capital Shift to Jomtien offers the highest yield of the decade.</p>
+                </div>
+                <!-- Image: Investment/Growth -->
+                <div class="rounded-xl overflow-hidden shadow-lg h-48 opacity-70">
+                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+                         class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-12 border-t border-slate-800 relative overflow-hidden">
+             <!-- Footer Background Fade -->
+             <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black to-transparent -z-10"></div>
+            
+            <div class="max-w-3xl mx-auto mb-16 relative z-10">
+                <h3 class="text-2xl font-bold text-white mb-6 tracking-wide" id="t-footer-title">Conclusion</h3>
+                <div class="glass-panel p-8 rounded-2xl shadow-2xl border border-tech-accent-3/30 relative">
+                    <!-- Glow Effect -->
+                    <div class="absolute -inset-1 bg-gradient-to-r from-tech-accent-1 via-tech-accent-2 to-tech-accent-3 opacity-20 blur-lg -z-10"></div>
+                    
+                    <p class="text-xl leading-relaxed text-gray-100" id="t-footer-text">
+                        Gov Policy + Infra + Global IP = The New Center of SEA.
+                    </p>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 pb-8">Generated by Canvas Infographics • 2026 Deep Research • Image Sources: Unsplash</p>
+        </footer>
+    </div>
+
+    <!-- TRANSLATION DATA & LOGIC (SAME AS BEFORE) -->
+    <script>
+        const translations = {
+            th: {
+                mainTitle: "The Disney Catalyst",
+                subTitle: "& EEC Strategic Synergies 2026",
+                execLabel: "บทสรุปผู้บริหาร:",
+                execText: "การดึง Disney มาลงในพื้นที่ EEC ไม่ใช่เพียงเพื่อการท่องเที่ยว แต่เป็น \"Strategic Masterstroke\" ที่รัฐบาลและกลุ่มทุนใหญ่ใช้เพื่อปลดล็อกโครงสร้างพื้นฐาน และสร้างวัฏจักรเศรษฐกิจใหม่ \"Aggressive Booming\"",
+                sec1Title: "2. Political-Economic Leverage",
+                sec1Desc: "การงัดข้อและการประนีประนอมทางการเมืองและเศรษฐกิจ",
+                pmStrategy: "2.1 The \"PM Noo\" Strategy",
+                pmPoint1: "<strong>Political Credit:</strong> ต้องการโครงการ Flagship ที่จับต้องได้จริง",
+                pmPoint2: "<strong>Stabilizing Power:</strong> Disney ช่วยตรึงอำนาจทางการเมืองได้ยาวนานกว่า 4 ปี",
+                cpConnection: "2.2 The CP & HSR Connection",
+                cpPoint1: "<strong>Profitability Problem:</strong> รถไฟเสี่ยงขาดทุนหากไม่มีผู้โดยสาร",
+                cpPoint2: "<strong>Magnet Solution:</strong> Disney คือ Guaranteed Traffic ที่ทำให้กล้าลงทุน",
+                chart1Title: "เมทริกซ์ความร่วมมือของผู้มีส่วนได้ส่วนเสีย",
+                sec2Title: "3. การประเมินความเสี่ยงภูมิรัฐศาสตร์ 2026",
+                sec2Desc: "เปรียบเทียบความเสี่ยงระหว่าง UAE (Abu Dhabi) vs Thailand (EEC)",
+                uaeTitle: "⚠️ UAE: ความผันผวนในภูมิภาค",
+                uaeP1: "<strong>ความขัดแย้ง:</strong> ใกล้ช่องแคบ Hormuz, ความตึงเครียด Iran-USA",
+                uaeP2: "<strong>เป้าหมาย:</strong> สัญลักษณ์อเมริกันเป็นเป้าหมายที่มีความเสี่ยงสูง",
+                thaiTitle: "🛡️ Thailand: พื้นที่ปลอดภัย (Safe Haven)",
+                thaiP1: "<strong>ความเสี่ยงศูนย์:</strong> นโยบายการทูตเป็นกลาง ไม่ใช่คู่ขัดแย้ง",
+                thaiP2: "<strong>พรีเมี่ยม:</strong> นักลงทุนให้ค่าความปลอดภัยมากกว่ากำไรระยะสั้น",
+                riskPivot: "จุดเปลี่ยนกลยุทธ์: \"The World's Safest Magic\"",
+                chart2Title: "เปรียบเทียบความเสี่ยงและความมั่นคง",
+                sec3Title: "4. The 10-Minute Paradigm",
+                sec3Desc: "เชื่อมต่อ Node สำคัญด้วย Monorail/HSR เหลือเพียง 10-15 นาที",
+                nodeA: "Node A: EECiti",
+                nodeADesc: "ศูนย์กลางธุรกิจ & Tech Talent",
+                nodeB: "Node B: Jomtien",
+                nodeBDesc: "ย่านที่อยู่อาศัยระดับบน (Prime Location)",
+                nodeC: "Node C: Magic Magnet",
+                nodeCDesc: "Disney / Stadium / จุดสร้าง Traffic",
+                sec4Title: "5. Market Shift: BKK to EEC",
+                recLabel: "ข้อแนะนำ:",
+                recText: "การโยกย้ายเงินทุน (Capital Shift) สู่จอมเทียน คือกลยุทธ์ที่ให้ Yield สูงสุดในรอบทศวรรษ",
+                footerTitle: "บทสรุป",
+                footerText: "รัฐบาล (นโยบาย) + กลุ่มทุน (โครงสร้างพื้นฐาน) + Global IP (Disney) = ศูนย์กลางใหม่ของเอเชียตะวันออกเฉียงใต้ โดยมี \"จอมเทียน\" เป็นหัวใจสำคัญ",
+                // Chart Labels
+                c_syn_labels: ['อำนาจการเมือง', 'กำไร', 'ปริมาณคน', 'ภาพลักษณ์', 'ความเชื่อมั่น'],
+                c_syn_ds1: 'รัฐบาล (PM Noo)',
+                c_syn_ds2: 'กลุ่มทุน (CP Group)',
+                c_syn_ds3: 'Disney (Global IP)',
+                c_risk_labels: ['ความเสี่ยงสงคราม', 'ค่าประกันภัย', 'ความเชื่อมั่นนักท่องเที่ยว'],
+                c_conn_labels: ['BKK->EEC', 'EECiti->Jomtien', 'Jomtien->Disney'],
+                c_conn_ds1: 'เดิม (รถยนต์)',
+                c_conn_ds2: 'ใหม่ (รถไฟความเร็วสูง)',
+                c_mkt_label1: 'กรุงเทพฯ (อิ่มตัว)',
+                c_mkt_label2: 'EEC (เติบโตสูง)'
+            },
+            en: {
+                mainTitle: "The Disney Catalyst",
+                subTitle: "& EEC Strategic Synergies 2026",
+                execLabel: "Executive Summary:",
+                execText: "Integrating Disney into the EEC is not just for tourism, but a \"Strategic Masterstroke\" used by the government and conglomerates to unlock infrastructure and create a new \"Aggressive Booming\" economic cycle.",
+                sec1Title: "2. Political-Economic Leverage",
+                sec1Desc: "Political power plays and economic compromises.",
+                pmStrategy: "2.1 The \"PM Noo\" Strategy",
+                pmPoint1: "<strong>Political Credit:</strong> Needs a tangible Flagship project.",
+                pmPoint2: "<strong>Stabilizing Power:</strong> Disney secures political stability for >4 years.",
+                cpConnection: "2.2 The CP & HSR Connection",
+                cpPoint1: "<strong>Profitability Problem:</strong> HSR risks loss without ridership.",
+                cpPoint2: "<strong>Magnet Solution:</strong> Disney is the Guaranteed Traffic justifying investment.",
+                chart1Title: "Stakeholder Synergy Matrix",
+                sec2Title: "3. Geopolitical Risk Assessment 2026",
+                sec2Desc: "Comparing Risk: UAE (Abu Dhabi) vs Thailand (EEC)",
+                uaeTitle: "⚠️ UAE: Regional Volatility",
+                uaeP1: "<strong>Conflict:</strong> Proximity to Hormuz Strait, Iran-USA tension.",
+                uaeP2: "<strong>Target:</strong> American symbols are high-value targets.",
+                thaiTitle: "🛡️ Thailand: The \"Safe Haven\"",
+                thaiP1: "<strong>Zero Risk:</strong> Diplomatic neutrality, no conflict involvement.",
+                thaiP2: "<strong>Premium:</strong> Investors value safety over short-term profit.",
+                riskPivot: "Strategic Pivot: \"The World's Safest Magic\"",
+                chart2Title: "Risk & Stability Comparison",
+                sec3Title: "4. The 10-Minute Paradigm",
+                sec3Desc: "Connecting key nodes via Monorail/HSR in 10-15 mins.",
+                nodeA: "Node A: EECiti",
+                nodeADesc: "Business Hub & Tech Talent",
+                nodeB: "Node B: Jomtien",
+                nodeBDesc: "Residential Hub (Prime Location)",
+                nodeC: "Node C: Magic Magnet",
+                nodeCDesc: "Disney / Stadium / Traffic Generator",
+                sec4Title: "5. Market Shift: BKK to EEC",
+                recLabel: "Recommendation:",
+                recText: "Capital Shift to Jomtien offers the highest yield of the decade.",
+                footerTitle: "Conclusion",
+                footerText: "Gov Policy + Corporate Infra + Global IP = The New Center of Southeast Asia, with Jomtien as the premium living heart.",
+                // Chart Labels
+                c_syn_labels: ['Political Power', 'Profitability', 'Traffic', 'Image', 'Confidence'],
+                c_syn_ds1: 'Gov (PM Noo)',
+                c_syn_ds2: 'CP Group',
+                c_syn_ds3: 'Disney',
+                c_risk_labels: ['War Risk', 'Insurance Cost', 'Tourist Confidence'],
+                c_conn_labels: ['BKK->EEC', 'EECiti->Jomtien', 'Jomtien->Disney'],
+                c_conn_ds1: 'Old (Car)',
+                c_conn_ds2: 'New (HSR)',
+                c_mkt_label1: 'Bangkok (Saturated)',
+                c_mkt_label2: 'EEC (Booming)'
+            },
+            ru: {
+                mainTitle: "Катализатор Disney",
+                subTitle: "& Стратегическая синергия EEC 2026",
+                execLabel: "Резюме:",
+                execText: "Интеграция Disney в EEC — это не просто туризм, а «Стратегический ход», используемый правительством для разблокировки инфраструктуры и создания цикла «Агрессивного роста».",
+                sec1Title: "2. Политико-экономический рычаг",
+                sec1Desc: "Политические игры и экономические компромиссы.",
+                pmStrategy: "2.1 Стратегия «PM Noo»",
+                pmPoint1: "<strong>Политический кредит:</strong> Нужен реальный флагманский проект.",
+                pmPoint2: "<strong>Стабилизация власти:</strong> Disney укрепляет власть на >4 года.",
+                cpConnection: "2.2 Связь CP и HSR",
+                cpPoint1: "<strong>Проблема прибыли:</strong> Риск убытков HSR без пассажиров.",
+                cpPoint2: "<strong>Решение-магнит:</strong> Disney гарантирует трафик для инвестиций.",
+                chart1Title: "Матрица синергии заинтересованных сторон",
+                sec2Title: "3. Оценка геополитических рисков 2026",
+                sec2Desc: "Сравнение: ОАЭ (Абу-Даби) против Таиланда (EEC)",
+                uaeTitle: "⚠️ ОАЭ: Региональная нестабильность",
+                uaeP1: "<strong>Конфликт:</strong> Близость к Ормузскому проливу, напряженность Иран-США.",
+                uaeP2: "<strong>Цель:</strong> Американские символы — цели высокого риска.",
+                thaiTitle: "🛡️ Таиланд: «Тихая гавань»",
+                thaiP1: "<strong>Ноль риска:</strong> Дипломатический нейтралитет.",
+                thaiP2: "<strong>Премиум:</strong> Инвесторы ценят безопасность выше прибыли.",
+                riskPivot: "Стратегический поворот: «Самая безопасная магия в мире»",
+                chart2Title: "Сравнение рисков и стабильности",
+                sec3Title: "4. Парадигма 10 минут",
+                sec3Desc: "Соединение узлов через монорельс/HSR за 10-15 минут.",
+                nodeA: "Узел A: EECiti",
+                nodeADesc: "Бизнес-хаб и технологии",
+                nodeB: "Узел B: Джомтьен",
+                nodeBDesc: "Жилой хаб (Премиум локация)",
+                nodeC: "Узел C: Магнит магии",
+                nodeCDesc: "Disney / Стадион / Генератор трафика",
+                sec4Title: "5. Сдвиг рынка: Бангкок -> EEC",
+                recLabel: "Рекомендация:",
+                recText: "Перевод капитала в Джомтьен предлагает самую высокую доходность десятилетия.",
+                footerTitle: "Заключение",
+                footerText: "Политика + Инфраструктура + Global IP = Новый центр Юго-Восточной Азии.",
+                // Chart Labels
+                c_syn_labels: ['Полит. власть', 'Прибыльность', 'Трафик', 'Имидж', 'Доверие'],
+                c_syn_ds1: 'Прав-во (PM Noo)',
+                c_syn_ds2: 'Группа CP',
+                c_syn_ds3: 'Disney',
+                c_risk_labels: ['Риск войны', 'Стоимость страховки', 'Доверие туристов'],
+                c_conn_labels: ['Бангкок->EEC', 'EECiti->Джомтьен', 'Джомтьен->Disney'],
+                c_conn_ds1: 'Старый (Авто)',
+                c_conn_ds2: 'Новый (HSR)',
+                c_mkt_label1: 'Бангкок (Насыщен)',
+                c_mkt_label2: 'EEC (Бум)'
+            },
+            zh: {
+                mainTitle: "迪士尼催化剂",
+                subTitle: "& 2026 EEC 战略协同",
+                execLabel: "执行摘要:",
+                execText: "将迪士尼引入 EEC 不仅是为了旅游业，更是政府和企业集团用来解锁基础设施并创造“迅猛繁荣”新经济周期的“战略绝招”。",
+                sec1Title: "2. 政治经济杠杆",
+                sec1Desc: "政治博弈与经济妥协。",
+                pmStrategy: "2.1 “PM Noo” 战略",
+                pmPoint1: "<strong>政治信誉:</strong> 需要一个切实的旗舰项目。",
+                pmPoint2: "<strong>稳定权力:</strong> 迪士尼可确保 4 年以上的政治稳定。",
+                cpConnection: "2.2 正大集团 (CP) 与高铁 (HSR)",
+                cpPoint1: "<strong>盈利难题:</strong> 若无客流，高铁面临亏损风险。",
+                cpPoint2: "<strong>磁石方案:</strong> 迪士尼是保证客流的关键。",
+                chart1Title: "利益相关者协同矩阵",
+                sec2Title: "3. 2026 地缘政治风险评估",
+                sec2Desc: "对比：阿联酋 (阿布扎比) vs 泰国 (EEC)",
+                uaeTitle: "⚠️ 阿联酋: 区域波动性",
+                uaeP1: "<strong>冲突:</strong> 邻近霍尔木兹海峡，伊美紧张局势。",
+                uaeP2: "<strong>目标:</strong> 美国象征是高风险目标。",
+                thaiTitle: "🛡️ 泰国: “避风港”",
+                thaiP1: "<strong>零风险:</strong> 外交中立，不卷入冲突。",
+                thaiP2: "<strong>溢价:</strong> 投资者看重安全胜过短期利润。",
+                riskPivot: "战略支点: “世界上最安全的魔法”",
+                chart2Title: "风险与稳定性对比",
+                sec3Title: "4. 十分钟连接范式",
+                sec3Desc: "通过单轨/高铁在 10-15 分钟内连接关键节点。",
+                nodeA: "节点 A: EECiti",
+                nodeADesc: "商业中心 & 科技人才",
+                nodeB: "节点 B: 中天 (Jomtien)",
+                nodeBDesc: "居住中心 (黄金地段)",
+                nodeC: "节点 C: 魔法磁石",
+                nodeCDesc: "迪士尼 / 体育场 / 流量生成器",
+                sec4Title: "5. 市场转移: 曼谷 -> EEC",
+                recLabel: "建议:",
+                recText: "将资本转移至中天海滩将提供十年来最高的回报率。",
+                footerTitle: "结论",
+                footerText: "政府政策 + 企业基建 + 全球 IP = 东南亚新中心，中天是其核心居住区。",
+                // Chart Labels
+                c_syn_labels: ['政治权力', '盈利能力', '流量', '形象', '信心'],
+                c_syn_ds1: '政府 (PM Noo)',
+                c_syn_ds2: '正大集团',
+                c_syn_ds3: '迪士尼',
+                c_risk_labels: ['战争风险', '保险成本', '游客信心'],
+                c_conn_labels: ['曼谷->EEC', 'EECiti->中天', '中天->迪士尼'],
+                c_conn_ds1: '旧 (汽车)',
+                c_conn_ds2: '新 (高铁)',
+                c_mkt_label1: '曼谷 (饱和)',
+                c_mkt_label2: 'EEC (繁荣)'
+            }
+        };
+
+        // --- GLOBAL CHART VARIABLES ---
+        let synergyChart, riskChart, connChart, marketChart;
+
+        function setLanguage(lang) {
+            const t = translations[lang];
+            
+            // Text Updates
+            document.getElementById('t-main-title').innerText = t.mainTitle;
+            document.getElementById('t-sub-title').innerText = t.subTitle;
+            document.getElementById('t-exec-label').innerText = t.execLabel;
+            document.getElementById('t-exec-text').innerText = t.execText;
+            document.getElementById('t-sec1-title').innerText = t.sec1Title;
+            document.getElementById('t-sec1-desc').innerText = t.sec1Desc;
+            document.getElementById('t-pm-strategy').innerText = t.pmStrategy;
+            document.getElementById('t-pm-point1').innerHTML = t.pmPoint1;
+            document.getElementById('t-pm-point2').innerHTML = t.pmPoint2;
+            document.getElementById('t-cp-connection').innerText = t.cpConnection;
+            document.getElementById('t-cp-point1').innerHTML = t.cpPoint1;
+            document.getElementById('t-cp-point2').innerHTML = t.cpPoint2;
+            document.getElementById('t-chart1-title').innerText = t.chart1Title;
+            document.getElementById('t-sec2-title').innerText = t.sec2Title;
+            document.getElementById('t-sec2-desc').innerText = t.sec2Desc;
+            document.getElementById('t-uae-title').innerText = t.uaeTitle;
+            document.getElementById('t-uae-p1').innerHTML = t.uaeP1;
+            document.getElementById('t-uae-p2').innerHTML = t.uaeP2;
+            document.getElementById('t-thai-title').innerText = t.thaiTitle;
+            document.getElementById('t-thai-p1').innerHTML = t.thaiP1;
+            document.getElementById('t-thai-p2').innerHTML = t.thaiP2;
+            document.getElementById('t-risk-pivot').innerText = t.riskPivot;
+            document.getElementById('t-chart2-title').innerText = t.chart2Title;
+            document.getElementById('t-sec3-title').innerText = t.sec3Title;
+            document.getElementById('t-sec3-desc').innerText = t.sec3Desc;
+            document.getElementById('t-node-a').innerText = t.nodeA;
+            document.getElementById('t-node-a-desc').innerText = t.nodeADesc;
+            document.getElementById('t-node-b').innerText = t.nodeB;
+            document.getElementById('t-node-b-desc').innerText = t.nodeBDesc;
+            document.getElementById('t-node-c').innerText = t.nodeC;
+            document.getElementById('t-node-c-desc').innerText = t.nodeCDesc;
+            document.getElementById('t-sec4-title').innerText = t.sec4Title;
+            document.getElementById('t-rec-label').innerText = t.recLabel;
+            document.getElementById('t-rec-text').innerText = t.recText;
+            document.getElementById('t-footer-title').innerText = t.footerTitle;
+            document.getElementById('t-footer-text').innerText = t.footerText;
+
+            // Button States
+            ['en', 'th', 'ru', 'zh'].forEach(l => {
+                const btn = document.getElementById('btn-' + l);
+                if (l === lang) {
+                    btn.classList.add('active');
+                    btn.classList.remove('opacity-60');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('opacity-60');
+                }
+            });
+
+            // Update Chart Data & Labels
+            updateCharts(t);
+        }
+
+        function updateCharts(t) {
+            // Synergy Radar
+            synergyChart.data.labels = t.c_syn_labels;
+            synergyChart.data.datasets[0].label = t.c_syn_ds1;
+            synergyChart.data.datasets[1].label = t.c_syn_ds2;
+            synergyChart.data.datasets[2].label = t.c_syn_ds3;
+            synergyChart.update();
+
+            // Risk Bar
+            riskChart.data.labels = t.c_risk_labels;
+            riskChart.update();
+
+            // Connectivity Bar
+            connChart.data.labels = t.c_conn_labels;
+            connChart.data.datasets[0].label = t.c_conn_ds1;
+            connChart.data.datasets[1].label = t.c_conn_ds2;
+            connChart.update();
+
+            // Market Line
+            marketChart.data.datasets[0].label = t.c_mkt_label1;
+            marketChart.data.datasets[1].label = t.c_mkt_label2;
+            marketChart.update();
+        }
+
+        // --- CHART INITIALIZATION ---
+        window.onload = function() {
+            // Common Config
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#94a3b8' } },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        padding: 10
+                    }
+                }
+            };
+
+            // 1. Synergy Radar
+            synergyChart = new Chart(document.getElementById('synergyChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: [], // Populated by setLanguage
+                    datasets: [
+                        { data: [95, 40, 60, 50, 90], borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)' },
+                        { data: [50, 95, 90, 30, 60], borderColor: '#a78bfa', backgroundColor: 'rgba(167, 139, 250, 0.2)' },
+                        { data: [30, 85, 100, 100, 80], borderColor: '#f472b6', backgroundColor: 'rgba(244, 114, 182, 0.2)' }
+                    ]
+                },
+                options: { ...commonOptions, scales: { r: { grid: { color: '#334155' }, pointLabels: { color: '#f8fafc', font: {size: 11} }, ticks: { display: false } } } }
+            });
+
+            // 2. Risk Bar
+            riskChart = new Chart(document.getElementById('riskChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'UAE', data: [90, 95, 50], backgroundColor: '#f87171', borderRadius: 4 },
+                        { label: 'Thailand', data: [10, 20, 95], backgroundColor: '#34d399', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    ...commonOptions, indexAxis: 'y',
+                    scales: { x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }, y: { grid: { display: false }, ticks: { color: '#f8fafc' } } }
+                }
+            });
+
+            // 3. Connectivity Bar
+            connChart = new Chart(document.getElementById('connectivityChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { data: [120, 45, 30], backgroundColor: '#64748b' },
+                        { data: [45, 15, 10], backgroundColor: '#22d3ee' }
+                    ]
+                },
+                options: { ...commonOptions, scales: { x: { display: false }, y: { display: false } } }
+            });
+
+            // 4. Market Line
+            marketChart = new Chart(document.getElementById('marketShiftChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['2024', '2026', '2028', '2030'],
+                    datasets: [
+                        { data: [100, 105, 108, 110], borderColor: '#94a3b8', borderDash: [5,5] },
+                        { data: [100, 135, 190, 280], borderColor: '#f472b6', backgroundColor: 'rgba(244, 114, 182, 0.1)', fill: true }
+                    ]
+                },
+                options: { ...commonOptions, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } } }
+            });
+
+            // Init Default Language
+            setLanguage('th');
+        }
+    </script>
+</body>
+</html>
