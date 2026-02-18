@@ -4,343 +4,301 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Powered Video Content Strategy | Copacabana Coral Reef</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom Styles */
         body {
             font-family: 'Sarabun', 'Inter', sans-serif;
-            background-color: #F8FAFC;
+            background-color: #F0F4F8;
             color: #1E293B;
             scroll-behavior: smooth;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #0F766E 0%, #0E7490 100%);
+        .gradient-text {
+            background: linear-gradient(to right, #005F73, #0A9396);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .card-shadow {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
         }
-        .chart-wrapper {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .lang-switch {
-            transition: all 0.3s ease;
-        }
-        .lang-switch.active {
-            background-color: #0F766E;
-            color: white;
-        }
-        .month-card {
-            border-left: 5px solid transparent;
-            transition: all 0.2s;
-        }
-        .month-card:hover {
+        .card-shadow:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        /* Custom Table Styling for Desktop */
-        @media (min-width: 768px) {
-            .custom-table th, .custom-table td {
-                padding: 1rem;
-                vertical-align: top;
-            }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .lang-btn {
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active {
+            background-color: #005F73;
+            color: white;
+            border-color: #005F73;
+        }
+        /* Mobile Table Fixes */
+        .responsive-table th, .responsive-table td {
+            padding: 0.75rem;
+            vertical-align: top;
+        }
+        a {
+            transition: color 0.2s;
+        }
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.2rem;
+            white-space: nowrap;
+            display: inline-block;
+            margin-bottom: 2px;
+        }
+        .status-new { background-color: #DEF7EC; color: #03543F; border: 1px solid #84E1BC; } /* Green */
+        .status-wip { background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; } /* Yellow */
+        .status-final { background-color: #E1EFFE; color: #1E429F; border: 1px solid #A4CAFE; } /* Blue */
+        .status-draft { background-color: #F3E8FF; color: #6B21A8; border: 1px solid #D8B4FE; } /* Purple */
+        .status-pub { background-color: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; font-weight: bold; } /* Green Bold */
+
+        .link-item {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased p-4 md:p-8">
 
-    <!-- Navigation / Language Switcher -->
-    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl mr-2">🏢</span>
-                    <span class="font-bold text-xl text-teal-800 tracking-tight">Copa AI Strategy</span>
-                </div>
-                <div class="flex space-x-2">
-                    <button onclick="switchLang('th')" id="btn-th" class="lang-switch active px-3 py-1 rounded-md text-sm font-medium border border-teal-600 text-teal-700 hover:bg-teal-50">TH</button>
-                    <button onclick="switchLang('en')" id="btn-en" class="lang-switch px-3 py-1 rounded-md text-sm font-medium border border-teal-600 text-teal-700 hover:bg-teal-50">EN</button>
+    <!-- Navbar / Language Switch -->
+    <div class="max-w-6xl mx-auto flex justify-end mb-4 sticky top-4 z-50">
+        <div class="bg-white/80 backdrop-blur shadow-sm rounded-full p-1 flex space-x-1 border border-gray-200">
+            <button onclick="setLanguage('th')" id="btn-th" class="lang-btn active px-4 py-1.5 rounded-full text-sm font-bold border border-transparent text-gray-600 hover:bg-gray-100">TH</button>
+            <button onclick="setLanguage('en')" id="btn-en" class="lang-btn px-4 py-1.5 rounded-full text-sm font-bold border border-transparent text-gray-600 hover:bg-gray-100">EN</button>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto space-y-12">
+
+        <!-- 1. Header & Executive Summary -->
+        <header class="text-center space-y-4 animate-fade-in">
+            <h1 class="text-3xl md:text-5xl font-black gradient-text" data-key="mainTitle">กลยุทธ์การสร้างคอนเทนต์วิดีโอด้วย AI</h1>
+            <p class="text-lg text-gray-600 font-medium" data-key="subTitle">โครงการ Copacabana Coral Reef Jomtien | แผนงาน Professional Growth (Updated 17 Feb 2026)</p>
+            
+            <!-- Executive Summary Card -->
+            <div class="mt-8 bg-white p-8 rounded-2xl card-shadow border-t-4 border-[#005F73] text-left">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="mr-3">📄</span> <span data-key="execSummaryTitle">บทสรุปผู้บริหาร</span>
+                </h2>
+                <p class="text-gray-600 leading-relaxed text-lg" data-key="execSummaryDesc">
+                    แผนงานนี้มุ่งเน้นการใช้เทคโนโลยี <strong>Hybrid AI</strong> เพื่อผลิตวิดีโอคอนเทนต์คุณภาพสูงระดับ Luxury สำหรับโครงการ Copacabana Coral Reef โดยมีเป้าหมายเพื่อลดต้นทุนการผลิตและยกระดับภาพลักษณ์แบรนด์ให้มีความเป็นมืออาชีพและน่าเชื่อถือ เจาะกลุ่มลูกค้าตลาดบน (High-end Market)
+                </p>
+                <!-- Key Stats Badges -->
+                <div class="flex flex-wrap gap-4 mt-6">
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#E0F2F1] text-[#005F73] font-bold text-sm border border-[#0A9396]" data-key="stat1">💰 ลดต้นทุน 70-80%</span>
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#FFF7ED] text-[#CA6702] font-bold text-sm border border-[#EE9B00]" data-key="stat2">⚡ ลดเวลาผลิต</span>
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#F3E8FF] text-[#6B21A8] font-bold text-sm border border-[#94D2BD]" data-key="stat3">💎 คุณภาพ Luxury</span>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
-
-        <!-- Header Section -->
-        <header class="text-center space-y-4">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-900" data-key="title">กลยุทธ์การสร้างวิดีโอคอนเทนต์ด้วย AI</h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-key="subtitle">โครงการ Copacabana Coral Reef Jomtien | แผนงาน Professional Growth (15 ม.ค. 2026)</p>
         </header>
 
-        <!-- Executive Summary & KPIs -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Executive Summary -->
-            <div class="bg-white rounded-2xl p-6 card-shadow border-t-4 border-teal-600">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                    <span class="mr-2">📄</span> <span data-key="execSummaryTitle">บทสรุปผู้บริหาร</span>
-                </h2>
-                <p class="text-gray-600 leading-relaxed" data-key="execSummaryDesc">
-                    แผนงานนี้มุ่งเน้นการใช้เทคโนโลยี <strong>Hybrid AI</strong> เพื่อผลิตวิดีโอคอนเทนต์คุณภาพสูงระดับ Luxury โดยมีเป้าหมายเพื่อ <strong>ลดต้นทุนการผลิต</strong> และ <strong>ยกระดับภาพลักษณ์แบรนด์</strong> ให้มีความเป็นมืออาชีพและน่าเชื่อถือ เจาะกลุ่มลูกค้าตลาดบน (High-end Market)
-                </p>
-                <div class="mt-6 flex flex-wrap gap-3">
-                    <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-semibold" data-key="tagCost">💰 ลดต้นทุน 70-80%</span>
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold" data-key="tagTime">⚡ ลดเวลาผลิต</span>
-                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold" data-key="tagQuality">💎 คุณภาพ Luxury</span>
+        <!-- 2. Video Overview -->
+        <section>
+            <div class="bg-white p-2 rounded-2xl shadow-lg max-w-4xl mx-auto">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/3ZKTrMb80vs?si=EXT4ZQLamKgjgztY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             </div>
-
-            <!-- Video Presentation -->
-            <div class="bg-white rounded-2xl p-6 card-shadow border-t-4 border-orange-500">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                    <span class="mr-2">🎥</span> <span data-key="presentationTitle">วิดีโอสรุปภาพรวม</span>
-                </h2>
-                <div class="relative w-full" style="padding-bottom: 56.25%;">
-                    <iframe class="absolute top-0 left-0 w-full h-full rounded-lg" src="https://www.youtube.com/embed/3ZKTrMb80vs?si=EXT4ZQLamKgjgztY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-            </div>
+            <p class="text-center text-sm text-gray-500 mt-2" data-key="videoLabel">วิดีโอสรุปภาพรวม</p>
         </section>
 
-        <!-- Objectives & Hybrid Strategy -->
+        <!-- 3. Objectives & Strategy -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Objectives -->
-            <div class="bg-white rounded-2xl p-6 card-shadow">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl mr-3 bg-teal-100 p-2 rounded-lg">🎯</span>
-                    <h2 class="text-2xl font-bold text-gray-800" data-key="problemSolutionTitle">1. ภาพรวมและวัตถุประสงค์</h2>
+            <div class="bg-white p-8 rounded-2xl card-shadow h-full">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">🎯</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-key="objTitle">1. ภาพรวมและวัตถุประสงค์</h2>
                 </div>
-                <p class="text-gray-700 mb-4" data-key="problemSolutionDesc">
-                    ใช้ Generative AI ปฏิวัติการตลาดเพื่อผลิตวิดีโอคุณภาพสูง แก้ปัญหาต้นทุนและเวลา
+                <p class="text-gray-600 mb-6 leading-relaxed" data-key="objDesc">
+                    ใช้เทคโนโลยี <strong>Generative AI</strong> ปฏิวัติการตลาดเพื่อผลิตวิดีโอคุณภาพสูง แก้ปัญหาต้นทุนและเวลา
                 </p>
-                <div class="bg-[#F0FDF4] border-l-4 border-[#0A9396] p-4 rounded-r-lg">
-                    <h4 class="font-bold text-[#005F73]" data-key="mainGoalTitle">เป้าหมายหลัก</h4>
-                    <p class="text-sm text-gray-700" data-key="mainGoalDesc">ลดต้นทุนและเวลาในการผลิตคอนเทนต์ พร้อมยกระดับความสวยงามและความเป็นมืออาชีพให้สอดคล้องกับแบรนด์คอนโดหรู (Luxury)</p>
+                <div class="bg-[#F8FAFC] p-5 rounded-xl border-l-4 border-[#0A9396]">
+                    <h3 class="font-bold text-[#005F73] text-lg mb-2" data-key="mainGoalLabel">เป้าหมายหลัก</h3>
+                    <p class="text-gray-700" data-key="mainGoalText">ลดต้นทุนและเวลาในการผลิตคอนเทนต์ พร้อมยกระดับความสวยงามและความเป็นมืออาชีพให้สอดคล้องกับแบรนด์คอนโดหรู (Luxury)</p>
                 </div>
             </div>
 
             <!-- Hybrid Strategy -->
-            <div class="bg-white rounded-2xl p-6 card-shadow">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl mr-3 bg-indigo-100 p-2 rounded-lg">🎨</span>
-                    <h2 class="text-2xl font-bold text-gray-800" data-key="hybridStrategyTitle">2. กลยุทธ์เนื้อหาแบบ Hybrid AI</h2>
+            <div class="bg-white p-8 rounded-2xl card-shadow h-full">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">🎨</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-key="stratTitle">2. กลยุทธ์เนื้อหาแบบ Hybrid AI</h2>
                 </div>
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <div>
-                        <h4 class="font-bold text-[#0A9396]" data-key="strategy1Title">เน้นความสมจริงและศิลปะ</h4>
-                        <p class="text-sm text-gray-600" data-key="strategy1Desc">ใช้ Hybrid AI ผสมผสานเทคโนโลยีกับศิลปะ เพื่อภาพที่สวยงามสมจริง ไม่ดู 'ปลอม' ลดแรงต้านและอคติที่มีต่อ AI</p>
+                        <h4 class="font-bold text-[#005F73] text-lg mb-1" data-key="strat1Title">เน้นความสมจริงและศิลปะ</h4>
+                        <p class="text-gray-600 leading-relaxed" data-key="strat1Desc">ใช้ Hybrid AI ผสมผสานเทคโนโลยีกับศิลปะ เพื่อภาพที่สวยงามสมจริง ไม่ดู 'ปลอม' ลดแรงต้านและอคติที่มีต่อ AI</p>
                     </div>
                     <div>
-                        <h4 class="font-bold text-[#0A9396]" data-key="strategy2Title">สร้างภาพอนาคตจากความจริง (ระยะแรก)</h4>
-                        <p class="text-sm text-gray-600" data-key="strategy2Desc">นำภาพ Rendering จริงมาต่อยอดเป็นวิดีโอ (Image-to-Video) แนะนำ Facilities ทำให้ลูกค้าเข้าใจว่าเป็นการฉายภาพอนาคต</p>
+                        <h4 class="font-bold text-[#005F73] text-lg mb-1" data-key="strat2Title">สร้างภาพอนาคตจากความจริง (ระยะแรก)</h4>
+                        <p class="text-gray-600 leading-relaxed" data-key="strat2Desc">นำภาพ Rendering จริงมาต่อยอดเป็นวิดีโอ (Image-to-Video) แนะนำ Facilities ทำให้ลูกค้าเข้าใจว่าเป็นการฉายภาพอนาคต</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Deliverables -->
-        <section class="bg-white rounded-2xl p-6 card-shadow">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center" data-key="deliverablesTitle">3. ผลงานที่จะได้รับต่อเดือน</h2>
+        <!-- 4. Monthly Deliverables -->
+        <section class="bg-white p-8 rounded-2xl card-shadow">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center flex justify-center items-center gap-2">
+                <span>📦</span> <span data-key="deliverablesTitle">3. ผลงานที่จะได้รับต่อเดือน</span>
+            </h2>
             
-             <!-- VDO Content Plan Image (UPDATED) -->
-             <div class="mb-8 flex justify-center">
-                <img src="https://i.postimg.cc/s26mt6JV/5M-Contents.png" alt="5 Months VDO Content Plan" class="w-full max-w-4xl h-auto rounded-lg shadow-md border border-gray-200" onerror="this.style.display='none';">
+            <!-- VDO Content Plan Image -->
+            <div class="mb-8 flex justify-center">
+                <img src="https://i.postimg.cc/s26mt6JV/5M-Contents.png" alt="5 Month Content Plan" class="w-full max-w-4xl h-auto rounded-lg shadow-md border border-gray-200">
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-                <div class="p-4 bg-gray-50 rounded-xl">
-                    <div class="text-4xl mb-2">🎥</div>
-                    <h3 class="font-bold text-teal-800" data-key="deliv1Title">2 วิดีโอหลัก</h3>
-                    <p class="text-sm text-gray-600" data-key="deliv1Desc">2-3 นาที (Presentation, Lifestyle, Update)</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="p-6 bg-gradient-to-br from-[#E0F2F1] to-white rounded-xl border border-[#B2DFDB] text-center">
+                    <div class="text-5xl mb-3">🎥</div>
+                    <h3 class="font-bold text-xl text-[#005F73]" data-key="deliv1Title">2 วิดีโอหลัก</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-key="deliv1Desc">2-3 นาที (Presentation, Lifestyle, Update)</p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-xl">
-                    <div class="text-4xl mb-2">📱</div>
-                    <h3 class="font-bold text-teal-800" data-key="deliv2Title">4-8 วิดีโอสั้น (Shorts)</h3>
-                    <p class="text-sm text-gray-600" data-key="deliv2Desc">15-60 วินาที สำหรับ Engagement รายวัน</p>
+                <div class="p-6 bg-gradient-to-br from-[#FFF7ED] to-white rounded-xl border border-[#FFCC80] text-center">
+                    <div class="text-5xl mb-3">📱</div>
+                    <h3 class="font-bold text-xl text-[#005F73]" data-key="deliv2Title">4-8 วิดีโอสั้น (Shorts)</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-key="deliv2Desc">15-60 วินาที สำหรับ Engagement รายวัน</p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-xl">
-                    <div class="text-4xl mb-2">🎵</div>
-                    <h3 class="font-bold text-teal-800" data-key="deliv3Title">1 AI Music Video</h3>
-                    <p class="text-sm text-gray-600" data-key="deliv3Desc">สร้างอารมณ์ร่วมและการจดจำแบรนด์</p>
+                <div class="p-6 bg-gradient-to-br from-[#F3E8FF] to-white rounded-xl border border-[#D8B4FE] text-center">
+                    <div class="text-5xl mb-3">🎵</div>
+                    <h3 class="font-bold text-xl text-[#005F73]" data-key="deliv3Title">1 AI Music Video</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-key="deliv3Desc">สร้างอารมณ์ร่วมและการจดจำแบรนด์</p>
                 </div>
             </div>
         </section>
 
-        <!-- Content Plan Timeline -->
+        <!-- 5. Content Timeline (The Core Table) -->
         <section>
             <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center flex justify-center items-center">
-                <span class="mr-3">📅</span> <span data-key="planTitle">แผนการผลิตคอนเทนต์ระยะ 3+2 เดือน</span>
+                <span class="mr-3">📅</span> <span data-key="planTitle">แผนการผลิตคอนเทนต์ระยะ 5 เดือน</span>
             </h2>
 
-            <div class="space-y-8" id="content-timeline">
-                <!-- Content will be injected by JS -->
+            <div class="space-y-8" id="timeline-container">
+                <!-- Timeline items injected via JS -->
             </div>
-
-            <!-- Big Goal Section (ADDED) -->
-            <div class="mt-10 bg-gradient-to-r from-gray-800 to-teal-900 rounded-xl p-8 text-white text-center shadow-lg relative overflow-hidden border border-teal-600/50">
-                <div class="relative z-10">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 text-yellow-400 flex items-center justify-center">
-                        <span class="mr-3 text-3xl">🏆</span> 
-                        <span data-key="bigGoalTitle">เป้าหมายสูงสุด (The Big Picture)</span>
-                    </h3>
-                    <div class="w-16 h-1 bg-yellow-400 mx-auto mb-4 rounded-full"></div>
-                    <p class="text-lg md:text-xl text-gray-100 max-w-4xl mx-auto leading-relaxed" data-key="bigGoalDesc">
-                        หลังจาก 5-6 เดือน จะคัดเลือกและนำ VDO Contents เหล่านี้ มารวมสร้างเป็น <strong>Full Cinematic Video Presentation</strong> เต็มรูปแบบของโครงการ
-                    </p>
-                </div>
-                <!-- Decorative background elements -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -ml-16 -mb-16"></div>
-            </div>
-
         </section>
 
-        <!-- Use Cases -->
-        <section class="bg-white rounded-2xl p-6 card-shadow">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center" data-key="useCasesTitle">4. การประยุกต์ใช้และนวัตกรรม</h2>
+        <!-- 6. Innovation & Use Cases -->
+        <section class="bg-white p-8 rounded-2xl card-shadow">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center flex justify-center items-center gap-2">
+                <span>💡</span> <span data-key="useCasesTitle">4. การประยุกต์ใช้และนวัตกรรม</span>
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gray-50 p-4 rounded-xl border-l-4 border-teal-500">
-                    <h4 class="font-bold text-teal-800" data-key="ucMarketingTitle">📧 Marketing Support</h4>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2" data-key="ucMarketingList">
-                        <li><a href="https://thbho.github.io/CopaNewsJan26.html" target="_blank" class="text-blue-600 hover:underline">Micro-site Newsletter</a> & <a href="https://gemini.google.com/share/6491817153cd" target="_blank" class="text-blue-600 hover:underline">Interactive Quotations</a>.</li>
-                        <li>Infographics: <a href="https://thbho.github.io/EECJomtieninfoG.html" target="_blank" class="text-blue-600 hover:underline">EEC Potential</a>, <a href="https://thbho.github.io/AIRealEstate.html" target="_blank" class="text-blue-600 hover:underline">AI Revolution</a>.</li>
+                <!-- Marketing -->
+                <div class="bg-gray-50 p-6 rounded-xl border-l-4 border-[#0A9396] hover:bg-gray-100 transition">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-2xl">📧</span>
+                        <h4 class="font-bold text-[#005F73] text-lg" data-key="ucMarketingTitle">Marketing Support</h4>
+                    </div>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-2" data-key="ucMarketingList">
+                        <li><a href="https://thbho.github.io/CopaNewsJan26.html" target="_blank" class="text-blue-600 hover:underline font-medium">Micro-site Newsletter</a> & Interactive Quotations.</li>
+                        <li>Infographics: <a href="https://thbho.github.io/EECJomtieninfoG.html" target="_blank" class="text-blue-600 hover:underline font-medium">EEC Potential</a>, <a href="https://thbho.github.io/AIRealEstate.html" target="_blank" class="text-blue-600 hover:underline font-medium">AI Revolution</a>.</li>
                     </ul>
                 </div>
-                <a href="https://gemini.google.com/gem/06b465308b21?usp=sharing" target="_blank" class="bg-gray-50 p-4 rounded-xl border-l-4 border-blue-500 hover:shadow-md transition block">
-                    <h4 class="font-bold text-teal-800" data-key="ucCSTitle">🤖 Customer Service</h4>
-                    <p class="text-sm text-gray-600 mt-2" data-key="ucCSDesc">Copacabana AI Chatbot (แม่นยำ 24/7)</p>
+                <!-- Customer Service -->
+                <a href="https://gemini.google.com/gem/06b465308b21?usp=sharing" target="_blank" class="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500 hover:bg-gray-100 transition block group">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-2xl">🤖</span>
+                        <h4 class="font-bold text-[#005F73] text-lg group-hover:text-blue-600" data-key="ucCSTitle">Customer Service</h4>
+                    </div>
+                    <p class="text-sm text-gray-600" data-key="ucCSDesc">Copacabana AI Chatbot (แม่นยำ 24/7)</p>
                 </a>
-                <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=eaa41285c5ee4f11&nd=1&dlsi=41ce5389b9eb4f07" target="_blank" class="bg-gray-50 p-4 rounded-xl border-l-4 border-yellow-500 hover:shadow-md transition block">
-                    <h4 class="font-bold text-teal-800" data-key="ucBrandTitle">🎙️ Brand & Knowledge</h4>
-                    <p class="text-sm text-gray-600 mt-2" data-key="ucBrandDesc">Podcast (CSR, Lifestyle) ผ่าน AI Research Tools</p>
+                <!-- Brand -->
+                <a href="https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=eaa41285c5ee4f11&nd=1&dlsi=41ce5389b9eb4f07" target="_blank" class="bg-gray-50 p-6 rounded-xl border-l-4 border-yellow-500 hover:bg-gray-100 transition block group">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-2xl">🎙️</span>
+                        <h4 class="font-bold text-[#005F73] text-lg group-hover:text-yellow-600" data-key="ucBrandTitle">Brand & Knowledge</h4>
+                    </div>
+                    <p class="text-sm text-gray-600" data-key="ucBrandDesc">Podcast (CSR, Lifestyle) ผ่าน AI Research Tools</p>
                 </a>
-                <div class="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-500">
-                    <h4 class="font-bold text-teal-800" data-key="ucHRTitle">👥 HR Development</h4>
-                    <p class="text-sm text-gray-600 mt-2" data-key="ucHRDesc">ใช้ร่วมกับการเทรนนิ่งในโครงการ <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="text-blue-600 hover:underline">Vision 2026</a> เพื่อ Upskill/Reskill ควบคู่กับ <a href="https://thbho.github.io/ThAnnouncement.html" target="_blank" class="text-blue-600 hover:underline">Hybrid AI Courses</a></p>
+                <!-- HR -->
+                <div class="bg-gray-50 p-6 rounded-xl border-l-4 border-orange-500 hover:bg-gray-100 transition">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-2xl">👥</span>
+                        <h4 class="font-bold text-[#005F73] text-lg" data-key="ucHRTitle">HR Development</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed" data-key="ucHRDesc">
+                        ใช้ร่วมกับ <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="text-blue-600 hover:underline font-medium">Vision 2026</a> เพื่อ Upskill/Reskill ควบคู่กับ <a href="https://thbho.github.io/ThAnnouncement.html" target="_blank" class="text-blue-600 hover:underline font-medium">Hybrid AI Courses</a>
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- ROI -->
-        <section class="bg-gradient-to-r from-teal-700 to-cyan-800 text-white rounded-2xl p-8 card-shadow">
-            <h2 class="text-2xl font-bold mb-6 text-center" data-key="roiTitle">5. ผลตอบแทนที่คาดหวัง</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div>
-                    <div class="text-3xl font-bold text-teal-300 mb-2" data-key="roiPoint1Title">Leads</div>
-                    <p class="text-sm opacity-90" data-key="roiPoint1Desc">เพิ่มผู้สนใจคุณภาพจากการเข้าถึงที่มากขึ้น</p>
+        <!-- 7. ROI -->
+        <section class="bg-gradient-to-r from-[#005F73] to-[#0A9396] text-white rounded-2xl p-10 card-shadow">
+            <h2 class="text-2xl font-bold mb-8 text-center flex justify-center items-center gap-2">
+                <span>📈</span> <span data-key="roiTitle">5. ผลตอบแทนที่คาดหวัง</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+                <div class="pt-4 md:pt-0">
+                    <div class="text-4xl font-bold text-[#FFD54F] mb-3">Leads</div>
+                    <p class="text-base opacity-90 font-light" data-key="roiDesc1">เพิ่มผู้สนใจคุณภาพจากการเข้าถึงที่มากขึ้น</p>
                 </div>
-                <div>
-                    <div class="text-3xl font-bold text-teal-300 mb-2" data-key="roiPoint2Title">Assets</div>
-                    <p class="text-sm opacity-90" data-key="roiPoint2Desc">คลังสินทรัพย์ดิจิทัลมูลค่าระยะยาว</p>
+                <div class="pt-4 md:pt-0 md:pl-4">
+                    <div class="text-4xl font-bold text-[#FFD54F] mb-3">Assets</div>
+                    <p class="text-base opacity-90 font-light" data-key="roiDesc2">คลังสินทรัพย์ดิจิทัลมูลค่าระยะยาว</p>
                 </div>
-                <div>
-                    <div class="text-3xl font-bold text-teal-300 mb-2" data-key="roiPoint3Title">Edge</div>
-                    <p class="text-sm opacity-90" data-key="roiPoint3Desc">ภาพลักษณ์ผู้นำด้านเทคโนโลยี</p>
+                <div class="pt-4 md:pt-0 md:pl-4">
+                    <div class="text-4xl font-bold text-[#FFD54F] mb-3">Edge</div>
+                    <p class="text-base opacity-90 font-light" data-key="roiDesc3">ภาพลักษณ์ผู้นำด้านเทคโนโลยี</p>
                 </div>
             </div>
         </section>
+
+        <footer class="text-center mt-12 text-gray-400 text-sm pb-8">
+            <p data-key="footerText">กลยุทธ์วิดีโอคอนเทนต์ด้วย AI | โคปาคาบาน่า คอรัล รีฟ จอมเทียน | มกราคม 2026</p>
+        </footer>
 
     </div>
 
+    <!-- Scripts -->
     <script>
-        // Data for Translations
         const data = {
             th: {
-                title: "กลยุทธ์การสร้างคอนเทนต์วิดีโอด้วย AI",
-                subtitle: "โครงการ Copacabana Coral Reef Jomtien | แผนงาน Professional Growth",
+                mainTitle: "กลยุทธ์การสร้างคอนเทนต์วิดีโอด้วย AI",
+                subTitle: "โครงการ Copacabana Coral Reef Jomtien | แผนงาน Professional Growth (Updated 17 Feb 2026)",
                 execSummaryTitle: "บทสรุปผู้บริหาร",
-                execSummaryDesc: "แผนงานนี้มุ่งเน้นการใช้เทคโนโลยี Hybrid AI เพื่อผลิตวิดีโอคอนเทนต์คุณภาพสูงระดับ Luxury สำหรับโครงการ Copacabana Coral Reef โดยมีเป้าหมายเพื่อลดต้นทุนการผลิตและยกระดับภาพลักษณ์แบรนด์ให้มีความเป็นมืออาชีพและน่าเชื่อถือ เจาะกลุ่มลูกค้าตลาดบน (High-end Market)",
-                tagCost: "💰 ลดต้นทุน 70-80%",
-                tagTime: "⚡ ลดเวลาผลิต",
-                tagQuality: "💎 คุณภาพ Luxury",
-                presentationTitle: "วิดีโอสรุปภาพรวม",
-                planTitle: "แผนการผลิตคอนเทนต์ระยะ 3+2 เดือน",
-                months: [
-                    {
-                        title: "เดือนที่ 1 (กุมภาพันธ์): The Vision",
-                        focus: "จุดเน้น: ภาพลักษณ์แบรนด์, ความเชื่อมั่นในการก่อสร้าง & สิ่งอำนวยความสะดวก",
-                        color: "border-teal-500",
-                        icon: "🎯",
-                        items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Facilities : Pool", detail: "นำเสนอวิสัยทัศน์โครงการ ไฮไลท์สระว่ายน้ำส่วนกลาง (AI Rendering)", link: "HD VDO Contents" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "รายงานความคืบหน้า เน้นความแข็งแกร่งของโครงสร้าง 'ชั้น 41'", link: "Feb 2026 Construction" },
-                            { type: "Shorts (4)", ratio: "9:16", topic: "Highlights", detail: "Timelapse ตึก, Teaser สระว่ายน้ำ, วิวพระอาทิตย์ตก, อัปเดต Mega Project EEC", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "Jomtien & EEC", detail: "'ลงทุนเพื่ออนาคต: จอมเทียนศูนย์กลาง EEC', การใช้ชีวิตยั่งยืน (LEV)", link: "Jomtien & EEC" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Safety, EEC, Wellness", detail: "เจาะลึกอัปเดต EEC, มาตรฐานความปลอดภัย, และเทรนด์ Wellness", link: "Feb 2026 Newsletter" }
-                        ]
-                    },
-                    {
-                        title: "เดือนที่ 2 (มีนาคม): The Lifestyle & Experience",
-                        focus: "จุดเน้น: ประสบการณ์การอยู่อาศัยจริง (Immersive Experience) & สิ่งอำนวยความสะดวก",
-                        color: "border-blue-500",
-                        icon: "🌴",
-                        items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Lifestyle", detail: "สัมผัสประสบการณ์ไลฟ์สไตล์ที่ Coral Reef (ชายหาดและส่วนกลาง)", link: "Beach Lifestyle" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "'Rising Up' - อัปเดตงานติดตั้งระบบและการเริ่มงานตกแต่งภายใน", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Living Vibe", detail: "กิจกรรม Wellness, โยคะ, สปา, บรรยากาศทำอาหาร, มุมพักผ่อน", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "Wellness Lifestyle", detail: "เมื่อมนุษย์ต้อง 'อัปเกรด' เพื่ออยู่รอดในยุค AI (แนวคิด Peter Thiel)", link: "TRANSHUMANISM" },
-                            { type: "Articles (3)", ratio: "Web", topic: "AI & Smart Living", detail: "เทคโนโลยี Smart Home, สิ่งอำนวยความสะดวกอัจฉริยะ", link: "AI Smart Home" }
-                        ]
-                    },
-                    {
-                        title: "เดือนที่ 3 (เมษายน): Beach Summer & CSR Teaser",
-                        focus: "จุดเน้น: บรรยากาศหน้าร้อน/สงกรานต์ริมทะเล และการเชิญชวนร่วมกิจกรรม CSR",
-                        color: "border-yellow-500",
-                        icon: "🌊",
-                        items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Summer at Copacabana", detail: "นำเสนอไลฟ์สไตล์ริมทะเลช่วงซัมเมอร์/สงกรานต์ ผสมผสานความสนุกและความหรูหรา", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนเมษายน", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Songkran & CSR Teaser", detail: "บรรยากาศสงกรานต์, Recap ภาพกิจกรรม CSR เพื่อปูทางสู่งาน 10 พ.ค.", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "CSR Invitation", detail: "VDO จดหมายข่าวเชิญชวนลูกบ้านและนักลงทุนร่วมกิจกรรมเพื่อสังคม", link: "-" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Summer & Giving Back", detail: "ที่เที่ยวพัทยาช่วงหน้าร้อน, ความสำคัญของการดูแลสิ่งแวดล้อมหาดจอมเทียน", link: "-" }
-                        ]
-                    },
-                    {
-                        title: "เดือนที่ 4 (พฤษภาคม): CSR & Community",
-                        focus: "จุดเน้น: ภาพลักษณ์แบรนด์, ความรับผิดชอบต่อสังคม, และกิจกรรม Clean Jomtien Together",
-                        color: "border-green-500",
-                        icon: "🤝",
-                        items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Event: Clean Jomtien (Full)", detail: "วิดีโอบันทึกภาพกิจกรรมฉบับเต็ม วันที่ 10 พ.ค. 2026 เน้นเล่าเรื่องราวความร่วมมือ", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "CSR Journey Recap", detail: "ประมวลภาพกิจกรรมเพื่อสังคมตั้งแต่อดีต (2024-2025) ใช้ AI Enhancement", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนพฤษภาคม", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Eco-Friendly & Care", detail: "บรรยากาศในงาน, รอยยิ้มผู้เข้าร่วม, สัมภาษณ์ความประทับใจสั้นๆ", link: "-" },
-                            { type: "Articles (3)", ratio: "Web", topic: "Sustainable Living", detail: "'ทำไมสิ่งแวดล้อมที่ดีถึงเพิ่มมูลค่าอสังหาฯ', สรุปผลสำเร็จของกิจกรรม CSR", link: "-" }
-                        ]
-                    },
-                    {
-                        title: "เดือนที่ 5 (มิถุนายน): The Investment & Future",
-                        focus: "จุดเน้น: ROI, ข้อมูลตัวเลข, รีวิวห้องตัวอย่าง และศักยภาพในอนาคต",
-                        color: "border-indigo-500",
-                        icon: "📈",
-                        items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Investing in Pattaya", detail: "'Facts & Figures' - โมชั่นกราฟิกข้อมูล Yield และการเติบโต ขับเคลื่อนด้วยข้อมูลจริง", link: "VDO Content" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Event Highlight: CSR", detail: "ไฮไลท์กิจกรรมวันที่ 10 พ.ค. 2026 (Cinematic Recap) ตัดต่อกระชับ เน้นอารมณ์ร่วม", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนมิถุนายน", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Investment, Units Reviews", detail: "5 เหตุผลที่ต้องลงทุน, รีวิวเจาะลึกยูนิต (Room Reviews), เปรียบเทียบประเภทห้อง", link: "-" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Future Trends", detail: "5 เมกะโปรเจกต์ EEC และเทรนด์ที่อยู่อาศัยแบบ Hybrid", link: "Newsletter" }
-                        ]
-                    }
-                ],
-                tableHeaders: ["รูปแบบ (Type)", "สัดส่วน (Ratio)", "หัวข้อ (Topic)", "รายละเอียด (Detail)", "ลิงก์ (Link)"],
-                
-                problemSolutionTitle: "1. ภาพรวมและวัตถุประสงค์",
-                problemSolutionDesc: "ใช้เทคโนโลยี Generative AI ปฏิวัติการตลาดเพื่อผลิตวิดีโอคุณภาพสูง แก้ปัญหาต้นทุนและเวลา",
-                mainGoalTitle: "เป้าหมายหลัก",
-                mainGoalDesc: "ลดต้นทุนและเวลาในการผลิตคอนเทนต์ พร้อมยกระดับความสวยงามและความเป็นมืออาชีพให้สอดคล้องกับแบรนด์คอนโดหรู (Luxury)",
-                
-                hybridStrategyTitle: "2. กลยุทธ์เนื้อหาแบบ Hybrid AI",
-                strategy1Title: "เน้นความสมจริงและศิลปะ",
-                strategy1Desc: "ใช้ Hybrid AI ผสมผสานเทคโนโลยีกับศิลปะ เพื่อภาพที่สวยงามสมจริง ไม่ดู 'ปลอม' ลดแรงต้านและอคติที่มีต่อ AI",
-                strategy2Title: "สร้างภาพอนาคตจากความจริง (ระยะแรก)",
-                strategy2Desc: "นำภาพ Rendering จริงมาต่อยอดเป็นวิดีโอ (Image-to-Video) แนะนำ Facilities ทำให้ลูกค้าเข้าใจว่าเป็นการฉายภาพอนาคต",
-
+                execSummaryDesc: "แผนงานนี้มุ่งเน้นการใช้เทคโนโลยี <strong>Hybrid AI</strong> เพื่อผลิตวิดีโอคอนเทนต์คุณภาพสูงระดับ Luxury สำหรับโครงการ Copacabana Coral Reef โดยมีเป้าหมายเพื่อลดต้นทุนการผลิตและยกระดับภาพลักษณ์แบรนด์ให้มีความเป็นมืออาชีพและน่าเชื่อถือ เจาะกลุ่มลูกค้าตลาดบน (High-end Market)",
+                stat1: "💰 ลดต้นทุน 70-80%",
+                stat2: "⚡ ลดเวลาผลิต",
+                stat3: "💎 คุณภาพ Luxury",
+                videoLabel: "วิดีโอสรุปภาพรวมโครงการ",
+                objTitle: "1. ภาพรวมและวัตถุประสงค์",
+                objDesc: "ใช้เทคโนโลยี <strong>Generative AI</strong> ปฏิวัติการตลาดเพื่อผลิตวิดีโอคุณภาพสูง แก้ปัญหาต้นทุนและเวลา",
+                mainGoalLabel: "เป้าหมายหลัก",
+                mainGoalText: "ลดต้นทุนและเวลาในการผลิตคอนเทนต์ พร้อมยกระดับความสวยงามและความเป็นมืออาชีพให้สอดคล้องกับแบรนด์คอนโดหรู (Luxury)",
+                stratTitle: "2. กลยุทธ์เนื้อหาแบบ Hybrid AI",
+                strat1Title: "เน้นความสมจริงและศิลปะ",
+                strat1Desc: "ใช้ Hybrid AI ผสมผสานเทคโนโลยีกับศิลปะ เพื่อภาพที่สวยงามสมจริง ไม่ดู 'ปลอม' ลดแรงต้านและอคติที่มีต่อ AI",
+                strat2Title: "สร้างภาพอนาคตจากความจริง (ระยะแรก)",
+                strat2Desc: "นำภาพ Rendering จริงมาต่อยอดเป็นวิดีโอ (Image-to-Video) แนะนำ Facilities ทำให้ลูกค้าเข้าใจว่าเป็นการฉายภาพอนาคต",
                 deliverablesTitle: "3. ผลงานที่จะได้รับต่อเดือน",
                 deliv1Title: "2 วิดีโอหลัก",
                 deliv1Desc: "2-3 นาที (Presentation, Lifestyle, Update)",
@@ -348,10 +306,7 @@
                 deliv2Desc: "15-60 วินาที สำหรับ Engagement รายวัน",
                 deliv3Title: "1 AI Music Video",
                 deliv3Desc: "สร้างอารมณ์ร่วมและการจดจำแบรนด์",
-
-                bigGoalTitle: "เป้าหมายสูงสุด (The Big Picture)",
-                bigGoalDesc: "หลังจาก 5-6 เดือน จะคัดเลือกและนำ VDO Contents เหล่านี้ มารวมสร้างเป็น <strong>Full Cinematic Video Presentation</strong> เต็มรูปแบบของโครงการ",
-
+                planTitle: "แผนการผลิตคอนเทนต์ระยะ 5 เดือน",
                 useCasesTitle: "4. การประยุกต์ใช้และนวัตกรรม",
                 ucMarketingTitle: "📧 Marketing Support",
                 ucMarketingList: `
@@ -363,107 +318,118 @@
                 ucBrandTitle: "🎙️ Brand & Knowledge",
                 ucBrandDesc: "Podcast (CSR, Lifestyle) ผ่าน AI Research Tools",
                 ucHRTitle: "👥 HR Development",
-                ucHRDesc: 'ใช้ร่วมกับการเทรนนิ่งในโครงการ <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="text-blue-600 hover:underline">Vision 2026</a> เพื่อ Upskill/Reskill ควบคู่กับ <a href="https://thbho.github.io/ThAnnouncement.html" target="_blank" class="text-blue-600 hover:underline">Hybrid AI Courses</a>',
-
+                ucHRDesc: "ใช้ร่วมกับการเทรนนิ่งในโครงการ <a href='https://thbho.github.io/CopaBizProp2026.html' target='_blank' class='text-blue-600 hover:underline font-medium'>Vision 2026</a> เพื่อ Upskill/Reskill ควบคู่กับ <a href='https://thbho.github.io/ThAnnouncement.html' target='_blank' class='text-blue-600 hover:underline font-medium'>Hybrid AI Courses</a>",
                 roiTitle: "5. ผลตอบแทนที่คาดหวัง",
-                roiPoint1Title: "Leads",
-                roiPoint1Desc: "เพิ่มผู้สนใจคุณภาพจากการเข้าถึงที่มากขึ้น",
-                roiPoint2Title: "Assets",
-                roiPoint2Desc: "คลังสินทรัพย์ดิจิทัลมูลค่าระยะยาว",
-                roiPoint3Title: "Edge",
-                roiPoint3Desc: "ภาพลักษณ์ผู้นำด้านเทคโนโลยี",
-                footerText: "กลยุทธ์วิดีโอคอนเทนต์ด้วย AI | โคปาคาบาน่า คอรัล รีฟ จอมเทียน | มกราคม 2026"
-            },
-            en: {
-                title: "AI-Powered Video Content Strategy",
-                subtitle: "Copacabana Coral Reef Jomtien | Plan: Professional Growth",
-                execSummaryTitle: "Executive Summary",
-                execSummaryDesc: "This plan focuses on leveraging **Hybrid AI** technology to produce high-quality, Luxury-grade video content for Copacabana Coral Reef. The goal is to **reduce production costs** while elevating the **brand image** to be professional and trustworthy, targeting the High-end Market.",
-                tagCost: "💰 70-80% Cost Reduction",
-                tagTime: "⚡ Faster Production",
-                tagQuality: "💎 Luxury Quality",
-                presentationTitle: "Video Presentation Overview",
-                planTitle: "3+2 Month Content Production Plan",
+                roiDesc1: "เพิ่มผู้สนใจคุณภาพจากการเข้าถึงที่มากขึ้น",
+                roiDesc2: "คลังสินทรัพย์ดิจิทัลมูลค่าระยะยาว",
+                roiDesc3: "ภาพลักษณ์ผู้นำด้านเทคโนโลยี",
+                footerText: "กลยุทธ์วิดีโอคอนเทนต์ด้วย AI | โคปาคาบาน่า คอรัล รีฟ จอมเทียน | มกราคม 2026",
                 months: [
                     {
-                        title: "Month 1 (Feb): The Vision",
-                        focus: "Focus: Brand Image, Construction Confidence & Facilities (Pool Highlight)",
-                        color: "border-teal-500",
-                        icon: "🎯",
+                        id: "m1", title: "เดือนที่ 1 (กุมภาพันธ์): The Vision", focus: "จุดเน้น: ภาพลักษณ์แบรนด์, ความเชื่อมั่นในการก่อสร้าง & สิ่งอำนวยความสะดวก (เน้นสระว่ายน้ำ)", color: "border-teal-500", icon: "🎯",
                         items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Facilities : Pool", detail: "Project vision presentation, highlighting Pool Facility via Generative AI", link: "HD VDO Contents" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Progress report focused on 'Level 41' structure solidity", link: "Feb 2026 Construction" },
-                            { type: "Shorts (4)", ratio: "9:16", topic: "Highlights", detail: "Building Time-lapse, Pool Teaser, Sunset View, EEC Mega Project updates", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "Jomtien & EEC", detail: "'Invest in the Future', Daily Longevity for LEV", link: "Jomtien & EEC" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Safety, EEC, Wellness", detail: "Deep dive into EEC updates, Safety standards, and Wellness living trends", link: "Feb 2026 Newsletter" }
+                            {type: "Main Video (3) <span class='status-badge status-new'>New Updated</span>", ratio: "9:16", topic: "Facilities : 3 Pools", detail: "นำเสนอวิสัยทัศน์โครงการ ไฮไลท์สระว่ายน้ำส่วนกลาง (AI Render to Video)", link: [
+                                {text: "WavePool (1m) (Final)", class: "status-final"},
+                                {text: "Rooftop Pool (1m) (Final)", class: "status-final"},
+                                {text: "Coral Pool (1m) 01 (Final)", class: "status-final"}
+                            ]},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "รายงานความคืบหน้า เน้นความแข็งแกร่งของโครงสร้าง 'ชั้น 41'", link: [
+                                {text: "Feb 2026 Construction (Published)", class: "status-pub", url: "https://drive.google.com/file/d/11JgTs7BlgRMjHFbPsm9oFUEdB3ZydrMa/view?usp=sharing"}
+                            ]},
+                            {type: "Full MV (1) + Shorts (2) <span class='status-badge status-new'>New Updated</span>", ratio: "9:16", topic: "3 Pools (Extended)", detail: "Time Lapse, สระว่ายน้ำ,วิวพระอาทิตย์ตก, ฯลฯ", link: [
+                                {text: "Mix Pools Full MV (WIP)", class: "status-wip"},
+                                {text: "Rooftop Pool : Full MV (Draft 3)", class: "status-draft"},
+                                {text: "Coral Pool (1m) 02 (Final)", class: "status-final"},
+                                {text: "WavePool (Full) (Draft3)", class: "status-draft"}
+                            ]},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Jomtien & EEC, LEV", detail: "'ลงทุนเพื่ออนาคต: จอมเทียนศูนย์กลาง EEC', การใช้ชีวิตยั่งยืน (LEV)", link: [
+                                {text: "Jomtien & EEC (Published)", class: "status-pub", url: "https://thbho.github.io/CopaNewsFeb26.html"}
+                            ]},
+                            {type: "Articles (4)", ratio: "Web", topic: "Safety, EEC, Wellness, Global", detail: "เจาะลึกอัปเดต EEC, มาตรฐานความปลอดภัย, และเทรนด์ Wellness", link: [
+                                {text: "Feb 2026 Newsletter (Published)", class: "status-pub", url: "https://thbho.github.io/CopaNewsFeb26.html"}
+                            ]}
                         ]
                     },
                     {
-                        title: "Month 2 (Mar): The Lifestyle & Experience",
-                        focus: "Focus: Immersive Living Experience & Facilities",
-                        color: "border-blue-500",
-                        icon: "🌴",
+                        id: "m2", title: "เดือนที่ 2 (มีนาคม): The Lifestyle & Experience", focus: "จุดเน้น: ประสบการณ์การอยู่อาศัยจริง (Immersive Experience) & สิ่งอำนวยความสะดวก", color: "border-blue-500", icon: "🌴",
                         items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Lifestyle", detail: "Experience the lifestyle at Coral Reef (Beach & Facilities)", link: "Beach Lifestyle" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "'Rising Up' - Systems installation & Interior beginnings", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Living Vibe", detail: "Wellness activities, Yoga, Spa, Cooking vibe, Relaxing corner", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "Wellness Lifestyle", detail: "Human 'Upgrade' in AI era (Transhumanism concept)", link: "TRANSHUMANISM" },
-                            { type: "Articles (3)", ratio: "Web", topic: "AI & Smart Living", detail: "AI smart home technology and Facilities integration", link: "AI Smart Home" }
+                            {type: "Main Video (1) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Lifestyle", detail: "สัมผัสประสบการณ์ไลฟ์สไตล์ที่ Coral Reef (ชายหาดและส่วนกลาง)", link: [
+                                {text: "Beach Lifestyle : RooftopPool (WIP)", class: "status-wip", url: "https://www.youtube.com/watch?v=IBrxP7OH_Ao"},
+                                {text: "WavePool (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "Main Video (1) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Construction Update", detail: "'Rising Up' LEVEL 43 (TBC)", link: [
+                                {text: "Mar 2026 Construction (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "MV (1) + Shorts (4)", ratio: "9:16", topic: "Living Vibe, Wellness", detail: "กิจกรรม Wellness, โยคะ, Fitness, Pool Summer, มุมพักผ่อน ฯลฯ", link: [
+                                {text: "Wellness Activities and SummerLifestyle (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "Newsletter VDO (2) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Pools Lifestyle, Tech & Wellness", detail: "อัปเดต Project EEC : UTP เมืองการบินเริ่มก่อสร้างแล้ว", link: [
+                                {text: "March 2026 Newsletter (Draft 3 : Outline)", class: "status-draft", url: "https://threeandhour.github.io/GymMateX/TransHuman.html"},
+                                {text: "EEC & Jomtien (Draft 2)", class: "status-draft"}
+                            ]},
+                            {type: "Articles (3) <span class='status-badge status-new'>New Updated</span>", ratio: "Web", topic: "UTP Aviation, Wellness, Global", detail: "เมื่อมนุษย์ต้อง 'อัปเกรด' เพื่ออยู่รอดในยุค AI, UTP เมืองการบิน, Smart Home", link: [
+                                {text: "March 2026 Newsletter (Draft3)", class: "status-draft", url: "https://threeandhour.github.io/GymMateX/TransHuman.html"},
+                                {text: "UTP Aviation City (Final)", class: "status-final"},
+                                {text: "TRANSHUMANISM (Final)", class: "status-final"},
+                                {text: "Global Vision : Musk (FInal Draft)", class: "status-final"}
+                            ]}
                         ]
                     },
                     {
-                        title: "Month 3 (Apr): Beach Summer & CSR Teaser",
-                        focus: "Focus: Summer/Songkran Vibe & CSR Event Invitation",
-                        color: "border-yellow-500",
-                        icon: "🌊",
+                        id: "m3", title: "เดือนที่ 3 (เมษายน): Beach Summer & CSR Teaser", focus: "จุดเน้น: บรรยากาศหน้าร้อน/สงกรานต์ริมทะเล และการเชิญชวนร่วมกิจกรรม CSR", color: "border-yellow-500", icon: "🌊",
                         items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Summer at Copacabana", detail: "Showcasing the ultimate beach lifestyle during Summer/Songkran festival", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for April", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Songkran & CSR Teaser", detail: "Songkran moments, Recap of CSR to announce 'Clean Jomtien Together'", link: "-" },
-                            { type: "Newsletter VDO (2)", ratio: "16:9", topic: "CSR Invitation", detail: "Video invitation for residents/investors to join the CSR event", link: "-" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Summer & Giving Back", detail: "Pattaya Summer guide, The importance of sustainable beaches", link: "-" }
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Summer at Copacabana", detail: "นำเสนอไลฟ์สไตล์ริมทะเลช่วงซัมเมอร์/สงกรานต์ ผสมผสานความสนุกและความหรูหรา", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนเมษายน", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Songkran & CSR Teaser", detail: "บรรยากาศสงกรานต์, Recap ภาพกิจกรรม CSR 2024-2025 เพื่อปูทางและเชิญชวนร่วมงาน 'Clean Jomtien Together' (10 พ.ค.)", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "CSR Invitation", detail: "VDO จดหมายข่าวเชิญชวนลูกบ้านและนักลงทุนร่วมกิจกรรมเพื่อสังคม", link: []},
+                            {type: "Articles (4)", ratio: "Web", topic: "Summer & Giving Back", detail: "ที่เที่ยวพัทยาช่วงหน้าร้อน, ความสำคัญของการดูแลสิ่งแวดล้อมหาดจอมเทียน", link: []}
                         ]
                     },
                     {
-                        title: "Month 4 (May): CSR & Community",
-                        focus: "Focus: Brand Image, Social Responsibility & 'Clean Jomtien Together' Event",
-                        color: "border-green-500",
-                        icon: "🤝",
+                        id: "m4", title: "เดือนที่ 4 (พฤษภาคม): CSR & Community", focus: "จุดเน้น: ภาพลักษณ์แบรนด์, ความรับผิดชอบต่อสังคม, และกิจกรรม Clean Jomtien Together", color: "border-green-500", icon: "🤝",
                         items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Event: Clean Jomtien (Full)", detail: "Full version coverage of the event (May 10). Detailed storytelling", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "CSR Journey Recap", detail: "Emotional recap of all CSR activities (2024-2025) using AI Enhancement", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for May", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Eco-Friendly & Care", detail: "Event atmosphere, participant smiles, quick interviews", link: "-" },
-                            { type: "Articles (3)", ratio: "Web", topic: "Sustainable Living", detail: "How a clean environment increases property value, CSR summary", link: "-" }
+                            {type: "Main Video (1)", ratio: "16:9", topic: "CSR Journey Recap (2024-2025)", detail: "ประมวลภาพกิจกรรมเพื่อสังคมตั้งแต่อดีต ใช้ AI (Topaz/Magnific) อัปเกรดภาพเก่าให้คมชัด 4K", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนพฤษภาคม", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Clean Jomtien Together", detail: "คลิปสั้นบรรยากาศงานวันที่ 10 พ.ค. เน้นรอยยิ้ม ความร่วมมือ และชายหาดที่สวยสะอาด", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Thank You Message", detail: "VDO ขอบคุณผู้เข้าร่วมงาน พร้อมสรุปความสำเร็จของกิจกรรม", link: []},
+                            {type: "Articles (3)", ratio: "Web", topic: "Sustainable Living", detail: "'ทำไมสิ่งแวดล้อมที่ดีถึงเพิ่มมูลค่าอสังหาฯ', ประมวลภาพความสำเร็จ CSR", link: []}
                         ]
                     },
                     {
-                        title: "Month 5 (Jun): The Investment & Future",
-                        focus: "Focus: ROI, Data, Unit Reviews & Future Potential",
-                        color: "border-indigo-500",
-                        icon: "📈",
+                        id: "m5", title: "เดือนที่ 5 (มิถุนายน): The Investment & Future", focus: "จุดเน้น: รีวิวห้องตัวอย่าง การลงทุน และศักยภาพในอนาคต", color: "border-indigo-500", icon: "📈",
                         items: [
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Investing in Pattaya", detail: "'Facts & Figures' - Data-driven motion graphics showing yield/growth", link: "VDO Content" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Event Highlight: CSR", detail: "Cinematic Highlight (Recap) of the May 10th event. Short & Emotional", link: "-" },
-                            { type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for June", link: "-" },
-                            { type: "Shorts (5)", ratio: "9:16", topic: "Investment, Units Reviews", detail: "5 Reasons to Invest, Deep Dive Unit Reviews, Comparison", link: "-" },
-                            { type: "Articles (4)", ratio: "Web", topic: "Future Trends", detail: "5 EEC Mega Projects & Hybrid Living Trends", link: "Newsletter" }
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Investing in Pattaya", detail: "'Facts & Figures' - โมชั่นกราฟิกข้อมูล Yield และการเติบโต ขับเคลื่อนด้วยข้อมูลจริง", link: [
+                                {text: "VDO Content", url: "https://gemini.google.com/share/6491817153cd"}
+                            ]},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Event Highlight: CSR", detail: "ไฮไลท์กิจกรรมวันที่ 10 พ.ค. 2026 (Cinematic Recap) ตัดต่อกระชับ เน้นอารมณ์ร่วม", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "อัปเดตความคืบหน้างานก่อสร้างประจำเดือนมิถุนายน", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Investment, Units Reviews", detail: "5 เหตุผลที่ต้องลงทุน, รีวิวเจาะลึกยูนิต (Room Reviews), เปรียบเทียบประเภทห้อง, ไฮไลท์งาน CSR (เพิ่มเติม)", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Market Watch", detail: "เทรนด์ตลาดครึ่งปีหลัง, อัปเดตต่อนโยบายภาครัฐ", link: []},
+                            {type: "Articles (4)", ratio: "Web", topic: "Future Trends", detail: "5 เมกะโปรเจกต์ EEC และเทรนด์ที่อยู่อาศัยแบบ Hybrid", link: [
+                                {text: "Newsletter", url: "https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=eaa41285c5ee4f11&nd=1&dlsi=41ce5389b9eb4f07"}
+                            ]}
                         ]
                     }
-                ],
-                tableHeaders: ["Type", "Ratio", "Topic", "Detail / Concept", "Link"],
-                
-                problemSolutionTitle: "1. Overview & Objectives",
-                problemSolutionDesc: "Revolutionizing marketing with Generative AI to produce cinematic quality video content.",
-                mainGoalTitle: "Main Goal",
-                mainGoalDesc: "Reduce production costs and time while elevating the aesthetics and professionalism of the content to align with the Luxury Condo brand.",
-                
-                hybridStrategyTitle: "2. Hybrid AI Content Strategy",
-                strategy1Title: "Realism & Artistic Standards",
-                strategy1Desc: "Using a Hybrid AI approach blending technology with artistic vision. Focusing on realistic visuals to avoid a 'fake' look.",
-                strategy2Title: "Visualizing the Future (Phase 1)",
-                strategy2Desc: "Transforming real construction renderings into video content (Image-to-Video) to showcase facilities.",
-
+                ]
+            },
+            en: {
+                mainTitle: "AI-Powered Video Content Strategy",
+                subTitle: "Copacabana Coral Reef Jomtien | Plan: Professional Growth (Updated 17 Feb 2026)",
+                execSummaryTitle: "Executive Summary",
+                execSummaryDesc: "This plan focuses on leveraging **Hybrid AI** technology to produce high-quality, Luxury-grade video content for Copacabana Coral Reef. The goal is to **reduce production costs** while elevating the **brand image** to be professional and trustworthy, targeting the High-end Market.",
+                stat1: "💰 70-80% Cost Reduction",
+                stat2: "⚡ Faster Production",
+                stat3: "💎 Luxury Quality",
+                videoLabel: "Project Overview Video",
+                objTitle: "1. Overview & Objectives",
+                objDesc: "Revolutionizing marketing with Generative AI to produce cinematic quality video content.",
+                mainGoalLabel: "Main Goal",
+                mainGoalText: "Reduce production costs and time while elevating the aesthetics and professionalism of the content to align with the Luxury Condo brand.",
+                stratTitle: "2. Hybrid AI Content Strategy",
+                strat1Title: "Realism & Artistic Standards",
+                strat1Desc: "Using a Hybrid AI approach blending technology with artistic vision. Focusing on realistic visuals to avoid a 'fake' look.",
+                strat2Title: "Visualizing the Future (Phase 1)",
+                strat2Desc: "Transforming real construction renderings into video content (Image-to-Video) to showcase facilities.",
                 deliverablesTitle: "3. Monthly Deliverables",
                 deliv1Title: "2 Main Videos",
                 deliv1Desc: "2-3 mins (Presentation, Lifestyle, Update).",
@@ -471,10 +437,7 @@
                 deliv2Desc: "15-60 secs for daily engagement.",
                 deliv3Title: "1 AI Music Video",
                 deliv3Desc: "Emotive brand connection.",
-
-                bigGoalTitle: "The Ultimate Goal (The Big Picture)",
-                bigGoalDesc: "After 5-6 months, we will select and compile these video contents to create a complete <strong>Full Cinematic Video Presentation</strong> of the project.",
-
+                planTitle: "5-Month Content Production Plan",
                 useCasesTitle: "4. Innovation & Integration",
                 ucMarketingTitle: "📧 Marketing Support",
                 ucMarketingList: `
@@ -482,20 +445,103 @@
                     <li>Infographics: <a href="https://thbho.github.io/EECJomtieninfoG.html" target="_blank" class="text-blue-600 hover:underline">EEC Potential</a>, <a href="https://thbho.github.io/AIRealEstate.html" target="_blank" class="text-blue-600 hover:underline">AI Revolution</a>.</li>
                 `,
                 ucCSTitle: "🤖 Customer Service",
-                ucCSDesc: "Copacabana AI Chatbot (24/7 Precision).",
+                ucCSDesc: "Copacabana AI Chatbot (24/7 Precision)",
                 ucBrandTitle: "🎙️ Brand & Knowledge",
-                ucBrandDesc: "Podcast (CSR, Lifestyle) via AI Research Tools.",
+                ucBrandDesc: "Podcast (CSR, Lifestyle) via AI Research Tools",
                 ucHRTitle: "👥 HR Development",
-                ucHRDesc: 'This toolkit supports employee training in <a href="https://thbho.github.io/CopaBizProp2026.html" target="_blank" class="text-blue-600 hover:underline">Vision 2026</a> for Upskill/Reskill alongside <a href="https://thbho.github.io/ThAnnouncement.html" target="_blank" class="text-blue-600 hover:underline">Hybrid AI Courses</a>.',
-
+                ucHRDesc: "Integrated with <a href='https://thbho.github.io/CopaBizProp2026.html' target='_blank' class='text-blue-600 hover:underline font-medium'>Vision 2026</a> for Upskill/Reskill alongside <a href='https://thbho.github.io/ThAnnouncement.html' target='_blank' class='text-blue-600 hover:underline font-medium'>Hybrid AI Courses</a>",
                 roiTitle: "5. Projected ROI",
-                roiPoint1Title: "Leads",
-                roiPoint1Desc: "Quality leads from higher reach.",
-                roiPoint2Title: "Assets",
-                roiPoint2Desc: "Long-term digital asset library.",
-                roiPoint3Title: "Edge",
-                roiPoint3Desc: "Tech leadership market positioning.",
-                footerText: "AI-Powered Video Content Strategy | Copacabana Coral Reef Jomtien | Jan 2026"
+                roiDesc1: "Quality leads from higher reach.",
+                roiDesc2: "Long-term digital asset library.",
+                roiDesc3: "Tech leadership market positioning.",
+                footerText: "AI-Powered Video Content Strategy | Copacabana Coral Reef Jomtien | Jan 2026",
+                months: [
+                    {
+                        id: "m1", title: "Month 1 (Feb): The Vision", focus: "Focus: Brand Image, Construction Confidence & Facilities (Pool Highlight)", color: "border-teal-500", icon: "🎯",
+                        items: [
+                            {type: "Main Video (3) <span class='status-badge status-new'>New Updated</span>", ratio: "9:16", topic: "Facilities : 3 Pools", detail: "Project vision presentation, highlighting Pool Facility (AI Render to Video)", link: [
+                                {text: "WavePool (1m) (Final)", class: "status-final"},
+                                {text: "Rooftop Pool (1m) (Final)", class: "status-final"},
+                                {text: "Coral Pool (1m) 01 (Final)", class: "status-final"}
+                            ]},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Progress report focused on 'Level 41' structure solidity", link: [
+                                {text: "Feb 2026 Construction (Published)", class: "status-pub", url: "https://drive.google.com/file/d/11JgTs7BlgRMjHFbPsm9oFUEdB3ZydrMa/view?usp=sharing"}
+                            ]},
+                            {type: "Full MV (1) + Shorts (2) <span class='status-badge status-new'>New Updated</span>", ratio: "9:16", topic: "3 Pools (Extended)", detail: "Time Lapse, Pools, Sunset View, etc.", link: [
+                                {text: "Mix Pools Full MV (WIP)", class: "status-wip"},
+                                {text: "Rooftop Pool : Full MV (Draft 3)", class: "status-draft"},
+                                {text: "Coral Pool (1m) 02 (Final)", class: "status-final"},
+                                {text: "WavePool (Full) (Draft3)", class: "status-draft"}
+                            ]},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Jomtien & EEC, LEV", detail: "'Invest in the Future', Daily Longevity for LEV", link: [
+                                {text: "Jomtien & EEC (Published)", class: "status-pub", url: "https://thbho.github.io/CopaNewsFeb26.html"}
+                            ]},
+                            {type: "Articles (4)", ratio: "Web", topic: "Safety, EEC, Wellness, Global", detail: "Deep dive into EEC updates, Safety standards, and Wellness living trends", link: [
+                                {text: "Feb 2026 Newsletter (Published)", class: "status-pub", url: "https://thbho.github.io/CopaNewsFeb26.html"}
+                            ]}
+                        ]
+                    },
+                    {
+                        id: "m2", title: "Month 2 (Mar): The Lifestyle & Experience", focus: "Focus: Immersive Living Experience & Facilities", color: "border-blue-500", icon: "🌴",
+                        items: [
+                            {type: "Main Video (1) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Lifestyle", detail: "Experience the lifestyle at Coral Reef (Beach & Facilities)", link: [
+                                {text: "Beach Lifestyle : RooftopPool (WIP)", class: "status-wip", url: "https://www.youtube.com/watch?v=IBrxP7OH_Ao"},
+                                {text: "WavePool (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "Main Video (1) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Construction Update", detail: "'Rising Up' LEVEL 43 (TBC)", link: [
+                                {text: "Mar 2026 Construction (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "MV (1) + Shorts (4)", ratio: "9:16", topic: "Living Vibe, Wellness", detail: "Wellness activities, Yoga, Fitness, Pool Summer, Relaxing corner", link: [
+                                {text: "Wellness Activities and SummerLifestyle (WIP)", class: "status-wip"}
+                            ]},
+                            {type: "Newsletter VDO (2) <span class='status-badge status-new'>New Updated</span>", ratio: "16:9", topic: "Pools Lifestyle, Tech & Wellness", detail: "Update EEC: UTP Aviation City construction started", link: [
+                                {text: "March 2026 Newsletter (Draft 3 : Outline)", class: "status-draft", url: "https://threeandhour.github.io/GymMateX/TransHuman.html"},
+                                {text: "EEC & Jomtien (Draft 2)", class: "status-draft"}
+                            ]},
+                            {type: "Articles (3) <span class='status-badge status-new'>New Updated</span>", ratio: "Web", topic: "UTP Aviation, Wellness, Global", detail: "Human 'Upgrade' in AI era, UTP Aviation City, Smart Home", link: [
+                                {text: "March 2026 Newsletter (Draft3)", class: "status-draft", url: "https://threeandhour.github.io/GymMateX/TransHuman.html"},
+                                {text: "UTP Aviation City (Final)", class: "status-final"},
+                                {text: "TRANSHUMANISM (Final)", class: "status-final"},
+                                {text: "Global Vision : Musk (FInal Draft)", class: "status-final"}
+                            ]}
+                        ]
+                    },
+                    {
+                        id: "m3", title: "Month 3 (Apr): Beach Summer & CSR Teaser", focus: "Focus: Summer/Songkran Vibe & CSR Event Invitation", color: "border-yellow-500", icon: "🌊",
+                        items: [
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Summer at Copacabana", detail: "Showcasing the ultimate beach lifestyle during Summer/Songkran festival", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for April", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Songkran & CSR Teaser", detail: "Songkran moments, Recap of CSR (2024-2025) to invite for 'Clean Jomtien Together'", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "CSR Invitation", detail: "Video invitation for residents/investors to join the CSR event", link: []},
+                            {type: "Articles (4)", ratio: "Web", topic: "Summer & Giving Back", detail: "Pattaya Summer guide, The importance of sustainable beaches", link: []}
+                        ]
+                    },
+                    {
+                        id: "m4", title: "Month 4 (May): CSR & Community", focus: "Focus: Brand Image, Social Responsibility & 'Clean Jomtien Together' Event", color: "border-green-500", icon: "🤝",
+                        items: [
+                            {type: "Main Video (1)", ratio: "16:9", topic: "CSR Journey Recap (2024-2025)", detail: "Emotional recap of all CSR activities using AI (Topaz/Magnific) to upgrade to 4K", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for May", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Clean Jomtien Together", detail: "May 10 event atmosphere, smiles, cooperation, and clean beach", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Thank You Message", detail: "Thank you video for participants with event success summary", link: []},
+                            {type: "Articles (3)", ratio: "Web", topic: "Sustainable Living", detail: "How a clean environment increases property value, CSR summary", link: []}
+                        ]
+                    },
+                    {
+                        id: "m5", title: "Month 5 (Jun): The Investment & Future", focus: "Focus: Showroom Reviews, Investment & Future Potential", color: "border-indigo-500", icon: "📈",
+                        items: [
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Investing in Pattaya", detail: "'Facts & Figures' - Data-driven motion graphics showing yield/growth", link: [
+                                {text: "VDO Content", url: "https://gemini.google.com/share/6491817153cd"}
+                            ]},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Event Highlight: CSR", detail: "Cinematic Highlight (Recap) of the May 10th event. Short & Emotional", link: []},
+                            {type: "Main Video (1)", ratio: "16:9", topic: "Construction Update", detail: "Monthly construction progress report for June", link: []},
+                            {type: "Shorts (5)", ratio: "9:16", topic: "Investment, Units Reviews", detail: "5 Reasons to Invest, Deep Dive Unit Reviews, Comparison, Highlight CSR (Additional)", link: []},
+                            {type: "Newsletter VDO (2)", ratio: "16:9", topic: "Market Watch", detail: "2nd Half Market Trends, Government Policy Updates", link: []},
+                            {type: "Articles (4)", ratio: "Web", topic: "Future Trends", detail: "5 EEC Mega Projects & Hybrid Living Trends", link: [
+                                {text: "Newsletter", url: "https://open.spotify.com/show/3NPkIctQjuOuay6zmHhDPa?si=eaa41285c5ee4f11&nd=1&dlsi=41ce5389b9eb4f07"}
+                            ]}
+                        ]
+                    }
+                ]
             }
         };
 
@@ -509,9 +555,9 @@
             });
 
             // Render Timeline
-            const timelineContainer = document.getElementById('content-timeline');
+            const timelineContainer = document.getElementById('timeline-container');
             timelineContainer.innerHTML = t.months.map(month => `
-                <div class="month-card bg-white rounded-xl card-shadow overflow-hidden ${month.color}">
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-l-8 ${month.color}">
                     <div class="p-6">
                         <div class="flex items-center mb-4">
                             <span class="text-3xl mr-3">${month.icon}</span>
@@ -522,31 +568,33 @@
                         </div>
                         
                         <div class="overflow-x-auto">
-                            <table class="w-full custom-table text-left border-collapse">
+                            <table class="w-full text-left border-collapse responsive-table">
                                 <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
                                     <tr>
-                                        <th class="p-3 rounded-tl-lg">${t.tableHeaders[0]}</th>
-                                        <th class="p-3">${t.tableHeaders[1]}</th>
-                                        <th class="p-3">${t.tableHeaders[2]}</th>
-                                        <th class="p-3 hidden md:table-cell">${t.tableHeaders[3]}</th>
-                                        <th class="p-3 rounded-tr-lg">${t.tableHeaders[4]}</th>
+                                        <th class="p-3 rounded-tl-lg w-1/5">${lang === 'th' ? 'รูปแบบ' : 'Type'}</th>
+                                        <th class="p-3 w-1/12 text-center">Ratio</th>
+                                        <th class="p-3 w-1/4">${lang === 'th' ? 'หัวข้อ' : 'Topic'}</th>
+                                        <th class="p-3 w-1/3">${lang === 'th' ? 'รายละเอียด' : 'Detail'}</th>
+                                        <th class="p-3 rounded-tr-lg text-center w-1/12">Link / Status</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100 text-sm">
                                     ${month.items.map(item => `
                                         <tr class="hover:bg-gray-50 transition">
-                                            <td class="p-3 font-semibold text-teal-700 whitespace-nowrap">${item.type}</td>
-                                            <td class="p-3 text-gray-500">${item.ratio}</td>
-                                            <td class="p-3 font-medium text-gray-800">${item.topic}
-                                                <div class="md:hidden text-xs text-gray-500 mt-1">${item.detail}</div>
-                                            </td>
-                                            <td class="p-3 text-gray-600 hidden md:table-cell">${item.detail}</td>
-                                            <td class="p-3">
-                                                ${item.link !== '-' 
-                                                    ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                        🔗 ${item.link}
-                                                       </span>` 
-                                                    : '<span class="text-gray-300">-</span>'}
+                                            <td class="p-3 font-semibold text-[#005F73] whitespace-nowrap">${item.type}</td>
+                                            <td class="p-3 text-gray-500 text-center">${item.ratio}</td>
+                                            <td class="p-3 font-medium text-gray-800">${item.topic}</td>
+                                            <td class="p-3 text-gray-600">${item.detail}</td>
+                                            <td class="p-3 text-left">
+                                                ${item.link.length > 0 
+                                                    ? item.link.map(l => `
+                                                        <a href="${l.url || '#'}" target="${l.url ? '_blank' : '_self'}" class="link-item hover:opacity-80 transition ${l.url ? 'cursor-pointer' : 'cursor-default'}">
+                                                            ${l.text}
+                                                            <span class="status-badge ${l.class || ''}">${l.class ? l.class.replace('status-', '').toUpperCase() : ''}</span>
+                                                        </a>
+                                                    `).join('')
+                                                    : '<span class="text-gray-300 text-center block">-</span>'
+                                                }
                                             </td>
                                         </tr>
                                     `).join('')}
@@ -558,9 +606,9 @@
             `).join('');
         }
 
-        function switchLang(lang) {
+        function setLanguage(lang) {
             // UI Toggle
-            document.querySelectorAll('.lang-switch').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${lang}`).classList.add('active');
 
             // Render
@@ -569,7 +617,7 @@
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
-            switchLang('th');
+            setLanguage('th');
         });
 
     </script>
