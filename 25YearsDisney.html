@@ -187,7 +187,7 @@
             </div>
 
             <!-- Notification Toast for Copy Link -->
-            <div id="copyToast" class="fixed top-20 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+            <div id="copyToast" class="fixed top-20 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50">
                 Link copied to clipboard!
             </div>
         </header>
@@ -734,8 +734,8 @@
                 case 'copy':
                     navigator.clipboard.writeText(window.location.href).then(() => {
                         const toast = document.getElementById('copyToast');
-                        toast.classList.remove('translate-x-full');
-                        setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+                        toast.classList.remove('opacity-0', 'pointer-events-none');
+                        setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 3000);
                     }).catch(() => {
                         // Fallback for iframe environments
                         const tempInput = document.createElement('input');
@@ -745,8 +745,8 @@
                         document.execCommand('copy');
                         document.body.removeChild(tempInput);
                         const toast = document.getElementById('copyToast');
-                        toast.classList.remove('translate-x-full');
-                        setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+                        toast.classList.remove('opacity-0', 'pointer-events-none');
+                        setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 3000);
                     });
                     break;
             }
