@@ -58,9 +58,29 @@
         body.lang-zh li.flex.lang-content[lang="zh"] {
             display: flex;
         }
+
+        /* Scroll Animation Classes */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom Scrollbar for a premium look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
 <body class="lang-th bg-gray-50 text-gray-800">
+    <!-- Reading Progress Bar -->
+    <div id="progressBar" class="fixed top-0 left-0 h-1.5 bg-gradient-to-r from-blue-400 to-blue-600 z-[60] w-0 transition-all duration-150 rounded-r-full"></div>
+
     <!-- Navbar -->
     <nav class="bg-blue-900 text-white shadow-md py-4 sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
@@ -127,12 +147,49 @@
                 25年的梦想成真？深入解析EECiti中的“泰国迪士尼”：押注泰国经济未来的新蓝图
             </h1>
 
-            <p class="text-gray-500 text-sm md:text-base">
+            <p class="text-gray-500 text-sm md:text-base flex items-center justify-center flex-wrap gap-2">
                 <span class="lang-content" lang="th">เผยแพร่เมื่อ 20 กุมภาพันธ์ 2569 | โดย ทีมบรรณาธิการ</span>
                 <span class="lang-content" lang="en">Published on February 20, 2026 | By Editorial Team</span>
                 <span class="lang-content" lang="ru">Опубликовано 20 февраля 2026 г. | Редакция</span>
                 <span class="lang-content" lang="zh">发布于 2026年2月20日 | 作者：编辑团队</span>
+                <span class="text-gray-300 hidden sm:inline">|</span>
+                <span class="flex items-center text-blue-600 font-medium">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="lang-content" lang="th">เวลาอ่าน 5 นาที</span>
+                    <span class="lang-content" lang="en">5 Min Read</span>
+                    <span class="lang-content" lang="ru">5 мин чтения</span>
+                    <span class="lang-content" lang="zh">阅读时间 5 分钟</span>
+                </span>
             </p>
+
+            <!-- Social Share Buttons -->
+            <div class="flex justify-center mt-6 space-x-3">
+                <button onclick="shareLink('facebook')" class="bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-full transition shadow-sm hover:shadow" title="Share on Facebook">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                </button>
+                <button onclick="shareLink('twitter')" class="bg-black hover:bg-gray-800 text-white p-2.5 rounded-full transition shadow-sm hover:shadow" title="Share on X">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </button>
+                <button onclick="shareLink('line')" class="bg-[#00B900] hover:bg-[#009900] text-white p-2.5 rounded-full transition shadow-sm hover:shadow" title="Share on LINE">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 3.931 8.946 9.406 9.608.369.043.874.133 1.006.505.12.338.038.868.018 1.085-.027.318-.129 1.259-.158 1.487-.04.305-.183.896.786.488.966-.407 5.216-3.078 7.152-5.289C22.618 15.656 24 13.125 24 10.304z"/></svg>
+                </button>
+                <button onclick="shareLink('copy')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2.5 rounded-full transition shadow-sm hover:shadow" title="Copy Link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                </button>
+            </div>
+
+            <!-- Tags -->
+            <div class="flex justify-center flex-wrap gap-2 mt-6">
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold hover:bg-blue-200 transition cursor-pointer">#EECiti</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold hover:bg-blue-200 transition cursor-pointer">#DisneylandThailand</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold hover:bg-blue-200 transition cursor-pointer">#MegaProject</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold hover:bg-blue-200 transition cursor-pointer">#Investment</span>
+            </div>
+
+            <!-- Notification Toast for Copy Link -->
+            <div id="copyToast" class="fixed top-20 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+                Link copied to clipboard!
+            </div>
         </header>
 
         <!-- Hero Image -->
@@ -195,6 +252,24 @@
                 </ul>
             </section>
 
+            <!-- Table of Contents (TOC) -->
+            <section class="mb-10 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    <span class="lang-content" lang="th">สารบัญเนื้อหา (Table of Contents)</span>
+                    <span class="lang-content" lang="en">Table of Contents</span>
+                    <span class="lang-content" lang="ru">Оглавление</span>
+                    <span class="lang-content" lang="zh">目录</span>
+                </h3>
+                <ul class="space-y-2 text-sm md:text-base text-blue-600 font-medium">
+                    <li><a href="#section-1" class="hover:underline hover:text-blue-800 transition"><span class="lang-content" lang="th">1. "เมืองใหม่อัจฉริยะ" 15,000 ไร่</span><span class="lang-content" lang="en">1. A "Smart City" on 6,000 Acres</span><span class="lang-content" lang="ru">1. «Умный город» на 15 000 рай</span><span class="lang-content" lang="zh">1. 占地15,000莱的“智慧新城”</span></a></li>
+                    <li><a href="#section-2" class="hover:underline hover:text-blue-800 transition"><span class="lang-content" lang="th">2. โครงสร้างพื้นฐานคือ "Game Changer"</span><span class="lang-content" lang="en">2. Infrastructure is the "Game Changer"</span><span class="lang-content" lang="ru">2. Инфраструктура меняет правила</span><span class="lang-content" lang="zh">2. 基础设施成为“游戏规则改变者”</span></a></li>
+                    <li><a href="#section-3" class="hover:underline hover:text-blue-800 transition"><span class="lang-content" lang="th">3. เงื่อนไข "No Casino" & โมเดลธุรกิจ</span><span class="lang-content" lang="en">3. "No Casino" Rule & Business Model</span><span class="lang-content" lang="ru">3. Правило «Без казино» и бизнес-модель</span><span class="lang-content" lang="zh">3. “无赌场”条件与商业模式</span></a></li>
+                    <li><a href="#section-4" class="hover:underline hover:text-blue-800 transition"><span class="lang-content" lang="th">4. ผลกระทบต่อเศรษฐกิจ (GDP +1%)</span><span class="lang-content" lang="en">4. Economic Impact (GDP +1%)</span><span class="lang-content" lang="ru">4. Экономический эффект (ВВП +1%)</span><span class="lang-content" lang="zh">4. 经济影响（GDP增长1%）</span></a></li>
+                    <li><a href="#section-5" class="hover:underline hover:text-blue-800 transition"><span class="lang-content" lang="th">5. บทสรุปและมุมมองสู่อนาคต</span><span class="lang-content" lang="en">5. Conclusion</span><span class="lang-content" lang="ru">5. Заключение</span><span class="lang-content" lang="zh">5. 结论与未来展望</span></a></li>
+                </ul>
+            </section>
+
             <!-- Video Section -->
             <section class="mb-10">
                 <div class="w-full rounded-xl overflow-hidden shadow-md bg-white border border-gray-100">
@@ -219,7 +294,7 @@
             </section>
 
             <!-- Section 1 -->
-            <section class="mb-10">
+            <section id="section-1" class="mb-10">
                 <h2 class="text-2xl font-bold text-blue-800 mb-4 border-l-4 border-blue-500 pl-3">
                     <span class="lang-content" lang="th">1. ไม่ใช่แค่สวนสนุก แต่คือ "เมืองใหม่อัจฉริยะ" บนพื้นที่ 15,000 ไร่</span>
                     <span class="lang-content" lang="en">1. Not Just a Theme Park, but a "Smart City" on 6,000 Acres</span>
@@ -283,7 +358,7 @@
             </section>
 
             <!-- Section 2 -->
-            <section class="mb-10">
+            <section id="section-2" class="mb-10">
                 <h2 class="text-2xl font-bold text-blue-800 mb-4 border-l-4 border-blue-500 pl-3">
                     <span class="lang-content" lang="th">2. อำนาจต่อรองที่เปลี่ยนไป: เมื่อโครงสร้างพื้นฐานคือ "Game Changer"</span>
                     <span class="lang-content" lang="en">2. Shifting Bargaining Power: Infrastructure is the "Game Changer"</span>
@@ -320,7 +395,7 @@
             </section>
 
             <!-- Section 3 -->
-            <section class="mb-10">
+            <section id="section-3" class="mb-10">
                 <h2 class="text-2xl font-bold text-blue-800 mb-4 border-l-4 border-blue-500 pl-3">
                     <span class="lang-content" lang="th">3. เงื่อนไข "No Casino" และโมเดลธุรกิจตามรอย Abu Dhabi</span>
                     <span class="lang-content" lang="en">3. "No Casino" Rule & The Abu Dhabi Business Model</span>
@@ -361,7 +436,7 @@
             </section>
 
             <!-- Section 4 -->
-            <section class="mb-10">
+            <section id="section-4" class="mb-10">
                 <h2 class="text-2xl font-bold text-blue-800 mb-4 border-l-4 border-blue-500 pl-3">
                     <span class="lang-content" lang="th">4. ผลกระทบต่อเศรษฐกิจ: แรงเหวี่ยงที่จะเพิ่ม GDP ถึง 1%</span>
                     <span class="lang-content" lang="en">4. Economic Impact: Momentum to Boost GDP by 1%</span>
@@ -518,7 +593,7 @@
             </section>
 
             <!-- Section 5 -->
-            <section>
+            <section id="section-5">
                 <h2 class="text-2xl font-bold text-blue-800 mb-4 border-l-4 border-blue-500 pl-3">
                     <span class="lang-content" lang="th">5. บทสรุปและมุมมองสู่อนาคต: ฝันครั้งนี้จะไม่สูญเปล่า</span>
                     <span class="lang-content" lang="en">5. Conclusion: This Dream Won't Be Wasted</span>
@@ -568,6 +643,34 @@
                 </div>
             </section>
 
+            <!-- Newsletter CTA Section -->
+            <section class="mt-12 bg-gray-50 border border-gray-200 rounded-xl p-8 text-center shadow-inner">
+                <div class="max-w-xl mx-auto">
+                    <svg class="w-12 h-12 mx-auto text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">
+                        <span class="lang-content" lang="th">ติดตามข่าวสาร EEC ล่าสุด</span>
+                        <span class="lang-content" lang="en">Subscribe for EEC Updates</span>
+                        <span class="lang-content" lang="ru">Подпишитесь на новости EEC</span>
+                        <span class="lang-content" lang="zh">订阅 EEC 最新动态</span>
+                    </h3>
+                    <p class="text-gray-600 mb-6">
+                        <span class="lang-content" lang="th">รับรายงานวิเคราะห์โครงการและอสังหาริมทรัพย์ส่งตรงถึงอีเมลคุณทุกสัปดาห์</span>
+                        <span class="lang-content" lang="en">Get project analysis and real estate reports delivered to your inbox weekly.</span>
+                        <span class="lang-content" lang="ru">Получайте анализ проектов и отчеты по недвижимости на ваш email еженедельно.</span>
+                        <span class="lang-content" lang="zh">每周将项目分析和房地产报告直接发送到您的邮箱。</span>
+                    </p>
+                    <form onsubmit="event.preventDefault(); alert('Subscribed Successfully!');" class="flex flex-col sm:flex-row gap-2 justify-center">
+                        <input type="email" placeholder="Enter your email" required class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-2/3">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-sm">
+                            <span class="lang-content" lang="th">สมัครรับข่าวสาร</span>
+                            <span class="lang-content" lang="en">Subscribe</span>
+                            <span class="lang-content" lang="ru">Подписаться</span>
+                            <span class="lang-content" lang="zh">订阅</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
         </article>
     </main>
 
@@ -584,8 +687,14 @@
         </div>
     </footer>
 
-    <!-- Language Script -->
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-blue-900 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl opacity-0 translate-y-10 transition-all duration-300 pointer-events-none z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
+
+    <!-- Language & UI Scripts -->
     <script>
+        // Language Switcher
         function setLang(langCode) {
             // Update Body Class to show/hide languages
             document.body.className = `lang-${langCode} bg-gray-50 text-gray-800`;
@@ -602,6 +711,96 @@
                 }
             });
         }
+
+        // Social Share Functions
+        function shareLink(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            let shareUrl = '';
+
+            switch(platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    window.open(shareUrl, '_blank', 'width=600,height=400');
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                    window.open(shareUrl, '_blank', 'width=600,height=400');
+                    break;
+                case 'line':
+                    shareUrl = `https://social-plugins.line.me/lineit/share?url=${url}`;
+                    window.open(shareUrl, '_blank', 'width=600,height=400');
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        const toast = document.getElementById('copyToast');
+                        toast.classList.remove('translate-x-full');
+                        setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+                    }).catch(() => {
+                        // Fallback for iframe environments
+                        const tempInput = document.createElement('input');
+                        tempInput.value = window.location.href;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        const toast = document.getElementById('copyToast');
+                        toast.classList.remove('translate-x-full');
+                        setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+                    });
+                    break;
+            }
+        }
+
+        // Scroll Reveal Animation & Back to Top Button
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply reveal class to all sections
+            document.querySelectorAll('section').forEach(el => {
+                el.classList.add('reveal-item');
+            });
+
+            // Intersection Observer for Reveal
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 }); // Trigger when 10% of element is visible
+
+            document.querySelectorAll('.reveal-item').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // Back to Top Button Logic
+            const bttBtn = document.getElementById('backToTopBtn');
+            window.addEventListener('scroll', () => {
+                // Back to Top Logic
+                if (window.scrollY > 400) {
+                    bttBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    bttBtn.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                    bttBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    bttBtn.classList.remove('opacity-100', 'translate-y-0');
+                }
+
+                // Reading Progress Bar Logic
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('progressBar').style.width = scrolled + "%";
+            });
+
+            // Smooth Scroll for TOC links
+            document.querySelectorAll('a[href^="#section-"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
     </script>
 </body>
 </html>
