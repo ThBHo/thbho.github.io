@@ -73,6 +73,21 @@
             transform: scale(1.05);
         }
 
+        /* Iframe container for 16:9 aspect ratio */
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .pdf-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -87,18 +102,18 @@
                     <span class="font-bold text-xl tracking-tight text-slate-800" data-i18n="navTitle">EEC 2026 Report</span>
                 </div>
                 
-                <div class="hidden md:flex space-x-3 lg:space-x-5 items-center">
+                <div class="hidden md:flex space-x-3 lg:space-x-4 items-center">
                     <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navHome">หน้าแรก</button>
-                    <button onclick="scrollToSection('hero')" class="nav-item active px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navOverview">ภาพรวม</button>
                     <button onclick="scrollToSection('projects')" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navProjects">เมกะโปรเจกต์</button>
                     <button onclick="scrollToSection('real-estate')" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navRealEstate">อสังหาฯ</button>
+                    <button onclick="scrollToSection('presentation')" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navPres">เอกสาร</button>
                     <button onclick="scrollToSection('gallery')" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navGallery">แกลเลอรี</button>
                     <button onclick="scrollToSection('analysis')" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navAnalysis">วิเคราะห์</button>
                     <a href="https://copacabanagroup.com" target="_blank" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navCopa">โครงการ</a>
                     <a href="https://thbho.github.io/CopaNewsMar26.html" target="_blank" class="nav-item px-1 lg:px-2 py-2 text-sm font-medium hover:text-sky-700 transition" data-i18n="navNews">ข่าวสาร</a>
                     
                     <div class="relative ml-2 border-l pl-2 border-gray-200">
-                        <select id="lang-selector" onchange="changeLanguage(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-1.5">
+                        <select id="lang-selector" onchange="changeLanguage(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-1.5 outline-none">
                             <option value="th">🇹🇭 TH</option>
                             <option value="en">🇬🇧 EN</option>
                             <option value="ru">🇷🇺 RU</option>
@@ -108,7 +123,7 @@
                 </div>
 
                 <div class="flex items-center md:hidden gap-4">
-                    <select onchange="changeLanguage(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg p-1">
+                    <select onchange="changeLanguage(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg p-1 outline-none">
                         <option value="th">TH</option>
                         <option value="en">EN</option>
                         <option value="ru">RU</option>
@@ -145,15 +160,19 @@
                     วิเคราะห์ทิศทาง EEC ปี 2026 ภายใต้การเปลี่ยนแปลงทางการเมือง ขับเคลื่อนด้วยเมกะโปรเจกต์และการเริ่มก่อสร้างเมืองการบิน เพื่อดึงดูดนักลงทุนคุณภาพสูง
                 </p>
 
-                <!-- DOWNLOAD BUTTON -->
-                <div class="mb-10 flex justify-center md:justify-start">
-                    <a href="https://drive.google.com/file/d/1M-qBpZ9QQHwnhrufE5Jveq5czo55POFz/view?usp=sharing" target="_blank" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-full shadow-lg text-white bg-sky-600 hover:bg-sky-500 hover:shadow-sky-500/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all transform hover:-translate-y-1">
+                <!-- Action Buttons: Download + View Slides -->
+                <div class="mb-10 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                    <a href="https://drive.google.com/file/d/1M-qBpZ9QQHwnhrufE5Jveq5czo55POFz/view?usp=sharing" target="_blank" class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-bold rounded-full shadow-lg text-white bg-sky-600 hover:bg-sky-500 hover:shadow-sky-500/50 focus:outline-none transition-all transform hover:-translate-y-1">
                         <i class="fa-solid fa-file-pdf mr-2 text-xl"></i>
-                        <span data-i18n="btnDownload">ดาวน์โหลดรายงานฉบับเต็ม (PDF)</span>
+                        <span data-i18n="btnDownload">ดาวน์โหลดรายงาน (PDF)</span>
                     </a>
+                    <button onclick="scrollToSection('presentation')" class="inline-flex justify-center items-center px-6 py-3 border-2 border-sky-400 text-base font-bold rounded-full shadow-lg text-sky-400 bg-slate-900/50 hover:bg-sky-500 hover:text-white hover:border-sky-500 backdrop-blur-md transition-all transform hover:-translate-y-1">
+                        <i class="fa-solid fa-desktop mr-2 text-xl"></i>
+                        <span data-i18n="btnViewSlides">เปิดดูสไลด์นำเสนอ</span>
+                    </button>
                 </div>
                 
-                <!-- Stats Grid (Updated Year to 2026) -->
+                <!-- Stats Grid -->
                 <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mr-auto">
                     <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
                         <div class="text-sky-400 font-bold text-xl">Feb 2026</div>
@@ -232,7 +251,7 @@
                             </div>
                         </div>
 
-                        <!-- Disney Card (Updated with Image & External Link) -->
+                        <!-- Disney Card -->
                         <div class="rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover cursor-pointer min-h-[200px] relative group" onclick="updateProjectDetail('disney')">
                             <div class="absolute inset-0">
                                 <img src="https://i.postimg.cc/wMRmbkZw/grok-image-a384099f-6ac4-4a34-b23c-e28ce8eb0fd5.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -241,7 +260,6 @@
                             <div class="p-5 h-full flex flex-col justify-end relative z-10">
                                 <h3 class="text-lg font-bold text-white mb-1 drop-shadow-md" data-i18n="cardDisneyTitle">ดิสนีย์แลนด์ ไทย</h3>
                                 <p class="text-slate-200 text-xs" data-i18n="cardDisneyDesc">โครงการแม่เหล็กด้านความบันเทิงระดับโลก (Potential)</p>
-                                <!-- External Link Button -->
                                 <a href="https://thbho.github.io/EECDisney.html" target="_blank" onclick="event.stopPropagation()" class="mt-3 inline-flex items-center text-xs font-bold text-amber-400 hover:text-amber-300 hover:underline transition-colors">
                                     <i class="fa-solid fa-up-right-from-square mr-1"></i> <span data-i18n="cardDisneyLink">เข้าชมหน้า Disney & EEC</span>
                                 </a>
@@ -290,7 +308,7 @@
                         </p>
                     </div>
                     <div class="md:w-1/4 mt-4 md:mt-0 text-right">
-                        <select id="market-filter" onchange="updateMarketChart()" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
+                        <select id="market-filter" onchange="updateMarketChart()" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 outline-none">
                             <option value="price" data-i18n="optPrice">ราคาที่ดิน (Price Surge)</option>
                             <option value="demand" data-i18n="optDemand">Demand ที่อยู่อาศัย</option>
                         </select>
@@ -322,6 +340,24 @@
             </div>
         </section>
 
+        <!-- PDF Presentation Viewer Section -->
+        <section id="presentation" class="py-16 bg-slate-100 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-900" data-i18n="presTitle">เอกสารนำเสนอโครงการ (PDF Slides)</h2>
+                    <p class="mt-4 text-slate-600" data-i18n="presDesc">สไลด์เจาะลึกเมืองการบินอู่ตะเภาและทิศทางการพัฒนาพื้นที่ EEC</p>
+                </div>
+                
+                <div class="bg-white p-2 md:p-4 rounded-2xl shadow-xl border border-gray-200">
+                    <!-- Google Drive PDF Embed -->
+                    <div class="pdf-container rounded-xl overflow-hidden shadow-inner">
+                        <!-- Changed /view to /preview for embedding -->
+                        <iframe src="https://drive.google.com/file/d/1M-qBpZ9QQHwnhrufE5Jveq5czo55POFz/preview" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Gallery Section -->
         <section id="gallery" class="py-16 bg-slate-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -343,7 +379,6 @@
                         </div>
                     </div>
                     <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer">
-                         <!-- Updated Image in Gallery per user request -->
                          <img src="https://i.postimg.cc/g2PHDK92/EECiti_model_EEC_gigapixel_high_fidelity_v2_2x.png" class="w-full h-full object-cover gallery-img" alt="EECiti">
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                             <p class="text-white text-sm font-semibold">EECiti Concept</p>
@@ -354,7 +389,7 @@
         </section>
 
         <!-- Analysis Section -->
-        <section id="analysis" class="py-16 bg-slate-50 border-t border-gray-200">
+        <section id="analysis" class="py-16 bg-white border-t border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-slate-900" data-i18n="anaTitle">บทวิเคราะห์: ก้าวต่อไปหลัง NTP</h2>
@@ -365,7 +400,7 @@
                         <button onclick="toggleAnalysis('challenges')" id="btn-chal" class="px-6 py-2 rounded-md text-sm font-bold transition-all" data-i18n="btnChal">ความท้าทาย (Challenges)</button>
                     </div>
                 </div>
-                <div id="analysis-content" class="bg-white rounded-2xl shadow-lg p-8 md:p-10 transition-all duration-300 min-h-[300px] border border-gray-100">
+                <div id="analysis-content" class="bg-white rounded-2xl shadow-lg p-8 md:p-10 transition-all duration-300 min-h-[300px] border border-gray-100 bg-slate-50">
                     <!-- Dynamic Content -->
                 </div>
             </div>
@@ -390,7 +425,7 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // --- Translations DB (Updated Year to 2026 & Added Download Btn) ---
+        // --- Translations DB ---
         const translations = {
             th: {
                 navTitle: "EEC Aviation Monitor",
@@ -400,6 +435,7 @@
                 navOverview: "ภาพรวม",
                 navProjects: "เมกะโปรเจกต์",
                 navRealEstate: "อสังหาฯ",
+                navPres: "เอกสาร",
                 navGallery: "แกลเลอรี",
                 navAnalysis: "วิเคราะห์",
                 heroBadge: "Update หลังเลือกตั้ง: Kick off ก.พ. 2026",
@@ -407,7 +443,8 @@
                 heroTitleHighlight: "เมืองการบินอู่ตะเภา",
                 heroSubtitle: "\"สู่ศูนย์กลางเศรษฐกิจและนวัตกรรมระดับโลก\"",
                 heroDesc: "วิเคราะห์ทิศทาง EEC ปี 2026 ภายใต้การเปลี่ยนแปลงทางการเมือง ขับเคลื่อนด้วยเมกะโปรเจกต์และการเริ่มก่อสร้างเมืองการบิน เพื่อดึงดูดนักลงทุนคุณภาพสูง",
-                btnDownload: "ดาวน์โหลดรายงานฉบับเต็ม (PDF)",
+                btnDownload: "ดาวน์โหลดรายงาน (PDF)",
+                btnViewSlides: "เปิดดูสไลด์นำเสนอ",
                 statNTP: "Official Construction (NTP)",
                 statYear: "ปีแห่งการเปลี่ยนผ่าน",
                 statLoc: "Strategic Growth Area",
@@ -435,6 +472,8 @@
                 insight2Desc: "การขยายตัวของพื้นที่เชิงพาณิชย์และโรงแรมรอบสนามบินเพื่อรองรับผู้โดยสาร 15.9 ล้านคนในระยะแรก",
                 insight3Title: "3. Connectivity Value",
                 insight3Desc: "ที่ดินใกล้สถานีรถไฟความเร็วสูงเชื่อม 3 สนามบินจะมีมูลค่าเพิ่มสูงสุด",
+                presTitle: "เอกสารนำเสนอโครงการ (PDF Slides)",
+                presDesc: "สไลด์เจาะลึกเมืองการบินอู่ตะเภาและทิศทางการพัฒนาพื้นที่ EEC",
                 anaTitle: "บทวิเคราะห์: ก้าวต่อไปหลัง NTP",
                 btnOpp: "โอกาส (Opportunities)",
                 btnChal: "ความท้าทาย (Challenges)",
@@ -451,6 +490,7 @@
                 navOverview: "Overview",
                 navProjects: "Mega Projects",
                 navRealEstate: "Real Estate",
+                navPres: "Presentation",
                 navGallery: "Gallery",
                 navAnalysis: "Analysis",
                 heroBadge: "Post-Election Update: Kick off Feb 2026",
@@ -458,7 +498,8 @@
                 heroTitleHighlight: "U-Tapao Aviation City",
                 heroSubtitle: "\"Towards a Global Economic & Innovation Hub\"",
                 heroDesc: "Analyzing EEC 2026 direction amidst political changes, driven by mega-projects and aviation city construction to attract high-quality investors.",
-                btnDownload: "Download Full Report (PDF)",
+                btnDownload: "Download Report (PDF)",
+                btnViewSlides: "View Slides Online",
                 statNTP: "Official Construction (NTP)",
                 statYear: "Transition Year",
                 statLoc: "Strategic Growth Area",
@@ -486,6 +527,8 @@
                 insight2Desc: "Expansion of commercial areas and hotels around the airport to support 15.9M passengers.",
                 insight3Title: "3. Connectivity Value",
                 insight3Desc: "Land near the High-Speed Rail station connecting 3 airports will see the highest value appreciation.",
+                presTitle: "Project Presentation (PDF)",
+                presDesc: "In-depth slides on U-Tapao Aviation City and EEC direction",
                 anaTitle: "Analysis: Next Steps After NTP",
                 btnOpp: "Opportunities",
                 btnChal: "Challenges",
@@ -502,6 +545,7 @@
                 navOverview: "Обзор",
                 navProjects: "Мегапроекты",
                 navRealEstate: "Недвижимость",
+                navPres: "Презентация",
                 navGallery: "Галерея",
                 navAnalysis: "Анализ",
                 heroBadge: "Обновление после выборов: Старт Фев 2026",
@@ -510,6 +554,7 @@
                 heroSubtitle: "\"К глобальному центру экономики и инноваций\"",
                 heroDesc: "Анализ направления EEC 2026 в условиях политических изменений, движимый мегапроектами и строительством авиационного города.",
                 btnDownload: "Скачать отчет (PDF)",
+                btnViewSlides: "Смотреть слайды",
                 statNTP: "Официальное строительство (NTP)",
                 statYear: "Год перехода",
                 statLoc: "Зона страт. роста",
@@ -537,6 +582,8 @@
                 insight2Desc: "Расширение коммерческих зон и отелей вокруг аэропорта для обслуживания 15,9 млн пассажиров.",
                 insight3Title: "3. Ценность связности",
                 insight3Desc: "Земля рядом со станцией высокоскоростной железной дороги получит наибольший прирост стоимости.",
+                presTitle: "Презентация проекта (PDF)",
+                presDesc: "Подробные слайды об авиаграде У-Тапао и направлении EEC",
                 anaTitle: "Анализ: Шаги после NTP",
                 btnOpp: "Возможности",
                 btnChal: "Вызовы",
@@ -553,6 +600,7 @@
                 navOverview: "概览",
                 navProjects: "大型项目",
                 navRealEstate: "房地产",
+                navPres: "演示文稿",
                 navGallery: "画廊",
                 navAnalysis: "分析",
                 heroBadge: "选后更新: 2026年2月启动",
@@ -560,7 +608,8 @@
                 heroTitleHighlight: "乌塔帕奥航空城",
                 heroSubtitle: "“迈向全球经济与创新中心”",
                 heroDesc: "分析政治变局下的 EEC 2026 方向，由大型项目和航空城建设驱动，吸引高质量投资者。",
-                btnDownload: "下载完整报告 (PDF)",
+                btnDownload: "下载报告 (PDF)",
+                btnViewSlides: "在线查看幻灯片",
                 statNTP: "正式建设 (NTP)",
                 statYear: "转型之年",
                 statLoc: "战略增长区",
@@ -588,6 +637,8 @@
                 insight2Desc: "扩建机场周围的商业区和酒店，以支持首期1590万旅客。",
                 insight3Title: "3. 互联互通价值",
                 insight3Desc: "连接3个机场的高铁站附近的土地增值潜力最大。",
+                presTitle: "项目演示文稿 (PDF)",
+                presDesc: "关于乌塔帕奥航空城和 EEC 方向的深入幻灯片",
                 anaTitle: "分析: NTP 后的下一步",
                 btnOpp: "机遇",
                 btnChal: "挑战",
@@ -598,7 +649,6 @@
             }
         };
 
-        // --- Data Content (Multilingual) ---
         const projectDataFull = {
             aviation: {
                 th: {
@@ -630,25 +680,25 @@
                 th: { 
                     title: 'ดิสนีย์แลนด์ ไทย', 
                     badge: 'Potential', 
-                    desc: 'โครงการแม่เหล็กด้านความบันเทิงระดับโลก ที่คาดว่าจะเข้ามาเติมเต็ม Ecosystem ของ EEC <br><br><a href="https://thbho.github.io/EECDisney.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> คลิกเพื่อดูข้อมูลเจาะลึก Disney & EEC</a>', 
+                    desc: 'โครงการแม่เหล็กด้านความบันเทิงระดับโลก ที่คาดว่าจะเข้ามาเติมเต็ม Ecosystem ของ EEC', 
                     points: ['ดึงดูดนักท่องเที่ยวครอบครัว', 'New Destination ในอาเซียน'] 
                 },
                 en: { 
                     title: 'Disney Thailand', 
                     badge: 'Potential', 
-                    desc: 'Global entertainment magnet project designed to complete the EEC ecosystem.<br><br><a href="https://thbho.github.io/EECDisney.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> Click for in-depth Disney & EEC info</a>', 
+                    desc: 'Global entertainment magnet project designed to complete the EEC ecosystem.', 
                     points: ['Attracts family tourists', 'New Destination in ASEAN'] 
                 },
                 ru: { 
                     title: 'Диснейленд Таиланд', 
                     badge: 'Потенциально', 
-                    desc: 'Глобальный развлекательный проект-магнит.<br><br><a href="https://thbho.github.io/EECDisney.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> Подробнее о Disney & EEC</a>', 
+                    desc: 'Глобальный развлекательный проект-магнит.', 
                     points: ['Привлекает семейных туристов', 'Новое направление в АСЕАН'] 
                 },
                 zh: { 
                     title: '泰国迪士尼乐园', 
                     badge: '潜在项目', 
-                    desc: '全球娱乐磁石项目。<br><br><a href="https://thbho.github.io/EECDisney.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> 点击查看 Disney & EEC 详细信息</a>', 
+                    desc: '全球娱乐磁石项目。', 
                     points: ['吸引家庭游客', '东盟的新目的地'] 
                 }
             },
@@ -675,21 +725,15 @@
             }
         };
 
-        // --- State ---
         let currentLang = 'th';
         let currentProject = 'aviation';
         let projectChartInstance = null;
         let realEstateChartInstance = null;
 
-        // --- Functions ---
-        
         function changeLanguage(lang) {
             currentLang = lang;
-            
-            // 1. Update Body Font Class
             document.body.className = `flex flex-col min-h-screen lang-${lang}`;
 
-            // 2. Update Static Text
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) {
@@ -697,13 +741,9 @@
                 }
             });
 
-            // 3. Update Dynamic Project Details
             updateProjectDetail(currentProject);
-
-            // 4. Update Charts
             updateRealEstateChartLang();
             
-            // 5. Update Analysis
             const currentAnaType = document.getElementById('btn-opp').classList.contains('bg-sky-600') ? 'opportunities' : 'challenges';
             toggleAnalysis(currentAnaType);
         }
@@ -712,7 +752,9 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.classList.remove('active');
-                if(btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+                if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
+                }
             });
         }
 
@@ -734,7 +776,6 @@
                 list.appendChild(li);
             });
 
-            // Radar Chart Update
             const ctx = document.getElementById('projectImpactChart').getContext('2d');
             if(projectChartInstance) projectChartInstance.destroy();
             
@@ -796,7 +837,6 @@
 
         function updateRealEstateChartLang() {
             if(!realEstateChartInstance) return;
-            
             const type = document.getElementById('market-filter').value;
             const labels = translations[currentLang].reLabels;
             const title = type === 'price' ? translations[currentLang].chartPriceTitle : translations[currentLang].chartDemandTitle;
@@ -845,7 +885,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     ${data.items.map(item => `
-                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
                             <h4 class="font-bold text-slate-800 mb-2">${item.t}</h4>
                             <p class="text-sm text-slate-600">${item.d}</p>
                         </div>
@@ -854,7 +894,6 @@
             `;
         }
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => {
             updateProjectDetail('aviation'); 
             initRealEstateChart();
