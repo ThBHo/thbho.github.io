@@ -4,23 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musconomy: Sovereign Compute</title>
+    <!-- Add js-enabled class immediately to handle animation safely -->
+    <script>document.documentElement.classList.add('js-enabled');</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Fonts: Inter (Latin/Cyrillic), Noto Sans Thai, Noto Sans SC (Chinese) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+Thai:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Application Structure Plan: 
-        1. Multi-language support (Refined).
-        2. Progress Bar indicator for reading length.
-        3. Scroll-triggered animations for engagement.
-        4. Hero Section: Split Layout for equal visual weight.
-        5. Fusion Section: Converted long text to bullet points for readability.
-        6. Solution/Structure: Interactive models.
-        7. NEW: Gemini API Integration - Macrohard Department Simulator.
-    -->
-
     <style>
         body {
             font-family: 'Inter', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
@@ -38,13 +30,13 @@
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
 
-        /* Scroll Animations */
-        .animate-on-scroll {
+        /* Scroll Animations (Safe Mode) */
+        .js-enabled .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .animate-on-scroll.is-visible {
+        .js-enabled .animate-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -163,7 +155,7 @@
                         <a href="https://copacabanagroup.com" target="_blank" class="hover:text-orange-700 transition font-bold text-orange-600" data-i18n="navProjects">Projects</a>
                         <a href="https://thbho.github.io/CopaNewsMar26.html" target="_blank" class="hover:text-orange-700 transition font-bold text-orange-600" data-i18n="navNews">News</a>
                         
-                        <div class="w-px h-4 bg-stone-300"></div>
+                        <div class="w-px h-4 bg-stone-300 mx-2"></div>
 
                         <button onclick="scrollToSection('fusion')" class="hover:text-orange-700 transition" data-i18n="navMerger">The Merger</button>
                         <button onclick="scrollToSection('context')" class="hover:text-orange-700 transition" data-i18n="navHardware">Hardware Wall</button>
@@ -174,7 +166,7 @@
                     <!-- Language Switcher -->
                     <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-stone-50 border border-stone-200 text-stone-700 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2 cursor-pointer hover:bg-stone-100 transition">
                         <option value="en">🇺🇸 English</option>
-                        <option value="th">🇹🇭 ไทย</option>
+                        <option value="th" selected>🇹🇭 ไทย</option>
                         <option value="ru">🇷🇺 Русский</option>
                         <option value="zh">🇨🇳 中文</option>
                     </select>
@@ -192,28 +184,29 @@
                 
                 <!-- Col 1: Text Content -->
                 <div class="order-2 lg:order-1 text-center lg:text-left animate-on-scroll">
-                    <div class="inline-block px-3 py-1 mb-4 rounded-full bg-stone-800/50 border border-stone-700 text-orange-400 text-xs font-bold tracking-widest uppercase" data-i18n="heroBadge">New Economic Paradigm</div>
+                    <div class="inline-block px-3 py-1 mb-4 rounded-full bg-stone-800/50 border border-stone-700 text-orange-400 text-xs font-bold tracking-widest uppercase" data-i18n="heroBadge">รูปแบบเศรษฐกิจใหม่</div>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
-                        <span data-i18n="heroTitleStart">The Dawn of</span> 
+                        <span data-i18n="heroTitleStart">รุ่งอรุณแห่ง</span> 
                         <br class="hidden lg:block">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-indigo-400" data-i18n="heroTitleHighlight">Sovereign Compute</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-indigo-400" data-i18n="heroTitleHighlight">โครงข่ายปัญญาโลกยุคใหม่</span>
                     </h1>
                     <p class="text-lg sm:text-xl text-stone-300 mb-8 font-light leading-relaxed" data-i18n="heroDesc">
-                        SpaceX meets xAI. A $1.25 Trillion closed-loop ecosystem integrating the "Brain" of synthetic intelligence with the "Body" of a starship.
+                        การผนึกกำลังระหว่าง SpaceX และ xAI ได้ก่อกำเนิดระบบนิเวศมูลค่ากว่า 1.25 ล้านล้านดอลลาร์ โดยเชื่อมต่อ “มันสมอง” ของปัญญาประดิษฐ์ เข้ากับ “ร่างกาย” ของยาน Starship เพื่อสร้างโครงสร้างพื้นฐานใหม่ของเทคโนโลยีแห่งอนาคต
                     </p>
                     
                     <!-- Buttons Area -->
                     <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
-                        <button onclick="scrollToSection('fusion')" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-semibold rounded-lg transition-all shadow-lg shadow-orange-900/50 transform hover:-translate-y-1" data-i18n="heroBtn">Explore the Merger</button>
-                        <a href="https://drive.google.com/file/d/1okvc8r7t2I5vXZtg0vGYEE2PCA-n-SVd/view?usp=sharing" target="_blank" class="w-full sm:w-auto px-8 py-3.5 bg-stone-800/80 backdrop-blur-sm hover:bg-stone-700 border border-stone-600 text-stone-200 hover:text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2 group transform hover:-translate-y-1">
+                        <button onclick="scrollToSection('fusion')" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-semibold rounded-lg transition-all shadow-lg shadow-orange-900/50 transform hover:-translate-y-1" data-i18n="heroBtn">สำรวจการควบรวมกิจการ</button>
+                        
+                        <button onclick="scrollToSection('slides')" class="w-full sm:w-auto px-8 py-3.5 bg-stone-800/80 backdrop-blur-sm hover:bg-stone-700 border border-stone-600 text-stone-200 hover:text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2 group transform hover:-translate-y-1">
                             <svg class="w-5 h-5 text-stone-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                            <span data-i18n="btnPdf">View PDF Slides</span>
-                        </a>
+                            <span data-i18n="btnPdf">ดูสไลด์นำเสนอ PDF</span>
+                        </button>
                     </div>
 
                     <div class="mt-8 text-stone-400 text-sm flex flex-wrap justify-center lg:justify-start gap-4">
-                        <div class="bg-stone-800/40 px-3 py-1.5 rounded-md"><span data-i18n="heroStat1Label">IPO:</span> <span class="text-white font-semibold" data-i18n="heroStat1Val">June</span></div>
-                        <div class="bg-stone-800/40 px-3 py-1.5 rounded-md"><span data-i18n="heroStat2Label">Status:</span> <span class="text-white font-semibold text-orange-400" data-i18n="heroStat2Val">Vertical Integration</span></div>
+                        <div class="bg-stone-800/40 px-3 py-1.5 rounded-md"><span data-i18n="heroStat1Label">คาดการณ์ IPO:</span> <span class="text-white font-semibold" data-i18n="heroStat1Val">มิถุนายน</span></div>
+                        <div class="bg-stone-800/40 px-3 py-1.5 rounded-md"><span data-i18n="heroStat2Label">สถานะ:</span> <span class="text-white font-semibold text-orange-400" data-i18n="heroStat2Val">บูรณาการแนวดิ่ง</span></div>
                     </div>
                 </div>
 
@@ -221,7 +214,7 @@
                 <div class="order-1 lg:order-2 animate-on-scroll">
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-orange-600 to-indigo-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <img src="https://i.postimg.cc/ZR36r6vS/Screenshot_2569_02_16_at_20_21_15.png" alt="Musconomy Cover Art" class="relative w-full rounded-xl shadow-2xl border border-stone-700/50 object-cover transform transition duration-700 group-hover:scale-[1.01]">
+                        <img src="https://i.postimg.cc/LsGzYx5K/Screenshot_2569_02_16_at_20_24_13.png" alt="Musconomy Cover Art" class="relative w-full rounded-xl shadow-2xl border border-stone-700/50 object-cover transform transition duration-700 group-hover:scale-[1.01]">
                     </div>
                 </div>
             </div>
@@ -229,14 +222,28 @@
         </div>
     </header>
 
+    <!-- Embedded Slide Deck -->
+    <section id="slides" class="py-16 bg-stone-100 border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 animate-on-scroll">
+                <h2 class="text-3xl font-bold text-stone-900 mb-3 brand-font" data-i18n="slideTitle">The Sovereign Compute Paradigm</h2>
+                <p class="text-stone-600" data-i18n="slideDesc">ดูสไลด์นำเสนอฉบับเต็มและภาพรวมเชิงกลยุทธ์</p>
+            </div>
+            
+            <div class="relative w-full overflow-hidden rounded-2xl shadow-xl border-4 border-white aspect-video animate-on-scroll" style="max-height: 80vh;">
+                <iframe src="https://drive.google.com/file/d/1okvc8r7t2I5vXZtg0vGYEE2PCA-n-SVd/preview" class="absolute top-0 left-0 w-full h-full border-0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
     <!-- Section 1: The Fusion -->
     <section id="fusion" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
         
         <div class="mb-16 animate-on-scroll">
-            <h2 class="text-3xl font-bold text-stone-900 mb-8 brand-font text-center" data-i18n="fusionTitle">The 1.25 Trillion Dollar Synthesis</h2>
+            <h2 class="text-3xl font-bold text-stone-900 mb-8 brand-font text-center" data-i18n="fusionTitle">การสังเคราะห์มูลค่า 1.25 ล้านล้านดอลลาร์</h2>
             <div class="bg-white p-3 rounded-2xl shadow-md border border-stone-100 mb-8 max-w-4xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
                 <img src="https://i.postimg.cc/CxmfySqF/FFFFDDDD.png" alt="Musconomy Ecosystem Diagram" class="w-full rounded-xl">
-                <p class="text-center text-sm text-stone-500 mt-3 p-2 font-medium bg-stone-50 rounded-lg" data-i18n="infographicCaption">Ecosystem Architecture: Integrating Brain & Body</p>
+                <p class="text-center text-sm text-stone-500 mt-3 p-2 font-medium bg-stone-50 rounded-lg" data-i18n="infographicCaption">สถาปัตยกรรมระบบนิเวศ: การผสานรวมระหว่างสมองและร่างกาย</p>
             </div>
         </div>
 
@@ -244,38 +251,38 @@
             <div class="animate-on-scroll">
                 <div class="prose text-stone-600 mb-8 max-w-none">
                     <div data-i18n="fusionDesc">
-                        <p class="mb-4 text-lg">This month marks a definitive shift in the global landscape. The merger is not just financial; it's a new blueprint:</p>
-                        <ul class="list-disc pl-5 mt-2 space-y-2 marker:text-orange-500">
-                            <li>Combines <strong>xAI's intelligence</strong> with <strong>SpaceX's launch power</strong>.</li>
-                            <li>Bypasses traditional nation-state constraints.</li>
-                            <li>Creates a sovereign infrastructure.</li>
+                        <p class='mb-4 text-lg'>เดือนนี้ถือเป็นจุดเปลี่ยนครั้งสำคัญของโลก การควบรวมนี้ไม่ใช่แค่เรื่องเงิน แต่เป็นรากฐานโครงสร้างใหม่:</p>
+                        <ul class='list-disc pl-5 mt-2 space-y-2 marker:text-orange-500'>
+                            <li>รวม <strong>ความฉลาดของ xAI</strong> เข้ากับ <strong>พลังขับเคลื่อนของ SpaceX</strong></li>
+                            <li>ก้าวข้ามข้อจำกัดของประเทศแบบเดิมๆ</li>
+                            <li>สร้างระบบโครงสร้างพื้นฐานที่เป็นอิสระอย่างแท้จริง</li>
                         </ul>
                     </div>
                     
                     <div class="p-5 mt-6 bg-gradient-to-br from-stone-50 to-stone-100 rounded-xl border-l-4 border-indigo-600 shadow-sm">
-                        <strong class="text-indigo-900 text-lg" data-i18n="fusionCoreLabel">Core Concept:</strong> 
-                        <p class="mt-1 text-stone-700" data-i18n="fusionCoreText">A closed-loop ecosystem where the "Brain" (AI) directs the "Body" (Infrastructure).</p>
+                        <strong class="text-indigo-900 text-lg" data-i18n="fusionCoreLabel">แนวคิดหลัก:</strong> 
+                        <p class="mt-1 text-stone-700" data-i18n="fusionCoreText">ระบบนิเวศวงปิด ที่ 'สมอง' (AI) ทำหน้าที่สั่งการ 'ร่างกาย' (โครงสร้างพื้นฐาน)</p>
                     </div>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-6">
                     <div class="p-6 bg-white shadow-sm border border-stone-100 rounded-2xl text-center hover:shadow-md transition-shadow">
                         <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-indigo-500">$1.25T</div>
-                        <div class="text-sm font-medium text-stone-500 mt-2 uppercase tracking-wide" data-i18n="valTotal">Total Valuation</div>
+                        <div class="text-sm font-medium text-stone-500 mt-2 uppercase tracking-wide" data-i18n="valTotal">มูลค่ารวม</div>
                     </div>
                     <div class="p-6 bg-white shadow-sm border border-stone-100 rounded-2xl text-center hover:shadow-md transition-shadow">
-                        <div class="text-4xl font-black text-orange-600" data-i18n="heroStat1Val">June</div>
-                        <div class="text-sm font-medium text-stone-500 mt-2 uppercase tracking-wide" data-i18n="valTarget">IPO Target</div>
+                        <div class="text-4xl font-black text-orange-600" data-i18n="heroStat1Val">มิถุนายน</div>
+                        <div class="text-sm font-medium text-stone-500 mt-2 uppercase tracking-wide" data-i18n="valTarget">เป้าหมาย IPO</div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-white p-8 rounded-3xl shadow-lg border border-stone-100 animate-on-scroll" style="transition-delay: 200ms;">
-                <h3 class="text-xl font-bold text-stone-800 mb-6 text-center" data-i18n="chartTitleMerger">Entity Valuation Breakdown</h3>
+                <h3 class="text-xl font-bold text-stone-800 mb-6 text-center" data-i18n="chartTitleMerger">สัดส่วนมูลค่ากิจการ</h3>
                 <div class="chart-container">
                     <canvas id="mergerChart"></canvas>
                 </div>
-                <p class="text-center text-xs text-stone-400 mt-6 bg-stone-50 py-2 rounded" data-i18n="chartSimNote">Simulated breakdown based on narrative weight</p>
+                <p class="text-center text-xs text-stone-400 mt-6 bg-stone-50 py-2 rounded" data-i18n="chartSimNote">แบบจำลองสัดส่วนตามเนื้อหาในบทวิเคราะห์</p>
             </div>
         </div>
     </section>
@@ -284,39 +291,39 @@
     <section id="context" class="py-20 bg-stone-100 border-y border-stone-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto text-center mb-16 animate-on-scroll">
-                <span class="text-orange-600 font-bold tracking-wider text-sm uppercase mb-2 block" data-i18n="problemTag">The Problem</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="wallTitle">The Hardware Wall</h2>
+                <span class="text-orange-600 font-bold tracking-wider text-sm uppercase mb-2 block" data-i18n="problemTag">ปัญหาในปัจจุบัน</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="wallTitle">กำแพงฮาร์ดแวร์</h2>
                 <p class="text-stone-600 text-lg" data-i18n="wallDesc">
-                    Why move to space? Because Earth is running out of juice. Failing power grids cannot support the exponential energy demands of the modern AI race.
+                    ทำไมต้องมุ่งสู่อวกาศ? เพราะทรัพยากรบนโลกกำลังมาถึงจุดสิ้นสุด โครงข่ายไฟฟ้าปัจจุบันไม่สามารถรองรับการใช้พลังงานมหาศาลของ AI ที่พุ่งสูงขึ้นได้
                 </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 space-y-6 animate-on-scroll">
                     <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200">
-                        <h4 class="font-bold text-stone-900 mb-6 text-lg" data-i18n="wallConstraintsTitle">Key Constraints</h4>
+                        <h4 class="font-bold text-stone-900 mb-6 text-lg" data-i18n="wallConstraintsTitle">ข้อจำกัดหลัก 3 ประการ</h4>
                         <ul class="space-y-4">
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold mt-0.5">!</span>
-                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC1"><strong>Energy Deficit:</strong> Grids are failing under AI load.</span>
+                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC1"><strong>วิกฤตพลังงาน:</strong> โครงข่ายไฟฟ้ารับภาระ AI ไม่ไหว</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold mt-0.5">!</span>
-                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC2"><strong>Thermal Limit:</strong> Cooling is resource-intensive.</span>
+                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC2"><strong>ขีดจำกัดความร้อน:</strong> การระบายความร้อนใช้ต้นทุนสูงมาก</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold mt-0.5">!</span>
-                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC3"><strong>Space Limit:</strong> Land scarcity near power sources.</span>
+                                <span class="ml-3 text-sm text-stone-700" data-i18n="wallC3"><strong>จำกัดพื้นที่:</strong> ที่ดินใกล้แหล่งพลังงานเริ่มขาดแคลน</span>
                             </li>
                         </ul>
                         <div class="mt-8 pt-6 border-t border-stone-100">
-                             <button id="simulateTrendBtn" class="w-full py-3 bg-stone-900 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors shadow-md" data-i18n="btnSimulate">Simulate 5-Year Projection</button>
+                             <button id="simulateTrendBtn" class="w-full py-3 bg-stone-900 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors shadow-md" data-i18n="btnSimulate">จำลองภาพอนาคต 5 ปี</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-stone-200 animate-on-scroll" style="transition-delay: 200ms;">
-                    <h3 class="text-xl font-bold text-stone-800 mb-4" data-i18n="chartTitleEnergy">Global Energy Capacity vs. AI Demand</h3>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4" data-i18n="chartTitleEnergy">ความจุพลังงานโลก vs ความต้องการ AI</h3>
                     <div class="chart-container mt-4">
                         <canvas id="energyChart"></canvas>
                     </div>
@@ -333,7 +340,7 @@
                 <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMWMxOTE3IiAvPgo8cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNDMzOGNhIiAvPgo8L3N2Zz4=')] opacity-30"></div>
                 <h3 class="absolute top-6 left-6 text-stone-300 font-mono text-sm tracking-wider bg-stone-800/80 px-3 py-1 rounded">INITIATIVE: STARTHINK</h3>
                 <div class="orbit-system mt-12 mb-4">
-                    <div class="planet shadow-blue-500/50" data-i18n="planetName">EARTH</div>
+                    <div class="planet shadow-blue-500/50" data-i18n="planetName">โลก</div>
                     <div class="orbit-ring ring-1 border-stone-600/50">
                         <div class="satellite" onclick="updateStarthinkInfo('cooling')"></div>
                         <div class="satellite" style="animation-delay: -3s; background: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);" onclick="updateStarthinkInfo('solar')"></div>
@@ -343,26 +350,26 @@
                     </div>
                 </div>
                 <div class="mt-8 text-center bg-stone-800/50 backdrop-blur-sm px-6 py-3 rounded-full border border-stone-700">
-                    <p class="text-stone-300 text-sm font-medium" data-i18n="orbitInstruction">Click orbiting nodes to explore technology.</p>
+                    <p class="text-stone-300 text-sm font-medium" data-i18n="orbitInstruction">คลิกที่วัตถุในวงโคจรเพื่อดูเทคโนโลยี</p>
                 </div>
             </div>
 
             <div class="order-1 lg:order-2 animate-on-scroll">
-                <span class="text-indigo-600 font-bold tracking-wider text-sm uppercase mb-2 block" data-i18n="solutionTag">The Solution</span>
-                <div class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold tracking-wide mb-4" data-i18n="starthinkTimeline">TIMELINE: 36 MONTHS</div>
-                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="starthinkHeader">Project Starthink: The Orbital Neocortex</h2>
+                <span class="text-indigo-600 font-bold tracking-wider text-sm uppercase mb-2 block" data-i18n="solutionTag">ทางออก</span>
+                <div class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold tracking-wide mb-4" data-i18n="starthinkTimeline">กรอบเวลา: 36 เดือน</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="starthinkHeader">โครงการ Starthink: มันสมองในวงโคจร</h2>
                 <p class="text-stone-600 text-lg mb-8 leading-relaxed" data-i18n="starthinkMainDesc">
-                    To solve the terrestrial "Hardware Wall," the new entity is looking upward. Starthink aims to deploy orbital data centers that leverage the unique environment of space to overcome Earth's bottlenecks.
+                    เพื่อทลาย 'กำแพงฮาร์ดแวร์' บนโลก เราจึงมองขึ้นไปบนฟ้า โครงการ Starthink มุ่งสร้างศูนย์ข้อมูลในวงโคจร เพื่อใช้ประโยชน์จากสภาพแวดล้อมของอวกาศ
                 </p>
 
                 <div id="starthink-info" class="bg-white border-2 border-indigo-50 p-6 rounded-2xl shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                    <h4 class="text-xl font-bold text-stone-800 mb-3" id="starthink-title">Why Space?</h4>
+                    <h4 class="text-xl font-bold text-stone-800 mb-3" id="starthink-title">ทำไมต้องอวกาศ?</h4>
                     <p class="text-stone-600 leading-relaxed" id="starthink-desc">
-                        Elon Musk predicts that within 3 years, the most economically viable location for AI compute will be orbit.
+                        Elon Musk คาดการณ์ว่าภายใน 3 ปี ทำเลทองที่คุ้มค่าที่สุดสำหรับการประมวลผล AI คือ 'วงโคจรโลก' ลองคลิกดูเทคโนโลยีรอบๆ
                     </p>
                     <div class="mt-5 pt-5 border-t border-stone-100 flex items-center justify-between text-sm">
-                        <span class="text-stone-500 font-medium" data-i18n="resourceLabel">Resource Advantage:</span>
-                        <span class="bg-indigo-50 px-3 py-1 rounded text-indigo-700 font-mono font-bold" id="starthink-stat">Unlimited</span>
+                        <span class="text-stone-500 font-medium" data-i18n="resourceLabel">จุดเด่นด้านทรัพยากร:</span>
+                        <span class="bg-indigo-50 px-3 py-1 rounded text-indigo-700 font-mono font-bold" id="starthink-stat">---</span>
                     </div>
                 </div>
             </div>
@@ -373,9 +380,9 @@
     <section id="macrohard" class="py-20 bg-stone-50 border-t border-stone-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto text-center mb-16 animate-on-scroll">
-                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="macroTitle">Project Macrohard: AI Labor Force</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-6 brand-font" data-i18n="macroTitle">โครงการ Macrohard: แรงงาน AI</h2>
                 <p class="text-stone-600 text-lg" data-i18n="macroDesc">
-                    Simultaneously, the software landscape is being rewritten. "Macrohard" is designed to emulate entire corporate structures using autonomous AI agents.
+                    พร้อมกันนี้ วงการซอฟต์แวร์กำลังถูกปฏิวัติใหม่ โปรเจกต์ 'Macrohard' ถูกออกแบบมาเพื่อจำลองโครงสร้างองค์กรทั้งระบบ โดยใช้ AI ขับเคลื่อน
                 </p>
             </div>
 
@@ -385,20 +392,20 @@
 
                 <div class="info-card bg-white p-8 rounded-2xl border border-stone-200 cursor-pointer shadow-sm relative" onclick="selectMacroCard(1, this)">
                     <div class="absolute -top-4 -right-4 w-12 h-12 bg-indigo-100 border-4 border-white text-indigo-600 rounded-full flex items-center justify-center font-bold text-lg shadow-sm">1</div>
-                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep1Title">Grok Model Integration</h4>
-                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep1Short">Foundational AI models provide reasoning capabilities.</p>
+                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep1Title">การผสานโมเดล Grok</h4>
+                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep1Short">โมเดล AI พื้นฐานทำหน้าที่เป็นสมองในการวิเคราะห์</p>
                 </div>
 
                 <div class="info-card bg-white p-8 rounded-2xl border border-stone-200 cursor-pointer shadow-sm relative" onclick="selectMacroCard(2, this)">
                     <div class="absolute -top-4 -right-4 w-12 h-12 bg-orange-100 border-4 border-white text-orange-600 rounded-full flex items-center justify-center font-bold text-lg shadow-sm">2</div>
-                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep2Title">Code & Corp Emulation</h4>
-                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep2Short">Agents generate code and manage workflows autonomously.</p>
+                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep2Title">การเขียนโค้ด & จำลององค์กร</h4>
+                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep2Short">AI Agent บริหารจัดการงานต่างๆ ได้เองอัตโนมัติ</p>
                 </div>
 
                 <div class="info-card bg-white p-8 rounded-2xl border border-stone-200 cursor-pointer shadow-sm relative" onclick="selectMacroCard(3, this)">
                     <div class="absolute -top-4 -right-4 w-12 h-12 bg-stone-200 border-4 border-white text-stone-700 rounded-full flex items-center justify-center font-bold text-lg shadow-sm">3</div>
-                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep3Title">Decoupled Economy</h4>
-                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep3Short">Value generation separated from human labor.</p>
+                    <h4 class="text-xl font-bold text-stone-800 mb-3" data-i18n="macroStep3Title">เศรษฐกิจแบบแยกส่วน</h4>
+                    <p class="text-stone-500 leading-relaxed" data-i18n="macroStep3Short">การสร้างมูลค่า ถูกแยกออกจากการใช้แรงงานมนุษย์</p>
                 </div>
             </div>
 
@@ -411,21 +418,21 @@
                 </div>
             </div>
 
-            <!-- NEW: Gemini API Simulator -->
+            <!-- Gemini API Simulator -->
             <div class="mt-16 bg-white p-8 sm:p-10 rounded-[2rem] shadow-xl border border-indigo-100 max-w-4xl mx-auto animate-on-scroll relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -z-10 mix-blend-multiply opacity-50"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -z-10 mix-blend-multiply opacity-50"></div>
                 
                 <h3 class="text-2xl sm:text-3xl font-bold text-stone-900 mb-3 flex items-center gap-3">
-                   <span class="text-2xl">✨</span> <span data-i18n="macroSimTitle">Macrohard Department Simulator</span>
+                   <span class="text-2xl">✨</span> <span data-i18n="macroSimTitle">ระบบจำลองแผนก Macrohard</span>
                 </h3>
-                <p class="text-stone-500 mb-6 text-lg" data-i18n="macroSimDesc">Enter a traditional corporate role or department to see how it operates in the autonomous Musconomy.</p>
+                <p class="text-stone-500 mb-6 text-lg" data-i18n="macroSimDesc">ป้อนชื่อตำแหน่งงานหรือแผนกแบบดั้งเดิม เพื่อดูว่า AI จะทำงานแทนที่และดำเนินงานอัตโนมัติอย่างไรในยุค Musconomy</p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 mb-2">
-                    <input type="text" id="roleInput" class="flex-1 p-4 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-stone-800 transition-all placeholder-stone-400" placeholder="e.g., Human Resources, Logistics, Marketing" data-i18n-placeholder="macroSimPlaceholder">
+                    <input type="text" id="roleInput" class="flex-1 p-4 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-stone-800 transition-all placeholder-stone-400" placeholder="เช่น ฝ่ายบุคคล, การตลาด, โลจิสติกส์" data-i18n-placeholder="macroSimPlaceholder">
                     <button onclick="runMacrohardSim()" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap transform hover:-translate-y-0.5" id="simBtn">
                         <svg class="w-5 h-5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <span data-i18n="macroSimBtn">Simulate Integration</span>
+                        <span data-i18n="macroSimBtn">จำลองการทำงานด้วย AI</span>
                     </button>
                 </div>
                 
@@ -442,17 +449,17 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
                 <div>
-                    <h3 class="text-white text-xl font-bold brand-font mb-6" data-i18n="footerMapTitle">The Musconomy Roadmap</h3>
+                    <h3 class="text-white text-xl font-bold brand-font mb-6" data-i18n="footerMapTitle">แผนที่นำทาง Musconomy</h3>
                     <ul class="space-y-4 text-sm font-medium">
-                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-green-500 rounded-full mr-4 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span><span data-i18n="map1">June IPO: Public Offering</span></li>
-                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-orange-500 rounded-full mr-4 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></span><span data-i18n="map2">36 Months: Orbit Compute</span></li>
-                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-stone-500 rounded-full mr-4"></span><span data-i18n="map3">Future: Moon Factories</span></li>
-                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg border border-indigo-500/30"><span class="w-3 h-3 bg-indigo-500 rounded-full mr-4 shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span><span class="text-indigo-200" data-i18n="map4">Goal: Kardashev Type II</span></li>
+                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-green-500 rounded-full mr-4 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span><span data-i18n="map1">มิ.ย. IPO: เสนอขายหุ้นต่อสาธารณะ</span></li>
+                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-orange-500 rounded-full mr-4 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></span><span data-i18n="map2">36 เดือน: ศูนย์ประมวลผลวงโคจร</span></li>
+                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg"><span class="w-3 h-3 bg-stone-500 rounded-full mr-4"></span><span data-i18n="map3">อนาคต: ฐานการผลิตบนดวงจันทร์</span></li>
+                        <li class="flex items-center bg-stone-800/50 p-3 rounded-lg border border-indigo-500/30"><span class="w-3 h-3 bg-indigo-500 rounded-full mr-4 shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span><span class="text-indigo-200" data-i18n="map4">เป้าหมาย: อารยธรรม Kardashev Type II</span></li>
                     </ul>
                 </div>
                 <div class="text-base leading-relaxed flex flex-col justify-center">
                     <blockquote class="border-l-4 border-orange-500 pl-6 mb-8 italic text-stone-300 text-xl font-light">
-                        <span data-i18n="footerQuote">"We are witnessing the first concrete steps toward a Kardashev Type II civilization."</span>
+                        <span data-i18n="footerQuote">"เรากำลังเป็นประจักษ์พยาน ก้าวแรกสู่อารยธรรม Kardashev Type II อย่างแท้จริง"</span>
                     </blockquote>
                     <p class="opacity-50 text-sm">
                         &copy; 2026 Musconomy Report Visualization.
@@ -489,6 +496,8 @@
                 heroStat1Val: "June",
                 heroStat2Label: "Status:",
                 heroStat2Val: "Vertical Integration",
+                slideTitle: "The Sovereign Compute Paradigm",
+                slideDesc: "Review the full pitch deck and strategic overview.",
                 infographicCaption: "Ecosystem Architecture: Integrating Brain & Body",
                 fusionTitle: "The 1.25 Trillion Dollar Synthesis",
                 fusionDesc: "<p class='mb-4 text-lg'>This month marks a definitive shift in the global landscape. The merger is not just financial; it's a new blueprint:</p><ul class='list-disc pl-5 mt-2 space-y-2 marker:text-orange-500'><li>Combines <strong>xAI's intelligence</strong> with <strong>SpaceX's launch power</strong>.</li><li>Bypasses traditional nation-state constraints.</li><li>Creates a sovereign infrastructure.</li></ul>",
@@ -563,6 +572,8 @@
                 heroStat1Val: "มิถุนายน",
                 heroStat2Label: "สถานะ:",
                 heroStat2Val: "บูรณาการแนวดิ่ง",
+                slideTitle: "The Sovereign Compute Paradigm",
+                slideDesc: "ดูสไลด์นำเสนอฉบับเต็มและภาพรวมเชิงกลยุทธ์",
                 infographicCaption: "สถาปัตยกรรมระบบนิเวศ: การผสานรวมระหว่างสมองและร่างกาย",
                 fusionTitle: "การสังเคราะห์มูลค่า 1.25 ล้านล้านดอลลาร์",
                 fusionDesc: "<p class='mb-4 text-lg'>เดือนนี้ถือเป็นจุดเปลี่ยนครั้งสำคัญของโลก การควบรวมนี้ไม่ใช่แค่เรื่องเงิน แต่เป็นรากฐานโครงสร้างใหม่:</p><ul class='list-disc pl-5 mt-2 space-y-2 marker:text-orange-500'><li>รวม <strong>ความฉลาดของ xAI</strong> เข้ากับ <strong>พลังขับเคลื่อนของ SpaceX</strong></li><li>ก้าวข้ามข้อจำกัดของประเทศแบบเดิมๆ</li><li>สร้างระบบโครงสร้างพื้นฐานที่เป็นอิสระอย่างแท้จริง</li></ul>",
@@ -637,6 +648,8 @@
                 heroStat1Val: "Июнь",
                 heroStat2Label: "Статус:",
                 heroStat2Val: "Вертикальная интеграция",
+                slideTitle: "The Sovereign Compute Paradigm",
+                slideDesc: "Ознакомьтесь с полной презентацией и стратегическим обзором.",
                 infographicCaption: "Архитектура экосистемы: Интеграция Мозга и Тела",
                 fusionTitle: "Синтез на 1,25 триллиона долларов",
                 fusionDesc: "<p class='mb-4 text-lg'>Этот месяц знаменует собой окончательный сдвиг. Слияние — это архитектурный проект новой реальности:</p><ul class='list-disc pl-5 mt-2 space-y-2 marker:text-orange-500'><li>Объединяет <strong>интеллект xAI</strong> и <strong>мощь SpaceX</strong>.</li><li>Обходит традиционные ограничения государств.</li><li>Создает суверенную инфраструктуру.</li></ul>",
@@ -711,6 +724,8 @@
                 heroStat1Val: "六月",
                 heroStat2Label: "状态:",
                 heroStat2Val: "垂直整合",
+                slideTitle: "The Sovereign Compute Paradigm",
+                slideDesc: "查看完整的演示文稿和战略概述。",
                 infographicCaption: "生态系统架构：整合大脑与身体",
                 fusionTitle: "1.25 万亿美元的综合体",
                 fusionDesc: "<p class='mb-4 text-lg'>本月标志着全球格局的决定性转变。这次合并不仅仅是财务上的，它是新的蓝图：</p><ul class='list-disc pl-5 mt-2 space-y-2 marker:text-orange-500'><li>结合 <strong>xAI 的智能</strong> 与 <strong>SpaceX 的发射能力</strong>。</li><li>绕过传统单一国家的限制。</li><li>创建主权基础设施。</li></ul>",
@@ -814,11 +829,9 @@
             }
         };
 
-        // --- State ---
-        let currentLang = 'en';
+        let currentLang = 'th'; // Set Thai as default language
         let charts = {};
 
-        // --- Core Functions ---
         function changeLanguage(lang) {
             currentLang = lang;
             
@@ -840,7 +853,6 @@
 
             updateCharts(lang);
 
-            // Reset dynamic content
             document.getElementById('starthink-title').innerText = translations[lang].starthinkDefaultTitle;
             document.getElementById('starthink-desc').innerText = translations[lang].starthinkDefaultDesc;
             document.getElementById('starthink-stat').innerText = "---";
@@ -848,7 +860,6 @@
             document.getElementById('macro-detail').classList.add('hidden');
             document.querySelectorAll('.info-card').forEach(c => c.classList.remove('active'));
             
-            // Hide Simulator result
             document.getElementById('simResult').classList.add('hidden');
             document.getElementById('roleInput').value = '';
         }
@@ -859,9 +870,11 @@
 
         function scrollToSection(id) {
             const el = document.getElementById(id);
-            const yOffset = -80; 
-            const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({top: y, behavior: 'smooth'});
+            if(el) {
+                const yOffset = -80; 
+                const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
         }
 
         function updateStarthinkInfo(key) {
@@ -895,7 +908,6 @@
             document.getElementById('macro-loc').innerText = data.loc;
         }
 
-        // --- Gemini API Function ---
         async function runMacrohardSim() {
             const inputEl = document.getElementById('roleInput');
             const input = inputEl.value.trim();
@@ -905,7 +917,6 @@
             const resultDiv = document.getElementById('simResult');
             const t = translations[currentLang];
 
-            // UI Loading state
             btn.disabled = true;
             btn.classList.add('opacity-70', 'cursor-not-allowed');
             inputEl.disabled = true;
@@ -914,7 +925,7 @@
             resultDiv.innerHTML = `<div class="w-full h-6 shimmer rounded mb-2"></div><div class="w-3/4 h-6 shimmer rounded"></div><p class="text-sm mt-3 opacity-60 font-mono">${t.macroSimLoading}</p>`;
 
             const langMap = { 'en': 'English', 'th': 'Thai', 'ru': 'Russian', 'zh': 'Simplified Chinese' };
-            const replyLang = langMap[currentLang] || 'English';
+            const replyLang = langMap[currentLang] || 'Thai';
             
             const prompt = `You are an AI architect for the 'Macrohard' project (a merger of xAI and SpaceX). Explain concisely (in 2-3 sentences) how the traditional corporate role of '${input}' is fully automated and reimagined using autonomous AI agents, Grok models, and orbital compute. Reply in ${replyLang}. Avoid Markdown asterisks if possible.`;
 
@@ -949,13 +960,11 @@
                 }
             }
 
-            // Restore UI state
             btn.disabled = false;
             btn.classList.remove('opacity-70', 'cursor-not-allowed');
             inputEl.disabled = false;
 
             if (success) {
-                // Parse basic markdown bolding
                 const formattedText = responseText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-900">$1</strong>');
                 resultDiv.innerHTML = `<div>${formattedText}</div><div class="mt-3 text-xs text-indigo-500/70 uppercase tracking-widest font-mono border-t border-indigo-200/50 pt-2">Generated by Gemini API • Macrohard Subroutine</div>`;
             } else {
@@ -964,11 +973,11 @@
         }
 
         // Add Enter key listener for the input
-        document.getElementById('roleInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                runMacrohardSim();
-            }
-        });
+        if(document.getElementById('roleInput')) {
+            document.getElementById('roleInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') runMacrohardSim();
+            });
+        }
 
         function updateCharts(lang) {
             const t = translations[lang];
@@ -989,103 +998,109 @@
             }
 
             const btn = document.getElementById('simulateTrendBtn');
-            if (btn.disabled) {
+            if (btn && btn.disabled) {
                  btn.innerText = t.btnSimulateDone;
             }
         }
 
-        // --- Initialization & Event Listeners ---
+        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            const t = translations['en'];
+            
+            // Set initial language to Thai manually to match the selector
+            changeLanguage('th');
 
             // 1. Reading Progress Bar
             window.addEventListener('scroll', () => {
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrolled = (winScroll / height) * 100;
-                document.getElementById('progress-bar').style.width = scrolled + '%';
+                const pb = document.getElementById('progress-bar');
+                if(pb) pb.style.width = scrolled + '%';
             });
 
-            // 2. Scroll Animations (Intersection Observer)
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+            // 2. Scroll Animations - SAFE MODE
+            if ('IntersectionObserver' in window) {
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
 
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+                document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            } else {
+                // Fallback for older browsers
+                document.querySelectorAll('.animate-on-scroll').forEach(el => el.classList.add('is-visible'));
+            }
 
-            // 3. Merger Chart
-            const mergerCtx = document.getElementById('mergerChart').getContext('2d');
-            charts.merger = new Chart(mergerCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: [t.mergerLabel1, t.mergerLabel2],
-                    datasets: [{
-                        data: [75, 25],
-                        backgroundColor: ['#c2410c', '#4338ca'],
-                        borderWidth: 0,
-                        hoverOffset: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { family: 'Inter' }, padding: 20 } },
-                        title: { display: true, text: t.valTotal + ': $1.25T', font: { size: 16 } }
-                    },
-                    animation: { animateScale: true, animateRotate: true }
+            // 3. Init Charts safely
+            try {
+                const mergerCtx = document.getElementById('mergerChart');
+                if(mergerCtx) {
+                    charts.merger = new Chart(mergerCtx.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: [translations['th'].mergerLabel1, translations['th'].mergerLabel2],
+                            datasets: [{ data: [75, 25], backgroundColor: ['#c2410c', '#4338ca'], borderWidth: 0, hoverOffset: 6 }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { font: { family: 'Inter' }, padding: 20 } },
+                                title: { display: true, text: translations['th'].valTotal + ': $1.25T', font: { size: 16 } }
+                            },
+                            animation: { animateScale: true, animateRotate: true }
+                        }
+                    });
                 }
-            });
-
-            // 4. Energy Chart
-            const energyCtx = document.getElementById('energyChart').getContext('2d');
-            charts.energy = new Chart(energyCtx, {
-                type: 'line',
-                data: {
-                    labels: ['2023', '2024', '2025', '2026', '2027'],
-                    datasets: [
-                        { label: t.energyLabelAI, data: [100, 150, 300, 600, 1200], borderColor: '#c2410c', backgroundColor: 'rgba(194, 65, 12, 0.1)', fill: true, tension: 0.4 },
-                        { label: t.energyLabelGrid, data: [400, 420, 440, 460, 480], borderColor: '#4b5563', borderDash: [5, 5], tension: 0.1 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    scales: { y: { beginAtZero: true } },
-                    plugins: {
-                        tooltip: { backgroundColor: 'rgba(28, 25, 23, 0.9)', padding: 12, titleFont: { size: 14 }, bodyFont: { size: 13 } }
-                    }
+                
+                const energyCtx = document.getElementById('energyChart');
+                if(energyCtx) {
+                    charts.energy = new Chart(energyCtx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['2023', '2024', '2025', '2026', '2027'],
+                            datasets: [
+                                { label: translations['th'].energyLabelAI, data: [100, 150, 300, 600, 1200], borderColor: '#c2410c', backgroundColor: 'rgba(194, 65, 12, 0.1)', fill: true, tension: 0.4 },
+                                { label: translations['th'].energyLabelGrid, data: [400, 420, 440, 460, 480], borderColor: '#4b5563', borderDash: [5, 5], tension: 0.1 }
+                            ]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, scales: { y: { beginAtZero: true } },
+                            plugins: { tooltip: { backgroundColor: 'rgba(28, 25, 23, 0.9)', padding: 12, titleFont: { size: 14 }, bodyFont: { size: 13 } } }
+                        }
+                    });
                 }
-            });
+            } catch (error) {
+                console.error("Chart initialization failed, UI will still load.", error);
+            }
 
-            // Simulate Trend Button Action
-            document.getElementById('simulateTrendBtn').addEventListener('click', function() {
-                const tCurrent = translations[currentLang];
-                charts.energy.data.datasets.push({
-                    label: tCurrent.energyLabelSim,
-                    data: [100, 150, 250, 300, 320],
-                    borderColor: '#4338ca', 
-                    borderWidth: 3,
-                    tension: 0.4
+            const simBtn = document.getElementById('simulateTrendBtn');
+            if(simBtn) {
+                simBtn.addEventListener('click', function() {
+                    const tCurrent = translations[currentLang];
+                    if(charts.energy) {
+                        charts.energy.data.datasets.push({
+                            label: tCurrent.energyLabelSim,
+                            data: [100, 150, 250, 300, 320],
+                            borderColor: '#4338ca', borderWidth: 3, tension: 0.4
+                        });
+                        charts.energy.update();
+                    }
+                    this.innerText = tCurrent.btnSimulateDone;
+                    this.disabled = true;
+                    this.classList.remove('bg-stone-900', 'hover:bg-orange-600');
+                    this.classList.add('bg-green-600', 'cursor-not-allowed');
                 });
-                charts.energy.update();
-                this.innerText = tCurrent.btnSimulateDone;
-                this.disabled = true;
-                this.classList.remove('bg-stone-900', 'hover:bg-orange-600');
-                this.classList.add('bg-green-600', 'cursor-not-allowed');
-            });
+            }
             
-            // Initial animation trigger
+            // Trigger first animations immediately
             setTimeout(() => {
                 document.querySelectorAll('#hero .animate-on-scroll').forEach(el => el.classList.add('is-visible'));
-            }, 100);
+            }, 50);
         });
     </script>
 </body>
