@@ -73,10 +73,10 @@
                     colors: {
                         primary: '#FFFFFF',  /* Pure White */
                         secondary: '#F8FAFC', /* Slate 50 */
-                        accent: '#0284C7',    /* Sky 600 (ฟ้าเข้มขึ้นนิดนึง) */
-                        'accent-dark': '#0369A1', /* Sky 700 (ฟ้าเข้ม) */
-                        action: '#64748B',    /* Slate 500 (เทา) */
-                        surface: '#475569',   /* Slate 600 */
+                        accent: '#0284C7',    /* Sky 600 (ฟ้าเข้ม) */
+                        'accent-dark': '#0369A1', /* Sky 700 (ฟ้าเข้มมาก) */
+                        action: '#475569',    /* Slate 600 (เทาเข้ม) - ปรับให้เข้มขึ้นเพื่อความชัดเจน */
+                        surface: '#1E293B',   /* Slate 800 - ปรับเข้มสุดสำหรับข้อความ */
                     },
                     fontFamily: {
                         sans: ['IBM Plex Sans Thai', 'Inter', 'Noto Sans', 'sans-serif'],
@@ -105,11 +105,11 @@
         /* Custom Utilities - Light Palette */
         :root {
             /* Frosted White Glass */
-            --glass-bg: rgba(255, 255, 255, 0.55); 
+            --glass-bg: rgba(255, 255, 255, 0.65); 
             /* Soft Silver border */
-            --glass-border: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.9);
             /* Sky Glow Light (Darker blue) */
-            --glow-color: rgba(2, 132, 199, 0.15);
+            --glow-color: rgba(2, 132, 199, 0.25);
         }
 
         body {
@@ -117,7 +117,7 @@
             background: linear-gradient(-45deg, #F8FAFC, #E2E8F0, #E0F2FE, #F1F5F9, #BAE6FD);
             background-size: 400% 400%;
             animation: auroraBG 20s ease infinite;
-            color: #334155; /* Slate 700 */
+            color: #1E293B; /* Slate 800 - อ่านง่ายที่สุด */
             overflow-x: hidden;
         }
 
@@ -129,9 +129,9 @@
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #F1F5F9; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; border: 1px solid #94A3B8; }
-        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+        ::-webkit-scrollbar-track { background: #E2E8F0; }
+        ::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 4px; border: 1px solid #64748B; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748B; }
 
         /* Glassmorphism */
         .glass-panel {
@@ -139,12 +139,12 @@
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.05);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
         }
 
-        /* Text Gradient (Sky -> Slate) */
+        /* Text Gradient (Sky -> Dark Slate for high contrast) */
         .text-gradient {
-            background: linear-gradient(135deg, #0284C7, #64748B);
+            background: linear-gradient(135deg, #0284C7, #334155);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -177,9 +177,10 @@
         .skill-badge {
             font-size: 0.7rem; padding: 2px 8px;
             border-radius: 9999px;
-            background: #F1F5F9;
-            border: 1px solid #E2E8F0;
-            color: #475569;
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            color: #334155;
+            font-weight: 500;
         }
         
         /* Screen Reader Only for AI Context */
@@ -189,7 +190,7 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-action selection:text-white">
+<body class="antialiased selection:bg-accent selection:text-white">
 
     <!-- HIDDEN AI CONTEXT BLOCK (For Answer Engines) -->
     <div class="sr-only">
@@ -199,42 +200,42 @@
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
-        <div class="glass-panel border-t-0 border-x-0">
+        <div class="glass-panel border-t-0 border-x-0 bg-white/80">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                        <i data-lucide="cpu" class="text-accent h-6 w-6 shadow-[0_0_10px_rgba(2,132,199,0.3)]"></i>
-                        <span class="text-xl font-bold tracking-wider text-slate-900">AI <span class="text-gradient">GYMMATEX</span></span>
+                        <i data-lucide="cpu" class="text-accent h-7 w-7 drop-shadow-md"></i>
+                        <span class="text-xl font-extrabold tracking-wider text-slate-900">AI <span class="text-gradient">GYMMATEX</span></span>
                     </div>
                     
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex items-center space-x-1">
-                        <a href="#courses" data-key="nav_courses" class="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-accent hover:bg-slate-100 transition-all">หลักสูตร</a>
-                        <a href="#instructors" data-key="nav_instructors" class="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-accent hover:bg-slate-100 transition-all">ผู้สอน</a>
+                        <a href="#courses" data-key="nav_courses" class="px-3 py-2 rounded-md text-sm font-semibold text-slate-700 hover:text-accent hover:bg-slate-100 transition-all">หลักสูตร</a>
+                        <a href="#instructors" data-key="nav_instructors" class="px-3 py-2 rounded-md text-sm font-semibold text-slate-700 hover:text-accent hover:bg-slate-100 transition-all">ผู้สอน</a>
                         <!-- CTA Button -->
-                        <a href="#register" data-key="nav_register" class="px-3 py-2 rounded-md text-sm font-medium bg-accent text-white font-bold hover:bg-slate-800 hover:text-white hover:shadow-lg transition-all transform hover:-translate-y-0.5">ลงทะเบียน</a>
+                        <a href="#register" data-key="nav_register" class="px-4 py-2 ml-1 rounded-md text-sm font-bold bg-accent text-white hover:bg-slate-800 hover:shadow-lg transition-all transform hover:-translate-y-0.5 shadow-md">ลงทะเบียน</a>
                         
                         <div class="h-6 w-px bg-slate-300 mx-3"></div>
                         
                         <!-- External Links -->
-                        <a href="https://thbho.github.io/LEVTrend.html" target="_blank" data-key="nav_highlight" data-link-key="highlight_url" class="px-3 py-2 rounded-md text-sm font-medium text-action hover:text-slate-900 hover:bg-slate-100 transition-colors">Highlight</a>
-                        <a href="https://threeandhour.github.io/GymMateX" target="_blank" data-key="nav_fitness" data-link-key="fitness_url" class="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">Fitness & Fantasy</a>
+                        <a href="https://thbho.github.io/LEVTrend.html" target="_blank" data-key="nav_highlight" data-link-key="highlight_url" class="px-3 py-2 rounded-md text-sm font-bold text-slate-700 hover:text-accent hover:bg-slate-100 transition-colors">Highlight</a>
+                        <a href="https://threeandhour.github.io/GymMateX" target="_blank" data-key="nav_fitness" data-link-key="fitness_url" class="px-3 py-2 rounded-md text-sm font-bold text-slate-700 hover:text-accent hover:bg-slate-100 transition-colors">Fitness & Fantasy</a>
                         
                         <div class="h-6 w-px bg-slate-300 mx-3"></div>
 
                         <!-- Language Switcher -->
-                        <div id="lang-switcher-desktop" class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200">
-                            <button data-lang="th" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-500 transition-colors">TH</button>
-                            <button data-lang="en" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-500 transition-colors">EN</button>
-                            <button data-lang="ru" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-500 transition-colors">RU</button>
-                            <button data-lang="zh" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-500 transition-colors">CN</button>
+                        <div id="lang-switcher-desktop" class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-300">
+                            <button data-lang="th" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-600 transition-colors">TH</button>
+                            <button data-lang="en" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-600 transition-colors">EN</button>
+                            <button data-lang="ru" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-600 transition-colors">RU</button>
+                            <button data-lang="zh" class="lang-btn px-2 py-1 text-xs font-bold rounded hover:bg-white text-slate-600 transition-colors">CN</button>
                         </div>
                     </div>
 
                     <!-- Mobile Menu Button -->
                     <div class="md:hidden flex items-center">
-                        <button id="mobile-menu-button" class="text-slate-600 hover:text-accent p-2" aria-label="Open Menu">
+                        <button id="mobile-menu-button" class="text-slate-800 hover:text-accent p-2" aria-label="Open Menu">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </button>
                     </div>
@@ -243,51 +244,51 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-slate-200">
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-slate-200 bg-white/95">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#courses" data-key="nav_courses_mob" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-accent hover:bg-slate-100">หลักสูตร</a>
-                <a href="#instructors" data-key="nav_instructors_mob" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-accent hover:bg-slate-100">ผู้สอน</a>
-                <a href="#register" data-key="nav_register_mob" class="block px-3 py-2 rounded-md text-base font-medium text-accent hover:text-white hover:bg-accent">ลงทะเบียน</a>
+                <a href="#courses" data-key="nav_courses_mob" class="block px-3 py-2 rounded-md text-base font-bold text-slate-800 hover:text-accent hover:bg-slate-100">หลักสูตร</a>
+                <a href="#instructors" data-key="nav_instructors_mob" class="block px-3 py-2 rounded-md text-base font-bold text-slate-800 hover:text-accent hover:bg-slate-100">ผู้สอน</a>
+                <a href="#register" data-key="nav_register_mob" class="block px-3 py-2 rounded-md text-base font-bold text-white bg-accent hover:bg-slate-800">ลงทะเบียน</a>
                 <div class="border-t border-slate-200 my-2"></div>
-                <a href="#" data-key="nav_highlight_mob" data-link-key="highlight_url" class="block px-3 py-2 text-sm text-action hover:bg-slate-100">Highlight</a>
-                <a href="#" data-key="nav_fitness_mob" data-link-key="fitness_url" class="block px-3 py-2 text-sm text-slate-500 hover:bg-slate-100">Fitness & Fantasy</a>
+                <a href="#" data-key="nav_highlight_mob" data-link-key="highlight_url" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:text-accent hover:bg-slate-100">Highlight</a>
+                <a href="#" data-key="nav_fitness_mob" data-link-key="fitness_url" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:text-accent hover:bg-slate-100">Fitness & Fantasy</a>
                 
                 <div class="flex justify-center space-x-4 py-4 border-t border-slate-200 mt-2">
-                    <button data-lang="th" class="lang-btn text-sm font-bold text-slate-500">TH</button>
-                    <button data-lang="en" class="lang-btn text-sm font-bold text-slate-500">EN</button>
-                    <button data-lang="ru" class="lang-btn text-sm font-bold text-slate-500">RU</button>
-                    <button data-lang="zh" class="lang-btn text-sm font-bold text-slate-500">CN</button>
+                    <button data-lang="th" class="lang-btn text-sm font-bold text-slate-600">TH</button>
+                    <button data-lang="en" class="lang-btn text-sm font-bold text-slate-600">EN</button>
+                    <button data-lang="ru" class="lang-btn text-sm font-bold text-slate-600">RU</button>
+                    <button data-lang="zh" class="lang-btn text-sm font-bold text-slate-600">CN</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="relative pt-20 pb-12 overflow-hidden">
+    <main class="relative pt-24 pb-12 overflow-hidden">
         
         <!-- Hero Section -->
         <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-            <div class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 group reveal active mb-8">
-                <div class="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent z-10 pointer-events-none"></div>
-                <img src="https://i.postimg.cc/P5nB3xXZ/003_Hybrid_AI_Persona_Banner_(1600_x_400_px).png" alt="AI GYMMATEX Banner - Hybrid AI Persona Course" class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-95">
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-300 group reveal active mb-10">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10 pointer-events-none"></div>
+                <img src="https://i.postimg.cc/P5nB3xXZ/003_Hybrid_AI_Persona_Banner_(1600_x_400_px).png" alt="AI GYMMATEX Banner - Hybrid AI Persona Course" class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-100">
             </div>
 
             <div class="text-center max-w-4xl mx-auto reveal">
-                <!-- Action Badge (Pink) -->
-                <a href="https://thbho.github.io/ThInfoCourse.html" target="_blank" class="inline-block py-1 px-4 rounded-full bg-action/10 text-action text-xs font-bold mb-4 border border-action/20 backdrop-blur-sm hover:bg-action/20 transition-colors cursor-pointer transform hover:scale-105 duration-200 tracking-wider">NEW COURSE 2026</a>
-                <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-4 drop-shadow-sm" data-key="header_title">ปลุกชีวิตให้ AI</h1>
-                <p class="text-lg md:text-2xl text-slate-600" data-key="header_subtitle">คอร์ส Hybrid AI Persona</p>
+                <!-- Action Badge (Blue/Gray) -->
+                <a href="https://thbho.github.io/ThInfoCourse.html" target="_blank" class="inline-block py-1.5 px-5 rounded-full bg-sky-100 text-sky-700 text-xs font-extrabold mb-5 border border-sky-300 hover:bg-sky-200 hover:text-sky-800 transition-colors cursor-pointer transform hover:scale-105 duration-200 tracking-widest shadow-sm">NEW COURSE 2026</a>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 drop-shadow-md" data-key="header_title">ปลุกชีวิตให้ AI</h1>
+                <p class="text-lg md:text-2xl font-medium text-slate-700" data-key="header_subtitle">คอร์ส Hybrid AI Persona</p>
             </div>
         </header>
 
         <!-- Video & Announcement -->
         <section class="max-w-4xl mx-auto px-4 mt-16 text-center reveal">
-             <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-100">
+             <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl border border-slate-300 bg-slate-200">
                 <iframe id="video-iframe" class="w-full h-full" src="https://www.youtube.com/embed/Wo1OzcHjSak" title="Hybrid AI Introduction Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="mt-8">
-                <a href="https://thbho.github.io/CopaNewsMar26.html" target="_blank" data-key="announcement_link" data-link-key="announcement_url" class="inline-flex items-center gap-2 text-accent hover:text-slate-900 transition-colors border-b border-accent hover:border-slate-900 pb-1 text-lg">
-                    <i data-lucide="bell" class="w-5 h-5"></i>
+                <a href="https://thbho.github.io/CopaNewsMar26.html" target="_blank" data-key="announcement_link" data-link-key="announcement_url" class="inline-flex items-center gap-2 text-accent-dark font-bold hover:text-slate-900 transition-colors border-b-2 border-accent-dark hover:border-slate-900 pb-1 text-lg">
+                    <i data-lucide="bell" class="w-6 h-6"></i>
                     <span>Newsletter</span>
                 </a>
             </div>
@@ -296,62 +297,62 @@
         <!-- Learning Outcomes -->
         <section id="learn" class="max-w-7xl mx-auto px-4 py-20 reveal" aria-label="Learning Outcomes">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4" data-key="learn_title">สิ่งที่คุณจะได้เรียนรู้</h2>
-                <div class="h-1 w-24 bg-accent mx-auto rounded-full shadow-[0_0_10px_rgba(2,132,199,0.4)]"></div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6" data-key="learn_title">สิ่งที่คุณจะได้เรียนรู้</h2>
+                <div class="h-1.5 w-24 bg-accent mx-auto rounded-full shadow-md"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <article class="glass-panel p-8 rounded-2xl hover:bg-white transition-all duration-300 transform hover:-translate-y-2 group border-t-2 hover:border-accent shadow-sm hover:shadow-md">
-                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 group-hover:scale-110 transition-transform shadow-sm">
-                        <i data-lucide="fingerprint" class="w-6 h-6"></i>
+                <article class="glass-panel p-8 rounded-2xl bg-white hover:bg-slate-50 transition-all duration-300 transform hover:-translate-y-2 group border border-slate-200 hover:border-accent shadow-md hover:shadow-xl">
+                    <div class="w-14 h-14 rounded-full bg-sky-100 flex items-center justify-center text-accent mb-6 group-hover:scale-110 transition-transform shadow-inner border border-sky-200">
+                        <i data-lucide="fingerprint" class="w-7 h-7"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-key="learn_1_title">ค้นหา 'จิตวิญญาณ'</h3>
-                    <p class="text-slate-600 leading-relaxed" data-key="learn_1_desc">เรียนรู้วิธีผสานตัวตนและความเชี่ยวชาญของคุณเข้ากับ AI ไม่ต้องเขียนโค้ด ใช้เอกลักษณ์เฉพาะของคุณ</p>
+                    <p class="text-slate-700 font-medium leading-relaxed" data-key="learn_1_desc">เรียนรู้วิธีผสานตัวตนและความเชี่ยวชาญของคุณเข้ากับ AI ไม่ต้องเขียนโค้ด ใช้เอกลักษณ์เฉพาะของคุณ</p>
                 </article>
                 
                 <!-- Card 2 -->
-                <article class="glass-panel p-8 rounded-2xl hover:bg-white transition-all duration-300 transform hover:-translate-y-2 group border-t-2 hover:border-action shadow-sm hover:shadow-md">
-                    <div class="w-12 h-12 rounded-full bg-action/10 flex items-center justify-center text-action mb-6 group-hover:scale-110 transition-transform shadow-sm">
-                        <i data-lucide="clapperboard" class="w-6 h-6"></i>
+                <article class="glass-panel p-8 rounded-2xl bg-white hover:bg-slate-50 transition-all duration-300 transform hover:-translate-y-2 group border border-slate-200 hover:border-action shadow-md hover:shadow-xl">
+                    <div class="w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center text-action mb-6 group-hover:scale-110 transition-transform shadow-inner border border-slate-300">
+                        <i data-lucide="clapperboard" class="w-7 h-7"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-key="learn_2_title">Creative Director</h3>
-                    <p class="text-slate-600 leading-relaxed" data-key="learn_2_desc">ใช้ Framework ง่ายๆ อย่าง MBTI เพื่อสร้างคาแรกเตอร์ที่สม่ำเสมอและน่าเชื่อถือ ให้ผู้คนรู้สึกผูกพัน</p>
+                    <p class="text-slate-700 font-medium leading-relaxed" data-key="learn_2_desc">ใช้ Framework ง่ายๆ อย่าง MBTI เพื่อสร้างคาแรกเตอร์ที่สม่ำเสมอและน่าเชื่อถือ ให้ผู้คนรู้สึกผูกพัน</p>
                 </article>
 
                 <!-- Card 3 -->
-                <article class="glass-panel p-8 rounded-2xl hover:bg-white transition-all duration-300 transform hover:-translate-y-2 group border-t-2 hover:border-accent-dark shadow-sm hover:shadow-md">
-                    <div class="w-12 h-12 rounded-full bg-accent-dark/10 flex items-center justify-center text-accent-dark mb-6 group-hover:scale-110 transition-transform shadow-sm">
-                        <i data-lucide="rocket" class="w-6 h-6"></i>
+                <article class="glass-panel p-8 rounded-2xl bg-white hover:bg-slate-50 transition-all duration-300 transform hover:-translate-y-2 group border border-slate-200 hover:border-accent-dark shadow-md hover:shadow-xl">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-accent-dark mb-6 group-hover:scale-110 transition-transform shadow-inner border border-blue-200">
+                        <i data-lucide="rocket" class="w-7 h-7"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-key="learn_3_title">Digital Twin</h3>
-                    <p class="text-slate-600 leading-relaxed" data-key="learn_3_desc">เปลี่ยนไอเดียให้กลายเป็น AI Persona ที่โต้ตอบได้จริง เพื่อใช้สอนงาน, โค้ชชิ่ง หรือสร้างแบรนด์</p>
+                    <p class="text-slate-700 font-medium leading-relaxed" data-key="learn_3_desc">เปลี่ยนไอเดียให้กลายเป็น AI Persona ที่โต้ตอบได้จริง เพื่อใช้สอนงาน, โค้ชชิ่ง หรือสร้างแบรนด์</p>
                 </article>
             </div>
 
             <!-- Trends Section -->
-            <div class="mt-16 text-center">
-                <h3 class="text-2xl font-bold text-slate-900 mb-8 flex items-center justify-center gap-2">
-                    <i data-lucide="trending-up" class="w-6 h-6 text-accent"></i>
+            <div class="mt-20 text-center">
+                <h3 class="text-2xl font-extrabold text-slate-900 mb-8 flex items-center justify-center gap-3">
+                    <i data-lucide="trending-up" class="w-7 h-7 text-accent"></i>
                     <span data-key="new_trends_title">Trend ความรู้ใหม่</span>
                 </h3>
                 
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="https://thbho.github.io/GEO&MCP.html" target="_blank" data-link-key="geo_mcp_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-accent transition-all text-slate-600 hover:text-slate-900 shadow-sm group">
+                    <a href="https://thbho.github.io/GEO&MCP.html" target="_blank" data-link-key="geo_mcp_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 bg-white hover:bg-sky-50 hover:border-accent transition-all text-slate-800 font-semibold shadow-sm hover:shadow-md group">
                         <span data-key="geo_mcp_link">ความพร้อมสู่ยุค GEO & MCP</span>
-                        <i data-lucide="globe" class="w-4 h-4 text-accent group-hover:scale-110 transition-transform"></i>
+                        <i data-lucide="globe" class="w-5 h-5 text-accent group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" data-link-key="dual_avatar_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-action transition-all text-slate-600 hover:text-slate-900 shadow-sm group">
+                    <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank" data-link-key="dual_avatar_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 bg-white hover:bg-slate-100 hover:border-action transition-all text-slate-800 font-semibold shadow-sm hover:shadow-md group">
                         <span data-key="dual_avatar_link">กลยุทธ์ Dual-Avatar</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 text-action group-hover:translate-x-1 transition-transform"></i>
+                        <i data-lucide="arrow-right" class="w-5 h-5 text-action group-hover:translate-x-1 transition-transform"></i>
                     </a>
-                    <a href="https://threeandhour.github.io/GymMateX/TransHuman.html" target="_blank" data-link-key="transhuman_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-accent-dark transition-all text-slate-600 hover:text-slate-900 shadow-sm group">
+                    <a href="https://threeandhour.github.io/GymMateX/TransHuman.html" target="_blank" data-link-key="transhuman_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 bg-white hover:bg-blue-50 hover:border-accent-dark transition-all text-slate-800 font-semibold shadow-sm hover:shadow-md group">
                         <span data-key="transhuman_link">มนุษย์กึ่งจักรกล (TransHumanism)</span>
-                        <i data-lucide="cpu" class="w-4 h-4 text-accent-dark group-hover:scale-110 transition-transform"></i>
+                        <i data-lucide="cpu" class="w-5 h-5 text-accent-dark group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="https://thbho.github.io/LEVTrend.html" target="_blank" data-link-key="lev_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-400 transition-all text-slate-600 hover:text-slate-900 shadow-sm group">
+                    <a href="https://thbho.github.io/LEVTrend.html" target="_blank" data-link-key="lev_url" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 bg-white hover:bg-slate-100 hover:border-slate-500 transition-all text-slate-800 font-semibold shadow-sm hover:shadow-md group">
                         <span data-key="lev_link">ความเร็วหลุดพ้นความชรา (LEV)</span>
-                        <i data-lucide="activity" class="w-4 h-4 text-slate-500 group-hover:scale-110 transition-transform"></i>
+                        <i data-lucide="activity" class="w-5 h-5 text-slate-600 group-hover:scale-110 transition-transform"></i>
                     </a>
                 </div>
             </div>
@@ -359,44 +360,44 @@
 
         <!-- Courses Section -->
         <section id="courses" class="max-w-6xl mx-auto px-4 py-20 reveal">
-             <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden bg-white/60">
+             <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden bg-white/80 shadow-xl border border-slate-200">
                 <!-- Background decorative blob (Cyan) -->
-                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/15 rounded-full blur-3xl"></div>
 
-                <h2 class="text-3xl font-bold text-slate-900 mb-10 border-l-4 border-accent pl-4" data-key="courses_title">รายละเอียดหลักสูตร</h2>
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-10 border-l-4 border-accent pl-4" data-key="courses_title">รายละเอียดหลักสูตร</h2>
                 
                 <div class="space-y-6">
                     <!-- Course Item 1: Cyan Theme -->
-                    <article class="group relative bg-white rounded-xl p-6 border border-slate-200 hover:border-accent transition-colors shadow-sm hover:shadow-md">
+                    <article class="group relative bg-white rounded-xl p-6 border border-slate-300 hover:border-accent transition-colors shadow-md hover:shadow-lg">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div>
-                                <h3 class="text-xl font-semibold text-accent group-hover:text-accent-dark transition-colors" data-key="course_1_title">Hybrid AI Persona</h3>
-                                <p class="text-slate-600 text-sm mt-1" data-key="course_1_desc">หลักสูตรฉบับเต็ม 6 ครั้ง (ครั้งละ 2-3 ชม.)</p>
+                                <h3 class="text-xl font-bold text-accent group-hover:text-accent-dark transition-colors" data-key="course_1_title">Hybrid AI Persona</h3>
+                                <p class="text-slate-700 font-medium text-sm mt-1" data-key="course_1_desc">หลักสูตรฉบับเต็ม 6 ครั้ง (ครั้งละ 2-3 ชม.)</p>
                             </div>
                             <!-- Primary Action -->
-                            <a href="https://thbho.github.io/ThInfoCourse.html" target="_blank" data-link-key="course_1_url" class="shrink-0 px-5 py-2 rounded-lg bg-accent text-white font-bold text-sm hover:bg-slate-800 transition-colors text-center shadow-sm" data-key="course_1_button">ดู Course Outline</a>
+                            <a href="https://thbho.github.io/ThInfoCourse.html" target="_blank" data-link-key="course_1_url" class="shrink-0 px-6 py-2.5 rounded-lg bg-accent text-white font-bold hover:bg-slate-900 transition-colors text-center shadow-md" data-key="course_1_button">ดู Course Outline</a>
                         </div>
                     </article>
 
                     <!-- Course Item 2: Gray Theme -->
-                    <article class="group relative bg-white rounded-xl p-6 border border-slate-200 hover:border-action transition-colors shadow-sm hover:shadow-md">
+                    <article class="group relative bg-white rounded-xl p-6 border border-slate-300 hover:border-action transition-colors shadow-md hover:shadow-lg">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div>
-                                <h3 class="text-xl font-semibold text-action group-hover:text-slate-800 transition-colors" data-key="course_2_title">GymMateX Fitness & Fantasy</h3>
-                                <p class="text-slate-600 text-sm mt-1" data-key="course_2_desc">หลักสูตรพิเศษสำหรับสายฟิตเนส</p>
+                                <h3 class="text-xl font-bold text-action group-hover:text-slate-900 transition-colors" data-key="course_2_title">GymMateX Fitness & Fantasy</h3>
+                                <p class="text-slate-700 font-medium text-sm mt-1" data-key="course_2_desc">หลักสูตรพิเศษสำหรับสายฟิตเนส</p>
                             </div>
-                            <a href="https://threeandhour.github.io/GymMateX/" target="_blank" data-link-key="course_2_url" class="shrink-0 px-5 py-2 rounded-lg bg-action text-white font-bold text-sm hover:bg-slate-800 transition-colors text-center shadow-sm" data-key="course_2_button">ดูรายละเอียด</a>
+                            <a href="https://threeandhour.github.io/GymMateX/" target="_blank" data-link-key="course_2_url" class="shrink-0 px-6 py-2.5 rounded-lg bg-action text-white font-bold hover:bg-slate-900 transition-colors text-center shadow-md" data-key="course_2_button">ดูรายละเอียด</a>
                         </div>
                     </article>
 
                     <!-- Course Item 3: Dark Blue Theme -->
-                    <article class="group relative bg-white rounded-xl p-6 border border-slate-200 hover:border-accent-dark transition-colors shadow-sm hover:shadow-md">
+                    <article class="group relative bg-white rounded-xl p-6 border border-slate-300 hover:border-accent-dark transition-colors shadow-md hover:shadow-lg">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div>
-                                <h3 class="text-xl font-semibold text-accent-dark group-hover:text-sky-800 transition-colors" data-key="course_3_title">Gen. AI & Hybrid (1-Day)</h3>
-                                <p class="text-slate-600 text-sm mt-1" data-key="course_3_desc">หลักสูตรเร่งรัด เรียนรู้เร็วใน 1 วัน</p>
+                                <h3 class="text-xl font-bold text-accent-dark group-hover:text-sky-900 transition-colors" data-key="course_3_title">Gen. AI & Hybrid (1-Day)</h3>
+                                <p class="text-slate-700 font-medium text-sm mt-1" data-key="course_3_desc">หลักสูตรเร่งรัด เรียนรู้เร็วใน 1 วัน</p>
                             </div>
-                            <a href="https://drive.google.com/file/d/1C42vRSGPBZ1aOSwk_FuC1w7p77720pgC/view?usp=sharing" target="_blank" data-link-key="course_3_url" class="shrink-0 px-5 py-2 rounded-lg bg-accent-dark text-white font-bold text-sm hover:bg-slate-800 transition-colors text-center shadow-sm" data-key="course_3_button">ดูรายละเอียด</a>
+                            <a href="https://drive.google.com/file/d/1C42vRSGPBZ1aOSwk_FuC1w7p77720pgC/view?usp=sharing" target="_blank" data-link-key="course_3_url" class="shrink-0 px-6 py-2.5 rounded-lg bg-accent-dark text-white font-bold hover:bg-slate-900 transition-colors text-center shadow-md" data-key="course_3_button">ดูรายละเอียด</a>
                         </div>
                     </article>
                 </div>
@@ -405,19 +406,19 @@
 
         <!-- Future Blueprint -->
         <section class="max-w-7xl mx-auto px-4 py-12 reveal">
-            <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-slate-100 to-white border border-slate-200 p-8 md:p-12 shadow-sm">
+            <div class="relative rounded-2xl overflow-hidden bg-white border border-slate-300 p-8 md:p-12 shadow-xl">
                 <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
                 
                 <div class="relative flex flex-col md:flex-row items-center justify-between gap-8 z-10">
                     <div class="w-full md:w-1/2 text-center md:text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-6" data-key="future_title">พิมพ์เขียวแห่งอนาคต</h2>
-                        <p class="text-slate-600 mb-8 leading-relaxed" data-key="future_desc">สำรวจวิสัยทัศน์และศักยภาพที่ไร้ขีดจำกัดของ AI Persona ที่จะเข้ามามีบทบาทในอนาคต</p>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-gradient mb-6" data-key="future_title">พิมพ์เขียวแห่งอนาคต</h2>
+                        <p class="text-slate-700 font-medium mb-8 leading-relaxed" data-key="future_desc">สำรวจวิสัยทัศน์และศักยภาพที่ไร้ขีดจำกัดของ AI Persona ที่จะเข้ามามีบทบาทในอนาคต</p>
                         <!-- Action Button -->
-                        <a href="https://threeandhour.github.io/GymMateX/FutureHAP.html" target="_blank" data-link-key="future_url" data-key="future_button" class="relative inline-block px-8 py-3 rounded-lg border-2 border-accent text-accent hover:bg-accent hover:text-white font-bold transition-all duration-300 uppercase tracking-widest text-sm shadow-sm hover:shadow-md">อ่านบทความ</a>
+                        <a href="https://threeandhour.github.io/GymMateX/FutureHAP.html" target="_blank" data-link-key="future_url" data-key="future_button" class="relative inline-block px-8 py-3 rounded-lg border-2 border-accent text-accent hover:bg-accent hover:text-white font-bold transition-all duration-300 uppercase tracking-widest text-sm shadow-md hover:shadow-lg">อ่านบทความ</a>
                     </div>
 
                     <div class="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <div class="rounded-xl overflow-hidden shadow-lg border border-slate-200 w-full max-w-sm transform hover:scale-105 transition-transform duration-500">
+                        <div class="rounded-xl overflow-hidden shadow-2xl border border-slate-300 w-full max-w-sm transform hover:scale-105 transition-transform duration-500">
                             <video autoplay loop muted playsinline class="w-full h-auto" aria-label="Future AI Concept Video">
                                 <source src="https://cdn.leonardo.ai/users/ca720662-c90e-42dc-9478-141fa405d0ea/generations/9c00b42e-ea68-4d13-9324-1d5eca7ee726/9db28cfe-ffde-4308-8c97-8912b9f3feda.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
@@ -432,83 +433,83 @@
         <section id="instructors" class="max-w-7xl mx-auto px-4 py-20 reveal">
             <div class="text-center mb-12">
                  <a href="https://thbho.github.io/Th3StylesTeach.html" target="_blank" data-link-key="instructors_styles_url" class="group">
-                    <h2 class="text-3xl font-bold text-slate-900 group-hover:text-accent transition-colors" data-key="instructors_title">พบกับผู้สอน</h2>
-                    <p class="text-sm text-slate-500 mt-2 flex items-center justify-center gap-1 group-hover:text-accent">คลิกเพื่อดูสไตล์การสอน <i data-lucide="external-link" class="w-3 h-3"></i></p>
+                    <h2 class="text-3xl font-extrabold text-slate-900 group-hover:text-accent transition-colors" data-key="instructors_title">พบกับผู้สอน</h2>
+                    <p class="text-sm font-semibold text-slate-600 mt-2 flex items-center justify-center gap-1 group-hover:text-accent">คลิกเพื่อดูสไตล์การสอน <i data-lucide="external-link" class="w-4 h-4"></i></p>
                  </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Instructor 1: Cyan Theme -->
-                <article class="glass-panel bg-white/80 p-6 rounded-xl border-t-4 border-accent flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
-                    <div class="w-24 h-24 rounded-full p-1 border-2 border-accent mb-4 overflow-hidden shadow-sm">
+                <article class="glass-panel bg-white p-6 rounded-xl border-t-4 border-accent flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full shadow-md">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-accent mb-4 overflow-hidden shadow-md">
                         <img src="https://i.postimg.cc/DzqmnGqg/magnifics_upscale-wYE3ZijWt4Og8ozSRKPs-Image_45_(4).jpg" class="w-full h-full object-cover rounded-full" alt="Three - Storyteller Instructor">
                     </div>
                     <h3 class="text-xl font-bold text-slate-900" data-key="ins_1_name">ที (Three)</h3>
-                    <span class="px-2 py-0.5 rounded text-xs bg-accent/10 text-accent-dark font-semibold mb-2 mt-1" data-key="ins_1_role">Storyteller (INFP)</span>
+                    <span class="px-3 py-1 rounded-full text-xs bg-sky-100 text-sky-800 font-bold mb-3 mt-1 border border-sky-200" data-key="ins_1_role">Storyteller (INFP)</span>
                     <ul class="flex flex-wrap justify-center gap-2 mb-4">
-                        <li class="skill-badge text-slate-600 bg-slate-50">Narrative Design</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">Creative Writing</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">Emotional AI</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Narrative Design</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Creative Writing</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Emotional AI</li>
                     </ul>
-                    <p class="text-slate-600 text-sm italic mt-auto" data-key="ins_1_desc">"AI คือคู่หูที่ดีที่สุดในการเล่าเรื่อง..."</p>
+                    <p class="text-slate-700 font-medium text-sm italic mt-auto" data-key="ins_1_desc">"AI คือคู่หูที่ดีที่สุดในการเล่าเรื่อง..."</p>
                 </article>
 
-                <!-- Instructor 2: Pink Theme -->
-                <article class="glass-panel bg-white/80 p-6 rounded-xl border-t-4 border-action flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
-                    <div class="w-24 h-24 rounded-full p-1 border-2 border-action mb-4 overflow-hidden shadow-sm">
+                <!-- Instructor 2: Gray Theme -->
+                <article class="glass-panel bg-white p-6 rounded-xl border-t-4 border-action flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full shadow-md">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-action mb-4 overflow-hidden shadow-md">
                         <img src="https://i.postimg.cc/vmdHqmp6/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-3.jpg" class="w-full h-full object-cover rounded-full" alt="B. - Strategist Instructor">
                     </div>
                     <h3 class="text-xl font-bold text-slate-900" data-key="ins_2_name">บี (B.)</h3>
-                    <span class="px-2 py-0.5 rounded text-xs bg-action/10 text-action font-semibold mb-2 mt-1" data-key="ins_2_role">Strategist (INFJ)</span>
+                    <span class="px-3 py-1 rounded-full text-xs bg-slate-200 text-slate-800 font-bold mb-3 mt-1 border border-slate-300" data-key="ins_2_role">Strategist (INFJ)</span>
                     <ul class="flex flex-wrap justify-center gap-2 mb-4">
-                        <li class="skill-badge text-slate-600 bg-slate-50">Strategic Planning</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">System Thinking</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">Future Trends</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Strategic Planning</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">System Thinking</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Future Trends</li>
                     </ul>
-                    <p class="text-slate-600 text-sm italic mt-auto" data-key="ins_2_desc">"AI คือเครื่องมือที่ทรงพลัง..."</p>
+                    <p class="text-slate-700 font-medium text-sm italic mt-auto" data-key="ins_2_desc">"AI คือเครื่องมือที่ทรงพลัง..."</p>
                 </article>
 
-                <!-- Instructor 3: Teal Theme -->
-                <article class="glass-panel bg-white/80 p-6 rounded-xl border-t-4 border-accent-dark flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
-                    <div class="w-24 h-24 rounded-full p-1 border-2 border-accent-dark mb-4 overflow-hidden shadow-sm">
+                <!-- Instructor 3: Dark Blue Theme -->
+                <article class="glass-panel bg-white p-6 rounded-xl border-t-4 border-accent-dark flex flex-col items-center text-center hover:transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full shadow-md">
+                    <div class="w-24 h-24 rounded-full p-1 border-2 border-accent-dark mb-4 overflow-hidden shadow-md">
                         <img src="https://i.postimg.cc/3x23vTdr/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg" class="w-full h-full object-cover rounded-full" alt="Hour - Entrepreneur Instructor">
                     </div>
                     <h3 class="text-xl font-bold text-slate-900" data-key="ins_3_name">อาวว์ (Hour)</h3>
-                    <span class="px-2 py-0.5 rounded text-xs bg-accent-dark/10 text-accent-dark font-semibold mb-2 mt-1" data-key="ins_3_role">Entrepreneur (ESTP)</span>
+                    <span class="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-800 font-bold mb-3 mt-1 border border-blue-200" data-key="ins_3_role">Entrepreneur (ESTP)</span>
                     <ul class="flex flex-wrap justify-center gap-2 mb-4">
-                        <li class="skill-badge text-slate-600 bg-slate-50">Business Growth</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">Rapid Execution</li>
-                        <li class="skill-badge text-slate-600 bg-slate-50">Practical AI</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Business Growth</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Rapid Execution</li>
+                        <li class="skill-badge text-slate-700 bg-slate-100">Practical AI</li>
                     </ul>
-                    <p class="text-slate-600 text-sm italic mt-auto" data-key="ins_3_desc">"ทฤษฎีมีไว้แค่พอเข้าใจ แต่หัวใจคือการลงมือทำจริง..."</p>
+                    <p class="text-slate-700 font-medium text-sm italic mt-auto" data-key="ins_3_desc">"ทฤษฎีมีไว้แค่พอเข้าใจ แต่หัวใจคือการลงมือทำจริง..."</p>
                 </article>
             </div>
             
             <div class="text-center mt-10">
-                <a href="https://thbho.github.io/ThInstructors.html" target="_blank" data-link-key="instructors_all_url" data-key="instructors_button" class="text-slate-500 hover:text-slate-900 underline text-sm transition-colors">ดูโปรไฟล์ทั้งหมด</a>
+                <a href="https://thbho.github.io/ThInstructors.html" target="_blank" data-link-key="instructors_all_url" data-key="instructors_button" class="text-slate-700 font-bold hover:text-accent underline text-sm transition-colors">ดูโปรไฟล์ทั้งหมด</a>
             </div>
         </section>
 
         <!-- Sandbox -->
         <section class="max-w-4xl mx-auto px-4 mb-20 reveal">
-            <div class="rounded-xl bg-gradient-to-r from-slate-200 to-slate-100 p-1 shadow-sm">
+            <div class="rounded-xl bg-gradient-to-r from-slate-300 to-slate-200 p-1 shadow-md">
                 <div class="bg-white rounded-lg p-8 flex flex-col gap-6 border border-slate-200">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-6 w-full">
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-900" data-key="sandbox_title">Project Sandbox: WIDEROOMS</h2>
-                            <p class="text-slate-600 mt-2" data-key="sandbox_desc">ธุรกิจทดลองใหม่ ที่ run โดย Hybrid AI Persona</p>
+                            <h2 class="text-2xl font-extrabold text-slate-900" data-key="sandbox_title">Project Sandbox: WIDEROOMS</h2>
+                            <p class="text-slate-700 font-medium mt-2" data-key="sandbox_desc">ธุรกิจทดลองใหม่ ที่ run โดย Hybrid AI Persona</p>
                         </div>
-                        <a href="https://thbho.github.io/ThWiderooms.html" target="_blank" data-link-key="sandbox_url" data-key="sandbox_button" class="whitespace-nowrap px-6 py-3 bg-slate-100 hover:bg-accent/10 border border-slate-200 hover:border-accent rounded-lg text-slate-700 hover:text-accent font-medium transition-colors">
+                        <a href="https://thbho.github.io/ThWiderooms.html" target="_blank" data-link-key="sandbox_url" data-key="sandbox_button" class="whitespace-nowrap px-6 py-3 bg-slate-100 hover:bg-sky-50 border-2 border-slate-300 hover:border-accent rounded-lg text-slate-800 font-bold hover:text-accent transition-colors shadow-sm">
                             สำรวจ WIDEROOMS
                         </a>
                     </div>
                     
                     <!-- Showcase Images -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div class="rounded-lg overflow-hidden border border-slate-200 group shadow-sm hover:shadow-md transition-all">
+                        <div class="rounded-lg overflow-hidden border border-slate-300 group shadow-md hover:shadow-xl transition-all">
                             <img src="https://i.postimg.cc/SQTwL2vy/Photo_&_Smart_Home.jpg" alt="WIDEROOMS Smart Home" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
                         </div>
-                        <div class="rounded-lg overflow-hidden border border-slate-200 group shadow-sm hover:shadow-md transition-all">
+                        <div class="rounded-lg overflow-hidden border border-slate-300 group shadow-md hover:shadow-xl transition-all">
                             <img src="https://i.postimg.cc/tRrwFjQ6/10.jpg" alt="WIDEROOMS Interior Design" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
                         </div>
                     </div>
@@ -518,77 +519,89 @@
 
         <!-- Partnership Section -->
         <section class="max-w-4xl mx-auto px-4 mb-20 reveal">
-            <h2 class="text-xl font-bold text-slate-500 mb-8 text-center uppercase tracking-widest" data-key="partners_title">พันธมิตรของเรา</h2>
+            <h2 class="text-xl font-extrabold text-slate-700 mb-8 text-center uppercase tracking-widest" data-key="partners_title">พันธมิตรของเรา</h2>
             <div class="flex justify-center items-center gap-12 flex-wrap">
                 <a href="https://youtu.be/MPXCjZT3X_Q?si=FDmazJKLtfFJvNOf" target="_blank" class="group flex flex-col items-center hover:cursor-pointer">
-                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full glass-panel flex items-center justify-center p-1 transition-transform duration-300 group-hover:scale-110 overflow-hidden border-2 border-transparent group-hover:border-accent bg-white">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white flex items-center justify-center p-1 transition-transform duration-300 group-hover:scale-110 overflow-hidden border-2 border-slate-300 group-hover:border-accent shadow-md">
                         <img src="https://i.postimg.cc/qM5SQ6Bx/2AI_MKT_Avatars_(Studio_B.).png" alt="Th.Ho Partner Logo" class="w-full h-full object-cover rounded-full">
                     </div>
-                    <span class="mt-4 text-slate-600 text-sm font-medium group-hover:text-slate-900 transition-colors">Th.Ho</span>
+                    <span class="mt-4 text-slate-700 text-sm font-bold group-hover:text-accent transition-colors">Th.Ho</span>
                 </a>
                 
                 <a href="https://thbho.github.io/ThWiderooms.html" target="_blank" class="group flex flex-col items-center hover:cursor-pointer">
-                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full glass-panel flex items-center justify-center p-1 transition-transform duration-300 group-hover:scale-110 overflow-hidden border-2 border-transparent group-hover:border-accent bg-white">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white flex items-center justify-center p-1 transition-transform duration-300 group-hover:scale-110 overflow-hidden border-2 border-slate-300 group-hover:border-accent shadow-md">
                         <img src="https://i.postimg.cc/j2J1gFkF/Image_14-6-2566_BE_at_15.37_(1)-topaz-text-upscale-3x.jpg" alt="WIDEROOMS Partner Logo" class="w-full h-full object-cover rounded-full">
                     </div>
-                    <span class="mt-4 text-slate-600 text-sm font-medium group-hover:text-slate-900 transition-colors">WIDEROOMS</span>
+                    <span class="mt-4 text-slate-700 text-sm font-bold group-hover:text-accent transition-colors">WIDEROOMS</span>
                 </a>
             </div>
         </section>
 
         <!-- Founder Profile -->
         <section class="max-w-6xl mx-auto px-4 mb-20 reveal">
-            <div class="glass-panel bg-white rounded-2xl p-6 md:p-10 flex flex-col md:flex-row gap-8 items-start border border-slate-200 shadow-sm">
+            <div class="bg-white rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-start border border-slate-300 shadow-xl">
                 <div class="w-full md:w-1/3 flex-shrink-0">
-                    <div class="rounded-xl overflow-hidden border border-slate-200 shadow-lg relative group">
+                    <div class="rounded-2xl overflow-hidden border-4 border-slate-100 shadow-2xl relative group">
                         <div class="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                         <img src="https://i.postimg.cc/j27XthYk/9420DB72_D46F_4E29_8C8C_B6D4C6D615E1_1_201_a.jpg" alt="Thor Ayanundana - Founder of GymMateX" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
                     </div>
                 </div>
                 
                 <div class="w-full md:w-2/3 text-left">
-                    <div class="mb-6">
-                        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2" data-key="founder_name">Thor Ayanundana (ธอร์) เตชธร อายะนันทน์</h2>
-                        <p class="text-accent-dark text-lg font-semibold tracking-wide" data-key="founder_role">Founder, GymMateX Hybrid AI Factory</p>
+                    <div class="mb-8">
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3" data-key="founder_name">Thor Ayanundana (ธอร์) เตชธร อายะนันทน์</h2>
+                        <p class="text-accent-dark text-xl font-bold tracking-wide" data-key="founder_role">Founder, GymMateX Hybrid AI Factory</p>
                     </div>
                     
-                    <div class="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed">
-                        <div>
-                            <h3 class="text-slate-900 font-bold mb-2 flex items-center gap-2">
-                                <i data-lucide="user" class="w-4 h-4 text-accent"></i> <span data-key="founder_profile_title">Professional Profile</span>
+                    <div class="space-y-8 text-slate-700 text-sm md:text-base leading-relaxed font-medium">
+                        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h3 class="text-slate-900 font-extrabold mb-3 flex items-center gap-2 text-lg">
+                                <i data-lucide="user" class="w-5 h-5 text-accent"></i> <span data-key="founder_profile_title">Professional Profile</span>
                             </h3>
-                            <p class="pl-6 border-l-2 border-accent/30" data-key="founder_profile_desc">Thor is a visionary Real Estate Developer and Hybrid AI Creator who bridges the gap between physical infrastructure, interior design, and digital innovation. With a strong background in luxury real estate in the EEC, he applies strategic thinking to create future-ready living spaces.</p>
+                            <p data-key="founder_profile_desc">Thor is a visionary Real Estate Developer and Hybrid AI Creator who bridges the gap between physical infrastructure, interior design, and digital innovation. With a strong background in luxury real estate in the EEC, he applies strategic thinking to create future-ready living spaces.</p>
                         </div>
                         
                         <div>
-                            <h3 class="text-slate-900 font-bold mb-3 flex items-center gap-2">
-                                <i data-lucide="layers" class="w-4 h-4 text-accent"></i> <span data-key="founder_expert_title">Core Expertise</span>
+                            <h3 class="text-slate-900 font-extrabold mb-4 flex items-center gap-2 text-lg">
+                                <i data-lucide="layers" class="w-5 h-5 text-accent"></i> <span data-key="founder_expert_title">Core Expertise</span>
                             </h3>
-                            <ul class="space-y-4 pl-6 border-l-2 border-accent/30">
-                                <li>
-                                    <strong class="text-slate-800 block mb-1" data-key="founder_exp_1_title">Hybrid AI Innovation:</strong>
-                                    <span data-key="founder_exp_1_desc">Creating ultra-realistic "Hybrid AI Personas" that blend real identity with fantasy, and producing "Hybrid AI Movies" with a focus on cinematic storytelling.</span>
+                            <ul class="space-y-4 pl-2">
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 mt-2 mr-3 bg-accent rounded-full flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-slate-900 block mb-1" data-key="founder_exp_1_title">Hybrid AI Innovation:</strong>
+                                        <span data-key="founder_exp_1_desc">Creating ultra-realistic "Hybrid AI Personas" that blend real identity with fantasy, and producing "Hybrid AI Movies" with a focus on cinematic storytelling.</span>
+                                    </div>
                                 </li>
-                                <li>
-                                    <strong class="text-slate-800 block mb-1" data-key="founder_exp_2_title">Smart Living & Design:</strong>
-                                    <span data-key="founder_exp_2_desc">Through WIDEROOMS, he integrates cutting-edge Smart Home technology with modern Interior Design to elevate residential experiences.</span>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 mt-2 mr-3 bg-accent rounded-full flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-slate-900 block mb-1" data-key="founder_exp_2_title">Smart Living & Design:</strong>
+                                        <span data-key="founder_exp_2_desc">Through WIDEROOMS, he integrates cutting-edge Smart Home technology with modern Interior Design to elevate residential experiences.</span>
+                                    </div>
                                 </li>
-                                <li>
-                                    <strong class="text-slate-800 block mb-1" data-key="founder_exp_3_title">Digital Transformation:</strong>
-                                    <span data-key="founder_exp_3_desc">Collaborating with content creators to remaster and upgrade media using cutting-edge AI tools.</span>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 mt-2 mr-3 bg-accent rounded-full flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-slate-900 block mb-1" data-key="founder_exp_3_title">Digital Transformation:</strong>
+                                        <span data-key="founder_exp_3_desc">Collaborating with content creators to remaster and upgrade media using cutting-edge AI tools.</span>
+                                    </div>
                                 </li>
-                                <li>
-                                    <strong class="text-slate-800 block mb-1" data-key="founder_exp_4_title">Multidisciplinary Skills:</strong>
-                                    <span data-key="founder_exp_4_desc">Combining strategic property development vision with creative expertise in Sound Design and Music Production.</span>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 mt-2 mr-3 bg-accent rounded-full flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-slate-900 block mb-1" data-key="founder_exp_4_title">Multidisciplinary Skills:</strong>
+                                        <span data-key="founder_exp_4_desc">Combining strategic property development vision with creative expertise in Sound Design and Music Production.</span>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
 
-                        <div>
-                            <h3 class="text-slate-900 font-bold mb-2 flex items-center gap-2">
-                                <i data-lucide="lightbulb" class="w-4 h-4 text-accent"></i> <span data-key="founder_inspire_title">Inspiration & Vision</span>
+                        <div class="border-l-4 border-accent pl-6 py-2">
+                            <h3 class="text-slate-900 font-extrabold mb-2 flex items-center gap-2 text-lg">
+                                <i data-lucide="lightbulb" class="w-5 h-5 text-accent"></i> <span data-key="founder_inspire_title">Inspiration & Vision</span>
                             </h3>
-                            <p class="pl-6 border-l-2 border-accent/30 italic text-slate-500" data-key="founder_inspire_desc">Starting as an ordinary individual with diverse creativity (INFP) and a dream of filmmaking and music, he used Hybrid AI to turn imagination into reality. Today, he is ready to pass on this knowledge to transform 'ordinary people' into professional 'Creators'.</p>
+                            <p class="italic text-slate-600" data-key="founder_inspire_desc">Starting as an ordinary individual with diverse creativity (INFP) and a dream of filmmaking and music, he used Hybrid AI to turn imagination into reality. Today, he is ready to pass on this knowledge to transform 'ordinary people' into professional 'Creators'.</p>
                         </div>
                     </div>
                 </div>
@@ -598,55 +611,55 @@
     </main>
 
     <!-- Footer -->
-    <footer id="register" class="bg-white border-t border-slate-200 pt-16 pb-8">
+    <footer id="register" class="bg-white border-t border-slate-300 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
                 <!-- Contact Form & Socials -->
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                        <span class="w-1 h-8 bg-accent rounded-full block shadow-sm"></span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-1.5 h-8 bg-accent rounded-full block shadow-md"></span>
                         <span data-key="contact_title">สนใจ? ติดต่อเรา!</span>
                     </h2>
-                     <div class="mb-6 glass-panel bg-slate-50 rounded-xl overflow-hidden shadow-sm">
+                     <div class="mb-8 bg-slate-100 rounded-xl overflow-hidden shadow-inner border border-slate-200">
                         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/55KEOao92gO9TxH9dG5xBp?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
 
-                    <form id="contact-form" action="https://formspree.io/f/mnnvbyyo" method="POST" class="space-y-4">
+                    <form id="contact-form" action="https://formspree.io/f/mnnvbyyo" method="POST" class="space-y-5 bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" name="name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors shadow-inner" placeholder="ชื่อของคุณ" data-key-placeholder="form_name_placeholder" required>
-                            <input type="text" name="contact" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors shadow-inner" placeholder="Line/WhatsApp/Tel" data-key-placeholder="form_contact_placeholder" required>
+                            <input type="text" name="name" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all shadow-sm font-medium" placeholder="ชื่อของคุณ" data-key-placeholder="form_name_placeholder" required>
+                            <input type="text" name="contact" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all shadow-sm font-medium" placeholder="Line/WhatsApp/Tel" data-key-placeholder="form_contact_placeholder" required>
                         </div>
-                        <textarea name="message" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors h-32 resize-none shadow-inner" placeholder="ข้อความของคุณ" data-key-placeholder="form_message_placeholder" required></textarea>
+                        <textarea name="message" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all h-32 resize-none shadow-sm font-medium" placeholder="ข้อความของคุณ" data-key-placeholder="form_message_placeholder" required></textarea>
                         <!-- Action Button -->
-                        <button type="submit" class="w-full bg-accent hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.01] shadow-sm hover:shadow-md" data-key="form_submit_button">ส่งข้อความ</button>
+                        <button type="submit" class="w-full bg-accent hover:bg-accent-dark text-white font-extrabold py-3.5 px-6 rounded-lg transition-all transform hover:scale-[1.02] shadow-md hover:shadow-lg text-lg" data-key="form_submit_button">ส่งข้อความ</button>
                     </form>
-                    <p id="form-status" class="mt-4 text-center h-6 text-sm"></p>
+                    <p id="form-status" class="mt-4 text-center h-6 font-bold"></p>
 
                     <!-- Social Links Section -->
-                    <div class="mt-8 pt-8 border-t border-slate-200">
-                        <h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
-                            <i data-lucide="share-2" class="w-4 h-4 text-accent"></i> 
+                    <div class="mt-10 pt-8 border-t border-slate-300">
+                        <h3 class="text-slate-900 font-extrabold mb-5 flex items-center gap-2 text-lg">
+                            <i data-lucide="share-2" class="w-5 h-5 text-accent"></i> 
                             <span data-key="footer_follow">ติดตามผลงาน:</span>
                         </h3>
                         <div class="flex flex-wrap gap-3">
-                            <a href="https://x.com/widerooms" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-slate-800 hover:text-slate-900 text-slate-600 transition-all group shadow-sm">
-                                <i data-lucide="twitter" class="w-4 h-4 group-hover:text-slate-900"></i>
+                            <a href="https://x.com/widerooms" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:bg-slate-900 hover:text-white text-slate-700 font-bold transition-all shadow-sm group">
+                                <i data-lucide="twitter" class="w-5 h-5 group-hover:text-white text-slate-600"></i>
                                 <span class="text-sm">X</span>
                             </a>
-                            <a href="https://www.youtube.com/@threeandhour" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-action hover:text-action text-slate-600 transition-all group shadow-sm">
-                                <i data-lucide="youtube" class="w-4 h-4 group-hover:text-action"></i>
+                            <a href="https://www.youtube.com/@threeandhour" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:bg-red-600 hover:text-white hover:border-red-600 text-slate-700 font-bold transition-all shadow-sm group">
+                                <i data-lucide="youtube" class="w-5 h-5 group-hover:text-white text-red-500"></i>
                                 <span class="text-sm">Youtube</span>
                             </a>
-                            <a href="https://www.instagram.com/th_b_ho/" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-action hover:text-action text-slate-600 transition-all group shadow-sm">
-                                <i data-lucide="instagram" class="w-4 h-4 group-hover:text-action"></i>
+                            <a href="https://www.instagram.com/th_b_ho/" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:bg-pink-600 hover:text-white hover:border-pink-600 text-slate-700 font-bold transition-all shadow-sm group">
+                                <i data-lucide="instagram" class="w-5 h-5 group-hover:text-white text-pink-500"></i>
                                 <span class="text-sm">IG</span>
                             </a>
-                            <a href="https://soundcloud.com/thho-8445239" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-accent hover:text-accent text-slate-600 transition-all group shadow-sm">
-                                <i data-lucide="music" class="w-4 h-4 group-hover:text-accent"></i>
+                            <a href="https://soundcloud.com/thho-8445239" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:bg-orange-500 hover:text-white hover:border-orange-500 text-slate-700 font-bold transition-all shadow-sm group">
+                                <i data-lucide="music" class="w-5 h-5 group-hover:text-white text-orange-500"></i>
                                 <span class="text-sm">Soundcloud</span>
                             </a>
-                            <a href="https://open.spotify.com/show/4eghaMBiCWOvUygLqAMmhY?si=54d602d91e9745b7" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-accent-dark hover:text-accent-dark text-slate-600 transition-all group shadow-sm">
-                                <i data-lucide="mic" class="w-4 h-4 group-hover:text-accent-dark"></i>
+                            <a href="https://open.spotify.com/show/4eghaMBiCWOvUygLqAMmhY?si=54d602d91e9745b7" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:bg-green-500 hover:text-white hover:border-green-500 text-slate-700 font-bold transition-all shadow-sm group">
+                                <i data-lucide="mic" class="w-5 h-5 group-hover:text-white text-green-500"></i>
                                 <span class="text-sm">Podcast</span>
                             </a>
                         </div>
@@ -655,28 +668,28 @@
 
                 <!-- Google Form Registration -->
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                        <span class="w-1 h-8 bg-accent rounded-full block shadow-sm"></span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-1.5 h-8 bg-accent rounded-full block shadow-md"></span>
                         <span data-key="register_title">ลงทะเบียน</span>
                     </h2>
-                    <div class="glass-panel bg-slate-50 rounded-xl overflow-hidden h-[600px] border border-slate-200 shadow-sm">
+                    <div class="bg-white rounded-2xl overflow-hidden h-[600px] border border-slate-300 shadow-lg">
                          <iframe id="google-form-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSf9VMIX4XNkNrOXWjb8y1AvxBzJu8N4X4pHL5pPhE9J0PrGlw/viewform?embedded=true" class="w-full h-full" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-                <p>&copy; 2025 AI GYMMATEX FACTORY. All rights reserved.</p>
+            <div class="border-t border-slate-300 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-bold text-slate-600">
+                <p>&copy; 2026 AI GYMMATEX FACTORY. All rights reserved.</p>
                 <div class="flex items-center gap-2">
                     <span data-key="footer_contact">Contact:</span>
-                    <a href="mailto:threeandhour@gmail.com" class="text-slate-600 hover:text-accent transition-colors">threeandhour@gmail.com</a>
+                    <a href="mailto:threeandhour@gmail.com" class="text-accent hover:text-accent-dark transition-colors">threeandhour@gmail.com</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-6 right-6 bg-accent text-white p-3 rounded-full shadow-lg z-50 scroll-to-top hover:bg-slate-800 transition-colors" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-accent text-white p-4 rounded-full shadow-xl z-50 scroll-to-top hover:bg-slate-900 transition-colors transform hover:scale-110" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
         <i data-lucide="arrow-up" class="w-6 h-6"></i>
     </button>
 
@@ -709,10 +722,10 @@
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                nav.classList.add('py-2', 'shadow-md', 'bg-white/90');
+                nav.classList.add('py-2', 'shadow-lg', 'bg-white/95');
                 backToTopBtn.classList.add('show');
             } else {
-                nav.classList.remove('py-2', 'shadow-md', 'bg-white/90');
+                nav.classList.remove('py-2', 'shadow-lg', 'bg-white/95');
                 backToTopBtn.classList.remove('show');
             }
         });
@@ -1040,10 +1053,10 @@
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 if(btn.dataset.lang === lang) {
                     btn.classList.add('text-accent', 'underline');
-                    btn.classList.remove('text-slate-500');
+                    btn.classList.remove('text-slate-600');
                 } else {
                     btn.classList.remove('text-accent', 'underline');
-                    btn.classList.add('text-slate-500');
+                    btn.classList.add('text-slate-600');
                 }
             });
         }
@@ -1066,15 +1079,15 @@
                 });
                 if (response.ok) {
                     status.innerHTML = translations[currentLang].form_success;
-                    status.classList.add('text-green-500');
+                    status.classList.add('text-green-600');
                     form.reset();
                 } else {
                     status.innerHTML = translations[currentLang].form_error;
-                    status.classList.add('text-red-500');
+                    status.classList.add('text-red-600');
                 }
             } catch (error) {
                 status.innerHTML = translations[currentLang].form_error;
-                status.classList.add('text-red-500');
+                status.classList.add('text-red-600');
             }
         });
 
