@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEC Impact Dashboard (Real-time)</title>
     
-    <!-- Tailwind CSS -->
+    <!-- ========================================== -->
+    <!-- ส่วนตั้งค่า Thumbnail สำหรับแชร์ลง LINE / Facebook -->
+    <!-- ========================================== -->
+    <title>EEC Impact Dashboard (March 2026)</title>
+    <meta name="description" content="วิเคราะห์ผลกระทบเศรษฐกิจ EEC โอกาสทอง Disneyland และสถานการณ์อสังหาฯ พัทยา อัปเดตเรียลไทม์">
+    
+    <!-- Open Graph / LINE / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="📊 EEC Impact Simulator | อัปเดตเศรษฐกิจชลบุรี-พัทยา">
+    <meta property="og:description" content="เจาะลึกผลกระทบสงครามตะวันออกกลางที่มีต่อ EEC, อสังหาฯ พัทยา และเมืองการบินอู่ตะเภา อัปเดตข้อมูลแบบเรียลไทม์ (Real-time)">
+    <!-- ลิงก์รูปภาพที่จะโชว์เป็น Thumbnail -->
+    <meta property="og:image" content="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="📊 EEC Impact Simulator | อัปเดตเศรษฐกิจชลบุรี-พัทยา">
+    <meta name="twitter:description" content="เจาะลึกผลกระทบสงครามตะวันออกกลางที่มีต่อ EEC, อสังหาฯ พัทยา และเมืองการบินอู่ตะเภา อัปเดตข้อมูลแบบเรียลไทม์">
+    <meta name="twitter:image" content="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png">
+    <!-- ========================================== -->
+
+    <!-- Tailwind CSS (สำหรับจัดความสวยงาม) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
+    <!-- FontAwesome (สำหรับไอคอนต่างๆ) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- React & Babel -->
+    <!-- React & Babel (สำหรับประมวลผลโค้ดในเบราว์เซอร์) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
+        /* ตกแต่ง Scrollbar ให้สวยงาม */
         .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
@@ -24,13 +44,14 @@
     </style>
 </head>
 <body>
+    <!-- จุดที่แสดงผลเว็บไซต์ -->
     <div id="root"></div>
 
+    <!-- โค้ดระบบทำงาน (React) -->
     <script type="text/babel">
-        // ดึง useEffect มาใช้สำหรับการโหลดข้อมูลแบบ Real-time
         const { useState, useMemo, useEffect } = React;
 
-        // --- พจนานุกรม 4 ภาษา (อัปเดตระบบข่าว) ---
+        // --- พจนานุกรม 4 ภาษา ---
         const dict = {
           th: {
             title: "EEC Impact Simulator",
@@ -39,7 +60,7 @@
             tabProjects: "เจาะลึกโครงการ",
             tabAnalysis: "เจาะลึกเศรษฐกิจ (Deep Dive)",
             tabSources: "ข่าวสาร & อ้างอิง",
-            analysisTitle: "วิเคราะห์ผลกระทบทางเศรษฐกิจ EEC",
+            analysisTitle: "วิเคราะห์ผลกระทบทางเศรษฐกิจ EEC (มี.ค. 2026)",
             safeHavenSlideTitle: "สไลด์รายงาน: EEC ในฐานะ Safe Haven",
             safeHavenSlideDesc: "เลื่อนดูสไลด์เพื่อดูข้อมูลการย้ายถิ่นฐานและการลงทุนหนีภัยสงคราม",
             disneyTitle: "โอกาสทอง Disneyland (Game Changer)",
@@ -259,20 +280,17 @@
           const [activeTab, setActiveTab] = useState('overview'); 
           const [activeScenario, setActiveScenario] = useState('current');
           const [sortConfig, setSortConfig] = useState({ key: 'avgImpact', direction: 'desc' });
-          const [liveNews, setLiveNews] = useState([]); // State เก็บข่าวที่ดึงมาใหม่
+          const [liveNews, setLiveNews] = useState([]); 
 
           const t = dict[lang];
           const scenariosData = getScenariosData(lang);
           const currentData = scenariosData[activeScenario];
 
-          // -------------------------------------------------------------
-          // ระบบดึงข่าวแบบ Real-time (Auto Fetch News based on Language)
-          // -------------------------------------------------------------
+          // ระบบดึงข่าวแบบ Real-time
           useEffect(() => {
-            setLiveNews(dict[lang].fallbackNews); // โชว์สถานะ Loading
+            setLiveNews(dict[lang].fallbackNews); 
 
             const fetchRealNews = async () => {
-                // กำหนดคำค้นหาข่าวใน Google News ตามภาษาที่ผู้ใช้เลือก
                 let query = "Middle East Economy OR Thailand Real Estate";
                 let hl = "en-US", gl = "US", ceid = "US:en";
 
@@ -280,7 +298,6 @@
                 else if (lang === 'ru') { query = "Ближний Восток экономика OR Таиланд недвижимость"; hl = "ru"; gl = "RU"; ceid = "RU:ru"; }
                 else if (lang === 'zh') { query = "中东经济 OR 泰国房地产"; hl = "zh-CN"; gl = "CN"; ceid = "CN:zh-Hans"; }
 
-                // ใช้ rss2json API เพื่อแปลง RSS เป็น JSON และหลีกเลี่ยงปัญหา CORS
                 const rssUrl = encodeURIComponent(`https://news.google.com/rss/search?q=${query}&hl=${hl}&gl=${gl}&ceid=${ceid}`);
                 const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
@@ -289,10 +306,8 @@
                     const data = await response.json();
 
                     if (data.status === 'ok') {
-                        // นำข่าวมาแค่ 5 อันดับแรก
                         const formattedNews = data.items.slice(0, 5).map(item => {
                             const date = new Date(item.pubDate);
-                            // แยกชื่อแหล่งข่าว (Source) ออกจากหัวข้อข่าว (Title)
                             const titleParts = item.title.split(' - ');
                             const source = titleParts.length > 1 ? titleParts.pop() : 'News';
                             const cleanTitle = titleParts.join(' - ');
@@ -308,13 +323,12 @@
                     }
                 } catch (error) {
                     console.error("Failed to fetch live news, using fallback.");
-                    // ถ้าระบบดึงข่าวล่ม (เช่น ติด Limit API ฟรี) ให้แสดงข้อความแจ้งเตือน
                     setLiveNews([{time: "ERR", text: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ข่าวได้ชั่วคราว (Connection Error)", source: "System"}]);
                 }
             };
 
             fetchRealNews();
-          }, [lang]); // ทำงานใหม่ทุกครั้งที่ผู้ใช้เปลี่ยนภาษา
+          }, [lang]);
 
           // Sorting logic
           const sortedProjects = useMemo(() => {
@@ -538,7 +552,7 @@
                       </div>
                     </div>
 
-                    {/* REAL-TIME OSINT (ดึงข้อมูลจริง) */}
+                    {/* REAL-TIME OSINT */}
                     <div className="bg-slate-900 rounded-xl shadow-lg border border-slate-800 p-6 relative overflow-hidden">
                       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-emerald-400 to-transparent"></div>
                       <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
