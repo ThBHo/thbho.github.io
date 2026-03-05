@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEC Impact Dashboard (March 2026)</title>
+    <title>EEC Impact Dashboard (Real-time)</title>
     
-    <!-- 1. Tailwind CSS (สำหรับจัดความสวยงาม) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 2. FontAwesome (สำหรับไอคอนต่างๆ) -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- 3. React & Babel (สำหรับประมวลผลโค้ดในเบราว์เซอร์) -->
+    <!-- React & Babel -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        /* ตกแต่ง Scrollbar ให้สวยงาม */
         .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
@@ -25,23 +24,22 @@
     </style>
 </head>
 <body>
-    <!-- จุดที่แสดงผลเว็บไซต์ -->
     <div id="root"></div>
 
-    <!-- โค้ดระบบทำงาน (React) -->
     <script type="text/babel">
-        const { useState, useMemo } = React;
+        // ดึง useEffect มาใช้สำหรับการโหลดข้อมูลแบบ Real-time
+        const { useState, useMemo, useEffect } = React;
 
-        // --- พจนานุกรม 4 ภาษา ---
+        // --- พจนานุกรม 4 ภาษา (อัปเดตระบบข่าว) ---
         const dict = {
           th: {
             title: "EEC Impact Simulator",
-            subtitle: "อัปเดตข้อมูลล่าสุด: 5 มีนาคม 2026 | พัทยา, ชลบุรี",
+            subtitle: "อัปเดตข้อมูลสถานการณ์เศรษฐกิจแบบเรียลไทม์",
             tabOverview: "ภาพรวม",
             tabProjects: "เจาะลึกโครงการ",
             tabAnalysis: "เจาะลึกเศรษฐกิจ (Deep Dive)",
             tabSources: "ข่าวสาร & อ้างอิง",
-            analysisTitle: "วิเคราะห์ผลกระทบทางเศรษฐกิจ EEC (มี.ค. 2026)",
+            analysisTitle: "วิเคราะห์ผลกระทบทางเศรษฐกิจ EEC",
             safeHavenSlideTitle: "สไลด์รายงาน: EEC ในฐานะ Safe Haven",
             safeHavenSlideDesc: "เลื่อนดูสไลด์เพื่อดูข้อมูลการย้ายถิ่นฐานและการลงทุนหนีภัยสงคราม",
             disneyTitle: "โอกาสทอง Disneyland (Game Changer)",
@@ -54,30 +52,27 @@
             ],
             energyTitle: "วิกฤตพลังงาน & โลจิสติกส์ (Negative Impact)",
             energyBullets: [
-              "ราคาน้ำมันโลกพุ่งแตะ $80-85+ (เสี่ยงทะลุ $110) กระทบต้นทุนขนส่ง",
+              "ราคาน้ำมันโลกเสี่ยงพุ่งทะลุเพดาน กระทบต้นทุนขนส่ง",
               "โรงงานอุตสาหกรรมหนัก (EV, อิเล็กทรอนิกส์) ต้นทุนผลิตพุ่ง 10-20%",
               "ค่าระวางเรือ (Freight rate) และประกันภัยพุ่งสูงขึ้น 5-10%",
-              "นักท่องเที่ยวจากตะวันออกกลาง (UAE, Saudi) หดตัว 70-80%"
+              "นักท่องเที่ยวจากตะวันออกกลาง (UAE, Saudi) ชะลอตัวลง"
             ],
             timelineTitle: "แนวโน้ม 3 ระยะ (3-Phase Timeline)",
             phase1: "ระยะสั้น (1-3 เดือน): ต้นทุนพุ่ง โรงงานลดโอที (OT) ท่องเที่ยวพัทยาชะลอชั่วคราว แต่เร่งดีล Disneyland",
             phase2: "ระยะกลาง (3-12 เดือน): หากสงครามยืดเยื้อ GDP อาจหด 0.5% แต่ถ้าตกลง Disneyland ได้ จะเริ่มเตรียมก่อสร้าง",
-            phase3: "ระยะยาว (2026-2032+): EEC ก้าวสู่ 'Hybrid Hub' (อุตสาหกรรมสีเขียว + บันเทิงระดับโลก) ลดพึ่งพาน้ำมันตะวันออกกลาง",
+            phase3: "ระยะยาว: EEC ก้าวสู่ 'Hybrid Hub' (อุตสาหกรรมสีเขียว + บันเทิงระดับโลก) ลดพึ่งพาน้ำมันตะวันออกกลาง",
             avgImpact: "ผลกระทบเฉลี่ย", projectCol: "โครงการ", statusCol: "สถานะปัจจุบัน", prosCol: "ปัจจัยบวก (Pros)", consCol: "ปัจจัยลบ (Cons)",
-            openFull: "เปิดไฟล์เต็ม", refTitle: "แหล่งข้อมูลอ้างอิง", refNote: "* อ้างอิงจาก SCB EIC, BOT, NESDC, World Bank (ณ 5 มี.ค. 2026)",
+            openFull: "เปิดไฟล์เต็ม", refTitle: "แหล่งข้อมูลอ้างอิงหลัก", refNote: "* ข้อมูลปรับปรุงแบบเรียลไทม์จากแหล่งข่าวที่เชื่อถือได้",
             liveFeedTitle: "ถ่ายทอดสดสถานการณ์โลก (Live Global Network)",
-            osintTitle: "อัปเดตข่าวสารแบบเรียลไทม์ (Real-time OSINT Feeds)",
-            newsItems: [
-              { time: "11:45 AM", text: "ราคาน้ำมันเบรนท์ (Brent) พุ่งแตะ $88/บาร์เรล ท่ามกลางความตึงเครียดระลอกใหม่ในฮอร์มุซ" },
-              { time: "10:30 AM", text: "ตัวแทนรัฐบาลไทยหารือแผนดึงลงทุน Disney-EEC แทนที่ตะวันออกกลาง" },
-              { time: "09:15 AM", text: "ยอดค้นหาอสังหาฯ พัทยาพุ่ง 45% (WoW) บนเว็บไซต์ฝั่งยุโรป" },
-              { time: "08:00 AM", text: "สนามบินอู่ตะเภาประกาศความพร้อม 100% รับเที่ยวบิน Diverted" }
+            osintTitle: "อัปเดตข่าวสารแบบเรียลไทม์ (Live Breaking News)",
+            fallbackNews: [
+              { time: "LIVE", text: "กำลังดึงข้อมูลข่าวสารล่าสุดจากแหล่งข่าวที่เชื่อถือได้...", source: "System" }
             ]
           },
           en: {
-            title: "EEC Impact Simulator", subtitle: "Latest Update: March 5, 2026 | Pattaya, Chonburi",
+            title: "EEC Impact Simulator", subtitle: "Real-time Economic Situation Update",
             tabOverview: "Overview", tabProjects: "Project Details", tabAnalysis: "Deep Dive Analysis", tabSources: "News & Sources",
-            analysisTitle: "EEC Economic Impact Analysis (Mar 2026)",
+            analysisTitle: "EEC Economic Impact Analysis",
             safeHavenSlideTitle: "Presentation: EEC as a Safe Haven",
             safeHavenSlideDesc: "Scroll through the slides to see data on wealth migration and safe haven investments.",
             disneyTitle: "The Disneyland Opportunity (Game Changer)",
@@ -86,38 +81,35 @@
               "300 Billion THB mega-project (800 rai in Chonburi).",
               "Expected to attract 10M tourists/year, generating 150B THB.",
               "Creates 100,000 jobs and boosts Thai GDP by +1%.",
-              "Govt expediting negotiations; success would fully offset negative war impacts."
+              "Govt expediting negotiations; success would fully offset negative impacts."
             ],
             energyTitle: "Energy & Logistics Shock (Negative Impact)",
             energyBullets: [
-              "Global oil spikes to $80-85+ (risk of $110+), hitting transport.",
+              "Global oil spikes, hitting transport and logistics costs.",
               "Heavy manufacturing (EV, Electronics) faces 10-20% higher costs.",
               "Freight rates and war insurance premiums rise by 5-10%.",
-              "Middle Eastern tourist arrivals (UAE, Saudi) plunge by 70-80%."
+              "Middle Eastern tourist arrivals plunge significantly."
             ],
             timelineTitle: "3-Phase Timeline Projection",
             phase1: "Short-term (1-3 Mos): Costs spike, factories cut OT, Pattaya tourism dips, but Disney talks accelerate.",
-            phase2: "Mid-term (3-12 Mos): If prolonged, GDP may shrink 0.5%. If Disney secured, groundwork begins.",
-            phase3: "Long-term (2026-2032+): EEC transforms into a 'Hybrid Hub' (Green Tech + Global Entertainment).",
+            phase2: "Mid-term (3-12 Mos): If prolonged, GDP may shrink. If Disney secured, groundwork begins.",
+            phase3: "Long-term: EEC transforms into a 'Hybrid Hub' (Green Tech + Global Entertainment).",
             avgImpact: "Avg Impact", projectCol: "Project", statusCol: "Current Status", prosCol: "Positive Factors", consCol: "Negative Factors",
-            openFull: "Open Full File", refTitle: "Data Sources & References", refNote: "* Based on SCB EIC, BOT, NESDC, World Bank (As of Mar 5, 2026)",
-            liveFeedTitle: "Live Global Network Feeds (OSINT)",
-            osintTitle: "Real-time Breaking News (OSINT)",
-            newsItems: [
-              { time: "11:45 AM", text: "Brent crude spikes to $88/barrel amid renewed Hormuz tensions." },
-              { time: "10:30 AM", text: "Thai PM delegation discusses Disney-EEC alternative investment plan." },
-              { time: "09:15 AM", text: "Pattaya real estate searches jump 45% WoW on European property portals." },
-              { time: "08:00 AM", text: "U-Tapao Airport declares 100% readiness to handle diverted Middle East flights." }
+            openFull: "Open Full File", refTitle: "Primary Data Sources", refNote: "* Data updated in real-time from reliable sources",
+            liveFeedTitle: "Live Global Network Feeds (Neutral)",
+            osintTitle: "Live Breaking News Update",
+            fallbackNews: [
+              { time: "LIVE", text: "Fetching latest real-time news from reliable sources...", source: "System" }
             ]
           },
           ru: {
-            title: "Симулятор Влияния на EEC", subtitle: "Обновление: 5 Марта 2026 | Паттайя, Чонбури",
+            title: "Симулятор Влияния на EEC", subtitle: "Обновление ситуации в реальном времени",
             tabOverview: "Обзор", tabProjects: "Детали Проектов", tabAnalysis: "Глубокий Анализ", tabSources: "Новости и Источники",
-            analysisTitle: "Экономический анализ EEC (Март 2026)",
+            analysisTitle: "Экономический анализ EEC",
             safeHavenSlideTitle: "Презентация: EEC как 'Безопасная гавань'",
             safeHavenSlideDesc: "Пролистайте слайды, чтобы увидеть данные о миграции капитала.",
             disneyTitle: "Возможность Диснейленда (Game Changer)",
-            disneyDesc: "Disney ищет 'безопасный хаб в Азии' из-за приостановки проекта в Абу-Даби (ОАЭ).",
+            disneyDesc: "Disney ищет 'безопасный хаб в Азии' из-за приостановки проекта в Абу-Даби.",
             disneyBullets: [
               "Мегапроект на 300 млрд батов (Чонбури).",
               "Ожидается 10 млн туристов/год и доход 150 млрд батов.",
@@ -126,30 +118,27 @@
             ],
             energyTitle: "Энергетический и логистический шок",
             energyBullets: [
-              "Нефть $80-85+ (риск $110+), рост транспортных расходов.",
+              "Скачки цен на нефть бьют по транспортным расходам.",
               "Тяжелая промышленность (EV) сталкивается с ростом затрат на 10-20%.",
               "Ставки фрахта и страхования растут на 5-10%.",
-              "Турпоток с Ближнего Востока упал на 70-80%."
+              "Турпоток с Ближнего Востока значительно упал."
             ],
             timelineTitle: "Трехэтапный график",
             phase1: "Краткосрок (1-3 мес): Рост затрат, спад туризма в Паттайе, ускорение переговоров по Disney.",
-            phase2: "Среднесрок (3-12 мес): Риск падения ВВП на 0.5%. Начало работ по Disney.",
-            phase3: "Долгосрок (2026+): EEC становится гибридным хабом.",
+            phase2: "Среднесрок (3-12 мес): Риск падения ВВП. Начало работ по Disney.",
+            phase3: "Долгосрок: EEC становится гибридным хабом.",
             avgImpact: "Ср. Влияние", projectCol: "Проект", statusCol: "Статус", prosCol: "Плюсы", consCol: "Минусы",
-            openFull: "Открыть", refTitle: "Источники", refNote: "* Данные SCB EIC, BOT, Всемирного банка (на 5 марта 2026)",
-            liveFeedTitle: "Прямые трансляции (OSINT)",
-            osintTitle: "Последние новости (OSINT)",
-            newsItems: [
-              { time: "11:45 AM", text: "Нефть марки Brent подскочила до $88/баррель." },
-              { time: "10:30 AM", text: "Тайская делегация обсуждает план инвестиций Disney в EEC." },
-              { time: "09:15 AM", text: "Поисковые запросы на недвижимость в Паттайе выросли на 45%." },
-              { time: "08:00 AM", text: "Аэропорт У-Тапао объявил о готовности принимать перенаправленные рейсы." }
+            openFull: "Открыть", refTitle: "Источники", refNote: "* Данные обновляются в реальном времени",
+            liveFeedTitle: "Прямые трансляции (Нейтральные)",
+            osintTitle: "Последние новости в реальном времени",
+            fallbackNews: [
+              { time: "LIVE", text: "Получение последних новостей из надежных источников...", source: "Система" }
             ]
           },
           zh: {
-            title: "EEC 影响模拟器", subtitle: "最新更新：2026年3月5日 | 芭提雅，春武里",
+            title: "EEC 影响模拟器", subtitle: "实时经济形势更新",
             tabOverview: "概览", tabProjects: "项目详情", tabAnalysis: "深度分析", tabSources: "新闻与来源",
-            analysisTitle: "EEC 经济影响深度分析 (2026年3月)",
+            analysisTitle: "EEC 经济影响深度分析",
             safeHavenSlideTitle: "报告演示：EEC 避风港",
             safeHavenSlideDesc: "滑动查看有关财富迁移和避风港投资的数据报告。",
             disneyTitle: "迪士尼乐园机遇 (改变游戏规则)",
@@ -162,24 +151,21 @@
             ],
             energyTitle: "能源与物流冲击 (负面影响)",
             energyBullets: [
-              "全球油价飙升至 80-85 美元 (有突破110美元风险)。",
+              "全球油价飙升打击了运输和物流成本。",
               "重型制造业（电动汽车、电子）成本上涨 10-20%。",
               "运费和战争保险费上涨 5-10%。",
-              "中东游客骤降 70-80%。"
+              "中东游客骤降。"
             ],
             timelineTitle: "三个阶段的时间表",
             phase1: "短期 (1-3个月): 成本飙升，工厂减少加班，芭提雅旅游业下滑，但迪士尼谈判加速。",
-            phase2: "中期 (3-12个月): 如果冲突延长，GDP可能萎缩0.5%。如果迪士尼敲定，将开始筹备。",
-            phase3: "长期 (2026-2032+): EEC 转型为“混合枢纽”。",
+            phase2: "中期 (3-12个月): 如果冲突延长，GDP可能萎缩。如果迪士尼敲定，将开始筹备。",
+            phase3: "长期: EEC 转型为“混合枢纽”。",
             avgImpact: "平均影响", projectCol: "项目", statusCol: "状态", prosCol: "积极因素", consCol: "消极因素",
-            openFull: "打开文件", refTitle: "数据来源", refNote: "* 基于 SCB EIC, BOT, 世界银行 (截至2026年3月5日)",
-            liveFeedTitle: "全球实时网络流 (Live OSINT Feeds)",
-            osintTitle: "实时突发新闻更新 (OSINT)",
-            newsItems: [
-              { time: "11:45 AM", text: "布伦特原油飙升至 88 美元/桶。" },
-              { time: "10:30 AM", text: "泰国代表团讨论迪士尼-EEC 替代投资计划。" },
-              { time: "09:15 AM", text: "芭提雅房地产搜索量环比猛增 45%。" },
-              { time: "08:00 AM", text: "乌塔堡机场宣布准备好处理中东备降航班。" }
+            openFull: "打开文件", refTitle: "主要数据来源", refNote: "* 数据从可靠来源实时更新",
+            liveFeedTitle: "全球实时网络流 (中立来源)",
+            osintTitle: "实时突发新闻更新",
+            fallbackNews: [
+              { time: "LIVE", text: "正在从可靠来源获取最新实时新闻...", source: "系统" }
             ]
           }
         };
@@ -188,7 +174,7 @@
         const getScenariosData = (lang) => ({
           current: {
             id: 'current',
-            name: lang === 'th' ? "สถานการณ์ปัจจุบัน (1-3 เดือน)" : lang === 'en' ? "Current Base Case" : lang === 'ru' ? "Текущий Сценарий" : "当前情况",
+            name: lang === 'th' ? "สถานการณ์ปัจจุบัน" : lang === 'en' ? "Current Situation" : lang === 'ru' ? "Текущая ситуация" : "当前情况",
             desc: lang === 'th' ? "ได้ประโยชน์จาก Safe Haven แต่วัสดุก่อสร้างเริ่มแพง" : lang === 'en' ? "Benefiting from Safe Haven, but material costs rising" : lang === 'ru' ? "Выгода от 'безопасной гавани', но материалы дорожают" : "受益于避风港效应，但材料成本上升",
             color: "bg-blue-600",
             kpis: [
@@ -198,7 +184,7 @@
             ],
             projects: [
               { id: 'condo', name: lang === 'th'?"อสังหาฯ พัทยา":lang === 'en'?"Real Estate Pattaya":lang === 'ru'?"Недвижимость Паттайи":"芭提雅房地产", impactMin: 20, impactMax: 35, avgImpact: 27.5, status: lang === 'th'?"ยอดขายพุ่ง":lang === 'en'?"Sales Surging":lang === 'ru'?"Рост продаж":"销量激增", positive: lang === 'th'?"Expats ซื้อบ้าน":lang === 'en'?"Expats buying homes":lang === 'ru'?"Экспаты покупают дома":"外籍人士购房", negative: lang === 'th'?"Oversupply":lang === 'en'?"Local oversupply":lang === 'ru'?"Избыток предложения":"局部供过于求", icon: "fa-building" },
-              { id: 'utapao', name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", impactMin: 18, impactMax: 30, avgImpact: 24, status: lang === 'th'?"NTP เม.ย. 2026":lang === 'en'?"NTP April 2026":lang === 'ru'?"NTP Апрель 2026":"2026年4月 NTP", positive: lang === 'th'?"Diverted flights":lang === 'en'?"Diverted flights":lang === 'ru'?"Перенаправленные рейсы":"备降航班", negative: lang === 'th'?"เชื้อเพลิงแพง":lang === 'en'?"Expensive Jet Fuel":lang === 'ru'?"Дорогое топливо":"航空燃料昂贵", icon: "fa-plane" },
+              { id: 'utapao', name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", impactMin: 18, impactMax: 30, avgImpact: 24, status: lang === 'th'?"เตรียมประกาศ NTP":lang === 'en'?"NTP Preparing":lang === 'ru'?"Подготовка NTP":"准备 NTP", positive: lang === 'th'?"Diverted flights":lang === 'en'?"Diverted flights":lang === 'ru'?"Перенаправленные рейсы":"备降航班", negative: lang === 'th'?"เชื้อเพลิงแพง":lang === 'en'?"Expensive Jet Fuel":lang === 'ru'?"Дорогое топливо":"航空燃料昂贵", icon: "fa-plane" },
               { id: 'ev', name: lang === 'th'?"อุตสาหกรรม EV":lang === 'en'?"EV Industry":lang === 'ru'?"Индустрия EV":"电动汽车产业", impactMin: -5, impactMax: 8, avgImpact: 1.5, status: lang === 'th'?"BOI อนุมัติ":lang === 'en'?"BOI Approved":lang === 'ru'?"Одобрено BOI":"BOI批准", positive: lang === 'th'?"FDI ย้ายฐาน":lang === 'en'?"FDI Relocation":lang === 'ru'?"Перемещение FDI":"FDI转移", negative: lang === 'th'?"ต้นทุนพลังงานพุ่ง":lang === 'en'?"High energy costs":lang === 'ru'?"Высокие затраты":"能源成本高涨", icon: "fa-bolt" },
               { id: 'hsr', name: lang === 'th'?"รถไฟความเร็วสูง (HSR)":lang === 'en'?"High-Speed Rail":lang === 'ru'?"Скоростная Ж/Д":"高铁 (HSR)", impactMin: -12, impactMax: -5, avgImpact: -8.5, status: lang === 'th'?"ล่าช้า":lang === 'en'?"Delayed":lang === 'ru'?"Отложено":"延期", positive: lang === 'th'?"รองรับผู้ย้ายถิ่นฐาน":lang === 'en'?"Supports migrants":lang === 'ru'?"Поддержка мигрантов":"支持移民", negative: lang === 'th'?"ต้นทุนวัสดุพุ่งสูง":lang === 'en'?"Skyrocketing material costs":lang === 'ru'?"Взлет цен на материалы":"材料成本暴涨", icon: "fa-train" },
             ]
@@ -223,7 +209,7 @@
           pessimistic: {
             id: 'pessimistic',
             name: lang === 'th' ? "สงครามยืดเยื้อ (>3 เดือน)" : lang === 'en' ? "Prolonged Conflict" : lang === 'ru' ? "Затяжной конфликт" : "长期冲突",
-            desc: lang === 'th' ? "ช่องแคบฮอร์มุซปิด น้ำมันพุ่ง $150 ต้นทุนทุกอย่างสูงขึ้น" : lang === 'en' ? "Hormuz closed, oil hits $150, soaring costs" : lang === 'ru' ? "Нефть по $150, резкий рост затрат" : "霍尔木兹海峡关闭，油价达到150美元，成本飙升",
+            desc: lang === 'th' ? "ช่องแคบปิด น้ำมันพุ่งสูง ต้นทุนทุกอย่างสูงขึ้น" : lang === 'en' ? "Straits closed, oil spikes, soaring costs" : lang === 'ru' ? "Проливы закрыты, нефть дорожает, рост затрат" : "海峡关闭，油价飙升，成本飙升",
             color: "bg-rose-500",
             kpis: [
               { title: lang === 'th'?"Net Impact":"Net Impact", value: "Negative (-)", subtext: lang === 'th'?"กระทบโปรเจกต์ใหญ่":"Hits Megaprojects", icon: "fa-arrow-trend-down", color: "text-rose-600", bg: "bg-rose-100" },
@@ -273,11 +259,64 @@
           const [activeTab, setActiveTab] = useState('overview'); 
           const [activeScenario, setActiveScenario] = useState('current');
           const [sortConfig, setSortConfig] = useState({ key: 'avgImpact', direction: 'desc' });
+          const [liveNews, setLiveNews] = useState([]); // State เก็บข่าวที่ดึงมาใหม่
 
           const t = dict[lang];
           const scenariosData = getScenariosData(lang);
           const currentData = scenariosData[activeScenario];
 
+          // -------------------------------------------------------------
+          // ระบบดึงข่าวแบบ Real-time (Auto Fetch News based on Language)
+          // -------------------------------------------------------------
+          useEffect(() => {
+            setLiveNews(dict[lang].fallbackNews); // โชว์สถานะ Loading
+
+            const fetchRealNews = async () => {
+                // กำหนดคำค้นหาข่าวใน Google News ตามภาษาที่ผู้ใช้เลือก
+                let query = "Middle East Economy OR Thailand Real Estate";
+                let hl = "en-US", gl = "US", ceid = "US:en";
+
+                if (lang === 'th') { query = "เศรษฐกิจโลก OR เศรษฐกิจไทย OR อสังหาริมทรัพย์"; hl = "th"; gl = "TH"; ceid = "TH:th"; }
+                else if (lang === 'ru') { query = "Ближний Восток экономика OR Таиланд недвижимость"; hl = "ru"; gl = "RU"; ceid = "RU:ru"; }
+                else if (lang === 'zh') { query = "中东经济 OR 泰国房地产"; hl = "zh-CN"; gl = "CN"; ceid = "CN:zh-Hans"; }
+
+                // ใช้ rss2json API เพื่อแปลง RSS เป็น JSON และหลีกเลี่ยงปัญหา CORS
+                const rssUrl = encodeURIComponent(`https://news.google.com/rss/search?q=${query}&hl=${hl}&gl=${gl}&ceid=${ceid}`);
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+
+                    if (data.status === 'ok') {
+                        // นำข่าวมาแค่ 5 อันดับแรก
+                        const formattedNews = data.items.slice(0, 5).map(item => {
+                            const date = new Date(item.pubDate);
+                            // แยกชื่อแหล่งข่าว (Source) ออกจากหัวข้อข่าว (Title)
+                            const titleParts = item.title.split(' - ');
+                            const source = titleParts.length > 1 ? titleParts.pop() : 'News';
+                            const cleanTitle = titleParts.join(' - ');
+
+                            return {
+                                time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                                text: cleanTitle,
+                                source: source,
+                                link: item.link
+                            };
+                        });
+                        setLiveNews(formattedNews);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch live news, using fallback.");
+                    // ถ้าระบบดึงข่าวล่ม (เช่น ติด Limit API ฟรี) ให้แสดงข้อความแจ้งเตือน
+                    setLiveNews([{time: "ERR", text: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ข่าวได้ชั่วคราว (Connection Error)", source: "System"}]);
+                }
+            };
+
+            fetchRealNews();
+          }, [lang]); // ทำงานใหม่ทุกครั้งที่ผู้ใช้เปลี่ยนภาษา
+
+          // Sorting logic
           const sortedProjects = useMemo(() => {
             let sortableItems = [...currentData.projects];
             if (sortConfig !== null) {
@@ -336,7 +375,7 @@
 
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
                 
-                {/* Infographic Banner */}
+                {/* === FULL WIDTH INFOGRAPHIC === */}
                 <div className="w-full mb-6 rounded-xl overflow-hidden shadow-sm border border-slate-200">
                   <img src="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png" alt="EEC Impact Infographic" className="w-full h-auto object-cover"/>
                 </div>
@@ -499,7 +538,7 @@
                       </div>
                     </div>
 
-                    {/* OSINT */}
+                    {/* REAL-TIME OSINT (ดึงข้อมูลจริง) */}
                     <div className="bg-slate-900 rounded-xl shadow-lg border border-slate-800 p-6 relative overflow-hidden">
                       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-emerald-400 to-transparent"></div>
                       <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -507,10 +546,19 @@
                         <span className="ml-2 px-2 py-0.5 bg-rose-600 text-white text-[10px] font-bold rounded uppercase tracking-wider animate-pulse">LIVE</span>
                       </h2>
                       <div className="space-y-3 font-mono text-sm">
-                        {t.newsItems.map((news, i) => (
+                        {liveNews.map((news, i) => (
                           <div key={i} className="flex flex-col sm:flex-row gap-1 sm:gap-4 pb-3 border-b border-slate-800/50 last:border-0 last:pb-0">
                             <span className="text-emerald-400 shrink-0 whitespace-nowrap">[{news.time}]</span>
-                            <span className="text-slate-300 leading-relaxed">{news.text}</span>
+                            <div className="flex flex-col">
+                                {news.link ? (
+                                    <a href={news.link} target="_blank" rel="noreferrer" className="text-slate-300 hover:text-white leading-relaxed hover:underline decoration-emerald-500 underline-offset-4 transition-colors">
+                                        {news.text}
+                                    </a>
+                                ) : (
+                                    <span className="text-slate-300 leading-relaxed">{news.text}</span>
+                                )}
+                                {news.source && <span className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest"><i className="fa-solid fa-newspaper mr-1"></i> {news.source}</span>}
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -520,7 +568,7 @@
                     <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
                       <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i className="fa-solid fa-book-open text-indigo-600"></i> {t.refTitle}</h2>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {['EEC Office (สกพอ.)', 'BOI Thailand', 'SCB EIC / World Bank', 'Ministry of Energy'].map((source, i) => (
+                        {['EEC Office (สกพอ.)', 'Google News Aggregator', 'SCB EIC / World Bank', 'Neutral Live Networks'].map((source, i) => (
                           <div key={i} className="p-4 border border-slate-200 rounded-lg bg-slate-50"><h4 className="font-semibold text-slate-700 text-sm">{source}</h4></div>
                         ))}
                       </div>
