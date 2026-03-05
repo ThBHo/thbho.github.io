@@ -5,171 +5,186 @@ import {
 import { 
   TrendingUp, TrendingDown, ShieldCheck, Plane, Building, 
   Ship, Train, Zap, HeartPulse, MapPin, AlertCircle, DollarSign, Activity,
-  ArrowUpDown, Clock, AlertTriangle, Newspaper, BookOpen, ExternalLink, Quote, Presentation, Globe
+  ArrowUpDown, Clock, AlertTriangle, Newspaper, BookOpen, ExternalLink, Quote, Presentation, Globe,
+  Sparkles, Droplets, CalendarClock, Target, Shield, Radio, Video
 } from 'lucide-react';
 
 // --- Translation Dictionary ---
 const dict = {
   th: {
     title: "EEC Impact Simulator",
-    subtitle: "อัปเดตข้อมูลล่าสุด: มีนาคม 2026",
+    subtitle: "อัปเดตข้อมูลล่าสุด: 5 มีนาคม 2026 | พัทยา, ชลบุรี",
     tabOverview: "ภาพรวม",
     tabProjects: "เจาะลึกโครงการ",
+    tabAnalysis: "เจาะลึกเศรษฐกิจ (Deep Dive)",
     tabSources: "ข่าวสาร & อ้างอิง",
-    avgImpact: "ผลกระทบเฉลี่ย",
-    projectCol: "โครงการ",
-    statusCol: "สถานะปัจจุบัน",
-    prosCol: "ปัจจัยบวก (Pros)",
-    consCol: "ปัจจัยลบ (Cons)",
-    range: "ช่วงประเมิน:",
-    slideTitle: "สไลด์รายงานพิเศษ",
-    openFull: "เปิดไฟล์เต็ม",
-    newsTitle: "อัปเดตสถานการณ์ล่าสุด",
-    news1Title: "1. อสังหาฯ พัทยาบูม (Pattaya Real Estate Boom)",
-    news1Bullets: [
-      "ยอดขายคอนโดหรูพัทยาและจอมเทียนพุ่งสูง 30%",
-      "กลุ่มผู้ซื้อ: Expats ยุโรป/ตะวันออกกลาง หาที่หลบภัย (Safe Haven)",
-      "ผลตอบแทนค่าเช่า (Rental Yield) ปัจจุบัน 7-9% ต่อปี"
+    
+    // Analysis Tab
+    analysisTitle: "วิเคราะห์ผลกระทบทางเศรษฐกิจ EEC (มี.ค. 2026)",
+    safeHavenSlideTitle: "สไลด์รายงาน: EEC ในฐานะ Safe Haven",
+    safeHavenSlideDesc: "เลื่อนดูสไลด์เพื่อดูข้อมูลการย้ายถิ่นฐานและการลงทุนหนีภัยสงคราม",
+    disneyTitle: "โอกาสทอง Disneyland (Game Changer)",
+    disneyDesc: "Disney ต้องการ 'Safe Asian Hub' หลังโครงการใน Abu Dhabi (UAE) ชะงักจากภัยสงคราม",
+    disneyBullets: [
+      "มูลค่าโครงการ 300,000 ล้านบาท (พื้นที่ 800 ไร่ในชลบุรี)",
+      "คาดดึงนักท่องเที่ยว 10 ล้านคน/ปี สร้างรายได้ 150,000 ล้านบาท",
+      "สร้างงาน 100,000 ตำแหน่ง และกระตุ้น GDP ไทย +1%",
+      "รัฐบาลเร่งเจรจา หากสำเร็จจะชดเชยผลกระทบด้านลบได้ 100%"
     ],
-    news2Title: "2. เมืองการบินอู่ตะเภา (Eastern Aviation City)",
-    news2Bullets: [
-      "คาดได้ Notice to Proceed (NTP) ต้นเดือนเม.ย. 2026",
-      "สนามบินรับเที่ยวบินที่เปลี่ยนเส้นทาง (Diverted flights)",
-      "กลายเป็นศูนย์กลางการบินทางเลือกแทนตะวันออกกลาง"
+    energyTitle: "วิกฤตพลังงาน & โลจิสติกส์ (Negative Impact)",
+    energyBullets: [
+      "ราคาน้ำมันโลกพุ่งแตะ $80-85+ (เสี่ยงทะลุ $110) กระทบต้นทุนขนส่ง",
+      "โรงงานอุตสาหกรรมหนัก (EV, อิเล็กทรอนิกส์) ต้นทุนผลิตพุ่ง 10-20%",
+      "ค่าระวางเรือ (Freight rate) และประกันภัยพุ่งสูงขึ้น 5-10%",
+      "นักท่องเที่ยวจากตะวันออกกลาง (UAE, Saudi) หดตัว 70-80%"
     ],
-    news3Title: "3. ต้นทุนก่อสร้าง & ราคาน้ำมัน",
-    news3Bullets: [
-      "น้ำมันโลกทะลุ $110/บาร์เรล กระทบต้นทุนขนส่ง",
-      "วัสดุก่อสร้าง (เหล็ก/ปูน) แพงขึ้น 15-25%",
-      "เสี่ยงทำให้รถไฟความเร็วสูง (HSR) ล่าช้ากว่ากำหนด"
-    ],
-    quote: "EEC กลายเป็น 'ผู้ชนะเงียบๆ' ท่ามกลางวิกฤต อสังหาฯและการแพทย์เติบโตสูง แต่อุตสาหกรรมหนักต้องระวังต้นทุนพลังงาน",
-    quoteAuthor: "- Asia Market Intelligence, กุมภาพันธ์ 2026",
-    refTitle: "แหล่งข้อมูลอ้างอิง",
-    refNote: "* ข้อมูลถูกประมวลผล ณ สิ้นเดือนก.พ. - ต้นเดือนมี.ค. 2026"
+    timelineTitle: "แนวโน้ม 3 ระยะ (3-Phase Timeline)",
+    phase1: "ระยะสั้น (1-3 เดือน): ต้นทุนพุ่ง โรงงานลดโอที (OT) ท่องเที่ยวพัทยาชะลอชั่วคราว แต่เร่งดีล Disneyland",
+    phase2: "ระยะกลาง (3-12 เดือน): หากสงครามยืดเยื้อ GDP อาจหด 0.5% แต่ถ้าตกลง Disneyland ได้ จะเริ่มเตรียมก่อสร้าง",
+    phase3: "ระยะยาว (2026-2032+): EEC ก้าวสู่ 'Hybrid Hub' (อุตสาหกรรมสีเขียว + บันเทิงระดับโลก) ลดพึ่งพาน้ำมันตะวันออกกลาง",
+
+    // Common
+    avgImpact: "ผลกระทบเฉลี่ย", projectCol: "โครงการ", statusCol: "สถานะปัจจุบัน", prosCol: "ปัจจัยบวก (Pros)", consCol: "ปัจจัยลบ (Cons)", range: "ช่วงประเมิน:",
+    openFull: "เปิดไฟล์เต็ม", refTitle: "แหล่งข้อมูลอ้างอิง", refNote: "* อ้างอิงจาก SCB EIC, BOT, NESDC, World Bank (ณ 5 มี.ค. 2026)",
+    
+    // Live Feeds
+    liveFeedTitle: "ถ่ายทอดสดสถานการณ์โลก (Live Global Network)",
+    osintTitle: "อัปเดตข่าวสารแบบเรียลไทม์ (Real-time OSINT Feeds)",
+    newsItems: [
+      { time: "11:45 AM (UTC+7)", text: "ราคาน้ำมันเบรนท์ (Brent) พุ่งแตะ $88/บาร์เรล ท่ามกลางความตึงเครียดระลอกใหม่ในฮอร์มุซ" },
+      { time: "10:30 AM (UTC+7)", text: "ตัวแทนรัฐบาลไทยหารือแผนดึงลงทุน Disney-EEC แทนที่ตะวันออกกลาง" },
+      { time: "09:15 AM (UTC+7)", text: "ยอดค้นหาอสังหาฯ พัทยาพุ่ง 45% (WoW) บนเว็บไซต์ฝั่งยุโรป" },
+      { time: "08:00 AM (UTC+7)", text: "สนามบินอู่ตะเภาประกาศความพร้อม 100% รับเที่ยวบิน Diverted (เปลี่ยนเส้นทางฉุกเฉิน)" }
+    ]
   },
   en: {
-    title: "EEC Impact Simulator",
-    subtitle: "Latest Update: March 2026",
-    tabOverview: "Overview",
-    tabProjects: "Project Details",
-    tabSources: "News & Sources",
-    avgImpact: "Avg Impact",
-    projectCol: "Project",
-    statusCol: "Current Status",
-    prosCol: "Positive Factors",
-    consCol: "Negative Factors",
-    range: "Range:",
-    slideTitle: "Featured Presentation",
-    openFull: "Open Full File",
-    newsTitle: "Latest EEC Updates",
-    news1Title: "1. Pattaya Real Estate Boom",
-    news1Bullets: [
-      "Pattaya/Jomtien luxury condo sales jumped by 30%",
-      "Main buyers: European/Middle Eastern expats seeking a Safe Haven",
-      "Current rental yields are tracking at 7-9% annually"
+    title: "EEC Impact Simulator", 
+    subtitle: "Latest Update: March 5, 2026 | Pattaya, Chonburi",
+    tabOverview: "Overview", tabProjects: "Project Details", tabAnalysis: "Deep Dive Analysis", tabSources: "News & Sources",
+    
+    analysisTitle: "EEC Economic Impact Analysis (Mar 2026)",
+    safeHavenSlideTitle: "Presentation: EEC as a Safe Haven",
+    safeHavenSlideDesc: "Scroll through the slides to see data on wealth migration and safe haven investments.",
+    disneyTitle: "The Disneyland Opportunity (Game Changer)",
+    disneyDesc: "Disney seeks a 'Safe Asian Hub' as Abu Dhabi (UAE) project stalls due to conflict.",
+    disneyBullets: [
+      "300 Billion THB mega-project (800 rai in Chonburi).",
+      "Expected to attract 10M tourists/year, generating 150B THB.",
+      "Creates 100,000 jobs and boosts Thai GDP by +1%.",
+      "Govt expediting negotiations; success would fully offset negative war impacts."
     ],
-    news2Title: "2. Eastern Aviation City",
-    news2Bullets: [
-      "Notice to Proceed (NTP) expected early April 2026",
-      "U-Tapao airport ready to handle diverted flights",
-      "Emerging as an alternative aviation hub to the Middle East"
+    energyTitle: "Energy & Logistics Shock (Negative Impact)",
+    energyBullets: [
+      "Global oil spikes to $80-85+ (risk of $110+), hitting transport.",
+      "Heavy manufacturing (EV, Electronics) faces 10-20% higher costs.",
+      "Freight rates and war insurance premiums rise by 5-10%.",
+      "Middle Eastern tourist arrivals (UAE, Saudi) plunge by 70-80%."
     ],
-    news3Title: "3. Construction Costs & Oil Price",
-    news3Bullets: [
-      "Global oil exceeds $110/barrel, hitting transport costs",
-      "Construction materials (steel/cement) up 15-25%",
-      "Risks causing further delays to the High-Speed Rail (HSR)"
-    ],
-    quote: "The EEC is becoming a 'Quiet Winner' amidst global tensions. Real estate and healthcare are booming, though heavy industries must manage energy costs.",
-    quoteAuthor: "- Asia Market Intelligence, Feb 2026",
-    refTitle: "Data Sources & References",
-    refNote: "* Data compiled as of late Feb - early March 2026"
+    timelineTitle: "3-Phase Timeline Projection",
+    phase1: "Short-term (1-3 Mos): Costs spike, factories cut OT, Pattaya tourism dips, but Disney talks accelerate.",
+    phase2: "Mid-term (3-12 Mos): If prolonged, GDP may shrink 0.5%. If Disney secured, groundwork begins.",
+    phase3: "Long-term (2026-2032+): EEC transforms into a 'Hybrid Hub' (Green Tech + Global Entertainment).",
+
+    avgImpact: "Avg Impact", projectCol: "Project", statusCol: "Current Status", prosCol: "Positive Factors", consCol: "Negative Factors", range: "Range:",
+    openFull: "Open Full File", refTitle: "Data Sources & References", refNote: "* Based on SCB EIC, BOT, NESDC, World Bank (As of Mar 5, 2026)",
+    
+    liveFeedTitle: "Live Global Network Feeds (OSINT)",
+    osintTitle: "Real-time Breaking News (OSINT)",
+    newsItems: [
+      { time: "11:45 AM (UTC+7)", text: "Brent crude spikes to $88/barrel amid renewed Hormuz tensions." },
+      { time: "10:30 AM (UTC+7)", text: "Thai PM delegation discusses Disney-EEC alternative investment plan." },
+      { time: "09:15 AM (UTC+7)", text: "Pattaya real estate searches jump 45% WoW on European property portals." },
+      { time: "08:00 AM (UTC+7)", text: "U-Tapao Airport declares 100% readiness to handle diverted Middle East flights." }
+    ]
   },
   ru: {
-    title: "Симулятор Влияния на EEC",
-    subtitle: "Обновление: Март 2026",
-    tabOverview: "Обзор",
-    tabProjects: "Детали Проектов",
-    tabSources: "Новости и Источники",
-    avgImpact: "Ср. Влияние",
-    projectCol: "Проект",
-    statusCol: "Текущий Статус",
-    prosCol: "Положительные Факторы",
-    consCol: "Отрицательные Факторы",
-    range: "Диапазон:",
-    slideTitle: "Презентация",
-    openFull: "Открыть файл",
-    newsTitle: "Последние Новости EEC",
-    news1Title: "1. Бум Недвижимости в Паттайе",
-    news1Bullets: [
-      "Продажи элитных кондо в Паттайе/Джомтьене выросли на 30%",
-      "Покупатели: Экспаты, ищущие 'безопасную гавань'",
-      "Доходность от аренды сейчас составляет 7-9% в год"
+    title: "Симулятор Влияния на EEC", 
+    subtitle: "Обновление: 5 Марта 2026 | Паттайя, Чонбури",
+    tabOverview: "Обзор", tabProjects: "Детали Проектов", tabAnalysis: "Глубокий Анализ", tabSources: "Новости и Источники",
+    
+    analysisTitle: "Экономический анализ EEC (Март 2026)",
+    safeHavenSlideTitle: "Презентация: EEC как 'Безопасная гавань'",
+    safeHavenSlideDesc: "Пролистайте слайды, чтобы увидеть данные о миграции капитала и инвестициях.",
+    disneyTitle: "Возможность Диснейленда (Game Changer)",
+    disneyDesc: "Disney ищет 'безопасный хаб в Азии' из-за приостановки проекта в Абу-Даби (ОАЭ).",
+    disneyBullets: [
+      "Мегапроект на 300 млрд батов (Чонбури).",
+      "Ожидается 10 млн туристов/год и доход 150 млрд батов.",
+      "Создаст 100 000 рабочих мест и увеличит ВВП Таиланда на +1%.",
+      "Успешные переговоры полностью компенсируют ущерб от войны."
     ],
-    news2Title: "2. Восточный Авиационный Город",
-    news2Bullets: [
-      "Ожидается NTP в начале апреля 2026 года",
-      "Аэропорт У-Тапао готов принимать перенаправленные рейсы",
-      "Становится альтернативным хабом вместо Ближнего Востока"
+    energyTitle: "Энергетический и логистический шок",
+    energyBullets: [
+      "Нефть $80-85+ (риск $110+), рост транспортных расходов.",
+      "Тяжелая промышленность (EV) сталкивается с ростом затрат на 10-20%.",
+      "Ставки фрахта и страхования растут на 5-10%.",
+      "Турпоток с Ближнего Востока упал на 70-80%."
     ],
-    news3Title: "3. Стоимость Строительства и Нефть",
-    news3Bullets: [
-      "Нефть выше $110/баррель, рост транспортных расходов",
-      "Стройматериалы подорожали на 15-25%",
-      "Риск дальнейших задержек высокоскоростной железной дороги"
-    ],
-    quote: "EEC становится 'тихим победителем' на фоне глобальной напряженности. Недвижимость и медицина процветают.",
-    quoteAuthor: "- Asia Market Intelligence, Фев 2026",
-    refTitle: "Источники Данных",
-    refNote: "* Данные собраны по состоянию на конец февраля - начало марта 2026"
+    timelineTitle: "Трехэтапный график",
+    phase1: "Краткосрок (1-3 мес): Рост затрат, спад туризма в Паттайе, ускорение переговоров по Disney.",
+    phase2: "Среднесрок (3-12 мес): Риск падения ВВП на 0.5%. Начало работ по Disney (в случае успеха).",
+    phase3: "Долгосрок (2026+): EEC становится гибридным хабом (зеленые технологии + развлечения).",
+
+    avgImpact: "Ср. Влияние", projectCol: "Проект", statusCol: "Статус", prosCol: "Плюсы", consCol: "Минусы", range: "Диапазон:",
+    openFull: "Открыть", refTitle: "Источники", refNote: "* Данные SCB EIC, BOT, Всемирного банка (на 5 марта 2026)",
+    
+    liveFeedTitle: "Прямые глобальные трансляции (OSINT)",
+    osintTitle: "Последние новости в реальном времени (OSINT)",
+    newsItems: [
+      { time: "11:45 AM (UTC+7)", text: "Нефть марки Brent подскочила до $88/баррель на фоне новой напряженности в Ормузе." },
+      { time: "10:30 AM (UTC+7)", text: "Тайская делегация обсуждает альтернативный план инвестиций Disney в EEC." },
+      { time: "09:15 AM (UTC+7)", text: "Поисковые запросы на недвижимость в Паттайе выросли на 45% (WoW) на европейских порталах." },
+      { time: "08:00 AM (UTC+7)", text: "Аэропорт У-Тапао объявил о 100% готовности принимать перенаправленные рейсы с Ближнего Востока." }
+    ]
   },
   zh: {
-    title: "EEC 影响模拟器",
-    subtitle: "最新更新：2026年3月",
-    tabOverview: "概览",
-    tabProjects: "项目详情",
-    tabSources: "新闻与来源",
-    avgImpact: "平均影响",
-    projectCol: "项目",
-    statusCol: "当前状态",
-    prosCol: "积极因素 (Pros)",
-    consCol: "消极因素 (Cons)",
-    range: "范围：",
-    slideTitle: "专题报告演示",
-    openFull: "打开完整文件",
-    newsTitle: "EEC 最新动态",
-    news1Title: "1. 芭提雅房地产繁荣",
-    news1Bullets: [
-      "芭提雅/中天海滩豪华公寓销量激增30%",
-      "主要买家：寻求避风港的欧洲/中东外籍人士",
-      "目前的年租金收益率在 7-9% 之间"
+    title: "EEC 影响模拟器", 
+    subtitle: "最新更新：2026年3月5日 | 芭提雅，春武里",
+    tabOverview: "概览", tabProjects: "项目详情", tabAnalysis: "深度分析", tabSources: "新闻与来源",
+    
+    analysisTitle: "EEC 经济影响深度分析 (2026年3月)",
+    safeHavenSlideTitle: "报告演示：EEC 避风港",
+    safeHavenSlideDesc: "滑动查看有关财富迁移和避风港投资的数据报告。",
+    disneyTitle: "迪士尼乐园机遇 (改变游戏规则)",
+    disneyDesc: "由于阿联酋阿布扎比项目停滞，迪士尼正在寻找“安全的亚洲中心”。",
+    disneyBullets: [
+      "3000亿泰铢的大型项目 (位于春武里府)。",
+      "预计每年吸引1000万游客，创收1500亿泰铢。",
+      "创造10万个就业岗位，推动泰国GDP增长1%。",
+      "政府正在加速谈判；若成功将完全抵消战争负面影响。"
     ],
-    news2Title: "2. 东部航空城",
-    news2Bullets: [
-      "预计 2026年4月初发布开工通知 (NTP)",
-      "乌塔堡机场准备接收备降航班",
-      "正在成为中东之外的替代航空枢纽"
+    energyTitle: "能源与物流冲击 (负面影响)",
+    energyBullets: [
+      "全球油价飙升至 80-85 美元 (有突破110美元风险)。",
+      "重型制造业（电动汽车、电子）成本上涨 10-20%。",
+      "运费和战争保险费上涨 5-10%。",
+      "中东游客骤降 70-80%。"
     ],
-    news3Title: "3. 建筑成本与油价",
-    news3Bullets: [
-      "全球油价突破 110 美元/桶，推高运输成本",
-      "建筑材料（钢材/水泥）上涨 15-25%",
-      "高铁 (HSR) 项目面临进一步延期的风险"
-    ],
-    quote: "在全球局势紧张之际，EEC 正在成为一个“沉默的赢家”。房地产和医疗保健行业正在蓬勃发展。",
-    quoteAuthor: "- 亚洲市场情报，2026年2月",
-    refTitle: "数据来源与参考",
-    refNote: "* 数据编制截至2026年2月底至3月初"
+    timelineTitle: "三个阶段的时间表",
+    phase1: "短期 (1-3个月): 成本飙升，工厂减少加班，芭提雅旅游业下滑，但迪士尼谈判加速。",
+    phase2: "中期 (3-12个月): 如果冲突延长，GDP可能萎缩0.5%。如果迪士尼敲定，将开始筹备。",
+    phase3: "长期 (2026-2032+): EEC 转型为“混合枢纽”（绿色科技 + 全球娱乐）。",
+
+    avgImpact: "平均影响", projectCol: "项目", statusCol: "状态", prosCol: "积极因素", consCol: "消极因素", range: "范围：",
+    openFull: "打开文件", refTitle: "数据来源", refNote: "* 基于 SCB EIC, BOT, 世界银行 (截至2026年3月5日)",
+    
+    liveFeedTitle: "全球实时网络流 (Live OSINT Feeds)",
+    osintTitle: "实时突发新闻更新 (OSINT)",
+    newsItems: [
+      { time: "11:45 AM (UTC+7)", text: "由于霍尔木兹海峡局势紧张，布伦特原油飙升至 88 美元/桶。" },
+      { time: "10:30 AM (UTC+7)", text: "泰国代表团讨论迪士尼-EEC 替代投资计划。" },
+      { time: "09:15 AM (UTC+7)", text: "在欧洲房地产门户网站上，芭提雅房地产搜索量环比猛增 45%。" },
+      { time: "08:00 AM (UTC+7)", text: "乌塔堡机场宣布 100% 准备好处理中东备降航班。" }
+    ]
   }
 };
 
-// --- Data Generator Based on Language ---
+// --- Data Generator ---
 const getScenariosData = (lang) => ({
   current: {
     id: 'current',
-    name: lang === 'th' ? "สถานการณ์ปัจจุบัน (1-3 เดือน)" : lang === 'en' ? "Current Base Case (1-3 Mo)" : lang === 'ru' ? "Текущий Сценарий" : "当前情况 (1-3个月)",
-    desc: lang === 'th' ? "ได้ประโยชน์จาก Safe Haven แต่วัสดุก่อสร้างเริ่มแพง" : lang === 'en' ? "Benefiting from Safe Haven, but material costs rising" : lang === 'ru' ? "Выгода от статуса 'безопасной гавани', но материалы дорожают" : "受益于避风港效应，但材料成本上升",
+    name: lang === 'th' ? "สถานการณ์ปัจจุบัน (1-3 เดือน)" : lang === 'en' ? "Current Base Case" : lang === 'ru' ? "Текущий Сценарий" : "当前情况",
+    desc: lang === 'th' ? "ได้ประโยชน์จาก Safe Haven แต่วัสดุก่อสร้างเริ่มแพง" : lang === 'en' ? "Benefiting from Safe Haven, but material costs rising" : lang === 'ru' ? "Выгода от 'безопасной гавани', но материалы дорожают" : "受益于避风港效应，但材料成本上升",
     color: "bg-blue-600",
     kpis: [
       { title: lang === 'th'?"Net Impact":"Net Impact", value: "+8% / +22%", subtext: lang === 'th'?"กิจกรรมระยะสั้นเพิ่มขึ้น":"Short-term activity up", icon: Activity, color: "text-blue-600", bg: "bg-blue-100" },
@@ -177,53 +192,15 @@ const getScenariosData = (lang) => ({
       { title: lang === 'th'?"FDI Shift":"FDI Shift", value: "+10% / +15%", subtext: lang === 'th'?"ย้ายฐานหลบภัย":"Safe haven relocation", icon: DollarSign, color: "text-indigo-600", bg: "bg-indigo-100" }
     ],
     projects: [
-      { id: 'condo', 
-        name: lang === 'th'?"อสังหาฯ พัทยา":lang === 'en'?"Real Estate Pattaya":lang === 'ru'?"Недвижимость Паттайи":"芭提雅房地产", 
-        impactMin: 20, impactMax: 35, avgImpact: 27.5, 
-        status: lang === 'th'?"ยอดขายพุ่ง":lang === 'en'?"Sales Surging":lang === 'ru'?"Рост продаж":"销量激增", 
-        positive: lang === 'th'?"Expats ซื้อบ้าน":lang === 'en'?"Expats buying homes":lang === 'ru'?"Экспаты покупают дома":"外籍人士购房", 
-        negative: lang === 'th'?"Oversupply":lang === 'en'?"Local oversupply":lang === 'ru'?"Избыток предложения":"局部供过于求", icon: Building },
-      { id: 'utapao', 
-        name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", 
-        impactMin: 18, impactMax: 30, avgImpact: 24, 
-        status: lang === 'th'?"NTP เม.ย. 2026":lang === 'en'?"NTP April 2026":lang === 'ru'?"NTP Апрель 2026":"2026年4月 NTP", 
-        positive: lang === 'th'?"Diverted flights":lang === 'en'?"Diverted flights":lang === 'ru'?"Перенаправленные рейсы":"备降航班", 
-        negative: lang === 'th'?"เชื้อเพลิงแพง":lang === 'en'?"Expensive Jet Fuel":lang === 'ru'?"Дорогое топливо":"航空燃料昂贵", icon: Plane },
-      { id: 'medical', 
-        name: lang === 'th'?"EEC Medical Hub":lang === 'en'?"Medical Hub":lang === 'ru'?"Медицинский Хаб":"医疗中心", 
-        impactMin: 15, impactMax: 25, avgImpact: 20, 
-        status: lang === 'th'?"กำลังพัฒนา":lang === 'en'?"Developing":lang === 'ru'?"В разработке":"开发中", 
-        positive: lang === 'th'?"Medical tourism ย้ายฐาน":lang === 'en'?"Medical tourism shift":lang === 'ru'?"Сдвиг мед. туризма":"医疗旅游转移", 
-        negative: lang === 'th'?"อุปกรณ์นำเข้าแพง":lang === 'en'?"High import costs":lang === 'ru'?"Дорогой импорт":"进口设备成本高", icon: HeartPulse },
-      { id: 'smartcity', 
-        name: lang === 'th'?"Smart City":lang === 'en'?"Smart City":lang === 'ru'?"Умный Город":"智慧城市", 
-        impactMin: 12, impactMax: 22, avgImpact: 17, 
-        status: lang === 'th'?"Planning Stage":lang === 'en'?"Planning Stage":lang === 'ru'?"Стадия планирования":"规划阶段", 
-        positive: lang === 'th'?"อุปสงค์ที่อยู่อาศัย":lang === 'en'?"Housing demand":lang === 'ru'?"Спрос на жилье":"住房需求", 
-        negative: lang === 'th'?"ศก.โลกไม่แน่นอน":lang === 'en'?"Global uncertainty":lang === 'ru'?"Неопределенность":"全球经济不确定性", icon: MapPin },
-      { id: 'port', 
-        name: lang === 'th'?"ท่าเรือแหลมฉบัง":lang === 'en'?"Laem Chabang Port":lang === 'ru'?"Порт Лаем Чабанг":"林查班港口", 
-        impactMin: 8, impactMax: 15, avgImpact: 11.5, 
-        status: lang === 'th'?"กำลังก่อสร้าง":lang === 'en'?"Under Construction":lang === 'ru'?"Строится":"建设中", 
-        positive: lang === 'th'?"เส้นทางเดินเรือทางเลือก":lang === 'en'?"Alternative sea route":lang === 'ru'?"Альтернативный маршрут":"替代航线", 
-        negative: lang === 'th'?"เหล็ก/ปูนแพง":lang === 'en'?"Material costs up":lang === 'ru'?"Материалы дорожают":"材料成本上涨", icon: Ship },
-      { id: 'ev', 
-        name: lang === 'th'?"อุตสาหกรรม EV":lang === 'en'?"EV Industry":lang === 'ru'?"Индустрия EV":"电动汽车产业", 
-        impactMin: -5, impactMax: 8, avgImpact: 1.5, 
-        status: lang === 'th'?"BOI อนุมัติ":lang === 'en'?"BOI Approved":lang === 'ru'?"Одобрено BOI":"BOI批准", 
-        positive: lang === 'th'?"FDI ย้ายฐาน":lang === 'en'?"FDI Relocation":lang === 'ru'?"Перемещение FDI":"FDI转移", 
-        negative: lang === 'th'?"ต้นทุนพลังงานพุ่ง":lang === 'en'?"High energy costs":lang === 'ru'?"Высокие затраты":"能源成本高涨", icon: Zap },
-      { id: 'hsr', 
-        name: lang === 'th'?"รถไฟความเร็วสูง (HSR)":lang === 'en'?"High-Speed Rail":lang === 'ru'?"Скоростная Ж/Д":"高铁 (HSR)", 
-        impactMin: -12, impactMax: -5, avgImpact: -8.5, 
-        status: lang === 'th'?"ล่าช้า":lang === 'en'?"Delayed":lang === 'ru'?"Отложено":"延期", 
-        positive: lang === 'th'?"รองรับผู้ย้ายถิ่นฐาน":lang === 'en'?"Supports migrants":lang === 'ru'?"Поддержка мигрантов":"支持移民", 
-        negative: lang === 'th'?"ต้นทุนวัสดุพุ่งสูง":lang === 'en'?"Skyrocketing material costs":lang === 'ru'?"Взлет цен на материалы":"材料成本暴涨", icon: Train },
+      { id: 'condo', name: lang === 'th'?"อสังหาฯ พัทยา":lang === 'en'?"Real Estate Pattaya":lang === 'ru'?"Недвижимость Паттайи":"芭提雅房地产", impactMin: 20, impactMax: 35, avgImpact: 27.5, status: lang === 'th'?"ยอดขายพุ่ง":lang === 'en'?"Sales Surging":lang === 'ru'?"Рост продаж":"销量激增", positive: lang === 'th'?"Expats ซื้อบ้าน":lang === 'en'?"Expats buying homes":lang === 'ru'?"Экспаты покупают дома":"外籍人士购房", negative: lang === 'th'?"Oversupply":lang === 'en'?"Local oversupply":lang === 'ru'?"Избыток предложения":"局部供过于求", icon: Building },
+      { id: 'utapao', name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", impactMin: 18, impactMax: 30, avgImpact: 24, status: lang === 'th'?"NTP เม.ย. 2026":lang === 'en'?"NTP April 2026":lang === 'ru'?"NTP Апрель 2026":"2026年4月 NTP", positive: lang === 'th'?"Diverted flights":lang === 'en'?"Diverted flights":lang === 'ru'?"Перенаправленные рейсы":"备降航班", negative: lang === 'th'?"เชื้อเพลิงแพง":lang === 'en'?"Expensive Jet Fuel":lang === 'ru'?"Дорогое топливо":"航空燃料昂贵", icon: Plane },
+      { id: 'ev', name: lang === 'th'?"อุตสาหกรรม EV":lang === 'en'?"EV Industry":lang === 'ru'?"Индустрия EV":"电动汽车产业", impactMin: -5, impactMax: 8, avgImpact: 1.5, status: lang === 'th'?"BOI อนุมัติ":lang === 'en'?"BOI Approved":lang === 'ru'?"Одобрено BOI":"BOI批准", positive: lang === 'th'?"FDI ย้ายฐาน":lang === 'en'?"FDI Relocation":lang === 'ru'?"Перемещение FDI":"FDI转移", negative: lang === 'th'?"ต้นทุนพลังงานพุ่ง":lang === 'en'?"High energy costs":lang === 'ru'?"Высокие затраты":"能源成本高涨", icon: Zap },
+      { id: 'hsr', name: lang === 'th'?"รถไฟความเร็วสูง (HSR)":lang === 'en'?"High-Speed Rail":lang === 'ru'?"Скоростная Ж/Д":"高铁 (HSR)", impactMin: -12, impactMax: -5, avgImpact: -8.5, status: lang === 'th'?"ล่าช้า":lang === 'en'?"Delayed":lang === 'ru'?"Отложено":"延期", positive: lang === 'th'?"รองรับผู้ย้ายถิ่นฐาน":lang === 'en'?"Supports migrants":lang === 'ru'?"Поддержка мигрантов":"支持移民", negative: lang === 'th'?"ต้นทุนวัสดุพุ่งสูง":lang === 'en'?"Skyrocketing material costs":lang === 'ru'?"Взлет цен на материалы":"材料成本暴涨", icon: Train },
     ]
   },
   optimistic: {
     id: 'optimistic',
-    name: lang === 'th' ? "หยุดยิงรวดเร็ว (1 สัปดาห์)" : lang === 'en' ? "Quick Ceasefire (1 Wk)" : lang === 'ru' ? "Быстрое перемирие" : "快速停火 (1周)",
+    name: lang === 'th' ? "หยุดยิงรวดเร็ว (1-3 สัปดาห์)" : lang === 'en' ? "Quick Ceasefire (1-3 Wks)" : lang === 'ru' ? "Быстрое перемирие (1-3 нед.)" : "快速停火 (1-3周)",
     desc: lang === 'th' ? "เงินเฟ้อลดลง วัสดุถูกลง แต่แรงหนุน Safe haven ลดลง" : lang === 'en' ? "Inflation drops, cheaper materials, but safe haven effect wanes" : lang === 'ru' ? "Инфляция падает, но эффект убежища ослабевает" : "通胀下降，材料变便宜，但避风港效应减弱",
     color: "bg-emerald-500",
     kpis: [
@@ -234,16 +211,13 @@ const getScenariosData = (lang) => ({
     projects: [
       { id: 'condo', name: lang === 'th'?"อสังหาฯ พัทยา":lang === 'en'?"Real Estate Pattaya":lang === 'ru'?"Недвижимость Паттайи":"芭提雅房地产", impactMin: 10, impactMax: 15, avgImpact: 12.5, status: lang==='th'?"ยอดขายปกติ":"Normal sales", positive: lang==='th'?"Demand ปกติฟื้น":"Normal demand", negative: lang==='th'?"หมดกระแส Safe Haven":"Safe Haven hype ends", icon: Building },
       { id: 'utapao', name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", impactMin: 5, impactMax: 10, avgImpact: 7.5, status: lang==='th'?"ตามแผน":"On track", positive: lang==='th'?"น้ำมันถูกลง":"Cheaper fuel", negative: "-", icon: Plane },
-      { id: 'medical', name: lang === 'th'?"EEC Medical Hub":lang === 'en'?"Medical Hub":lang === 'ru'?"Медицинский Хаб":"医疗中心", impactMin: 5, impactMax: 10, avgImpact: 7.5, status: lang==='th'?"ตามเป้า":"On track", positive: lang==='th'?"ท่องเที่ยวฟื้น":"Tourism rebounds", negative: "-", icon: HeartPulse },
-      { id: 'smartcity', name: lang === 'th'?"Smart City":lang === 'en'?"Smart City":lang === 'ru'?"Умный Город":"智慧城市", impactMin: 5, impactMax: 10, avgImpact: 7.5, status: lang==='th'?"Planning Stage":"Planning", positive: lang==='th'?"ความเชื่อมั่น":"Investor confidence", negative: "-", icon: MapPin },
-      { id: 'port', name: lang === 'th'?"ท่าเรือแหลมฉบัง":lang === 'en'?"Laem Chabang Port":lang === 'ru'?"Порт Лаем Чабанг":"林查班港口", impactMin: 2, impactMax: 5, avgImpact: 3.5, status: lang==='th'?"กำลังก่อสร้าง":"Construction", positive: lang==='th'?"การค้าโลกฟื้น":"Trade recovers", negative: "-", icon: Ship },
       { id: 'ev', name: lang === 'th'?"อุตสาหกรรม EV":lang === 'en'?"EV Industry":lang === 'ru'?"Индустрия EV":"电动汽车产业", impactMin: 5, impactMax: 10, avgImpact: 7.5, status: lang==='th'?"เดินหน้า":"Progressing", positive: lang==='th'?"พลังงานถูกลง":"Cheaper energy", negative: "-", icon: Zap },
       { id: 'hsr', name: lang === 'th'?"รถไฟความเร็วสูง (HSR)":lang === 'en'?"High-Speed Rail":lang === 'ru'?"Скоростная Ж/Д":"高铁 (HSR)", impactMin: 0, impactMax: 5, avgImpact: 2.5, status: lang==='th'?"เจรจาต่อ":"Resumed talks", positive: lang==='th'?"ต้นทุนลดลง":"Costs dropping", negative: lang==='th'?"ล่าช้าสะสม":"Accumulated delay", icon: Train },
     ]
   },
   pessimistic: {
     id: 'pessimistic',
-    name: lang === 'th' ? "สงครามยืดเยื้อ (>3 เดือน)" : lang === 'en' ? "Prolonged Conflict (>3 Mo)" : lang === 'ru' ? "Затяжной конфликт" : "长期冲突 (>3个月)",
+    name: lang === 'th' ? "สงครามยืดเยื้อ (>3 เดือน)" : lang === 'en' ? "Prolonged Conflict" : lang === 'ru' ? "Затяжной конфликт" : "长期冲突",
     desc: lang === 'th' ? "ช่องแคบฮอร์มุซปิด น้ำมันพุ่ง $150 ต้นทุนทุกอย่างสูงขึ้น" : lang === 'en' ? "Hormuz closed, oil hits $150, soaring costs" : lang === 'ru' ? "Нефть по $150, резкий рост затрат" : "霍尔木兹海峡关闭，油价达到150美元，成本飙升",
     color: "bg-rose-500",
     kpis: [
@@ -254,41 +228,15 @@ const getScenariosData = (lang) => ({
     projects: [
       { id: 'condo', name: lang === 'th'?"อสังหาฯ พัทยา":lang === 'en'?"Real Estate Pattaya":lang === 'ru'?"Недвижимость Паттайи":"芭提雅房地产", impactMin: 0, impactMax: 10, avgImpact: 5, status: lang==='th'?"ชะลอตัว":"Slowing", positive: lang==='th'?"มีผู้ลี้ภัย":"War refugees", negative: lang==='th'?"กำลังซื้อลด":"Low purchasing power", icon: Building },
       { id: 'utapao', name: lang === 'th'?"อู่ตะเภา & Aerotropolis":lang === 'en'?"U-Tapao Airport":lang === 'ru'?"Аэропорт У-Тапао":"乌塔堡机场", impactMin: -10, impactMax: 0, avgImpact: -5, status: lang==='th'?"เลื่อนแผน":"Postponed", positive: "-", negative: lang==='th'?"สายการบินลดเที่ยว":"Flights reduced", icon: Plane },
-      { id: 'medical', name: lang === 'th'?"EEC Medical Hub":lang === 'en'?"Medical Hub":lang === 'ru'?"Медицинский Хаб":"医疗中心", impactMin: 10, impactMax: 15, avgImpact: 12.5, status: lang==='th'?"พยุงตัวได้":"Sustained", positive: lang==='th'?"สุขภาพจำเป็น":"Health is essential", negative: lang==='th'?"ต้นทุนพุ่ง":"Operating costs up", icon: HeartPulse },
-      { id: 'smartcity', name: lang === 'th'?"Smart City":lang === 'en'?"Smart City":lang === 'ru'?"Умный Город":"智慧城市", impactMin: -15, impactMax: -5, avgImpact: -10, status: lang==='th'?"ชะลอโครงการ":"Stalled", positive: "-", negative: lang==='th'?"ชะลอลงทุน":"Investment freeze", icon: MapPin },
-      { id: 'port', name: lang === 'th'?"ท่าเรือแหลมฉบัง":lang === 'en'?"Laem Chabang Port":lang === 'ru'?"Порт Лаем Чабанг":"林查班港口", impactMin: -20, impactMax: -10, avgImpact: -15, status: lang==='th'?"ต้นทุนบานปลาย":"Cost overrun", positive: "-", negative: lang==='th'?"การค้าโลกหด":"Global trade shrinks", icon: Ship },
       { id: 'ev', name: lang === 'th'?"อุตสาหกรรม EV":lang === 'en'?"EV Industry":lang === 'ru'?"Индустрия EV":"电动汽车产业", impactMin: -25, impactMax: -15, avgImpact: -20, status: lang==='th'?"ลดการผลิต":"Production cuts", positive: "-", negative: lang==='th'?"วิกฤตซัพพลาย":"Supply chain crisis", icon: Zap },
       { id: 'hsr', name: lang === 'th'?"รถไฟความเร็วสูง (HSR)":lang === 'en'?"High-Speed Rail":lang === 'ru'?"Скоростная Ж/Д":"高铁 (HSR)", impactMin: -30, impactMax: -20, avgImpact: -25, status: lang==='th'?"หยุดชะงัก":"Risk of halt", positive: "-", negative: lang==='th'?"เหล็กแพง 30%":"Steel +30%", icon: Train },
     ]
   }
 });
 
-const CustomTooltip = ({ active, payload, lang }) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload;
-    const t = dict[lang];
-    return (
-      <div className="bg-slate-900 text-white p-3 rounded-lg shadow-xl border border-slate-700">
-        <p className="font-bold flex items-center gap-2">
-          <data.icon className="w-4 h-4" /> {data.name}
-        </p>
-        <div className="mt-2 text-sm space-y-1">
-          <p>{t.avgImpact}: <span className={data.avgImpact >= 0 ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-            {data.avgImpact > 0 ? '+' : ''}{data.avgImpact}%
-          </span></p>
-          <p className="text-slate-300 text-xs mt-1 border-t border-slate-700 pt-1">
-            Min: {data.impactMin}% | Max: {data.impactMax}%
-          </p>
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
-
 export default function MultilingualEECDashboard() {
-  const [lang, setLang] = useState('en'); // Default language
-  const [activeTab, setActiveTab] = useState('overview');
+  const [lang, setLang] = useState('th'); 
+  const [activeTab, setActiveTab] = useState('overview'); // Set Overview as Default
   const [activeScenario, setActiveScenario] = useState('current');
   const [sortConfig, setSortConfig] = useState({ key: 'avgImpact', direction: 'desc' });
 
@@ -296,17 +244,13 @@ export default function MultilingualEECDashboard() {
   const scenariosData = getScenariosData(lang);
   const currentData = scenariosData[activeScenario];
 
-  // Sorting logic for the table
+  // Sorting logic
   const sortedProjects = useMemo(() => {
     let sortableItems = [...currentData.projects];
     if (sortConfig !== null) {
       sortableItems.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
+        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
       });
     }
@@ -315,9 +259,7 @@ export default function MultilingualEECDashboard() {
 
   const requestSort = (key) => {
     let direction = 'desc';
-    if (sortConfig.key === key && sortConfig.direction === 'desc') {
-      direction = 'asc';
-    }
+    if (sortConfig.key === key && sortConfig.direction === 'desc') direction = 'asc';
     setSortConfig({ key, direction });
   };
 
@@ -341,10 +283,9 @@ export default function MultilingualEECDashboard() {
             {/* Language Toggle */}
             <div className="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200">
               <Globe className="w-4 h-4 text-slate-400 mx-2 hidden sm:block" />
-              {['en', 'th', 'ru', 'zh'].map((l) => (
+              {['th', 'en', 'ru', 'zh'].map((l) => (
                 <button
-                  key={l}
-                  onClick={() => setLang(l)}
+                  key={l} onClick={() => setLang(l)}
                   className={`px-3 py-1 text-xs font-bold rounded-md transition-colors ${
                     lang === l ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                   }`}
@@ -359,12 +300,9 @@ export default function MultilingualEECDashboard() {
           <div className="flex bg-slate-100 p-1 rounded-lg overflow-x-auto custom-scrollbar">
             {Object.keys(scenariosData).map((key) => (
               <button
-                key={key}
-                onClick={() => setActiveScenario(key)}
+                key={key} onClick={() => setActiveScenario(key)}
                 className={`px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-all duration-200 flex items-center gap-2 flex-1 justify-center ${
-                  activeScenario === key 
-                    ? `${scenariosData[key].color} text-white shadow-sm` 
-                    : 'text-slate-600 hover:bg-slate-200'
+                  activeScenario === key ? `${scenariosData[key].color} text-white shadow-sm` : 'text-slate-600 hover:bg-slate-200'
                 }`}
               >
                 {key === 'optimistic' && <Clock className="w-4 h-4" />}
@@ -379,19 +317,31 @@ export default function MultilingualEECDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         
+        {/* === FULL WIDTH INFOGRAPHIC (ด้านบนสุดแบบเต็มหน้า) === */}
+        <div className="w-full mb-6 rounded-xl overflow-hidden shadow-sm border border-slate-200">
+          <img 
+            src="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png" 
+            alt="EEC Impact Infographic (PRO & CONS)" 
+            className="w-full h-auto object-cover"
+          />
+        </div>
+
         {/* Scenario Description Banner */}
         <div className={`p-4 rounded-xl mb-6 flex items-center gap-3 text-white shadow-sm transition-colors duration-500 ${currentData.color}`}>
           <AlertCircle className="w-6 h-6 shrink-0" />
           <p className="text-white/95 font-medium text-sm md:text-base">{currentData.desc}</p>
         </div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation (Reordered) */}
         <div className="flex space-x-1 border-b border-slate-200 mb-6 overflow-x-auto custom-scrollbar">
           <button onClick={() => setActiveTab('overview')} className={`px-5 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${ activeTab === 'overview' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700' }`}>
             {t.tabOverview}
           </button>
           <button onClick={() => setActiveTab('projects')} className={`px-5 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${ activeTab === 'projects' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700' }`}>
             {t.tabProjects}
+          </button>
+          <button onClick={() => setActiveTab('analysis')} className={`px-5 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors flex items-center gap-2 ${ activeTab === 'analysis' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700' }`}>
+            <Target className="w-4 h-4" /> {t.tabAnalysis}
           </button>
           <button onClick={() => setActiveTab('sources')} className={`px-5 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors flex items-center gap-2 ${ activeTab === 'sources' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700' }`}>
             {t.tabSources}
@@ -405,9 +355,7 @@ export default function MultilingualEECDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {currentData.kpis.map((kpi, idx) => (
                 <div key={idx} className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 flex items-center gap-4 transition-all hover:shadow-md">
-                  <div className={`p-4 rounded-full ${kpi.bg} ${kpi.color}`}>
-                    <kpi.icon className="w-8 h-8" />
-                  </div>
+                  <div className={`p-4 rounded-full ${kpi.bg} ${kpi.color}`}><kpi.icon className="w-8 h-8" /></div>
                   <div>
                     <p className="text-slate-500 text-sm font-medium">{kpi.title}</p>
                     <h3 className="text-2xl font-bold text-slate-800 my-1">{kpi.value}</h3>
@@ -419,23 +367,29 @@ export default function MultilingualEECDashboard() {
 
             {/* Interactive Chart */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-blue-500" />
-                  {t.avgImpact} (%)
-                </h2>
-              </div>
-              <div className="h-[400px] w-full">
+              <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2 mb-6">
+                <Activity className="w-5 h-5 text-blue-500" /> {t.avgImpact} (%)
+              </h2>
+              <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={currentData.projects} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
                     <XAxis type="number" domain={[-35, 40]} unit="%" tick={{ fill: '#64748b' }} />
-                    <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 11, fill: '#334155' }} />
-                    <Tooltip content={<CustomTooltip lang={lang} />} cursor={{fill: '#f1f5f9'}} />
+                    <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 11, fill: '#334155' }} />
+                    <Tooltip cursor={{fill: '#f1f5f9'}} content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-slate-900 text-white p-2 rounded shadow-lg text-xs">
+                            <p className="font-bold">{payload[0].payload.name}</p>
+                            <p className="mt-1">{t.avgImpact}: <span className={payload[0].payload.avgImpact >= 0 ? "text-emerald-400":"text-rose-400"}>{payload[0].payload.avgImpact}%</span></p>
+                          </div>
+                        )
+                      } return null;
+                    }}/>
                     <ReferenceLine x={0} stroke="#94a3b8" strokeWidth={2} />
-                    <Bar dataKey="avgImpact" radius={[0, 4, 4, 0]} barSize={32} animationDuration={1000}>
+                    <Bar dataKey="avgImpact" radius={[0, 4, 4, 0]} barSize={24}>
                       {currentData.projects.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.avgImpact >= 0 ? (activeScenario === 'optimistic' ? '#10b981' : '#3b82f6') : '#ef4444'} className="transition-all duration-300 hover:opacity-80 cursor-pointer" />
+                        <Cell key={`cell-${index}`} fill={entry.avgImpact >= 0 ? (activeScenario === 'optimistic' ? '#10b981' : '#3b82f6') : '#ef4444'} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -445,7 +399,7 @@ export default function MultilingualEECDashboard() {
           </div>
         )}
 
-        {/* --- TAB 2: PROJECT DETAILS (Interactive Table) --- */}
+        {/* --- TAB 2: PROJECT DETAILS --- */}
         {activeTab === 'projects' && (
           <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden animate-in fade-in duration-500">
             <div className="overflow-x-auto">
@@ -453,7 +407,7 @@ export default function MultilingualEECDashboard() {
                 <thead className="bg-slate-50 text-slate-700 border-b-2 border-slate-200">
                   <tr>
                     <th className="p-4 font-semibold">{t.projectCol}</th>
-                    <th className="p-4 font-semibold cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => requestSort('avgImpact')}>
+                    <th className="p-4 font-semibold cursor-pointer hover:bg-slate-100" onClick={() => requestSort('avgImpact')}>
                       <div className="flex items-center gap-1">{t.avgImpact} <ArrowUpDown className="w-3 h-3 text-slate-400" /></div>
                     </th>
                     <th className="p-4 font-semibold">{t.statusCol}</th>
@@ -463,24 +417,16 @@ export default function MultilingualEECDashboard() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {sortedProjects.map((project) => (
-                    <tr key={project.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg ${project.avgImpact >= 0 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
-                            <project.icon className="w-5 h-5" />
-                          </div>
-                          <span className="font-semibold text-slate-800">{project.name}</span>
-                        </div>
-                      </td>
+                    <tr key={project.id} className="hover:bg-slate-50">
+                      <td className="p-4"><span className="font-semibold text-slate-800">{project.name}</span></td>
                       <td className="p-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${ project.avgImpact > 0 ? 'bg-emerald-100 text-emerald-700' : project.avgImpact < 0 ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-700' }`}>
                           {project.avgImpact > 0 ? '+' : ''}{project.avgImpact}%
                         </span>
-                        <p className="text-[10px] text-slate-400 mt-1 pl-1">{t.range} {project.impactMin} .. {project.impactMax}</p>
                       </td>
-                      <td className="p-4 text-slate-700">{project.status}</td>
-                      <td className="p-4 text-emerald-700"><ul className="list-disc pl-4"><li>{project.positive}</li></ul></td>
-                      <td className="p-4 text-rose-700"><ul className="list-disc pl-4"><li>{project.negative}</li></ul></td>
+                      <td className="p-4">{project.status}</td>
+                      <td className="p-4 text-emerald-700">{project.positive}</td>
+                      <td className="p-4 text-rose-700">{project.negative}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -489,79 +435,164 @@ export default function MultilingualEECDashboard() {
           </div>
         )}
 
-        {/* --- TAB 3: NEWS & SOURCES --- */}
-        {activeTab === 'sources' && (
-          <div className="space-y-6 animate-in fade-in duration-500">
-            
-            {/* Embedded Slide */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                  <Presentation className="w-5 h-5 text-purple-600" />
-                  {t.slideTitle}
-                </h2>
-                <a href="https://drive.google.com/file/d/1FxUqtk2rR7h8FIPlucuGRyOgDXyisMbn/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors font-medium">
+        {/* --- TAB 3: ANALYSIS (DEEP DIVE + SLIDE) --- */}
+        {activeTab === 'analysis' && (
+          <div className="space-y-8 animate-in fade-in duration-500">
+            <h2 className="text-xl font-bold text-slate-800 border-l-4 border-blue-600 pl-3">{t.analysisTitle}</h2>
+
+            {/* EMBEDDED SLIDE (SAFE HAVEN) */}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="bg-slate-50 p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-indigo-600" />
+                    {t.safeHavenSlideTitle}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1">{t.safeHavenSlideDesc}</p>
+                </div>
+                <a 
+                  href="https://drive.google.com/file/d/1FxUqtk2rR7h8FIPlucuGRyOgDXyisMbn/view?usp=sharing" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center justify-center gap-2 text-sm text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-lg transition-colors font-medium border border-indigo-100"
+                >
                   {t.openFull} <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
-              <div className="w-full aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] rounded-lg overflow-hidden border border-slate-200 bg-slate-50">
-                <iframe src="https://drive.google.com/file/d/1FxUqtk2rR7h8FIPlucuGRyOgDXyisMbn/preview" width="100%" height="100%" allow="autoplay" title="EEC Impact Presentation Slide" className="w-full h-full border-0"></iframe>
+              <div className="w-full aspect-[16/9] lg:aspect-[21/9] bg-slate-100">
+                <iframe 
+                  src="https://drive.google.com/file/d/1FxUqtk2rR7h8FIPlucuGRyOgDXyisMbn/preview" 
+                  width="100%" 
+                  height="100%" 
+                  allow="autoplay" 
+                  title="EEC Safe Haven Presentation" 
+                  className="border-0 w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+            
+            {/* The Disneyland Highlight Card */}
+            <div className="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden mt-6">
+              <Sparkles className="absolute -right-4 -top-4 w-32 h-32 text-white/10" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="bg-amber-400 text-indigo-900 p-2 rounded-lg"><Sparkles className="w-6 h-6" /></div>
+                  <h3 className="text-xl font-bold text-amber-400">{t.disneyTitle}</h3>
+                </div>
+                <p className="text-indigo-100 mb-4">{t.disneyDesc}</p>
+                <div className="bg-black/20 rounded-xl p-4 border border-white/10">
+                  <ul className="list-disc pl-5 space-y-2 text-sm text-indigo-50 font-medium">
+                    {t.disneyBullets.map((bullet, i) => <li key={i}>{bullet}</li>)}
+                  </ul>
+                </div>
               </div>
             </div>
 
-            {/* Latest Updates Section */}
+            {/* Middle Section: Energy Shock & Timeline */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Energy Shock */}
+              <div className="bg-white rounded-xl shadow-sm border border-rose-200 p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-rose-100 text-rose-600 p-2 rounded-lg"><Droplets className="w-6 h-6" /></div>
+                  <h3 className="text-lg font-bold text-slate-800">{t.energyTitle}</h3>
+                </div>
+                <ul className="list-disc pl-5 space-y-3 text-sm text-slate-600">
+                  {t.energyBullets.map((bullet, i) => <li key={i}>{bullet}</li>)}
+                </ul>
+              </div>
+
+              {/* Timeline */}
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                 <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-blue-100 text-blue-600 p-2 rounded-lg"><CalendarClock className="w-6 h-6" /></div>
+                  <h3 className="text-lg font-bold text-slate-800">{t.timelineTitle}</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="w-2 h-2 mt-1.5 rounded-full bg-rose-500 shrink-0"></div>
+                    <p className="text-sm text-slate-600">{t.phase1}</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="w-2 h-2 mt-1.5 rounded-full bg-amber-500 shrink-0"></div>
+                    <p className="text-sm text-slate-600">{t.phase2}</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="w-2 h-2 mt-1.5 rounded-full bg-emerald-500 shrink-0"></div>
+                    <p className="text-sm text-slate-600">{t.phase3}</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* --- TAB 4: NEWS & SOURCES --- */}
+        {activeTab === 'sources' && (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            
+            {/* Live Global Network Feeds (YouTube Broadcasts) */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
               <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Newspaper className="w-5 h-5 text-blue-600" />
-                {t.newsTitle}
+                <Video className="w-5 h-5 text-red-600" /> {t.liveFeedTitle}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
-                <div className="space-y-3">
-                  <div className="border-l-4 border-emerald-500 pl-4 py-1">
-                    <h3 className="font-semibold text-slate-800">{t.news1Title}</h3>
-                    <ul className="list-disc pl-5 mt-2 text-sm text-slate-600 space-y-1">
-                      {t.news1Bullets.map((bullet, i) => <li key={i}>{bullet}</li>)}
-                    </ul>
-                  </div>
-                  
-                  <div className="border-l-4 border-blue-500 pl-4 py-1 mt-4">
-                    <h3 className="font-semibold text-slate-800">{t.news2Title}</h3>
-                    <ul className="list-disc pl-5 mt-2 text-sm text-slate-600 space-y-1">
-                      {t.news2Bullets.map((bullet, i) => <li key={i}>{bullet}</li>)}
-                    </ul>
-                  </div>
+                {/* Neutral Source 1: Al Jazeera English */}
+                <div className="w-full aspect-video rounded-lg overflow-hidden border border-slate-200 bg-slate-100 relative shadow-inner">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/gCNeDWCI0vo?autoplay=1&mute=1" 
+                    title="Live Broadcast - Neutral Source 1" 
+                    frameBorder="0" 
+                    allowFullScreen 
+                    className="absolute top-0 left-0 w-full h-full"
+                  ></iframe>
                 </div>
-
-                <div className="space-y-3">
-                  <div className="border-l-4 border-rose-500 pl-4 py-1">
-                    <h3 className="font-semibold text-slate-800">{t.news3Title}</h3>
-                    <ul className="list-disc pl-5 mt-2 text-sm text-slate-600 space-y-1">
-                      {t.news3Bullets.map((bullet, i) => <li key={i}>{bullet}</li>)}
-                    </ul>
-                  </div>
-
-                  <div className="bg-slate-50 p-4 rounded-lg mt-4 border border-slate-100">
-                    <Quote className="w-6 h-6 text-slate-300 mb-2" />
-                    <p className="text-sm italic text-slate-600">"{t.quote}"</p>
-                    <p className="text-xs text-slate-500 mt-2 font-semibold">{t.quoteAuthor}</p>
-                  </div>
+                
+                {/* Neutral Source 2: CNA */}
+                <div className="w-full aspect-video rounded-lg overflow-hidden border border-slate-200 bg-slate-100 relative shadow-inner">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/live_stream?channel=UCknLrEdhRCp1aegoMqRaCZg&autoplay=1&mute=1" 
+                    title="Live Broadcast - Neutral Source 2" 
+                    frameBorder="0" 
+                    allowFullScreen 
+                    className="absolute top-0 left-0 w-full h-full"
+                  ></iframe>
                 </div>
+                
+              </div>
+            </div>
 
+            {/* Real-time OSINT Updates */}
+            <div className="bg-slate-900 rounded-xl shadow-lg border border-slate-800 p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-emerald-400 to-transparent"></div>
+              <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Radio className="w-5 h-5 text-emerald-400 animate-pulse" /> {t.osintTitle}
+                <span className="ml-2 px-2 py-0.5 bg-rose-600 text-white text-[10px] font-bold rounded uppercase tracking-wider animate-pulse">LIVE</span>
+              </h2>
+              <div className="space-y-3 font-mono text-sm">
+                {t.newsItems.map((news, i) => (
+                  <div key={i} className="flex flex-col sm:flex-row gap-1 sm:gap-4 pb-3 border-b border-slate-800/50 last:border-0 last:pb-0">
+                    <span className="text-emerald-400 shrink-0 whitespace-nowrap">[{news.time}]</span>
+                    <span className="text-slate-300 leading-relaxed">{news.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* References Section */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
               <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-indigo-600" />
-                {t.refTitle}
+                <BookOpen className="w-5 h-5 text-indigo-600" /> {t.refTitle}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {['EEC Office', 'BOI Thailand', 'CBRE & Colliers', 'Reuters / Pattaya Mail'].map((source, i) => (
-                  <div key={i} className="p-4 border border-slate-200 rounded-lg bg-slate-50 flex justify-between items-center">
-                    <h4 className="font-semibold text-slate-700 text-sm">{source}</h4>
-                  </div>
+                {['EEC Office (สกพอ.)', 'BOI Thailand', 'SCB EIC / World Bank', 'Ministry of Energy'].map((source, i) => (
+                  <div key={i} className="p-4 border border-slate-200 rounded-lg bg-slate-50"><h4 className="font-semibold text-slate-700 text-sm">{source}</h4></div>
                 ))}
               </div>
               <p className="text-xs text-slate-400 mt-4 text-center">{t.refNote}</p>
