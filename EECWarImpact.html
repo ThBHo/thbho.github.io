@@ -15,13 +15,13 @@
     <meta property="og:title" content="📊 EEC Impact Simulator | อัปเดตเศรษฐกิจชลบุรี-พัทยา">
     <meta property="og:description" content="เจาะลึกผลกระทบสงครามตะวันออกกลางที่มีต่อ EEC, อสังหาฯ พัทยา และเมืองการบินอู่ตะเภา อัปเดตข้อมูลแบบเรียลไทม์ (Real-time)">
     <!-- ลิงก์รูปภาพที่จะโชว์เป็น Thumbnail -->
-    <meta property="og:image" content="https://i.postimg.cc/VkJCm7n3/Screenshot-2569-03-05-at-13-15-57.png">
+    <meta property="og:image" content="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="📊 EEC Impact Simulator | อัปเดตเศรษฐกิจชลบุรี-พัทยา">
     <meta name="twitter:description" content="เจาะลึกผลกระทบสงครามตะวันออกกลางที่มีต่อ EEC, อสังหาฯ พัทยา และเมืองการบินอู่ตะเภา อัปเดตข้อมูลแบบเรียลไทม์">
-    <meta name="twitter:image" content="https://i.postimg.cc/VkJCm7n3/Screenshot-2569-03-05-at-13-15-57.png">
+    <meta name="twitter:image" content="https://i.postimg.cc/TYnQj3pn/PRO-CONS.png">
     <!-- ========================================== -->
 
     <!-- Tailwind CSS (สำหรับจัดความสวยงาม) -->
@@ -56,6 +56,7 @@
           th: {
             title: "EEC Impact Simulator",
             subtitle: "อัปเดตข้อมูลสถานการณ์เศรษฐกิจแบบเรียลไทม์",
+            liveUpdateBtn: "อัปเดตสถานการณ์ล่าสุด",
             tabOverview: "ภาพรวม",
             tabProjects: "เจาะลึกโครงการ",
             tabAnalysis: "เจาะลึกเศรษฐกิจ (Deep Dive)",
@@ -92,6 +93,7 @@
           },
           en: {
             title: "EEC Impact Simulator", subtitle: "Real-time Economic Situation Update",
+            liveUpdateBtn: "Latest Situation Update",
             tabOverview: "Overview", tabProjects: "Project Details", tabAnalysis: "Deep Dive Analysis", tabSources: "News & Sources",
             analysisTitle: "EEC Economic Impact Analysis",
             safeHavenSlideTitle: "Presentation: EEC as a Safe Haven",
@@ -125,6 +127,7 @@
           },
           ru: {
             title: "Симулятор Влияния на EEC", subtitle: "Обновление ситуации в реальном времени",
+            liveUpdateBtn: "Последнее обновление",
             tabOverview: "Обзор", tabProjects: "Детали Проектов", tabAnalysis: "Глубокий Анализ", tabSources: "Новости и Источники",
             analysisTitle: "Экономический анализ EEC",
             safeHavenSlideTitle: "Презентация: EEC как 'Безопасная гавань'",
@@ -158,6 +161,7 @@
           },
           zh: {
             title: "EEC 影响模拟器", subtitle: "实时经济形势更新",
+            liveUpdateBtn: "最新情况更新",
             tabOverview: "概览", tabProjects: "项目详情", tabAnalysis: "深度分析", tabSources: "新闻与来源",
             analysisTitle: "EEC 经济影响深度分析",
             safeHavenSlideTitle: "报告演示：EEC 避风港",
@@ -355,7 +359,10 @@
               {/* Header */}
               <div className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                  <div className="flex justify-between items-center mb-3">
+                  
+                  {/* Top Row: Title, Update Button & Language Switcher */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+                    
                     <div className="flex items-center gap-3">
                       <i className="fa-solid fa-shield-halved text-2xl text-blue-600"></i>
                       <div>
@@ -364,14 +371,29 @@
                       </div>
                     </div>
 
-                    <div className="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200">
-                      <i className="fa-solid fa-globe text-slate-400 mx-2 hidden sm:block"></i>
-                      {['th', 'en', 'ru', 'zh'].map((l) => (
-                        <button key={l} onClick={() => setLang(l)} className={`px-3 py-1 text-xs font-bold rounded-md transition-colors ${lang === l ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
-                          {l === 'en' ? 'EN' : l === 'th' ? 'TH' : l === 'ru' ? 'RU' : '中文'}
-                        </button>
-                      ))}
+                    <div className="flex items-center gap-3">
+                      {/* === ปุ่มอัปเดตสถานการณ์ล่าสุด (New Update Button) === */}
+                      <a 
+                        href="https://threeandhour.github.io/GymMateX/MEWar.html" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-bold flex items-center gap-2 transition-colors shadow-sm"
+                      >
+                        <i className="fa-solid fa-satellite-dish animate-pulse"></i>
+                        {t.liveUpdateBtn}
+                      </a>
+
+                      {/* Language Toggle */}
+                      <div className="hidden md:flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200">
+                        <i className="fa-solid fa-globe text-slate-400 mx-2"></i>
+                        {['th', 'en', 'ru', 'zh'].map((l) => (
+                          <button key={l} onClick={() => setLang(l)} className={`px-3 py-1 text-xs font-bold rounded-md transition-colors ${lang === l ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+                            {l === 'en' ? 'EN' : l === 'th' ? 'TH' : l === 'ru' ? 'RU' : '中文'}
+                          </button>
+                        ))}
+                      </div>
                     </div>
+
                   </div>
                   
                   {/* Scenario Buttons */}
@@ -384,6 +406,16 @@
                       </button>
                     ))}
                   </div>
+                  
+                  {/* Mobile Language Toggle */}
+                  <div className="flex md:hidden mt-3 items-center bg-slate-100 rounded-lg p-1 border border-slate-200 overflow-x-auto">
+                    {['th', 'en', 'ru', 'zh'].map((l) => (
+                      <button key={l} onClick={() => setLang(l)} className={`flex-1 px-3 py-1.5 text-xs font-bold rounded-md transition-colors ${lang === l ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+                        {l === 'en' ? 'EN' : l === 'th' ? 'TH' : l === 'ru' ? 'RU' : '中文'}
+                      </button>
+                    ))}
+                  </div>
+
                 </div>
               </div>
 
@@ -463,8 +495,12 @@
                               </span>
                             </td>
                             <td className="p-4">{project.status}</td>
-                            <td className="p-4 text-emerald-700">{project.positive}</td>
-                            <td className="p-4 text-rose-700">{project.negative}</td>
+                            <td className="p-4 text-emerald-700">
+                              <ul className="list-disc pl-4 space-y-1"><li>{project.positive}</li></ul>
+                            </td>
+                            <td className="p-4 text-rose-700">
+                              <ul className="list-disc pl-4 space-y-1"><li>{project.negative}</li></ul>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
