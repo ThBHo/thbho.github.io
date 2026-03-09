@@ -27,6 +27,7 @@
         .animate-spin-slow { animation: spin 3s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-[#F8FAFC] antialiased">
@@ -35,7 +36,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
 
         // --- SVG Icon Components ---
         const Icon = ({ children, size=24, className="" }) => (
@@ -97,10 +98,12 @@
         };
 
         const BlogPage = () => {
-          const [activeTab, setActiveTab] = useState('overview');
+          const [activeTab, setActiveTab] = useState('airport-city'); // Focus 75% on Airport City initially
           const [genImages, setGenImages] = useState({ medical: null, f1: null, logistics: null });
           const [isGenerating, setIsGenerating] = useState({ medical: false, f1: false, logistics: false });
           const [genErrors, setGenErrors] = useState({ medical: '', f1: '', logistics: '' });
+          
+          const contentRef = useRef(null);
 
           // --- Fallback Images ---
           const fallbackImages = {
@@ -143,11 +146,22 @@
           const tabs = [
             { id: 'overview', name: 'ภาพรวม (Overview)', icon: <PlaneTakeoff size={18} /> },
             { id: 'airport-city', name: 'เมืองการบิน (Airport City)', icon: <Building2 size={18} /> },
-            { id: 'medical', name: 'ศูนย์การแพทย์ (Medical Hub)', icon: <Stethoscope size={18} /> },
-            { id: 'f1', name: 'ฟอร์มูล่าวัน (Formula One)', icon: <Flag size={18} /> },
+            { id: 'medical', name: 'ศูนย์การแพทย์ (Medical)', icon: <Stethoscope size={18} /> },
+            { id: 'f1', name: 'ฟอร์มูล่าวัน (F1)', icon: <Flag size={18} /> },
             { id: 'logistics', name: 'โลจิสติกส์ (Logistics)', icon: <Package size={18} /> },
-            { id: 'impact', name: 'สถานการณ์โลก (Global Impact)', icon: <Globe size={18} /> }
+            { id: 'impact', name: 'สถานการณ์โลก (Impact)', icon: <Globe size={18} /> }
           ];
+
+          const handleTabClick = (tabId) => {
+            setActiveTab(tabId);
+            // Smooth scroll to content area, offset by navbar height (approx 80px)
+            if (contentRef.current) {
+              const yOffset = -80; 
+              const element = contentRef.current;
+              const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({top: y, behavior: 'smooth'});
+            }
+          };
 
           const renderBulletPoints = (points, customClass = "text-gray-700") => (
             <ul className={`space-y-3 mt-4 ${customClass}`}>
@@ -193,7 +207,43 @@
           };
 
           return (
-            <div className="min-h-screen font-sans selection:bg-blue-200 selection:text-blue-900 pb-20">
+            <div className="min-h-screen font-sans selection:bg-blue-200 selection:text-blue-900 pb-20 pt-16">
+              
+              {/* ======================================= */}
+              {/* STICKY TOP NAVIGATION BAR                 */}
+              {/* ======================================= */}
+              <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-sm transition-all duration-300">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex items-center justify-between h-16">
+                    {/* Logo / Brand */}
+                    <div className="flex-shrink-0 flex items-center gap-2 font-black text-blue-900 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                      <PlaneTakeoff size={24} className="text-blue-600" />
+                      <span className="hidden md:block tracking-tight">UTA <span className="text-blue-600">Aviation City</span></span>
+                    </div>
+
+                    {/* Navigation Links */}
+                    <div className="flex-1 flex justify-end overflow-x-auto scrollbar-hide ml-4">
+                      <div className="flex space-x-1 sm:space-x-2">
+                        {tabs.map((tab) => (
+                          <button
+                            key={tab.id}
+                            onClick={() => handleTabClick(tab.id)}
+                            className={`flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 rounded-xl text-sm md:text-base font-bold whitespace-nowrap transition-all duration-200 ${
+                              activeTab === tab.id 
+                                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30' 
+                                : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                            }`}
+                          >
+                            {tab.icon}
+                            <span>{tab.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+
               {/* Header / Hero Section */}
               <header className="relative bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#312E81] text-white py-24 px-6 sm:px-12 lg:px-24 overflow-hidden">
                 <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
@@ -217,7 +267,7 @@
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-8">
                     {projectStats.map((stat, idx) => (
-                       <div key={idx} className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors transform hover:-translate-y-1 duration-300">
+                       <div key={idx} className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors transform hover:-translate-y-1 duration-300 shadow-xl">
                          <div className="text-blue-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">{stat.label}</div>
                          <div className="text-3xl md:text-4xl font-extrabold text-white mb-1 drop-shadow-md">{stat.value}</div>
                          <div className="text-xs md:text-sm text-blue-200 font-medium">{stat.unit}</div>
@@ -227,32 +277,14 @@
                 </div>
               </header>
 
-              {/* Main Content & Navigation */}
-              <main className="max-w-6xl mx-auto px-4 sm:px-12 lg:px-24 py-12 -mt-10 relative z-20">
+              {/* Main Content Area (With Ref for Auto-Scroll) */}
+              <main ref={contentRef} className="max-w-6xl mx-auto px-4 sm:px-12 lg:px-24 py-12 -mt-10 relative z-20">
                 
-                {/* Interactive Tabs */}
-                <div className="flex overflow-x-auto gap-3 mb-10 pb-4 scrollbar-hide">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center space-x-2 px-6 py-4 rounded-2xl font-semibold whitespace-nowrap transition-all duration-300 shadow-sm ${
-                        activeTab === tab.id 
-                          ? 'bg-blue-600 text-white shadow-blue-500/40 transform -translate-y-1 border border-blue-500' 
-                          : 'bg-white text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 border border-gray-200 hover:border-blue-200'
-                      }`}
-                    >
-                      {tab.icon}
-                      <span className="tracking-wide">{tab.name}</span>
-                    </button>
-                  ))}
-                </div>
-
                 {/* Tab Content Area */}
                 <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100/50 p-8 md:p-12 min-h-[700px]">
                   
                   {/* ======================================= */}
-                  {/* OVERVIEW TAB EXPANDED                     */}
+                  {/* OVERVIEW TAB                              */}
                   {/* ======================================= */}
                   {activeTab === 'overview' && (
                     <div className="animate-fade-in">
@@ -263,7 +295,7 @@
                       <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl border border-gray-100 relative group">
                         <img 
                           src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" 
-                          alt="Terminal Overview" 
+                          alt="" 
                           className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -328,7 +360,7 @@
                             <div className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
                               <div className="md:w-5/12 text-left pl-12 md:pl-8 mb-4 md:mb-0 order-2 md:order-1">
                                 <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                                  <p className="font-semibold text-white">ออกหนังสือแจ้งให้เริ่มงาน (Notice to Proceed - NTP)</p>
+                                  <p className="font-semibold text-white">ออกหนังสือแจ้งให้เริ่มงาน (NTP)</p>
                                   <p className="text-sm text-indigo-300 mt-2">เริ่มต้นสัมปทาน 50 ปีอย่างเป็นทางการ</p>
                                 </div>
                               </div>
@@ -375,7 +407,7 @@
                   )}
 
                   {/* ======================================= */}
-                  {/* AIRPORT CITY TAB EXPANDED                 */}
+                  {/* AIRPORT CITY TAB                          */}
                   {/* ======================================= */}
                   {activeTab === 'airport-city' && (
                     <div className="animate-fade-in">
@@ -394,7 +426,7 @@
                       <div className="mb-12 overflow-hidden rounded-[2rem] shadow-2xl border border-gray-100 relative group">
                         <img 
                           src="https://i.postimg.cc/T2rmZdwK/IHE0tfibz6Pd_J3p_JAB0R_topaz_upscale_2_6x_sharpen_denoise_lighting.jpg" 
-                          alt="Airport City Render" 
+                          alt="" 
                           className="w-full h-auto max-h-[550px] object-cover group-hover:scale-105 transition-transform duration-1000"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -500,7 +532,7 @@
                             </div>
                           </div>
                           <div className="relative h-64 md:h-full min-h-[300px] rounded-3xl overflow-hidden border-4 border-slate-800 shadow-2xl">
-                              <img src="https://images.unsplash.com/photo-1542314831-c6a4d14d8373?q=80&w=1000&auto=format&fit=crop" alt="Luxury Hotel" className="w-full h-full object-cover"/>
+                              <img src="https://images.unsplash.com/photo-1542314831-c6a4d14d8373?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover"/>
                               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                                   <div className="text-white">
                                       <div className="font-bold text-xl">Gastronomy Excellence</div>
@@ -514,7 +546,7 @@
                   )}
 
                   {/* ======================================= */}
-                  {/* MEDICAL HUB TAB EXPANDED                  */}
+                  {/* MEDICAL HUB TAB                           */}
                   {/* ======================================= */}
                   {activeTab === 'medical' && (
                     <div className="animate-fade-in">
@@ -523,10 +555,8 @@
                            <p className="text-xl text-teal-600 font-medium">ปฏิวัติการดูแลสุขภาพด้วยโมเดล 'Zero-Transit'</p>
                        </div>
                        
-                       {/* Hero Image / AI Generated */}
                        {renderGeneratedImage('medical')}
 
-                       {/* Zero Transit Concept Card */}
                        <div className="bg-gradient-to-br from-teal-600 to-emerald-800 rounded-3xl p-8 md:p-12 mb-16 text-white shadow-2xl relative overflow-hidden">
                          <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-20"><HeartPulse size={250}/></div>
                          <div className="relative z-10 grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
@@ -564,7 +594,7 @@
                          {/* BDMS Section */}
                          <div className="flex flex-col md:flex-row gap-8 items-stretch bg-white p-6 md:p-8 rounded-[2rem] border border-gray-200 shadow-lg hover:shadow-2xl transition-all">
                            <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1538108149393-cebb47acdd4e?q=80&w=1000&auto=format&fit=crop" alt="Luxury Clinic" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
+                             <img src="https://images.unsplash.com/photo-1538108149393-cebb47acdd4e?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
                              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-blue-900 font-bold text-sm shadow-md">BDMS Network</div>
                            </div>
                            <div className="w-full md:w-7/12 flex flex-col justify-center">
@@ -593,7 +623,7 @@
                          {/* Bumrungrad Section */}
                          <div className="flex flex-col md:flex-row-reverse gap-8 items-stretch bg-gradient-to-br from-amber-50 to-orange-50 p-6 md:p-8 rounded-[2rem] border border-amber-100 shadow-lg hover:shadow-2xl transition-all">
                            <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1586985289688-ca3caa4f13d0?q=80&w=1000&auto=format&fit=crop" alt="VVIP Hospital" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
+                             <img src="https://images.unsplash.com/photo-1586985289688-ca3caa4f13d0?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
                              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-amber-800 font-bold text-sm shadow-md">Bumrungrad Int.</div>
                            </div>
                            <div className="w-full md:w-7/12 flex flex-col justify-center">
@@ -622,7 +652,7 @@
                          {/* Public-Military Integration */}
                          <div className="flex flex-col md:flex-row gap-8 items-stretch bg-slate-900 p-6 md:p-8 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all text-white">
                            <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop" alt="Hospital Building" className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"/>
+                             <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"/>
                              <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-sm px-4 py-2 rounded-full text-white font-bold text-sm shadow-md">Public-Military Partnership</div>
                            </div>
                            <div className="w-full md:w-7/12 flex flex-col justify-center">
@@ -652,7 +682,7 @@
                   )}
 
                   {/* ======================================= */}
-                  {/* F1 TAB EXPANDED                           */}
+                  {/* F1 TAB                                    */}
                   {/* ======================================= */}
                   {activeTab === 'f1' && (
                     <div className="animate-fade-in">
@@ -701,9 +731,8 @@
                            </div>
                            <div className="w-full lg:w-1/2 relative">
                                <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white relative z-10">
-                                   <img src="https://images.unsplash.com/photo-1541252260730-0412e8e2108e?q=80&w=1000&auto=format&fit=crop" alt="F1 Racing" className="w-full h-full object-cover"/>
+                                   <img src="https://images.unsplash.com/photo-1541252260730-0412e8e2108e?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover"/>
                                </div>
-                               {/* Decorative background blob */}
                                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/20 rounded-full blur-3xl z-0"></div>
                            </div>
                        </div>
@@ -719,28 +748,20 @@
                        <div className="relative max-w-5xl mx-auto py-12 px-4 bg-slate-50 rounded-[3rem] border border-slate-200">
                          {/* Visual Flowchart */}
                          <div className="flex flex-col md:flex-row justify-between items-center relative z-10">
-                           
-                           {/* Step 1 */}
                            <div className="relative group">
                                <div className="bg-white text-blue-600 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-blue-100 z-10 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                                  <PlaneTakeoff size={32} className="mb-2"/>
                                  <span className="text-xs md:text-sm font-bold text-center leading-tight">บินตรง<br/>ลงรันเวย์</span>
                                </div>
                            </div>
-                           
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-blue-200 to-amber-200 mx-2"></div>
-                           
-                           {/* Step 2 */}
                            <div className="relative group">
                                <div className="bg-white text-amber-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-amber-100 z-10 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
                                  <Building2 size={32} className="mb-2"/>
                                  <span className="text-xs md:text-sm font-bold text-center leading-tight">เช็คอิน<br/>โรงแรมหรู</span>
                                </div>
                            </div>
-
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-amber-200 to-red-200 mx-2"></div>
-
-                           {/* Step 3 (Center) */}
                            <div className="relative group transform scale-110 my-6 md:my-0">
                                <div className="absolute inset-0 bg-red-500 rounded-full blur animate-pulse-slow"></div>
                                <div className="bg-gradient-to-br from-red-500 to-red-700 text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-2xl border-4 border-red-200 z-20">
@@ -748,20 +769,14 @@
                                  <span className="text-sm md:text-base font-extrabold text-center leading-tight">ชมการแข่ง<br/>Formula 1</span>
                                </div>
                            </div>
-
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-red-200 to-pink-200 mx-2"></div>
-
-                           {/* Step 4 */}
                            <div className="relative group">
                                <div className="bg-white text-pink-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-pink-100 z-10 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300">
                                  <ShoppingBag size={32} className="mb-2"/>
                                  <span className="text-xs md:text-sm font-bold text-center leading-tight">ช้อปปิ้ง<br/>Duty-Free</span>
                                </div>
                            </div>
-
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-pink-200 to-teal-200 mx-2"></div>
-
-                           {/* Step 5 */}
                            <div className="relative group">
                                <div className="bg-white text-teal-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-teal-100 z-10 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
                                  <Stethoscope size={32} className="mb-2"/>
@@ -769,8 +784,6 @@
                                </div>
                            </div>
                          </div>
-
-                         {/* Capital Retention Banner */}
                          <div className="mt-12 flex justify-center relative z-20">
                             <div className="bg-slate-900 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 border border-slate-700">
                                 <RefreshCw size={24} className="text-green-400 animate-spin-slow"/>
@@ -785,7 +798,7 @@
                   )}
 
                   {/* ======================================= */}
-                  {/* LOGISTICS TAB EXPANDED                    */}
+                  {/* LOGISTICS TAB                             */}
                   {/* ======================================= */}
                   {activeTab === 'logistics' && (
                     <div className="animate-fade-in">
@@ -818,7 +831,6 @@
                            </div>
                          </div>
                          
-                         {/* Airside Specs Dashboard */}
                          <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-center">
                             <div className="absolute -right-10 -bottom-10 opacity-5"><Package size={250}/></div>
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-sky-400 to-cyan-300"></div>
@@ -846,13 +858,11 @@
                          </div>
                        </div>
 
-                       {/* Multimodal Transport Infographic */}
                        <div className="bg-white p-10 rounded-[2.5rem] border border-gray-200 shadow-xl text-center">
                            <h3 className="text-3xl font-bold text-gray-900 mb-4">เครือข่ายโลจิสติกส์ไร้รอยต่อ (Multimodal Network)</h3>
                            <p className="text-gray-600 mb-10">สนามบินไม่ได้ทำงานโดดเดี่ยว แต่ถูกเชื่อมต่อกับโครงสร้างพื้นฐานหลักของประเทศแบบไร้รอยต่อ</p>
                            
                            <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
-                               {/* Air */}
                                <div className="flex flex-col items-center">
                                    <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4 shadow-inner">
                                        <PlaneTakeoff size={40}/>
@@ -860,10 +870,7 @@
                                    <h4 className="font-bold text-lg">อู่ตะเภา (Air)</h4>
                                    <p className="text-sm text-gray-500">ศูนย์กลางขนส่งด่วน</p>
                                </div>
-                               
                                <div className="hidden md:block w-20 border-t-4 border-dashed border-gray-300"></div>
-                               
-                               {/* Land */}
                                <div className="flex flex-col items-center">
                                    <div className="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mb-4 shadow-inner">
                                        <Train size={40}/>
@@ -871,10 +878,7 @@
                                    <h4 className="font-bold text-lg">มอเตอร์เวย์ & ราง (Land)</h4>
                                    <p className="text-sm text-gray-500">กระจายสินค้าทั่ว EEC</p>
                                </div>
-
                                <div className="hidden md:block w-20 border-t-4 border-dashed border-gray-300"></div>
-
-                               {/* Sea */}
                                <div className="flex flex-col items-center">
                                    <div className="w-24 h-24 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 mb-4 shadow-inner">
                                        <Ship size={40}/>
@@ -888,7 +892,7 @@
                   )}
 
                   {/* ======================================= */}
-                  {/* IMPACT TAB EXPANDED                       */}
+                  {/* IMPACT TAB                                */}
                   {/* ======================================= */}
                   {activeTab === 'impact' && (
                     <div className="animate-fade-in">
@@ -901,7 +905,6 @@
                        </p>
 
                        <div className="bg-gradient-to-br from-[#0B1121] to-[#1e293b] rounded-[2.5rem] p-8 md:p-12 shadow-2xl mb-12 border border-slate-700 text-white relative overflow-hidden">
-                          {/* Background grid pattern */}
                           <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
                           
                           <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-slate-700 pb-6 relative z-10">
