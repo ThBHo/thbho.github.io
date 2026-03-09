@@ -16,12 +16,11 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        /* Custom Styles for hidden scrollbar & animations */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(15px); } 
+            from { opacity: 0; transform: translateY(10px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
         .animate-spin-slow { animation: spin 3s linear infinite; }
@@ -32,17 +31,14 @@
 </head>
 <body class="bg-[#F8FAFC] antialiased">
     
-    <!-- React App Root -->
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useRef } = React;
 
-        // --- SVG Icon Components ---
+        // --- SVG Icons ---
         const Icon = ({ children, size=24, className="" }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                {children}
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>
         );
         const PlaneTakeoff = (p) => <Icon {...p}><path d="M2 22h20"/><path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12l5-5 1.5-1.5a2.12 2.12 0 0 1 3 3l-1.5 1.5L11 15l-.1.17a2 2 0 0 0 0 1.8l.1.17a2 2 0 0 1 0 1.8l-4 2-1-.55a2 2 0 0 1-1.8 0l-.17-.1a2 2 0 0 0-1.8 0z"/></Icon>;
         const Building2 = (p) => <Icon {...p}><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></Icon>;
@@ -53,7 +49,6 @@
         const CalendarDays = (p) => <Icon {...p}><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></Icon>;
         const ChevronRight = (p) => <Icon {...p}><path d="m9 18 6-6-6-6"/></Icon>;
         const MapPin = (p) => <Icon {...p}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></Icon>;
-        const Loader2 = (p) => <Icon {...p}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></Icon>;
         const Clock = (p) => <Icon {...p}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></Icon>;
         const ShieldAlert = (p) => <Icon {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></Icon>;
         const Target = (p) => <Icon {...p}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></Icon>;
@@ -68,97 +63,355 @@
         const DollarSign = (p) => <Icon {...p}><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></Icon>;
         const Train = (p) => <Icon {...p}><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><path d="M8 15h0"/><path d="M16 15h0"/></Icon>;
         const Ship = (p) => <Icon {...p}><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/><path d="M12 2v3"/></Icon>;
+        const Languages = (p) => <Icon {...p}><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></Icon>;
 
-        // --- API Key & Fetch Logic ---
-        const apiKey = ""; 
-
-        const generateImageWithRetry = async (prompt, retries = 5) => {
-          const delays = [1000, 2000, 4000, 8000, 16000];
-          for (let i = 0; i < retries; i++) {
-            try {
-              if(!apiKey) throw new Error("API Key is missing (Falling back to default image)");
-              const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{parts: [{ text: "Generate a highly detailed, photorealistic image of: " + prompt }]}],
-                  generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
-                })
-              });
-              if (!response.ok) throw new Error('API Error');
-              const data = await response.json();
-              const base64 = data.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
-              if (base64) return `data:image/png;base64,${base64}`;
-              throw new Error('No image in response');
-            } catch (err) {
-              if (i === retries - 1 || !apiKey) throw new Error("ไม่สามารถสร้างรูปภาพได้ในขณะนี้ (Generation Failed)");
-              await new Promise(res => setTimeout(res, delays[i]));
-            }
+        // --- Multi-Language Dictionary ---
+        const dictionary = {
+          th: {
+            langName: "ไทย",
+            nav: { overview: "ภาพรวม", airportCity: "เมืองการบิน", medical: "การแพทย์", f1: "ฟอร์มูล่าวัน", logistics: "โลจิสติกส์", impact: "สถานการณ์โลก" },
+            hero: {
+              badge: "EEC Mega Project", phase: "Phase 1 Master Plan",
+              title1: "รุ่งอรุณแห่งมหานครการบิน", title2: "ศูนย์กลางเศรษฐกิจ นวัตกรรม และการใช้ชีวิตแห่งใหม่ของเอเชียแปซิฟิก",
+              desc: "การเปลี่ยนผ่านกระบวนทัศน์ จาก 'จุดแวะพักที่เร่งรีบ (Transit Node)' สู่การเป็น 'จุดหมายปลายทางระดับโลกที่เปิดตลอด 24 ชั่วโมง' ขับเคลื่อนโดยกลุ่ม UTA Consortium"
+            },
+            stats: [
+              { label: "Investment", value: "2.9 แสนล้าน", unit: "บาท (PPP 50 ปี)" },
+              { label: "Total Area", value: "1,040", unit: "เฮกตาร์ (6,500 ไร่)" },
+              { label: "Passenger Capacity", value: "15.9M", unit: "คนต่อปี (เฟส 1)" },
+              { label: "Commercial Area", value: "3M", unit: "ตร.ม. (เมื่อเสร็จสิ้น)" }
+            ],
+            overview: {
+              title: "ภาพรวมโครงการ (Project Overview)", imgTitle: "Architecture", imgSub: "Biophilic Terminal Design", imgDesc: "ออกแบบโดยบริษัท One Works ผสานเอกลักษณ์ชายฝั่งระยองเข้ากับธรรมชาติภายในอาคาร ลดความเครียดจากการเดินทาง และกระตุ้นยอดขายพื้นที่เชิงพาณิชย์",
+              pillarsTitle: "พิมพ์เขียวสู่ความสำเร็จ: 4 เสาหลักแห่งเฟส 1",
+              pillars: [
+                { t: "1. The Vanguard", s: "แนวหน้าแห่งการบินและโลจิสติกส์", d: "รองรับผู้โดยสาร 15.9 ล้านคน/ปี และสินค้า 1 ล้านตัน/ปี พร้อมระบบ One-ID ไบโอเมตริกซ์" },
+                { t: "2. The Destination", s: "มหานครการบินตะวันออก", d: "พื้นที่พาณิชยกรรม 3 ล้าน ตร.ม. มุ่งเป้าหมายเป็น Total Duty-Free และศูนย์ MICE ใหญ่ที่สุด" },
+                { t: "3. The Differentiator", s: "ศูนย์กลางการแพทย์ข้ามชาติ", d: "โมเดล 'Zero-Transit' เจาะกลุ่ม VVIP และนักท่องเที่ยวเชิงการแพทย์จากยุโรปและอาหรับ" },
+                { t: "4. The Crown Jewel", s: "สุดยอดแห่งความเร้าใจ", d: "สนามแข่ง Formula One มาตรฐาน FIA Grade 1 ภายในเขตการบิน (Airside) ดึงดูดผู้ชม 3 แสนคน" }
+              ],
+              timelineTitle: "เส้นทางสู่อนาคต (Timeline to Tomorrow)",
+              timeline: [
+                { date: "29 มกราคม 2026", t1: "ลงนามข้อตกลงบริหารสัญญา", t2: "ปลดล็อกเงื่อนไขรถไฟ HSR เพื่อเริ่มก่อสร้างทันที" },
+                { date: "3 เมษายน 2026", t1: "ออกหนังสือแจ้งให้เริ่มงาน (NTP)", t2: "เริ่มต้นสัมปทาน 50 ปีอย่างเป็นทางการ" },
+                { date: "2028 - 2032", t1: "เป้าหมายจัดแข่งขัน Formula One", t2: "ประเดิมสนามครั้งแรก สร้างรายได้ทันที 1.2 หมื่นล้านบาท" },
+                { date: "ปี 2031", t1: "เปิดดำเนินการเชิงพาณิชย์ (COD)", t2: "เปิดตัว Terminal เฟส 1 และเมืองการบินเต็มรูปแบบ" }
+              ]
+            },
+            airportCity: {
+              focus: "75% Core Focus", title: "มหานครการบินตะวันออก", sub: "Department of Wonder", areaLabel: "พื้นที่พาณิชยกรรมรวม", areaUnit: "ตร.ม.",
+              imgTitle: "ระบบนิเวศเมืองที่เปิดตลอด 24 ชั่วโมง", imgDesc: "พลิกโฉมจากแค่จุดเดินทาง สู่ศูนย์กลางช้อปปิ้ง บันเทิง และธุรกิจที่ไม่หลับใหล",
+              descMain: "เมืองอัจฉริยะที่หลอมรวมศิลปะ นวัตกรรม และวัฒนธรรมเข้าด้วยกัน UTA กำลังผลักดันสถานะ 'เขตปลอดภาษีเต็มรูปแบบ (Total Duty-Free)' ทั่วทั้งโครงการ เพื่อก้าวขึ้นเป็นคู่แข่งโดยตรงกับสิงคโปร์และฮ่องกง",
+              cards: [
+                { t: "Captive Market & Duty-Free", s: "โซน Smart Eco Hub", pts: ["การผสมผสาน ลักชัวรีบูติกระดับโลก และร้านอาหารท้องถิ่น", "สั่งซื้อสินค้าล่วงหน้าผ่านแอปพลิเคชัน (Click & Collect)", "เน้นเจาะกลุ่ม High-spending independent travelers"] },
+                { t: "MICE Complex ระดับชาติ", s: "ศูนย์ประชุมใหญ่ที่สุดในภูมิภาค", pts: ["เชื่อมต่อตรงจากเที่ยวบิน ด้วยระบบรถเวียนอัตโนมัติ (APM)", "ศูนย์กลางจัดแสดงนิทรรศการหลัก สำหรับอุตสาหกรรมใน EEC", "ดึงดูดงานระดับโลกด้วยสิ่งอำนวยความสะดวกครบวงจร"] },
+                { t: "Indoor Arena สุดล้ำ", s: "ขับเคลื่อนเศรษฐกิจกลางคืน", pts: ["รองรับการแข่งขัน E-sports ข้ามทวีปด้วยเครือข่ายความเร็วสูง", "พร้อมรองรับคอนเสิร์ตระดับโลกและการแสดงละครเวที", "กลไกหลักดึงดูดนักท่องเที่ยวลดความเสี่ยงช่วง Low Season"] },
+                { t: "Smart City & LEED", s: "มหานครพลังงานสะอาด", pts: ["ออกแบบผังเมืองให้หนาแน่นเพื่อลดการใช้รถและเพิ่มพื้นที่สีเขียว", "ใช้โรงไฟฟ้าพลังงานไฮบริด (โซลาร์เซลล์ + ก๊าซธรรมชาติ)", "เป้าหมายปล่อยมลพิษเกือบเป็นศูนย์ (Near-Zero Emission)"] }
+              ],
+              hospTag: "Hospitality Ecosystem", hospTitle: "ที่พักและการทานอาหารระดับโลก", hospDesc: "สร้างระบบนิเวศบริการที่ครอบคลุม ตั้งแต่โรงแรมธุรกิจที่เชื่อมต่อศูนย์ MICE ไปจนถึง Ultra-Luxury Boutique Hotel ที่ผสานศาสตร์แห่งอาหาร (Gastronomy)",
+              hosp1: "Frictionless Hotel", hosp1Sub: "เข้าล็อบบี้ตรงจากสนามบิน", hosp2: "Local Supply Chain", hosp2Sub: "ใช้วัตถุดิบคุณภาพจากท้องถิ่น", hospImg1: "Gastronomy Excellence", hospImg2: "รังสรรค์เมนูโดยเชฟนานาชาติ ดึงดูด VVIP"
+            },
+            medical: {
+              title: "ศูนย์กลางการแพทย์ข้ามชาติ", sub: "ปฏิวัติการดูแลสุขภาพด้วยโมเดล 'Zero-Transit'",
+              conceptTitle: "แนวคิด 'Zero-Transit' Healthcare", conceptDesc: "ขจัดความเหนื่อยล้าจากการเดินทาง (Logistical Friction) ผู้ป่วยสามารถผ่านด่านด้วยระบบ Biometrics (One-ID) และเข้าสู่คลินิกได้ภายใน 15 นาที",
+              tags: ["ศัลยกรรมความงาม", "เวชศาสตร์ชะลอวัย", "การดูแลฟื้นฟูหลังผ่าตัด"],
+              target: "Target Market", targetT: "High-Net-Worth Individuals", targetS: "จากตะวันออกกลาง (GCC), ยุโรป และจีน",
+              tech: "Tech Integration", techT: "Telemedicine & Robotics", techS: "ปรึกษาแพทย์ก่อนบิน และหุ่นยนต์ช่วยผ่าตัด",
+              partnerTitle: "เครือข่ายพันธมิตรทางการแพทย์ระดับแนวหน้า",
+              partners: [
+                { net: "BDMS Network", t: "เครือ BDMS", s: "ยุทธศาสตร์: Wellness Economy & Global Network", d: "นำความเชี่ยวชาญระดับพรีเมียมผสานกับเมืองการบิน เพื่อเจาะกลุ่มผู้ป่วยข้ามชาติ", p1: "จับมือ Medsi Group เพื่อดึงลูกค้าโซนยุโรปตะวันออก", p2: "มุ่งเป้าตลาดชาวอาหรับ (GCC) ที่ต้องการบริการสุขภาพ", p3: "รองรับบริการ Teleconsultation พูดคุยกับแพทย์ก่อนบิน" },
+                { net: "Bumrungrad Int.", t: "Bumrungrad International", s: "ยุทธศาสตร์: Hub & Spoke และ VVIP Patient", d: "ขยายฐานสู่ EEC ด้วยโมเดลที่เน้นความเป็นส่วนตัวและการรักษาขั้นสูง", p1: "ใช้เป็น 'Spoke' รับคนไข้ VVIP จากเที่ยวบินเช่าเหมาลำ", p2: "ร่วมมือกับ JD Health เพื่อดึงดูดผู้ป่วยไฮเอนด์ชาวจีน", p3: "เน้นศูนย์บริการเวชศาสตร์ชะลอวัย (VitalLife)" },
+                { net: "Public-Military", t: "รพ.สมเด็จพระนางเจ้าสิริกิติ์", s: "ยุทธศาสตร์: ยกระดับมาตรฐาน JCI", d: "บูรณาการโครงสร้างกองทัพเรือ เพื่อรองรับพลเรือนและนักท่องเที่ยว", p1: "สร้าง 'Medical Hub' แห่งใหม่ 39,000 ตร.ม.", p2: "ออกแบบโดย TEAM Group ยกระดับสู่มาตรฐานสากล JCI", p3: "บริการครอบคลุมทั้งประชาชน, พนักงานบิน และนักท่องเที่ยว" }
+              ]
+            },
+            f1: {
+              title: "เสนอตัวเป็นเจ้าภาพ Formula One", sub: "เพชรยอดมงกุฎแห่งการผสาน Aerotropolis เข้ากับ Motorsport",
+              s1: "งบประมาณประมูล", s1d: "สำหรับปี 2028-2032 (สนับสนุนโดย PTT)", s2: "ผู้ชมที่คาดการณ์", s2d: "เจาะกลุ่ม VVIP พร้อมจับจ่ายในโซนตั๋ว $5K-$8K", s3: "รายได้หมุนเวียนทันที", s3d: "บวกกับการสร้างงานในท้องถิ่นกว่า 6,000 ตำแหน่ง",
+              advTag: "The Global Advantage", advTitle: "\"Airside Integration\" ความเหนือชั้นด้านโลจิสติกส์", advDesc: "การสร้างสนามแข่ง FIA Grade 1 ประชิดรันเวย์ ทำให้ U-Tapao เหนือกว่าสนามในเมือง (Street Circuit)",
+              advPts: ["เครื่องบินคาร์โก้ 747 นำรถแข่งลงจอดแล้วขนเข้า Paddock ได้โดยตรง", "ขจัดปัญหาการจราจรติดขัดในเมือง", "รองรับ Formula E, MotoGP และ Track Day ตลอด 51 สัปดาห์"],
+              loopTitle: "วงจรเศรษฐกิจแบบปิด (Closed-Loop Economy)", loopDesc: "สนามแข่ง F1 คือ 'แรงดึงดูดหลัก' ที่ทำให้เม็ดเงินของนักท่องเที่ยว High-end ไม่รั่วไหลออกไปนอกอาณาเขต UTA",
+              steps: ["บินตรงลงรันเวย์", "เช็คอินโรงแรมหรู", "ชมแข่ง Formula 1", "ช้อปปิ้ง Duty-Free", "ฟื้นฟูสุขภาพ"], ret: "Capital Retention", retDesc: "เงินทุนหมุนเวียนในระบบนิเวศ UTA 100%"
+            },
+            logistics: {
+              title: "ศูนย์กลางลอจิสติกส์ระดับภูมิภาค", sub: "เขตการค้าเสรีทางอากาศ (Air Cargo Free Trade Zone)",
+              h1: "หัวใจสำคัญของอุตสาหกรรม EEC", d1: "เขตปลอดอากรออกแบบมาขับเคลื่อนการผลิตขั้นสูง, อิเล็กทรอนิกส์, เภสัชภัณฑ์ และ E-commerce ข้ามพรมแดน",
+              b1t: "Customs Fast-Track", b1d: "พิธีการศุลกากรสะดวกรวดเร็ว ลดหย่อนภาษี", b2t: "Cold-Chain Infrastructure", b2d: "คลังสินค้าควบคุมอุณหภูมิสำหรับสินค้าเกษตรและยา", b3t: "High Capacity", b3d: "เฟส 1 รองรับสินค้ามากกว่า 1 ล้านตันต่อปี",
+              specT: "ศักยภาพเขตการบิน", sp1: "รันเวย์ (Runways)", sp1v: "ยาว 3,500 ม. (2 เส้น)", sp2: "หลุมจอด (Stands)", sp2v: "60 หลุมจอดเฟส 1", sp3: "การจัดการลานจอด", sp3s: "ระบบนำทางอัจฉริยะ", sp3v: "Autonomous Vehicles",
+              multiT: "เครือข่ายโลจิสติกส์ไร้รอยต่อ", multiD: "เชื่อมต่อโครงสร้างพื้นฐานหลักของประเทศ", m1t: "อู่ตะเภา (Air)", m1d: "ศูนย์กลางขนส่งด่วน", m2t: "มอเตอร์เวย์ & ราง (Land)", m2d: "กระจายสินค้าทั่ว EEC", m3t: "ท่าเรือแหลมฉบัง (Sea)", m3d: "เชื่อมต่อท่าเรือน้ำลึก"
+            },
+            impact: {
+              title: "วิเคราะห์ผลกระทบระดับโลก", sub: "โอกาสทางยุทธศาสตร์ท่ามกลางความขัดแย้งในภูมิรัฐศาสตร์",
+              boxTitle: "ทำไม EEC ถึงเป็น 'Safe Haven' ?", boxBadge: "Positive Trend Analysis",
+              boxDesc: "ความตึงเครียดทางภูมิรัฐศาสตร์ ส่งผลให้เกิดการปรับตัวของ Global Supply Chain โครงการ U-Tapao จึงได้รับอานิสงส์เชิงบวกใน 3 มิติ:",
+              p1t: "1. Air Cargo & Rerouting", p1d: "สายการบินหลีกเลี่ยงน่านฟ้าเสี่ยง หันมาใช้ฮับในเอเชียตะวันออกเฉียงใต้มากขึ้น", p2t: "2. FDI Relocation", p2d: "กลุ่มทุนและโรงงานกระจายความเสี่ยงมาลงทุนในอุตสาหกรรมเป้าหมาย EEC", p3t: "3. Medical Hub Shift", p3d: "กลุ่มผู้ป่วย VVIP เปลี่ยนจุดหมายมายังเอเชีย ตอบรับโมเดล Zero-Transit",
+              simT: "ทดลองประเมินสถานการณ์จริง", simD: "ระบบจำลองผลกระทบ EEC Simulator ช่วยวิเคราะห์ตัวแปรแบบ Interactive", simBtn: "เปิดใช้งาน EEC Simulator", simPwr: "Powered by THBHO Analytics"
+            },
+            footer: { t1: "The Dawn of the Eastern Aviation City", d1: "ยกระดับขีดความสามารถประเทศไทย สู่มหานครแห่งนวัตกรรม สุขภาพ และไลฟ์สไตล์ระดับโลก", b1: "1,040 เฮกตาร์", b2: "290,000 ล้านบาท", b3: "ปี 2031 COD" }
+          },
+          en: {
+            langName: "English",
+            nav: { overview: "Overview", airportCity: "Airport City", medical: "Medical", f1: "Formula 1", logistics: "Logistics", impact: "Global Impact" },
+            hero: {
+              badge: "EEC Mega Project", phase: "Phase 1 Master Plan",
+              title1: "The Dawn of Aviation City", title2: "Asia-Pacific's New Hub for Economy, Innovation, and Lifestyle",
+              desc: "A paradigm shift from a 'Transit Node' to a '24-hour Global Destination', driven by the UTA Consortium."
+            },
+            stats: [
+              { label: "Investment", value: "$8.5B", unit: "USD (50-yr PPP)" },
+              { label: "Total Area", value: "1,040", unit: "Hectares" },
+              { label: "Passenger Capacity", value: "15.9M", unit: "PAX/year (Phase 1)" },
+              { label: "Commercial Area", value: "3M", unit: "sq.m. (Upon completion)" }
+            ],
+            overview: {
+              title: "Project Overview", imgTitle: "Architecture", imgSub: "Biophilic Terminal Design", imgDesc: "Designed by One Works, blending Rayong's coastal identity with indoor nature to reduce travel stress and boost commercial sales.",
+              pillarsTitle: "Blueprint for Success: 4 Pillars of Phase 1",
+              pillars: [
+                { t: "1. The Vanguard", s: "Aviation & Logistics Frontline", d: "Handling 15.9M PAX and 1M tons of cargo per year with Biometric One-ID." },
+                { t: "2. The Destination", s: "Eastern Airport City", d: "3M sq.m. commercial zone aiming for Total Duty-Free status and the largest MICE center." },
+                { t: "3. The Differentiator", s: "Transnational Medical Hub", d: "'Zero-Transit' model targeting VVIPs and medical tourists from Europe & GCC." },
+                { t: "4. The Crown Jewel", s: "The Ultimate Thrill", d: "FIA Grade 1 Formula One circuit within the airside, attracting 300K spectators." }
+              ],
+              timelineTitle: "Timeline to Tomorrow",
+              timeline: [
+                { date: "Jan 29, 2026", t1: "Contract Agreement Signed", t2: "HSR condition unlocked to begin immediate construction." },
+                { date: "Apr 3, 2026", t1: "Notice to Proceed (NTP)", t2: "Official commencement of the 50-year concession." },
+                { date: "2028 - 2032", t1: "Formula One Target", t2: "Inaugural race expected to generate $350M+ immediately." },
+                { date: "Year 2031", t1: "Commercial Operation Date", t2: "Full launch of Phase 1 Terminal and Airport City." }
+              ]
+            },
+            airportCity: {
+              focus: "75% Core Focus", title: "Eastern Airport City", sub: "Department of Wonder", areaLabel: "Total Commercial Area", areaUnit: "sq.m.",
+              imgTitle: "24-Hour Self-Sustaining Ecosystem", imgDesc: "Transforming from a transit point to a sleepless hub of shopping, entertainment, and business.",
+              descMain: "A smart city fusing art, innovation, and culture. UTA is pushing for 'Total Duty-Free' status to directly compete with Singapore and Hong Kong for high-spending independent travelers.",
+              cards: [
+                { t: "Captive Market & Duty-Free", s: "Smart Eco Hub Zone", pts: ["Integration of global luxury boutiques and premium local dining.", "Pre-order via app (Click & Collect system).", "Targeting High-spending independent travelers over tour groups."] },
+                { t: "National MICE Complex", s: "Largest in the Region", pts: ["Direct terminal connection via Automated People Mover (APM).", "Primary exhibition hub for EEC industries (Auto, Petrochemical).", "World-class facilities for global summits."] },
+                { t: "Futuristic Indoor Arena", s: "Driving the Night Economy", pts: ["High-speed network infrastructure for continental E-sports.", "Ready for global concerts and theatrical performances.", "Key mechanism to attract weekend tourists during low seasons."] },
+                { t: "Smart City & LEED", s: "Clean Energy Metropolis", pts: ["Dense urban planning to reduce cars and maximize green space.", "Hybrid power plant (Solar + Natural Gas).", "50MW smart storage aiming for Near-Zero Emission."] }
+              ],
+              hospTag: "Hospitality Ecosystem", hospTitle: "World-Class Accommodation & Dining", hospDesc: "A comprehensive hospitality ecosystem ranging from MICE-connected business hotels to Ultra-Luxury Boutiques integrated with Gastronomy.",
+              hosp1: "Frictionless Hotel", hosp1Sub: "Lobby access straight from airport", hosp2: "Local Supply Chain", hosp2Sub: "Premium local ingredients", hospImg1: "Gastronomy Excellence", hospImg2: "International chefs attracting VVIPs"
+            },
+            medical: {
+              title: "Transnational Medical Hub", sub: "Revolutionizing Healthcare with 'Zero-Transit'",
+              conceptTitle: "The 'Zero-Transit' Concept", conceptDesc: "Eliminating logistical friction. Foreign patients clear customs via Biometrics (One-ID) and enter a luxury clinic/room within 15 minutes of landing.",
+              tags: ["Aesthetic Surgery", "Anti-Aging Medicine", "Post-op Rehabilitation"],
+              target: "Target Market", targetT: "High-Net-Worth Individuals", targetS: "From GCC, Europe, and China",
+              tech: "Tech Integration", techT: "Telemedicine & Robotics", techS: "Pre-flight consultation and robotic surgery",
+              partnerTitle: "Forefront Medical Partnerships",
+              partners: [
+                { net: "BDMS Network", t: "BDMS Group", s: "Strategy: Wellness Economy & Global Network", d: "Bringing premium healthcare expertise to capture transnational patients.", p1: "Partnered with Medsi Group to attract Eastern Europeans.", p2: "Targeting the GCC market for medical tourism.", p3: "Teleconsultation services prior to flying." },
+                { net: "Bumrungrad Int.", t: "Bumrungrad International", s: "Strategy: Hub & Spoke and VVIP Patients", d: "Expanding from central Bangkok to EEC focusing on privacy and advanced care.", p1: "Acting as a 'Spoke' to receive VVIPs directly from Private Jets.", p2: "Partnered with JD Health to attract high-end Chinese patients.", p3: "Focusing on Anti-Aging (VitalLife) and Precision Medicine." },
+                { net: "Public-Military", t: "Queen Sirikit Naval Hospital", s: "Strategy: JCI Accreditation", d: "Integrating naval infrastructure to serve civilians and tourists.", p1: "New 5-story, 39,000 sq.m. 'Medical Hub' adjacent to UTA.", p2: "Designed by TEAM Group for JCI standards.", p3: "Serving EEC residents, airline staff, and foreign tourists." }
+              ]
+            },
+            f1: {
+              title: "Formula One Host City Bid", sub: "The Crown Jewel: Merging Aerotropolis & Motorsport",
+              s1: "Bidding Budget", s1d: "For hosting the F1 World Championship 2028-2032 (Backed by PTT)", s2: "Expected Spectators", s2d: "Targeting VVIPs spending $5K-$8K per ticket", s3: "Instant Economic Return", s3d: "Plus 6,000+ local jobs created",
+              advTag: "The Global Advantage", advTitle: "\"Airside Integration\" Logistics Superiority", advDesc: "Building an FIA Grade 1 circuit adjacent to the runway gives U-Tapao a massive logistical edge over street circuits.",
+              advPts: ["747 Cargo planes land and unload race cars directly into the Paddock.", "Eliminates city traffic and heavy transport logistics.", "Utilizable for 51 weeks for Formula E, MotoGP, and Track Days."],
+              loopTitle: "The Closed-Loop Economy", loopDesc: "The F1 circuit acts as the 'Gravitational Anchor', ensuring high-end tourist spending remains within the UTA boundary.",
+              steps: ["Direct Landing", "Luxury Check-in", "Watch F1 Race", "Duty-Free Shopping", "Health Recovery"], ret: "Capital Retention", retDesc: "100% Capital flow within UTA ecosystem"
+            },
+            logistics: {
+              title: "Regional Logistics Hub", sub: "Air Cargo Free Trade Zone",
+              h1: "The Heart of EEC Industry", d1: "The FTZ is designed to drive advanced manufacturing, electronics, pharmaceuticals, and cross-border E-commerce.",
+              b1t: "Customs Fast-Track", b1d: "Streamlined customs and tax incentives to attract global carriers.", b2t: "Cold-Chain Infrastructure", b2d: "Specialized temperature-controlled warehouses for pharma and agriculture.", b3t: "High Capacity", b3d: "Phase 1 handles over 1,000,000 tons annually.",
+              specT: "Airside Specifications", sp1: "Runways", sp1v: "3,500m length (Dual)", sp2: "Aircraft Stands", sp2v: "60 stands in Phase 1", sp3: "Apron Management", sp3s: "Smart Navigation", sp3v: "Autonomous Vehicles",
+              multiT: "Seamless Multimodal Network", multiD: "The airport is seamlessly integrated into the national infrastructure grid.", m1t: "U-Tapao (Air)", m1d: "Express Cargo Hub", m2t: "Motorway & Rail (Land)", m2d: "EEC Distribution", m3t: "Deep Sea Ports (Sea)", m3d: "Laem Chabang connection"
+            },
+            impact: {
+              title: "Global Impact Analysis", sub: "Strategic Opportunities Amidst Geopolitical Conflicts",
+              boxTitle: "Why is EEC a 'Safe Haven'?", boxBadge: "Positive Trend Analysis",
+              boxDesc: "Geopolitical tensions in the Middle East and Europe are reshaping the Global Supply Chain. U-Tapao benefits in 3 main dimensions:",
+              p1t: "1. Air Cargo & Rerouting", p1d: "Airlines avoiding high-risk airspaces are shifting to Southeast Asian hubs, positioning U-Tapao as a new Transshipment Hub.", p2t: "2. FDI Relocation", p2d: "Capital and manufacturing (EVs, Semiconductors) are diversifying risks by investing in EEC's target industries.", p3t: "3. Medical Hub Shift", p3d: "VVIP patients shifting from Europe/Middle East to Asia perfectly aligns with U-Tapao's Zero-Transit model.",
+              simT: "Interactive Scenario Evaluation", simD: "The EEC Simulator helps analyze and forecast economic variables based on real-time data.", simBtn: "Launch EEC Simulator", simPwr: "Powered by THBHO Analytics"
+            },
+            footer: { t1: "The Dawn of the Eastern Aviation City", d1: "Elevating Thailand's competitiveness to become a global metropolis of innovation, health, and lifestyle.", b1: "1,040 Hectares", b2: "$8.5B Investment", b3: "2031 COD Target" }
+          },
+          ru: {
+            langName: "Русский",
+            nav: { overview: "Обзор", airportCity: "Аэротрополис", medical: "Медицина", f1: "Формула-1", logistics: "Логистика", impact: "Влияние" },
+            hero: {
+              badge: "Мегапроект EEC", phase: "Мастер-план: Фаза 1",
+              title1: "Рассвет Авиагорода", title2: "Новый центр экономики, инноваций и стиля жизни АТР",
+              desc: "Смена парадигмы: от транзитного узла к глобальному круглосуточному направлению. Управляется консорциумом UTA."
+            },
+            stats: [
+              { label: "Инвестиции", value: "$8.5B", unit: "USD (50 лет)" },
+              { label: "Площадь", value: "1,040", unit: "Гектаров" },
+              { label: "Пассажиры", value: "15.9M", unit: "чел/год (Фаза 1)" },
+              { label: "Коммерция", value: "3M", unit: "кв.м." }
+            ],
+            overview: {
+              title: "Обзор Проекта", imgTitle: "Архитектура", imgSub: "Биофильный дизайн терминала", imgDesc: "Спроектировано One Works: сочетание природы и аэропорта для снижения стресса и роста продаж.",
+              pillarsTitle: "4 Опоры Успеха",
+              pillars: [
+                { t: "1. Авангард", s: "Авиация и Логистика", d: "15.9 млн пассажиров и 1 млн тонн грузов. Биометрия One-ID." },
+                { t: "2. Направление", s: "Восточный Авиагород", d: "Зона Duty-Free площадью 3 млн кв.м. и крупнейший центр MICE." },
+                { t: "3. Инновация", s: "Медицинский Хаб", d: "Модель 'Zero-Transit' для VVIP и мед-туристов (Европа, СНГ, Ближний Восток)." },
+                { t: "4. Жемчужина", s: "Эпицентр Эмоций", d: "Трасса Формулы-1 FIA Grade 1 внутри аэропорта (300 тыс. зрителей)." }
+              ],
+              timelineTitle: "График Реализации",
+              timeline: [
+                { date: "Янв 2026", t1: "Подписание соглашения", t2: "Урегулирование вопросов с высокоскоростной Ж/Д." },
+                { date: "Апр 2026", t1: "Уведомление о начале работ", t2: "Официальный старт 50-летней концессии." },
+                { date: "2028 - 2032", t1: "Старт Формулы-1", t2: "Ожидаемый доход от первой гонки — более $350 млн." },
+                { date: "2031 год", t1: "Коммерческий запуск (COD)", t2: "Открытие Терминала Фазы 1 и Авиагорода." }
+              ]
+            },
+            airportCity: {
+              focus: "Фокус на 75%", title: "Восточный Авиагород", sub: "Отдел Чудес", areaLabel: "Коммерческие площади", areaUnit: "кв.м.",
+              imgTitle: "Экосистема 24/7", imgDesc: "Круглосуточный центр шопинга, развлечений и бизнеса.",
+              descMain: "Умный город. Цель UTA — статус 'Total Duty-Free' для конкуренции с Сингапуром за состоятельных независимых путешественников.",
+              cards: [
+                { t: "Шопинг & Duty-Free", s: "Smart Eco Hub", pts: ["Бутики мировых брендов и премиальная местная кухня.", "Предзаказ через приложение (Click & Collect).", "Фокус на состоятельных путешественников, а не на тургруппы."] },
+                { t: "Комплекс MICE", s: "Крупнейший в регионе", pts: ["Прямая связь с терминалом через автоматические поезда (APM).", "Главный выставочный центр для промышленности EEC.", "Инфраструктура мирового класса."] },
+                { t: "Крытая Арена", s: "Ночная экономика", pts: ["Высокоскоростные сети для киберспорта.", "Площадка для мировых концертов и шоу.", "Привлечение туристов в выходные и низкий сезон."] },
+                { t: "Умный город и LEED", s: "Чистая Энергия", pts: ["Плотная застройка для снижения числа авто.", "Гибридная электростанция (Солнце + Газ).", "Стремление к нулевым выбросам (Near-Zero Emission)."] }
+              ],
+              hospTag: "Индустрия гостеприимства", hospTitle: "Отели и Рестораны", hospDesc: "Экосистема от бизнес-отелей до ультра-роскошных бутиков с гастрономическими изысками.",
+              hosp1: "Без барьеров", hosp1Sub: "Доступ в лобби из аэропорта", hosp2: "Местные продукты", hosp2Sub: "Премиальные ингредиенты", hospImg1: "Гастрономия", hospImg2: "Шеф-повара мирового уровня"
+            },
+            medical: {
+              title: "Международный Мед. Хаб", sub: "Медицина формата 'Zero-Transit'",
+              conceptTitle: "Концепция 'Zero-Transit'", conceptDesc: "Иностранные пациенты проходят таможню по биометрии (One-ID) и оказываются в роскошной клинике через 15 минут после посадки.",
+              tags: ["Пластическая хирургия", "Антивозрастная медицина", "Реабилитация"],
+              target: "Целевой рынок", targetT: "VVIP и состоятельные клиенты", targetS: "Россия (СНГ), Ближний Восток, Китай",
+              tech: "Технологии", techT: "Телемедицина и Робототехника", techS: "Консультации до вылета",
+              partnerTitle: "Ведущие Партнеры",
+              partners: [
+                { net: "Сеть BDMS", t: "Группа BDMS", s: "Стратегия: Глобальная сеть", d: "Премиальный медицинский сервис для иностранцев.", p1: "Партнерство с Medsi Group для привлечения пациентов из РФ и СНГ.", p2: "Привлечение клиентов из арабских стран (GCC).", p3: "Услуги телеконсультаций перед полетом." },
+                { net: "Bumrungrad Int.", t: "Bumrungrad International", s: "Стратегия: Обслуживание VVIP", d: "Модель, ориентированная на приватность и передовое лечение.", p1: "Прием VVIP пациентов прямо с частных самолетов (Private Jets).", p2: "Сотрудничество с китайской JD Health.", p3: "Акцент на антивозрастную медицину (VitalLife)." },
+                { net: "Морской госпиталь", t: "Госпиталь ВМС", s: "Стратегия: Стандарт JCI", d: "Интеграция военной инфраструктуры для гражданских лиц.", p1: "Новый 5-этажный хаб площадью 39,000 кв.м.", p2: "Проектирование по международным стандартам JCI.", p3: "Обслуживание туристов и жителей региона EEC." }
+              ]
+            },
+            f1: {
+              title: "Заявка на Формулу-1", sub: "Интеграция Аэротрополиса и Мотоспорта",
+              s1: "Бюджет заявки", s1d: "При поддержке PTT (2028-2032)", s2: "Зрители", s2d: "Билеты стоимостью $5K-$8K", s3: "Мгновенный доход", s3d: "Создание 6,000+ рабочих мест",
+              advTag: "Глобальное преимущество", advTitle: "Логистическое превосходство", advDesc: "Трасса FIA Grade 1 возле ВПП устраняет проблемы городской логистики.",
+              advPts: ["Грузовые Boeing 747 выгружают болиды прямо в паддок.", "Отсутствие городских пробок при доставке оборудования.", "Использование трассы 51 неделю в году (MotoGP, Track Days)."],
+              loopTitle: "Экономика замкнутого цикла", loopDesc: "Формула-1 — это 'гравитационный якорь', гарантирующий, что расходы туристов останутся внутри UTA.",
+              steps: ["Прямая посадка", "Роскошный отель", "Гонка Ф-1", "Шопинг Duty-Free", "Оздоровление"], ret: "Удержание капитала", retDesc: "100% денег в экосистеме UTA"
+            },
+            logistics: {
+              title: "Региональный Хаб", sub: "Зона свободной торговли (Air Cargo)",
+              h1: "Сердце промышленности EEC", d1: "Обеспечение передового производства, электроники и трансграничной e-commerce.",
+              b1t: "Быстрая таможня", b1d: "Налоговые льготы для глобальных перевозчиков.", b2t: "Cold-Chain инфраструктура", b2d: "Склады с температурным контролем для фармацевтики.", b3t: "Высокая пропускная способность", b3d: "Более 1,000,000 тонн в год (Фаза 1).",
+              specT: "Характеристики аэродрома", sp1: "Взлетно-посадочные полосы", sp1v: "Длина 3,500 м (2 шт)", sp2: "Стоянки самолетов", sp2v: "60 мест (Фаза 1)", sp3: "Управление перроном", sp3s: "Умная навигация", sp3v: "Беспилотный транспорт",
+              multiT: "Мультимодальная сеть", multiD: "Аэропорт бесшовно интегрирован в национальную сеть.", m1t: "У-Тапао (Воздух)", m1d: "Экспресс-грузы", m2t: "Ж/Д и Трассы (Суша)", m2d: "Дистрибуция EEC", m3t: "Морские порты", m3d: "Связь с Лаем Чабанг"
+            },
+            impact: {
+              title: "Глобальное Влияние", sub: "Стратегические возможности на фоне конфликтов",
+              boxTitle: "Почему EEC — это 'Тихая гавань'?", boxBadge: "Анализ позитивных трендов",
+              boxDesc: "Геополитическая напряженность перестраивает глобальные цепочки поставок. У-Тапао выигрывает в 3 аспектах:",
+              p1t: "1. Перенаправление грузов", p1d: "Авиакомпании избегают опасного воздушного пространства, выбирая хабы Юго-Восточной Азии.", p2t: "2. Перенос инвестиций", p2d: "Капитал и производства (электроника, EV) мигрируют в безопасную зону EEC.", p3t: "3. Сдвиг мед. туризма", p3d: "VVIP пациенты из Европы и Ближнего Востока переориентируются на Азию (модель Zero-Transit).",
+              simT: "Интерактивный симулятор", simD: "EEC Simulator помогает анализировать экономические параметры на основе реальных данных.", simBtn: "Запустить EEC Simulator", simPwr: "Powered by THBHO Analytics"
+            },
+            footer: { t1: "Рассвет Восточного Авиагорода", d1: "Повышение конкурентоспособности Таиланда на мировой арене инноваций и здоровья.", b1: "1,040 Гектаров", b2: "$8.5B Инвестиций", b3: "Запуск в 2031" }
+          },
+          zh: {
+            langName: "中文",
+            nav: { overview: "概览", airportCity: "航空城", medical: "医疗", f1: "F1赛车", logistics: "物流", impact: "全球影响" },
+            hero: {
+              badge: "EEC 巨型项目", phase: "第一阶段总体规划",
+              title1: "航空城的黎明", title2: "亚太地区经济、创新与生活方式的新枢纽",
+              desc: "由 UTA 财团主导，完成从“匆忙的中转站”到“24小时全球目的地”的模式转变。"
+            },
+            stats: [
+              { label: "总投资", value: "$85亿", unit: "美元 (50年 PPP)" },
+              { label: "总面积", value: "1,040", unit: "公顷" },
+              { label: "旅客容量", value: "1590万", unit: "人次/年 (一期)" },
+              { label: "商业面积", value: "300万", unit: "平方米" }
+            ],
+            overview: {
+              title: "项目概览 (Overview)", imgTitle: "建筑设计", imgSub: "亲自然航站楼设计", imgDesc: "由 One Works 设计，将罗勇府海岸特色与室内自然景观融合，缓解旅行压力并提升商业销售额。",
+              pillarsTitle: "成功的蓝图：一期的四大支柱",
+              pillars: [
+                { t: "1. 先锋 (The Vanguard)", s: "航空与物流前线", d: "每年处理1590万旅客与100万吨货物，配备 One-ID 生物识别系统。" },
+                { t: "2. 目的地 (The Destination)", s: "东方航空城", d: "300万平米商业区，致力于成为全免税 (Total Duty-Free) 和最大的 MICE 中心。" },
+                { t: "3. 差异化 (The Differentiator)", s: "跨国医疗枢纽", d: "“零中转 (Zero-Transit)”模式，瞄准来自中国、欧洲和中东的 VVIP 和医疗游客。" },
+                { t: "4. 皇冠明珠 (The Crown Jewel)", s: "极致刺激的体验", d: "飞行区内的 FIA 一级方程式赛道，预计吸引30万观众。" }
+              ],
+              timelineTitle: "通往未来的时间表",
+              timeline: [
+                { date: "2026年1月", t1: "签署合同协议", t2: "解除高铁 (HSR) 限制，立即开始建设。" },
+                { date: "2026年4月", t1: "开工通知 (NTP)", t2: "50年特许经营权正式生效。" },
+                { date: "2028 - 2032", t1: "一级方程式赛车目标", t2: "首场比赛预计立即创造超3.5亿美元收入。" },
+                { date: "2031年", t1: "商业运营日 (COD)", t2: "一期航站楼与航空城全面启用。" }
+              ]
+            },
+            airportCity: {
+              focus: "核心重点 75%", title: "东方航空城", sub: "奇迹之城 (Dept. of Wonder)", areaLabel: "总商业面积", areaUnit: "平米",
+              imgTitle: "24小时自给自足的生态系统", imgDesc: "从交通枢纽转变为不眠的购物、娱乐和商业中心。",
+              descMain: "一个融合艺术、创新与文化的智慧城市。UTA 正致力于打造“全免税 (Total Duty-Free)”特区，直接与新加坡和香港竞争高消费自由行旅客。",
+              cards: [
+                { t: "免税购物天堂", s: "智能生态与文化村", pts: ["全球奢侈品牌精品店与高端本地餐饮的完美结合。", "通过 App 提前订购 (Click & Collect 系统)。", "重点吸引高消费的自由行旅客 (FIT)，而非大型旅行团。"] },
+                { t: "国家级 MICE 综合体", s: "该地区最大的会议中心", pts: ["通过自动捷运系统 (APM) 与航站楼无缝连接。", "成为 EEC 工业（如汽车、石化）的主要展览枢纽。", "配备世界一流设施，吸引全球峰会。"] },
+                { t: "未来感室内竞技场", s: "推动夜间经济", pts: ["为洲际电子竞技 (E-sports) 提供高速网络基础设施。", "随时准备举办全球演唱会和戏剧表演。", "在旅游淡季吸引周末游客的关键机制。"] },
+                { t: "智慧城市与 LEED", s: "清洁能源大都会", pts: ["高密度城市规划，减少车辆使用，最大化绿地面积。", "混合发电厂（太阳能 + 天然气）。", "50MW 智能储能系统，目标实现近零排放。"] }
+              ],
+              hospTag: "酒店生态系统", hospTitle: "世界级的住宿与餐饮", hospDesc: "提供从连接会展中心的商务酒店，到融合高级美食 (Gastronomy) 的超豪华精品酒店。",
+              hosp1: "无障碍酒店", hosp1Sub: "大堂直通机场", hosp2: "本地供应链", hosp2Sub: "严选顶级食材", hospImg1: "卓越的美食体验", hospImg2: "国际厨师吸引 VVIP"
+            },
+            medical: {
+              title: "跨国医疗枢纽", sub: "以“零中转”模式彻底改变医疗保健",
+              conceptTitle: "“零中转” (Zero-Transit) 理念", conceptDesc: "消除物流摩擦。外籍患者可通过生物识别 (One-ID) 过关，并在降落后15分钟内进入豪华诊所或病房。",
+              tags: ["医疗美容", "抗衰老医学", "术后康复"],
+              target: "目标市场", targetT: "高净值人士 (HNWI)", targetS: "来自中国、中东 (GCC) 和欧洲",
+              tech: "科技融合", techT: "远程医疗与机器人", techS: "飞行前咨询与机器人辅助手术",
+              partnerTitle: "顶尖的医疗合作伙伴",
+              partners: [
+                { net: "BDMS 医疗网络", t: "BDMS 集团", s: "战略：健康经济与全球网络", d: "将优质医疗专业知识引入航空城，吸引跨国患者。", p1: "与 Medsi Group 合作，吸引东欧客户。", p2: "瞄准中东 (GCC) 市场的医疗旅游。", p3: "提供飞行前的远程诊疗 (Teleconsultation) 服务。" },
+                { net: "Bumrungrad", t: "康民国际医院", s: "战略：辐射网络与 VVIP 患者", d: "从曼谷市中心扩展至 EEC，专注于隐私和高级护理。", p1: "作为“节点”，直接接待来自私人飞机的 VVIP 患者。", p2: "与中国 JD Health (京东健康) 合作，吸引高端中国患者。", p3: "专注于抗衰老 (VitalLife) 和精准医疗。" },
+                { net: "军民融合", t: "诗丽吉王后海军医院", s: "战略：JCI 国际认证", d: "整合海军基础设施，为平民、航空员工和游客提供服务。", p1: "新建5层高、39,000平米的“医疗枢纽”。", p2: "由 TEAM Group 设计，符合 JCI 标准。", p3: "提供全面的区域公共卫生服务。" }
+              ]
+            },
+            f1: {
+              title: "申办一级方程式 (F1) 赛车", sub: "皇冠上的明珠：航空城与赛车运动的结合",
+              s1: "竞标预算", s1d: "用于举办 2028-2032 年 F1 世界锦标赛 (PTT 支持)", s2: "预计观众", s2d: "瞄准购买 $5K-$8K 门票的 VVIP", s3: "即时经济回报", s3d: "此外将在当地创造 6000+ 个就业岗位",
+              advTag: "全球优势", advTitle: "“飞行区整合” 带来物流优势", advDesc: "在跑道旁建设 FIA 一级赛道，使乌塔堡在物流上远超城市街道赛道。",
+              advPts: ["波音 747 货机可直接降落，将赛车卸入围场 (Paddock)。", "消除了城市交通拥堵和重型运输的麻烦。", "全年剩余的 51 周可用于 E 级方程式、MotoGP 和赛道日活动。"],
+              loopTitle: "闭环经济 (Closed-Loop Economy)", loopDesc: "F1 赛道充当“引力锚”，确保高端游客在 UTA 边界内完成所有消费。",
+              steps: ["直接降落", "入住豪华酒店", "观看 F1 比赛", "免税购物", "健康康复"], ret: "资本留存", retDesc: "100% 的资金在 UTA 生态系统内循环"
+            },
+            logistics: {
+              title: "区域物流枢纽", sub: "航空货运自由贸易区 (FTZ)",
+              h1: "EEC 工业的核心", d1: "自贸区旨在推动先进制造、电子、制药和跨境电子商务的发展。",
+              b1t: "海关快速通道", b1d: "简化的海关和税收优惠，吸引全球承运人。", b2t: "冷链基础设施", b2d: "专门为医药和农业提供的温控仓库。", b3t: "高吞吐量", b3d: "第一阶段每年处理超过 1,000,000 吨货物。",
+              specT: "飞行区规格", sp1: "跑道", sp1v: "3,500米长 (双跑道)", sp2: "停机位", sp2v: "一期提供 60 个停机位", sp3: "机坪管理", sp3s: "智能导航", sp3v: "自动驾驶车辆 (AV)",
+              multiT: "无缝的多式联运网络", multiD: "机场与国家基础设施网络无缝整合。", m1t: "乌塔堡 (航空)", m1d: "快递货运枢纽", m2t: "高速公路与铁路", m2d: "EEC 配送网络", m3t: "林查班深水港 (海运)", m3d: "海运连接"
+            },
+            impact: {
+              title: "全球影响分析", sub: "地缘政治冲突中的战略机遇",
+              boxTitle: "为什么 EEC 是“避风港”？", boxBadge: "积极趋势分析",
+              boxDesc: "中东和欧洲的地缘政治紧张局势正在重塑全球供应链。乌塔堡在 3 个主要方面受益：",
+              p1t: "1. 航空货运与航线调整", p1d: "避开高风险空域的航空公司正转向东南亚枢纽，这使乌塔堡成为新的转运中心。", p2t: "2. 外商直接投资 (FDI) 转移", p2d: "资本和制造业 (电动汽车、半导体) 正在分散风险，投资于 EEC 的目标产业。", p3t: "3. 医疗枢纽转移", p3d: "从欧洲/中东转移到亚洲的 VVIP 患者完美契合了乌塔堡的“零中转”医疗模式。",
+              simT: "交互式场景评估", simD: "EEC Simulator 帮助基于实时数据分析和预测经济变量。", simBtn: "启动 EEC 模拟器", simPwr: "由 THBHO Analytics 提供支持"
+            },
+            footer: { t1: "东方航空城的黎明", d1: "提升泰国竞争力，成为全球创新、健康与生活方式的大都会。", b1: "1,040 公顷", b2: "85亿美元投资", b3: "2031年商业运营 (COD)" }
           }
         };
 
         const BlogPage = () => {
-          const [activeTab, setActiveTab] = useState('airport-city'); // Focus 75% on Airport City initially
-          const [genImages, setGenImages] = useState({ medical: null, f1: null, logistics: null });
-          const [isGenerating, setIsGenerating] = useState({ medical: false, f1: false, logistics: false });
-          const [genErrors, setGenErrors] = useState({ medical: '', f1: '', logistics: '' });
-          
+          const [activeTab, setActiveTab] = useState('airportCity'); 
+          const [lang, setLang] = useState('th');
           const contentRef = useRef(null);
-
-          // --- Fallback Images ---
-          const fallbackImages = {
-            medical: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1000&auto=format&fit=crop",
-            f1: "https://images.unsplash.com/photo-1532983330958-4b32bbe9aa05?q=80&w=1000&auto=format&fit=crop",
-            logistics: "https://images.unsplash.com/photo-1586528116311-ad8ed7c50a11?q=80&w=1000&auto=format&fit=crop"
-          };
-
-          useEffect(() => {
-            const fetchImage = async (section, prompt) => {
-              setIsGenerating(prev => ({ ...prev, [section]: true }));
-              try {
-                const imgData = await generateImageWithRetry(prompt);
-                setGenImages(prev => ({ ...prev, [section]: imgData }));
-              } catch (err) {
-                setGenErrors(prev => ({ ...prev, [section]: err.message }));
-              } finally {
-                setIsGenerating(prev => ({ ...prev, [section]: false }));
-              }
-            };
-
-            if (activeTab === 'medical' && !genImages.medical && !isGenerating.medical && !genErrors.medical) {
-                fetchImage('medical', 'Futuristic luxury wellness center interior integrated into an airport, bright modern lighting, indoor plants, zero-transit medical hub, architectural visualization, 8k');
-            }
-            if (activeTab === 'f1' && !genImages.f1 && !isGenerating.f1 && !genErrors.f1) {
-                fetchImage('f1', 'Formula One circuit integrated into a futuristic airport airside, cargo planes in the background, F1 cars racing on track, night race under bright floodlights, photorealistic, 8k');
-            }
-            if (activeTab === 'logistics' && !genImages.logistics && !isGenerating.logistics && !genErrors.logistics) {
-                fetchImage('logistics', 'High-tech air cargo and logistics center at an airport, automated delivery drones, cargo planes, futuristic industrial zone, warm sunset lighting, 8k, photorealistic');
-            }
-          }, [activeTab]);
-
-          const projectStats = [
-            { label: 'Investment', value: '2.9 แสนล้าน', unit: 'บาท (PPP 50 ปี)' },
-            { label: 'Total Area', value: '1,040', unit: 'เฮกตาร์ (6,500 ไร่)' },
-            { label: 'Passenger Capacity', value: '15.9M', unit: 'คนต่อปี (เฟส 1)' },
-            { label: 'Commercial Area', value: '3M', unit: 'ตร.ม. (เมื่อเสร็จสิ้น)' }
-          ];
+          const t = dictionary[lang]; 
 
           const tabs = [
-            { id: 'overview', name: 'ภาพรวม (Overview)', icon: <PlaneTakeoff size={18} /> },
-            { id: 'airport-city', name: 'เมืองการบิน (Airport City)', icon: <Building2 size={18} /> },
-            { id: 'medical', name: 'ศูนย์การแพทย์ (Medical)', icon: <Stethoscope size={18} /> },
-            { id: 'f1', name: 'ฟอร์มูล่าวัน (F1)', icon: <Flag size={18} /> },
-            { id: 'logistics', name: 'โลจิสติกส์ (Logistics)', icon: <Package size={18} /> },
-            { id: 'impact', name: 'สถานการณ์โลก (Impact)', icon: <Globe size={18} /> }
+            { id: 'overview', name: t.nav.overview, icon: <PlaneTakeoff size={18} /> },
+            { id: 'airportCity', name: t.nav.airportCity, icon: <Building2 size={18} /> },
+            { id: 'medical', name: t.nav.medical, icon: <Stethoscope size={18} /> },
+            { id: 'f1', name: t.nav.f1, icon: <Flag size={18} /> },
+            { id: 'logistics', name: t.nav.logistics, icon: <Package size={18} /> },
+            { id: 'impact', name: t.nav.impact, icon: <Globe size={18} /> }
           ];
 
           const handleTabClick = (tabId) => {
             setActiveTab(tabId);
-            // Smooth scroll to content area, offset by navbar height (approx 80px)
             if (contentRef.current) {
-              const yOffset = -80; 
-              const element = contentRef.current;
-              const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              const y = contentRef.current.getBoundingClientRect().top + window.pageYOffset - 120;
               window.scrollTo({top: y, behavior: 'smooth'});
             }
           };
@@ -174,99 +427,80 @@
             </ul>
           );
 
-          const renderGeneratedImage = (section) => {
-            if (isGenerating[section]) {
-                return (
-                    <div className="w-full h-[350px] bg-gray-100 rounded-3xl border border-gray-200 flex flex-col items-center justify-center text-gray-500 mb-8 animate-pulse shadow-inner">
-                        <Loader2 className="w-10 h-10 animate-spin-slow mb-3 text-blue-500" />
-                        <p className="text-sm font-medium">AI กำลังประมวลผลภาพ (Generating Visuals)...</p>
-                    </div>
-                );
-            }
-            if (genErrors[section]) {
-                return (
-                    <div className="mb-8 relative group overflow-hidden rounded-3xl border border-gray-200 shadow-md">
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white z-10 backdrop-blur-sm">
-                            <p className="text-sm font-semibold bg-gray-600 px-4 py-1.5 rounded-full mb-2 shadow-lg">AI Generated / Reference Image</p>
-                        </div>
-                        <img src={fallbackImages[section]} alt="Fallback" className="w-full h-auto max-h-[450px] object-cover" />
-                    </div>
-                );
-            }
-            if (genImages[section]) {
-                return (
-                    <div className="mb-8 overflow-hidden rounded-3xl shadow-lg border border-gray-100 relative group">
-                        <img src={genImages[section]} alt="AI Generated" className="w-full h-auto max-h-[450px] object-cover hover:scale-105 transition-transform duration-700" />
-                        <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                            AI Generated Visualization
-                        </div>
-                    </div>
-                );
-            }
-            return null;
-          };
-
           return (
-            <div className="min-h-screen font-sans selection:bg-blue-200 selection:text-blue-900 pb-20 pt-16">
+            <div className="min-h-screen font-sans selection:bg-blue-200 selection:text-blue-900 pb-20 pt-20 lg:pt-16">
               
-              {/* ======================================= */}
-              {/* STICKY TOP NAVIGATION BAR                 */}
-              {/* ======================================= */}
-              <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-sm transition-all duration-300">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="flex items-center justify-between h-16">
-                    {/* Logo / Brand */}
-                    <div className="flex-shrink-0 flex items-center gap-2 font-black text-blue-900 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                      <PlaneTakeoff size={24} className="text-blue-600" />
-                      <span className="hidden md:block tracking-tight">UTA <span className="text-blue-600">Aviation City</span></span>
+              {/* STICKY TOP NAVIGATION BAR */}
+              <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] transition-all duration-300">
+                <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex flex-col lg:flex-row items-center justify-between h-auto lg:h-20 py-3 lg:py-0">
+                    
+                    <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer group mb-3 lg:mb-0 w-full lg:w-auto justify-between lg:justify-start" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                      <div className="flex items-center gap-3">
+                        <div className="bg-gradient-to-tr from-blue-600 to-indigo-600 p-2.5 rounded-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform duration-300">
+                          <PlaneTakeoff size={20} className="text-white" />
+                        </div>
+                        <div className="flex flex-col text-left">
+                          <span className="font-black text-slate-900 text-lg leading-none tracking-tight">U-Tapao</span>
+                          <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest leading-none mt-1">Aviation City</span>
+                        </div>
+                      </div>
+                      <div className="flex lg:hidden bg-gray-100 p-1 rounded-full border border-gray-200">
+                        {['th', 'en', 'ru', 'zh'].map(l => (
+                          <button key={l} onClick={() => setLang(l)} className={`w-8 h-8 rounded-full text-xs font-bold uppercase transition-all ${lang === l ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500'}`}>{l}</button>
+                        ))}
+                      </div>
                     </div>
 
-                    {/* Navigation Links */}
-                    <div className="flex-1 flex justify-end overflow-x-auto scrollbar-hide ml-4">
-                      <div className="flex space-x-1 sm:space-x-2">
+                    <div className="w-full lg:w-auto overflow-x-auto scrollbar-hide flex-1 lg:mx-8">
+                      <div className="flex items-center justify-start lg:justify-center gap-2 px-1 min-w-max pb-2 lg:pb-0">
                         {tabs.map((tab) => (
                           <button
                             key={tab.id}
                             onClick={() => handleTabClick(tab.id)}
-                            className={`flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 rounded-xl text-sm md:text-base font-bold whitespace-nowrap transition-all duration-200 ${
-                              activeTab === tab.id 
-                                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30' 
-                                : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 outline-none ${
+                              activeTab === tab.id ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20 transform scale-[1.02]' : 'text-slate-500 hover:text-slate-900 hover:bg-white/80 bg-transparent'
                             }`}
                           >
-                            {tab.icon}
+                            <span className={`${activeTab === tab.id ? 'text-blue-400 opacity-100' : 'opacity-60 text-slate-400'}`}>{tab.icon}</span>
                             <span>{tab.name}</span>
                           </button>
                         ))}
                       </div>
                     </div>
+
+                    <div className="hidden lg:flex items-center bg-gray-100/80 p-1.5 rounded-full border border-gray-200 shadow-inner">
+                      <Languages size={16} className="text-gray-400 ml-2 mr-1"/>
+                      {['th', 'en', 'ru', 'zh'].map(l => (
+                        <button key={l} onClick={() => setLang(l)} className={`px-3 py-1.5 rounded-full text-xs font-extrabold uppercase transition-all duration-300 ${lang === l ? 'bg-white text-blue-600 shadow shadow-gray-300/50' : 'text-gray-500 hover:text-gray-800'}`}>{l}</button>
+                      ))}
+                    </div>
+
                   </div>
                 </div>
               </nav>
 
-              {/* Header / Hero Section */}
-              <header className="relative bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#312E81] text-white py-24 px-6 sm:px-12 lg:px-24 overflow-hidden">
+              {/* HERO SECTION */}
+              <header className="relative bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#312E81] text-white pt-40 pb-24 px-6 sm:px-12 lg:px-24 overflow-hidden">
                 <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
                 <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none"></div>
 
                 <div className="max-w-6xl mx-auto relative z-10">
                   <div className="flex flex-wrap items-center gap-3 mb-6">
-                    <span className="bg-blue-500/20 border border-blue-400/30 text-blue-200 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-sm">EEC Mega Project</span>
-                    <span className="flex items-center text-blue-200 text-sm font-medium bg-white/5 px-4 py-1 rounded-full"><CalendarDays size={14} className="mr-1.5"/> Phase 1 Master Plan</span>
+                    <span className="bg-blue-500/20 border border-blue-400/30 text-blue-200 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-sm">{t.hero.badge}</span>
+                    <span className="flex items-center text-blue-200 text-sm font-medium bg-white/5 px-4 py-1 rounded-full"><CalendarDays size={14} className="mr-1.5"/> {t.hero.phase}</span>
                   </div>
-                  <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight drop-shadow-lg">
-                    รุ่งอรุณแห่งมหานครการบิน
+                  <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight drop-shadow-lg" key={lang}>
+                    {t.hero.title1}
                     <span className="block text-2xl sm:text-3xl lg:text-4xl font-light text-blue-200 mt-4 leading-snug">
-                      ศูนย์กลางเศรษฐกิจ นวัตกรรม และการใช้ชีวิต<br className="hidden md:block"/>แห่งใหม่ของเอเชียแปซิฟิก
+                      {t.hero.title2}
                     </span>
                   </h1>
-                  <p className="text-lg md:text-xl text-blue-100 max-w-3xl mb-12 font-light leading-relaxed opacity-90">
-                    การเปลี่ยนผ่านกระบวนทัศน์ จาก <strong>"จุดแวะพักที่เร่งรีบ (Transit Node)"</strong> สู่การเป็น <strong>"จุดหมายปลายทางระดับโลกที่เปิดตลอด 24 ชั่วโมง"</strong> ขับเคลื่อนโดยกลุ่ม UTA Consortium (Bangkok Airways, BTS Group และ Sino-Thai)
-                  </p>
+                  <p className="text-lg md:text-xl text-blue-100 max-w-3xl mb-12 font-light leading-relaxed opacity-90">{t.hero.desc}</p>
                   
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-8">
-                    {projectStats.map((stat, idx) => (
+                    {t.stats.map((stat, idx) => (
                        <div key={idx} className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors transform hover:-translate-y-1 duration-300 shadow-xl">
                          <div className="text-blue-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">{stat.label}</div>
                          <div className="text-3xl md:text-4xl font-extrabold text-white mb-1 drop-shadow-md">{stat.value}</div>
@@ -277,267 +511,136 @@
                 </div>
               </header>
 
-              {/* Main Content Area (With Ref for Auto-Scroll) */}
-              <main ref={contentRef} className="max-w-6xl mx-auto px-4 sm:px-12 lg:px-24 py-12 -mt-10 relative z-20">
-                
-                {/* Tab Content Area */}
+              {/* MAIN CONTENT AREA */}
+              <main ref={contentRef} className="max-w-6xl mx-auto px-4 sm:px-12 lg:px-24 py-12 -mt-10 relative z-20" key={`content-${lang}`}>
                 <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100/50 p-8 md:p-12 min-h-[700px]">
                   
-                  {/* ======================================= */}
-                  {/* OVERVIEW TAB                              */}
-                  {/* ======================================= */}
+                  {/* OVERVIEW TAB */}
                   {activeTab === 'overview' && (
                     <div className="animate-fade-in">
-                      <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">ภาพรวมโครงการ (Project Overview)</h2>
-                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight mb-8">{t.overview.title}</h2>
                       
                       <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl border border-gray-100 relative group">
-                        <img 
-                          src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" 
-                          alt="" 
-                          className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"
-                        />
+                        <img src="https://i.postimg.cc/90VvcZKj/Screenshot_2568-08-06_at_13.23.57-topaz-sharpen-upscale-1.5x-crop.jpg" alt="Overview" className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"/>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div className="absolute bottom-8 left-8 text-white max-w-2xl pr-8">
-                          <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">Architecture</span>
-                          <h3 className="text-3xl font-bold mb-2">Biophilic Terminal Design</h3>
-                          <p className="text-gray-200 leading-relaxed font-light">ออกแบบโดยบริษัท One Works ผสานเอกลักษณ์ชายฝั่งระยองเข้ากับธรรมชาติภายในอาคาร ลดความเครียดจากการเดินทาง และกระตุ้นยอดขายพื้นที่เชิงพาณิชย์</p>
+                          <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">{t.overview.imgTitle}</span>
+                          <h3 className="text-3xl font-bold mb-2">{t.overview.imgSub}</h3>
+                          <p className="text-gray-200 leading-relaxed font-light">{t.overview.imgDesc}</p>
                         </div>
                       </div>
 
-                      {/* 4 Pillars Infographic Grid */}
                       <div className="mb-16">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
-                          <Target className="w-8 h-8 mr-3 text-blue-600" /> พิมพ์เขียวสู่ความสำเร็จ: 4 เสาหลักแห่งเฟส 1
-                        </h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center"><Target className="w-8 h-8 mr-3 text-blue-600" /> {t.overview.pillarsTitle}</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {[
-                            { title: "1. The Vanguard", sub: "แนวหน้าแห่งการบินและโลจิสติกส์", desc: "รองรับผู้โดยสาร 15.9 ล้านคน/ปี และสินค้า 1 ล้านตัน/ปี พร้อมระบบ One-ID ไบโอเมตริกซ์", icon: <PlaneTakeoff size={32} className="text-blue-500"/>, bg: "bg-blue-50", border: "border-blue-100" },
-                            { title: "2. The Destination", sub: "มหานครการบินตะวันออก", desc: "พื้นที่พาณิชยกรรม 3 ล้าน ตร.ม. มุ่งเป้าหมายเป็น Total Duty-Free และศูนย์ MICE ใหญ่ที่สุด", icon: <ShoppingBag size={32} className="text-pink-500"/>, bg: "bg-pink-50", border: "border-pink-100" },
-                            { title: "3. The Differentiator", sub: "ศูนย์กลางการแพทย์ข้ามชาติ", desc: "โมเดล 'Zero-Transit' เจาะกลุ่ม VVIP และนักท่องเที่ยวเชิงการแพทย์จากยุโรปและอาหรับ", icon: <Stethoscope size={32} className="text-teal-500"/>, bg: "bg-teal-50", border: "border-teal-100" },
-                            { title: "4. The Crown Jewel", sub: "สุดยอดแห่งความเร้าใจ", desc: "สนามแข่ง Formula One มาตรฐาน FIA Grade 1 ภายในเขตการบิน (Airside) ดึงดูดผู้ชม 3 แสนคน", icon: <Flag size={32} className="text-red-500"/>, bg: "bg-red-50", border: "border-red-100" }
-                          ].map((pillar, i) => (
-                            <div key={i} className={`p-8 ${pillar.bg} border ${pillar.border} rounded-3xl hover:shadow-lg transition-all transform hover:-translate-y-1`}>
-                              <div className="flex justify-between items-start mb-4">
-                                <div className="text-sm font-extrabold text-gray-500 uppercase tracking-widest">{pillar.title}</div>
-                                <div className="p-3 bg-white rounded-2xl shadow-sm">{pillar.icon}</div>
+                          {t.overview.pillars.map((pillar, i) => {
+                             const styles = [
+                               { icon: <PlaneTakeoff size={32} className="text-blue-500"/>, bg: "bg-blue-50", border: "border-blue-100" },
+                               { icon: <ShoppingBag size={32} className="text-pink-500"/>, bg: "bg-pink-50", border: "border-pink-100" },
+                               { icon: <Stethoscope size={32} className="text-teal-500"/>, bg: "bg-teal-50", border: "border-teal-100" },
+                               { icon: <Flag size={32} className="text-red-500"/>, bg: "bg-red-50", border: "border-red-100" }
+                             ];
+                             return (
+                              <div key={i} className={`p-8 ${styles[i].bg} border ${styles[i].border} rounded-3xl hover:shadow-lg transition-all transform hover:-translate-y-1`}>
+                                <div className="flex justify-between items-start mb-4">
+                                  <div className="text-sm font-extrabold text-gray-500 uppercase tracking-widest">{pillar.t}</div>
+                                  <div className="p-3 bg-white rounded-2xl shadow-sm">{styles[i].icon}</div>
+                                </div>
+                                <div className="text-xl font-bold text-gray-900 mb-3">{pillar.s}</div>
+                                <div className="text-gray-600 leading-relaxed">{pillar.d}</div>
                               </div>
-                              <div className="text-xl font-bold text-gray-900 mb-3">{pillar.sub}</div>
-                              <div className="text-gray-600 leading-relaxed">{pillar.desc}</div>
-                            </div>
-                          ))}
+                            )
+                          })}
                         </div>
                       </div>
 
-                      {/* Timeline Infographic */}
                       <div className="mb-16 bg-slate-900 rounded-3xl p-10 text-white relative overflow-hidden shadow-2xl">
                         <div className="absolute right-0 top-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
-                        <h3 className="text-2xl font-bold mb-10 flex items-center">
-                          <Clock className="w-8 h-8 mr-3 text-blue-400" /> เส้นทางสู่อนาคต (Timeline to Tomorrow)
-                        </h3>
-                        
+                        <h3 className="text-2xl font-bold mb-10 flex items-center"><Clock className="w-8 h-8 mr-3 text-blue-400" /> {t.overview.timelineTitle}</h3>
                         <div className="relative">
-                          {/* Central Line */}
                           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-slate-800 rounded"></div>
-                          
                           <div className="space-y-12">
-                            {/* Item 1 */}
-                            <div className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
-                              <div className="md:w-5/12 text-right md:pr-8 mb-4 md:mb-0">
-                                <h4 className="text-2xl font-bold text-blue-400">29 มกราคม 2026</h4>
-                              </div>
-                              <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-blue-500 border-4 border-slate-900 rounded-full z-10 shadow-lg shadow-blue-500/50"></div>
-                              <div className="md:w-5/12 pl-12 md:pl-8 text-left">
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                                  <p className="font-semibold text-white">ลงนามข้อตกลงบริหารสัญญาระหว่าง UTA และ EECO</p>
-                                  <p className="text-sm text-blue-300 mt-2">ปลดล็อกเงื่อนไขรถไฟ HSR เพื่อเริ่มก่อสร้างทันที</p>
+                            {t.overview.timeline.map((item, idx) => {
+                              const isLeft = idx % 2 === 0;
+                              const colors = [ {t: "text-blue-400", b: "bg-blue-500", sh: "shadow-blue-500/50"}, {t: "text-indigo-400", b: "bg-indigo-500", sh: "shadow-indigo-500/50"}, {t: "text-red-400", b: "bg-red-500", sh: "shadow-red-500/50"}, {t: "text-green-400", b: "bg-green-500", sh: "shadow-green-500/50"} ];
+                              return (
+                                <div key={idx} className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
+                                  <div className={`md:w-5/12 mb-4 md:mb-0 ${isLeft ? 'text-right md:pr-8' : 'text-left pl-12 md:pl-8 order-2 md:order-1'}`}>
+                                    {isLeft ? <h4 className={`text-2xl font-bold ${colors[idx].t}`}>{item.date}</h4> : <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700"><p className="font-semibold text-white">{item.t1}</p><p className={`text-sm mt-2 ${colors[idx].t}`}>{item.t2}</p></div>}
+                                  </div>
+                                  <div className={`absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 ${colors[idx].b} border-4 border-slate-900 rounded-full z-10 shadow-lg ${colors[idx].sh} ${isLeft ? '' : 'order-1 md:order-2'}`}></div>
+                                  <div className={`md:w-5/12 ${isLeft ? 'pl-12 md:pl-8 text-left' : 'text-left md:text-right md:pr-8 order-3'}`}>
+                                    {!isLeft ? <h4 className={`text-2xl font-bold ${colors[idx].t}`}>{item.date}</h4> : <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700"><p className="font-semibold text-white">{item.t1}</p><p className={`text-sm mt-2 ${colors[idx].t}`}>{item.t2}</p></div>}
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            
-                            {/* Item 2 */}
-                            <div className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
-                              <div className="md:w-5/12 text-left pl-12 md:pl-8 mb-4 md:mb-0 order-2 md:order-1">
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                                  <p className="font-semibold text-white">ออกหนังสือแจ้งให้เริ่มงาน (NTP)</p>
-                                  <p className="text-sm text-indigo-300 mt-2">เริ่มต้นสัมปทาน 50 ปีอย่างเป็นทางการ</p>
-                                </div>
-                              </div>
-                              <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-indigo-500 border-4 border-slate-900 rounded-full z-10 shadow-lg shadow-indigo-500/50 order-1 md:order-2"></div>
-                              <div className="md:w-5/12 text-left md:text-right md:pr-8 order-3">
-                                <h4 className="text-2xl font-bold text-indigo-400">3 เมษายน 2026</h4>
-                              </div>
-                            </div>
-
-                            {/* Item 3 */}
-                            <div className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
-                              <div className="md:w-5/12 text-right md:pr-8 mb-4 md:mb-0">
-                                <h4 className="text-2xl font-bold text-red-400">2028 - 2032</h4>
-                              </div>
-                              <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-red-500 border-4 border-slate-900 rounded-full z-10 shadow-lg shadow-red-500/50"></div>
-                              <div className="md:w-5/12 pl-12 md:pl-8 text-left">
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                                  <p className="font-semibold text-white">เป้าหมายจัดแข่งขัน Formula One</p>
-                                  <p className="text-sm text-red-300 mt-2">ประเดิมสนามครั้งแรก สร้างรายได้ทันที 1.2 หมื่นล้านบาท</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Item 4 */}
-                            <div className="relative flex flex-col md:flex-row items-center md:justify-between w-full">
-                              <div className="md:w-5/12 text-left pl-12 md:pl-8 mb-4 md:mb-0 order-2 md:order-1">
-                                <div className="bg-gradient-to-r from-green-900/50 to-emerald-900/50 p-6 rounded-2xl border border-green-500/30 backdrop-blur-sm shadow-xl">
-                                  <p className="font-bold text-white text-lg">เปิดดำเนินการเชิงพาณิชย์ (COD)</p>
-                                  <p className="text-sm text-green-300 mt-2">เปิดตัว Terminal เฟส 1 และเมืองการบินเต็มรูปแบบ</p>
-                                </div>
-                              </div>
-                              <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-10 h-10 bg-green-500 border-4 border-slate-900 rounded-full z-10 shadow-lg shadow-green-500/50 flex items-center justify-center order-1 md:order-2">
-                                <div className="w-3 h-3 bg-white rounded-full animate-ping"></div>
-                              </div>
-                              <div className="md:w-5/12 text-left md:text-right md:pr-8 order-3">
-                                <h4 className="text-3xl font-extrabold text-green-400">ปี 2031</h4>
-                              </div>
-                            </div>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
-
                     </div>
                   )}
 
-                  {/* ======================================= */}
-                  {/* AIRPORT CITY TAB                          */}
-                  {/* ======================================= */}
-                  {activeTab === 'airport-city' && (
+                  {/* AIRPORT CITY TAB */}
+                  {activeTab === 'airportCity' && (
                     <div className="animate-fade-in">
                       <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b pb-6">
                         <div>
-                          <span className="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block shadow-sm">75% Core Focus</span>
-                          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">มหานครการบินตะวันออก</h2>
-                          <p className="text-2xl text-indigo-600 font-semibold mt-2">"Department of Wonder"</p>
+                          <span className="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block shadow-sm">{t.airportCity.focus}</span>
+                          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">{t.airportCity.title}</h2>
+                          <p className="text-2xl text-indigo-600 font-semibold mt-2">"{t.airportCity.sub}"</p>
                         </div>
                         <div className="text-left md:text-right bg-gray-50 p-4 rounded-2xl border border-gray-200">
-                          <div className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">พื้นที่พาณิชยกรรมรวม</div>
-                          <div className="text-3xl font-black text-gray-900">3,000,000 <span className="text-lg font-medium text-gray-500">ตร.ม.</span></div>
+                          <div className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{t.airportCity.areaLabel}</div>
+                          <div className="text-3xl font-black text-gray-900">3,000,000 <span className="text-lg font-medium text-gray-500">{t.airportCity.areaUnit}</span></div>
                         </div>
                       </div>
                       
                       <div className="mb-12 overflow-hidden rounded-[2rem] shadow-2xl border border-gray-100 relative group">
-                        <img 
-                          src="https://i.postimg.cc/T2rmZdwK/IHE0tfibz6Pd_J3p_JAB0R_topaz_upscale_2_6x_sharpen_denoise_lighting.jpg" 
-                          alt="" 
-                          className="w-full h-auto max-h-[550px] object-cover group-hover:scale-105 transition-transform duration-1000"
-                        />
+                        <img src="https://i.postimg.cc/T2rmZdwK/IHE0tfibz6Pd_J3p_JAB0R_topaz_upscale_2_6x_sharpen_denoise_lighting.jpg" alt="Airport City" className="w-full h-auto max-h-[550px] object-cover group-hover:scale-105 transition-transform duration-1000"/>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <div className="absolute bottom-8 left-8 text-white max-w-3xl">
-                           <h3 className="text-3xl font-bold mb-3">ระบบนิเวศเมืองที่เปิดตลอด 24 ชั่วโมง</h3>
-                           <p className="text-lg text-gray-200">พลิกโฉมจากแค่จุดเดินทาง สู่ศูนย์กลางช้อปปิ้ง บันเทิง และธุรกิจที่ไม่หลับใหล</p>
+                           <h3 className="text-3xl font-bold mb-3">{t.airportCity.imgTitle}</h3>
+                           <p className="text-lg text-gray-200">{t.airportCity.imgDesc}</p>
                         </div>
                       </div>
 
-                      <p className="text-xl text-gray-700 mb-12 leading-relaxed font-light bg-indigo-50/50 p-6 rounded-2xl border-l-4 border-indigo-500">
-                        เมืองอัจฉริยะที่หลอมรวมศิลปะ นวัตกรรม และวัฒนธรรมเข้าด้วยกัน <strong>UTA กำลังผลักดันสถานะ "เขตปลอดภาษีเต็มรูปแบบ (Total Duty-Free)" ทั่วทั้งโครงการ</strong> เพื่อก้าวขึ้นเป็นคู่แข่งโดยตรงกับสิงคโปร์และฮ่องกง ในการดึงดูดเม็ดเงินจากนักเดินทางอิสระที่มีกำลังซื้อสูง
-                      </p>
+                      <p className="text-xl text-gray-700 mb-12 leading-relaxed font-light bg-indigo-50/50 p-6 rounded-2xl border-l-4 border-indigo-500">{t.airportCity.descMain}</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                        {/* Shopping */}
-                        <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center text-pink-600 shadow-inner"><ShoppingBag size={32}/></div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-gray-900">Captive Market & Duty-Free</h3>
-                                <p className="text-sm text-pink-600 font-semibold">โซน Smart Eco Hub & Culture Village</p>
+                        {t.airportCity.cards.map((card, idx) => {
+                          const icons = [<ShoppingBag size={32}/>, <Building2 size={32}/>, <CalendarDays size={32}/>, <Leaf size={32}/>];
+                          const colors = ["pink", "blue", "purple", "teal"];
+                          const c = colors[idx];
+                          return (
+                            <div key={idx} className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
+                              <div className="flex items-center gap-4 mb-6">
+                                <div className={`bg-${c}-100 w-16 h-16 rounded-2xl flex items-center justify-center text-${c}-600 shadow-inner`}>{icons[idx]}</div>
+                                <div><h3 className="text-2xl font-bold text-gray-900">{card.t}</h3><p className={`text-sm text-${c}-600 font-semibold`}>{card.s}</p></div>
+                              </div>
+                              {renderBulletPoints(card.pts, "text-gray-600")}
                             </div>
-                          </div>
-                          {renderBulletPoints([
-                            "การผสมผสาน ลักชัวรีบูติกระดับโลก และร้านอาหารท้องถิ่นระดับพรีเมียม (Street food แบบยกระดับ)",
-                            "ดักจับนักเดินทางด้วยระบบ Click & Collect สั่งซื้อสินค้าล่วงหน้าผ่านแอปพลิเคชัน",
-                            "เน้นเจาะกลุ่ม High-spending independent travelers แทนกรุ๊ปทัวร์ขนาดใหญ่"
-                          ], "text-gray-600")}
-                        </div>
-
-                        {/* MICE */}
-                        <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner"><Building2 size={32}/></div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-gray-900">MICE Complex ระดับชาติ</h3>
-                                <p className="text-sm text-blue-600 font-semibold">ศูนย์ประชุมใหญ่ที่สุดในภูมิภาค</p>
-                            </div>
-                          </div>
-                          {renderBulletPoints([
-                            "ออกแบบให้ผู้ร่วมงานเชื่อมต่อตรงจากเที่ยวบิน ด้วยระบบรถเวียนอัตโนมัติ (APM) ขจัดปัญหาการจราจร",
-                            "ทำหน้าที่เป็น ศูนย์กลางจัดแสดงนิทรรศการหลัก สำหรับกลุ่มอุตสาหกรรมใน EEC (ยานยนต์, ปิโตรเคมี)",
-                            "ดึงดูดงานระดับโลกด้วยสิ่งอำนวยความสะดวกครบวงจร"
-                          ], "text-gray-600")}
-                        </div>
-
-                        {/* Entertainment */}
-                        <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="bg-purple-100 w-16 h-16 rounded-2xl flex items-center justify-center text-purple-600 shadow-inner"><CalendarDays size={32}/></div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-gray-900">Indoor Arena สุดล้ำ</h3>
-                                <p className="text-sm text-purple-600 font-semibold">ขับเคลื่อนเศรษฐกิจกลางคืน (Night Economy)</p>
-                            </div>
-                          </div>
-                          {renderBulletPoints([
-                            "อารีน่าความจุสูงที่ออกแบบระบบเครือข่ายความเร็วสูงเพื่อรองรับ การแข่งขัน E-sports ข้ามทวีป",
-                            "โครงสร้างและระบบเสียงพร้อมรองรับ คอนเสิร์ตระดับโลก และการแสดงละครเวที",
-                            "เป็นกลไกหลักดึงดูดนักท่องเที่ยวในประเทศช่วงสุดสัปดาห์ ลดความเสี่ยงช่วง Low Season ของเที่ยวบิน"
-                          ], "text-gray-600")}
-                        </div>
-
-                        {/* Environment */}
-                        <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="bg-teal-100 w-16 h-16 rounded-2xl flex items-center justify-center text-teal-600 shadow-inner"><Leaf size={32}/></div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-gray-900">Smart City & LEED Standard</h3>
-                                <p className="text-sm text-teal-600 font-semibold">มหานครพลังงานสะอาด</p>
-                            </div>
-                          </div>
-                          {renderBulletPoints([
-                            "ออกแบบผังเมืองให้หนาแน่น (Densification) เพื่อลดการใช้รถยนต์และเพิ่มพื้นที่สีเขียว",
-                            "ใช้โรงไฟฟ้าพลังงานไฮบริด (โซลาร์เซลล์ + ก๊าซธรรมชาติ) เพื่อความมั่นคง",
-                            "ติดตั้งระบบจัดเก็บพลังงานอัจฉริยะ 50MW มุ่งเป้าปล่อยมลพิษเกือบเป็นศูนย์ (Near-Zero Emission)"
-                          ], "text-gray-600")}
-                        </div>
+                          )
+                        })}
                       </div>
 
-                      {/* Hospitality Infographic Section */}
                       <div className="mt-12 bg-gradient-to-r from-gray-900 to-slate-900 text-white rounded-[2.5rem] p-10 md:p-14 relative overflow-hidden shadow-2xl">
                         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
                         <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
-                        
                         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                           <div>
-                            <span className="bg-amber-500 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Hospitality Ecosystem</span>
-                            <h3 className="text-3xl md:text-4xl font-extrabold mb-6">ที่พักและการทานอาหารระดับโลก</h3>
-                            <p className="text-gray-300 mb-8 font-light text-lg leading-relaxed">
-                              สร้างระบบนิเวศบริการที่ครอบคลุม ตั้งแต่โรงแรมธุรกิจที่เชื่อมต่อกับศูนย์ MICE ไปจนถึง <strong>Ultra-Luxury Boutique Hotel</strong> ที่ผสานศาสตร์แห่งอาหาร (Gastronomy) ยกระดับวัตถุดิบประมงจากระยองสู่ไฟน์ไดน์นิ่ง
-                            </p>
+                            <span className="bg-amber-500 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">{t.airportCity.hospTag}</span>
+                            <h3 className="text-3xl md:text-4xl font-extrabold mb-6">{t.airportCity.hospTitle}</h3>
+                            <p className="text-gray-300 mb-8 font-light text-lg leading-relaxed">{t.airportCity.hospDesc}</p>
                             <div className="flex gap-4">
-                                <div className="bg-white/10 p-4 rounded-2xl border border-white/20 flex-1 backdrop-blur-sm">
-                                    <MapPin className="text-amber-400 mb-2 w-8 h-8"/>
-                                    <div className="font-bold text-white mb-1">Frictionless Hotel</div>
-                                    <div className="text-xs text-gray-400">เข้าล็อบบี้ตรงจากสนามบิน</div>
-                                </div>
-                                <div className="bg-white/10 p-4 rounded-2xl border border-white/20 flex-1 backdrop-blur-sm">
-                                    <ShoppingBag className="text-blue-400 mb-2 w-8 h-8"/>
-                                    <div className="font-bold text-white mb-1">Local Supply Chain</div>
-                                    <div className="text-xs text-gray-400">ใช้วัตถุดิบคุณภาพจากชาวบ้าน</div>
-                                </div>
+                                <div className="bg-white/10 p-4 rounded-2xl border border-white/20 flex-1 backdrop-blur-sm"><MapPin className="text-amber-400 mb-2 w-8 h-8"/><div className="font-bold text-white mb-1">{t.airportCity.hosp1}</div><div className="text-xs text-gray-400">{t.airportCity.hosp1Sub}</div></div>
+                                <div className="bg-white/10 p-4 rounded-2xl border border-white/20 flex-1 backdrop-blur-sm"><ShoppingBag className="text-blue-400 mb-2 w-8 h-8"/><div className="font-bold text-white mb-1">{t.airportCity.hosp2}</div><div className="text-xs text-gray-400">{t.airportCity.hosp2Sub}</div></div>
                             </div>
                           </div>
                           <div className="relative h-64 md:h-full min-h-[300px] rounded-3xl overflow-hidden border-4 border-slate-800 shadow-2xl">
-                              <img src="https://images.unsplash.com/photo-1542314831-c6a4d14d8373?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover"/>
+                              <img src="https://images.unsplash.com/photo-1542314831-c6a4d14d8373?q=80&w=1000&auto=format&fit=crop" alt="Hotel" className="w-full h-full object-cover"/>
                               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                                  <div className="text-white">
-                                      <div className="font-bold text-xl">Gastronomy Excellence</div>
-                                      <div className="text-sm text-gray-300">รังสรรค์เมนูโดยเชฟระดับนานาชาติ ดึงดูด VVIP จากพัทยา</div>
-                                  </div>
+                                  <div className="text-white"><div className="font-bold text-xl">{t.airportCity.hospImg1}</div><div className="text-sm text-gray-300">{t.airportCity.hospImg2}</div></div>
                               </div>
                           </div>
                         </div>
@@ -545,427 +648,219 @@
                     </div>
                   )}
 
-                  {/* ======================================= */}
-                  {/* MEDICAL HUB TAB                           */}
-                  {/* ======================================= */}
+                  {/* MEDICAL HUB TAB */}
                   {activeTab === 'medical' && (
                     <div className="animate-fade-in">
                        <div className="text-center max-w-3xl mx-auto mb-10">
-                           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">ศูนย์กลางการแพทย์ข้ามชาติ</h2>
-                           <p className="text-xl text-teal-600 font-medium">ปฏิวัติการดูแลสุขภาพด้วยโมเดล 'Zero-Transit'</p>
+                           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">{t.medical.title}</h2>
+                           <p className="text-xl text-teal-600 font-medium">{t.medical.sub}</p>
                        </div>
                        
-                       {renderGeneratedImage('medical')}
+                       {/* HARDCODED USER IMAGE */}
+                       <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl border border-gray-100 relative group">
+                          <img src="https://i.postimg.cc/k4YLkmk8/Healh_Care_0_transit.jpg" alt="" className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"/>
+                       </div>
 
                        <div className="bg-gradient-to-br from-teal-600 to-emerald-800 rounded-3xl p-8 md:p-12 mb-16 text-white shadow-2xl relative overflow-hidden">
                          <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-20"><HeartPulse size={250}/></div>
                          <div className="relative z-10 grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                              <div className="md:col-span-3">
-                                 <h3 className="text-3xl font-bold mb-4">แนวคิด 'Zero-Transit' Healthcare</h3>
-                                 <p className="text-lg text-teal-100 leading-relaxed mb-6 font-light">
-                                   ขจัดความเหนื่อยล้าจากการเดินทาง (Logistical Friction) ของ Medical Tourism แบบเดิม ผู้ป่วยต่างชาติสามารถผ่านด่านศุลกากรด้วยระบบ <strong>Biometrics (One-ID)</strong> และเข้าสู่คลินิกหรือห้องพักฟื้นระดับลักชัวรีได้ภายใน <strong>15 นาที</strong> หลังลงจากเครื่องบิน
-                                 </p>
+                                 <h3 className="text-3xl font-bold mb-4">{t.medical.conceptTitle}</h3>
+                                 <p className="text-lg text-teal-100 leading-relaxed mb-6 font-light">{t.medical.conceptDesc}</p>
                                  <div className="flex flex-wrap gap-3">
-                                     <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border border-white/30">ศัลยกรรมความงาม</span>
-                                     <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border border-white/30">เวชศาสตร์ชะลอวัย</span>
-                                     <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border border-white/30">การดูแลฟื้นฟูหลังผ่าตัด</span>
+                                     {t.medical.tags.map((tag, i) => <span key={i} className="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border border-white/30">{tag}</span>)}
                                  </div>
                              </div>
                              <div className="md:col-span-2 flex flex-col gap-4">
                                  <div className="bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/20">
-                                     <div className="text-teal-200 text-xs uppercase tracking-widest mb-1">Target Market</div>
-                                     <div className="font-bold text-xl">High-Net-Worth Individuals</div>
-                                     <div className="text-sm text-teal-100">จากตะวันออกกลาง (GCC), ยุโรป และจีน</div>
+                                     <div className="text-teal-200 text-xs uppercase tracking-widest mb-1">{t.medical.target}</div>
+                                     <div className="font-bold text-xl">{t.medical.targetT}</div>
+                                     <div className="text-sm text-teal-100">{t.medical.targetS}</div>
                                  </div>
                                  <div className="bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/20">
-                                     <div className="text-teal-200 text-xs uppercase tracking-widest mb-1">Tech Integration</div>
-                                     <div className="font-bold text-xl">Telemedicine & Robotics</div>
-                                     <div className="text-sm text-teal-100">ปรึกษาแพทย์ก่อนบิน และหุ่นยนต์ช่วยผ่าตัด</div>
+                                     <div className="text-teal-200 text-xs uppercase tracking-widest mb-1">{t.medical.tech}</div>
+                                     <div className="font-bold text-xl">{t.medical.techT}</div>
+                                     <div className="text-sm text-teal-100">{t.medical.techS}</div>
                                  </div>
                              </div>
                          </div>
                        </div>
                        
-                       <h3 className="text-3xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center">
-                         <Activity className="w-8 h-8 mr-3 text-red-500" /> เครือข่ายพันธมิตรทางการแพทย์ระดับแนวหน้า
-                       </h3>
+                       <h3 className="text-3xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center"><Activity className="w-8 h-8 mr-3 text-red-500" /> {t.medical.partnerTitle}</h3>
                        
                        <div className="space-y-12">
-                         {/* BDMS Section */}
-                         <div className="flex flex-col md:flex-row gap-8 items-stretch bg-white p-6 md:p-8 rounded-[2rem] border border-gray-200 shadow-lg hover:shadow-2xl transition-all">
-                           <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1538108149393-cebb47acdd4e?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
-                             <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-blue-900 font-bold text-sm shadow-md">BDMS Network</div>
-                           </div>
-                           <div className="w-full md:w-7/12 flex flex-col justify-center">
-                             <h4 className="text-3xl font-extrabold text-blue-900 mb-2">เครือ BDMS</h4>
-                             <p className="text-blue-600 font-bold mb-6 text-lg">ยุทธศาสตร์: Wellness Economy & Global Network</p>
-                             <p className="text-gray-600 mb-6 leading-relaxed text-lg">
-                               นำความเชี่ยวชาญด้านบริการระดับพรีเมียมเข้ามาผสานกับเมืองการบิน เพื่อเจาะกลุ่มผู้ป่วยข้ามชาติโดยเฉพาะ
-                             </p>
-                             <ul className="space-y-4">
-                               <li className="flex items-start">
-                                 <div className="bg-blue-100 p-2 rounded-lg mr-4 mt-1"><Globe size={18} className="text-blue-600"/></div>
-                                 <span className="text-gray-700">จับมือพันธมิตร <strong>Medsi Group</strong> (รัสเซีย) เพื่อดึงลูกค้าโซนยุโรปตะวันออก</span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-blue-100 p-2 rounded-lg mr-4 mt-1"><Users size={18} className="text-blue-600"/></div>
-                                 <span className="text-gray-700">มุ่งเป้าตลาด <strong>ชาวอาหรับ (GCC Market)</strong> ที่ต้องการบริการสุขภาพควบคู่การท่องเที่ยว</span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-blue-100 p-2 rounded-lg mr-4 mt-1"><Activity size={18} className="text-blue-600"/></div>
-                                 <span className="text-gray-700">รองรับบริการ <strong>Teleconsultation</strong> พูดคุยกับแพทย์ได้ก่อนตัดสินใจบิน</span>
-                               </li>
-                             </ul>
-                           </div>
-                         </div>
+                         {t.medical.partners.map((p, idx) => {
+                           const isReversed = idx === 1;
+                           const isDark = idx === 2;
+                           // อัปเดตลิงก์รูปภาพของ BDMS และ Bumrungrad ที่นี่
+                           const imgs = [
+                             "https://cdn.marketingoops.com/wp-content/uploads/2018/08/hospital.jpg.webp", // BDMS
+                             "https://www.thailandelitevisas.com/wp-content/uploads/2024/05/Bumrungrad-International-Hospital.jpg", // Bumrungrad
+                             "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop" // Public-Military
+                           ];
+                           const colors = [ {c: "blue", bg: "bg-white", border: "border-gray-200", textMain: "text-blue-900", textSub: "text-blue-600", textDesc: "text-gray-600", iconBg: "bg-blue-100", iconC: "text-blue-600", badge: "bg-white/90 text-blue-900"}, {c: "amber", bg: "bg-gradient-to-br from-amber-50 to-orange-50", border: "border-amber-100", textMain: "text-amber-800", textSub: "text-amber-600", textDesc: "text-gray-700", iconBg: "bg-amber-200/50", iconC: "text-amber-700", badge: "bg-white/90 text-amber-800"}, {c: "green", bg: "bg-slate-900", border: "border-slate-800", textMain: "text-white", textSub: "text-green-400", textDesc: "text-gray-300", iconBg: "bg-slate-800", iconC: "text-green-400", badge: "bg-green-500/90 text-white"} ];
+                           const c = colors[idx];
+                           const icons = [<Globe size={18} className={c.iconC}/>, <Users size={18} className={c.iconC}/>, <Activity size={18} className={c.iconC}/>];
+                           if(idx===1) { icons[0] = <PlaneTakeoff size={18} className={c.iconC}/>; icons[2] = <Stethoscope size={18} className={c.iconC}/>; }
+                           if(idx===2) { icons[0] = <Building2 size={18} className={c.iconC}/>; icons[1] = <ShieldAlert size={18} className={c.iconC}/>; icons[2] = <Users size={18} className={c.iconC}/>; }
 
-                         {/* Bumrungrad Section */}
-                         <div className="flex flex-col md:flex-row-reverse gap-8 items-stretch bg-gradient-to-br from-amber-50 to-orange-50 p-6 md:p-8 rounded-[2rem] border border-amber-100 shadow-lg hover:shadow-2xl transition-all">
-                           <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1586985289688-ca3caa4f13d0?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
-                             <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-amber-800 font-bold text-sm shadow-md">Bumrungrad Int.</div>
-                           </div>
-                           <div className="w-full md:w-7/12 flex flex-col justify-center">
-                             <h4 className="text-3xl font-extrabold text-amber-800 mb-2">Bumrungrad International</h4>
-                             <p className="text-amber-600 font-bold mb-6 text-lg">ยุทธศาสตร์: Hub & Spoke และ VVIP Patient</p>
-                             <p className="text-gray-700 mb-6 leading-relaxed text-lg">
-                               ขยายฐานจากใจกลางกรุงเทพฯ สู่ EEC ด้วยโมเดลที่เน้นความเป็นส่วนตัวและการรักษาขั้นสูง
-                             </p>
-                             <ul className="space-y-4">
-                               <li className="flex items-start">
-                                 <div className="bg-amber-200/50 p-2 rounded-lg mr-4 mt-1"><PlaneTakeoff size={18} className="text-amber-700"/></div>
-                                 <span className="text-gray-800">ใช้เป็น 'Spoke' รับคนไข้ VVIP โดยตรงจาก <strong>เที่ยวบินเช่าเหมาลำ (Private Jets)</strong></span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-amber-200/50 p-2 rounded-lg mr-4 mt-1"><Globe size={18} className="text-amber-700"/></div>
-                                 <span className="text-gray-800">ร่วมมือกับ <strong>JD Health</strong> ของจีน เพื่อดึงดูดผู้ป่วยระดับไฮเอนด์</span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-amber-200/50 p-2 rounded-lg mr-4 mt-1"><Stethoscope size={18} className="text-amber-700"/></div>
-                                 <span className="text-gray-800">เน้นศูนย์บริการ <strong>เวชศาสตร์ชะลอวัย (VitalLife)</strong> และ Precision Medicine</span>
-                               </li>
-                             </ul>
-                           </div>
-                         </div>
-
-                         {/* Public-Military Integration */}
-                         <div className="flex flex-col md:flex-row gap-8 items-stretch bg-slate-900 p-6 md:p-8 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all text-white">
-                           <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
-                             <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"/>
-                             <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-sm px-4 py-2 rounded-full text-white font-bold text-sm shadow-md">Public-Military Partnership</div>
-                           </div>
-                           <div className="w-full md:w-7/12 flex flex-col justify-center">
-                             <h4 className="text-3xl font-extrabold text-white mb-2">รพ.สมเด็จพระนางเจ้าสิริกิติ์</h4>
-                             <p className="text-green-400 font-bold mb-6 text-lg">ยุทธศาสตร์: การยกระดับมาตรฐานโลก (JCI Accreditation)</p>
-                             <p className="text-gray-300 mb-6 leading-relaxed text-lg font-light">
-                               การบูรณาการโครงสร้างพื้นฐานของกองทัพเรือไทย เพื่อรองรับพลเรือน นักท่องเที่ยว และความปลอดภัยทางการบิน
-                             </p>
-                             <ul className="space-y-4">
-                               <li className="flex items-start">
-                                 <div className="bg-slate-800 p-2 rounded-lg mr-4 mt-1"><Building2 size={18} className="text-green-400"/></div>
-                                 <span className="text-gray-300">สร้างอาคาร <strong>'Medical Hub' แห่งใหม่สูง 5 ชั้น พื้นที่ 39,000 ตร.ม.</strong> ติดกับพื้นที่ UTA</span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-slate-800 p-2 rounded-lg mr-4 mt-1"><ShieldAlert size={18} className="text-green-400"/></div>
-                                 <span className="text-gray-300">ออกแบบโดย TEAM Group เพื่อยกระดับสู่มาตรฐาน <strong>JCI</strong></span>
-                               </li>
-                               <li className="flex items-start">
-                                 <div className="bg-slate-800 p-2 rounded-lg mr-4 mt-1"><Users size={18} className="text-green-400"/></div>
-                                 <span className="text-gray-300">ให้บริการครอบคลุมทั้งประชาชนใน EEC, พนักงานสายการบิน และนักท่องเที่ยว</span>
-                               </li>
-                             </ul>
-                           </div>
-                         </div>
+                           return (
+                             <div key={idx} className={`flex flex-col md:flex-${isReversed?'row-reverse':'row'} gap-8 items-stretch ${c.bg} p-6 md:p-8 rounded-[2rem] border ${c.border} shadow-lg hover:shadow-2xl transition-all`}>
+                               <div className="w-full md:w-5/12 overflow-hidden rounded-3xl relative">
+                                 <img src={imgs[idx]} alt="" className={`w-full h-full object-cover ${isDark ? 'opacity-80' : ''} hover:scale-105 transition-transform duration-700`}/>
+                                 <div className={`absolute top-4 ${isReversed?'right-4':'left-4'} ${c.badge} backdrop-blur-sm px-4 py-2 rounded-full font-bold text-sm shadow-md`}>{p.net}</div>
+                               </div>
+                               <div className="w-full md:w-7/12 flex flex-col justify-center">
+                                 <h4 className={`text-3xl font-extrabold ${c.textMain} mb-2`}>{p.t}</h4>
+                                 <p className={`${c.textSub} font-bold mb-6 text-lg`}>{p.s}</p>
+                                 <p className={`${c.textDesc} mb-6 leading-relaxed text-lg`}>{p.d}</p>
+                                 <ul className="space-y-4">
+                                   <li className="flex items-start"><div className={`${c.iconBg} p-2 rounded-lg mr-4 mt-1`}>{icons[0]}</div><span className={c.textDesc}>{p.p1}</span></li>
+                                   <li className="flex items-start"><div className={`${c.iconBg} p-2 rounded-lg mr-4 mt-1`}>{icons[1]}</div><span className={c.textDesc}>{p.p2}</span></li>
+                                   <li className="flex items-start"><div className={`${c.iconBg} p-2 rounded-lg mr-4 mt-1`}>{icons[2]}</div><span className={c.textDesc}>{p.p3}</span></li>
+                                 </ul>
+                               </div>
+                             </div>
+                           )
+                         })}
                        </div>
                     </div>
                   )}
 
-                  {/* ======================================= */}
-                  {/* F1 TAB                                    */}
-                  {/* ======================================= */}
+                  {/* F1 TAB */}
                   {activeTab === 'f1' && (
                     <div className="animate-fade-in">
                        <div className="text-center max-w-3xl mx-auto mb-10">
-                           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">เสนอตัวเป็นเจ้าภาพ Formula One</h2>
-                           <p className="text-xl text-red-600 font-bold">เพชรยอดมงกุฎแห่งการผสาน Aerotropolis เข้ากับ Motorsport</p>
+                           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">{t.f1.title}</h2>
+                           <p className="text-xl text-red-600 font-bold">{t.f1.sub}</p>
                        </div>
                        
-                       {renderGeneratedImage('f1')}
+                       {/* HARDCODED USER IMAGE */}
+                       <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl border border-gray-100 relative group">
+                          <img src="https://i.postimg.cc/XqZtWPby/Make_photo_cinematic_realistic_2k_delpmaspu.jpg" alt="" className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"/>
+                       </div>
 
-                       {/* F1 Stats Infographic */}
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                           <div className="bg-red-600 text-white rounded-3xl p-8 shadow-xl transform md:-translate-y-4">
                               <DollarSign className="w-12 h-12 mb-4 text-red-200"/>
                               <div className="text-5xl font-black mb-2">$1.2B</div>
-                              <div className="font-semibold text-red-100 text-lg">งบประมาณประมูล</div>
-                              <div className="text-sm mt-2 opacity-80">สำหรับการเป็นเจ้าภาพ F1 World Championship ปี 2028-2032 (สนับสนุนโดย PTT)</div>
+                              <div className="font-semibold text-red-100 text-lg">{t.f1.s1}</div><div className="text-sm mt-2 opacity-80">{t.f1.s1d}</div>
                           </div>
                           <div className="bg-gray-900 text-white rounded-3xl p-8 shadow-xl">
                               <Users className="w-12 h-12 mb-4 text-gray-400"/>
                               <div className="text-5xl font-black mb-2">300K</div>
-                              <div className="font-semibold text-gray-300 text-lg">ผู้ชมที่คาดการณ์ต่ออีเวนต์</div>
-                              <div className="text-sm mt-2 opacity-80">เจาะกลุ่มนักท่องเที่ยว VVIP ที่พร้อมจับจ่ายในโซนราคาตั๋ว $5,000 - $8,000</div>
+                              <div className="font-semibold text-gray-300 text-lg">{t.f1.s2}</div><div className="text-sm mt-2 opacity-80">{t.f1.s2d}</div>
                           </div>
                           <div className="bg-[#1e1e1e] text-white rounded-3xl p-8 shadow-xl transform md:translate-y-4">
                               <TrendingUp className="w-12 h-12 mb-4 text-green-400"/>
                               <div className="text-5xl font-black mb-2 text-green-400">12B<span className="text-2xl text-white ml-1">THB</span></div>
-                              <div className="font-semibold text-gray-300 text-lg">รายได้หมุนเวียนทันที</div>
-                              <div className="text-sm mt-2 opacity-80">บวกกับการสร้างงานในท้องถิ่นอีกกว่า 6,000 ตำแหน่ง</div>
+                              <div className="font-semibold text-gray-300 text-lg">{t.f1.s3}</div><div className="text-sm mt-2 opacity-80">{t.f1.s3d}</div>
                           </div>
                        </div>
 
-                       {/* Airside Logistics Advantage */}
                        <div className="bg-white rounded-3xl p-8 md:p-12 border border-gray-200 shadow-lg mb-16 flex flex-col lg:flex-row gap-10 items-center">
                            <div className="w-full lg:w-1/2">
-                               <span className="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">The Global Advantage</span>
-                               <h3 className="text-3xl font-extrabold text-gray-900 mb-6">"Airside Integration" <br/>ความเหนือชั้นด้านโลจิสติกส์</h3>
-                               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                                   Formula One คือสุดยอดกีฬาที่ท้าทายด้านโลจิสติกส์ การสร้างสนามแข่ง <strong>FIA Grade 1 ประชิดรันเวย์</strong> ทำให้ U-Tapao เหนือกว่าสนามในเมือง (Street Circuit) อย่างเทียบไม่ติด
-                               </p>
-                               {renderBulletPoints([
-                                   "เครื่องบินคาร์โก้ 747 สามารถนำรถแข่งและอุปกรณ์ลงจอด แล้วขนถ่ายเข้าสู่ Paddock ได้โดยตรง",
-                                   "ขจัดปัญหาการจราจรติดขัดในเมือง ไม่ต้องกังวลเรื่องการขนส่งอุปกรณ์ชิ้นใหญ่ผ่านถนนปกติ",
-                                   "รองรับการใช้งานตลอด 51 สัปดาห์ที่เหลือ สำหรับ Formula E, MotoGP และการเปิด Track Day"
-                               ], "text-gray-800")}
+                               <span className="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">{t.f1.advTag}</span>
+                               <h3 className="text-3xl font-extrabold text-gray-900 mb-6">{t.f1.advTitle}</h3>
+                               <p className="text-gray-600 text-lg leading-relaxed mb-6">{t.f1.advDesc}</p>
+                               {renderBulletPoints(t.f1.advPts, "text-gray-800")}
                            </div>
                            <div className="w-full lg:w-1/2 relative">
-                               <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white relative z-10">
-                                   <img src="https://images.unsplash.com/photo-1541252260730-0412e8e2108e?q=80&w=1000&auto=format&fit=crop" alt="" className="w-full h-full object-cover"/>
-                               </div>
+                               <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white relative z-10"><img src="https://images.unsplash.com/photo-1541252260730-0412e8e2108e?q=80&w=1000&auto=format&fit=crop" alt="F1" className="w-full h-full object-cover"/></div>
                                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/20 rounded-full blur-3xl z-0"></div>
                            </div>
                        </div>
 
-                       {/* Closed-Loop Economy Graphic Section */}
-                       <div className="text-center mb-10">
-                          <h3 className="text-3xl font-bold text-gray-900 mb-4">วงจรเศรษฐกิจแบบปิด (The Closed-Loop Economy)</h3>
-                          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-                            สนามแข่ง F1 คือ <strong>"แรงดึงดูดหลัก (Gravitational Anchor)"</strong> ที่จะทำให้ผู้มาเยือนได้รับประสบการณ์ครบวงจร โดยที่เม็ดเงินของนักท่องเที่ยวกลุ่ม High-end จะไม่รั่วไหลออกไปนอกอาณาเขตของ UTA
-                          </p>
-                       </div>
+                       <div className="text-center mb-10"><h3 className="text-3xl font-bold text-gray-900 mb-4">{t.f1.loopTitle}</h3><p className="text-gray-600 max-w-3xl mx-auto text-lg">{t.f1.loopDesc}</p></div>
                        
                        <div className="relative max-w-5xl mx-auto py-12 px-4 bg-slate-50 rounded-[3rem] border border-slate-200">
-                         {/* Visual Flowchart */}
                          <div className="flex flex-col md:flex-row justify-between items-center relative z-10">
-                           <div className="relative group">
-                               <div className="bg-white text-blue-600 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-blue-100 z-10 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                                 <PlaneTakeoff size={32} className="mb-2"/>
-                                 <span className="text-xs md:text-sm font-bold text-center leading-tight">บินตรง<br/>ลงรันเวย์</span>
-                               </div>
-                           </div>
+                           <div className="relative group"><div className="bg-white text-blue-600 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-blue-100 z-10 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300"><PlaneTakeoff size={32} className="mb-2"/><span className="text-xs md:text-sm font-bold text-center leading-tight">{t.f1.steps[0]}</span></div></div>
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-blue-200 to-amber-200 mx-2"></div>
-                           <div className="relative group">
-                               <div className="bg-white text-amber-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-amber-100 z-10 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
-                                 <Building2 size={32} className="mb-2"/>
-                                 <span className="text-xs md:text-sm font-bold text-center leading-tight">เช็คอิน<br/>โรงแรมหรู</span>
-                               </div>
-                           </div>
+                           <div className="relative group"><div className="bg-white text-amber-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-amber-100 z-10 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300"><Building2 size={32} className="mb-2"/><span className="text-xs md:text-sm font-bold text-center leading-tight">{t.f1.steps[1]}</span></div></div>
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-amber-200 to-red-200 mx-2"></div>
-                           <div className="relative group transform scale-110 my-6 md:my-0">
-                               <div className="absolute inset-0 bg-red-500 rounded-full blur animate-pulse-slow"></div>
-                               <div className="bg-gradient-to-br from-red-500 to-red-700 text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-2xl border-4 border-red-200 z-20">
-                                 <Flag size={40} className="mb-2"/>
-                                 <span className="text-sm md:text-base font-extrabold text-center leading-tight">ชมการแข่ง<br/>Formula 1</span>
-                               </div>
-                           </div>
+                           <div className="relative group transform scale-110 my-6 md:my-0"><div className="absolute inset-0 bg-red-500 rounded-full blur animate-pulse-slow"></div><div className="bg-gradient-to-br from-red-500 to-red-700 text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-2xl border-4 border-red-200 z-20"><Flag size={40} className="mb-2"/><span className="text-sm md:text-base font-extrabold text-center leading-tight">{t.f1.steps[2]}</span></div></div>
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-red-200 to-pink-200 mx-2"></div>
-                           <div className="relative group">
-                               <div className="bg-white text-pink-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-pink-100 z-10 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300">
-                                 <ShoppingBag size={32} className="mb-2"/>
-                                 <span className="text-xs md:text-sm font-bold text-center leading-tight">ช้อปปิ้ง<br/>Duty-Free</span>
-                               </div>
-                           </div>
+                           <div className="relative group"><div className="bg-white text-pink-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-pink-100 z-10 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300"><ShoppingBag size={32} className="mb-2"/><span className="text-xs md:text-sm font-bold text-center leading-tight">{t.f1.steps[3]}</span></div></div>
                            <div className="hidden md:block flex-1 h-1 bg-gradient-to-r from-pink-200 to-teal-200 mx-2"></div>
-                           <div className="relative group">
-                               <div className="bg-white text-teal-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-teal-100 z-10 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
-                                 <Stethoscope size={32} className="mb-2"/>
-                                 <span className="text-xs md:text-sm font-bold text-center leading-tight">ฟื้นฟู<br/>สุขภาพ</span>
-                               </div>
-                           </div>
+                           <div className="relative group"><div className="bg-white text-teal-500 w-24 h-24 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-teal-100 z-10 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300"><Stethoscope size={32} className="mb-2"/><span className="text-xs md:text-sm font-bold text-center leading-tight">{t.f1.steps[4]}</span></div></div>
                          </div>
-                         <div className="mt-12 flex justify-center relative z-20">
-                            <div className="bg-slate-900 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 border border-slate-700">
-                                <RefreshCw size={24} className="text-green-400 animate-spin-slow"/>
-                                <div>
-                                    <div className="font-extrabold tracking-widest uppercase text-sm">Capital Retention</div>
-                                    <div className="text-gray-400 text-xs">เงินทุนหมุนเวียนในระบบนิเวศ UTA 100%</div>
-                                </div>
-                            </div>
-                         </div>
+                         <div className="mt-12 flex justify-center relative z-20"><div className="bg-slate-900 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 border border-slate-700"><RefreshCw size={24} className="text-green-400 animate-spin-slow"/><div><div className="font-extrabold tracking-widest uppercase text-sm">{t.f1.ret}</div><div className="text-gray-400 text-xs">{t.f1.retDesc}</div></div></div></div>
                        </div>
                     </div>
                   )}
 
-                  {/* ======================================= */}
-                  {/* LOGISTICS TAB                             */}
-                  {/* ======================================= */}
+                  {/* LOGISTICS TAB */}
                   {activeTab === 'logistics' && (
                     <div className="animate-fade-in">
-                       <div className="text-center max-w-3xl mx-auto mb-10">
-                           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">ศูนย์กลางลอจิสติกส์ระดับภูมิภาค</h2>
-                           <p className="text-xl text-blue-600 font-medium">เขตการค้าเสรีทางอากาศ (Air Cargo Free Trade Zone)</p>
-                       </div>
+                       <div className="text-center max-w-3xl mx-auto mb-10"><h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">{t.logistics.title}</h2><p className="text-xl text-blue-600 font-medium">{t.logistics.sub}</p></div>
                        
-                       {renderGeneratedImage('logistics')}
+                       {/* HARDCODED USER IMAGE */}
+                       <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl border border-gray-100 relative group">
+                          <img src="https://i.postimg.cc/MT3ghShX/Logistics_hub_air_cargo_free_trade_zone_in_utp_air_delpmaspu.jpg" alt="" className="w-full h-auto max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"/>
+                       </div>
 
                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
                          <div>
-                           <h3 className="text-3xl font-bold text-gray-900 mb-6">หัวใจสำคัญของอุตสาหกรรม EEC</h3>
-                           <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                             เขตปลอดอากร (Free Trade Zone) ของอู่ตะเภา ออกแบบมาเพื่อเป็นแรงขับเคลื่อนให้กับการผลิตขั้นสูง (Advanced Manufacturing), ชิ้นส่วนอิเล็กทรอนิกส์, เภสัชภัณฑ์ และ E-commerce ข้ามพรมแดนที่กำลังเติบโตอย่างก้าวกระโดด
-                           </p>
+                           <h3 className="text-3xl font-bold text-gray-900 mb-6">{t.logistics.h1}</h3>
+                           <p className="text-lg text-gray-600 mb-6 leading-relaxed">{t.logistics.d1}</p>
                            <div className="space-y-4">
-                               <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl">
-                                   <div className="font-bold text-blue-900">Customs Fast-Track</div>
-                                   <div className="text-sm text-gray-700">พิธีการศุลกากรสะดวกรวดเร็ว ลดหย่อนภาษีนำเข้า-ส่งออก ดึงดูดบริษัทขนส่งระดับโลก</div>
-                               </div>
-                               <div className="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-xl">
-                                   <div className="font-bold text-sky-900">Cold-Chain Infrastructure</div>
-                                   <div className="text-sm text-gray-700">คลังสินค้าควบคุมอุณหภูมิเฉพาะทาง สำคัญมากสำหรับการส่งออกสินค้าเกษตรและชีวเภสัชภัณฑ์</div>
-                               </div>
-                               <div className="bg-cyan-50 border-l-4 border-cyan-500 p-4 rounded-r-xl">
-                                   <div className="font-bold text-cyan-900">High Capacity</div>
-                                   <div className="text-sm text-gray-700">เฟส 1 รองรับการจัดการและกระจายสินค้า <strong>มากกว่า 1,000,000 ตัน</strong> ต่อปี</div>
-                               </div>
+                               <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl"><div className="font-bold text-blue-900">{t.logistics.b1t}</div><div className="text-sm text-gray-700">{t.logistics.b1d}</div></div>
+                               <div className="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-xl"><div className="font-bold text-sky-900">{t.logistics.b2t}</div><div className="text-sm text-gray-700">{t.logistics.b2d}</div></div>
+                               <div className="bg-cyan-50 border-l-4 border-cyan-500 p-4 rounded-r-xl"><div className="font-bold text-cyan-900">{t.logistics.b3t}</div><div className="text-sm text-gray-700">{t.logistics.b3d}</div></div>
                            </div>
                          </div>
-                         
                          <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-center">
                             <div className="absolute -right-10 -bottom-10 opacity-5"><Package size={250}/></div>
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-sky-400 to-cyan-300"></div>
-                            
-                            <h3 className="text-2xl font-bold text-blue-300 mb-8 relative z-10 flex items-center">
-                                <PlaneTakeoff className="mr-3"/> ศักยภาพเขตการบิน (Airside Specs)
-                            </h3>
+                            <h3 className="text-2xl font-bold text-blue-300 mb-8 relative z-10 flex items-center"><PlaneTakeoff className="mr-3"/> {t.logistics.specT}</h3>
                             <ul className="space-y-5 relative z-10">
-                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-gray-300 font-medium">รันเวย์ (Runways)</span>
-                                <span className="text-white font-bold text-xl">ยาว 3,500 ม. (2 เส้น)</span>
-                              </li>
-                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-gray-300 font-medium">หลุมจอด (Stands)</span>
-                                <span className="text-white font-bold text-xl">60 หลุมจอดเฟส 1</span>
-                              </li>
-                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-gray-300 font-medium">การจัดการลานจอด</span>
-                                <span className="text-white font-bold text-xl text-right leading-tight">
-                                    <span className="text-sm text-sky-300 font-normal block">ใช้ระบบนำทางอัจฉริยะ</span>
-                                    Autonomous Vehicles (AV)
-                                </span>
-                              </li>
+                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors"><span className="text-gray-300 font-medium">{t.logistics.sp1}</span><span className="text-white font-bold text-xl">{t.logistics.sp1v}</span></li>
+                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors"><span className="text-gray-300 font-medium">{t.logistics.sp2}</span><span className="text-white font-bold text-xl">{t.logistics.sp2v}</span></li>
+                              <li className="flex justify-between items-center bg-white/10 p-5 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-colors"><span className="text-gray-300 font-medium">{t.logistics.sp3}</span><span className="text-white font-bold text-xl text-right leading-tight"><span className="text-sm text-sky-300 font-normal block">{t.logistics.sp3s}</span>{t.logistics.sp3v}</span></li>
                             </ul>
                          </div>
                        </div>
 
                        <div className="bg-white p-10 rounded-[2.5rem] border border-gray-200 shadow-xl text-center">
-                           <h3 className="text-3xl font-bold text-gray-900 mb-4">เครือข่ายโลจิสติกส์ไร้รอยต่อ (Multimodal Network)</h3>
-                           <p className="text-gray-600 mb-10">สนามบินไม่ได้ทำงานโดดเดี่ยว แต่ถูกเชื่อมต่อกับโครงสร้างพื้นฐานหลักของประเทศแบบไร้รอยต่อ</p>
-                           
+                           <h3 className="text-3xl font-bold text-gray-900 mb-4">{t.logistics.multiT}</h3><p className="text-gray-600 mb-10">{t.logistics.multiD}</p>
                            <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
-                               <div className="flex flex-col items-center">
-                                   <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4 shadow-inner">
-                                       <PlaneTakeoff size={40}/>
-                                   </div>
-                                   <h4 className="font-bold text-lg">อู่ตะเภา (Air)</h4>
-                                   <p className="text-sm text-gray-500">ศูนย์กลางขนส่งด่วน</p>
-                               </div>
+                               <div className="flex flex-col items-center"><div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4 shadow-inner"><PlaneTakeoff size={40}/></div><h4 className="font-bold text-lg">{t.logistics.m1t}</h4><p className="text-sm text-gray-500">{t.logistics.m1d}</p></div>
                                <div className="hidden md:block w-20 border-t-4 border-dashed border-gray-300"></div>
-                               <div className="flex flex-col items-center">
-                                   <div className="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mb-4 shadow-inner">
-                                       <Train size={40}/>
-                                   </div>
-                                   <h4 className="font-bold text-lg">มอเตอร์เวย์ & ราง (Land)</h4>
-                                   <p className="text-sm text-gray-500">กระจายสินค้าทั่ว EEC</p>
-                               </div>
+                               <div className="flex flex-col items-center"><div className="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mb-4 shadow-inner"><Train size={40}/></div><h4 className="font-bold text-lg">{t.logistics.m2t}</h4><p className="text-sm text-gray-500">{t.logistics.m2d}</p></div>
                                <div className="hidden md:block w-20 border-t-4 border-dashed border-gray-300"></div>
-                               <div className="flex flex-col items-center">
-                                   <div className="w-24 h-24 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 mb-4 shadow-inner">
-                                       <Ship size={40}/>
-                                   </div>
-                                   <h4 className="font-bold text-lg">แหลมฉบัง & มาบตาพุด (Sea)</h4>
-                                   <p className="text-sm text-gray-500">เชื่อมต่อท่าเรือน้ำลึก</p>
-                               </div>
+                               <div className="flex flex-col items-center"><div className="w-24 h-24 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 mb-4 shadow-inner"><Ship size={40}/></div><h4 className="font-bold text-lg">{t.logistics.m3t}</h4><p className="text-sm text-gray-500">{t.logistics.m3d}</p></div>
                            </div>
                        </div>
                     </div>
                   )}
 
-                  {/* ======================================= */}
-                  {/* IMPACT TAB                                */}
-                  {/* ======================================= */}
+                  {/* IMPACT TAB */}
                   {activeTab === 'impact' && (
                     <div className="animate-fade-in">
-                       <h2 className="text-3xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4 flex items-center justify-center md:justify-start">
-                         <Globe className="w-10 h-10 lg:w-12 lg:h-12 mr-4 text-blue-600" />
-                         วิเคราะห์ผลกระทบระดับโลก
-                       </h2>
-                       <p className="text-xl lg:text-2xl text-orange-600 font-semibold mb-10 text-center md:text-left">
-                         โอกาสทางยุทธศาสตร์ท่ามกลางความขัดแย้งในตะวันออกกลาง (Global Impact)
-                       </p>
+                       <h2 className="text-3xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4 flex items-center justify-center md:justify-start"><Globe className="w-10 h-10 lg:w-12 lg:h-12 mr-4 text-blue-600" /> {t.impact.title}</h2>
+                       <p className="text-xl lg:text-2xl text-orange-600 font-semibold mb-10 text-center md:text-left">{t.impact.sub}</p>
 
                        <div className="bg-gradient-to-br from-[#0B1121] to-[#1e293b] rounded-[2.5rem] p-8 md:p-12 shadow-2xl mb-12 border border-slate-700 text-white relative overflow-hidden">
                           <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
-                          
-                          <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-slate-700 pb-6 relative z-10">
-                            <h3 className="text-2xl lg:text-3xl font-bold text-white flex items-center mb-4 md:mb-0">
-                              <TrendingUp className="w-8 h-8 mr-4 text-emerald-400" />
-                              ทำไม EEC ถึงเป็น "Safe Haven" ?
-                            </h3>
-                            <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-5 py-2.5 rounded-full uppercase tracking-widest border border-emerald-500/30 backdrop-blur-md">
-                              Positive Trend Analysis
-                            </span>
-                          </div>
+                          <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-slate-700 pb-6 relative z-10"><h3 className="text-2xl lg:text-3xl font-bold text-white flex items-center mb-4 md:mb-0"><TrendingUp className="w-8 h-8 mr-4 text-emerald-400" />{t.impact.boxTitle}</h3><span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-5 py-2.5 rounded-full uppercase tracking-widest border border-emerald-500/30 backdrop-blur-md">{t.impact.boxBadge}</span></div>
 
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
                             <div>
-                              <p className="text-gray-300 mb-8 font-light leading-relaxed text-lg">
-                                จากสถานการณ์ความตึงเครียดทางภูมิรัฐศาสตร์ (Geopolitics) ในตะวันออกกลางและยุโรป ส่งผลให้เกิดการปรับตัวครั้งใหญ่ของห่วงโซ่อุปทานระดับโลก (Global Supply Chain) โครงการ U-Tapao และ EEC จึงได้รับอานิสงส์เชิงบวกโดยตรงใน 3 มิติหลัก:
-                              </p>
-                              
+                              <p className="text-gray-300 mb-8 font-light leading-relaxed text-lg">{t.impact.boxDesc}</p>
                               <div className="space-y-5">
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4">
-                                  <div className="bg-sky-500/20 p-3 rounded-xl text-sky-400 mt-1"><PlaneTakeoff size={24}/></div>
-                                  <div>
-                                    <h4 className="text-sky-300 font-bold text-lg mb-1">1. Air Cargo & Rerouting</h4>
-                                    <p className="text-sm text-gray-400 leading-relaxed">สายการบินและบริษัทขนส่งหลีกเลี่ยงน่านฟ้าที่มีความเสี่ยง หันมาใช้ฮับในเอเชียตะวันออกเฉียงใต้มากขึ้น ทำให้อู่ตะเภามีศักยภาพในการเป็นศูนย์กลางการถ่ายลำ (Transshipment Hub) แห่งใหม่</p>
-                                  </div>
-                                </div>
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4">
-                                  <div className="bg-amber-500/20 p-3 rounded-xl text-amber-400 mt-1"><DollarSign size={24}/></div>
-                                  <div>
-                                    <h4 className="text-amber-300 font-bold text-lg mb-1">2. FDI Relocation</h4>
-                                    <p className="text-sm text-gray-400 leading-relaxed">กลุ่มทุนและโรงงานการผลิต (Semiconductors, EVs) กระจายความเสี่ยงจากภูมิภาคที่มีความขัดแย้ง มาลงทุนในอุตสาหกรรมเป้าหมายและ Smart City ของ EEC</p>
-                                  </div>
-                                </div>
-                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4">
-                                  <div className="bg-teal-500/20 p-3 rounded-xl text-teal-400 mt-1"><Stethoscope size={24}/></div>
-                                  <div>
-                                    <h4 className="text-teal-300 font-bold text-lg mb-1">3. Medical Hub Shift</h4>
-                                    <p className="text-sm text-gray-400 leading-relaxed">กลุ่มผู้ป่วย VVIP ที่เคยมุ่งเน้นยุโรปหรือตะวันออกกลาง มีแนวโน้มเปลี่ยนจุดหมายมายังเอเชีย ซึ่งตอบรับโดยตรงกับโมเดล 'Zero-Transit' ของอู่ตะเภา</p>
-                                  </div>
-                                </div>
+                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4"><div className="bg-sky-500/20 p-3 rounded-xl text-sky-400 mt-1"><PlaneTakeoff size={24}/></div><div><h4 className="text-sky-300 font-bold text-lg mb-1">{t.impact.p1t}</h4><p className="text-sm text-gray-400 leading-relaxed">{t.impact.p1d}</p></div></div>
+                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4"><div className="bg-amber-500/20 p-3 rounded-xl text-amber-400 mt-1"><DollarSign size={24}/></div><div><h4 className="text-amber-300 font-bold text-lg mb-1">{t.impact.p2t}</h4><p className="text-sm text-gray-400 leading-relaxed">{t.impact.p2d}</p></div></div>
+                                <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-600 flex items-start gap-4"><div className="bg-teal-500/20 p-3 rounded-xl text-teal-400 mt-1"><Stethoscope size={24}/></div><div><h4 className="text-teal-300 font-bold text-lg mb-1">{t.impact.p3t}</h4><p className="text-sm text-gray-400 leading-relaxed">{t.impact.p3d}</p></div></div>
                               </div>
                             </div>
                             
                             <div className="flex flex-col justify-center h-full">
                                 <div className="bg-gradient-to-b from-blue-600/20 to-indigo-900/40 p-8 md:p-12 rounded-[2rem] border border-blue-500/30 backdrop-blur-md flex flex-col justify-center items-center text-center shadow-2xl">
-                                  <div className="bg-blue-500/20 p-5 rounded-full mb-6 ring-4 ring-blue-500/10">
-                                    <Globe className="w-16 h-16 text-blue-400" />
-                                  </div>
-                                  <h4 className="text-2xl font-extrabold text-white mb-4">ทดลองประเมินสถานการณ์จริง</h4>
-                                  <p className="text-base text-blue-100 mb-10 font-light leading-relaxed max-w-md">
-                                    ระบบจำลองผลกระทบ EEC Simulator ช่วยวิเคราะห์และคาดการณ์ตัวแปรทางเศรษฐกิจแบบ Interactive ผ่านข้อมูลอัปเดตล่าสุด
-                                  </p>
-                                  <a 
-                                    href="https://thbho.github.io/EECWarImpact.html" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="w-full max-w-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-[0_0_40px_-10px_rgba(59,130,246,0.7)] hover:shadow-[0_0_60px_-15px_rgba(59,130,246,0.9)] transform hover:-translate-y-1 text-lg"
-                                  >
-                                    เปิดใช้งาน EEC Simulator <ExternalLink className="w-6 h-6 ml-3" />
-                                  </a>
-                                  <p className="text-xs text-blue-300/50 mt-6 uppercase tracking-widest font-semibold">Powered by THBHO Analytics</p>
+                                  <div className="bg-blue-500/20 p-5 rounded-full mb-6 ring-4 ring-blue-500/10"><Globe className="w-16 h-16 text-blue-400" /></div>
+                                  <h4 className="text-2xl font-extrabold text-white mb-4">{t.impact.simT}</h4><p className="text-base text-blue-100 mb-10 font-light leading-relaxed max-w-md">{t.impact.simD}</p>
+                                  <a href="https://thbho.github.io/EECWarImpact.html" target="_blank" rel="noopener noreferrer" className="w-full max-w-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-[0_0_40px_-10px_rgba(59,130,246,0.7)] hover:shadow-[0_0_60px_-15px_rgba(59,130,246,0.9)] transform hover:-translate-y-1 text-lg">{t.impact.simBtn} <ExternalLink className="w-6 h-6 ml-3" /></a>
+                                  <p className="text-xs text-blue-300/50 mt-6 uppercase tracking-widest font-semibold">{t.impact.simPwr}</p>
                                 </div>
                             </div>
                           </div>
@@ -976,14 +871,12 @@
                 </div>
               </main>
 
-              {/* Footer */}
+              {/* FOOTER */}
               <footer className="bg-[#0F172A] text-slate-400 py-12 text-center border-t border-slate-800 relative z-20">
-                <p className="font-bold text-slate-200 text-lg mb-2">The Dawn of the Eastern Aviation City</p>
-                <p className="max-w-2xl mx-auto px-4 text-sm font-light">โครงการพัฒนาเมืองการบินตะวันออก ไม่ใช่เพียงการพัฒนาโครงสร้างพื้นฐาน แต่คือการยกระดับขีดความสามารถทางการแข่งขันของประเทศไทย สู่การเป็นมหานครแห่งนวัตกรรม สุขภาพ และไลฟ์สไตล์ระดับโลก</p>
+                <p className="font-bold text-slate-200 text-lg mb-2">{t.footer.t1}</p>
+                <p className="max-w-2xl mx-auto px-4 text-sm font-light">{t.footer.d1}</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
-                  <span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">1,040 เฮกตาร์</span>
-                  <span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">290,000 ล้านบาท</span>
-                  <span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">ปี 2031 COD</span>
+                  <span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">{t.footer.b1}</span><span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">{t.footer.b2}</span><span className="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs border border-slate-700">{t.footer.b3}</span>
                 </div>
               </footer>
             </div>
