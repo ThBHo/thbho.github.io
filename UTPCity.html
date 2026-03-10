@@ -73,6 +73,34 @@
             transform: scale(1.05);
         }
 
+        /* Iframe container for 16:9 aspect ratio */
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .pdf-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Lightbox Styles */
+        #lightbox {
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #lightbox:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -132,7 +160,7 @@
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center md:text-left">
                 <div class="inline-flex items-center px-4 py-2 rounded-full bg-amber-500/90 border border-amber-400 text-white text-sm font-bold mb-6 ntp-badge shadow-lg backdrop-blur-sm">
-                    <i class="fa-regular fa-calendar-check mr-2"></i> <span data-i18n="heroBadge">Update หลังเลือกตั้ง: Kick off ก.พ. 2026</span>
+                    <i class="fa-regular fa-calendar-check mr-2"></i> <span data-i18n="heroBadge">Update หลังเลือกตั้ง: Kick off 3 เม.ย. 2026</span>
                 </div>
                 
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight text-white drop-shadow-md">
@@ -160,7 +188,7 @@
                 <!-- Stats Grid -->
                 <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mr-auto">
                     <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
-                        <div class="text-sky-400 font-bold text-xl">Feb 2026</div>
+                        <div class="text-sky-400 font-bold text-xl" data-i18n="statDateVal">Apr 3, 2026</div>
                         <div class="text-xs text-slate-300 mt-1" data-i18n="statNTP">Official Construction (NTP)</div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 hover:bg-white/20 transition">
@@ -205,11 +233,15 @@
                                     </div>
                                     <h3 class="text-xl font-bold text-white drop-shadow-md" data-i18n="cardUtapaoTitle">เมืองการบินอู่ตะเภา</h3>
                                 </div>
-                                <p class="text-slate-200 text-sm mb-4 line-clamp-2" data-i18n="cardUtapaoDesc">
-                                    การเปลี่ยนสนามบินทหารสู่ "มหานครการบิน" เริ่มต้นก่อสร้างจริง ก.พ. 2026
+                                <p class="text-slate-200 text-sm mb-2 line-clamp-2" data-i18n="cardUtapaoDesc">
+                                    การเปลี่ยนสนามบินทหารสู่ "มหานครการบิน" เริ่มต้นก่อสร้างจริง 3 เม.ย. 2026
                                 </p>
+                                <!-- External Link Button for U-Tapao -->
+                                <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" onclick="event.stopPropagation()" class="mt-1 inline-flex items-center text-xs font-bold text-amber-400 hover:text-amber-300 hover:underline transition-colors">
+                                    <i class="fa-solid fa-up-right-from-square mr-1"></i> <span data-i18n="cardUtapaoLink">เข้าชมรายละเอียดเมืองการบิน</span>
+                                </a>
                             </div>
-                            <div class="mt-2 pt-4 border-t border-white/20 flex justify-between items-center">
+                            <div class="mt-4 pt-4 border-t border-white/20 flex justify-between items-center">
                                 <span class="text-xs text-slate-300"><i class="fa-regular fa-clock mr-1"></i> <span data-i18n="cardStatusNTP">สถานะ: รอลงนาม NTP</span></span>
                                 <span class="text-amber-400 text-sm font-semibold group-hover:underline flex items-center"><span data-i18n="cardClick">ดูรายละเอียด</span> <i class="fa-solid fa-arrow-right ml-1"></i></span>
                             </div>
@@ -349,28 +381,91 @@
                     <h2 class="text-3xl font-bold text-white" data-i18n="navGallery">แกลเลอรีภาพจำลอง</h2>
                     <p class="mt-4 text-slate-400">Visualizing the Future of EEC</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer">
-                        <img src="https://i.postimg.cc/TwfgCB6j/IHE0tfibz6Pd_J3p_JAB0R_topaz_upscale_2_6x.jpg" class="w-full h-full object-cover gallery-img" alt="U-Tapao Wide">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                
+                <!-- Expanded Gallery Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    
+                    <!-- Image 1 -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/TwfgCB6j/IHE0tfibz6Pd_J3p_JAB0R_topaz_upscale_2_6x.jpg" class="w-full h-full object-cover gallery-img" alt="U-Tapao Aerial View">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
                             <p class="text-white text-sm font-semibold">U-Tapao Aerial View</p>
                         </div>
                     </div>
-                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer">
-                        <img src="https://i.postimg.cc/NMBmpZcr/rgm_VNJ8w7Cd99x5M8tjg_topaz_upscale_2_5x.jpg" class="w-full h-full object-cover gallery-img" alt="Terminal">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+
+                    <!-- Image 2 -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/NMBmpZcr/rgm_VNJ8w7Cd99x5M8tjg_topaz_upscale_2_5x.jpg" class="w-full h-full object-cover gallery-img" alt="Airport City Architecture">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
                             <p class="text-white text-sm font-semibold">Airport City Architecture</p>
                         </div>
                     </div>
-                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer">
-                         <img src="https://i.postimg.cc/g2PHDK92/EECiti_model_EEC_gigapixel_high_fidelity_v2_2x.png" class="w-full h-full object-cover gallery-img" alt="EECiti">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+
+                    <!-- Image 3 -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                         <img src="https://i.postimg.cc/g2PHDK92/EECiti_model_EEC_gigapixel_high_fidelity_v2_2x.png" class="w-full h-full object-cover gallery-img" alt="EECiti Concept">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
                             <p class="text-white text-sm font-semibold">EECiti Concept</p>
                         </div>
                     </div>
+
+                    <!-- Image 4 (Updated Caption) -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/V6KMcY9B/highlight_1_m.jpg" class="w-full h-full object-cover gallery-img" alt="MICE Facilities (UTP)">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
+                            <p class="text-white text-sm font-semibold">MICE Facilities (UTP)</p>
+                        </div>
+                    </div>
+
+                    <!-- Image 6 (Moved to position 5 after removing previous #5) -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/63MRN9Vh/featuressss_4.jpg" class="w-full h-full object-cover gallery-img" alt="Aviation Hub Features">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
+                            <p class="text-white text-sm font-semibold">Aviation Hub Features</p>
+                        </div>
+                    </div>
+
+                    <!-- Image 7 (Moved to position 6) -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/260vfzdT/highlightssss.jpg" class="w-full h-full object-cover gallery-img" alt="Transportation Connectivity">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
+                            <p class="text-white text-sm font-semibold">Transportation Connectivity</p>
+                        </div>
+                    </div>
+
+                    <!-- Image 8 (Moved to position 7) -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/ZRw3hTPX/the_city_gallery_gallery_0_28_Dec_2022_1672205474643.png" class="w-full h-full object-cover gallery-img" alt="EEC City Gallery Overview">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
+                            <p class="text-white text-sm font-semibold">EEC City Gallery Overview</p>
+                        </div>
+                    </div>
+
+                    <!-- Image 9 (Moved to position 8) -->
+                    <div class="gallery-item relative overflow-hidden rounded-xl aspect-video cursor-pointer" onclick="openLightbox(this)">
+                        <img src="https://i.postimg.cc/KY07mS1F/7Kj8WBGKD2x_C9GT3NHTCJT7q_gigapixel_high_fidelity_v2_2x.png" class="w-full h-full object-cover gallery-img" alt="High Fidelity Urban Plan">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-none">
+                            <p class="text-white text-sm font-semibold">High Fidelity Urban Plan</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
+
+        <!-- Lightbox / Modal for Gallery -->
+        <div id="lightbox" class="fixed inset-0 z-[100] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox(event)">
+            <div class="relative max-w-7xl max-h-screen w-full flex flex-col items-center">
+                <!-- Close Button -->
+                <button onclick="closeLightbox(event)" class="absolute top-4 right-4 text-white hover:text-sky-400 text-4xl p-2 z-10 focus:outline-none">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+                <!-- Large Image Container -->
+                <img id="lightbox-img" src="" alt="Expanded View" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+                <!-- Image Caption -->
+                <p id="lightbox-caption" class="text-white text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
 
         <!-- Analysis Section -->
         <section id="analysis" class="py-16 bg-white border-t border-gray-200">
@@ -422,7 +517,7 @@
                 navPres: "เอกสาร",
                 navGallery: "แกลเลอรี",
                 navAnalysis: "วิเคราะห์",
-                heroBadge: "Update หลังเลือกตั้ง: Kick off ก.พ. 2026",
+                heroBadge: "Update หลังเลือกตั้ง: Kick off 3 เม.ย. 2026",
                 heroTitlePrefix: "การปรับตัวครั้งสำคัญ",
                 heroTitleHighlight: "เมืองการบินอู่ตะเภา",
                 heroSubtitle: "\"สู่ศูนย์กลางเศรษฐกิจและนวัตกรรมระดับโลก\"",
@@ -430,13 +525,15 @@
                 btnDownload: "ดาวน์โหลดรายงาน (PDF)",
                 btnViewSlides: "เปิดดูสไลด์นำเสนอ",
                 statNTP: "Official Construction (NTP)",
+                statDateVal: "3 เม.ย. 2026",
                 statYear: "ปีแห่งการเปลี่ยนผ่าน",
                 statLoc: "Strategic Growth Area",
                 statGoal: "เป้าหมายหลัก",
                 projSectionTitle: "3 แกนหลักขับเคลื่อน (The 3 Engines)",
                 projSectionDesc: "การลงนาม NTP จะเป็นตัวจุดชนวนให้โครงการต่อเนื่องอื่นๆ เดินหน้าเต็มกำลัง เพื่อสร้างเมืองอัจฉริยะและแหล่งท่องเที่ยวระดับโลก",
                 cardUtapaoTitle: "เมืองการบินอู่ตะเภา",
-                cardUtapaoDesc: "การเปลี่ยนสนามบินทหารสู่ 'มหานครการบิน' เริ่มต้นก่อสร้างจริง ก.พ. 2026",
+                cardUtapaoDesc: "การเปลี่ยนสนามบินทหารสู่ 'มหานครการบิน' เริ่มต้นก่อสร้างจริง 3 เม.ย. 2026",
+                cardUtapaoLink: "เข้าชมรายละเอียดเมืองการบิน",
                 cardStatusNTP: "สถานะ: รอลงนาม NTP",
                 cardClick: "ดูรายละเอียด",
                 cardEECitiTitle: "EECiti (Smart City)",
@@ -477,7 +574,7 @@
                 navPres: "Presentation",
                 navGallery: "Gallery",
                 navAnalysis: "Analysis",
-                heroBadge: "Post-Election Update: Kick off Feb 2026",
+                heroBadge: "Post-Election Update: Kick off Apr 3, 2026",
                 heroTitlePrefix: "Major Transformation",
                 heroTitleHighlight: "U-Tapao Aviation City",
                 heroSubtitle: "\"Towards a Global Economic & Innovation Hub\"",
@@ -485,13 +582,15 @@
                 btnDownload: "Download Report (PDF)",
                 btnViewSlides: "View Slides Online",
                 statNTP: "Official Construction (NTP)",
+                statDateVal: "Apr 3, 2026",
                 statYear: "Transition Year",
                 statLoc: "Strategic Growth Area",
                 statGoal: "Core Goal",
                 projSectionTitle: "The 3 Engines",
                 projSectionDesc: "The NTP signing will ignite full-scale development for smart cities and global tourism destinations.",
                 cardUtapaoTitle: "U-Tapao Aviation City",
-                cardUtapaoDesc: "Transforming a military base into an 'Aerotropolis'. Construction starts Feb 2026.",
+                cardUtapaoDesc: "Transforming a military base into an 'Aerotropolis'. Construction starts Apr 3, 2026.",
+                cardUtapaoLink: "Visit Aviation City details",
                 cardStatusNTP: "Status: Awaiting NTP",
                 cardClick: "View Details",
                 cardEECitiTitle: "EECiti (Smart City)",
@@ -532,7 +631,7 @@
                 navPres: "Презентация",
                 navGallery: "Галерея",
                 navAnalysis: "Анализ",
-                heroBadge: "Обновление после выборов: Старт Фев 2026",
+                heroBadge: "Обновление после выборов: Старт 3 Апр 2026",
                 heroTitlePrefix: "Глобальная трансформация",
                 heroTitleHighlight: "Авиационный город У-Тапао",
                 heroSubtitle: "\"К глобальному центру экономики и инноваций\"",
@@ -540,13 +639,15 @@
                 btnDownload: "Скачать отчет (PDF)",
                 btnViewSlides: "Смотреть слайды",
                 statNTP: "Официальное строительство (NTP)",
+                statDateVal: "3 Апр 2026",
                 statYear: "Год перехода",
                 statLoc: "Зона страт. роста",
                 statGoal: "Главная цель",
                 projSectionTitle: "3 Ключевых Двигателя",
                 projSectionDesc: "Подписание NTP даст старт развитию умных городов и глобальных туристических направлений.",
                 cardUtapaoTitle: "Авиаград У-Тапао",
-                cardUtapaoDesc: "Превращение военной базы в 'Аэротрополис'. Начало строительства в феврале 2026.",
+                cardUtapaoDesc: "Превращение военной базы в 'Аэротрополис'. Начало строительства 3 апреля 2026.",
+                cardUtapaoLink: "Посмотреть детали авиаграда",
                 cardStatusNTP: "Статус: Ожидание NTP",
                 cardClick: "Подробнее",
                 cardEECitiTitle: "EECiti (Умный город)",
@@ -587,7 +688,7 @@
                 navPres: "演示文稿",
                 navGallery: "画廊",
                 navAnalysis: "分析",
-                heroBadge: "选后更新: 2026年2月启动",
+                heroBadge: "选后更新: 2026年4月3日启动",
                 heroTitlePrefix: "重大转型",
                 heroTitleHighlight: "乌塔帕奥航空城",
                 heroSubtitle: "“迈向全球经济与创新中心”",
@@ -595,13 +696,15 @@
                 btnDownload: "下载报告 (PDF)",
                 btnViewSlides: "在线查看幻灯片",
                 statNTP: "正式建设 (NTP)",
+                statDateVal: "2026年4月3日",
                 statYear: "转型之年",
                 statLoc: "战略增长区",
                 statGoal: "核心目标",
                 projSectionTitle: "三大引擎",
                 projSectionDesc: "NTP签署将全面启动智慧城市和全球旅游目的地的发展。",
                 cardUtapaoTitle: "乌塔帕奥航空城",
-                cardUtapaoDesc: "将军事基地转型为'航空大都市'。2026年2月开工。",
+                cardUtapaoDesc: "将军事基地转型为'航空大都市'。2026年4月3日开工。",
+                cardUtapaoLink: "访问航空城详情",
                 cardStatusNTP: "状态: 等待NTP",
                 cardClick: "查看详情",
                 cardEECitiTitle: "EECiti (智慧城市)",
@@ -637,27 +740,27 @@
             aviation: {
                 th: {
                     title: 'เมืองการบินอู่ตะเภา',
-                    badge: 'Construction Start: Feb 2026',
-                    desc: 'หัวใจสำคัญของ EEC ที่กำลังเปลี่ยนสถานะจากแผนงานสู่ "การก่อสร้างจริง" หลังการลงนาม NTP ในเดือนกุมภาพันธ์ 2026',
-                    points: ['<strong>ก.พ. 2026:</strong> ลงนาม NTP เริ่มก่อสร้าง', '<strong>Aerotropolis:</strong> โมเดลเมืองรอบสนามบินเต็มรูปแบบ', '<strong>Capacity:</strong> 15.9 ล้านคน/ปี (ระยะที่ 1)']
+                    badge: 'Construction Start: Apr 3, 2026',
+                    desc: 'หัวใจสำคัญของ EEC ที่กำลังเปลี่ยนสถานะจากแผนงานสู่ "การก่อสร้างจริง" หลังการลงนาม NTP ในวันที่ 3 เมษายน 2026 <br><br><a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> คลิกเพื่อดูข้อมูลเจาะลึกเมืองการบินอู่ตะเภา</a>',
+                    points: ['<strong>3 เม.ย. 2026:</strong> ลงนาม NTP เริ่มก่อสร้าง', '<strong>Aerotropolis:</strong> โมเดลเมืองรอบสนามบินเต็มรูปแบบ', '<strong>Capacity:</strong> 15.9 ล้านคน/ปี (ระยะที่ 1)']
                 },
                 en: {
                     title: 'U-Tapao Aviation City',
-                    badge: 'Construction Start: Feb 2026',
-                    desc: 'The heart of EEC transitioning from planning to "Actual Construction" after the NTP signing in February 2026.',
-                    points: ['<strong>Feb 2026:</strong> NTP Signed, construction begins', '<strong>Aerotropolis:</strong> Full airport city model', '<strong>Capacity:</strong> 15.9 Million Pax/Year (Phase 1)']
+                    badge: 'Construction Start: Apr 3, 2026',
+                    desc: 'The heart of EEC transitioning from planning to "Actual Construction" after the NTP signing on April 3, 2026.<br><br><a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> Click for in-depth Aviation City info</a>',
+                    points: ['<strong>Apr 3, 2026:</strong> NTP Signed, construction begins', '<strong>Aerotropolis:</strong> Full airport city model', '<strong>Capacity:</strong> 15.9 Million Pax/Year (Phase 1)']
                 },
                 ru: {
                     title: 'Авиаград У-Тапао',
-                    badge: 'Начало стройки: Фев 2026',
-                    desc: 'Сердце EEC, переходящее от планирования к "Реальному строительству" после подписания NTP в феврале 2026 года.',
-                    points: ['<strong>Фев 2026:</strong> Подписание NTP, старт работ', '<strong>Аэротрополис:</strong> Полная модель города-аэропорта', '<strong>Вместимость:</strong> 15.9 млн пасс/год (Фаза 1)']
+                    badge: 'Начало стройки: 3 Апр 2026',
+                    desc: 'Сердце EEC, переходящее от планирования к "Реальному строительству" после подписания NTP 3 апреля 2026 года.<br><br><a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> Подробнее об Авиаграде</a>',
+                    points: ['<strong>3 Апр 2026:</strong> Подписание NTP, старт работ', '<strong>Аэротрополис:</strong> Полная модель города-аэропорта', '<strong>Вместимость:</strong> 15.9 млн пасс/год (Фаза 1)']
                 },
                 zh: {
                     title: '乌塔帕奥航空城',
-                    badge: '开工时间: 2026年2月',
-                    desc: 'EEC的核心，在2026年2月签署NTP后，正从规划阶段转变为“实际建设”阶段。',
-                    points: ['<strong>2026年2月:</strong> 签署NTP，开工建设', '<strong>航空大都市:</strong> 完整的机场城市模式', '<strong>容量:</strong> 1590万人次/年 (第一阶段)']
+                    badge: '开工时间: 2026年4月3日',
+                    desc: 'EEC的核心，在2026年4月3日签署NTP后，正从规划阶段转变为“实际建设”阶段。<br><br><a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="text-amber-500 font-bold hover:underline"><i class="fa-solid fa-link"></i> 点击查看航空城详细信息</a>',
+                    points: ['<strong>2026年4月3日:</strong> 签署NTP，开工建设', '<strong>航空大都市:</strong> 完整的机场城市模式', '<strong>容量:</strong> 1590万人次/年 (第一阶段)']
                 }
             },
             disney: {
@@ -878,10 +981,43 @@
             `;
         }
 
+        // --- Lightbox Functions ---
+        function openLightbox(element) {
+            const imgSrc = element.querySelector('img').src;
+            const captionText = element.querySelector('p').innerText;
+            
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+
+            lightboxImg.src = imgSrc;
+            lightboxCaption.innerText = captionText;
+            
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeLightbox(event) {
+            // Close only if clicking the background or the close button, not the image itself
+            if(event.target.id === 'lightbox' || event.target.closest('button')) {
+                document.getElementById('lightbox').classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             updateProjectDetail('aviation'); 
             initRealEstateChart();
             toggleAnalysis('opportunities');
+
+            // Close lightbox on Escape key
+            document.addEventListener('keydown', (e) => {
+                if(e.key === "Escape") {
+                    document.getElementById('lightbox').classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
 
     </script>
