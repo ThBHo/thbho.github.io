@@ -62,7 +62,13 @@
       Zap,
       FileText,
       Image as ImageIcon,
-      Loader2
+      Loader2,
+      Music,
+      ExternalLink,
+      Target,
+      BarChart3,
+      ListChecks,
+      Info
     } from 'lucide-react';
 
     // --- Data Objects ---
@@ -104,6 +110,22 @@
           '⚠️ Local Challenges: อาเซียนต้องรับมือกับความท้าทายเรื่องอัตราเงินเฟ้อจากทุนต่างชาติ (Gentification) และความหนาแน่นของโครงสร้างพื้นฐาน'
         ]
       }
+    ];
+
+    const rankingData = [
+      { rank: 1, country: '🇹🇭 Thailand', areas: 'BKK, Phuket, EEC', score: 95, role: 'The Ultimate Neutral Safe Haven', desc: 'อสังหาฯ บูมรับเศรษฐีลี้ภัย, MICE ทะลัก, เป็นกลางทางภูมิรัฐศาสตร์ 100%', color: 'bg-emerald-500' },
+      { rank: 2, country: '🇸🇬 Singapore', areas: 'Singapore', score: 88, role: 'The Premium Financial Hub', desc: 'ย้ายฐานทุนและสำนักงานใหญ่, รับงาน Mega Corporate MICE', color: 'bg-blue-500' },
+      { rank: 3, country: '🇹🇷 Turkey', areas: 'Istanbul (IST)', score: 82, role: 'The Global Transit Winner', desc: 'ได้เปรียบเส้นทางบินเชื่อมโลก (Aviation Advantage) ดูดผู้โดยสาร Transit', color: 'bg-rose-500' },
+      { rank: 4, country: '🇻🇳 Vietnam', areas: 'HCMC, Hanoi', score: 75, role: 'Supply Chain Relocation Hub', desc: 'ฐานผลิตย้ายหนีความเสี่ยงสงครามการค้า (China+1)', color: 'bg-amber-500' },
+      { rank: 5, country: '🇯🇵 Japan', areas: 'Tokyo (HND)', score: 68, role: 'Temporary Luxury Safe Zone', desc: 'ที่หลบภัยพรีเมียม แต่มีความเสี่ยงแฝงระยะกลางจากเอเชียตะวันออก', color: 'bg-purple-500' }
+    ];
+
+    const negativeRankingData = [
+      { rank: 1, region: 'Conflict Ground Zeros', areas: 'Israel (TLV), Iran (IKA)', impact: 'Critical (วิกฤตหนัก)', desc: 'อัมพาตทางการบิน (น่านฟ้าปิด 70-100%), เศรษฐกิจหยุดชะงัก, สมองไหล (Brain Drain) ของกลุ่ม Tech', color: 'bg-red-600', iconColor: 'text-red-600', bgColor: 'bg-red-100' },
+      { rank: 2, region: 'Middle East Mega-Hubs', areas: 'UAE (DXB), Qatar (DOH)', impact: 'Severe (รุนแรง)', desc: 'สายการบินตะวันตกเลี่ยงน่านฟ้า ตารางบินปั่นป่วน งาน Mega Events ระดับโลกถูกระงับ', color: 'bg-orange-500', iconColor: 'text-orange-600', bgColor: 'bg-orange-100' },
+      { rank: 3, region: 'Europe', areas: 'London, Frankfurt, Paris', impact: 'High (สูง)', desc: 'วิกฤตเงินเฟ้อซ้ำซ้อนจากค่าขนส่ง/พลังงานพุ่ง, ถูกตัดขาดเส้นทางบินตรงสู่เอเชีย ทุนไหลออก', color: 'bg-amber-500', iconColor: 'text-amber-600', bgColor: 'bg-amber-100' },
+      { rank: 4, region: 'Hong Kong', areas: 'HKG', impact: 'Moderate (ปานกลาง)', desc: 'ทุนใหม่ไม่ไหลเข้าเพราะกังวลสงครามจีน-ไต้หวัน เสียเปรียบสิงคโปร์ในการเป็น Financial Hub', color: 'bg-yellow-500', iconColor: 'text-yellow-600', bgColor: 'bg-yellow-100' },
+      { rank: 5, region: 'Taiwan & South Korea', areas: 'TPE, ICN', impact: 'Risk Alert (เฝ้าระวัง)', desc: 'กังวลเป็นเป้าหมายถัดไป (Next Flashpoints) บริษัทย้ายฐานผลิตล่วงหน้าไปอาเซียน', color: 'bg-rose-400', iconColor: 'text-rose-600', bgColor: 'bg-rose-100' }
     ];
 
     const comparisonData = {
@@ -151,117 +173,335 @@
       }
     };
 
-    const rankingData = [
-      { 
-        rank: 1, 
-        country: '🇹🇭 Thailand', 
-        areas: 'BKK, Phuket, EEC', 
-        score: 95, 
-        role: 'The Ultimate Neutral Safe Haven', 
-        desc: 'อสังหาฯ บูมรับเศรษฐีลี้ภัย, MICE ทะลัก, เป็นกลางทางภูมิรัฐศาสตร์ 100%',
-        color: 'bg-emerald-500'
-      },
-      { 
-        rank: 2, 
-        country: '🇸🇬 Singapore', 
-        areas: 'Singapore', 
-        score: 88, 
-        role: 'The Premium Financial Hub', 
-        desc: 'ย้ายฐานทุนและสำนักงานใหญ่, รับงาน Mega Corporate MICE',
-        color: 'bg-blue-500' 
-      },
-      { 
-        rank: 3, 
-        country: '🇹🇷 Turkey', 
-        areas: 'Istanbul (IST)', 
-        score: 82, 
-        role: 'The Global Transit Winner', 
-        desc: 'ได้เปรียบเส้นทางบินเชื่อมโลก (Aviation Advantage) ดูดผู้โดยสาร Transit',
-        color: 'bg-rose-500' 
-      },
-      { 
-        rank: 4, 
-        country: '🇻🇳 Vietnam', 
-        areas: 'HCMC, Hanoi', 
-        score: 75, 
-        role: 'Supply Chain Relocation Hub', 
-        desc: 'ฐานผลิตย้ายหนีความเสี่ยงสงครามการค้า (China+1)',
-        color: 'bg-amber-500' 
-      },
-      { 
-        rank: 5, 
-        country: '🇯🇵 Japan', 
-        areas: 'Tokyo (HND)', 
-        score: 68, 
-        role: 'Temporary Luxury Safe Zone', 
-        desc: 'ที่หลบภัยพรีเมียม แต่มีความเสี่ยงแฝงระยะกลางจากเอเชียตะวันออก',
-        color: 'bg-purple-500' 
-      }
+    // FDI Scoring Data (New)
+    const fdiScoringData = [
+      { name: '🇹🇭 EEC (Thailand)', overall: 88, neutrality: 92, infra: 91, labor: 86, market: 88, incentives: 94, supply: 85, domestic: 78, highlight: 'ชนะขาดเพราะ Focused Dev + Incentives + Neutrality', color: 'bg-emerald-500' },
+      { name: '🌏 ASEAN Overall', overall: 86, neutrality: 93, infra: 84, labor: 89, market: 91, incentives: 82, supply: 87, domestic: 76, highlight: 'Safe Haven ที่สมดุลที่สุดในโลก Multipolar', color: 'bg-blue-500' },
+      { name: '🇮🇳 India', overall: 83, neutrality: 74, infra: 76, labor: 92, market: 79, incentives: 79, supply: 82, domestic: 95, highlight: 'คู่แข่งที่แรงที่สุด ไล่ตามใน Scale + Market', color: 'bg-orange-500' },
+      { name: '🇲🇽 Mexico', overall: 79, neutrality: 69, infra: 71, labor: 77, market: 88, incentives: 73, supply: 79, domestic: 74, highlight: 'ชนะใน Nearshoring US แต่มี Uncertainty กลางปี 2026', color: 'bg-teal-500' },
+      { name: '🇵🇱 E. Europe (Poland)', overall: 75, neutrality: 82, infra: 86, labor: 65, market: 93, incentives: 78, supply: 76, domestic: 65, highlight: 'โครงสร้างพื้นฐานดี แต่ Cost สูง + เสี่ยงพลังงานรัสเซีย', color: 'bg-indigo-500' },
+      { name: '🇹🇷 Turkey (MENA)', overall: 72, neutrality: 66, infra: 73, labor: 68, market: 81, incentives: 71, supply: 70, domestic: 69, highlight: 'Europe Gateway แต่ Scale เล็ก', color: 'bg-rose-500' },
+      { name: '🇧🇩 Bangladesh', overall: 68, neutrality: 57, infra: 56, labor: 88, market: 76, incentives: 64, supply: 61, domestic: 67, highlight: 'Labor ถูกสุด แต่ Infra อ่อนแอ + Political Risk สูง', color: 'bg-slate-500' }
     ];
 
-    const negativeRankingData = [
-      {
-        rank: 1,
-        region: 'Conflict Ground Zeros',
-        areas: 'Israel (TLV), Iran (IKA)',
-        impact: 'Critical (วิกฤตหนัก)',
-        desc: 'อัมพาตทางการบิน (น่านฟ้าปิด 70-100%), เศรษฐกิจหยุดชะงัก, สมองไหล (Brain Drain) ของกลุ่ม Tech',
-        color: 'bg-red-600',
-        iconColor: 'text-red-600',
-        bgColor: 'bg-red-100'
-      },
-      {
-        rank: 2,
-        region: 'Middle East Mega-Hubs',
-        areas: 'UAE (DXB), Qatar (DOH)',
-        impact: 'Severe (รุนแรง)',
-        desc: 'สายการบินตะวันตกเลี่ยงน่านฟ้า ตารางบินปั่นป่วน งาน Mega Events ระดับโลกถูกระงับ',
-        color: 'bg-orange-500',
-        iconColor: 'text-orange-600',
-        bgColor: 'bg-orange-100'
-      },
-      {
-        rank: 3,
-        region: 'Europe',
-        areas: 'London, Frankfurt, Paris',
-        impact: 'High (สูง)',
-        desc: 'วิกฤตเงินเฟ้อซ้ำซ้อนจากค่าขนส่ง/พลังงานพุ่ง, ถูกตัดขาดเส้นทางบินตรงสู่เอเชีย ทุนไหลออก',
-        color: 'bg-amber-500',
-        iconColor: 'text-amber-600',
-        bgColor: 'bg-amber-100'
-      },
-      {
-        rank: 4,
-        region: 'Hong Kong',
-        areas: 'HKG',
-        impact: 'Moderate (ปานกลาง)',
-        desc: 'ทุนใหม่ไม่ไหลเข้าเพราะกังวลสงครามจีน-ไต้หวัน เสียเปรียบสิงคโปร์ในการเป็น Financial Hub',
-        color: 'bg-yellow-500',
-        iconColor: 'text-yellow-600',
-        bgColor: 'bg-yellow-100'
-      },
-      {
-        rank: 5,
-        region: 'Taiwan & South Korea',
-        areas: 'TPE, ICN',
-        impact: 'Risk Alert (เฝ้าระวัง)',
-        desc: 'กังวลเป็นเป้าหมายถัดไป (Next Flashpoints) บริษัทย้ายฐานผลิตล่วงหน้าไปอาเซียน',
-        color: 'bg-rose-400',
-        iconColor: 'text-rose-600',
-        bgColor: 'bg-rose-100'
-      }
-    ];
+    const getScoreColor = (score) => {
+      if (score >= 90) return 'text-emerald-600 font-bold bg-emerald-50';
+      if (score >= 80) return 'text-blue-600 font-semibold';
+      if (score >= 70) return 'text-amber-600 font-medium';
+      return 'text-rose-600';
+    };
 
     // --- Components ---
+
+    const EmbeddedSlideVisual = () => {
+      return (
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
+          <h3 className="text-2xl font-bold mb-4 text-gray-800 flex items-center">
+            <ImageIcon className="w-6 h-6 mr-3 text-indigo-600" />
+            Conceptual Visual: The ASEAN Shift
+          </h3>
+          <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+            สไลด์สรุปแนวคิดเส้นทางการเคลื่อนย้ายเงินทุน เทคโนโลยี และการบิน สู่ "Safe Haven" แห่งภูมิภาคอาเซียน 
+            สะท้อนบทบาทของไทยที่เป็นศูนย์กลางการเชื่อมต่อที่ปลอดภัยและมั่นคงท่ามกลางความผันผวนของโลก
+          </p>
+          
+          <div className="w-full bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-inner" style={{ paddingTop: '56.25%' }}>
+            <iframe 
+              src="https://drive.google.com/file/d/1HU5hpYcHgu5oL2eVx0cmxv2u76hD0UBR/preview" 
+              className="absolute top-0 left-0 w-full h-full border-0" 
+              allow="autoplay; fullscreen"
+              title="The ASEAN Shift Slide"
+            ></iframe>
+          </div>
+
+          <div className="mt-4 flex justify-end">
+            <a 
+              href="https://drive.google.com/file/d/1HU5hpYcHgu5oL2eVx0cmxv2u76hD0UBR/view?usp=sharing" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              เปิดดูสไลด์ขนาดเต็มในแท็บใหม่ <ArrowRight className="w-4 h-4 ml-1.5" />
+            </a>
+          </div>
+        </div>
+      );
+    };
+
+    const TopBeneficiariesRanking = () => {
+      return (
+        <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-8 rounded-2xl shadow-xl text-white relative overflow-hidden h-full group">
+          {/* Background Image Overlay */}
+          <div className="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
+          </div>
+          
+          <div className="absolute -top-24 -right-24 opacity-10 z-0">
+            <Trophy className="w-96 h-96" />
+          </div>
+          
+          <div className="relative z-10">
+            <h3 className="text-2xl font-bold mb-2 flex items-center">
+              <Trophy className="w-7 h-7 mr-3 text-yellow-400" />
+              Top Beneficiaries Ranking
+            </h3>
+            <div className="mb-8">
+              <span className="inline-block bg-emerald-900/80 text-emerald-400 text-xs font-bold px-2 py-1 rounded mb-2 border border-emerald-800/50 backdrop-blur-sm">
+                ✨ War Impact: Positive Shift
+              </span>
+              <p className="text-slate-300 text-sm">
+                อานิสงส์จากการย้ายฐานหนีวิกฤตสงคราม (วัดจาก Aviation, Wealth, Real Estate, MICE)
+              </p>
+            </div>
+            <div className="space-y-6">
+              {rankingData.map((item) => (
+                <div key={item.rank} className="bg-slate-800/70 backdrop-blur-md rounded-xl p-4 border border-slate-600/50">
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="flex items-center gap-4 md:w-1/4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg ${
+                        item.rank === 1 ? 'bg-yellow-400 text-yellow-900 shadow-lg shadow-yellow-400/20' : 'bg-slate-700 text-slate-300'
+                      }`}>
+                        #{item.rank}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-lg">{item.country}</h4>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-300">{item.role}</span>
+                        <span className="font-bold">{item.score}%</span>
+                      </div>
+                      <div className="w-full bg-slate-900/80 rounded-full h-2">
+                        <div className={`${item.color} h-2 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.2)]`} style={{ width: `${item.score}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const TopNegativelyImpacted = () => {
+      return (
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-red-500 relative overflow-hidden h-full group">
+          {/* Abstract background image */}
+          <div className="absolute top-0 right-0 w-full h-full z-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-700">
+            <img src="https://images.unsplash.com/photo-1534224039826-c7a0c073115f?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover" />
+          </div>
+
+          <div className="relative z-10">
+            <h3 className="text-2xl font-bold mb-2 flex items-center text-gray-800">
+              <TrendingDown className="w-7 h-7 mr-3 text-red-500" />
+              Top Negatively Impacted
+            </h3>
+            <div className="mb-8">
+              <span className="inline-block bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded mb-2 border border-red-200">
+                ⚠️ War Impact & Geopolitical Risks
+              </span>
+              <p className="text-gray-500 text-sm">
+                พื้นที่ที่ได้รับผลกระทบเชิงลบ (ปัจจัยหลักในการผลักดัน Capital Flight สู่ ASEAN)
+              </p>
+            </div>
+            <div className="space-y-4">
+              {negativeRankingData.map((item) => (
+                <div key={item.rank} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${item.bgColor} ${item.iconColor}`}>
+                      #{item.rank}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm text-gray-800">{item.region}</h4>
+                      <p className="text-xs text-gray-500">{item.impact}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-2 italic">"{item.desc}"</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const FutureTimeline = () => {
+      const [activePhase, setActivePhase] = useState('short');
+
+      return (
+        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mt-8 relative overflow-hidden">
+          <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center relative z-10">
+            <Clock className="w-6 h-6 mr-3 text-blue-600" />
+            แนวโน้มสากล 3 ระยะ (Global Macro Scenarios)
+          </h3>
+          <div className="grid lg:grid-cols-3 gap-6 relative z-10">
+            <div className="lg:col-span-2 flex flex-col md:flex-row gap-6">
+              <div className="md:w-1/2 flex flex-col gap-3">
+                {futureTrends.map((trend) => (
+                  <button
+                    key={trend.id}
+                    onClick={() => setActivePhase(trend.id)}
+                    className={`p-4 rounded-xl text-left transition-all border-2 ${
+                      activePhase === trend.id 
+                        ? `border-${trend.color.split('-')[1]}-500 bg-gray-50 shadow-sm` 
+                        : 'border-transparent bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="flex items-center mb-1">
+                      {trend.icon}
+                      <span className="font-bold ml-2 text-gray-800">{trend.title}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 ml-8">{trend.subtitle}</p>
+                  </button>
+                ))}
+              </div>
+              <div className="md:w-1/2">
+                {futureTrends.map((trend) => (
+                  activePhase === trend.id && (
+                    <div key={trend.id} className="animate-fade-in bg-gray-50 p-6 rounded-xl h-full border border-gray-100 shadow-inner">
+                      <div className={`inline-block px-3 py-1 rounded-full text-white text-sm font-bold mb-4 shadow-sm ${trend.color}`}>
+                        {trend.title}
+                      </div>
+                      <h4 className="text-xl font-bold text-gray-800 mb-4">{trend.subtitle}</h4>
+                      <ul className="space-y-4">
+                        {trend.details.map((detail, idx) => (
+                          <li key={idx} className="flex items-start bg-white p-3 rounded-lg shadow-sm border border-gray-50">
+                            <ArrowRight className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-700 text-sm leading-relaxed">{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+            
+            {/* Decorative Side Image */}
+            <div className="hidden lg:block rounded-xl overflow-hidden shadow-inner relative border border-gray-100">
+              <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=600&q=80" alt="" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent flex items-end p-6">
+                 <p className="text-white text-sm font-semibold">The Shift towards a Decentralized Future</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const FDIScoringDashboard = () => {
+      return (
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 mt-8 overflow-hidden">
+          {/* Banner Image */}
+          <div className="w-full h-40 md:h-56 relative">
+             <img src="https://i.postimg.cc/y8KRhzGm/EEC_2026_Inflection_Point.jpg" alt="" className="w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-indigo-900/70 mix-blend-multiply"></div>
+             <div className="absolute inset-0 flex flex-col justify-center p-6 md:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white flex items-center mb-3">
+                  <BarChart3 className="w-8 h-8 mr-3 text-yellow-400" />
+                  FDI Competitiveness Scorecard 2026
+                </h3>
+                <p className="text-indigo-100 text-sm md:text-base leading-relaxed max-w-2xl">
+                  การวิเคราะห์ศักยภาพดึงดูดเม็ดเงินลงทุน (FDI) แบบ <strong>Multi-hub (China+Many)</strong> โดยเปรียบเทียบ EEC และ ASEAN กับคู่แข่งระดับโลกผ่าน 7 มิติหลัก
+                </p>
+             </div>
+          </div>
+
+          <div className="p-6 md:p-8">
+            <div className="bg-slate-50 p-6 rounded-xl mb-8 border border-slate-100 shadow-inner">
+              <h4 className="font-bold text-slate-800 mb-4 flex items-center">
+                <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
+                Overall Score: ศักยภาพโดยรวม (Equal Weight)
+              </h4>
+              <div className="space-y-4">
+                {fdiScoringData.map((item, idx) => (
+                  <div key={idx} className="flex flex-col md:flex-row md:items-center gap-2">
+                    <div className="md:w-1/4 font-semibold text-gray-700 text-sm">{item.name}</div>
+                    <div className="flex-1 flex items-center gap-3">
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className={`${item.color} h-3 rounded-full transition-all shadow-sm`} style={{ width: `${item.overall}%` }}></div>
+                      </div>
+                      <span className="font-bold text-gray-800 w-10 text-right">{item.overall}%</span>
+                    </div>
+                    <div className="md:w-1/3 text-xs text-gray-500 italic md:pl-4 hidden md:block line-clamp-1">
+                      {item.highlight}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-8 overflow-x-auto">
+              <h4 className="font-bold text-slate-800 mb-4 flex items-center">
+                <ListChecks className="w-5 h-5 mr-2 text-indigo-500" />
+                ตารางคะแนนเชิงลึก 7 มิติ (Detailed Metrics)
+              </h4>
+              <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left font-bold text-gray-600">ภูมิภาค / เมือง</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Neutrality & Stability</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Infra & Logistics</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Labor & Demographic</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Market Access & FTA</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Incentives & Ease of Biz</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Supply Chain Depth</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Domestic Market</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100">
+                  {fdiScoringData.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{row.name}</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.neutrality)}`}>{row.neutrality}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.infra)}`}>{row.infra}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.labor)}`}>{row.labor}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.market)}`}>{row.market}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.incentives)}`}>{row.incentives}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.supply)}`}>{row.supply}%</td>
+                      <td className={`px-3 py-3 text-center ${getScoreColor(row.domestic)}`}>{row.domestic}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+                <h5 className="font-bold text-indigo-900 mb-3 flex items-center">
+                  <Info className="w-4 h-4 mr-2" /> วิเคราะห์มิติที่น่าสนใจ
+                </h5>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li><strong>Neutrality & Stability:</strong> ASEAN/EEC ชนะขาด (92-93%) ด้วยยุทธศาสตร์ "Strategic Ambiguity" ขณะที่อินเดียโดนกำแพงภาษีสหรัฐฯ</li>
+                  <li><strong>Incentives & Ease of Biz:</strong> EEC ยืนหนึ่ง (94%) จากแพ็กเกจ BOI "Thailand FastPass" และ One-stop service</li>
+                </ul>
+              </div>
+              <div className="bg-orange-50/50 p-5 rounded-xl border border-orange-100">
+                <h5 className="font-bold text-orange-900 mb-3 flex items-center">
+                  <Target className="w-4 h-4 mr-2" /> Nuances & คู่แข่งหลัก
+                </h5>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li><strong>🇮🇳 India (83%):</strong> คู่แข่งที่น่ากลัวที่สุด โดดเด่นด้านขนาดตลาดและแรงงาน IT แต่คอขวดคือระบบราชการ</li>
+                  <li><strong>🇲🇽 Mexico (79%):</strong> ชนะขาดการทำ Nearshoring เข้าสหรัฐฯ แต่ไม่ได้แข่งขันแย่งส่วนแบ่งตลาดยุโรป-เอเชีย กับไทย</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
 
     const RegionalShowdown = () => {
       const [activeTab, setActiveTab] = useState('thailand');
 
       return (
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mt-8">
           <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
             <Map className="w-6 h-6 mr-3 text-indigo-600" />
-            The ASEAN Strategic Showdown
+            The ASEAN Strategic Showdown (เจาะลึกภูมิภาค)
           </h3>
           
           <div className="flex flex-wrap gap-2 mb-6">
@@ -320,143 +560,6 @@
       );
     };
 
-    const FutureTimeline = () => {
-      const [activePhase, setActivePhase] = useState('short');
-
-      return (
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mt-8">
-          <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-            <Clock className="w-6 h-6 mr-3 text-blue-600" />
-            แนวโน้มสากล 3 ระยะ (Global Macro Scenarios)
-          </h3>
-
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="md:w-1/3 flex flex-col gap-3">
-              {futureTrends.map((trend) => (
-                <button
-                  key={trend.id}
-                  onClick={() => setActivePhase(trend.id)}
-                  className={`p-4 rounded-xl text-left transition-all border-2 ${
-                    activePhase === trend.id 
-                      ? `border-${trend.color.split('-')[1]}-500 bg-gray-50 shadow-sm` 
-                      : 'border-transparent bg-gray-50 hover:bg-gray-100'
-                  }`}
-                >
-                  <div className="flex items-center mb-1">
-                    {trend.icon}
-                    <span className="font-bold ml-2 text-gray-800">{trend.title}</span>
-                  </div>
-                  <p className="text-xs text-gray-500 ml-8">{trend.subtitle}</p>
-                </button>
-              ))}
-            </div>
-
-            <div className="md:w-2/3">
-              {futureTrends.map((trend) => (
-                activePhase === trend.id && (
-                  <div key={trend.id} className="animate-fade-in bg-gray-50 p-6 rounded-xl h-full border border-gray-100">
-                    <div className={`inline-block px-3 py-1 rounded-full text-white text-sm font-bold mb-4 ${trend.color}`}>
-                      {trend.title}
-                    </div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-4">{trend.subtitle}</h4>
-                    <ul className="space-y-4">
-                      {trend.details.map((detail, idx) => (
-                        <li key={idx} className="flex items-start bg-white p-3 rounded-lg shadow-sm">
-                          <ArrowRight className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0 mt-0.5" />
-                          <span className="text-gray-700">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    const TopBeneficiariesRanking = () => {
-      return (
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-8 rounded-2xl shadow-xl mt-8 text-white relative overflow-hidden h-full">
-          <div className="absolute -top-24 -right-24 opacity-5">
-            <Trophy className="w-96 h-96" />
-          </div>
-
-          <div className="relative z-10">
-            <h3 className="text-2xl font-bold mb-2 flex items-center">
-              <Trophy className="w-7 h-7 mr-3 text-yellow-400" />
-              Top Beneficiaries Ranking
-            </h3>
-            <p className="text-slate-400 text-sm mb-8">
-              พื้นที่ที่ได้รับผลบวกสูงสุด (วัดจาก Aviation, Wealth, Real Estate, MICE)
-            </p>
-
-            <div className="space-y-6">
-              {rankingData.map((item) => (
-                <div key={item.rank} className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
-                  <div className="flex flex-col md:flex-row md:items-center gap-4">
-                    <div className="flex items-center gap-4 md:w-1/4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg ${
-                        item.rank === 1 ? 'bg-yellow-400 text-yellow-900' : 'bg-slate-700 text-slate-300'
-                      }`}>
-                        #{item.rank}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-lg">{item.country}</h4>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-slate-300">{item.role}</span>
-                        <span className="font-bold">{item.score}%</span>
-                      </div>
-                      <div className="w-full bg-slate-900 rounded-full h-2">
-                        <div className={`${item.color} h-2 rounded-full`} style={{ width: `${item.score}%` }}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    const TopNegativelyImpacted = () => {
-      return (
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg mt-8 border-t-4 border-red-500 relative overflow-hidden h-full">
-          <div className="relative z-10">
-            <h3 className="text-2xl font-bold mb-2 flex items-center text-gray-800">
-              <TrendingDown className="w-7 h-7 mr-3 text-red-500" />
-              Top Negatively Impacted
-            </h3>
-            <p className="text-gray-500 text-sm mb-8">
-              พื้นที่ที่ได้รับผลกระทบเชิงลบ (ปัจจัยผลักดัน Capital Flight)
-            </p>
-
-            <div className="space-y-4">
-              {negativeRankingData.map((item) => (
-                <div key={item.rank} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${item.bgColor} ${item.iconColor}`}>
-                      #{item.rank}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-sm text-gray-800">{item.region}</h4>
-                      <p className="text-xs text-gray-500">{item.impact}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-gray-600 mt-2 italic">"{item.desc}"</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
     const ThailandPillars = () => {
       const pillars = [
         {
@@ -474,8 +577,12 @@
         {
           icon: <Cpu className="w-8 h-8 text-indigo-500" />,
           title: 'EEC & Pattaya',
-          subtitle: 'Industrial & Tech Node',
-          desc: 'พื้นที่ยุทธศาสตร์ "เมืองการบินอู่ตะเภา" และศูนย์รวมนักพัฒนา AI VDO Generation'
+          subtitle: 'Aviation & Smart Digital Hub',
+          desc: (
+            <span>
+              พื้นที่ยุทธศาสตร์ <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 underline font-semibold">"เมืองการบินอู่ตะเภา" (Eastern Aerotropolis)</a> และ EECiti Smart Livable City ศูนย์กลางนวัตกรรม AI-ready + Digital Economy แห่งใหม่ของอาเซียน
+            </span>
+          )
         },
         {
           icon: <FileText className="w-8 h-8 text-orange-500" />,
@@ -487,13 +594,23 @@
 
       return (
         <div className="mt-8">
-          <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-            <MapPin className="w-6 h-6 mr-3 text-red-500" />
-            Thailand Strategic Pillars: ศักยภาพที่สมดุล
-          </h3>
+          {/* Hero Banner for Pillars */}
+          <div className="relative rounded-2xl overflow-hidden mb-6 h-48 md:h-64 shadow-md">
+             <img src="https://i.postimg.cc/260vfzdT/highlightssss.jpg" alt="" className="w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-transparent flex flex-col justify-center p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white flex items-center mb-2">
+                  <MapPin className="w-6 h-6 mr-3 text-red-400" />
+                  Thailand Strategic Pillars
+                </h3>
+                <p className="text-indigo-100 text-sm md:text-base max-w-lg">
+                  ความได้เปรียบระดับท้องถิ่นที่ทำให้ไทยโดดเด่นเหนือคู่แข่ง ดึงดูดทั้งการลงทุนและบุคลากรระดับสูง
+                </p>
+             </div>
+          </div>
+          
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {pillars.map((item, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="mb-4 bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center">{item.icon}</div>
                 <h4 className="font-bold text-lg text-gray-800 mb-1">{item.title}</h4>
                 <p className="text-xs font-semibold text-indigo-500 mb-3">{item.subtitle}</p>
@@ -514,15 +631,15 @@
       ];
 
       return (
-        <div className="bg-indigo-900 rounded-2xl p-6 md:p-8 text-white mt-8">
+        <div className="bg-indigo-900 rounded-2xl p-6 md:p-8 text-white mt-8 shadow-xl">
           <h3 className="text-xl font-bold mb-6 flex items-center">
             <Award className="w-6 h-6 mr-3 text-indigo-300" />
-            Strategic Enablers: ปัจจัยสนับสนุนความเชื่อมั่น
+            Strategic Enablers: โครงสร้างพื้นฐานชีวิต
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {enablers.map((item, idx) => (
               <div key={idx} className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">{item.icon}</div>
+                <div className="flex-shrink-0 w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shadow-inner">{item.icon}</div>
                 <div>
                   <h4 className="font-bold text-sm mb-1">{item.title}</h4>
                   <p className="text-xs text-indigo-200">{item.desc}</p>
@@ -534,38 +651,42 @@
       );
     };
 
-    const EmbeddedSlideVisual = () => {
-      return (
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
-          <h3 className="text-2xl font-bold mb-4 text-gray-800 flex items-center">
-            <ImageIcon className="w-6 h-6 mr-3 text-indigo-600" />
-            Conceptual Visual: The ASEAN Shift
-          </h3>
-          <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-            สไลด์สรุปแนวคิดเส้นทางการเคลื่อนย้ายเงินทุน เทคโนโลยี และการบิน สู่ "Safe Haven" แห่งภูมิภาคอาเซียน 
-            สะท้อนบทบาทของไทยที่เป็นศูนย์กลางการเชื่อมต่อที่ปลอดภัยและมั่นคงท่ามกลางความผันผวนของโลก
-          </p>
-          
-          {/* Responsive 16:9 Google Drive Iframe */}
-          <div className="w-full bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-inner" style={{ paddingTop: '56.25%' }}>
-            <iframe 
-              src="https://drive.google.com/file/d/1HU5hpYcHgu5oL2eVx0cmxv2u76hD0UBR/preview" 
-              className="absolute top-0 left-0 w-full h-full border-0" 
-              allow="autoplay; fullscreen"
-              title="The ASEAN Shift Slide"
-            ></iframe>
-          </div>
+    const RelatedReports = () => {
+      const links = [
+        { url: 'https://thbho.github.io/EECWarImpact.html', title: 'War Impact & EEC', desc: 'เจาะลึกผลกระทบสงครามโลกต่อพื้นที่ EEC', icon: <AlertTriangle className="w-5 h-5 text-red-500" /> },
+        { url: 'https://thbho.github.io/PivotToEEC.html', title: 'Pivot to EEC : EVENTS', desc: 'EEC ศูนย์กลางการจัดงาน Mega Events ระดับโลก', icon: <Music className="w-5 h-5 text-pink-500" /> },
+        { url: 'https://thbho.github.io/EECSafeHaven.html', title: 'EEC Safe Haven', desc: 'เจาะลึกทำไม EEC จึงเป็นหลุมหลบภัยที่ปลอดภัยที่สุด', icon: <ShieldCheck className="w-5 h-5 text-green-500" /> },
+        { url: 'https://thbho.github.io/UTPCiti02.html', title: 'Airport City Phase 1', desc: 'อัปเดตความคืบหน้าโครงการเมืองการบินเฟส 1', icon: <PlaneTakeoff className="w-5 h-5 text-blue-500" /> },
+        { url: 'https://thbho.github.io/UTPCity.html', title: 'EEC Updated April', desc: 'สรุปภาพรวมและอัปเดตสถานการณ์ EEC ล่าสุด', icon: <TrendingUp className="w-5 h-5 text-indigo-500" /> }
+      ];
 
-          {/* Fallback Link */}
-          <div className="mt-4 flex justify-end">
-            <a 
-              href="https://drive.google.com/file/d/1HU5hpYcHgu5oL2eVx0cmxv2u76hD0UBR/view?usp=sharing" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
-            >
-              เปิดดูสไลด์ขนาดเต็มในแท็บใหม่ <ArrowRight className="w-4 h-4 ml-1.5" />
-            </a>
+      return (
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 mt-8">
+          <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+            <FileText className="w-6 h-6 mr-3 text-indigo-600" />
+            Related Reports (รายงานที่เกี่ยวข้อง)
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {links.map((link, idx) => (
+              <a 
+                key={idx} 
+                href={link.url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-start p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-indigo-50 hover:border-indigo-200 transition-all group shadow-sm"
+              >
+                <div className="bg-white p-2 rounded-lg shadow-sm mr-4 group-hover:scale-110 transition-transform">
+                  {link.icon}
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-gray-800 text-sm flex items-center">
+                    {link.title}
+                    <ExternalLink className="w-3 h-3 ml-1.5 text-gray-400 group-hover:text-indigo-600" />
+                  </h4>
+                  <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">{link.desc}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       );
@@ -574,69 +695,78 @@
     function App() {
       return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
-          <div className="max-w-6xl mx-auto space-y-8">
-            <header className="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
-              <div className="relative z-10 max-w-3xl">
-                <div className="inline-block px-4 py-1.5 bg-indigo-500/30 backdrop-blur-md border border-indigo-400/30 rounded-full text-sm font-semibold tracking-wider uppercase mb-6 text-indigo-200">
-                  Global Impact Report : March 2026 Update
+          <div className="max-w-6xl mx-auto space-y-6">
+            
+            {/* 1. The Hook - Header with Split Layout */}
+            <header className="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-3xl text-white shadow-xl overflow-hidden relative">
+              <div className="grid md:grid-cols-2 items-center">
+                <div className="p-8 md:p-12 relative z-10">
+                  <div className="inline-block px-4 py-1.5 bg-indigo-500/30 backdrop-blur-md border border-indigo-400/30 rounded-full text-sm font-semibold tracking-wider uppercase mb-6 text-indigo-200">
+                    Global Impact Report : March 2026 Update
+                  </div>
+                  <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                    วิกฤตโลกดันอาเซียนผงาด:<br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-blue-400">
+                      โอกาสและความท้าทายในฐานะ Safe Haven
+                    </span>
+                  </h1>
+                  <p className="text-lg md:text-xl text-indigo-100 leading-relaxed mb-6">
+                    การปรับโครงสร้างเศรษฐกิจโลกท่ามกลางความขัดแย้ง ภูมิภาคอาเซียนก้าวขึ้นเป็นศูนย์กลางความเชื่อมั่นใหม่ 
+                    ด้วยนโยบายที่เป็นกลางและโครงสร้างพื้นฐานที่ครอบคลุม
+                  </p>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-                  วิกฤตโลกดันอาเซียนผงาด:<br/>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-blue-400">
-                    โอกาสและความท้าทายในฐานะ Safe Haven
-                  </span>
-                </h1>
-                <p className="text-lg md:text-xl text-indigo-100 mb-8 leading-relaxed">
-                  การปรับโครงสร้างเศรษฐกิจโลกท่ามกลางความขัดแย้ง ภูมิภาคอาเซียนก้าวขึ้นเป็นศูนย์กลางความเชื่อมั่นใหม่ 
-                  ด้วยนโยบายที่เป็นกลางและโครงสร้างพื้นฐานที่ครอบคลุม
-                </p>
+                {/* Header Image */}
+                <div className="hidden md:block h-full relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none"></div>
+                  <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover opacity-80" />
+                </div>
               </div>
             </header>
 
+            {/* 2. The Domino Effect (Prominent Banner) */}
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-200 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 h-full w-1/3 opacity-[0.05] pointer-events-none">
+                 <img src="https://images.unsplash.com/photo-1612550761236-e813928f7271?auto=format&fit=crop&w=600&q=80" alt="" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-bold text-amber-900 mb-4 flex items-center text-lg relative z-10">
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                The Domino Effect: จุดเริ่มต้นการย้ายฐานครั้งใหญ่
+              </h3>
+              <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-amber-800 relative z-10">
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🔥</span> วิกฤตเขตความขัดแย้งดันเที่ยวบินยกเลิก 70-100%</li>
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">✈️</span> สายการบินเลี่ยงน่านฟ้า ดันต้นทุนโลจิสติกส์พุ่ง</li>
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">💰</span> ทุน/บุคลากรหนีภัย ดันอสังหาฯ ลักชัวรีบูมในเขตปลอดภัย</li>
+                <li className="flex items-start font-bold"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🌏</span> อาเซียนเติบโตรับอานิสงส์ Multi-hub เต็มรูปแบบ</li>
+              </ul>
+            </div>
+
+            {/* 3. Visual Presentation */}
             <EmbeddedSlideVisual />
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="space-y-8 lg:col-span-1">
-                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-                  <h3 className="font-bold text-gray-800 mb-4 flex items-center"><PlaneTakeoff className="w-5 h-5 mr-2 text-red-500" />Regional Aviation Shift</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1"><span className="text-gray-600">Middle East Hubs</span><span className="text-red-600 font-bold">Volatile</span></div>
-                      <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-red-500 h-2 rounded-full" style={{ width: '40%' }}></div></div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1"><span className="text-gray-600">ASEAN Hubs (BKK, SIN)</span><span className="text-green-600 font-bold">Growth</span></div>
-                      <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{ width: '90%' }}></div></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-100">
-                  <h3 className="font-bold text-amber-900 mb-2">The Domino Effect</h3>
-                  <ul className="space-y-3 mt-4 text-sm text-amber-800">
-                    <li className="flex items-center"><span className="bg-white p-1 rounded-full mr-2">🔥</span> ความไม่สงบในเขตความขัดแย้ง</li>
-                    <li className="flex items-center"><span className="bg-white p-1 rounded-full mr-2">✈️</span> ต้นทุนโลจิสติกส์การบินสูงขึ้น</li>
-                    <li className="flex items-center"><span className="bg-white p-1 rounded-full mr-2">💰</span> ทุน/บุคลากรหนีเข้าโซนปลอดภัย</li>
-                    <li className="flex items-center font-bold"><span className="bg-white p-1 rounded-full mr-2">🌏</span> อาเซียนเติบโตอย่างสมดุล</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="lg:col-span-2">
-                <RegionalShowdown />
-              </div>
+            {/* 4. Global Push & Pull Factors */}
+            <div className="grid lg:grid-cols-2 gap-8 mt-8 items-stretch">
+              <TopNegativelyImpacted /> {/* Push */}
+              <TopBeneficiariesRanking /> {/* Pull */}
             </div>
 
+            {/* 5. Future Outlook */}
             <FutureTimeline />
 
-            <div className="grid lg:grid-cols-2 gap-8 mt-8 items-stretch">
-              <TopBeneficiariesRanking />
-              <TopNegativelyImpacted />
-            </div>
+            {/* 6. Global Competition (Zooming in) */}
+            <FDIScoringDashboard />
 
-            <StrategicEnablers />
+            {/* 7. Regional Showdown */}
+            <RegionalShowdown />
+
+            {/* 8. Local Advantage */}
             <ThailandPillars />
+            <StrategicEnablers />
+
+            {/* 9. Next Steps */}
+            <RelatedReports />
 
             <footer className="text-center text-gray-500 text-sm mt-12 py-6 border-t border-gray-200">
-              Global Macro-Trend Report © 2026 | Strategic Analysis for Regional Growth
+              Global Macro-Trend Report © 2026 | Strategic Analysis for Regional Growth | Pattaya City, Chon Buri
             </footer>
           </div>
         </div>
