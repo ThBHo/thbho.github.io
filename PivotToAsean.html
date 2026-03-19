@@ -41,105 +41,329 @@
     import React, { useState, useEffect } from 'react';
     import { createRoot } from 'react-dom/client';
     import { 
-      ShieldCheck, 
-      TrendingUp, 
-      PlaneTakeoff, 
-      Building2, 
-      Cpu, 
-      Map, 
-      Globe2, 
-      ArrowRight,
-      MapPin,
-      Clock,
-      Landmark,
-      Palmtree,
-      Trophy,
-      Award,
-      AlertTriangle,
-      TrendingDown,
-      Stethoscope,
-      GraduationCap,
-      Zap,
-      FileText,
-      Image as ImageIcon,
-      Loader2,
-      Music,
-      ExternalLink,
-      Target,
-      BarChart3,
-      ListChecks,
-      Info
+      ShieldCheck, TrendingUp, PlaneTakeoff, Building2, Cpu, Map, Globe2, 
+      ArrowRight, MapPin, Clock, Landmark, Palmtree, Trophy, Award, 
+      AlertTriangle, TrendingDown, Stethoscope, GraduationCap, Zap, FileText, 
+      Image as ImageIcon, Loader2, Music, ExternalLink, Target, BarChart3, 
+      ListChecks, Info, Globe
     } from 'lucide-react';
 
-    // --- Data Objects ---
+    // --- Translation Data & Getters ---
+    const t = {
+      th: {
+        updateDate: "Global Impact Report : March 2026 Update",
+        heroTitle1: "วิกฤตโลกดันอาเซียนผงาด:",
+        heroTitle2: "โอกาสและความท้าทายในฐานะ Safe Haven",
+        heroDesc: "การปรับโครงสร้างเศรษฐกิจโลกท่ามกลางความขัดแย้ง ภูมิภาคอาเซียนก้าวขึ้นเป็นศูนย์กลางความเชื่อมั่นใหม่ ด้วยนโยบายที่เป็นกลางและโครงสร้างพื้นฐานที่ครอบคลุม",
+        dominoTitle: "The Domino Effect: จุดเริ่มต้นการย้ายฐานครั้งใหญ่",
+        d1: "วิกฤตเขตความขัดแย้งดันเที่ยวบินยกเลิก 70-100%",
+        d2: "สายการบินเลี่ยงน่านฟ้า ดันต้นทุนโลจิสติกส์พุ่ง",
+        d3: "ทุน/บุคลากรหนีภัย ดันอสังหาฯ ลักชัวรีบูมในเขตปลอดภัย",
+        d4: "อาเซียนเติบโตรับอานิสงส์ Multi-hub เต็มรูปแบบ",
+        visualTitle: "Conceptual Visual: The ASEAN Shift",
+        visualDesc: "สไลด์สรุปแนวคิดเส้นทางการเคลื่อนย้ายเงินทุน เทคโนโลยี และการบิน สู่ \"Safe Haven\" แห่งภูมิภาคอาเซียน สะท้อนบทบาทของไทยที่เป็นศูนย์กลางการเชื่อมต่อที่ปลอดภัยและมั่นคงท่ามกลางความผันผวนของโลก",
+        visualLink: "เปิดดูสไลด์ขนาดเต็มในแท็บใหม่",
+        pullTitle: "Top Beneficiaries Ranking",
+        pullBadge: "✨ War Impact: Positive Shift",
+        pullDesc: "อานิสงส์จากการย้ายฐานหนีวิกฤตสงคราม (วัดจาก Aviation, Wealth, Real Estate, MICE)",
+        pushTitle: "Top Negatively Impacted",
+        pushBadge: "⚠️ War Impact & Geopolitical Risks",
+        pushDesc: "พื้นที่ที่ได้รับผลกระทบเชิงลบ (ปัจจัยหลักในการผลักดัน Capital Flight สู่ ASEAN)",
+        timelineTitle: "แนวโน้มสากล 3 ระยะ (Global Macro Scenarios)",
+        fdiTitle: "FDI Competitiveness Scorecard 2026",
+        fdiDesc: "การวิเคราะห์ศักยภาพดึงดูดเม็ดเงินลงทุน (FDI) แบบ Multi-hub (China+Many) โดยเปรียบเทียบ EEC และ ASEAN กับคู่แข่งระดับโลกผ่าน 7 มิติหลัก",
+        fdiOverall: "Overall Score: ศักยภาพโดยรวม (Equal Weight)",
+        fdiTableTitle: "ตารางคะแนนเชิงลึก 7 มิติ (Detailed Metrics)",
+        fdiTh1: "ภูมิภาค / เมือง",
+        fdiTh2: "Neutrality & Stability",
+        fdiTh3: "Infra & Logistics",
+        fdiTh4: "Labor & Demographic",
+        fdiTh5: "Market Access & FTA",
+        fdiTh6: "Incentives & Ease of Biz",
+        fdiTh7: "Supply Chain Depth",
+        fdiTh8: "Domestic Market",
+        infoTitle: "วิเคราะห์มิติที่น่าสนใจ",
+        info1: "ASEAN/EEC ชนะขาด (92-93%) ด้วยยุทธศาสตร์ 'Strategic Ambiguity' ขณะที่อินเดียโดนกำแพงภาษีสหรัฐฯ",
+        info2: "EEC ยืนหนึ่ง (94%) จากแพ็กเกจ BOI 'Thailand FastPass' และ One-stop service",
+        nuanceTitle: "Nuances & คู่แข่งหลัก",
+        nuance1: "India (83%): คู่แข่งที่น่ากลัวที่สุด โดดเด่นด้านขนาดตลาดและแรงงาน IT แต่คอขวดคือระบบราชการ",
+        nuance2: "Mexico (79%): ชนะขาดการทำ Nearshoring เข้าสหรัฐฯ แต่ไม่ได้แข่งขันแย่งส่วนแบ่งตลาดยุโรป-เอเชีย กับไทย",
+        showdownTitle: "The ASEAN Strategic Showdown (เจาะลึกภูมิภาค)",
+        compScore: "Competitiveness",
+        pros: "จุดเด่น (Strengths)",
+        cons: "ความท้าทาย (Challenges)",
+        pillarsTitle: "Thailand Strategic Pillars",
+        pillarsDesc: "ความได้เปรียบระดับท้องถิ่นที่ทำให้ไทยโดดเด่นเหนือคู่แข่ง ดึงดูดทั้งการลงทุนและบุคลากรระดับสูง",
+        enablersTitle: "Strategic Enablers: โครงสร้างพื้นฐานชีวิต",
+        reportsTitle: "Related Reports (รายงานที่เกี่ยวข้อง)",
+        footer: "Global Macro-Trend Report © 2026 | Strategic Analysis for Regional Growth | Pattaya City, Chon Buri"
+      },
+      en: {
+        updateDate: "Global Impact Report : March 2026 Update",
+        heroTitle1: "Global Crisis Propels ASEAN:",
+        heroTitle2: "Opportunities & Challenges as a Safe Haven",
+        heroDesc: "Amidst global economic restructuring and conflicts, the ASEAN region emerges as a new center of confidence, driven by neutral policies and comprehensive infrastructure.",
+        dominoTitle: "The Domino Effect: The Great Relocation",
+        d1: "Conflict zones trigger 70-100% flight cancellations",
+        d2: "Airlines avoid airspace, skyrocketing logistics costs",
+        d3: "Capital/Talent flight fuels luxury real estate boom in safe zones",
+        d4: "ASEAN grows rapidly, fully capitalizing on the Multi-hub trend",
+        visualTitle: "Conceptual Visual: The ASEAN Shift",
+        visualDesc: "A slide summarizing the concept of capital, tech, and aviation routes shifting to the ASEAN \"Safe Haven\", reflecting Thailand's role as a secure and stable connectivity hub amidst global volatility.",
+        visualLink: "Open full slide in new tab",
+        pullTitle: "Top Beneficiaries Ranking",
+        pullBadge: "✨ War Impact: Positive Shift",
+        pullDesc: "Benefiting from relocation away from war crises (Measured by Aviation, Wealth, Real Estate, MICE)",
+        pushTitle: "Top Negatively Impacted",
+        pushBadge: "⚠️ War Impact & Geopolitical Risks",
+        pushDesc: "Negatively impacted regions (Primary factors driving Capital Flight to ASEAN)",
+        timelineTitle: "Global Macro Scenarios (3 Phases)",
+        fdiTitle: "FDI Competitiveness Scorecard 2026",
+        fdiDesc: "Analysis of Foreign Direct Investment (FDI) potential via a Multi-hub (China+Many) strategy, comparing EEC/ASEAN against global competitors across 7 key metrics.",
+        fdiOverall: "Overall Score (Equal Weight)",
+        fdiTableTitle: "Detailed 7-Dimension Metrics",
+        fdiTh1: "Region / City",
+        fdiTh2: "Neutrality & Stability",
+        fdiTh3: "Infra & Logistics",
+        fdiTh4: "Labor & Demographic",
+        fdiTh5: "Market Access & FTA",
+        fdiTh6: "Incentives & Ease of Biz",
+        fdiTh7: "Supply Chain Depth",
+        fdiTh8: "Domestic Market",
+        infoTitle: "Key Insights",
+        info1: "ASEAN/EEC dominates (92-93%) with 'Strategic Ambiguity', while India faces high US tariffs.",
+        info2: "EEC leads (94%) with BOI 'Thailand FastPass' packages and One-stop service.",
+        nuanceTitle: "Nuances & Main Competitors",
+        nuance1: "India (83%): The fiercest competitor. Excels in market size and IT labor, but hindered by bureaucracy.",
+        nuance2: "Mexico (79%): Wins in US Nearshoring, but not positioned to compete for the Europe-Asia market share against Thailand.",
+        showdownTitle: "The ASEAN Strategic Showdown",
+        compScore: "Competitiveness",
+        pros: "Strengths",
+        cons: "Challenges",
+        pillarsTitle: "Thailand Strategic Pillars",
+        pillarsDesc: "Local advantages that make Thailand stand out, attracting top-tier investments and global talents.",
+        enablersTitle: "Strategic Enablers: Lifestyle Infrastructure",
+        reportsTitle: "Related Reports",
+        footer: "Global Macro-Trend Report © 2026 | Strategic Analysis for Regional Growth | Pattaya City, Chon Buri"
+      },
+      ru: {
+        updateDate: "Отчет о глобальном влиянии : Март 2026",
+        heroTitle1: "Глобальный кризис возвышает АСЕАН:",
+        heroTitle2: "Возможности и вызовы «безопасной гавани»",
+        heroDesc: "В условиях реструктуризации мировой экономики и конфликтов регион АСЕАН становится новым центром доверия благодаря нейтральной политике и развитой инфраструктуре.",
+        dominoTitle: "Эффект домино: Великое переселение",
+        d1: "Зоны конфликтов вызывают отмену 70-100% рейсов",
+        d2: "Авиакомпании избегают воздушного пространства, стоимость логистики растет",
+        d3: "Отток капитала и талантов вызывает бум элитной недвижимости в безопасных зонах",
+        d4: "АСЕАН стремительно растет за счет тренда мульти-хабов",
+        visualTitle: "Концептуальная визуализация: Сдвиг в АСЕАН",
+        visualDesc: "Слайд, обобщающий концепцию перемещения капитала, технологий и авиамаршрутов в «безопасную гавань» АСЕАН, отражающий роль Таиланда как стабильного центра на фоне глобальной волатильности.",
+        visualLink: "Открыть слайд в новой вкладке",
+        pullTitle: "Рейтинг главных бенефициаров",
+        pullBadge: "✨ Влияние войны: Позитивный сдвиг",
+        pullDesc: "Выгода от релокации из зон военных кризисов (на основе данных авиации, капитала, недвижимости, MICE)",
+        pushTitle: "Наиболее пострадавшие регионы",
+        pushBadge: "⚠️ Влияние войны и геополитические риски",
+        pushDesc: "Регионы с негативным воздействием (основные факторы оттока капитала в АСЕАН)",
+        timelineTitle: "Глобальные макросценарии (3 этапа)",
+        fdiTitle: "Оценка конкурентоспособности ПИИ 2026",
+        fdiDesc: "Анализ потенциала прямых иностранных инвестиций (ПИИ) в рамках стратегии мульти-хабов (China+Many), сравнение ЕЭС/АСЕАН с мировыми конкурентами по 7 метрикам.",
+        fdiOverall: "Общий балл (равный вес)",
+        fdiTableTitle: "Подробные метрики по 7 измерениям",
+        fdiTh1: "Регион / Город",
+        fdiTh2: "Нейтралитет и стабильность",
+        fdiTh3: "Инфраструктура и логистика",
+        fdiTh4: "Труд и демография",
+        fdiTh5: "Доступ к рынкам и ЗСТ",
+        fdiTh6: "Стимулы и легкость бизнеса",
+        fdiTh7: "Глубина цепочки поставок",
+        fdiTh8: "Внутренний рынок",
+        infoTitle: "Ключевые инсайты",
+        info1: "АСЕАН/ЕЭС доминирует (92-93%) благодаря «стратегической неопределенности», в то время как Индия сталкивается с тарифами США.",
+        info2: "ЕЭС лидирует (94%) благодаря пакетам BOI 'Thailand FastPass' и системе одного окна.",
+        nuanceTitle: "Нюансы и главные конкуренты",
+        nuance1: "Индия (83%): Сильнейший конкурент. Выделяется размером рынка и ИТ-кадрами, но страдает от бюрократии.",
+        nuance2: "Мексика (79%): Лидер в ниршоринге для США, но не конкурирует за долю рынка Европа-Азия с Таиландом.",
+        showdownTitle: "Стратегическое противостояние в АСЕАН",
+        compScore: "Конкурентоспособность",
+        pros: "Сильные стороны",
+        cons: "Вызовы",
+        pillarsTitle: "Стратегические опоры Таиланда",
+        pillarsDesc: "Местные преимущества, выделяющие Таиланд и привлекающие инвестиции и таланты со всего мира.",
+        enablersTitle: "Стратегические факторы: Инфраструктура для жизни",
+        reportsTitle: "Связанные отчеты",
+        footer: "Отчет о глобальных макротрендах © 2026 | Стратегический анализ | Паттайя, Чонбури"
+      },
+      zh: {
+        updateDate: "全球影响报告：2026年3月更新",
+        heroTitle1: "全球危机推动东盟崛起：",
+        heroTitle2: "作为避风港的机遇与挑战",
+        heroDesc: "在冲突中重组全球经济，凭借中立政策和完善的基础设施，东盟地区正成为新的信心中心。",
+        dominoTitle: "多米诺骨牌效应：大规模转移",
+        d1: "冲突地区导致 70-100% 的航班取消",
+        d2: "航空公司避开空域，导致物流成本飙升",
+        d3: "资本和人才外流推动安全区豪华房地产繁荣",
+        d4: "东盟快速增长，充分利用多枢纽（Multi-hub）趋势",
+        visualTitle: "概念愿景：东盟转移",
+        visualDesc: "总结资本、技术和航空路线向东盟“避风港”转移概念的幻灯片，反映了泰国在全球动荡中作为安全稳定连接枢纽的作用。",
+        visualLink: "在新标签页中打开完整幻灯片",
+        pullTitle: "最大受益者排名",
+        pullBadge: "✨ 战争影响：积极转变",
+        pullDesc: "得益于逃离战争危机的转移（根据航空、财富、房地产、MICE 衡量）",
+        pushTitle: "受负面影响最大的地区",
+        pushBadge: "⚠️ 战争影响与地缘政治风险",
+        pushDesc: "受负面影响的地区（推动资本外逃至东盟的主要因素）",
+        timelineTitle: "全球宏观情景（3个阶段）",
+        fdiTitle: "2026年FDI竞争力计分卡",
+        fdiDesc: "通过多枢纽（China+Many）策略分析外国直接投资（FDI）潜力，在7个关键指标上将EEC/东盟与全球竞争对手进行比较。",
+        fdiOverall: "总分（等权重）",
+        fdiTableTitle: "详细的7维指标",
+        fdiTh1: "区域/城市",
+        fdiTh2: "中立性与稳定性",
+        fdiTh3: "基础设施与物流",
+        fdiTh4: "劳动力与人口",
+        fdiTh5: "市场准入与自贸协定",
+        fdiTh6: "激励措施与营商便利度",
+        fdiTh7: "供应链深度",
+        fdiTh8: "国内市场",
+        infoTitle: "关键见解",
+        info1: "东盟/EEC凭借“战略模糊”占据主导地位（92-93%），而印度面临美国高关税。",
+        info2: "EEC凭借BOI的“泰国快速通道”和一站式服务领先（94%）。",
+        nuanceTitle: "细微差别与主要竞争对手",
+        nuance1: "印度（83%）：最强劲的竞争对手。在市场规模和IT劳动力方面表现出色，但受官僚主义阻碍。",
+        nuance2: "墨西哥（79%）：在美国近岸外包中获胜，但无法与泰国竞争欧亚市场份额。",
+        showdownTitle: "东盟战略对决（深入分析）",
+        compScore: "竞争力",
+        pros: "优势 (Strengths)",
+        cons: "挑战 (Challenges)",
+        pillarsTitle: "泰国战略支柱",
+        pillarsDesc: "使泰国脱颖而出的本地优势，吸引全球顶尖投资和人才。",
+        enablersTitle: "战略赋能因素：生活基础设施",
+        reportsTitle: "相关报告",
+        footer: "全球宏观趋势报告 © 2026 | 区域增长战略分析 | 泰国春武里府芭提雅市"
+      }
+    };
 
-    const futureTrends = [
+    const getFutureTrends = (l) => [
       {
         id: 'short',
-        title: 'Short-Term (1-6 เดือน)',
+        title: l==='th'?'Short-Term (1-6 เดือน)':l==='en'?'Short-Term (1-6 Months)':l==='ru'?'Краткосрочно (1-6 мес.)':'短期 (1-6 个月)',
         subtitle: 'The Panic & Capital Flight',
         icon: <PlaneTakeoff className="w-6 h-6 text-blue-500" />,
         color: 'bg-blue-500',
         details: [
-          '✈️ Aviation Rerouting: การเลี่ยงน่านฟ้า ME ส่งผลให้ตั๋วเครื่องบินยุโรป-เอเชียแพงขึ้น และกระทบ Supply Chain โลจิสติกส์ระยะสั้น',
-          '💼 ASEAN Tourism Surge: ประเทศไทย (BKK/HKT) และญี่ปุ่น (HND) รับอานิสงส์นักท่องเที่ยวที่เลี่ยงการเดินทางไปยุโรปและตะวันออกกลาง',
-          '💰 Safe Haven Influx: เม็ดเงินระยะสั้นไหลเข้าสินทรัพย์ปลอดภัย (ทองคำ) และอสังหาริมทรัพย์ระดับ Ultra-Luxury ในสิงคโปร์และไทย'
+          l==='th'?'✈️ Aviation Rerouting: การเลี่ยงน่านฟ้า ME ส่งผลให้ตั๋วเครื่องบินยุโรป-เอเชียแพงขึ้น และกระทบ Supply Chain':
+          l==='en'?'✈️ Aviation Rerouting: ME airspace avoidance spikes Europe-Asia airfares and impacts short-term supply chains.':
+          l==='ru'?'✈️ Изменение авиамаршрутов: обход ME повышает цены на билеты и нарушает цепочки поставок.':
+          '✈️ 航空改道：避开中东导致欧亚机票价格飙升，影响短期供应链。',
+          
+          l==='th'?'💼 ASEAN Tourism Surge: ประเทศไทย (BKK/HKT) และญี่ปุ่น (HND) รับอานิสงส์นักท่องเที่ยวที่เลี่ยงเขตสงคราม':
+          l==='en'?'💼 ASEAN Tourism Surge: Thailand (BKK/HKT) and Japan gain tourists avoiding Europe and ME.':
+          l==='ru'?'💼 Туристический бум в АСЕАН: Таиланд и Япония принимают туристов, избегающих Европу и Ближний Восток.':
+          '💼 东盟旅游热潮：泰国和日本吸引了避开欧洲和中东的游客。',
+          
+          l==='th'?'💰 Safe Haven Influx: เม็ดเงินไหลเข้าสินทรัพย์ปลอดภัย และอสังหาฯ Ultra-Luxury ในสิงคโปร์และไทย':
+          l==='en'?'💰 Safe Haven Influx: Capital flows into gold and Ultra-Luxury real estate in Singapore and Thailand.':
+          l==='ru'?'💰 Приток в безопасную гавань: Капитал перетекает в элитную недвижимость Сингапура и Таиланда.':
+          '💰 避风港涌入：资本流入新加坡和泰国的黄金及超豪华房地产。'
         ]
       },
       {
         id: 'medium',
-        title: 'Medium-Term (6-24 เดือน)',
+        title: l==='th'?'Medium-Term (6-24 เดือน)':l==='en'?'Medium-Term (6-24 Months)':l==='ru'?'Среднесрочно (6-24 мес.)':'中期 (6-24 个月)',
         subtitle: 'Supply Chain & Wealth Relocation',
         icon: <Building2 className="w-6 h-6 text-orange-500" />,
         color: 'bg-orange-500',
         details: [
-          '🏢 China/Taiwan+1 Acceleration: บริษัทยักษ์ใหญ่เร่งกระจายความเสี่ยงฐานการผลิตมายัง เวียดนาม, มาเลเซีย, และพื้นที่ EEC ของไทย',
-          '🛡️ Geo-politic Hedging: เศรษฐีเอเชียตะวันออกกว้านซื้อ "บ้านหลังที่ 2" ในอาเซียน เพื่อเป็นหลักประกันความเสี่ยง (Risk Diversification)',
-          '🔌 Tech & Data Center Shift: ธุรกิจ AI ทั่วโลก (เช่น AI VDO Gen) มองหาทำเลตั้ง Data Center ในพื้นที่ที่พลังงานมั่นคงและปลอดภัยจากสงคราม'
+          l==='th'?'🏢 China/Taiwan+1 Acceleration: บริษัทยักษ์ใหญ่ย้ายฐานผลิตมายัง เวียดนาม, มาเลเซีย, และ EEC ของไทย':
+          l==='en'?'🏢 China/Taiwan+1 Acceleration: Tech giants relocate production to Vietnam, Malaysia, and Thailand\'s EEC.':
+          l==='ru'?'🏢 Ускорение China+1: Гиганты переносят производство во Вьетнам, Малайзию и ЕЭС Таиланда.':
+          '🏢 中国/台湾+1 加速：科技巨头将生产转移到越南、马来西亚和泰国的 EEC。',
+
+          l==='th'?'🛡️ Geo-politic Hedging: เศรษฐีเอเชียตะวันออกกว้านซื้อ "บ้านหลังที่ 2" ในอาเซียน':
+          l==='en'?'🛡️ Geo-politic Hedging: East Asian elites buy "second homes" in ASEAN for risk diversification.':
+          l==='ru'?'🛡️ Геополитическое хеджирование: Элита Восточной Азии скупает "вторые дома" в АСЕАН.':
+          '🛡️ 地缘政治对冲：东亚富豪在东盟购买“第二居所”以分散风险。',
+
+          l==='th'?'🔌 Tech & Data Center Shift: ธุรกิจ AI ตั้ง Data Center ในพื้นที่ที่พลังงานมั่นคงและปลอดภัย':
+          l==='en'?'🔌 Tech & Data Center Shift: AI businesses seek secure, energy-stable locations for Data Centers.':
+          l==='ru'?'🔌 Сдвиг дата-центров: ИИ-бизнес ищет безопасные места со стабильной энергией.':
+          '🔌 技术与数据中心转移：AI 企业在能源稳定且安全的地区建立数据中心。'
         ]
       },
       {
         id: 'long',
-        title: 'Long-Term (3-5 ปีขึ้นไป)',
+        title: l==='th'?'Long-Term (3-5 ปี+)':l==='en'?'Long-Term (3-5 Years+)':l==='ru'?'Долгосрочно (3-5 лет+)':'长期 (3-5 年+)',
         subtitle: 'The New ASEAN Paradigm',
         icon: <Globe2 className="w-6 h-6 text-green-500" />,
         color: 'bg-green-500',
         details: [
-          '🌐 Decentralized Global Hubs: ลดการพึ่งพา Mega-Hubs ผูกขาด โลกจะกระจายศูนย์กลางการบินมายังเอเชียตะวันออกและอาเซียนมากขึ้น',
-          '🎪 Global Events Relocation: อาเซียนกลายเป็นพื้นที่หลักสำหรับงานระดับโลก (World Expos, Mega Theme Parks) เนื่องจากความเป็นกลางทางการเมือง',
-          '⚠️ Local Challenges: อาเซียนต้องรับมือกับความท้าทายเรื่องอัตราเงินเฟ้อจากทุนต่างชาติ (Gentification) และความหนาแน่นของโครงสร้างพื้นฐาน'
+          l==='th'?'🌐 Decentralized Global Hubs: โลกกระจายศูนย์กลางการบินมายังเอเชียตะวันออกและอาเซียนมากขึ้น':
+          l==='en'?'🌐 Decentralized Global Hubs: Global aviation centers decentralize towards East Asia and ASEAN.':
+          l==='ru'?'🌐 Децентрализованные хабы: Мировые авиационные центры смещаются в АСЕАН.':
+          '🌐 去中心化全球枢纽：全球航空中心向东亚和东盟分散。',
+
+          l==='th'?'🎪 Global Events Relocation: อาเซียนกลายเป็นพื้นที่หลักสำหรับงานระดับโลก (World Expos, Mega Events)':
+          l==='en'?'🎪 Global Events Relocation: ASEAN becomes the main stage for World Expos and Mega Events.':
+          l==='ru'?'🎪 Перенос глобальных событий: АСЕАН становится главной ареной для World Expo и мега-ивентов.':
+          '🎪 全球赛事转移：东盟成为世界博览会和大型赛事的主要舞台。',
+
+          l==='th'?'⚠️ Local Challenges: อาเซียนต้องรับมือกับเงินเฟ้อจากทุนต่างชาติ (Gentification) และอินฟราหนาแน่น':
+          l==='en'?'⚠️ Local Challenges: ASEAN must manage foreign-capital inflation (Gentrification) and infra density.':
+          l==='ru'?'⚠️ Местные вызовы: АСЕАН должна справляться с инфляцией от иностранного капитала и плотностью инфраструктуры.':
+          '⚠️ 本地挑战：东盟必须应对外资引发的通货膨胀（士绅化）和基础设施密度问题。'
         ]
       }
     ];
 
-    const rankingData = [
-      { rank: 1, country: '🇹🇭 Thailand', areas: 'BKK, Phuket, EEC', score: 95, role: 'The Ultimate Neutral Safe Haven', desc: 'อสังหาฯ บูมรับเศรษฐีลี้ภัย, MICE ทะลัก, เป็นกลางทางภูมิรัฐศาสตร์ 100%', color: 'bg-emerald-500' },
-      { rank: 2, country: '🇸🇬 Singapore', areas: 'Singapore', score: 88, role: 'The Premium Financial Hub', desc: 'ย้ายฐานทุนและสำนักงานใหญ่, รับงาน Mega Corporate MICE', color: 'bg-blue-500' },
-      { rank: 3, country: '🇹🇷 Turkey', areas: 'Istanbul (IST)', score: 82, role: 'The Global Transit Winner', desc: 'ได้เปรียบเส้นทางบินเชื่อมโลก (Aviation Advantage) ดูดผู้โดยสาร Transit', color: 'bg-rose-500' },
-      { rank: 4, country: '🇻🇳 Vietnam', areas: 'HCMC, Hanoi', score: 75, role: 'Supply Chain Relocation Hub', desc: 'ฐานผลิตย้ายหนีความเสี่ยงสงครามการค้า (China+1)', color: 'bg-amber-500' },
-      { rank: 5, country: '🇯🇵 Japan', areas: 'Tokyo (HND)', score: 68, role: 'Temporary Luxury Safe Zone', desc: 'ที่หลบภัยพรีเมียม แต่มีความเสี่ยงแฝงระยะกลางจากเอเชียตะวันออก', color: 'bg-purple-500' }
+    const getRankingData = (l) => [
+      { rank: 1, country: '🇹🇭 Thailand', areas: 'BKK, Phuket, EEC', score: 95, 
+        role: l==='th'?'The Ultimate Neutral Safe Haven':l==='ru'?'Абсолютно нейтральная гавань':l==='zh'?'终极中立避风港':'The Ultimate Neutral Safe Haven', 
+        desc: l==='th'?'อสังหาฯ บูมรับเศรษฐีลี้ภัย, MICE ทะลัก, เป็นกลางทางภูมิรัฐศาสตร์ 100%':l==='en'?'Real estate boom from elites, MICE influx, 100% geopolitical neutrality':l==='ru'?'Бум недвижимости, приток MICE, 100% нейтралитет':'房地产繁荣，MICE涌入，100%地缘政治中立', color: 'bg-emerald-500' },
+      { rank: 2, country: '🇸🇬 Singapore', areas: 'Singapore', score: 88, 
+        role: 'The Premium Financial Hub', 
+        desc: l==='th'?'ย้ายฐานทุนและสำนักงานใหญ่, รับงาน Mega Corporate MICE':l==='en'?'HQ and capital relocation, hosts Mega Corporate MICE':l==='ru'?'Перенос штаб-квартир и капитала':'总部和资本搬迁，举办大型企业MICE', color: 'bg-blue-500' },
+      { rank: 3, country: '🇹🇷 Turkey', areas: 'Istanbul (IST)', score: 82, 
+        role: 'The Global Transit Winner', 
+        desc: l==='th'?'ได้เปรียบเส้นทางบินเชื่อมโลก ดูดผู้โดยสาร Transit':l==='en'?'Aviation advantage connecting the world, absorbs transit pax':l==='ru'?'Авиационное преимущество, поглощает транзитных пассажиров':'航空优势连接世界，吸收中转乘客', color: 'bg-rose-500' },
+      { rank: 4, country: '🇻🇳 Vietnam', areas: 'HCMC, Hanoi', score: 75, 
+        role: 'Supply Chain Relocation Hub', 
+        desc: l==='th'?'ฐานผลิตย้ายหนีความเสี่ยงสงครามการค้า (China+1)':l==='en'?'Manufacturing base relocation avoiding trade war (China+1)':l==='ru'?'Перенос производственных баз (China+1)':'避开贸易战的制造基地搬迁（中国+1）', color: 'bg-amber-500' },
+      { rank: 5, country: '🇯🇵 Japan', areas: 'Tokyo (HND)', score: 68, 
+        role: 'Temporary Luxury Safe Zone', 
+        desc: l==='th'?'ที่หลบภัยพรีเมียม แต่มีความเสี่ยงแฝงระยะกลางจากเอเชียตะวันออก':l==='en'?'Premium safe zone, but carries medium-term East Asia risks':l==='ru'?'Премиум безопасная зона, но со среднесрочными рисками':'高级安全区，但带有中期的东亚风险', color: 'bg-purple-500' }
     ];
 
-    const negativeRankingData = [
-      { rank: 1, region: 'Conflict Ground Zeros', areas: 'Israel (TLV), Iran (IKA)', impact: 'Critical (วิกฤตหนัก)', desc: 'อัมพาตทางการบิน (น่านฟ้าปิด 70-100%), เศรษฐกิจหยุดชะงัก, สมองไหล (Brain Drain) ของกลุ่ม Tech', color: 'bg-red-600', iconColor: 'text-red-600', bgColor: 'bg-red-100' },
-      { rank: 2, region: 'Middle East Mega-Hubs', areas: 'UAE (DXB), Qatar (DOH)', impact: 'Severe (รุนแรง)', desc: 'สายการบินตะวันตกเลี่ยงน่านฟ้า ตารางบินปั่นป่วน งาน Mega Events ระดับโลกถูกระงับ', color: 'bg-orange-500', iconColor: 'text-orange-600', bgColor: 'bg-orange-100' },
-      { rank: 3, region: 'Europe', areas: 'London, Frankfurt, Paris', impact: 'High (สูง)', desc: 'วิกฤตเงินเฟ้อซ้ำซ้อนจากค่าขนส่ง/พลังงานพุ่ง, ถูกตัดขาดเส้นทางบินตรงสู่เอเชีย ทุนไหลออก', color: 'bg-amber-500', iconColor: 'text-amber-600', bgColor: 'bg-amber-100' },
-      { rank: 4, region: 'Hong Kong', areas: 'HKG', impact: 'Moderate (ปานกลาง)', desc: 'ทุนใหม่ไม่ไหลเข้าเพราะกังวลสงครามจีน-ไต้หวัน เสียเปรียบสิงคโปร์ในการเป็น Financial Hub', color: 'bg-yellow-500', iconColor: 'text-yellow-600', bgColor: 'bg-yellow-100' },
-      { rank: 5, region: 'Taiwan & South Korea', areas: 'TPE, ICN', impact: 'Risk Alert (เฝ้าระวัง)', desc: 'กังวลเป็นเป้าหมายถัดไป (Next Flashpoints) บริษัทย้ายฐานผลิตล่วงหน้าไปอาเซียน', color: 'bg-rose-400', iconColor: 'text-rose-600', bgColor: 'bg-rose-100' }
+    const getNegativeRankingData = (l) => [
+      { rank: 1, region: 'Conflict Ground Zeros', areas: 'Israel (TLV), Iran (IKA)', 
+        impact: l==='th'?'Critical (วิกฤตหนัก)':l==='en'?'Critical':l==='ru'?'Критический': '危急', 
+        desc: l==='th'?'อัมพาตทางการบิน, เศรษฐกิจหยุดชะงัก, สมองไหลของกลุ่ม Tech':l==='en'?'Aviation paralysis, economic halt, Tech brain drain':l==='ru'?'Авиационный паралич, остановка экономики, утечка мозгов ИТ':'航空瘫痪，经济停滞，技术人才流失', color: 'bg-red-600', iconColor: 'text-red-600', bgColor: 'bg-red-100' },
+      { rank: 2, region: 'Middle East Mega-Hubs', areas: 'UAE (DXB), Qatar (DOH)', 
+        impact: l==='th'?'Severe (รุนแรง)':l==='en'?'Severe':l==='ru'?'Тяжелый':'严重', 
+        desc: l==='th'?'สายการบินตะวันตกเลี่ยงน่านฟ้า ตารางบินปั่นป่วน งานระดับโลกถูกระงับ':l==='en'?'Western airlines avoid airspace, disrupted schedules, Mega Events suspended':l==='ru'?'Западные авиакомпании избегают воздушного пространства':'西方航空公司避开空域，大型活动暂停', color: 'bg-orange-500', iconColor: 'text-orange-600', bgColor: 'bg-orange-100' },
+      { rank: 3, region: 'Europe', areas: 'London, Frankfurt, Paris', 
+        impact: l==='th'?'High (สูง)':l==='en'?'High':l==='ru'?'Высокий':'高', 
+        desc: l==='th'?'วิกฤตเงินเฟ้อซ้ำซ้อนจากค่าขนส่ง/พลังงานพุ่ง ทุนไหลออก':l==='en'?'Secondary inflation from shipping/energy costs, capital flight':l==='ru'?'Инфляция из-за логистики/энергетики, отток капитала':'航运/能源成本引发二次通胀，资本外逃', color: 'bg-amber-500', iconColor: 'text-amber-600', bgColor: 'bg-amber-100' },
+      { rank: 4, region: 'Hong Kong', areas: 'HKG', 
+        impact: l==='th'?'Moderate (ปานกลาง)':l==='en'?'Moderate':l==='ru'?'Умеренный':'中度', 
+        desc: l==='th'?'ทุนใหม่ไม่ไหลเข้าเพราะกังวลสงคราม เสียเปรียบสิงคโปร์':l==='en'?'New capital stalls due to war concerns, loses to Singapore':l==='ru'?'Новый капитал не поступает из-за опасений войны':'因战争担忧新资本停滞，输给新加坡', color: 'bg-yellow-500', iconColor: 'text-yellow-600', bgColor: 'bg-yellow-100' },
+      { rank: 5, region: 'Taiwan & South Korea', areas: 'TPE, ICN', 
+        impact: l==='th'?'Risk Alert (เฝ้าระวัง)':l==='en'?'Risk Alert':l==='ru'?'Риск':'风险警报', 
+        desc: l==='th'?'กังวลเป็นเป้าหมายถัดไป บริษัทย้ายฐานผลิตล่วงหน้าไปอาเซียน':l==='en'?'Concerns as Next Flashpoints, companies pre-emptively relocate to ASEAN':l==='ru'?'Опасения стать следующей горячей точкой':'担忧成为下一个冲突点，企业提前搬迁至东盟', color: 'bg-rose-400', iconColor: 'text-rose-600', bgColor: 'bg-rose-100' }
     ];
 
-    const comparisonData = {
+    const getComparisonData = (l) => ({
       thailand: {
-        name: '🇹🇭 Thailand (BKK, Phuket, EEC)',
+        name: '🇹🇭 Thailand (EEC, BKK, Phuket)',
         role: 'A Balanced & Neutral Safe Haven',
         pros: [
-          'การกระจายตัวที่ดี: กรุงเทพฯ (ธุรกิจ/MICE), ภูเก็ต (Lifestyle/บ้านหรู), EEC (อุตสาหกรรม/ลอจิสติกส์)',
-          'ความเป็นกลางทางภูมิรัฐศาสตร์ (Strict Neutrality) และความมั่นคงทางอาหาร 100%',
-          'นโยบายวีซ่าใหม่ (LTR/DTV) ที่ดึงดูด Digital Nomads และนักลงทุนอย่างมีประสิทธิภาพ'
+          l==='th'?'การกระจายตัวที่ดี: กทม. (MICE), ภูเก็ต (Lifestyle), EEC (อุตสาหกรรม)':l==='en'?'Excellent distribution: BKK (MICE), Phuket (Lifestyle), EEC (Industry)':l==='ru'?'Отличное распределение: Бангкок (MICE), Пхукет, ЕЭС':'良好的分布：曼谷(MICE)，普吉岛，EEC',
+          l==='th'?'ความเป็นกลางทางภูมิรัฐศาสตร์ 100% และความมั่นคงทางอาหาร':l==='en'?'100% geopolitical neutrality and high food security':l==='ru'?'100% геополитический нейтралитет и прод. безопасность':'100% 地缘政治中立和粮食安全',
+          l==='th'?'นโยบายวีซ่า (LTR/DTV) ดึงดูด Digital Nomads/นักลงทุน':l==='en'?'LTR/DTV Visa policies aggressively attract nomads/investors':l==='ru'?'Визы LTR/DTV привлекают инвесторов и цифровых кочевников':'LTR/DTV签证政策吸引数字游民/投资者'
         ],
         cons: [
-          'ความท้าทายในการเร่งรัดโครงการโครงสร้างพื้นฐาน (High-speed train) ให้ทันดีมานด์ที่พุ่งขึ้น',
-          'ความต้องการบุคลากรทักษะสูงในพื้นที่ EEC ยังมีช่องว่าง (Skill Gap)'
+          l==='th'?'ความท้าทายในการสร้าง High-speed train ให้ทันดีมานด์':l==='en'?'Challenge in accelerating High-speed train to meet demand':l==='ru'?'Сложность в ускорении строительства ВСМ':'加速高铁建设以满足需求的挑战',
+          l==='th'?'ต้องการบุคลากรทักษะสูงใน EEC (Skill Gap)':l==='en'?'High-skill talent demand gap in EEC':l==='ru'?'Нехватка высококвалифицированных кадров в ЕЭС':'EEC 高技能人才需求缺口'
         ],
         score: 92
       },
@@ -147,43 +371,66 @@
         name: '🇸🇬 Singapore',
         role: 'The Premium Financial Hub',
         pros: [
-          'ศูนย์กลางการเงินระดับสากลและความโปร่งใสทางกฎหมายสูงสุด',
-          'ผู้นำด้าน AI Governance และการดึงดูด Family Offices',
-          'โครงสร้างพื้นฐานธุรกิจที่พร้อมใช้งานทันที (Plug & Play)'
+          l==='th'?'ศูนย์กลางการเงินและความโปร่งใสทางกฎหมายสูงสุด':l==='en'?'Global financial center with max legal transparency':l==='ru'?'Мировой финансовый центр с макс. прозрачностью':'具有最高法律透明度的全球金融中心',
+          l==='th'?'ผู้นำ AI Governance และดึงดูด Family Offices':l==='en'?'AI Governance leader and Family Office magnet':l==='ru'?'Лидер в управлении ИИ и центр семейных офисов':'AI 治理领导者和家族办公室吸铁石'
         ],
         cons: [
-          'ข้อจำกัดทางพื้นที่ส่งผลให้ค่าครองชีพและราคาที่อยู่อาศัยสูงลิ่ว',
-          'เปราะบางเรื่องห่วงโซ่อาหารและพลังงานหากโดนปิดล้อมทางทะเล'
+          l==='th'?'ข้อจำกัดพื้นที่ส่งผลให้ค่าครองชีพ/อสังหาฯ สูงลิ่ว':l==='en'?'Land limits drive extreme living & property costs':l==='ru'?'Ограничения по площади ведут к огромным ценам':'土地限制导致极高的生活和房地产成本',
+          l==='th'?'เปราะบางเรื่องอาหาร/พลังงานหากโดนปิดล้อม':l==='en'?'Vulnerable in food/energy if sea routes are blocked':l==='ru'?'Уязвимость по продовольствию/энергии':'如果海上航线被封锁，粮食/能源脆弱'
         ],
         score: 88
-      },
-      vietnam: {
-        name: '🇻🇳 Vietnam',
-        role: 'The Agile Manufacturing Frontier',
-        pros: [
-          'ผู้ชนะหลักในกลยุทธ์ย้ายฐานผลิต "China+1" (Electronics Focus)',
-          'กำลังแรงงานหนุ่มสาวด้าน IT จำนวนมากในราคาที่แข่งขันได้',
-          'นโยบายส่งเสริมการลงทุนต่างชาติ (FDI) ที่มีความยืดหยุ่นสูง'
-        ],
-        cons: [
-          'ปัญหาเสถียรภาพของพลังงาน (ไฟฟ้าดับ) ในเขตอุตสาหกรรมบางแห่ง',
-          'ระบบบริการสุขภาพระดับพรีเมียมยังไม่ครอบคลุมเท่าไทยและสิงคโปร์'
-        ],
-        score: 83
       }
-    };
+    });
 
-    // FDI Scoring Data (New)
-    const fdiScoringData = [
-      { name: '🇹🇭 EEC (Thailand)', overall: 88, neutrality: 92, infra: 91, labor: 86, market: 88, incentives: 94, supply: 85, domestic: 78, highlight: 'ชนะขาดเพราะ Focused Dev + Incentives + Neutrality', color: 'bg-emerald-500' },
-      { name: '🌏 ASEAN Overall', overall: 86, neutrality: 93, infra: 84, labor: 89, market: 91, incentives: 82, supply: 87, domestic: 76, highlight: 'Safe Haven ที่สมดุลที่สุดในโลก Multipolar', color: 'bg-blue-500' },
-      { name: '🇮🇳 India', overall: 83, neutrality: 74, infra: 76, labor: 92, market: 79, incentives: 79, supply: 82, domestic: 95, highlight: 'คู่แข่งที่แรงที่สุด ไล่ตามใน Scale + Market', color: 'bg-orange-500' },
-      { name: '🇲🇽 Mexico', overall: 79, neutrality: 69, infra: 71, labor: 77, market: 88, incentives: 73, supply: 79, domestic: 74, highlight: 'ชนะใน Nearshoring US แต่มี Uncertainty กลางปี 2026', color: 'bg-teal-500' },
-      { name: '🇵🇱 E. Europe (Poland)', overall: 75, neutrality: 82, infra: 86, labor: 65, market: 93, incentives: 78, supply: 76, domestic: 65, highlight: 'โครงสร้างพื้นฐานดี แต่ Cost สูง + เสี่ยงพลังงานรัสเซีย', color: 'bg-indigo-500' },
-      { name: '🇹🇷 Turkey (MENA)', overall: 72, neutrality: 66, infra: 73, labor: 68, market: 81, incentives: 71, supply: 70, domestic: 69, highlight: 'Europe Gateway แต่ Scale เล็ก', color: 'bg-rose-500' },
-      { name: '🇧🇩 Bangladesh', overall: 68, neutrality: 57, infra: 56, labor: 88, market: 76, incentives: 64, supply: 61, domestic: 67, highlight: 'Labor ถูกสุด แต่ Infra อ่อนแอ + Political Risk สูง', color: 'bg-slate-500' }
+    const getFdiScoringData = (l) => [
+      { name: '🇹🇭 EEC (Thailand)', overall: 88, neutrality: 92, infra: 91, labor: 86, market: 88, incentives: 94, supply: 85, domestic: 78, 
+        highlight: l==='th'?'ชนะขาดเพราะ Focused Dev + Incentives + Neutrality':l==='en'?'Clear winner: Focused Dev + Incentives + Neutrality':l==='ru'?'Лидер: Фокус + Стимулы + Нейтралитет':'明显赢家：专注开发+激励+中立', color: 'bg-emerald-500' },
+      { name: '🌏 ASEAN Overall', overall: 86, neutrality: 93, infra: 84, labor: 89, market: 91, incentives: 82, supply: 87, domestic: 76, 
+        highlight: l==='th'?'Safe Haven ที่สมดุลที่สุดในโลก Multipolar':l==='en'?'Most balanced Safe Haven in a Multipolar world':l==='ru'?'Самая сбалансированная гавань':'多极世界中最平衡的避风港', color: 'bg-blue-500' },
+      { name: '🇮🇳 India', overall: 83, neutrality: 74, infra: 76, labor: 92, market: 79, incentives: 79, supply: 82, domestic: 95, 
+        highlight: l==='th'?'ไล่ตามใน Scale + Market':l==='en'?'Fierce competitor catching up in Scale + Market':l==='ru'?'Догоняет за счет масштаба и рынка':'在规模和市场上赶超', color: 'bg-orange-500' },
+      { name: '🇲🇽 Mexico', overall: 79, neutrality: 69, infra: 71, labor: 77, market: 88, incentives: 73, supply: 79, domestic: 74, 
+        highlight: l==='th'?'ชนะใน Nearshoring US แต่มี Uncertainty':l==='en'?'Wins US Nearshoring but faces USMCA uncertainty':l==='ru'?'Побеждает в ниршоринге США, но есть неопределенность':'赢得美国近岸外包，但面临USMCA不确定性', color: 'bg-teal-500' }
     ];
 
+    const getPillars = (l) => [
+      {
+        icon: <Cpu className="w-8 h-8 text-indigo-500" />,
+        title: 'EEC & Pattaya',
+        subtitle: 'Aviation & Smart Digital Hub',
+        desc: l==='th'? <span>พื้นที่ยุทธศาสตร์ <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" className="text-indigo-600 underline">"เมืองการบินอู่ตะเภา"</a> และศูนย์นวัตกรรม AI-ready ของอาเซียน</span> : 
+              l==='en'? <span>Strategic <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" className="text-indigo-600 underline">"Eastern Aerotropolis"</a> and ASEAN's new AI-ready innovation center.</span> :
+              l==='ru'? <span>Стратегический <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" className="text-indigo-600 underline">"Аэротрополис"</a> и инновационный ИИ-центр АСЕАН.</span> :
+              <span>战略性的 <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" className="text-indigo-600 underline">"东部航空城"</a> 和东盟新的 AI 就绪创新中心。</span>
+      },
+      {
+        icon: <Landmark className="w-8 h-8 text-blue-500" />,
+        title: 'Bangkok (BKK)',
+        subtitle: 'The Urban Transit Hub',
+        desc: l==='th'?'ศูนย์กลางการบิน MICE และความบันเทิง รองรับงานจากพื้นที่เสี่ยง':l==='en'?'Aviation, MICE, and entertainment hub absorbing relocated events.':l==='ru'?'Авиационный и MICE центр, принимающий перенесенные события.':'吸收转移赛事的航空、MICE和娱乐中心。'
+      },
+      {
+        icon: <Palmtree className="w-8 h-8 text-emerald-500" />,
+        title: 'Phuket & South',
+        subtitle: 'Luxury Wellness Haven',
+        desc: l==='th'?'จุดหมายของมหาเศรษฐีที่เน้น Lifestyle และการแพทย์ (Longevity)':l==='en'?'Billionaire destination focusing on Lifestyle and Longevity wellness.':l==='ru'?'Направление для миллиардеров (Лайфстайл и Долголетие).':'亿万富翁的目的地，专注于生活方式和长寿健康。'
+      },
+      {
+        icon: <FileText className="w-8 h-8 text-orange-500" />,
+        title: 'Policy Enablers',
+        subtitle: 'LTR & DTV Visas',
+        desc: l==='th'?'นโยบายวีซ่าพำนักระยะยาว ดึงดูด Global Talents อย่างยั่งยืน':l==='en'?'Long-term resident visas sustainably attracting Global Talents.':l==='ru'?'Долгосрочные визы привлекают глобальные таланты.':'长期居留签证可持续吸引全球人才。'
+      }
+    ];
+
+    const getEnablers = (l) => [
+      { icon: <Zap className="text-yellow-500" />, title: 'Green Energy (EEC)', desc: l==='th'?'แผนพลังงานสะอาดดึงดูด Data Centers':l==='en'?'Clean energy plans attract Data Centers':l==='ru'?'Зеленая энергия привлекает дата-центры':'清洁能源计划吸引数据中心' },
+      { icon: <Stethoscope className="text-pink-500" />, title: 'Wellness Hub', desc: l==='th'?'การแพทย์ระดับโลกสำหรับผู้พักอาศัย':l==='en'?'World-class medical care for residents':l==='ru'?'Медицина мирового уровня':'世界一流的医疗护理' },
+      { icon: <GraduationCap className="text-blue-500" />, title: 'Global Education', desc: l==='th'?'โรงเรียนนานาชาติรองรับครอบครัว Talents':l==='en'?'International schools for Talent families':l==='ru'?'Международные школы для семей талантов':'国际学校满足人才家庭需求' },
+      { icon: <ShieldCheck className="text-green-500" />, title: 'Food Security', desc: l==='th'?'Kitchen of the World มั่นใจได้ในยามวิกฤต':l==='en'?'Kitchen of the World ensures crisis security':l==='ru'?'Кухня мира гарантирует продбезопасность':'世界厨房确保危机中的安全' }
+    ];
+
+    // Helper for table cell colors
     const getScoreColor = (score) => {
       if (score >= 90) return 'text-emerald-600 font-bold bg-emerald-50';
       if (score >= 80) return 'text-blue-600 font-semibold';
@@ -193,16 +440,15 @@
 
     // --- Components ---
 
-    const EmbeddedSlideVisual = () => {
+    const EmbeddedSlideVisual = ({ lang }) => {
       return (
         <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <h3 className="text-2xl font-bold mb-4 text-gray-800 flex items-center">
             <ImageIcon className="w-6 h-6 mr-3 text-indigo-600" />
-            Conceptual Visual: The ASEAN Shift
+            {t[lang].visualTitle}
           </h3>
           <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-            สไลด์สรุปแนวคิดเส้นทางการเคลื่อนย้ายเงินทุน เทคโนโลยี และการบิน สู่ "Safe Haven" แห่งภูมิภาคอาเซียน 
-            สะท้อนบทบาทของไทยที่เป็นศูนย์กลางการเชื่อมต่อที่ปลอดภัยและมั่นคงท่ามกลางความผันผวนของโลก
+            {t[lang].visualDesc}
           </p>
           
           <div className="w-full bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-inner" style={{ paddingTop: '56.25%' }}>
@@ -221,22 +467,21 @@
               rel="noopener noreferrer"
               className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
             >
-              เปิดดูสไลด์ขนาดเต็มในแท็บใหม่ <ArrowRight className="w-4 h-4 ml-1.5" />
+              {t[lang].visualLink} <ArrowRight className="w-4 h-4 ml-1.5" />
             </a>
           </div>
         </div>
       );
     };
 
-    const TopBeneficiariesRanking = () => {
+    const TopBeneficiariesRanking = ({ lang }) => {
+      const data = getRankingData(lang);
       return (
         <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-8 rounded-2xl shadow-xl text-white relative overflow-hidden h-full group">
-          {/* Background Image Overlay */}
           <div className="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-700" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
           </div>
-          
           <div className="absolute -top-24 -right-24 opacity-10 z-0">
             <Trophy className="w-96 h-96" />
           </div>
@@ -244,18 +489,18 @@
           <div className="relative z-10">
             <h3 className="text-2xl font-bold mb-2 flex items-center">
               <Trophy className="w-7 h-7 mr-3 text-yellow-400" />
-              Top Beneficiaries Ranking
+              {t[lang].pullTitle}
             </h3>
             <div className="mb-8">
               <span className="inline-block bg-emerald-900/80 text-emerald-400 text-xs font-bold px-2 py-1 rounded mb-2 border border-emerald-800/50 backdrop-blur-sm">
-                ✨ War Impact: Positive Shift
+                {t[lang].pullBadge}
               </span>
               <p className="text-slate-300 text-sm">
-                อานิสงส์จากการย้ายฐานหนีวิกฤตสงคราม (วัดจาก Aviation, Wealth, Real Estate, MICE)
+                {t[lang].pullDesc}
               </p>
             </div>
             <div className="space-y-6">
-              {rankingData.map((item) => (
+              {data.map((item) => (
                 <div key={item.rank} className="bg-slate-800/70 backdrop-blur-md rounded-xl p-4 border border-slate-600/50">
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
                     <div className="flex items-center gap-4 md:w-1/4">
@@ -276,6 +521,7 @@
                       <div className="w-full bg-slate-900/80 rounded-full h-2">
                         <div className={`${item.color} h-2 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.2)]`} style={{ width: `${item.score}%` }}></div>
                       </div>
+                      <p className="text-xs text-slate-400 mt-2 line-clamp-1">{item.desc}</p>
                     </div>
                   </div>
                 </div>
@@ -286,10 +532,10 @@
       );
     };
 
-    const TopNegativelyImpacted = () => {
+    const TopNegativelyImpacted = ({ lang }) => {
+      const data = getNegativeRankingData(lang);
       return (
         <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-red-500 relative overflow-hidden h-full group">
-          {/* Abstract background image */}
           <div className="absolute top-0 right-0 w-full h-full z-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-700">
             <img src="https://images.unsplash.com/photo-1534224039826-c7a0c073115f?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover" />
           </div>
@@ -297,18 +543,18 @@
           <div className="relative z-10">
             <h3 className="text-2xl font-bold mb-2 flex items-center text-gray-800">
               <TrendingDown className="w-7 h-7 mr-3 text-red-500" />
-              Top Negatively Impacted
+              {t[lang].pushTitle}
             </h3>
             <div className="mb-8">
               <span className="inline-block bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded mb-2 border border-red-200">
-                ⚠️ War Impact & Geopolitical Risks
+                {t[lang].pushBadge}
               </span>
               <p className="text-gray-500 text-sm">
-                พื้นที่ที่ได้รับผลกระทบเชิงลบ (ปัจจัยหลักในการผลักดัน Capital Flight สู่ ASEAN)
+                {t[lang].pushDesc}
               </p>
             </div>
             <div className="space-y-4">
-              {negativeRankingData.map((item) => (
+              {data.map((item) => (
                 <div key={item.rank} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-4">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${item.bgColor} ${item.iconColor}`}>
@@ -316,7 +562,7 @@
                     </div>
                     <div>
                       <h4 className="font-bold text-sm text-gray-800">{item.region}</h4>
-                      <p className="text-xs text-gray-500">{item.impact}</p>
+                      <p className="text-xs text-gray-500 font-semibold">{item.impact}</p>
                     </div>
                   </div>
                   <p className="text-xs text-gray-600 mt-2 italic">"{item.desc}"</p>
@@ -328,19 +574,20 @@
       );
     };
 
-    const FutureTimeline = () => {
+    const FutureTimeline = ({ lang }) => {
       const [activePhase, setActivePhase] = useState('short');
+      const data = getFutureTrends(lang);
 
       return (
         <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mt-8 relative overflow-hidden">
           <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center relative z-10">
             <Clock className="w-6 h-6 mr-3 text-blue-600" />
-            แนวโน้มสากล 3 ระยะ (Global Macro Scenarios)
+            {t[lang].timelineTitle}
           </h3>
           <div className="grid lg:grid-cols-3 gap-6 relative z-10">
             <div className="lg:col-span-2 flex flex-col md:flex-row gap-6">
               <div className="md:w-1/2 flex flex-col gap-3">
-                {futureTrends.map((trend) => (
+                {data.map((trend) => (
                   <button
                     key={trend.id}
                     onClick={() => setActivePhase(trend.id)}
@@ -359,7 +606,7 @@
                 ))}
               </div>
               <div className="md:w-1/2">
-                {futureTrends.map((trend) => (
+                {data.map((trend) => (
                   activePhase === trend.id && (
                     <div key={trend.id} className="animate-fade-in bg-gray-50 p-6 rounded-xl h-full border border-gray-100 shadow-inner">
                       <div className={`inline-block px-3 py-1 rounded-full text-white text-sm font-bold mb-4 shadow-sm ${trend.color}`}>
@@ -380,32 +627,28 @@
               </div>
             </div>
             
-            {/* Decorative Side Image */}
             <div className="hidden lg:block rounded-xl overflow-hidden shadow-inner relative border border-gray-100">
-              <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=600&q=80" alt="" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent flex items-end p-6">
-                 <p className="text-white text-sm font-semibold">The Shift towards a Decentralized Future</p>
-              </div>
+              <img src="https://i.postimg.cc/PxcM9Mb8/03e8a2ad_f451_4358_ae29_8b54e97c8056.jpg" alt="" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
       );
     };
 
-    const FDIScoringDashboard = () => {
+    const FDIScoringDashboard = ({ lang }) => {
+      const data = getFdiScoringData(lang);
       return (
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 mt-8 overflow-hidden">
-          {/* Banner Image */}
           <div className="w-full h-40 md:h-56 relative">
              <img src="https://i.postimg.cc/y8KRhzGm/EEC_2026_Inflection_Point.jpg" alt="" className="w-full h-full object-cover" />
              <div className="absolute inset-0 bg-indigo-900/70 mix-blend-multiply"></div>
              <div className="absolute inset-0 flex flex-col justify-center p-6 md:p-8">
                 <h3 className="text-2xl md:text-3xl font-bold text-white flex items-center mb-3">
                   <BarChart3 className="w-8 h-8 mr-3 text-yellow-400" />
-                  FDI Competitiveness Scorecard 2026
+                  {t[lang].fdiTitle}
                 </h3>
                 <p className="text-indigo-100 text-sm md:text-base leading-relaxed max-w-2xl">
-                  การวิเคราะห์ศักยภาพดึงดูดเม็ดเงินลงทุน (FDI) แบบ <strong>Multi-hub (China+Many)</strong> โดยเปรียบเทียบ EEC และ ASEAN กับคู่แข่งระดับโลกผ่าน 7 มิติหลัก
+                  {t[lang].fdiDesc}
                 </p>
              </div>
           </div>
@@ -414,10 +657,10 @@
             <div className="bg-slate-50 p-6 rounded-xl mb-8 border border-slate-100 shadow-inner">
               <h4 className="font-bold text-slate-800 mb-4 flex items-center">
                 <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
-                Overall Score: ศักยภาพโดยรวม (Equal Weight)
+                {t[lang].fdiOverall}
               </h4>
               <div className="space-y-4">
-                {fdiScoringData.map((item, idx) => (
+                {data.map((item, idx) => (
                   <div key={idx} className="flex flex-col md:flex-row md:items-center gap-2">
                     <div className="md:w-1/4 font-semibold text-gray-700 text-sm">{item.name}</div>
                     <div className="flex-1 flex items-center gap-3">
@@ -437,23 +680,23 @@
             <div className="mb-8 overflow-x-auto">
               <h4 className="font-bold text-slate-800 mb-4 flex items-center">
                 <ListChecks className="w-5 h-5 mr-2 text-indigo-500" />
-                ตารางคะแนนเชิงลึก 7 มิติ (Detailed Metrics)
+                {t[lang].fdiTableTitle}
               </h4>
               <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden text-sm">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left font-bold text-gray-600">ภูมิภาค / เมือง</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Neutrality & Stability</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Infra & Logistics</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Labor & Demographic</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Market Access & FTA</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Incentives & Ease of Biz</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Supply Chain Depth</th>
-                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">Domestic Market</th>
+                    <th className="px-4 py-3 text-left font-bold text-gray-600">{t[lang].fdiTh1}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh2}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh3}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh4}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh5}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh6}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh7}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-gray-500 text-xs">{t[lang].fdiTh8}</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
-                  {fdiScoringData.map((row, idx) => (
+                  {data.map((row, idx) => (
                     <tr key={idx} className="hover:bg-gray-50 transition-colors">
                       <td className="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{row.name}</td>
                       <td className={`px-3 py-3 text-center ${getScoreColor(row.neutrality)}`}>{row.neutrality}%</td>
@@ -472,20 +715,20 @@
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
                 <h5 className="font-bold text-indigo-900 mb-3 flex items-center">
-                  <Info className="w-4 h-4 mr-2" /> วิเคราะห์มิติที่น่าสนใจ
+                  <Info className="w-4 h-4 mr-2" /> {t[lang].infoTitle}
                 </h5>
                 <ul className="space-y-3 text-sm text-gray-700">
-                  <li><strong>Neutrality & Stability:</strong> ASEAN/EEC ชนะขาด (92-93%) ด้วยยุทธศาสตร์ "Strategic Ambiguity" ขณะที่อินเดียโดนกำแพงภาษีสหรัฐฯ</li>
-                  <li><strong>Incentives & Ease of Biz:</strong> EEC ยืนหนึ่ง (94%) จากแพ็กเกจ BOI "Thailand FastPass" และ One-stop service</li>
+                  <li>{t[lang].info1}</li>
+                  <li>{t[lang].info2}</li>
                 </ul>
               </div>
               <div className="bg-orange-50/50 p-5 rounded-xl border border-orange-100">
                 <h5 className="font-bold text-orange-900 mb-3 flex items-center">
-                  <Target className="w-4 h-4 mr-2" /> Nuances & คู่แข่งหลัก
+                  <Target className="w-4 h-4 mr-2" /> {t[lang].nuanceTitle}
                 </h5>
                 <ul className="space-y-3 text-sm text-gray-700">
-                  <li><strong>🇮🇳 India (83%):</strong> คู่แข่งที่น่ากลัวที่สุด โดดเด่นด้านขนาดตลาดและแรงงาน IT แต่คอขวดคือระบบราชการ</li>
-                  <li><strong>🇲🇽 Mexico (79%):</strong> ชนะขาดการทำ Nearshoring เข้าสหรัฐฯ แต่ไม่ได้แข่งขันแย่งส่วนแบ่งตลาดยุโรป-เอเชีย กับไทย</li>
+                  <li>{t[lang].nuance1}</li>
+                  <li>{t[lang].nuance2}</li>
                 </ul>
               </div>
             </div>
@@ -494,18 +737,19 @@
       );
     };
 
-    const RegionalShowdown = () => {
+    const RegionalShowdown = ({ lang }) => {
       const [activeTab, setActiveTab] = useState('thailand');
+      const data = getComparisonData(lang);
 
       return (
         <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mt-8">
           <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
             <Map className="w-6 h-6 mr-3 text-indigo-600" />
-            The ASEAN Strategic Showdown (เจาะลึกภูมิภาค)
+            {t[lang].showdownTitle}
           </h3>
           
           <div className="flex flex-wrap gap-2 mb-6">
-            {Object.keys(comparisonData).map((key) => (
+            {Object.keys(data).map((key) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
@@ -515,27 +759,27 @@
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                {comparisonData[key].name}
+                {data[key].name}
               </button>
             ))}
           </div>
 
           <div className="bg-gray-50 p-6 rounded-xl">
             <div className="flex justify-between items-center mb-4">
-              <h4 className="text-xl font-bold text-gray-800">{comparisonData[activeTab].role}</h4>
+              <h4 className="text-xl font-bold text-gray-800">{data[activeTab].role}</h4>
               <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
                 <TrendingUp className="w-4 h-4 text-indigo-600 mr-1" />
-                <span className="font-bold text-indigo-700">Competitiveness: {comparisonData[activeTab].score}/100</span>
+                <span className="font-bold text-indigo-700">{t[lang].compScore}: {data[activeTab].score}/100</span>
               </div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6 mt-4">
               <div>
                 <h5 className="font-bold text-green-600 mb-2 flex items-center">
-                  <ShieldCheck className="w-4 h-4 mr-1" /> จุดเด่น (Strengths)
+                  <ShieldCheck className="w-4 h-4 mr-1" /> {t[lang].pros}
                 </h5>
                 <ul className="space-y-2">
-                  {comparisonData[activeTab].pros.map((pro, idx) => (
+                  {data[activeTab].pros.map((pro, idx) => (
                     <li key={idx} className="flex items-start text-sm text-gray-700 leading-relaxed">
                       <span className="text-green-500 mr-2">•</span> {pro}
                     </li>
@@ -544,10 +788,10 @@
               </div>
               <div>
                 <h5 className="font-bold text-red-500 mb-2 flex items-center">
-                  <TrendingUp className="w-4 h-4 mr-1" /> ความท้าทาย (Challenges)
+                  <TrendingUp className="w-4 h-4 mr-1" /> {t[lang].cons}
                 </h5>
                 <ul className="space-y-2">
-                  {comparisonData[activeTab].cons.map((con, idx) => (
+                  {data[activeTab].cons.map((con, idx) => (
                     <li key={idx} className="flex items-start text-sm text-gray-700 leading-relaxed">
                       <span className="text-red-400 mr-2">•</span> {con}
                     </li>
@@ -560,56 +804,25 @@
       );
     };
 
-    const ThailandPillars = () => {
-      const pillars = [
-        {
-          icon: <Landmark className="w-8 h-8 text-blue-500" />,
-          title: 'Bangkok (BKK)',
-          subtitle: 'The Urban Transit Hub',
-          desc: 'ศูนย์กลางการบิน MICE และความบันเทิงระดับภูมิภาค รองรับการเคลื่อนย้ายงานจากพื้นที่เสี่ยง'
-        },
-        {
-          icon: <Palmtree className="w-8 h-8 text-emerald-500" />,
-          title: 'Phuket & South',
-          subtitle: 'Luxury Wellness Haven',
-          desc: 'จุดหมายปลายทางของมหาเศรษฐีที่เน้น Lifestyle และการรักษาสุขภาพระยะยาว (Longevity)'
-        },
-        {
-          icon: <Cpu className="w-8 h-8 text-indigo-500" />,
-          title: 'EEC & Pattaya',
-          subtitle: 'Aviation & Smart Digital Hub',
-          desc: (
-            <span>
-              พื้นที่ยุทธศาสตร์ <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 underline font-semibold">"เมืองการบินอู่ตะเภา" (Eastern Aerotropolis)</a> และ EECiti Smart Livable City ศูนย์กลางนวัตกรรม AI-ready + Digital Economy แห่งใหม่ของอาเซียน
-            </span>
-          )
-        },
-        {
-          icon: <FileText className="w-8 h-8 text-orange-500" />,
-          title: 'Policy Enablers',
-          subtitle: 'LTR & DTV Visas',
-          desc: 'นโยบายวีซ่าพำนักระยะยาวและการเป็นมิตรทางการทูตที่ดึงดูด Global Talents อย่างยั่งยืน'
-        }
-      ];
-
+    const ThailandPillars = ({ lang }) => {
+      const data = getPillars(lang);
       return (
         <div className="mt-8">
-          {/* Hero Banner for Pillars */}
           <div className="relative rounded-2xl overflow-hidden mb-6 h-48 md:h-64 shadow-md">
              <img src="https://i.postimg.cc/260vfzdT/highlightssss.jpg" alt="" className="w-full h-full object-cover" />
              <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-transparent flex flex-col justify-center p-8">
                 <h3 className="text-2xl md:text-3xl font-bold text-white flex items-center mb-2">
                   <MapPin className="w-6 h-6 mr-3 text-red-400" />
-                  Thailand Strategic Pillars
+                  {t[lang].pillarsTitle}
                 </h3>
                 <p className="text-indigo-100 text-sm md:text-base max-w-lg">
-                  ความได้เปรียบระดับท้องถิ่นที่ทำให้ไทยโดดเด่นเหนือคู่แข่ง ดึงดูดทั้งการลงทุนและบุคลากรระดับสูง
+                  {t[lang].pillarsDesc}
                 </p>
              </div>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {pillars.map((item, idx) => (
+            {data.map((item, idx) => (
               <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="mb-4 bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center">{item.icon}</div>
                 <h4 className="font-bold text-lg text-gray-800 mb-1">{item.title}</h4>
@@ -622,22 +835,16 @@
       );
     };
 
-    const StrategicEnablers = () => {
-      const enablers = [
-        { icon: <Zap className="text-yellow-500" />, title: 'Green Energy (EEC)', desc: 'แผนพลังงานสะอาดดึงดูด Data Centers ยักษ์ใหญ่' },
-        { icon: <Stethoscope className="text-pink-500" />, title: 'Wellness Hub', desc: 'การแพทย์ระดับโลกสำหรับผู้พักอาศัยระยะยาว' },
-        { icon: <GraduationCap className="text-blue-500" />, title: 'Global Education', desc: 'โรงเรียนนานาชาติชั้นนำรองรับครอบครัว Talents' },
-        { icon: <ShieldCheck className="text-green-500" />, title: 'Food Security', desc: 'Kitchen of the World มั่นใจได้ในยามวิกฤต' }
-      ];
-
+    const StrategicEnablers = ({ lang }) => {
+      const data = getEnablers(lang);
       return (
         <div className="bg-indigo-900 rounded-2xl p-6 md:p-8 text-white mt-8 shadow-xl">
           <h3 className="text-xl font-bold mb-6 flex items-center">
             <Award className="w-6 h-6 mr-3 text-indigo-300" />
-            Strategic Enablers: โครงสร้างพื้นฐานชีวิต
+            {t[lang].enablersTitle}
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {enablers.map((item, idx) => (
+            {data.map((item, idx) => (
               <div key={idx} className="flex gap-4">
                 <div className="flex-shrink-0 w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shadow-inner">{item.icon}</div>
                 <div>
@@ -651,20 +858,20 @@
       );
     };
 
-    const RelatedReports = () => {
+    const RelatedReports = ({ lang }) => {
       const links = [
-        { url: 'https://thbho.github.io/EECWarImpact.html', title: 'War Impact & EEC', desc: 'เจาะลึกผลกระทบสงครามโลกต่อพื้นที่ EEC', icon: <AlertTriangle className="w-5 h-5 text-red-500" /> },
-        { url: 'https://thbho.github.io/PivotToEEC.html', title: 'Pivot to EEC : EVENTS', desc: 'EEC ศูนย์กลางการจัดงาน Mega Events ระดับโลก', icon: <Music className="w-5 h-5 text-pink-500" /> },
-        { url: 'https://thbho.github.io/EECSafeHaven.html', title: 'EEC Safe Haven', desc: 'เจาะลึกทำไม EEC จึงเป็นหลุมหลบภัยที่ปลอดภัยที่สุด', icon: <ShieldCheck className="w-5 h-5 text-green-500" /> },
-        { url: 'https://thbho.github.io/UTPCiti02.html', title: 'Airport City Phase 1', desc: 'อัปเดตความคืบหน้าโครงการเมืองการบินเฟส 1', icon: <PlaneTakeoff className="w-5 h-5 text-blue-500" /> },
-        { url: 'https://thbho.github.io/UTPCity.html', title: 'EEC Updated April', desc: 'สรุปภาพรวมและอัปเดตสถานการณ์ EEC ล่าสุด', icon: <TrendingUp className="w-5 h-5 text-indigo-500" /> }
+        { url: 'https://thbho.github.io/EECWarImpact.html', title: 'War Impact & EEC', icon: <AlertTriangle className="w-5 h-5 text-red-500" /> },
+        { url: 'https://thbho.github.io/PivotToEEC.html', title: 'Pivot to EEC : EVENTS', icon: <Music className="w-5 h-5 text-pink-500" /> },
+        { url: 'https://thbho.github.io/EECSafeHaven.html', title: 'EEC Safe Haven', icon: <ShieldCheck className="w-5 h-5 text-green-500" /> },
+        { url: 'https://thbho.github.io/UTPCiti02.html', title: 'Airport City Phase 1', icon: <PlaneTakeoff className="w-5 h-5 text-blue-500" /> },
+        { url: 'https://thbho.github.io/UTPCity.html', title: 'EEC Updated April', icon: <TrendingUp className="w-5 h-5 text-indigo-500" /> }
       ];
 
       return (
         <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 mt-8">
           <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
             <FileText className="w-6 h-6 mr-3 text-indigo-600" />
-            Related Reports (รายงานที่เกี่ยวข้อง)
+            {t[lang].reportsTitle}
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {links.map((link, idx) => (
@@ -678,12 +885,11 @@
                 <div className="bg-white p-2 rounded-lg shadow-sm mr-4 group-hover:scale-110 transition-transform">
                   {link.icon}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 flex items-center h-full">
                   <h4 className="font-bold text-gray-800 text-sm flex items-center">
                     {link.title}
                     <ExternalLink className="w-3 h-3 ml-1.5 text-gray-400 group-hover:text-indigo-600" />
                   </h4>
-                  <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">{link.desc}</p>
                 </div>
               </a>
             ))}
@@ -693,80 +899,95 @@
     };
 
     function App() {
+      // Language State: 'th' | 'en' | 'ru' | 'zh'
+      const [lang, setLang] = useState('th');
+
+      const languages = [
+        { code: 'th', label: 'TH' },
+        { code: 'en', label: 'EN' },
+        { code: 'ru', label: 'RU' },
+        { code: 'zh', label: 'ZH' }
+      ];
+
       return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
-          <div className="max-w-6xl mx-auto space-y-6">
+          <div className="max-w-6xl mx-auto space-y-6 relative">
             
-            {/* 1. The Hook - Header with Split Layout */}
-            <header className="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-3xl text-white shadow-xl overflow-hidden relative">
-              <div className="grid md:grid-cols-2 items-center">
+            {/* Language Switcher */}
+            <div className="absolute top-4 right-4 z-50 flex items-center bg-slate-900/50 backdrop-blur-md p-1 rounded-full border border-slate-700">
+              <Globe className="w-4 h-4 text-slate-300 ml-2 mr-1" />
+              {languages.map(l => (
+                <button
+                  key={l.code}
+                  onClick={() => setLang(l.code)}
+                  className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${
+                    lang === l.code 
+                      ? 'bg-indigo-500 text-white shadow-md' 
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+
+            {/* 1. Header */}
+            <header className="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-3xl text-white shadow-xl overflow-hidden relative pt-8 md:pt-0">
+              <div className="grid md:grid-cols-2 items-center h-full">
                 <div className="p-8 md:p-12 relative z-10">
                   <div className="inline-block px-4 py-1.5 bg-indigo-500/30 backdrop-blur-md border border-indigo-400/30 rounded-full text-sm font-semibold tracking-wider uppercase mb-6 text-indigo-200">
-                    Global Impact Report : March 2026 Update
+                    {t[lang].updateDate}
                   </div>
                   <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-                    วิกฤตโลกดันอาเซียนผงาด:<br/>
+                    {t[lang].heroTitle1}<br/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-blue-400">
-                      โอกาสและความท้าทายในฐานะ Safe Haven
+                      {t[lang].heroTitle2}
                     </span>
                   </h1>
                   <p className="text-lg md:text-xl text-indigo-100 leading-relaxed mb-6">
-                    การปรับโครงสร้างเศรษฐกิจโลกท่ามกลางความขัดแย้ง ภูมิภาคอาเซียนก้าวขึ้นเป็นศูนย์กลางความเชื่อมั่นใหม่ 
-                    ด้วยนโยบายที่เป็นกลางและโครงสร้างพื้นฐานที่ครอบคลุม
+                    {t[lang].heroDesc}
                   </p>
                 </div>
-                {/* Header Image */}
                 <div className="hidden md:block h-full relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none"></div>
-                  <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="" className="w-full h-full object-cover opacity-80" />
+                  <img src="https://i.postimg.cc/hGLr6gJG/d5a32e09-baf3-49e7-a8f6-851d05718f22.jpg" alt="" className="w-full h-full object-cover opacity-80" />
                 </div>
               </div>
             </header>
 
-            {/* 2. The Domino Effect (Prominent Banner) */}
+            {/* 2. The Domino Effect */}
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-200 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 h-full w-1/3 opacity-[0.05] pointer-events-none">
                  <img src="https://images.unsplash.com/photo-1612550761236-e813928f7271?auto=format&fit=crop&w=600&q=80" alt="" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-bold text-amber-900 mb-4 flex items-center text-lg relative z-10">
                 <AlertTriangle className="w-5 h-5 mr-2" />
-                The Domino Effect: จุดเริ่มต้นการย้ายฐานครั้งใหญ่
+                {t[lang].dominoTitle}
               </h3>
               <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-amber-800 relative z-10">
-                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🔥</span> วิกฤตเขตความขัดแย้งดันเที่ยวบินยกเลิก 70-100%</li>
-                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">✈️</span> สายการบินเลี่ยงน่านฟ้า ดันต้นทุนโลจิสติกส์พุ่ง</li>
-                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">💰</span> ทุน/บุคลากรหนีภัย ดันอสังหาฯ ลักชัวรีบูมในเขตปลอดภัย</li>
-                <li className="flex items-start font-bold"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🌏</span> อาเซียนเติบโตรับอานิสงส์ Multi-hub เต็มรูปแบบ</li>
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🔥</span> {t[lang].d1}</li>
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">✈️</span> {t[lang].d2}</li>
+                <li className="flex items-start"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">💰</span> {t[lang].d3}</li>
+                <li className="flex items-start font-bold"><span className="bg-white p-1 rounded-full mr-2 shadow-sm text-base">🌏</span> {t[lang].d4}</li>
               </ul>
             </div>
 
-            {/* 3. Visual Presentation */}
-            <EmbeddedSlideVisual />
+            <EmbeddedSlideVisual lang={lang} />
 
-            {/* 4. Global Push & Pull Factors */}
             <div className="grid lg:grid-cols-2 gap-8 mt-8 items-stretch">
-              <TopNegativelyImpacted /> {/* Push */}
-              <TopBeneficiariesRanking /> {/* Pull */}
+              <TopNegativelyImpacted lang={lang} />
+              <TopBeneficiariesRanking lang={lang} />
             </div>
 
-            {/* 5. Future Outlook */}
-            <FutureTimeline />
-
-            {/* 6. Global Competition (Zooming in) */}
-            <FDIScoringDashboard />
-
-            {/* 7. Regional Showdown */}
-            <RegionalShowdown />
-
-            {/* 8. Local Advantage */}
-            <ThailandPillars />
-            <StrategicEnablers />
-
-            {/* 9. Next Steps */}
-            <RelatedReports />
+            <FutureTimeline lang={lang} />
+            <FDIScoringDashboard lang={lang} />
+            <RegionalShowdown lang={lang} />
+            <ThailandPillars lang={lang} />
+            <StrategicEnablers lang={lang} />
+            <RelatedReports lang={lang} />
 
             <footer className="text-center text-gray-500 text-sm mt-12 py-6 border-t border-gray-200">
-              Global Macro-Trend Report © 2026 | Strategic Analysis for Regional Growth | Pattaya City, Chon Buri
+              {t[lang].footer}
             </footer>
           </div>
         </div>
