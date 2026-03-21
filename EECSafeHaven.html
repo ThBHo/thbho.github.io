@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
         
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f8fafc;
             color: #1e293b;
         }
@@ -61,11 +61,28 @@
                     <span class="text-2xl">🇹🇭</span>
                     <span class="font-bold text-xl tracking-wider">EEC SAFE HAVEN</span>
                 </div>
-                <div class="hidden md:flex space-x-6 lg:space-x-8 text-sm lg:text-base">
-                    <a href="#overview" class="hover:text-amber-400 transition-colors">ภาพรวมเศรษฐกิจ</a>
-                    <a href="#roadmap" class="hover:text-amber-400 transition-colors">ยุทธศาสตร์ 10 ปี</a>
-                    <a href="#realestate" class="hover:text-amber-400 transition-colors">เจาะลึกอสังหาฯ</a>
-                    <a href="#presentation" class="hover:text-amber-400 transition-colors font-semibold text-amber-300">พรีเซนเทชัน</a>
+                <div class="hidden md:flex space-x-6 lg:space-x-8 text-sm lg:text-base items-center">
+                    <a href="#overview" class="hover:text-amber-400 transition-colors" data-i18n="nav_overview">ภาพรวมเศรษฐกิจ</a>
+                    <a href="#roadmap" class="hover:text-amber-400 transition-colors" data-i18n="nav_roadmap">ยุทธศาสตร์ 10 ปี</a>
+                    <a href="#realestate" class="hover:text-amber-400 transition-colors" data-i18n="nav_realestate">เจาะลึกอสังหาฯ</a>
+                    <a href="#presentation" class="hover:text-amber-400 transition-colors font-semibold text-amber-300" data-i18n="nav_presentation">พรีเซนเทชัน</a>
+                    
+                    <!-- Language Switcher -->
+                    <select id="langSwitcher" onchange="changeLanguage(this.value)" class="bg-blue-800 text-white border border-blue-700 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 ml-4 cursor-pointer hover:bg-blue-700 transition-colors">
+                        <option value="th">🇹🇭 ไทย</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="zh">🇨🇳 中文</option>
+                    </select>
+                </div>
+                <!-- Mobile Language Switcher (Visible on small screens only) -->
+                <div class="md:hidden flex items-center">
+                    <select id="langSwitcherMobile" onchange="document.getElementById('langSwitcher').value=this.value; changeLanguage(this.value);" class="bg-blue-800 text-white border border-blue-700 rounded-md px-1 py-1 text-xs focus:outline-none cursor-pointer">
+                        <option value="th">TH</option>
+                        <option value="en">EN</option>
+                        <option value="ru">RU</option>
+                        <option value="zh">ZH</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -74,32 +91,32 @@
     <!-- Hero Section -->
     <header class="bg-gradient-to-br from-blue-900 to-slate-800 text-white py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight" data-i18n="hero_title">
                 ยุทธศาสตร์ <span class="text-amber-400">"Safe Haven"</span> แห่งเอเชีย
             </h1>
-            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-10">
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-10" data-i18n="hero_subtitle">
                 เจาะลึกโอกาส 2.3 ล้านล้านบาท เมื่อทุนโลกไหลบ่าสู่พื้นที่ EEC ในทศวรรษหน้า (2569–2578) ท่ามกลางความผันผวนทางภูมิรัฐศาสตร์
             </p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                 <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
                     <div class="text-3xl mb-2">💰</div>
                     <div class="text-3xl font-bold text-amber-400">2.3T฿</div>
-                    <div class="text-sm text-slate-300 mt-1">เป้าหมายเม็ดเงินลงทุน</div>
+                    <div class="text-sm text-slate-300 mt-1" data-i18n="stat1_label">เป้าหมายเม็ดเงินลงทุน</div>
                 </div>
                 <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
                     <div class="text-3xl mb-2">👨‍💻</div>
                     <div class="text-3xl font-bold text-amber-400">500k</div>
-                    <div class="text-sm text-slate-300 mt-1">การสร้างงานทักษะสูง</div>
+                    <div class="text-sm text-slate-300 mt-1" data-i18n="stat2_label">การสร้างงานทักษะสูง</div>
                 </div>
                 <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
                     <div class="text-3xl mb-2">📈</div>
                     <div class="text-3xl font-bold text-amber-400">+2%</div>
-                    <div class="text-sm text-slate-300 mt-1">ดัน GDP โตเพิ่มต่อปี</div>
+                    <div class="text-sm text-slate-300 mt-1" data-i18n="stat3_label">ดัน GDP โตเพิ่มต่อปี</div>
                 </div>
                 <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
                     <div class="text-3xl mb-2">🛡️</div>
                     <div class="text-3xl font-bold text-amber-400">88%</div>
-                    <div class="text-sm text-slate-300 mt-1">ความมั่นใจการลงทุน</div>
+                    <div class="text-sm text-slate-300 mt-1" data-i18n="stat4_label">ความมั่นใจการลงทุน</div>
                 </div>
             </div>
         </div>
@@ -110,54 +127,60 @@
         <!-- Hero Image Section -->
         <section class="mb-16 text-center">
             <div class="max-w-5xl mx-auto bg-white p-2 md:p-3 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://i.postimg.cc/hvDSnB30/Screenshot_2569_02_20_at_14_03_13.png" alt="" class="w-full h-auto rounded-xl border border-slate-100">
+                <img src="https://i.postimg.cc/hvDSnB30/Screenshot_2569_02_20_at_14_03_13.png" alt="Overview Strategy" class="w-full h-auto rounded-xl border border-slate-100">
             </div>
         </section>
 
         <!-- Overview Section with Links -->
         <section id="overview" class="mb-20 scroll-mt-20">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-blue-900 mb-4">ปรากฏการณ์ The Great Shift</h2>
-                <p class="text-lg text-slate-600 max-w-4xl mx-auto mb-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4" data-i18n="overview_title">ปรากฏการณ์ The Great Shift</h2>
+                <p class="text-lg text-slate-600 max-w-4xl mx-auto mb-8" data-i18n="overview_desc">
                     ส่วนนี้อธิบายถึงสาเหตุหลักที่กลุ่มทุนทั่วโลกย้ายฐานการลงทุนมายังประเทศไทย โดยแสดงให้เห็นถึงความได้เปรียบของ EEC ในฐานะ "หลุมหลบภัย" ที่มีความเป็นกลางทางยุทธศาสตร์และโครงสร้างพื้นฐานที่พร้อม
                 </p>
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200" alt="" class="w-full h-64 md:h-80 object-cover rounded-2xl shadow-md max-w-5xl mx-auto">
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200" alt="Logistics" class="w-full h-64 md:h-80 object-cover rounded-2xl shadow-md max-w-5xl mx-auto">
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4 text-slate-800">ทำไมต้องเป็น EEC ของไทย?</h3>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-800" data-i18n="overview_why">ทำไมต้องเป็น EEC ของไทย?</h3>
                     <ul class="space-y-6">
                         <li class="flex gap-4">
                             <div class="text-2xl mt-1">🌍</div>
                             <div>
-                                <h4 class="font-bold text-lg text-blue-800">Geopolitical Volatility</h4>
-                                <p class="text-slate-600">ปัญหาความขัดแย้งในตะวันออกกลางทำให้โครงการยักษ์ใหญ่ในกลุ่มประเทศอ่าวอาหรับ (Gulf) ชะลอตัวลง 40-60% บีบให้กลุ่มทุนต้องหาพื้นที่ใหม่</p>
-                                <a href="https://thbho.github.io/EECWarImpact.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm mt-1 font-semibold group">อ่านรายงาน War Impact & EEC <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span></a>
+                                <h4 class="font-bold text-lg text-blue-800" data-i18n="geo_title">Geopolitical Volatility</h4>
+                                <p class="text-slate-600" data-i18n="geo_desc">ปัญหาความขัดแย้งในตะวันออกกลางทำให้โครงการยักษ์ใหญ่ในกลุ่มประเทศอ่าวอาหรับ (Gulf) ชะลอตัวลง 40-60% บีบให้กลุ่มทุนต้องหาพื้นที่ใหม่</p>
+                                <a href="https://thbho.github.io/EECWarImpact.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm mt-1 font-semibold group">
+                                    <span data-i18n="geo_link">อ่านรายงาน War Impact & EEC</span> <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                                </a>
                             </div>
                         </li>
                         <li class="flex gap-4">
                             <div class="text-2xl mt-1">🛡️</div>
                             <div>
-                                <h4 class="font-bold text-lg text-blue-800">Certainty Premium</h4>
-                                <p class="text-slate-600">ความเป็นกลาง โครงสร้างไฟฟ้าเสถียร และไร้ภัยพิบัติรุนแรง ทำให้นักลงทุนให้คะแนนความสำเร็จสูงถึง 80-88%</p>
+                                <h4 class="font-bold text-lg text-blue-800" data-i18n="cert_title">Certainty Premium</h4>
+                                <p class="text-slate-600" data-i18n="cert_desc">ความเป็นกลาง โครงสร้างไฟฟ้าเสถียร และไร้ภัยพิบัติรุนแรง ทำให้นักลงทุนให้คะแนนความสำเร็จสูงถึง 80-88%</p>
                             </div>
                         </li>
                         <li class="flex gap-4">
                             <div class="text-2xl mt-1">✈️</div>
                             <div>
-                                <h4 class="font-bold text-lg text-blue-800">Anchor Tenant</h4>
-                                <p class="text-slate-600">การมี "เมืองการบินอู่ตะเภา" เป็นแม่เหล็กสำคัญดึงดูดระบบโลจิสติกส์และเทคโนโลยีขั้นสูง โดยเฉพาะในพื้นที่สัตหีบ</p>
-                                <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm mt-1 font-semibold group">ความคืบหน้า Airport City Phase 1 <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span></a>
+                                <h4 class="font-bold text-lg text-blue-800" data-i18n="anchor_title">Anchor Tenant</h4>
+                                <p class="text-slate-600" data-i18n="anchor_desc">การมี "เมืองการบินอู่ตะเภา" เป็นแม่เหล็กสำคัญดึงดูดระบบโลจิสติกส์และเทคโนโลยีขั้นสูง โดยเฉพาะในพื้นที่สัตหีบ</p>
+                                <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm mt-1 font-semibold group">
+                                    <span data-i18n="anchor_link">ความคืบหน้า Airport City Phase 1</span> <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                                </a>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100">
-                    <h4 class="text-center font-bold text-slate-700 mb-2">ส่วนแบ่งตลาดการเคลื่อนย้ายทุนสู่เทคโนโลยีขั้นสูง (อาเซียน)</h4>
-                    <p class="text-center text-sm text-slate-500 mb-2">ไทยครองสัดส่วนสูงสุด ชนะเวียดนามและอินโดนีเซีย</p>
+                    <h4 class="text-center font-bold text-slate-700 mb-2" data-i18n="chart1_title">ส่วนแบ่งตลาดการเคลื่อนย้ายทุนสู่เทคโนโลยีขั้นสูง (อาเซียน)</h4>
+                    <p class="text-center text-sm text-slate-500 mb-2" data-i18n="chart1_subtitle">ไทยครองสัดส่วนสูงสุด ชนะเวียดนามและอินโดนีเซีย</p>
                     <div class="text-center mb-4">
-                        <a href="https://thbho.github.io/PivotToEEC.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm font-semibold group">เจาะลึกแนวโน้ม Pivot to EEC <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span></a>
+                        <a href="https://thbho.github.io/PivotToEEC.html" target="_blank" class="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm font-semibold group">
+                            <span data-i18n="chart1_link">เจาะลึกแนวโน้ม Pivot to EEC : EVENTS</span> <span class="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                        </a>
                     </div>
                     <div class="chart-container">
                         <canvas id="marketShareChart"></canvas>
@@ -169,40 +192,40 @@
         <!-- Roadmap Section -->
         <section id="roadmap" class="mb-20 scroll-mt-20">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-blue-900 mb-4">แผนยุทธศาสตร์ 3 ระยะ (2569 - 2578)</h2>
-                <p class="text-lg text-slate-600 max-w-4xl mx-auto mb-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4" data-i18n="roadmap_title">แผนยุทธศาสตร์ 3 ระยะ (2569 - 2578)</h2>
+                <p class="text-lg text-slate-600 max-w-4xl mx-auto mb-8" data-i18n="roadmap_desc">
                     สำรวจเส้นทางการลงทุนในทศวรรษหน้า เลือกคลิกที่ปุ่มระยะเวลาด้านล่างเพื่อดูว่าเม็ดเงินระดับแสนล้านบาทจะไหลเข้าสู่อุตสาหกรรมใดบ้างในแต่ละช่วงเวลา
                 </p>
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200" alt="" class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-md max-w-5xl mx-auto">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200" alt="Smart City" class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-md max-w-5xl mx-auto">
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
                 <div class="flex flex-col sm:flex-row border-b border-slate-200">
                     <button id="btn-phase1" class="tab-btn active flex-1 py-4 px-6 text-center font-semibold border-b-4 border-transparent text-slate-600 hover:bg-slate-50" onclick="updatePhase('phase1')">
-                        1. ระยะสั้น (Quick Wins)<br><span class="text-sm font-normal">2569–2571</span>
+                        <span data-i18n="tab1_title">1. ระยะสั้น (Quick Wins)</span><br><span class="text-sm font-normal">2026–2028</span>
                     </button>
                     <button id="btn-phase2" class="tab-btn flex-1 py-4 px-6 text-center font-semibold border-b-4 border-transparent text-slate-600 hover:bg-slate-50" onclick="updatePhase('phase2')">
-                        2. ระยะกลาง (Brain of Asia)<br><span class="text-sm font-normal">2572–2574</span>
+                        <span data-i18n="tab2_title">2. ระยะกลาง (Brain of Asia)</span><br><span class="text-sm font-normal">2029–2031</span>
                     </button>
                     <button id="btn-phase3" class="tab-btn flex-1 py-4 px-6 text-center font-semibold border-b-4 border-transparent text-slate-600 hover:bg-slate-50" onclick="updatePhase('phase3')">
-                        3. ระยะยาว (Global Hub)<br><span class="text-sm font-normal">2575–2578</span>
+                        <span data-i18n="tab3_title">3. ระยะยาว (Global Hub)</span><br><span class="text-sm font-normal">2032–2035</span>
                     </button>
                 </div>
 
                 <div class="p-8 grid md:grid-cols-2 gap-8 items-center" id="phase-content-area">
                     <div id="phase-text" class="fade-in">
-                        <h3 class="text-2xl font-bold text-blue-800 mb-4" id="phase-title">ระยะสั้น / Quick Wins (2569–2571)</h3>
+                        <h3 class="text-2xl font-bold text-blue-800 mb-4" id="phase-title">ระยะสั้น / Quick Wins (2026–2028)</h3>
                         <p class="text-slate-600 mb-6" id="phase-desc">เน้นอุตสาหกรรมที่เห็นผลเร็ว วางโครงสร้างพื้นฐานด้านดิจิทัล AI และยานยนต์ไฟฟ้า โครงการเหล่านี้เป็นรากฐานให้ไทยเป็นศูนย์กลางการประมวลผล Generative AI</p>
                         
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <p class="text-sm font-bold text-slate-700 mb-2">องค์กรชั้นนำเป้าหมาย (Key Players):</p>
+                            <p class="text-sm font-bold text-slate-700 mb-2" data-i18n="phase_players_label">องค์กรชั้นนำเป้าหมาย (Key Players):</p>
                             <p class="text-slate-600 flex flex-wrap gap-2" id="phase-players">
                             </p>
                         </div>
                     </div>
                     
                     <div>
-                        <h4 class="text-center font-bold text-slate-700 mb-2">มูลค่าการลงทุนเป้าหมาย (พันล้านบาท)</h4>
+                        <h4 class="text-center font-bold text-slate-700 mb-2" id="chart2-title" data-i18n="chart2_title">มูลค่าการลงทุนเป้าหมาย (พันล้านบาท)</h4>
                         <div class="chart-container">
                             <canvas id="phaseInvestmentChart"></canvas>
                         </div>
@@ -214,44 +237,44 @@
         <!-- Real Estate Deep Dive Section -->
         <section id="realestate" class="mb-20 scroll-mt-20">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-blue-900 mb-4">เจาะลึกอสังหาริมทรัพย์ พัทยา-สัตหีบ</h2>
-                <p class="text-lg text-slate-600 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4" data-i18n="re_title">เจาะลึกอสังหาริมทรัพย์ พัทยา-สัตหีบ</h2>
+                <p class="text-lg text-slate-600 max-w-4xl mx-auto" data-i18n="re_desc">
                     ผลกระทบทางตรงจากยุทธศาสตร์ระดับประเทศสู่พื้นที่ชลบุรี-ระยอง การหลั่งไหลของบุคลากรทักษะสูงสร้างโอกาสมหาศาลให้กับตลาดอสังหาริมทรัพย์ระดับพรีเมียมในภูมิภาคนี้
                 </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-white rounded-2xl shadow border-t-4 border-blue-600 hover:-translate-y-1 transition-transform overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600" alt="" class="w-full h-48 object-cover">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600" alt="Condo" class="w-full h-48 object-cover">
                     <div class="p-6 md:p-8">
                         <div class="text-4xl mb-4">🏢</div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Premium Demand</h3>
-                        <p class="text-slate-600 mb-4">การเข้ามาของ Expat Executives กว่าแสนคน ดันความต้องการคอนโดหรูและพูลวิลล่าในพื้นที่พัทยา จอมเทียน และสัตหีบ</p>
-                        <div class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2" data-i18n="re1_title">Premium Demand</h3>
+                        <p class="text-slate-600 mb-4" data-i18n="re1_desc">การเข้ามาของ Expat Executives กว่าแสนคน ดันความต้องการคอนโดหรูและพูลวิลล่าในพื้นที่พัทยา จอมเทียน และสัตหีบ</p>
+                        <div class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold" data-i18n="re1_badge">
                             อัตราผลตอบแทนเช่า (Yield) พุ่ง 6-8%
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow border-t-4 border-amber-500 hover:-translate-y-1 transition-transform overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1551516594-56cb78394645?auto=format&fit=crop&q=80&w=600" alt="" class="w-full h-48 object-cover">
+                    <img src="https://images.unsplash.com/photo-1551516594-56cb78394645?auto=format&fit=crop&q=80&w=600" alt="Infrastructure" class="w-full h-48 object-cover">
                     <div class="p-6 md:p-8">
                         <div class="text-4xl mb-4">📈</div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Land Appreciation</h3>
-                        <p class="text-slate-600 mb-4">พื้นที่ตามแนวรถไฟความเร็วสูงเชื่อม 3 สนามบิน และโดยเฉพาะรอบเมืองการบินอู่ตะเภา (สัตหีบ) เป็นทำเลทองที่มีการเก็งกำไรสูง</p>
-                        <div class="inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-bold">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2" data-i18n="re2_title">Land Appreciation</h3>
+                        <p class="text-slate-600 mb-4" data-i18n="re2_desc">พื้นที่ตามแนวรถไฟความเร็วสูงเชื่อม 3 สนามบิน และโดยเฉพาะรอบเมืองการบินอู่ตะเภา (สัตหีบ) เป็นทำเลทองที่มีการเก็งกำไรสูง</p>
+                        <div class="inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-bold" data-i18n="re2_badge">
                             ราคาที่ดินพุ่ง 15-20% ต่อปี
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow border-t-4 border-teal-500 hover:-translate-y-1 transition-transform overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&q=80&w=600" alt="" class="w-full h-48 object-cover">
+                    <img src="https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&q=80&w=600" alt="AI Virtual Tour" class="w-full h-48 object-cover">
                     <div class="p-6 md:p-8">
                         <div class="text-4xl mb-4">🤖</div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">AI in Real Estate</h3>
-                        <p class="text-slate-600 mb-4">ผู้พัฒนาอสังหาฯ ใน EEC นำเทคโนโลยี Generative AI และ AI VDO Gen มาสร้าง Virtual Tours เพื่อขายนักลงทุนต่างชาติโดยตรง</p>
-                        <div class="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-bold">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2" data-i18n="re3_title">AI in Real Estate</h3>
+                        <p class="text-slate-600 mb-4" data-i18n="re3_desc">ผู้พัฒนาอสังหาฯ ใน EEC นำเทคโนโลยี Generative AI และ AI VDO Gen มาสร้าง Virtual Tours เพื่อขายนักลงทุนต่างชาติโดยตรง</p>
+                        <div class="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-bold" data-i18n="re3_badge">
                             ขายข้ามพรมแดนแบบไร้รอยต่อ
                         </div>
                     </div>
@@ -262,8 +285,8 @@
         <!-- Presentation Embed Section -->
         <section id="presentation" class="mb-20 scroll-mt-20 border-t border-slate-200 pt-16">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-blue-900 mb-4">EEC: The Safe Harbor</h2>
-                <p class="text-lg text-slate-600 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4" data-i18n="pres_title">EEC: The Safe Harbor</h2>
+                <p class="text-lg text-slate-600 max-w-4xl mx-auto" data-i18n="pres_desc">
                     รับชมเอกสารนำเสนอ (Presentation) ฉบับเต็มที่เจาะลึกทุกมิติของการลงทุน ความพร้อมเชิงโครงสร้าง และโอกาสทางเศรษฐกิจของประเทศไทยในฐานะหลุมหลบภัยของเอเชีย
                 </p>
             </div>
@@ -279,7 +302,7 @@
                 <div class="mt-4 text-center">
                     <a href="https://drive.google.com/file/d/1RiFLNovUglXwgXki-VAzzyLJs6Um_mTe/view?usp=sharing" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-semibold group">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        เปิดอ่านในแท็บใหม่ (Open in New Tab)
+                        <span data-i18n="pres_link">เปิดอ่านในแท็บใหม่ (Open in New Tab)</span>
                     </a>
                 </div>
             </div>
@@ -287,19 +310,22 @@
 
         <!-- Related Links Section -->
         <section class="mb-10 border-t border-slate-200 pt-10">
-            <h3 class="text-xl font-bold text-slate-800 mb-6 text-center">🔗 แหล่งข้อมูลและรายงานที่เกี่ยวข้อง (Related Reports)</h3>
+            <h3 class="text-xl font-bold text-slate-800 mb-6 text-center" data-i18n="related_title">🔗 แหล่งข้อมูลและรายงานที่เกี่ยวข้อง (Related Reports)</h3>
             <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://thbho.github.io/GlobalShift2026.html" target="_blank" class="px-5 py-3 bg-white border border-slate-300 rounded-xl shadow-sm hover:shadow-md hover:border-amber-500 hover:text-amber-600 transition-all text-sm font-semibold text-slate-700 flex items-center gap-2">
+                    <span class="text-lg">🌍</span> Global Shift 2026
+                </a>
                 <a href="https://thbho.github.io/EECWarImpact.html" target="_blank" class="px-5 py-3 bg-white border border-slate-300 rounded-xl shadow-sm hover:shadow-md hover:border-amber-500 hover:text-amber-600 transition-all text-sm font-semibold text-slate-700 flex items-center gap-2">
                     <span class="text-lg">⚔️</span> War Impact & EEC
                 </a>
                 <a href="https://thbho.github.io/PivotToEEC.html" target="_blank" class="px-5 py-3 bg-white border border-slate-300 rounded-xl shadow-sm hover:shadow-md hover:border-amber-500 hover:text-amber-600 transition-all text-sm font-semibold text-slate-700 flex items-center gap-2">
-                    <span class="text-lg">🔄</span> Pivot to EEC
+                    <span class="text-lg">🔄</span> Pivot to EEC : EVENTS
                 </a>
                 <a href="https://thbho.github.io/UTPCiti02.html" target="_blank" class="px-5 py-3 bg-white border border-slate-300 rounded-xl shadow-sm hover:shadow-md hover:border-amber-500 hover:text-amber-600 transition-all text-sm font-semibold text-slate-700 flex items-center gap-2">
                     <span class="text-lg">✈️</span> Airport City Phase 1
                 </a>
                 <a href="https://thbho.github.io/UTPCity.html" target="_blank" class="px-5 py-3 bg-white border border-slate-300 rounded-xl shadow-sm hover:shadow-md hover:border-amber-500 hover:text-amber-600 transition-all text-sm font-semibold text-slate-700 flex items-center gap-2">
-                    <span class="text-lg">🏗️</span> EEC Updated (Overview)
+                    <span class="text-lg">🏗️</span> EEC Updated
                 </a>
             </div>
         </section>
@@ -309,51 +335,169 @@
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-12 text-center">
         <div class="max-w-4xl mx-auto px-4">
-            <h3 class="text-2xl font-bold text-white mb-4">เราพร้อมหรือยังกับโอกาสนี้?</h3>
-            <p class="mb-6">
+            <h3 class="text-2xl font-bold text-white mb-4" data-i18n="footer_title">เราพร้อมหรือยังกับโอกาสนี้?</h3>
+            <p class="mb-6" data-i18n="footer_desc">
                 หากโลกยังผันผวน เงินลงทุนอาจไหลเข้า EEC เพิ่มอีก 15-20% ประเทศไทยต้องเร่ง Up-skill แรงงานด้าน AI และชิป พร้อมปรับผังเมืองพัทยา-สัตหีบ เพื่อก้าวข้ามกับดักรายได้ปานกลางสู่ศูนย์กลางเศรษฐกิจนวัตกรรม
             </p>
-            <p class="text-sm">© 2026 EEC Safe Haven Strategy Report Analysis. Developed for insights.</p>
+            <p class="text-sm" data-i18n="footer_copy">© 2026 EEC Safe Haven Strategy Report Analysis. Developed for insights.</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Scripts (Includes i18n logic) -->
     <script>
-        const phaseData = {
-            phase1: {
-                title: "1. ระยะสั้น / Quick Wins (2569–2571)",
-                desc: "เน้นอุตสาหกรรมที่เห็นผลเร็ว วางโครงสร้างพื้นฐานด้านดิจิทัล AI และยานยนต์ไฟฟ้า โครงการเหล่านี้เป็นรากฐานให้ไทยเป็นศูนย์กลางการประมวลผล Generative AI",
-                players: ["Google 💻", "Microsoft 💻", "AWS 💻", "ByteDance 📱", "BYD 🚗", "Tesla 🚗", "Pfizer 💊", "Binance 💳"],
-                labels: ["Data Center & AI", "EV & Battery", "Pharma & Vaccine", "FinTech"],
-                data: [350, 350, 200, 150], 
-                bgColors: ['#3b82f6', '#10b981', '#f59e0b', '#6366f1']
+        // 1. Translations Dictionary
+        const i18n = {
+            th: {
+                nav_overview: "ภาพรวมเศรษฐกิจ", nav_roadmap: "ยุทธศาสตร์ 10 ปี", nav_realestate: "เจาะลึกอสังหาฯ", nav_presentation: "พรีเซนเทชัน",
+                hero_title: `ยุทธศาสตร์ <span class="text-amber-400">"Safe Haven"</span> แห่งเอเชีย`,
+                hero_subtitle: "เจาะลึกโอกาส 2.3 ล้านล้านบาท เมื่อทุนโลกไหลบ่าสู่พื้นที่ EEC ในทศวรรษหน้า (2569–2578) ท่ามกลางความผันผวนทางภูมิรัฐศาสตร์",
+                stat1_label: "เป้าหมายเม็ดเงินลงทุน", stat2_label: "การสร้างงานทักษะสูง", stat3_label: "ดัน GDP โตเพิ่มต่อปี", stat4_label: "ความมั่นใจการลงทุน",
+                overview_title: "ปรากฏการณ์ The Great Shift",
+                overview_desc: "ส่วนนี้อธิบายถึงสาเหตุหลักที่กลุ่มทุนทั่วโลกย้ายฐานการลงทุนมายังประเทศไทย โดยแสดงให้เห็นถึงความได้เปรียบของ EEC ในฐานะ 'หลุมหลบภัย' ที่มีความเป็นกลางทางยุทธศาสตร์และโครงสร้างพื้นฐานที่พร้อม",
+                overview_why: "ทำไมต้องเป็น EEC ของไทย?",
+                geo_title: "Geopolitical Volatility", geo_desc: "ปัญหาความขัดแย้งในตะวันออกกลางทำให้โครงการยักษ์ใหญ่ในกลุ่มประเทศอ่าวอาหรับ (Gulf) ชะลอตัวลง 40-60% บีบให้กลุ่มทุนต้องหาพื้นที่ใหม่", geo_link: "อ่านรายงาน War Impact & EEC",
+                cert_title: "Certainty Premium", cert_desc: "ความเป็นกลาง โครงสร้างไฟฟ้าเสถียร และไร้ภัยพิบัติรุนแรง ทำให้นักลงทุนให้คะแนนความสำเร็จสูงถึง 80-88%",
+                anchor_title: "Anchor Tenant", anchor_desc: "การมี 'เมืองการบินอู่ตะเภา' เป็นแม่เหล็กสำคัญดึงดูดระบบโลจิสติกส์และเทคโนโลยีขั้นสูง โดยเฉพาะในพื้นที่สัตหีบ", anchor_link: "ความคืบหน้า Airport City Phase 1",
+                chart1_title: "ส่วนแบ่งตลาดการเคลื่อนย้ายทุนสู่เทคโนโลยีขั้นสูง (อาเซียน)", chart1_subtitle: "ไทยครองสัดส่วนสูงสุด ชนะเวียดนามและอินโดนีเซีย", chart1_link: "เจาะลึกแนวโน้ม Pivot to EEC : EVENTS",
+                chart1_labels: ['ประเทศไทย (EEC)', 'อาเซียนอื่นๆ (เวียดนาม, อินโดฯ)'],
+                roadmap_title: "แผนยุทธศาสตร์ 3 ระยะ (2569 - 2578)", roadmap_desc: "สำรวจเส้นทางการลงทุนในทศวรรษหน้า เลือกคลิกที่ปุ่มระยะเวลาด้านล่างเพื่อดูว่าเม็ดเงินระดับแสนล้านบาทจะไหลเข้าสู่อุตสาหกรรมใดบ้างในแต่ละช่วงเวลา",
+                tab1_title: "1. ระยะสั้น (Quick Wins)", tab2_title: "2. ระยะกลาง (Brain of Asia)", tab3_title: "3. ระยะยาว (Global Hub)",
+                phase_players_label: "องค์กรชั้นนำเป้าหมาย (Key Players):", chart2_title: "มูลค่าการลงทุนเป้าหมาย (พันล้านบาท)", chart2_label: "มูลค่า (พันล้านบาท)",
+                phase1_title: "ระยะสั้น / Quick Wins (2026–2028)", phase1_desc: "เน้นอุตสาหกรรมที่เห็นผลเร็ว วางโครงสร้างพื้นฐานด้านดิจิทัล AI และยานยนต์ไฟฟ้า โครงการเหล่านี้เป็นรากฐานให้ไทยเป็นศูนย์กลางการประมวลผล Generative AI", phase1_labels: ["Data Center & AI", "EV & Battery", "Pharma & Vaccine", "FinTech"],
+                phase2_title: "ระยะกลาง / Brain of Asia (2029–2031)", phase2_desc: "ยกระดับสู่ 'สมองของเอเชีย' ด้วยเทคโนโลยีขั้นสูงและศูนย์กลางความบันเทิงระดับโลก หัวใจสำคัญคือการดึงดูดฐานผลิตชิปเพื่อลดการพึ่งพาประเทศอื่น", phase2_labels: ["Semiconductor Hub", "Entertainment", "Aerospace", "Luxury Retail"],
+                phase3_title: "ระยะยาว / Global Hub (2032–2035)", phase3_desc: "สร้างระบบนิเวศดึงดูดคนเก่งจากทั่วโลก (Global Talent) ครอบคลุมตั้งแต่มหาวิทยาลัยระดับโลก โรงพยาบาลชั้นนำ ไปจนถึงไลฟ์สไตล์ระดับซูเปอร์ยอร์ช", phase3_labels: ["Medical Hub Ph.2", "World-class Edu", "Luxury Marina", "Other Ecosystems"],
+                re_title: "เจาะลึกอสังหาริมทรัพย์ พัทยา-สัตหีบ", re_desc: "ผลกระทบทางตรงจากยุทธศาสตร์ระดับประเทศสู่พื้นที่ชลบุรี-ระยอง การหลั่งไหลของบุคลากรทักษะสูงสร้างโอกาสมหาศาลให้กับตลาดอสังหาริมทรัพย์ระดับพรีเมียมในภูมิภาคนี้",
+                re1_title: "Premium Demand", re1_desc: "การเข้ามาของ Expat Executives กว่าแสนคน ดันความต้องการคอนโดหรูและพูลวิลล่าในพื้นที่พัทยา จอมเทียน และสัตหีบ", re1_badge: "อัตราผลตอบแทนเช่า (Yield) พุ่ง 6-8%",
+                re2_title: "Land Appreciation", re2_desc: "พื้นที่ตามแนวรถไฟความเร็วสูงเชื่อม 3 สนามบิน และโดยเฉพาะรอบเมืองการบินอู่ตะเภา (สัตหีบ) เป็นทำเลทองที่มีการเก็งกำไรสูง", re2_badge: "ราคาที่ดินพุ่ง 15-20% ต่อปี",
+                re3_title: "AI in Real Estate", re3_desc: "ผู้พัฒนาอสังหาฯ ใน EEC นำเทคโนโลยี Generative AI และ AI VDO Gen มาสร้าง Virtual Tours เพื่อขายนักลงทุนต่างชาติโดยตรง", re3_badge: "ขายข้ามพรมแดนแบบไร้รอยต่อ",
+                pres_title: "EEC: The Safe Harbor", pres_desc: "รับชมเอกสารนำเสนอ (Presentation) ฉบับเต็มที่เจาะลึกทุกมิติของการลงทุน ความพร้อมเชิงโครงสร้าง และโอกาสทางเศรษฐกิจของประเทศไทยในฐานะหลุมหลบภัยของเอเชีย", pres_link: "เปิดอ่านในแท็บใหม่ (Open in New Tab)",
+                related_title: "🔗 แหล่งข้อมูลและรายงานที่เกี่ยวข้อง (Related Reports)",
+                footer_title: "เราพร้อมหรือยังกับโอกาสนี้?", footer_desc: "หากโลกยังผันผวน เงินลงทุนอาจไหลเข้า EEC เพิ่มอีก 15-20% ประเทศไทยต้องเร่ง Up-skill แรงงานด้าน AI และชิป พร้อมปรับผังเมืองพัทยา-สัตหีบ เพื่อก้าวข้ามกับดักรายได้ปานกลางสู่ศูนย์กลางเศรษฐกิจนวัตกรรม", footer_copy: "© 2026 EEC Safe Haven Strategy Report Analysis. Developed for insights."
             },
-            phase2: {
-                title: "2. ระยะกลาง / Brain of Asia (2572–2574)",
-                desc: "ยกระดับสู่ 'สมองของเอเชีย' ด้วยเทคโนโลยีขั้นสูงและศูนย์กลางความบันเทิงระดับโลก หัวใจสำคัญคือการดึงดูดฐานผลิตชิปเพื่อลดการพึ่งพาประเทศอื่น",
-                players: ["TSMC ⚙️", "Intel ⚙️", "Samsung ⚙️", "Boeing ✈️", "Airbus ✈️", "Disneyland 🎢", "Universal 🎢"],
-                labels: ["Semiconductor Hub", "Entertainment", "Aerospace", "Luxury Retail"],
-                data: [500, 350, 180, 180], 
-                bgColors: ['#1e3a8a', '#ec4899', '#0ea5e9', '#8b5cf6']
+            en: {
+                nav_overview: "Economic Overview", nav_roadmap: "10-Year Strategy", nav_realestate: "Real Estate Focus", nav_presentation: "Presentation",
+                hero_title: `Asia's <span class="text-amber-400">"Safe Haven"</span> Strategy`,
+                hero_subtitle: "Exploring the 2.3 Trillion Baht opportunity as global capital flows into the EEC over the next decade (2026-2035) amid geopolitical volatility.",
+                stat1_label: "Target Investment", stat2_label: "High-Skill Jobs Created", stat3_label: "Added Annual GDP", stat4_label: "Investment Confidence",
+                overview_title: "The Great Shift Phenomenon",
+                overview_desc: "This section explains why global capital is relocating to Thailand, highlighting the EEC's advantage as a 'Safe Haven' with strategic neutrality and ready infrastructure.",
+                overview_why: "Why Thailand's EEC?",
+                geo_title: "Geopolitical Volatility", geo_desc: "Middle East conflicts have delayed major Gulf projects by 40-60%, forcing investors to seek new safe territories.", geo_link: "Read War Impact & EEC Report",
+                cert_title: "Certainty Premium", cert_desc: "Neutrality, stable power grids, and lack of severe natural disasters give investors an 80-88% success confidence rate.",
+                anchor_title: "Anchor Tenant", anchor_desc: "The 'U-Tapao Aviation City' acts as a massive magnet for logistics and high-tech systems, especially in Sattahip.", anchor_link: "Airport City Phase 1 Updates",
+                chart1_title: "High-Tech Capital Relocation Market Share (ASEAN)", chart1_subtitle: "Thailand holds the highest share, beating Vietnam and Indonesia.", chart1_link: "Deep Dive into Pivot to EEC : EVENTS",
+                chart1_labels: ['Thailand (EEC)', 'Other ASEAN (VN, ID)'],
+                roadmap_title: "3-Phase Strategy (2026 - 2035)", roadmap_desc: "Explore the investment roadmap. Click the timeline buttons below to see which industries will receive hundreds of billions in funding.",
+                tab1_title: "1. Short-term (Quick Wins)", tab2_title: "2. Mid-term (Brain of Asia)", tab3_title: "3. Long-term (Global Hub)",
+                phase_players_label: "Target Key Players:", chart2_title: "Target Investment Value (Billion THB)", chart2_label: "Value (Billion THB)",
+                phase1_title: "Short-term / Quick Wins (2026–2028)", phase1_desc: "Focuses on fast-yielding industries: Digital infrastructure, AI, and EVs. These lay the foundation for Thailand as a regional Generative AI hub.", phase1_labels: ["Data Center & AI", "EV & Battery", "Pharma & Vaccine", "FinTech"],
+                phase2_title: "Mid-term / Brain of Asia (2029–2031)", phase2_desc: "Upgrading to the 'Brain of Asia' via high-tech and world-class entertainment. The core is attracting semiconductor fabs to reduce reliance on other nations.", phase2_labels: ["Semiconductor Hub", "Entertainment", "Aerospace", "Luxury Retail"],
+                phase3_title: "Long-term / Global Hub (2032–2035)", phase3_desc: "Building an ecosystem to attract Global Talent, ranging from world-class universities and top hospitals to superyacht lifestyles.", phase3_labels: ["Medical Hub Ph.2", "World-class Edu", "Luxury Marina", "Other Ecosystems"],
+                re_title: "Pattaya-Sattahip Real Estate Deep Dive", re_desc: "The direct impact of the national strategy on Chonburi-Rayong. The influx of high-skilled workers creates massive opportunities for premium real estate.",
+                re1_title: "Premium Demand", re1_desc: "Over 100,000 expat executives drive demand for luxury condos and pool villas in Pattaya, Jomtien, and Sattahip.", re1_badge: "Rental Yields hit 6-8%",
+                re2_title: "Land Appreciation", re2_desc: "Areas along the High-Speed Rail and especially around U-Tapao Aviation City (Sattahip) are highly speculative prime locations.", re2_badge: "Land prices up 15-20% annually",
+                re3_title: "AI in Real Estate", re3_desc: "EEC developers are using Generative AI and AI VDO Gen to create Virtual Tours, selling directly to foreign investors.", re3_badge: "Seamless Cross-border Sales",
+                pres_title: "EEC: The Safe Harbor", pres_desc: "Watch the full presentation detailing investments, structural readiness, and economic opportunities of Thailand as Asia's safe haven.", pres_link: "Open in New Tab",
+                related_title: "🔗 Related Reports & Resources",
+                footer_title: "Are We Ready for This Opportunity?", footer_desc: "If global volatility persists, EEC investments could increase by another 15-20%. Thailand must urgently up-skill its AI and Chip workforce and upgrade Pattaya-Sattahip city planning to escape the middle-income trap.", footer_copy: "© 2026 EEC Safe Haven Strategy Report Analysis. Developed for insights."
             },
-            phase3: {
-                title: "3. ระยะยาว / Global Hub (2575–2578)",
-                desc: "สร้างระบบนิเวศดึงดูดคนเก่งจากทั่วโลก (Global Talent) ครอบคลุมตั้งแต่มหาวิทยาลัยระดับโลก โรงพยาบาลชั้นนำ ไปจนถึงไลฟ์สไตล์ระดับซูเปอร์ยอร์ช",
-                players: ["Mayo Clinic 🏥", "MIT 🎓", "Harvard 🎓", "Monaco-style Marina 🛥️"],
-                labels: ["Medical Hub Ph.2", "World-class Edu", "Luxury Marina", "Other Ecosystems"],
-                data: [250, 200, 150, 100], 
-                bgColors: ['#14b8a6', '#f43f5e', '#eab308', '#64748b']
+            ru: {
+                nav_overview: "Обзор Экономики", nav_roadmap: "Стратегия 10 Лет", nav_realestate: "Недвижимость", nav_presentation: "Презентация",
+                hero_title: `Стратегия <span class="text-amber-400">«Тихая гавань»</span> Азии`,
+                hero_subtitle: "Возможности на 2,3 трлн бат: мировой капитал устремляется в ЕЭС (EEC) в ближайшее десятилетие (2026–2035) на фоне геополитической нестабильности.",
+                stat1_label: "Целевые Инвестиции", stat2_label: "Новые Рабочие Места", stat3_label: "Рост ВВП в год", stat4_label: "Уверенность Инвесторов",
+                overview_title: "Феномен Великого Сдвига",
+                overview_desc: "Этот раздел объясняет, почему глобальный капитал перемещается в Таиланд, подчеркивая преимущества ЕЭС как «Тихой гавани» со стратегическим нейтралитетом.",
+                overview_why: "Почему ЕЭС Таиланда?",
+                geo_title: "Геополитическая Нестабильность", geo_desc: "Конфликты на Ближнем Востоке задержали крупные проекты в Заливе на 40-60%, заставляя инвесторов искать новые безопасные зоны.", geo_link: "Читать отчет о Влиянии Войны",
+                cert_title: "Премия за Уверенность", cert_desc: "Нейтралитет, стабильные электросети и отсутствие стихийных бедствий дают инвесторам 80-88% уверенности в успехе.",
+                anchor_title: "Якорный Арендатор", anchor_desc: "«Авиационный город У-Тапао» действует как мощный магнит для логистики и высоких технологий, особенно в Саттахипе.", anchor_link: "Обновления Airport City Фаза 1",
+                chart1_title: "Доля рынка перемещения высокотехнологичного капитала (АСЕАН)", chart1_subtitle: "Таиланд занимает лидирующую позицию, обгоняя Вьетнам и Индонезию.", chart1_link: "Подробнее о Pivot to EEC : EVENTS",
+                chart1_labels: ['Таиланд (EEC)', 'Другие страны АСЕАН'],
+                roadmap_title: "3-Этапная Стратегия (2026 - 2035)", roadmap_desc: "Изучите инвестиционную дорожную карту. Нажмите на кнопки времени ниже, чтобы увидеть, какие отрасли получат сотни миллиардов финансирования.",
+                tab1_title: "1. Краткосрочно (Быстрые победы)", tab2_title: "2. Среднесрочно (Мозг Азии)", tab3_title: "3. Долгосрочно (Глобальный Хаб)",
+                phase_players_label: "Ключевые игроки:", chart2_title: "Целевой объем инвестиций (Млрд THB)", chart2_label: "Объем (Млрд THB)",
+                phase1_title: "Краткосрочно / Быстрые победы (2026–2028)", phase1_desc: "Фокус на быстрорастущих отраслях: цифровая инфраструктура, ИИ и электромобили. Это заложит основу для Таиланда как регионального хаба генеративного ИИ.", phase1_labels: ["Дата-центры и ИИ", "Электромобили и Батареи", "Фармацевтика", "Финтех"],
+                phase2_title: "Среднесрочно / Мозг Азии (2029–2031)", phase2_desc: "Модернизация до «Мозга Азии» с помощью высоких технологий и развлечений. Главное — привлечение заводов по производству полупроводников.", phase2_labels: ["Хаб Полупроводников", "Развлечения", "Аэрокосмическая отр.", "Люксовый Ритейл"],
+                phase3_title: "Долгосрочно / Глобальный Хаб (2032–2035)", phase3_desc: "Создание экосистемы для привлечения мировых талантов: от университетов мирового класса до стиля жизни с суперяхтами.", phase3_labels: ["Медицинский Хаб Ф.2", "Образование", "Стоянки для Яхт", "Другие Экосистемы"],
+                re_title: "Глубокий анализ недвижимости Паттайи-Саттахипа", re_desc: "Прямое влияние национальной стратегии на Чонбури-Районг. Приток высококвалифицированных специалистов создает огромные возможности для премиальной недвижимости.",
+                re1_title: "Премиальный Спрос", re1_desc: "Более 100 000 руководителей-экспатов стимулируют спрос на элитные кондоминиумы и виллы в Паттайе, Джомтьене и Саттахипе.", re1_badge: "Доходность аренды достигла 6-8%",
+                re2_title: "Рост Стоимости Земли", re2_desc: "Районы вдоль высокоскоростной железной дороги и особенно вокруг Авиационного города У-Тапао (Саттахип) стали главными объектами спекуляций.", re2_badge: "Цены на землю растут на 15-20% в год",
+                re3_title: "ИИ в Недвижимости", re3_desc: "Застройщики ЕЭС используют Генеративный ИИ (AI VDO Gen) для создания виртуальных туров, продавая объекты напрямую иностранцам.", re3_badge: "Бесшовные трансграничные продажи",
+                pres_title: "ЕЭС: Тихая Гавань", pres_desc: "Смотрите полную презентацию с подробным описанием инвестиций, структурной готовности и экономических возможностей Таиланда как безопасной гавани Азии.", pres_link: "Открыть в новой вкладке",
+                related_title: "🔗 Связанные Отчеты и Ресурсы",
+                footer_title: "Готовы ли мы к этой возможности?", footer_desc: "Если глобальная нестабильность сохранится, инвестиции в ЕЭС могут вырасти еще на 15-20%. Таиланд должен срочно повышать квалификацию кадров в сфере ИИ и чипов.", footer_copy: "© 2026 Анализ Стратегии EEC Safe Haven."
+            },
+            zh: {
+                nav_overview: "经济概览", nav_roadmap: "十年战略", nav_realestate: "房地产深度解析", nav_presentation: "演示文稿",
+                hero_title: `亚洲 <span class="text-amber-400">"避风港"</span> 战略`,
+                hero_subtitle: "深入探讨在地缘政治动荡中，未来十年（2026-2035）全球资本涌入泰国东部经济走廊 (EEC) 带来的 2.3 万亿泰铢机遇。",
+                stat1_label: "目标投资额", stat2_label: "创造高技能岗位", stat3_label: "每年拉动 GDP", stat4_label: "投资信心指数",
+                overview_title: "大转移现象 (The Great Shift)",
+                overview_desc: "本节解释了全球资本为何将投资基地转移到泰国，突显了 EEC 作为具有战略中立性和完善基础设施的“避风港”的优势。",
+                overview_why: "为什么选择泰国的 EEC？",
+                geo_title: "地缘政治动荡", geo_desc: "中东冲突导致海湾阿拉伯国家的重大项目延期 40-60%，迫使资本寻找新的安全区域。", geo_link: "阅读战争影响与 EEC 报告",
+                cert_title: "确定性溢价", cert_desc: "中立立场、稳定的电网和无严重自然灾害，使投资者对项目成功的信心高达 80-88%。",
+                anchor_title: "主力项目 (Anchor Tenant)", anchor_desc: "“乌塔堡航空城”作为核心磁铁，吸引着物流和高科技系统，特别是在梭桃邑 (Sattahip) 地区。", anchor_link: "机场城市第一期进展",
+                chart1_title: "高科技资本转移市场份额 (东盟)", chart1_subtitle: "泰国占据最高份额，击败了越南和印度尼西亚。", chart1_link: "深入了解 Pivot to EEC : EVENTS",
+                chart1_labels: ['泰国 (EEC)', '其他东盟国家'],
+                roadmap_title: "三阶段战略 (2026 - 2035)", roadmap_desc: "探索未来十年的投资路线图。点击下方的时间轴按钮，查看哪些行业将在不同时期获得数千亿的资金。",
+                tab1_title: "1. 短期 (快速见效)", tab2_title: "2. 中期 (亚洲之脑)", tab3_title: "3. 长期 (全球枢纽)",
+                phase_players_label: "目标领先企业 (Key Players):", chart2_title: "目标投资价值 (十亿泰铢)", chart2_label: "价值 (十亿泰铢)",
+                phase1_title: "短期 / 快速见效 (2026–2028)", phase1_desc: "专注于见效快的行业：数字基础设施、人工智能 (AI) 和电动汽车 (EV)。这些项目将为泰国成为区域生成式 AI 中心奠定基础。", phase1_labels: ["数据中心与AI", "电动车与电池", "制药与疫苗", "金融科技"],
+                phase2_title: "中期 / 亚洲之脑 (2029–2031)", phase2_desc: "通过高科技和世界级娱乐升级为“亚洲之脑”。核心是吸引半导体制造基地，以减少对其他国家的依赖。", phase2_labels: ["半导体中心", "娱乐产业", "航空航天", "奢侈品零售"],
+                phase3_title: "长期 / 全球枢纽 (2032–2035)", phase3_desc: "建立一个吸引全球人才的生态系统，涵盖从世界顶尖大学、一流医院到超级游艇的生活方式。", phase3_labels: ["医疗中心(二期)", "世界级教育", "豪华游艇码头", "其他生态系统"],
+                re_title: "芭堤雅-梭桃邑 房地产深度解析", re_desc: "国家战略对春武里-罗勇地区的直接影响。高技能人才的涌入为该地区的高端房地产市场创造了巨大机遇。",
+                re1_title: "高端需求 (Premium Demand)", re1_desc: "超过十万名外籍高管的到来，推高了芭堤雅、中天和梭桃邑地区对豪华公寓和泳池别墅的需求。", re1_badge: "租金收益率飙升至 6-8%",
+                re2_title: "土地升值 (Land Appreciation)", re2_desc: "连接三大机场的高铁沿线区域，尤其是乌塔堡航空城（梭桃邑）周边，是投机性极高的黄金地段。", re2_badge: "土地价格每年上涨 15-20%",
+                re3_title: "房地产中的 AI", re3_desc: "EEC 的房地产开发商正利用生成式 AI 和 AI 视频生成技术创建虚拟看房，直接向外国投资者进行销售。", re3_badge: "无缝跨境销售",
+                pres_title: "EEC: 避风港 (The Safe Harbor)", pres_desc: "观看完整的演示文稿，深入了解泰国作为亚洲避风港在投资、结构性准备和经济机遇方面的全方位信息。", pres_link: "在新标签页中打开",
+                related_title: "🔗 相关数据和报告",
+                footer_title: "我们准备好迎接这个机遇了吗？", footer_desc: "如果全球局势持续动荡，流入 EEC 的投资可能会再增加 15-20%。泰国必须加快提升劳动力在 AI 和芯片领域的技能，并改善城市规划。", footer_copy: "© 2026 EEC 避风港战略报告分析。"
             }
         };
 
-        let roadmapChart;
+        // 2. Data Logic (Separated text from numbers for i18n)
+        const phaseDataRaw = {
+            phase1: { players: ["Google 💻", "Microsoft 💻", "AWS 💻", "ByteDance 📱", "BYD 🚗", "Tesla 🚗", "Pfizer 💊", "Binance 💳"], data: [350, 350, 200, 150], bgColors: ['#3b82f6', '#10b981', '#f59e0b', '#6366f1'] },
+            phase2: { players: ["TSMC ⚙️", "Intel ⚙️", "Samsung ⚙️", "Boeing ✈️", "Airbus ✈️", "Disneyland 🎢", "Universal 🎢"], data: [500, 350, 180, 180], bgColors: ['#1e3a8a', '#ec4899', '#0ea5e9', '#8b5cf6'] },
+            phase3: { players: ["Mayo Clinic 🏥", "MIT 🎓", "Harvard 🎓", "Monaco-style Marina 🛥️"], data: [250, 200, 150, 100], bgColors: ['#14b8a6', '#f43f5e', '#eab308', '#64748b'] }
+        };
 
+        let currentLang = 'th';
+        let marketChart, roadmapChart;
+        let currentPhase = 'phase1';
+
+        // 3. Initialize App
+        function initApp() {
+            initCharts();
+            changeLanguage('th'); // Set default
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = i18n[lang];
+
+            // Update all standard HTML elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Update Charts and active phase tab dynamically
+            updateChartsLanguage(t);
+            updatePhase(currentPhase);
+        }
+
+        // 4. Chart Logic
         function initCharts() {
             const ctxMarket = document.getElementById('marketShareChart').getContext('2d');
-            new Chart(ctxMarket, {
+            marketChart = new Chart(ctxMarket, {
                 type: 'doughnut',
                 data: {
-                    labels: ['ประเทศไทย (EEC)', 'อาเซียนอื่นๆ (เช่น เวียดนาม, อินโดฯ)'],
+                    labels: i18n.th.chart1_labels,
                     datasets: [{
                         data: [65, 35],
                         backgroundColor: ['#1e3a8a', '#cbd5e1'],
@@ -366,13 +510,7 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'bottom' },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.label + ': ' + context.parsed + '%';
-                                }
-                            }
-                        }
+                        tooltip: { callbacks: { label: function(context) { return ' ' + context.label + ': ' + context.parsed + '%'; } } }
                     },
                     cutout: '70%'
                 }
@@ -382,69 +520,60 @@
             roadmapChart = new Chart(ctxRoadmap, {
                 type: 'bar',
                 data: {
-                    labels: phaseData.phase1.labels,
+                    labels: i18n.th.phase1_labels,
                     datasets: [{
-                        label: 'มูลค่าการลงทุนสูงสุดประเมิน (พันล้านบาท)',
-                        data: phaseData.phase1.data,
-                        backgroundColor: phaseData.phase1.bgColors,
+                        label: 'Value',
+                        data: phaseDataRaw.phase1.data,
+                        backgroundColor: phaseDataRaw.phase1.bgColors,
                         borderRadius: 6
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     scales: {
-                        y: { 
-                            beginAtZero: true,
-                            title: { display: true, text: 'มูลค่า (พันล้านบาท)' }
-                        },
-                        x: {
-                            ticks: {
-                                callback: function(value) {
-                                    const label = this.getLabelForValue(value);
-                                    if (label.length > 16) {
-                                        return label.substr(0, 16) + '...';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
+                        y: { beginAtZero: true, title: { display: true, text: 'มูลค่า (พันล้านบาท)' } },
+                        x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return label.length > 16 ? label.substr(0, 16) + '...' : label; } } }
                     },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return context[0].label; 
-                                }
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: function(context) { return context[0].label; } } } }
                 }
             });
+        }
 
-            renderPlayers(phaseData.phase1.players);
+        function updateChartsLanguage(t) {
+            // Update Doughnut
+            marketChart.data.labels = t.chart1_labels;
+            marketChart.update();
+            
+            // Update Bar Chart Axes & Tooltips
+            roadmapChart.options.scales.y.title.text = t.chart2_label;
+            roadmapChart.update();
         }
 
         function updatePhase(phaseKey) {
+            currentPhase = phaseKey;
+            const t = i18n[currentLang];
+            
+            // UI Button styling
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'bg-blue-900', 'text-white'));
             document.getElementById('btn-' + phaseKey).classList.add('active');
 
-            const data = phaseData[phaseKey];
-            
+            // Animation
             const contentArea = document.getElementById('phase-text');
             contentArea.classList.remove('fade-in');
             void contentArea.offsetWidth; 
             contentArea.classList.add('fade-in');
 
-            document.getElementById('phase-title').innerText = data.title;
-            document.getElementById('phase-desc').innerText = data.desc;
+            // Apply Text translations for active phase
+            document.getElementById('phase-title').innerText = t[phaseKey + '_title'];
+            document.getElementById('phase-desc').innerText = t[phaseKey + '_desc'];
             
-            renderPlayers(data.players);
+            // Render Players
+            renderPlayers(phaseDataRaw[phaseKey].players);
 
-            roadmapChart.data.labels = data.labels;
-            roadmapChart.data.datasets[0].data = data.data;
-            roadmapChart.data.datasets[0].backgroundColor = data.bgColors;
+            // Update Bar Chart Data
+            roadmapChart.data.labels = t[phaseKey + '_labels'];
+            roadmapChart.data.datasets[0].data = phaseDataRaw[phaseKey].data;
+            roadmapChart.data.datasets[0].backgroundColor = phaseDataRaw[phaseKey].bgColors;
             roadmapChart.update();
         }
 
@@ -459,8 +588,7 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', initCharts);
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
-```
