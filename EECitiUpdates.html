@@ -9,7 +9,7 @@
     <meta name="title" content="เจาะลึก EECiti: มหากาพย์เมืองอัจฉริยะ 1.34 ล้านล้านบาท">
     <meta name="description" content="หมุดหมายใหม่ที่จะขับเคลื่อนประเทศไทยสู่ระดับโลก จากวิกฤตความแออัด สู่การปฏิวัติเมืองเชิงระบบ เพื่อเป็นศูนย์กลางเศรษฐกิจและนวัตกรรมที่ยั่งยืนที่สุดในอาเซียน">
 
-    <!-- Open Graph / Facebook / LINE (ใช้สำหรับสร้าง Thumbnail เมื่อแชร์ Link) -->
+    <!-- Open Graph / Facebook / LINE -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://your-github-username.github.io/your-repo-name/">
     <meta property="og:title" content="เจาะลึก EECiti: มหากาพย์เมืองอัจฉริยะ 1.34 ล้านล้านบาท">
@@ -26,10 +26,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Prompt -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons (เปลี่ยนมาใช้ตัวนี้แทน Lucide เพื่อให้รันบน HTML ธรรมดาได้สมบูรณ์) -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -40,24 +40,31 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-blue-200">
 
-    <!-- Hero Section with Background Image -->
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/80 backdrop-blur-md p-2 rounded-full shadow-lg border border-slate-200">
+        <button onclick="setLang('th')" id="btn-th" class="lang-btn px-3 py-1 rounded-full text-sm font-bold bg-blue-600 text-white transition-colors">TH</button>
+        <button onclick="setLang('en')" id="btn-en" class="lang-btn px-3 py-1 rounded-full text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">EN</button>
+        <button onclick="setLang('ru')" id="btn-ru" class="lang-btn px-3 py-1 rounded-full text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">RU</button>
+        <button onclick="setLang('zh')" id="btn-zh" class="lang-btn px-3 py-1 rounded-full text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">中文</button>
+    </div>
+
+    <!-- Hero Section -->
     <header class="relative bg-slate-900 text-white overflow-hidden py-24 px-6 flex items-center justify-center min-h-[60vh]">
-        <!-- Background Image: ภาพที่ 1 -->
         <div class="absolute inset-0 bg-cover bg-center z-0 opacity-50 mix-blend-overlay" style="background-image: url('https://i.postimg.cc/g2PHDK92/EECiti_model_EEC_gigapixel_high_fidelity_v2_2x.png')"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-0"></div>
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500/30 rounded-full blur-[120px] z-0"></div>
         
         <div class="max-w-5xl mx-auto relative z-10 text-center">
-            <div class="inline-block px-4 py-1.5 rounded-full bg-blue-500/40 border border-blue-400/50 text-blue-100 text-sm font-medium mb-6 backdrop-blur-sm">
+            <div data-i18n="badge" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/40 border border-blue-400/50 text-blue-100 text-sm font-medium mb-6 backdrop-blur-sm">
                 Bangkok 2: Resilient & Regenerative City
             </div>
             <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight drop-shadow-lg">
-                เจาะลึก EECiti <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">
+                <span data-i18n="hero_title_1">เจาะลึก EECiti</span> <br />
+                <span data-i18n="hero_title_2" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">
                     มหากาพย์เมืองอัจฉริยะ
                 </span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-md">
+            <p data-i18n="hero_desc" class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-md">
                 หมุดหมายใหม่ที่จะขับเคลื่อนประเทศไทยสู่ระดับโลก จากวิกฤตความแออัด สู่การปฏิวัติเมืองเชิงระบบ เพื่อเป็นศูนย์กลางเศรษฐกิจและนวัตกรรมที่ยั่งยืนที่สุดในอาเซียน
             </p>
         </div>
@@ -68,45 +75,45 @@
         <!-- 1. Key Stats / Vision -->
         <section class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
             <div class="text-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">วิสัยทัศน์ Top 10 ของโลก</h2>
-                <p class="text-slate-500">มุ่งสู่เมืองอัจฉริยะที่น่าอยู่อาศัยที่สุดภายในปี 2580</p>
+                <h2 data-i18n="vision_title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">วิสัยทัศน์ Top 10 ของโลก</h2>
+                <p data-i18n="vision_sub" class="text-slate-500">มุ่งสู่เมืองอัจฉริยะที่น่าอยู่อาศัยที่สุดภายในปี 2580</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center hover:shadow-md transition-shadow">
                     <i class="ph ph-trend-up text-3xl text-blue-600 mb-3 block"></i>
-                    <div class="text-2xl font-bold text-slate-800">1.34 ล้านล้าน</div>
-                    <div class="text-xs text-slate-500 mt-1">มูลค่าการลงทุน (บาท)</div>
+                    <div data-i18n="stat1_val" class="text-2xl font-bold text-slate-800">1.34 ล้านล้าน</div>
+                    <div data-i18n="stat1_lbl" class="text-xs text-slate-500 mt-1">มูลค่าการลงทุน (บาท)</div>
                 </div>
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center hover:shadow-md transition-shadow">
                     <i class="ph ph-map-pin text-3xl text-teal-600 mb-3 block"></i>
-                    <div class="text-2xl font-bold text-slate-800">14,619 ไร่</div>
-                    <div class="text-xs text-slate-500 mt-1">พื้นที่โครงการ (ต.ห้วยใหญ่)</div>
+                    <div data-i18n="stat2_val" class="text-2xl font-bold text-slate-800">14,619 ไร่</div>
+                    <div data-i18n="stat2_lbl" class="text-xs text-slate-500 mt-1">พื้นที่โครงการ (ต.ห้วยใหญ่)</div>
                 </div>
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center hover:shadow-md transition-shadow">
                     <i class="ph ph-users text-3xl text-indigo-600 mb-3 block"></i>
-                    <div class="text-2xl font-bold text-slate-800">350,000</div>
-                    <div class="text-xs text-slate-500 mt-1">รองรับประชากร (คน)</div>
+                    <div data-i18n="stat3_val" class="text-2xl font-bold text-slate-800">350,000</div>
+                    <div data-i18n="stat3_lbl" class="text-xs text-slate-500 mt-1">รองรับประชากร (คน)</div>
                 </div>
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center hover:shadow-md transition-shadow">
                     <i class="ph ph-briefcase text-3xl text-orange-600 mb-3 block"></i>
-                    <div class="text-2xl font-bold text-slate-800">+2 ล้านล้าน</div>
-                    <div class="text-xs text-slate-500 mt-1">กระตุ้น GDP ใน 10 ปี (บาท)</div>
+                    <div data-i18n="stat4_val" class="text-2xl font-bold text-slate-800">+2 ล้านล้าน</div>
+                    <div data-i18n="stat4_lbl" class="text-xs text-slate-500 mt-1">กระตุ้น GDP ใน 10 ปี (บาท)</div>
                 </div>
             </div>
 
             <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex flex-col md:flex-row items-center gap-6">
                 <div class="flex-1 w-full">
                     <div class="flex justify-between mb-2">
-                        <span class="font-bold text-blue-900">การลงทุนจากภาคเอกชน (PPP)</span>
+                        <span data-i18n="ppp_title" class="font-bold text-blue-900">การลงทุนจากภาคเอกชน (PPP)</span>
                         <span class="font-bold text-blue-700">87.5%</span>
                     </div>
                     <div class="w-full bg-blue-200 rounded-full h-3">
                         <div class="bg-blue-600 h-3 rounded-full" style="width: 87.5%"></div>
                     </div>
                 </div>
-                <div class="flex-1 text-sm text-slate-600">
-                    <span class="font-semibold text-slate-800">โมเดลเศรษฐกิจแบบ De-risked:</span> ลดความเสี่ยงให้นักลงทุน สะท้อนความเชื่อมั่นของตลาดโลกว่าโครงการมีความมั่นคงสูง
+                <div data-i18n="ppp_desc" class="flex-1 text-sm text-slate-600">
+                    <strong class="text-slate-800">โมเดลเศรษฐกิจแบบ De-risked:</strong> ลดความเสี่ยงให้นักลงทุน สะท้อนความเชื่อมั่นของตลาดโลกว่าโครงการมีความมั่นคงสูง
                 </div>
             </div>
         </section>
@@ -119,8 +126,8 @@
                 <div class="inline-flex items-center justify-center p-3 bg-blue-900/50 text-blue-400 rounded-full mb-4 border border-blue-700/50">
                     <i class="ph ph-play-circle text-3xl"></i>
                 </div>
-                <h2 class="text-3xl font-bold mb-2">ทำความรู้จัก EECiti (Video Overview)</h2>
-                <p class="text-slate-400 font-light">เปิดวิสัยทัศน์ "เมืองหลวงแห่งที่สอง" และศูนย์กลางนวัตกรรมของอาเซียน</p>
+                <h2 data-i18n="vdo_title" class="text-3xl font-bold mb-2">ทำความรู้จัก EECiti (Video Overview)</h2>
+                <p data-i18n="vdo_sub" class="text-slate-400 font-light">เปิดวิสัยทัศน์ "เมืองหลวงแห่งที่สอง" และศูนย์กลางนวัตกรรมของอาเซียน</p>
             </div>
             
             <div class="relative rounded-2xl overflow-hidden bg-black/50 border border-slate-700 shadow-2xl aspect-video z-10 max-w-4xl mx-auto ring-1 ring-white/10">
@@ -130,42 +137,44 @@
 
         <!-- 2. Location & Connectivity -->
         <section class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row">
-            <!-- Background Image: ภาพที่ 2 -->
             <div class="md:w-2/5 h-64 md:h-auto bg-cover bg-center" style="background-image: url('https://i.postimg.cc/Z5WqB8Qy/576865814_1285845150233055_5760769474247813745_n.jpg')"></div>
             <div class="p-8 md:p-10 md:w-3/5 bg-slate-50">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">ทำเลทองในรัศมี "มหานครการบิน"</h2>
-                <p class="text-slate-600 mb-6">ตั้งอยู่ในตำแหน่งยุทธศาสตร์ของ EEC Aerotropolis จุดเชื่อมต่อการเดินทางแบบ Global Gateway ไร้รอยต่อ</p>
+                <h2 data-i18n="loc_title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">ทำเลทองในรัศมี "มหานครการบิน"</h2>
+                <p data-i18n="loc_desc" class="text-slate-600 mb-6">ตั้งอยู่ในตำแหน่งยุทธศาสตร์ของ EEC Aerotropolis จุดเชื่อมต่อการเดินทางแบบ Global Gateway ไร้รอยต่อ</p>
                 <ul class="space-y-4 mb-8">
                     <li class="flex items-start bg-white p-4 rounded-xl shadow-sm border border-slate-100">
                         <i class="ph ph-airplane-tilt text-2xl text-blue-500 mr-4 shrink-0"></i>
                         <div>
-                            <h4 class="font-semibold text-slate-800">15 กิโลเมตร (15 นาที)</h4>
-                            <p class="text-sm text-slate-500">ถึงสนามบินนานาชาติอู่ตะเภา (EECa)</p>
+                            <h4 data-i18n="loc_1" class="font-semibold text-slate-800">15 กิโลเมตร (15 นาที)</h4>
+                            <p data-i18n="loc_1_desc" class="text-sm text-slate-500">ถึงสนามบินนานาชาติอู่ตะเภา (EECa)</p>
                         </div>
                     </li>
                     <li class="flex items-start bg-white p-4 rounded-xl shadow-sm border border-slate-100">
                         <i class="ph ph-map-pin text-2xl text-teal-500 mr-4 shrink-0"></i>
                         <div>
-                            <h4 class="font-semibold text-slate-800">10 กิโลเมตร</h4>
-                            <p class="text-sm text-slate-500">ถึงพัทยา-จอมเทียน แหล่งท่องเที่ยวระดับโลก</p>
+                            <h4 data-i18n="loc_2" class="font-semibold text-slate-800">10 กิโลเมตร</h4>
+                            <p data-i18n="loc_2_desc" class="text-sm text-slate-500">ถึงพัทยา-จอมเทียน แหล่งท่องเที่ยวระดับโลก</p>
                         </div>
                     </li>
                 </ul>
                 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="font-semibold text-slate-800 mb-4 text-center">การเชื่อมต่อแบบไร้รอยต่อ (Seamless Connectivity)</h3>
+                    <h3 data-i18n="conn_title" class="font-semibold text-slate-800 mb-4 text-center">การเชื่อมต่อแบบไร้รอยต่อ (Seamless Connectivity)</h3>
                     <div class="flex justify-around items-center text-center">
                         <div>
                             <div class="bg-slate-100 p-3 rounded-full mb-2 inline-block"><i class="ph ph-train text-2xl text-slate-600"></i></div>
-                            <div class="text-sm font-medium">HSR (รถไฟ)</div>
+                            <div class="text-sm font-medium">HSR</div>
+                            <div data-i18n="conn_1" class="text-xs text-slate-500 mt-1">รถไฟความเร็วสูง</div>
                         </div>
                         <div>
                             <div class="bg-slate-100 p-3 rounded-full mb-2 inline-block"><i class="ph ph-signpost text-2xl text-slate-600"></i></div>
-                            <div class="text-sm font-medium">M7 (มอเตอร์เวย์)</div>
+                            <div class="text-sm font-medium">M7</div>
+                            <div data-i18n="conn_2" class="text-xs text-slate-500 mt-1">มอเตอร์เวย์</div>
                         </div>
                         <div>
                             <div class="bg-slate-100 p-3 rounded-full mb-2 inline-block"><i class="ph ph-boat text-2xl text-slate-600"></i></div>
-                            <div class="text-sm font-medium">ท่าเรืออุตสาหกรรม</div>
+                            <div class="text-sm font-medium">Ports</div>
+                            <div data-i18n="conn_3" class="text-xs text-slate-500 mt-1">ท่าเรืออุตสาหกรรม</div>
                         </div>
                     </div>
                 </div>
@@ -176,30 +185,29 @@
         <section>
             <div class="flex flex-col md:flex-row items-center gap-8 mb-10">
                 <div class="flex-1">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">นิยามใหม่ของเมืองเพื่อทุกคน (Regenerative City)</h2>
-                    <p class="text-slate-600">ออกแบบให้เมืองฟื้นฟูตัวเองได้ มุ่งสู่ <strong>Net-zero Carbon</strong> ด้วยการใช้พลังงานสะอาด 100% พร้อมระบบจัดการน้ำที่พึ่งพาตนเองได้</p>
+                    <h2 data-i18n="regen_title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">นิยามใหม่ของเมืองเพื่อทุกคน (Regenerative City)</h2>
+                    <p data-i18n="regen_desc" class="text-slate-600">ออกแบบให้เมืองฟื้นฟูตัวเองได้ มุ่งสู่ <strong>Net-zero Carbon</strong> ด้วยการใช้พลังงานสะอาด 100% พร้อมระบบจัดการน้ำที่พึ่งพาตนเองได้</p>
                 </div>
-                <!-- Background Image: ภาพที่ 3 -->
                 <div class="w-full md:w-1/3 h-48 rounded-2xl bg-cover bg-center shadow-md border border-slate-200" style="background-image: url('https://i.postimg.cc/KY07mS1F/7Kj8WBGKD2x_C9GT3NHTCJT7q_gigapixel_high_fidelity_v2_2x.png')"></div>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:-translate-y-1 transition-transform">
                     <i class="ph ph-shield-check text-4xl text-emerald-500 mb-4 block"></i>
-                    <h3 class="text-lg font-bold text-slate-800 mb-3">5 เกณฑ์ "เมืองน่าอยู่"</h3>
+                    <h3 data-i18n="l_title" class="text-lg font-bold text-slate-800 mb-3">5 เกณฑ์ "เมืองน่าอยู่"</h3>
                     <ul class="text-sm text-slate-600 space-y-2">
-                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> ความปลอดภัย</li>
-                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> วัฒนธรรมและสิ่งแวดล้อม</li>
-                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> โครงสร้างพื้นฐาน</li>
-                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> การดูแลสุขภาพ & การศึกษา</li>
+                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> <span data-i18n="l_1">ความปลอดภัย</span></li>
+                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> <span data-i18n="l_2">วัฒนธรรมและสิ่งแวดล้อม</span></li>
+                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> <span data-i18n="l_3">โครงสร้างพื้นฐาน</span></li>
+                        <li class="flex items-center"><i class="ph-fill ph-check-circle text-emerald-500 mr-2 text-lg"></i> <span data-i18n="l_4">การดูแลสุขภาพ & การศึกษา</span></li>
                     </ul>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:-translate-y-1 transition-transform">
                     <i class="ph ph-globe text-4xl text-blue-500 mb-4 block"></i>
-                    <h3 class="text-lg font-bold text-slate-800 mb-3">7 ด้าน "เมืองอัจฉริยะ"</h3>
-                    <p class="text-sm text-slate-600 mb-4">ครอบคลุมทั้ง Environment, Mobility, Energy, Living, People, Governance และ Economy</p>
-                    <div class="bg-blue-50 text-blue-700 text-xs px-3 py-2 rounded-lg font-medium inline-block border border-blue-100">
+                    <h3 data-i18n="s_title" class="text-lg font-bold text-slate-800 mb-3">7 ด้าน "เมืองอัจฉริยะ"</h3>
+                    <p data-i18n="s_desc" class="text-sm text-slate-600 mb-4">ครอบคลุมทั้ง Environment, Mobility, Energy, Living, People, Governance และ Economy</p>
+                    <div data-i18n="s_badge" class="bg-blue-50 text-blue-700 text-xs px-3 py-2 rounded-lg font-medium inline-block border border-blue-100">
                         🚀 เป้าหมายบ่มเพาะ 150-300 Startups
                     </div>
                 </div>
@@ -207,32 +215,31 @@
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:-translate-y-1 transition-transform">
                     <i class="ph ph-users text-4xl text-purple-500 mb-4 block"></i>
                     <h3 class="text-lg font-bold text-slate-800 mb-3">Universal Design</h3>
-                    <p class="text-sm text-slate-600 mb-4">Inclusive Design สร้างเมืองที่เป็นมิตรต่อคนทุกวัย ทุกเพศ และทุกสถานะทางสังคมอย่างเท่าเทียม</p>
-                    <div class="text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded-lg inline-block border border-emerald-100">
+                    <p data-i18n="u_desc" class="text-sm text-slate-600 mb-4">Inclusive Design สร้างเมืองที่เป็นมิตรต่อคนทุกวัย ทุกเพศ และทุกสถานะทางสังคมอย่างเท่าเทียม</p>
+                    <div data-i18n="u_badge" class="text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded-lg inline-block border border-emerald-100">
                         🌿 พื้นที่สีเขียวและแหล่งน้ำ &gt; 30%
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. 6 Clusters Interactive (Vanilla JS) -->
+        <!-- 4. 6 Clusters Interactive -->
         <section class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
 
             <div class="text-center mb-10 relative z-10">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4">6 คลัสเตอร์ธุรกิจแห่งอนาคต</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">ระบบนิเวศแห่งการทำงานและใช้ชีวิต เพื่อสร้างโอกาสงานกว่า 200,000 ตำแหน่ง</p>
+                <h2 data-i18n="c_title" class="text-2xl md:text-3xl font-bold mb-4">6 คลัสเตอร์ธุรกิจแห่งอนาคต</h2>
+                <p data-i18n="c_desc" class="text-slate-400 max-w-2xl mx-auto">ระบบนิเวศแห่งการทำงานและใช้ชีวิต เพื่อสร้างโอกาสงานกว่า 200,000 ตำแหน่ง</p>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 relative z-10">
                 <div id="cluster-buttons" class="flex-1 space-y-3">
-                    <!-- Buttons will be rendered here via JS -->
+                    <!-- JS Rendered -->
                 </div>
 
                 <div class="flex-[1.2] bg-slate-800/80 backdrop-blur-md rounded-2xl p-8 border border-slate-600 flex flex-col justify-center items-center text-center shadow-inner">
                    <div id="cluster-icon-bg" class="p-5 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-6 text-white shadow-lg flex items-center justify-center">
-                        <!-- Icon will be rendered here -->
                    </div>
                    <h3 id="cluster-title" class="text-2xl font-bold mb-4"></h3>
                    <p id="cluster-desc" class="text-slate-300 leading-relaxed text-lg"></p>
@@ -243,39 +250,39 @@
         <!-- 5. EEC Visa & Privileges -->
         <section>
             <div class="flex items-center mb-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">สิทธิประโยชน์พรีเมียม & EEC Visa 10 ปี</h2>
+                <h2 data-i18n="v_title" class="text-2xl md:text-3xl font-bold text-slate-800">สิทธิประโยชน์พรีเมียม & EEC Visa 10 ปี</h2>
             </div>
-            <p class="text-slate-600 mb-6">เครื่องมือ "Game Changer" เพื่อดึงดูด Global Talent และผู้เชี่ยวชาญระดับหัวกะทิ</p>
+            <p data-i18n="v_desc" class="text-slate-600 mb-6">เครื่องมือ "Game Changer" เพื่อดึงดูด Global Talent และผู้เชี่ยวชาญระดับหัวกะทิ</p>
             
             <div class="overflow-x-auto shadow-sm rounded-xl border border-slate-200">
                 <table class="w-full text-left border-collapse bg-white">
                     <thead>
                         <tr class="bg-slate-50 text-slate-700 border-b border-slate-200">
-                            <th class="p-4 font-semibold whitespace-nowrap">ประเภทวีซ่า (EEC Visa)</th>
-                            <th class="p-4 font-semibold whitespace-nowrap">กลุ่มเป้าหมาย</th>
-                            <th class="p-4 font-semibold whitespace-nowrap">สิทธิประโยชน์หลัก</th>
+                            <th data-i18n="t_col1" class="p-4 font-semibold whitespace-nowrap">ประเภทวีซ่า (EEC Visa)</th>
+                            <th data-i18n="t_col2" class="p-4 font-semibold whitespace-nowrap">กลุ่มเป้าหมาย</th>
+                            <th data-i18n="t_col3" class="p-4 font-semibold whitespace-nowrap">สิทธิประโยชน์หลัก</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-sm text-slate-600">
                         <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="p-4 font-medium text-slate-800 whitespace-nowrap">Specialists (S)</td>
-                            <td class="p-4">ผู้เชี่ยวชาญเฉพาะด้าน</td>
-                            <td class="p-4 font-medium text-blue-600">วีซ่า 10 ปี (อนุญาต 5 ปี + ต่ออายุ 5 ปี)</td>
+                            <td data-i18n="t_s_1" class="p-4 font-medium text-slate-800 whitespace-nowrap">Specialists (S)</td>
+                            <td data-i18n="t_s_2" class="p-4">ผู้เชี่ยวชาญเฉพาะด้าน</td>
+                            <td data-i18n="t_s_3" class="p-4 font-medium text-blue-600">วีซ่า 10 ปี (อนุญาต 5 ปี + ต่ออายุ 5 ปี)</td>
                         </tr>
                         <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="p-4 font-medium text-slate-800 whitespace-nowrap">Executives (E)</td>
-                            <td class="p-4">ผู้บริหารระดับสูง</td>
-                            <td class="p-4">ภาษีเงินได้บุคคลธรรมดา <span class="font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">คงที่ 17%</span> (จากปกติสูงสุด 35%)</td>
+                            <td data-i18n="t_e_1" class="p-4 font-medium text-slate-800 whitespace-nowrap">Executives (E)</td>
+                            <td data-i18n="t_e_2" class="p-4">ผู้บริหารระดับสูง</td>
+                            <td data-i18n="t_e_3" class="p-4">ภาษีเงินได้บุคคลธรรมดา <span class="font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">คงที่ 17%</span></td>
                         </tr>
                         <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="p-4 font-medium text-slate-800 whitespace-nowrap">Professionals (P)</td>
-                            <td class="p-4">ผู้ประกอบวิชาชีพ</td>
-                            <td class="p-4">สิทธิการใช้ช่องทาง Fast-track ณ สนามบิน</td>
+                            <td data-i18n="t_p_1" class="p-4 font-medium text-slate-800 whitespace-nowrap">Professionals (P)</td>
+                            <td data-i18n="t_p_2" class="p-4">ผู้ประกอบวิชาชีพ</td>
+                            <td data-i18n="t_p_3" class="p-4">สิทธิการใช้ช่องทาง Fast-track ณ สนามบิน</td>
                         </tr>
                         <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="p-4 font-medium text-slate-800 whitespace-nowrap">Dependents (O)</td>
-                            <td class="p-4">คู่สมรสและผู้ติดตาม</td>
-                            <td class="p-4">การรายงานตัวออนไลน์ & บริการ One-Stop Service</td>
+                            <td data-i18n="t_o_1" class="p-4 font-medium text-slate-800 whitespace-nowrap">Dependents (O)</td>
+                            <td data-i18n="t_o_2" class="p-4">คู่สมรสและผู้ติดตาม</td>
+                            <td data-i18n="t_o_3" class="p-4">การรายงานตัวออนไลน์ & บริการ One-Stop Service</td>
                         </tr>
                     </tbody>
                 </table>
@@ -286,55 +293,50 @@
         <section class="bg-white rounded-3xl p-8 md:p-12 shadow-md border border-slate-100 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -z-10"></div>
             
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-8 text-center">โรดแมปสู่ความสำเร็จ & PPP</h2>
+            <h2 data-i18n="r_title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-8 text-center">โรดแมปสู่ความสำเร็จ & PPP</h2>
             
             <div class="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100 rounded-xl p-6 mb-10 flex items-start shadow-sm">
                 <i class="ph ph-signpost text-3xl text-orange-600 mr-4 shrink-0 mt-1"></i>
                 <div>
-                    <h4 class="text-lg font-bold text-slate-800">โอกาสทอง PPP ปี 2569</h4>
-                    <p class="text-slate-600 mt-2">เปิดคัดเลือกผู้ร่วมลงทุนระบบสาธารณูปโภค 10 ระบบ (เช่น พลังงาน, ดิจิทัล, การจัดการขยะ) มูลค่าการลงทุนสูงถึง <strong class="text-orange-700">74,465 ล้านบาท</strong></p>
+                    <h4 data-i18n="r_opp_t" class="text-lg font-bold text-slate-800">โอกาสทอง PPP ปี 2569</h4>
+                    <p data-i18n="r_opp_d" class="text-slate-600 mt-2">เปิดคัดเลือกผู้ร่วมลงทุนระบบสาธารณูปโภค 10 ระบบ มูลค่าการลงทุนสูงถึง <strong class="text-orange-700">74,465 ล้านบาท</strong></p>
                 </div>
             </div>
 
             <div class="space-y-6 relative before:absolute before:inset-0 before:ml-[111px] md:before:ml-[119px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-blue-200 before:via-orange-200 before:to-emerald-200">
-                <!-- Timeline Item 1 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-white bg-blue-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ml-[100px] md:ml-0 z-10"></div>
                     <div class="w-[calc(100%-120px)] md:w-[calc(50%-2rem)] p-4 rounded-xl shadow-sm border border-slate-100 bg-slate-50">
-                        <div class="font-bold text-blue-600 mb-1">2566 - 2570</div>
-                        <div class="text-sm text-slate-600">พัฒนาระยะที่ 1 บนพื้นที่ 5,795 ไร่ (ประมาณ 40%)</div>
+                        <div data-i18n="r_1_y" class="font-bold text-blue-600 mb-1">2566 - 2570</div>
+                        <div data-i18n="r_1_d" class="text-sm text-slate-600">พัฒนาระยะที่ 1 บนพื้นที่ 5,795 ไร่ (ประมาณ 40%)</div>
                     </div>
                 </div>
-                <!-- Timeline Item 2 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-white bg-orange-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ml-[100px] md:ml-0 z-10 ring-4 ring-orange-100"></div>
                     <div class="w-[calc(100%-120px)] md:w-[calc(50%-2rem)] p-4 rounded-xl shadow-md border border-orange-200 bg-orange-50">
-                        <div class="font-bold text-orange-600 mb-1">2569 (PPP)</div>
-                        <div class="text-sm text-slate-700 font-medium">เริ่มกระบวนการ Market Sounding และคัดเลือกผู้ร่วมลงทุน PPP</div>
+                        <div data-i18n="r_2_y" class="font-bold text-orange-600 mb-1">2569 (PPP)</div>
+                        <div data-i18n="r_2_d" class="text-sm text-slate-700 font-medium">เริ่มกระบวนการ Market Sounding และคัดเลือกผู้ร่วมลงทุน PPP</div>
                     </div>
                 </div>
-                <!-- Timeline Item 3 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-white bg-blue-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ml-[100px] md:ml-0 z-10"></div>
                     <div class="w-[calc(100%-120px)] md:w-[calc(50%-2rem)] p-4 rounded-xl shadow-sm border border-slate-100 bg-slate-50">
-                        <div class="font-bold text-blue-600 mb-1">2570</div>
-                        <div class="text-sm text-slate-600">เริ่มงานก่อสร้างโครงสร้างพื้นฐานหลัก</div>
+                        <div data-i18n="r_3_y" class="font-bold text-blue-600 mb-1">2570</div>
+                        <div data-i18n="r_3_d" class="text-sm text-slate-600">เริ่มงานก่อสร้างโครงสร้างพื้นฐานหลัก</div>
                     </div>
                 </div>
-                <!-- Timeline Item 4 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-white bg-blue-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ml-[100px] md:ml-0 z-10"></div>
                     <div class="w-[calc(100%-120px)] md:w-[calc(50%-2rem)] p-4 rounded-xl shadow-sm border border-slate-100 bg-slate-50">
-                        <div class="font-bold text-blue-600 mb-1">2575</div>
-                        <div class="text-sm text-slate-600">พัฒนาระยะที่ 1 แล้วเสร็จสมบูรณ์ พร้อมเปิดใช้งานเต็มรูปแบบ</div>
+                        <div data-i18n="r_4_y" class="font-bold text-blue-600 mb-1">2575</div>
+                        <div data-i18n="r_4_d" class="text-sm text-slate-600">พัฒนาระยะที่ 1 แล้วเสร็จสมบูรณ์ พร้อมเปิดใช้งานเต็มรูปแบบ</div>
                     </div>
                 </div>
-                <!-- Timeline Item 5 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white bg-emerald-500 shadow-lg shadow-emerald-500/50 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ml-[96px] md:ml-0 z-10"></div>
                     <div class="w-[calc(100%-120px)] md:w-[calc(50%-2rem)] p-5 rounded-xl shadow-md border border-emerald-200 bg-emerald-50">
-                        <div class="font-bold text-emerald-600 mb-1 text-lg">2580</div>
-                        <div class="text-sm text-emerald-800 font-bold">บรรลุเป้าหมายการเป็นเมืองอัจฉริยะ Top 10 ของโลก</div>
+                        <div data-i18n="r_5_y" class="font-bold text-emerald-600 mb-1 text-lg">2580</div>
+                        <div data-i18n="r_5_d" class="text-sm text-emerald-800 font-bold">บรรลุเป้าหมายการเป็นเมืองอัจฉริยะ Top 10 ของโลก</div>
                     </div>
                 </div>
             </div>
@@ -342,46 +344,251 @@
 
     </main>
 
-    <!-- Footer / Conclusion -->
+    <!-- Footer -->
     <footer class="bg-slate-900 text-white py-16 px-6 text-center mt-12 relative overflow-hidden">
-        <!-- Background Image: ภาพที่ 4 -->
         <div class="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-screen" style="background-image: url('https://i.postimg.cc/V6zPh85v/582665632_122184085220550226_2530392739948129976_n.jpg')"></div>
         <div class="max-w-3xl mx-auto space-y-6 relative z-10">
             <i class="ph ph-leaf text-5xl text-emerald-400 mx-auto drop-shadow-md"></i>
-            <h2 class="text-3xl md:text-4xl font-bold drop-shadow-md">Ecosystem แห่งอนาคต</h2>
-            <p class="text-slate-200 leading-relaxed font-light md:text-lg drop-shadow">
+            <h2 data-i18n="f_title" class="text-3xl md:text-4xl font-bold drop-shadow-md">Ecosystem แห่งอนาคต</h2>
+            <p data-i18n="f_desc" class="text-slate-200 leading-relaxed font-light md:text-lg drop-shadow">
                 EECiti ไม่ใช่เพียงการสร้างตึกหรือถนน แต่คือการสร้าง Ecosystem ที่เชื่อมโยงนวัตกรรม ความยั่งยืน และคุณภาพชีวิตเข้าด้วยกันอย่างสมบูรณ์แบบ นี่คือจิ๊กซอว์ชิ้นสุดท้ายที่จะทำให้ภาคตะวันออกของไทยกลายเป็น <strong class="text-white">Global Destination</strong> ที่แท้จริง
             </p>
             <div class="pt-8 mt-8 border-t border-slate-700/80">
-                <p class="text-xl md:text-2xl font-medium text-blue-300 italic drop-shadow-md">
+                <p data-i18n="f_quote" class="text-xl md:text-2xl font-medium text-blue-300 italic drop-shadow-md">
                     "คุณพร้อมหรือยังที่จะก้าวเข้ามาเป็นส่วนหนึ่งของประวัติศาสตร์หน้าใหม่นี้?"
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- Script สำหรับ 6 Clusters (แทนที่ React State) -->
+    <!-- Multilingual & Logic Script -->
     <script>
-        const clusters = [
-            { title: "CBD & Regional HQ", icon: "ph-buildings", desc: "ศูนย์กลางธุรกิจ พื้นที่สำหรับสำนักงานภูมิภาค สถาบันการเงิน และ FinTech" },
-            { title: "Precision Medicine", icon: "ph-heartbeat", desc: "ศูนย์การแพทย์แม่นยำ ยกระดับสู่ Health Tech และบริการทางการแพทย์ขั้นสูง" },
-            { title: "Int'l Education & R&D", icon: "ph-book-open", desc: "การศึกษาและวิจัยนานาชาติ รวมถึงศูนย์นวัตกรรมอาหารแห่งอนาคต (Future Foods Hub)" },
-            { title: "BCG Economy", icon: "ph-recycle", desc: "เน้นพลังงานสะอาด, Hydrogen Utilization และเทคโนโลยีรีไซเคิล (Upcycling)" },
-            { title: "Tourism & Leisure", icon: "ph-globe-hemisphere-west", desc: "การท่องเที่ยวและสันทนาการ แลนด์มาร์กอย่าง Thailand Int’l Sports Park & Creative Hub" },
-            { title: "Inclusive Living", icon: "ph-users", desc: "ที่อยู่อาศัยคุณภาพ ผสมผสานไลฟ์สไตล์การทำงาน (Work-Life Balance) แบบ Mixed-use" }
-        ];
+        const i18n = {
+            th: {
+                badge: "Bangkok 2: Resilient & Regenerative City",
+                hero_title_1: "เจาะลึก EECiti",
+                hero_title_2: "มหากาพย์เมืองอัจฉริยะ",
+                hero_desc: "หมุดหมายใหม่ที่จะขับเคลื่อนประเทศไทยสู่ระดับโลก จากวิกฤตความแออัด สู่การปฏิวัติเมืองเชิงระบบ เพื่อเป็นศูนย์กลางเศรษฐกิจและนวัตกรรมที่ยั่งยืนที่สุดในอาเซียน",
+                vision_title: "วิสัยทัศน์ Top 10 ของโลก",
+                vision_sub: "มุ่งสู่เมืองอัจฉริยะที่น่าอยู่อาศัยที่สุดภายในปี 2580",
+                stat1_val: "1.34 ล้านล้าน", stat1_lbl: "มูลค่าการลงทุน (บาท)",
+                stat2_val: "14,619 ไร่", stat2_lbl: "พื้นที่โครงการ (ต.ห้วยใหญ่)",
+                stat3_val: "350,000", stat3_lbl: "รองรับประชากร (คน)",
+                stat4_val: "+2 ล้านล้าน", stat4_lbl: "กระตุ้น GDP ใน 10 ปี (บาท)",
+                ppp_title: "การลงทุนจากภาคเอกชน (PPP)",
+                ppp_desc: "<strong class='text-slate-800'>โมเดลเศรษฐกิจแบบ De-risked:</strong> ลดความเสี่ยงให้นักลงทุน สะท้อนความเชื่อมั่นของตลาดโลกว่าโครงการมีความมั่นคงสูง",
+                vdo_title: "ทำความรู้จัก EECiti (Video Overview)", vdo_sub: "เปิดวิสัยทัศน์ 'เมืองหลวงแห่งที่สอง' และศูนย์กลางนวัตกรรมของอาเซียน",
+                loc_title: "ทำเลทองในรัศมี 'มหานครการบิน'", loc_desc: "ตั้งอยู่ในตำแหน่งยุทธศาสตร์ของ EEC Aerotropolis จุดเชื่อมต่อการเดินทางแบบ Global Gateway ไร้รอยต่อ",
+                loc_1: "15 กิโลเมตร (15 นาที)", loc_1_desc: "ถึงสนามบินนานาชาติอู่ตะเภา (EECa)",
+                loc_2: "10 กิโลเมตร", loc_2_desc: "ถึงพัทยา-จอมเทียน แหล่งท่องเที่ยวระดับโลก",
+                conn_title: "การเชื่อมต่อแบบไร้รอยต่อ (Seamless Connectivity)", conn_1: "รถไฟความเร็วสูง", conn_2: "มอเตอร์เวย์", conn_3: "ท่าเรืออุตสาหกรรม",
+                regen_title: "นิยามใหม่ของเมืองเพื่อทุกคน (Regenerative City)", regen_desc: "ออกแบบให้เมืองฟื้นฟูตัวเองได้ มุ่งสู่ <strong class='text-slate-800'>Net-zero Carbon</strong> ด้วยการใช้พลังงานสะอาด 100% พร้อมระบบจัดการน้ำที่พึ่งพาตนเองได้",
+                l_title: "5 เกณฑ์ 'เมืองน่าอยู่'", l_1: "ความปลอดภัย", l_2: "วัฒนธรรมและสิ่งแวดล้อม", l_3: "โครงสร้างพื้นฐาน", l_4: "การดูแลสุขภาพ & การศึกษา",
+                s_title: "7 ด้าน 'เมืองอัจฉริยะ'", s_desc: "ครอบคลุมทั้ง Environment, Mobility, Energy, Living, People, Governance และ Economy", s_badge: "🚀 เป้าหมายบ่มเพาะ 150-300 Startups",
+                u_desc: "Inclusive Design สร้างเมืองที่เป็นมิตรต่อคนทุกวัย ทุกเพศ และทุกสถานะทางสังคมอย่างเท่าเทียม", u_badge: "🌿 พื้นที่สีเขียวและแหล่งน้ำ &gt; 30%",
+                c_title: "6 คลัสเตอร์ธุรกิจแห่งอนาคต", c_desc: "ระบบนิเวศแห่งการทำงานและใช้ชีวิต เพื่อสร้างโอกาสงานกว่า 200,000 ตำแหน่ง",
+                v_title: "สิทธิประโยชน์พรีเมียม & EEC Visa 10 ปี", v_desc: "เครื่องมือ 'Game Changer' เพื่อดึงดูด Global Talent และผู้เชี่ยวชาญระดับหัวกะทิ",
+                t_col1: "ประเภทวีซ่า (EEC Visa)", t_col2: "กลุ่มเป้าหมาย", t_col3: "สิทธิประโยชน์หลัก",
+                t_s_1: "Specialists (S)", t_s_2: "ผู้เชี่ยวชาญเฉพาะด้าน", t_s_3: "วีซ่า 10 ปี (อนุญาต 5 ปี + ต่ออายุ 5 ปี)",
+                t_e_1: "Executives (E)", t_e_2: "ผู้บริหารระดับสูง", t_e_3: "ภาษีเงินได้บุคคลธรรมดา <span class='font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded'>คงที่ 17%</span>",
+                t_p_1: "Professionals (P)", t_p_2: "ผู้ประกอบวิชาชีพ", t_p_3: "สิทธิการใช้ช่องทาง Fast-track ณ สนามบิน",
+                t_o_1: "Dependents (O)", t_o_2: "คู่สมรสและผู้ติดตาม", t_o_3: "การรายงานตัวออนไลน์ & บริการ One-Stop Service",
+                r_title: "โรดแมปสู่ความสำเร็จ & PPP", r_opp_t: "โอกาสทอง PPP ปี 2569", r_opp_d: "เปิดคัดเลือกผู้ร่วมลงทุนระบบสาธารณูปโภค 10 ระบบ มูลค่าการลงทุนสูงถึง <strong class='text-orange-700'>74,465 ล้านบาท</strong>",
+                r_1_y: "2566 - 2570", r_1_d: "พัฒนาระยะที่ 1 บนพื้นที่ 5,795 ไร่ (ประมาณ 40%)",
+                r_2_y: "2569 (PPP)", r_2_d: "เริ่มกระบวนการ Market Sounding และคัดเลือกผู้ร่วมลงทุน PPP",
+                r_3_y: "2570", r_3_d: "เริ่มงานก่อสร้างโครงสร้างพื้นฐานหลัก",
+                r_4_y: "2575", r_4_d: "พัฒนาระยะที่ 1 แล้วเสร็จสมบูรณ์ พร้อมเปิดใช้งานเต็มรูปแบบ",
+                r_5_y: "2580", r_5_d: "บรรลุเป้าหมายการเป็นเมืองอัจฉริยะ Top 10 ของโลก",
+                f_title: "Ecosystem แห่งอนาคต", f_desc: "EECiti ไม่ใช่เพียงการสร้างตึกหรือถนน แต่คือการสร้าง Ecosystem ที่เชื่อมโยงนวัตกรรม ความยั่งยืน และคุณภาพชีวิตเข้าด้วยกันอย่างสมบูรณ์แบบ นี่คือจิ๊กซอว์ชิ้นสุดท้ายที่จะทำให้ภาคตะวันออกของไทยกลายเป็น <strong class='text-white'>Global Destination</strong> ที่แท้จริง",
+                f_quote: "\"คุณพร้อมหรือยังที่จะก้าวเข้ามาเป็นส่วนหนึ่งของประวัติศาสตร์หน้าใหม่นี้?\""
+            },
+            en: {
+                badge: "Bangkok 2: Resilient & Regenerative City",
+                hero_title_1: "Deep Dive into EECiti",
+                hero_title_2: "The Epic Smart City Project",
+                hero_desc: "The new milestone propelling Thailand to the global stage. Shifting from congestion to systemic urban revolution, establishing ASEAN's most sustainable economic and innovation hub.",
+                vision_title: "Top 10 Global Livable City Vision",
+                vision_sub: "Aiming to be the world's most livable smart city by 2037",
+                stat1_val: "1.34 Trillion", stat1_lbl: "Investment Value (THB)",
+                stat2_val: "14,619 Rai", stat2_lbl: "Total Area (Acres: ~5,780)",
+                stat3_val: "350,000", stat3_lbl: "Population Capacity",
+                stat4_val: "+2 Trillion", stat4_lbl: "GDP Boost in 10 Years (THB)",
+                ppp_title: "Private Sector Investment (PPP)",
+                ppp_desc: "<strong class='text-slate-800'>De-risked Economic Model:</strong> Minimizing investor risk, reflecting global market confidence in the project's high stability.",
+                vdo_title: "Discover EECiti (Video Overview)", vdo_sub: "Unveiling the vision of 'The Second Capital' and ASEAN's innovation hub.",
+                loc_title: "Prime Location within the 'Aerotropolis'", loc_desc: "Strategically located in the EEC Aerotropolis, functioning as a seamless Global Gateway.",
+                loc_1: "15 Kilometers (15 Mins)", loc_1_desc: "To U-Tapao International Airport (EECa)",
+                loc_2: "10 Kilometers", loc_2_desc: "To Pattaya-Jomtien, a world-class tourist destination",
+                conn_title: "Seamless Connectivity", conn_1: "High-Speed Rail", conn_2: "Motorway", conn_3: "Industrial Ports",
+                regen_title: "Redefining the City for All (Regenerative City)", regen_desc: "Designed for self-restoration, aiming for <strong class='text-slate-800'>Net-zero Carbon</strong> with 100% clean energy and self-reliant water management.",
+                l_title: "5 Criteria of a 'Livable City'", l_1: "Safety & Security", l_2: "Culture & Environment", l_3: "Infrastructure", l_4: "Healthcare & Education",
+                s_title: "7 Dimensions of a 'Smart City'", s_desc: "Covers Environment, Mobility, Energy, Living, People, Governance, and Economy.", s_badge: "🚀 Goal: Incubate 150-300 Startups",
+                u_desc: "Inclusive Design: Creating an environment friendly to all ages, genders, and social statuses equally.", u_badge: "🌿 Green Space & Water Sources &gt; 30%",
+                c_title: "6 Future Business Clusters", c_desc: "An ecosystem of work and life, projected to create over 200,000 job opportunities.",
+                v_title: "Premium Privileges & 10-Year EEC Visa", v_desc: "The 'Game Changer' tool to attract Global Talents and elite experts.",
+                t_col1: "Visa Type (EEC Visa)", t_col2: "Target Group", t_col3: "Key Privileges",
+                t_s_1: "Specialists (S)", t_s_2: "Specialized Experts", t_s_3: "10-Year Visa (5 Years + 5 Years Renewal)",
+                t_e_1: "Executives (E)", t_e_2: "Top-level Executives", t_e_3: "Flat Personal Income Tax Rate of <span class='font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded'>17%</span>",
+                t_p_1: "Professionals (P)", t_p_2: "Professionals", t_p_3: "Fast-track Airport Lane Access",
+                t_o_1: "Dependents (O)", t_o_2: "Spouses & Dependents", t_o_3: "Online Reporting & One-Stop Service",
+                r_title: "Roadmap to Success & PPP", r_opp_t: "Golden PPP Opportunity (2026)", r_opp_d: "Selection process opens for 10 utility systems investors, with investment value up to <strong class='text-orange-700'>74.46 Billion THB</strong>.",
+                r_1_y: "2023 - 2027", r_1_d: "Phase 1 Development on 5,795 Rai (Approx. 40%)",
+                r_2_y: "2026 (PPP)", r_2_d: "Market Sounding & Selection of PPP Investors",
+                r_3_y: "2027", r_3_d: "Commencement of core infrastructure construction",
+                r_4_y: "2032", r_4_d: "Phase 1 completion, fully operational",
+                r_5_y: "2037", r_5_d: "Achieving the goal of becoming a Top 10 Global Smart City",
+                f_title: "The Ecosystem of the Future", f_desc: "EECiti is not just about building roads or skyscrapers; it's about building an Ecosystem that seamlessly connects innovation, sustainability, and quality of life. This is the final piece of the puzzle that will turn Thailand's Eastern region into a true <strong class='text-white'>Global Destination</strong>.",
+                f_quote: "\"Are you ready to be a part of this new chapter in history?\""
+            },
+            ru: {
+                badge: "Банкгок 2: Устойчивый город",
+                hero_title_1: "Подробный обзор EECiti",
+                hero_title_2: "Эпический проект умного города",
+                hero_desc: "Новая веха, выводящая Таиланд на мировую арену. Переход от пробок к системной городской революции, создание самого устойчивого экономического хаба в АСЕАН.",
+                vision_title: "Топ-10 умных городов мира",
+                vision_sub: "Стремление стать самым удобным для жизни умным городом к 2037 году",
+                stat1_val: "1.34 Трлн", stat1_lbl: "Инвестиции (Бат)",
+                stat2_val: "14,619 Рай", stat2_lbl: "Общая площадь",
+                stat3_val: "350,000", stat3_lbl: "Вместимость населения",
+                stat4_val: "+2 Трлн", stat4_lbl: "Рост ВВП за 10 лет (Бат)",
+                ppp_title: "Частные инвестиции (ГЧП)",
+                ppp_desc: "<strong class='text-slate-800'>Безрисковая экономическая модель:</strong> Минимизация рисков для инвесторов, отражающая уверенность мирового рынка в проекте.",
+                vdo_title: "Знакомство с EECiti", vdo_sub: "Открытие видения 'Второй столицы' и инновационного центра АСЕАН.",
+                loc_title: "Премиальное расположение (Аэротрополис)", loc_desc: "Стратегически выгодно расположен, выступая в роли идеального Глобального Шлюза.",
+                loc_1: "15 км (15 минут)", loc_1_desc: "До международного аэропорта У-Тапао (EECa)",
+                loc_2: "10 км", loc_2_desc: "До Паттайи-Джомтьена, туристического центра мирового класса",
+                conn_title: "Бесшовная связь", conn_1: "Высокоскоростной поезд", conn_2: "Автомагистраль", conn_3: "Морские порты",
+                regen_title: "Город для всех (Регенеративный город)", regen_desc: "Спроектирован для самовосстановления, стремится к <strong class='text-slate-800'>Net-zero Carbon</strong> со 100% чистой энергией.",
+                l_title: "5 критериев 'Города для жизни'", l_1: "Безопасность", l_2: "Культура и Экология", l_3: "Инфраструктура", l_4: "Здравоохранение и Образование",
+                s_title: "7 аспектов 'Умного города'", s_desc: "Охватывает окружающую среду, мобильность, энергию, жизнь, людей, управление и экономику.", s_badge: "🚀 Цель: Запуск 150-300 стартапов",
+                u_desc: "Инклюзивный дизайн: Создание среды, дружелюбной ко всем возрастам и социальным статусам.", u_badge: "🌿 Зеленые зоны и водоемы &gt; 30%",
+                c_title: "6 Будущих Бизнес-Кластеров", c_desc: "Экосистема для работы и жизни, создающая более 200 000 рабочих мест.",
+                v_title: "Премиум-привилегии и Виза EEC (10 лет)", v_desc: "Инструмент для привлечения мировых талантов и экспертов элитного уровня.",
+                t_col1: "Тип визы (EEC Visa)", t_col2: "Целевая группа", t_col3: "Ключевые привилегии",
+                t_s_1: "Специалисты (S)", t_s_2: "Специализированные эксперты", t_s_3: "Виза на 10 лет (5 лет + 5 лет продления)",
+                t_e_1: "Руководители (E)", t_e_2: "Руководители высшего звена", t_e_3: "Фиксированный налог <span class='font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded'>17%</span>",
+                t_p_1: "Профессионалы (P)", t_p_2: "Профессионалы", t_p_3: "Ускоренное прохождение в аэропорту",
+                t_o_1: "Иждивенцы (O)", t_o_2: "Супруги и иждивенцы", t_o_3: "Онлайн-отчетность и система единого окна",
+                r_title: "Дорожная карта и ГЧП", r_opp_t: "Золотая возможность ГЧП (2026)", r_opp_d: "Открытие отбора инвесторов в 10 систем, объем инвестиций до <strong class='text-orange-700'>74.46 млрд Бат</strong>.",
+                r_1_y: "2023 - 2027", r_1_d: "Развитие Фазы 1 на площади 5 795 Рай (Около 40%)",
+                r_2_y: "2026 (ГЧП)", r_2_d: "Исследование рынка и выбор инвесторов ГЧП",
+                r_3_y: "2027", r_3_d: "Начало строительства основной инфраструктуры",
+                r_4_y: "2032", r_4_d: "Завершение Фазы 1, полный запуск в эксплуатацию",
+                r_5_y: "2037", r_5_d: "Достижение цели войти в Топ-10 Умных Городов Мира",
+                f_title: "Экосистема Будущего", f_desc: "EECiti — это не просто дороги или здания; это создание Экосистемы, которая соединяет инновации, устойчивость и качество жизни. Это превратит Восточный регион Таиланда в настоящее <strong class='text-white'>Глобальное Направление</strong>.",
+                f_quote: "\"Готовы ли вы стать частью этой новой главы в истории?\""
+            },
+            zh: {
+                badge: "曼谷2.0：韧性与再生城市",
+                hero_title_1: "深度解析 EECiti",
+                hero_title_2: "史诗级智慧城市",
+                hero_desc: "推动泰国走向世界舞台的新里程碑。从拥堵转向系统性的城市革命，打造东盟最具可持续性的经济与创新中心。",
+                vision_title: "全球十大宜居城市愿景",
+                vision_sub: "目标在2037年成为世界上最宜居的智慧城市",
+                stat1_val: "1.34万亿", stat1_lbl: "总投资额 (泰铢)",
+                stat2_val: "14,619莱", stat2_lbl: "总面积 (约35,000亩)",
+                stat3_val: "350,000", stat3_lbl: "规划人口容量",
+                stat4_val: "+2万亿", stat4_lbl: "10年内拉动GDP (泰铢)",
+                ppp_title: "私营部门投资 (PPP)",
+                ppp_desc: "<strong class='text-slate-800'>去风险化经济模型：</strong> 降低投资者风险，反映出全球市场对该项目高度稳定性的信心。",
+                vdo_title: "了解 EECiti (视频介绍)", vdo_sub: "揭开“第二首都”与东盟创新中心的愿景。",
+                loc_title: "“航空大都市”的黄金地段", loc_desc: "战略性地位于EEC航空大都市内，作为无缝连接的全球门户。",
+                loc_1: "15公里 (15分钟)", loc_1_desc: "至乌塔堡国际机场 (EECa)",
+                loc_2: "10公里", loc_2_desc: "至世界级旅游胜地 芭提雅-中天",
+                conn_title: "无缝连接 (Seamless Connectivity)", conn_1: "高铁 (HSR)", conn_2: "高速公路 (M7)", conn_3: "工业港口",
+                regen_title: "为所有人重新定义城市 (再生城市)", regen_desc: "专为自我恢复而设计，旨在实现 <strong class='text-slate-800'>净零碳排放 (Net-zero Carbon)</strong>，100% 使用清洁能源和自给自足的水资源管理。",
+                l_title: "5大“宜居城市”标准", l_1: "安全与保障", l_2: "文化与环境", l_3: "基础设施", l_4: "医疗与教育",
+                s_title: "7大“智慧城市”维度", s_desc: "涵盖环境、出行、能源、生活、人才、治理和经济。", s_badge: "🚀 目标：孵化150-300家初创企业",
+                u_desc: "包容性设计：创造一个对所有年龄、性别和社会地位平等友好的环境。", u_badge: "🌿 绿化和水域面积 &gt; 30%",
+                c_title: "6大未来商业集群", c_desc: "工作与生活的生态系统，预计将创造超过20万个就业机会。",
+                v_title: "高级特权与 10年期 EEC 签证", v_desc: "吸引全球人才和精英专家的“游戏规则改变者”。",
+                t_col1: "签证类型 (EEC Visa)", t_col2: "目标人群", t_col3: "核心特权",
+                t_s_1: "专家 (S)", t_s_2: "特定领域专家", t_s_3: "10年期签证 (5年 + 可续签5年)",
+                t_e_1: "高管 (E)", t_e_2: "高级管理人员", t_e_3: "统一 <span class='font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded'>17%</span> 的个人所得税率",
+                t_p_1: "专业人士 (P)", t_p_2: "专业人员", t_p_3: "机场快速通道特权",
+                t_o_1: "家属 (O)", t_o_2: "配偶及受抚养人", t_o_3: "在线报到及一站式服务",
+                r_title: "成功路线图与 PPP", r_opp_t: "2026年 PPP 黄金机会", r_opp_d: "开放10个公用事业系统投资者的筛选，投资额高达 <strong class='text-orange-700'>744.6亿泰铢</strong>。",
+                r_1_y: "2023 - 2027", r_1_d: "在5,795莱的土地上进行第一阶段开发 (约占40%)",
+                r_2_y: "2026 (PPP)", r_2_d: "市场探路与 PPP 投资者筛选",
+                r_3_y: "2027", r_3_d: "核心基础设施建设启动",
+                r_4_y: "2032", r_4_d: "第一阶段完成，全面投入运营",
+                r_5_y: "2037", r_5_d: "实现成为全球十大智慧城市的目标",
+                f_title: "未来的生态系统", f_desc: "EECiti 不仅仅是建造道路或摩天大楼；它是关于建立一个无缝连接创新、可持续性和生活质量的生态系统。这将是把泰国东部变成真正 <strong class='text-white'>全球目的地</strong> 的最后一块拼图。",
+                f_quote: "\"你准备好成为这历史新篇章的一部分了吗？\""
+            }
+        };
 
+        const clusterData = {
+            th: [
+                { title: "CBD & Regional HQ", icon: "ph-buildings", desc: "ศูนย์กลางธุรกิจ พื้นที่สำหรับสำนักงานภูมิภาค สถาบันการเงิน และ FinTech" },
+                { title: "Precision Medicine", icon: "ph-heartbeat", desc: "ศูนย์การแพทย์แม่นยำ ยกระดับสู่ Health Tech และบริการทางการแพทย์ขั้นสูง" },
+                { title: "Int'l Education & R&D", icon: "ph-book-open", desc: "การศึกษาและวิจัยนานาชาติ รวมถึงศูนย์นวัตกรรมอาหารแห่งอนาคต (Future Foods Hub)" },
+                { title: "BCG Economy", icon: "ph-recycle", desc: "เน้นพลังงานสะอาด, Hydrogen Utilization และเทคโนโลยีรีไซเคิล (Upcycling)" },
+                { title: "Tourism & Leisure", icon: "ph-globe-hemisphere-west", desc: "การท่องเที่ยวและสันทนาการ แลนด์มาร์กอย่าง Thailand Int’l Sports Park & Creative Hub" },
+                { title: "Inclusive Living", icon: "ph-users", desc: "ที่อยู่อาศัยคุณภาพ ผสมผสานไลฟ์สไตล์การทำงาน (Work-Life Balance) แบบ Mixed-use" }
+            ],
+            en: [
+                { title: "CBD & Regional HQ", icon: "ph-buildings", desc: "Central Business District for regional offices, financial institutions, and FinTech." },
+                { title: "Precision Medicine", icon: "ph-heartbeat", desc: "Precision medicine center elevating Health Tech and advanced medical services." },
+                { title: "Int'l Education & R&D", icon: "ph-book-open", desc: "International education and R&D, including the Future Foods Hub." },
+                { title: "BCG Economy", icon: "ph-recycle", desc: "Focuses on clean energy, Hydrogen Utilization, and Upcycling technologies." },
+                { title: "Tourism & Leisure", icon: "ph-globe-hemisphere-west", desc: "Tourism and leisure landmarks like Thailand Int’l Sports Park & Creative Hub." },
+                { title: "Inclusive Living", icon: "ph-users", desc: "High-quality residential areas blending Work-Life Balance with Mixed-use designs." }
+            ],
+            ru: [
+                { title: "Центральный Деловой Округ", icon: "ph-buildings", desc: "Центральный деловой район для региональных офисов, финансовых учреждений и FinTech." },
+                { title: "Точная Медицина", icon: "ph-heartbeat", desc: "Центр точной медицины, развивающий Health Tech и передовые медицинские услуги." },
+                { title: "Образование и НИОКР", icon: "ph-book-open", desc: "Международное образование и исследования, включая Центр Продуктов Будущего." },
+                { title: "Экономика BCG", icon: "ph-recycle", desc: "Акцент на чистую энергию, использование водорода и технологии переработки." },
+                { title: "Туризм и Отдых", icon: "ph-globe-hemisphere-west", desc: "Достопримечательности туризма и отдыха, такие как Международный Спортивный Парк Таиланда." },
+                { title: "Инклюзивная Жизнь", icon: "ph-users", desc: "Высококачественные жилые районы, сочетающие баланс между работой и личной жизнью." }
+            ],
+            zh: [
+                { title: "中央商务区与区域总部", icon: "ph-buildings", desc: "区域办公室、金融机构和金融科技的中央商务区。" },
+                { title: "精准医疗", icon: "ph-heartbeat", desc: "提升健康科技和高级医疗服务的精准医疗中心。" },
+                { title: "国际教育与研发", icon: "ph-book-open", desc: "国际教育和研发，包括未来食品创新中心。" },
+                { title: "BCG 经济", icon: "ph-recycle", desc: "专注于清洁能源、氢能利用和升级回收技术。" },
+                { title: "旅游与休闲", icon: "ph-globe-hemisphere-west", desc: "旅游和休闲地标，如泰国国际体育公园和创意中心。" },
+                { title: "包容性居住", icon: "ph-users", desc: "融合工作与生活平衡及综合用途设计的高品质住宅区。" }
+            ]
+        };
+
+        let currentLang = 'th';
         let activeCluster = 0;
+
+        function setLang(lang) {
+            currentLang = lang;
+            
+            // 1. Update Buttons Style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+            document.getElementById(`btn-${lang}`).classList.add('bg-blue-600', 'text-white');
+            document.getElementById(`btn-${lang}`).classList.remove('text-slate-600', 'hover:bg-slate-100');
+
+            // 2. Update Static Texts
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+
+            // 3. Update Clusters
+            renderClusters();
+        }
 
         function renderClusters() {
             const btnContainer = document.getElementById('cluster-buttons');
             btnContainer.innerHTML = '';
             
-            clusters.forEach((cluster, idx) => {
+            const activeClustersData = clusterData[currentLang];
+
+            activeClustersData.forEach((cluster, idx) => {
                 const isActive = activeCluster === idx;
                 const btn = document.createElement('button');
                 
-                // ตกแต่งปุ่มเหมือนใน React
                 btn.className = `w-full text-left p-4 rounded-xl transition-all flex items-center ${isActive ? 'bg-blue-600 border border-blue-500 shadow-lg scale-[1.02]' : 'bg-slate-800 border border-slate-700 hover:bg-slate-700/80 text-slate-300'}`;
                 
                 btn.onclick = () => {
@@ -400,15 +607,14 @@
                 btnContainer.appendChild(btn);
             });
 
-            // อัปเดตรายละเอียดด้านขวา
-            const activeData = clusters[activeCluster];
+            const activeData = activeClustersData[activeCluster];
             document.getElementById('cluster-icon-bg').innerHTML = `<i class="ph ${activeData.icon} text-5xl"></i>`;
             document.getElementById('cluster-title').innerText = activeData.title;
             document.getElementById('cluster-desc').innerText = activeData.desc;
         }
 
-        // โหลดข้อมูลครั้งแรก
-        renderClusters();
+        // Initialize Default Language
+        setLang('th');
     </script>
 </body>
 </html>
