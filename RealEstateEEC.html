@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEC & Pattaya Real Estate Pulse 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for modal */
+        .modal-scroll::-webkit-scrollbar { width: 8px; }
+        .modal-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .modal-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .modal-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        body.modal-open { overflow: hidden; }
+        .lang-transition { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold tracking-tight" id="ui-nav-main">🏢 EEC Pulse</span>
+                    <span class="text-blue-300 text-sm font-normal ml-2 hidden sm:inline" id="ui-nav-sub">Pattaya City</span>
+                </div>
+                <div class="flex items-center">
+                    <!-- Language Switcher -->
+                    <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-blue-800 text-white border border-blue-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3 py-1.5 outline-none cursor-pointer hover:bg-blue-700 transition">
+                        <option value="th">🇹🇭 ไทย</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bi-Weekly Briefing Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+                <h2 class="text-2xl font-bold text-blue-900 flex items-center">
+                    <span class="text-3xl mr-2">☕</span> <span id="ui-briefing-title">Top News Briefing</span>
+                </h2>
+                <div class="flex items-center space-x-2 self-start sm:self-auto">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span id="ui-live-status" class="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded uppercase tracking-wider border border-green-200">
+                        Live Updated
+                    </span>
+                </div>
+            </div>
+
+            <!-- Dynamic Briefing Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="briefingGrid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Video Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center">
+                    <span class="text-3xl mr-2">▶️</span> <span id="ui-video-title-text">Featured Video Update</span>
+                </h2>
+            </div>
+            <div class="aspect-video rounded-xl overflow-hidden shadow-inner border border-slate-100 bg-slate-900">
+                <iframe src="https://player.vimeo.com/video/1186158753" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Blog Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+            <h1 class="text-3xl font-extrabold text-slate-900" id="ui-featured-title">Featured Articles</h1>
+            <!-- Interactive Filters -->
+            <div class="flex flex-wrap gap-2" id="filters">
+                <button onclick="filterCategory('all')" id="filter-all" class="filter-btn active bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">All</button>
+                <button onclick="filterCategory('geopolitics')" id="filter-geo" class="filter-btn bg-white text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-lg text-sm font-medium border transition">Geopolitics & Wealth</button>
+                <button onclick="filterCategory('eec')" id="filter-eec" class="filter-btn bg-white text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-lg text-sm font-medium border transition">EEC & Infrastructure</button>
+            </div>
+        </div>
+
+        <!-- Dynamic Blog Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blogGrid">
+            <!-- Injected via JS -->
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-12 text-center text-sm">
+        <p id="ui-footer">© 2026 EEC & Pattaya Real Estate Pulse. All rights reserved.</p>
+    </footer>
+
+    <!-- Article Modal (Pop-up) -->
+    <div id="articleModal" class="fixed inset-0 z-50 hidden bg-slate-900 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="modalContentWrapper">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-5 border-b border-slate-100">
+                <div id="modalTags" class="flex space-x-2"></div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 transition rounded-full p-2 hover:bg-red-50 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 md:p-10 overflow-y-auto modal-scroll" id="modalBody">
+                <h1 id="modalTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight"></h1>
+                <img id="modalImg" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mb-8 shadow-sm">
+                <div id="modalText" class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
+                    <!-- Content Injected Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Data & Logic -->
+    <script>
+        let currentLang = 'th'; // Default language
+        let currentlyOpenArticleId = null;
+
+        // 1. UI Translations Dictionary
+        const uiTranslations = {
+            th: {
+                navMain: "🏢 EEC Pulse", navSub: "เมืองพัทยา",
+                briefingTitle: "สรุปข่าวเด่น (Bi-Weekly)", liveUpdated: "อัปเดตเรียลไทม์",
+                videoTitle: "วิดีโออัปเดตสถานการณ์",
+                featuredTitle: "บทความแนะนำ", filterAll: "ทั้งหมด", filterGeo: "ภูมิรัฐศาสตร์ & ทุน", filterEec: "โครงสร้างพื้นฐาน EEC",
+                footer: "© 2026 EEC & Pattaya Real Estate Pulse. สงวนลิขสิทธิ์."
+            },
+            en: {
+                navMain: "🏢 EEC Pulse", navSub: "Pattaya City",
+                briefingTitle: "Bi-Weekly Briefing", liveUpdated: "Live Updated",
+                videoTitle: "Featured Video Update",
+                featuredTitle: "Featured Articles", filterAll: "All", filterGeo: "Geopolitics & Wealth", filterEec: "EEC & Infrastructure",
+                footer: "© 2026 EEC & Pattaya Real Estate Pulse. All rights reserved."
+            },
+            zh: {
+                navMain: "🏢 EEC 动态", navSub: "芭提雅市",
+                briefingTitle: "双周新闻简报", liveUpdated: "实时更新",
+                videoTitle: "特色视频更新",
+                featuredTitle: "精选文章", filterAll: "全部", filterGeo: "地缘政治与财富", filterEec: "EEC与基础设施",
+                footer: "© 2026 EEC & 芭提雅房地产动态。保留所有权利。"
+            },
+            ru: {
+                navMain: "🏢 Пульс EEC", navSub: "Паттайя",
+                briefingTitle: "Главные Новости", liveUpdated: "Обновляется",
+                videoTitle: "Избранное видео",
+                featuredTitle: "Рекомендуемые статьи", filterAll: "Все", filterGeo: "Геополитика и капитал", filterEec: "ЕЭС и Инфраструктура",
+                footer: "© 2026 Пульс недвижимости ЕЭС и Паттайи. Все права защищены."
+            }
+        };
+
+        // 2. Briefing Section Data
+        const briefingData = {
+            th: [
+                { title: "✈️ 1. โครงการเมืองการบิน (EEC)", items: ["<strong>อู่ตะเภา 2.9 แสนล้าน:</strong> เริ่มก่อสร้าง เม.ย. นี้ ไม่ต้องรอรถไฟ 3 สนามบิน", "<strong>จีนจับมือ EEC:</strong> เซ็น PPP สร้างศูนย์ Intelligent Computing 100,000 P"] },
+                { title: "💡 2. Smart Home & การลงทุน", items: ["<strong>FDI ทะลุ 3.24 แสนล้าน:</strong> สูงสุดในรอบ 5 ปี ดัน Demand บ้านพรีเมียม", "<strong>Smart Living:</strong> เศรษฐีที่ย้ายฐานทุนเน้นโครงการ Smart Home และ Security ระดับสูง"] },
+                { title: "🏢 3. อสังหาริมทรัพย์พัทยา", items: ["<strong>ขยายเวลาภาษี:</strong> รัฐขยายเวลาจ่ายภาษีที่ดินถึง มิ.ย. 2026", "<strong>ที่ดินพัทยาพุ่ง:</strong> ประเมินเลียบหาดแตะ 220,000 บาท/ตร.ว."] }
+            ],
+            en: [
+                { title: "✈️ 1. EEC & Aviation City", items: ["<strong>290B Baht U-Tapao:</strong> Construction kicks off this April without waiting for High-Speed Rail.", "<strong>China-EEC Pact:</strong> First PPP signed for an Intelligent Computing Center."] },
+                { title: "💡 2. Smart Home & FDI", items: ["<strong>FDI hits 324B Baht:</strong> 5-year high driving demand for premium living in Chonburi.", "<strong>Smart Living for HNWIs:</strong> Wealth migrants prioritize smart homes and high security."] },
+                { title: "🏢 3. Pattaya Real Estate", items: ["<strong>Tax Extension:</strong> Land tax payment extended to June 2026.", "<strong>Land Prices Soar:</strong> Beachfront appraisals hit 220,000 Baht/sq.wah."] }
+            ],
+            zh: [
+                { title: "✈️ 1. EEC与航空城", items: ["<strong>2900亿泰铢乌塔堡项目:</strong> 建设于今年四月启动，无需等待高铁。", "<strong>中泰EEC合作:</strong> 签署首个智能计算中心PPP协议。"] },
+                { title: "💡 2. 智能家居与投资", items: ["<strong>FDI突破3240亿泰铢:</strong> 创5年新高，推动高端住宅需求。", "<strong>高净值人群智能生活:</strong> 财富迁移者优先考虑智能家居和高安全性。"] },
+                { title: "🏢 3. 芭提雅房地产", items: ["<strong>土地税延期:</strong> 土地税支付期限延至2026年6月。", "<strong>地价飙升:</strong> 海滨地价评估达到22万泰铢/平方哇。"] }
+            ],
+            ru: [
+                { title: "✈️ 1. ЕЭС и Авиагородок", items: ["<strong>У-Тапао (290 млрд бат):</strong> Строительство начинается в апреле без ожидания скоростной железной дороги.", "<strong>Партнерство Китай-ЕЭС:</strong> Подписан первый договор о строительстве вычислительного центра."] },
+                { title: "💡 2. Умный дом и инвестиции", items: ["<strong>ПИИ достигли 324 млрд бат:</strong> Рекорд за 5 лет стимулирует спрос на элитное жилье.", "<strong>Умная жизнь для миллионеров:</strong> Инвесторы отдают приоритет умным домам и безопасности."] },
+                { title: "🏢 3. Недвижимость Паттайи", items: ["<strong>Отсрочка налога:</strong> Уплата налога на землю продлена до июня 2026 года.", "<strong>Цены на землю растут:</strong> Оценка прибрежной зоны достигла 220 000 бат/кв. ва."] }
+            ]
+        };
+
+        // 3. Articles Data (Multilingual)
+        const articles = [
+            {
+                id: 1, classList: "geopolitics", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                th: {
+                    tag: "การย้ายฐานความมั่งคั่ง", tagColor: "blue", title: "ทำไมเงินทุนดูไบถึงไหลเข้าไทยในปี 2026", desc: "นักลงทุน HNWIs โยกย้ายเงินทุนสู่ Safe Haven อย่างไทยและโซน EEC...",
+                    content: `<p class="font-semibold text-lg mb-4">วิกฤตภูมิรัฐศาสตร์ส่งผลกระทบต่อตะวันออกกลางอย่างรุนแรง ทำให้เกิดการย้ายฐานทุนมายังเอเชียตะวันออกเฉียงใต้</p><ul class="list-disc pl-5 space-y-2"><li><b>การสูญเสีย Security Premium:</b> ดูไบเริ่มถูกมองว่ามีความเสี่ยง</li><li><b>ไทยคือหลุมหลบภัย:</b> ไทยวางตัวเป็นกลางทางภูมิรัฐศาสตร์ ดึงดูดกลุ่ม Ultra-Wealthy</li><li><b>พัทยาเติบโต:</b> โครงการระดับหรู (Branded Residences) ได้รับอานิสงส์จากเงินทุนที่ไหลเข้า</li></ul>`
+                },
+                en: {
+                    tag: "Wealth Migration", tagColor: "blue", title: "The 2026 Pivot: Why Dubai Wealth is Flowing to Thailand", desc: "HNWIs are shifting capital to safe havens like Thailand and the EEC...",
+                    content: `<p class="font-semibold text-lg mb-4">Geopolitical instability is severely impacting the Middle East, triggering wealth migration to Southeast Asia.</p><ul class="list-disc pl-5 space-y-2"><li><b>Loss of Security Premium:</b> Dubai is increasingly viewed as a risk zone.</li><li><b>Thailand as a Sanctuary:</b> Geopolitical neutrality attracts ultra-wealthy investors.</li><li><b>Pattaya Boom:</b> Luxury branded residences benefit heavily from this capital flight.</li></ul>`
+                },
+                zh: {
+                    tag: "财富迁移", tagColor: "blue", title: "2026年枢纽：为何迪拜财富流向泰国", desc: "高净值人士正将资金转移到泰国和EEC等避风港...",
+                    content: `<p class="font-semibold text-lg mb-4">地缘政治不稳定严重影响中东，引发财富向东南亚转移。</p><ul class="list-disc pl-5 space-y-2"><li><b>失去安全溢价：</b> 迪拜越来越被视为风险区。</li><li><b>泰国作为避难所：</b> 地缘政治中立吸引了超高净值投资者。</li><li><b>芭提雅繁荣：</b> 豪华品牌住宅从资本外逃中获益匪浅。</li></ul>`
+                },
+                ru: {
+                    tag: "Миграция капитала", tagColor: "blue", title: "Разворот 2026: Почему капиталы Дубая текут в Таиланд", desc: "HNWI переводят капиталы в безопасные гавани, такие как Таиланд и ЕЭС...",
+                    content: `<p class="font-semibold text-lg mb-4">Геополитическая нестабильность серьезно влияет на Ближний Восток, вызывая миграцию богатства в Юго-Восточную Азию.</p><ul class="list-disc pl-5 space-y-2"><li><b>Потеря премии за безопасность:</b> Дубай все чаще рассматривается как зона риска.</li><li><b>Таиланд как убежище:</b> Геополитический нейтралитет привлекает инвесторов.</li><li><b>Бум в Паттайе:</b> Элитная недвижимость выигрывает от оттока капитала.</li></ul>`
+                }
+            },
+            {
+                id: 2, classList: "eec", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                th: {
+                    tag: "โครงสร้างพื้นฐาน", tagColor: "emerald", title: "อู่ตะเภาและเมืองการบิน: ก้าวสำคัญ 2.9 แสนล้าน", desc: "การขยายสนามบินเริ่มก่อสร้างเมษายนนี้ เพื่อรองรับ 12 ล้านคน...",
+                    content: `<p class="font-semibold text-lg mb-4">โปรเจกต์ 2.9 แสนล้านบาท เดินทางมาถึงจุดเปลี่ยนสำคัญในเดือนเมษายน 2026</p><ul class="list-disc pl-5 space-y-2"><li><b>เริ่มก่อสร้างทันที:</b> ไม่ต้องรอรถไฟความเร็วสูงเชื่อม 3 สนามบิน</li><li><b>เป้าหมายเฟส 1:</b> รองรับ 12 ล้านคนต่อปี ภายในปี 2031</li><li><b>ดันมูลค่าอสังหาฯ:</b> รูปแบบ Airport City ช่วยดันราคาที่ดินในรัศมีพัทยา-ระยองพุ่งสูงขึ้น</li></ul>`
+                },
+                en: {
+                    tag: "Infrastructure", tagColor: "emerald", title: "U-Tapao & Aviation City: The 290B Baht Milestone", desc: "Airport expansion kicks off this April to support 12 million passengers...",
+                    content: `<p class="font-semibold text-lg mb-4">The 290B Baht mega-project has reached a critical milestone in April 2026.</p><ul class="list-disc pl-5 space-y-2"><li><b>Immediate Kick-off:</b> Construction begins without waiting for the high-speed rail.</li><li><b>Phase 1 Target:</b> 12 million passengers annually by 2031.</li><li><b>Real Estate Boost:</b> The Airport City model significantly drives up property values in Pattaya and Rayong.</li></ul>`
+                },
+                zh: {
+                    tag: "基础设施", tagColor: "emerald", title: "乌塔堡与航空城：2900亿泰铢的里程碑", desc: "机场扩建于今年四月启动，旨在支持1200万名乘客...",
+                    content: `<p class="font-semibold text-lg mb-4">这项耗资2900亿泰铢的大型项目在2026年4月达到了一个关键的里程碑。</p><ul class="list-disc pl-5 space-y-2"><li><b>立即启动：</b> 施工开始，无需等待高铁。</li><li><b>第一阶段目标：</b> 到2031年每年接待1200万名乘客。</li><li><b>房地产助推：</b> 航空城模式显着推高了芭提雅和罗勇的房产价值。</li></ul>`
+                },
+                ru: {
+                    tag: "Инфраструктура", tagColor: "emerald", title: "У-Тапао и Авиагородок: Проект на 290 млрд бат", desc: "Расширение аэропорта начинается в апреле для приема 12 млн пассажиров...",
+                    content: `<p class="font-semibold text-lg mb-4">Мегапроект стоимостью 290 млрд бат достиг важного рубежа в апреле 2026 года.</p><ul class="list-disc pl-5 space-y-2"><li><b>Немедленный старт:</b> Строительство начинается без ожидания скоростной железной дороги.</li><li><b>Цель Фазы 1:</b> 12 миллионов пассажиров в год к 2031 году.</li><li><b>Рост недвижимости:</b> Модель «Авиагородка» значительно повышает стоимость недвижимости в Паттайе и Районге.</li></ul>`
+                }
+            },
+            {
+                id: 3, classList: "geopolitics eec", img: "https://images.unsplash.com/photo-1563911302283-d2bc129e7570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                th: {
+                    tag: "ตลาดอสังหาฯ", tagColor: "purple", title: "ชลบุรีแซง กทม.: ดีมานด์คอนโดต่างชาติพุ่ง", desc: "กำลังซื้อใหม่จากเมียนมาและอินเดีย ดันชลบุรีเป็นที่ 1 ตลาดคอนโดต่างชาติ...",
+                    content: `<p class="font-semibold text-lg mb-4">ชลบุรีกำลังเติบโตอย่างไม่เคยมีมาก่อน แซงหน้ากรุงเทพฯ ในด้านความต้องการจากต่างชาติ</p><ul class="list-disc pl-5 space-y-2"><li><b>ผู้ซื้อกลุ่มใหม่:</b> นักลงทุนอินเดียและเมียนมากำลังเข้ามาแทนที่ตลาดจีน</li><li><b>พัทยาคือเป้าหมายหลัก:</b> ตอบโจทย์ไลฟ์สไตล์ริมทะเลและราคาคุ้มค่า</li><li><b>โอกาสลงทุน:</b> ใช้เวลาขายออกเฉลี่ย 60-90 วัน ถือว่าสภาพคล่องดีมากสำหรับนักลงทุน</li></ul>`
+                },
+                en: {
+                    tag: "Real Estate", tagColor: "purple", title: "Chon Buri Outpaces Bangkok in Foreign Demand", desc: "New purchasing power from Myanmar and India pushes Chon Buri to #1...",
+                    content: `<p class="font-semibold text-lg mb-4">Chon Buri is experiencing unprecedented growth, overtaking Bangkok in foreign condo demand.</p><ul class="list-disc pl-5 space-y-2"><li><b>New Buyers:</b> Indian and Myanmar investors are stepping in as Chinese demand cools.</li><li><b>Pattaya in Focus:</b> Offers a coastal lifestyle at more accessible price points.</li><li><b>Investment Liquidity:</b> Average days on market is 60-90 days, presenting excellent liquidity.</li></ul>`
+                },
+                zh: {
+                    tag: "房地产市场", tagColor: "purple", title: "春武里超越曼谷：外国买家需求激增", desc: "来自缅甸和印度的新购买力推动春武里成为第一...",
+                    content: `<p class="font-semibold text-lg mb-4">春武里正在经历前所未有的增长，在外国公寓需求方面超过了曼谷。</p><ul class="list-disc pl-5 space-y-2"><li><b>新买家：</b> 随着中国需求降温，印度和缅甸投资者正在介入。</li><li><b>芭提雅成为焦点：</b> 以更实惠的价格提供沿海生活方式。</li><li><b>投资流动性：</b> 市场平均天数为60-90天，流动性极佳。</li></ul>`
+                },
+                ru: {
+                    tag: "Недвижимость", tagColor: "purple", title: "Чонбури обгоняет Бангкок по спросу иностранцев", desc: "Новые покупатели из Мьянмы и Индии выводят Чонбури на 1-е место...",
+                    content: `<p class="font-semibold text-lg mb-4">Чонбури переживает беспрецедентный рост, обгоняя Бангкок по спросу на кондоминиумы со стороны иностранцев.</p><ul class="list-disc pl-5 space-y-2"><li><b>Новые покупатели:</b> Инвесторы из Индии и Мьянмы заменяют китайский рынок.</li><li><b>В центре внимания Паттайя:</b> Предлагает прибрежный образ жизни по более доступным ценам.</li><li><b>Ликвидность:</b> Среднее время продажи составляет 60-90 дней, что является отличным показателем.</li></ul>`
+                }
+            },
+            {
+                id: 4, classList: "geopolitics eec is-special", img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                th: {
+                    tag: "บทวิเคราะห์พิเศษ", tagColor: "red", title: "เมื่อ 'ดูไบ' ไม่ใช่หลุมหลบภัย: เจาะ 5 ปรากฏการณ์ย้ายทุนสู่ EEC 2026", desc: "เจาะลึกการอพยพทุน UHNWI จากตะวันออกกลางสู่ไทย หลังข้อได้เปรียบพ่ายแพ้ต่อสงครามโดรน...",
+                    content: `
+                        <div class="bg-slate-50 border-l-4 border-red-500 p-4 mb-4 rounded-r-lg">
+                            <p class="font-semibold">โลกยุค 2026 เปลี่ยนจากคำว่า "Yield" สู่ "Asset Preservation" หรือการรักษาความมั่งคั่งให้ปลอดภัยจากสงครามโดรน</p>
+                        </div>
+                        <ul class="list-disc pl-5 space-y-2 mb-6">
+                            <li><b>Security Premium สั่นคลอน:</b> โครงสร้างพื้นฐานในตะวันออกกลางถูกคุกคาม นำไปสู่สภาวะ Value Trap (อุปทานล้นแต่ขายไม่ออก)</li>
+                            <li><b>ความเป็นกลางของไทย:</b> นโยบาย Geopolitical Neutrality และโครงสร้างพื้นฐาน EEC (AI, EV, Medical Hub) สร้างความเชื่อมั่น</li>
+                            <li><b>Capital Efficiency:</b> วีซ่า LTR ของไทยและการยกเว้นภาษีต่างประเทศ ช่วยประหยัดต้นทุนชีวิตและการลงทุนได้มากกว่าดูไบถึง 50%</li>
+                        </ul>
+                    `
+                },
+                en: {
+                    tag: "Special Report", tagColor: "red", title: "Dubai No Longer a Haven: 5 Phenomena of Wealth Shift to EEC 2026", desc: "In-depth analysis of UHNWI capital flight from the Middle East to Thailand amid drone wars...",
+                    content: `
+                        <div class="bg-slate-50 border-l-4 border-red-500 p-4 mb-4 rounded-r-lg">
+                            <p class="font-semibold">In 2026, the focus has shifted from "Yield" to "Asset Preservation" against geopolitical threats.</p>
+                        </div>
+                        <ul class="list-disc pl-5 space-y-2 mb-6">
+                            <li><b>Shattered Security Premium:</b> Middle East infrastructure faces threats, leading to a real estate 'Value Trap' (oversupply, illiquid).</li>
+                            <li><b>Thailand's Neutrality:</b> Geopolitical neutrality combined with EEC clusters (AI, EV, Medical) builds profound investor confidence.</li>
+                            <li><b>Capital Efficiency:</b> Thailand's LTR visa and foreign tax exemptions offer up to 50% better cost of living and investment efficiency compared to Dubai.</li>
+                        </ul>
+                    `
+                },
+                zh: {
+                    tag: "特别报道", tagColor: "red", title: "迪拜不再是避风港：2026年财富转移至EEC的5大现象", desc: "深入分析无人机战争背景下超高净值资本从中东向泰国的外逃...",
+                    content: `
+                        <div class="bg-slate-50 border-l-4 border-red-500 p-4 mb-4 rounded-r-lg">
+                            <p class="font-semibold">2026年，投资焦点已从“收益率”转向抵御地缘政治威胁的“资产保全”。</p>
+                        </div>
+                        <ul class="list-disc pl-5 space-y-2 mb-6">
+                            <li><b>安全溢价破灭：</b> 中东基础设施面临威胁，导致房地产“价值陷阱”（供过于求、缺乏流动性）。</li>
+                            <li><b>泰国的中立性：</b> 地缘政治中立性结合EEC集群（AI、EV、医疗）建立了深刻的投资者信心。</li>
+                            <li><b>资本效率：</b> 与迪拜相比，泰国的LTR签证和外国免税政策提供了高达50%的生活成本和投资效率优势。</li>
+                        </ul>
+                    `
+                },
+                ru: {
+                    tag: "Спецрепортаж", tagColor: "red", title: "Дубай больше не убежище: 5 причин перевода капитала в ЕЭС", desc: "Анализ бегства капитала HNWI из Ближнего Востока в Таиланд на фоне войн дронов...",
+                    content: `
+                        <div class="bg-slate-50 border-l-4 border-red-500 p-4 mb-4 rounded-r-lg">
+                            <p class="font-semibold">В 2026 году фокус инвесторов сместился с «Доходности» на «Сохранение активов» от геополитических угроз.</p>
+                        </div>
+                        <ul class="list-disc pl-5 space-y-2 mb-6">
+                            <li><b>Потеря безопасности:</b> Инфраструктура Ближнего Востока под угрозой, что ведет к «ловушке ценности» недвижимости.</li>
+                            <li><b>Нейтралитет Таиланда:</b> Геополитический нейтралитет и кластеры ЕЭС (ИИ, электромобили, медицина) укрепляют доверие.</li>
+                            <li><b>Эффективность капитала:</b> Виза LTR Таиланда и налоговые льготы обеспечивают на 50% лучшую эффективность по сравнению с Дубаем.</li>
+                        </ul>
+                    `
+                }
+            }
+        ];
+
+        // Core Functions
+        function renderBriefing(lang) {
+            const grid = document.getElementById('briefingGrid');
+            grid.innerHTML = '';
+            briefingData[lang].forEach((box, i) => {
+                let itemsHTML = box.items.map(item => `<li>${item}</li>`).join('');
+                grid.innerHTML += `
+                    <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm lang-transition">
+                        <h3 class="font-bold text-indigo-700 mb-3 text-lg border-b pb-2">${box.title}</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700">
+                            ${itemsHTML}
+                        </ul>
+                    </div>
+                `;
+            });
+        }
+
+        function renderArticles(lang) {
+            const grid = document.getElementById('blogGrid');
+            grid.innerHTML = '';
+            articles.forEach(art => {
+                const data = art[lang];
+                const specialClass = art.classList.includes('is-special') ? 'border-red-200 ring-1 ring-red-100' : 'border-slate-200';
+                const tagBg = data.tagColor === 'red' ? 'bg-red-50 text-red-600' : 
+                              data.tagColor === 'blue' ? 'bg-blue-50 text-blue-600' :
+                              data.tagColor === 'emerald' ? 'bg-emerald-50 text-emerald-600' : 'bg-purple-50 text-purple-600';
+                
+                let specialLabel = '';
+                let imgFilter = '';
+                if(art.classList.includes('is-special')){
+                    imgFilter = 'grayscale hover:grayscale-0 transition duration-500';
+                    specialLabel = `<div class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-md">Special</div>`;
+                }
+
+                grid.innerHTML += `
+                    <article class="bg-white rounded-2xl shadow-sm border ${specialClass} overflow-hidden hover:shadow-lg transition cursor-pointer blog-card ${art.classList}" onclick="openModal(${art.id})">
+                        <div class="relative">
+                            <img src="${art.img}" class="w-full h-48 object-cover ${imgFilter}">
+                            ${specialLabel}
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-semibold px-2 py-1 rounded ${tagBg}">${data.tag}</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-slate-900 mb-2">${data.title}</h2>
+                            <p class="text-slate-600 text-sm line-clamp-3">${data.desc}</p>
+                        </div>
+                    </article>
+                `;
+            });
+            
+            // Re-apply current filter if any
+            const activeFilter = document.querySelector('.filter-btn.active');
+            if(activeFilter) {
+                const cat = activeFilter.id.replace('filter-', '');
+                filterCategory(cat === 'all' ? 'all' : cat); // basic mapping
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const ui = uiTranslations[lang];
+            
+            // Update UI Texts
+            document.getElementById('ui-nav-main').innerText = ui.navMain;
+            document.getElementById('ui-nav-sub').innerText = ui.navSub;
+            document.getElementById('ui-briefing-title').innerText = ui.briefingTitle;
+            document.getElementById('ui-live-status').innerText = ui.liveUpdated;
+            document.getElementById('ui-video-title-text').innerText = ui.videoTitle;
+            document.getElementById('ui-featured-title').innerText = ui.featuredTitle;
+            document.getElementById('filter-all').innerText = ui.filterAll;
+            document.getElementById('filter-geo').innerText = ui.filterGeo;
+            document.getElementById('filter-eec').innerText = ui.filterEec;
+            document.getElementById('ui-footer').innerText = ui.footer;
+
+            // Render Dynamic Data
+            renderBriefing(lang);
+            renderArticles(lang);
+
+            // If modal is open, update its content too
+            if(currentlyOpenArticleId !== null) {
+                openModal(currentlyOpenArticleId, true);
+            }
+        }
+
+        // --- Interaction Logic ---
+        const modal = document.getElementById('articleModal');
+        const modalWrapper = document.getElementById('modalContentWrapper');
+        
+        function openModal(id, isLangSwitch = false) {
+            currentlyOpenArticleId = id;
+            const art = articles.find(a => a.id === id);
+            const data = art[currentLang];
+            const tagBg = data.tagColor === 'red' ? 'bg-red-50 text-red-600' : 
+                          data.tagColor === 'blue' ? 'bg-blue-50 text-blue-600' :
+                          data.tagColor === 'emerald' ? 'bg-emerald-50 text-emerald-600' : 'bg-purple-50 text-purple-600';
+
+            document.getElementById('modalTitle').innerHTML = data.title;
+            document.getElementById('modalImg').src = art.img;
+            document.getElementById('modalTags').innerHTML = `<span class="text-xs font-semibold px-3 py-1 rounded-full ${tagBg}">${data.tag}</span>`;
+            document.getElementById('modalText').innerHTML = data.content;
+            
+            if(!isLangSwitch) {
+                modal.classList.remove('hidden');
+                document.body.classList.add('modal-open');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalWrapper.classList.remove('scale-95');
+                    modalWrapper.classList.add('scale-100');
+                }, 10);
+            }
+        }
+
+        function closeModal() {
+            currentlyOpenArticleId = null;
+            modal.classList.add('opacity-0');
+            modalWrapper.classList.remove('scale-100');
+            modalWrapper.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            }, 300);
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600');
+                btn.classList.remove('active');
+            });
+            // basic ID mapping mapping
+            let mapId = category === 'geopolitics' ? 'filter-geo' : category === 'eec' ? 'filter-eec' : 'filter-all';
+            const targetBtn = document.getElementById(mapId);
+            if(targetBtn) {
+                targetBtn.classList.remove('bg-white', 'text-slate-600');
+                targetBtn.classList.add('bg-blue-600', 'text-white', 'active');
+            }
+
+            const cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize App
+        changeLanguage('th');
+    </script>
+</body>
+</html>
