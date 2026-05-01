@@ -320,6 +320,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Video Showcase Section -->
+    <section id="showcase" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 data-key="showcaseTitle" class="section-title text-3xl text-white">วิดีโอผลงานของเรา</h2>
+                <p data-key="showcaseSubtitle" class="max-w-2xl mx-auto mt-2 text-[#EAE7D6]">รับชมแรงบันดาลใจและคุณภาพงานออกแบบของเราผ่านวิดีโอ</p>
+            </div>
+            <div class="max-w-5xl mx-auto rounded-lg overflow-hidden shadow-2xl glass-card p-2 md:p-4">
+                <div class="aspect-video w-full rounded-lg overflow-hidden">
+                    <iframe src="https://player.vimeo.com/video/1187998377?title=0&byline=0&portrait=0&badge=0" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <!-- Portfolio Section -->
     <section id="portfolio" class="py-20 bg-[#55593E]">
@@ -499,6 +514,8 @@
                 aiKeywords: "Additional Keywords (Optional)",
                 aiKeywordsPlaceholder: "e.g., lots of storage, natural light",
                 aiCTA: "✨ Generate with AI",
+                showcaseTitle: "Video Showcase",
+                showcaseSubtitle: "Watch our design inspiration and quality through this video.",
                 podcastTitle: "Design Insights Podcast",
                 podcastSubtitle: "Listen to our latest episode on 2025 interior design trends and personality-driven design.",
                 portfolioTitle: "Our Work",
@@ -585,6 +602,8 @@
                 aiKeywords: "คำสำคัญเพิ่มเติม (ถ้ามี)",
                 aiKeywordsPlaceholder: "เช่น ต้องการพื้นที่เก็บของเยอะ, ชอบแสงธรรมชาติ",
                 aiCTA: "✨ สร้างสรรค์ไอเดียด้วย AI",
+                showcaseTitle: "วิดีโอผลงานของเรา",
+                showcaseSubtitle: "รับชมแรงบันดาลใจและคุณภาพงานออกแบบของเราผ่านวิดีโอ",
                 podcastTitle: "พอดแคสต์สาระน่ารู้เรื่องดีไซน์",
                 podcastSubtitle: "ฟังตอนล่าสุดของเรา ที่จะพูดคุยเกี่ยวกับเทรนด์การออกแบบตกแต่งภายในปี 2025 และการนำบุคลิกภาพมาประยุกต์ใช้กับงานดีไซน์",
                 portfolioTitle: "ผลงานของเรา",
@@ -671,6 +690,8 @@
                 aiKeywords: "Дополнительные ключевые слова (по желанию)",
                 aiKeywordsPlaceholder: "например, много места для хранения, естественный свет",
                 aiCTA: "✨ Сгенерировать с помощью ИИ",
+                showcaseTitle: "Видео-презентация",
+                showcaseSubtitle: "Смотрите наше вдохновение и качество дизайна в этом видео.",
                 podcastTitle: "Подкаст о дизайне",
                 podcastSubtitle: "Послушайте наш последний выпуск о тенденциях в дизайне интерьеров 2025 года и дизайне, основанном на личности.",
                 portfolioTitle: "Наши работы",
@@ -757,6 +778,8 @@
                 aiKeywords: "其他关键词（可选）",
                 aiKeywordsPlaceholder: "例如：大量储物空间、自然光",
                 aiCTA: "✨ 使用AI生成",
+                showcaseTitle: "视频展示",
+                showcaseSubtitle: "通过视频观看我们的设计灵感和质量。",
                 podcastTitle: "设计见解播客",
                 podcastSubtitle: "收听我们关于2025年室内设计趋势和个性化设计的最新一期。",
                 portfolioTitle: "我们的作品",
@@ -862,7 +885,7 @@
             const keywords = document.getElementById('keywords').value;
 
             if (!style) {
-                alert('กรุณาใส่สไตล์ที่ชอบ');
+                alert('กรุณาใส่สไตล์ที่ชอบ / Please enter your preferred style');
                 return;
             }
 
@@ -878,8 +901,10 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = "AIzaSyDj_fOvwZ80qfWaryvy5FNjSiyKt1wAF04";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            // ใช้ apiKey ว่างเปล่าตามข้อกำหนดของระบบ เพื่อให้สภาพแวดล้อมฉีด key เข้ามาใช้งานได้
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             try {
                 const response = await fetch(apiUrl, {
@@ -906,7 +931,7 @@
 
             } catch (error) {
                 console.error("Error calling Gemini API:", error);
-                resultContainer.textContent = 'เกิดข้อผิดพลาดในการสร้างไอเดีย โปรดลองอีกครั้งในภายหลัง';
+                resultContainer.textContent = 'เกิดข้อผิดพลาดในการสร้างไอเดีย โปรดลองอีกครั้งในภายหลัง หรือตรวจสอบ API Key\n(ระบบนี้จำลองการรัน คุณอาจต้องรันโค้ดนอกสภาพแวดล้อมนี้หากต้องการใช้ API Key ส่วนตัว)';
                 resultContainer.style.display = 'block';
             } finally {
                 loader.classList.add('hidden');
@@ -952,4 +977,3 @@
     </script>
 </body>
 </html>
-
