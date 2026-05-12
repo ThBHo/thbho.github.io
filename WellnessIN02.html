@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellness Intelligence 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--glow:#e94560;--gold:#f5a623;--green:#2ecc71;--blue:#4fc3f7;--amber:#ff8c42;--bg:#0a0a1a;--surface:#111128;--surface2:#1a1a35;--text:#e8e8f0;--muted:#8888aa;--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun','Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
+html[lang="zh"] body{font-family:'Noto Sans SC','Inter',sans-serif}
+html[lang="en"] body,html[lang="ru"] body{font-family:'Inter','Sarabun',sans-serif}
+
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#e94560,#f5a623,#4fc3f7);width:0%;z-index:1000;transition:width .1s ease}
+
+nav{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:999;padding:10px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.nav-brand{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.nav-links{display:flex;gap:20px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.lang-switcher{display:flex;gap:4px;margin-left:auto}
+.lang-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.lang-btn:hover{color:var(--text);border-color:rgba(79,195,247,.4)}
+.lang-btn.active{background:rgba(79,195,247,.15);border-color:rgba(79,195,247,.5);color:var(--blue)}
+
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(79,195,247,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 70%,rgba(233,69,96,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 20% 60%,rgba(245,166,35,.05) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,195,247,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,195,247,.03) 1px,transparent 1px);background-size:40px 40px}
+.hero-content{position:relative;max-width:820px}
+.hero-tag{display:inline-block;background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.3);color:var(--blue);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:20px;margin-bottom:24px}
+.hero h1{font-size:clamp(30px,5vw,54px);font-weight:700;line-height:1.2;margin-bottom:18px;background:linear-gradient(135deg,#e8e8f0 0%,#4fc3f7 50%,#f5a623 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:var(--muted);max-width:620px;margin:0 auto 36px;line-height:1.8}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-size:36px;font-weight:700;color:var(--blue);display:block;line-height:1;margin-bottom:4px}
+.stat-label{font-size:11px;color:var(--muted)}
+.scroll-indicator{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:11px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* Featured Image */
+.featured-image-wrap{max-width:860px;margin:0 auto;padding:0 40px 0}
+.featured-image-frame{border-radius:20px;overflow:hidden;border:1px solid var(--border);position:relative;background:var(--surface)}
+.featured-image-frame img{width:100%;display:block;object-fit:cover;max-height:460px}
+.featured-image-caption{padding:14px 20px;background:var(--surface);display:flex;align-items:center;gap:10px}
+.caption-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.caption-text{font-size:12px;color:var(--muted);line-height:1.5}
+
+.container{max-width:860px;margin:0 auto;padding:0 40px}
+section{padding:72px 0}
+.section-number{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--glow);margin-bottom:10px;display:block}
+h2.section-title{font-size:clamp(22px,3vw,30px);font-weight:700;margin-bottom:20px;line-height:1.3;color:var(--text)}
+h2.section-title span{color:var(--blue)}
+.section-body{font-size:15px;color:rgba(232,232,240,.85);line-height:1.95;margin-bottom:20px}
+.section-divider{border:none;height:1px;background:var(--border);margin:0}
+.quote-block{border-left:3px solid var(--blue);padding:18px 24px;background:rgba(79,195,247,.04);border-radius:0 12px 12px 0;margin:28px 0}
+.quote-block p{font-size:16px;font-style:italic;color:var(--blue);line-height:1.8}
+
+/* Light viz */
+.light-visualizer,.circadian-chart,.sound-demo,.mirror-demo{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin:32px 0}
+.viz-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+.light-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.light-stage{border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .3s ease}
+.light-stage:hover{transform:translateY(-2px)}
+.light-stage.active{border-color:rgba(255,255,255,.35);transform:translateY(-4px)}
+.light-stage-icon{font-size:26px;margin-bottom:6px;display:block}
+.light-stage-name{font-size:11px;font-weight:700;display:block;margin-bottom:3px}
+.light-stage-cct{font-size:10px;opacity:.65;display:block;margin-bottom:6px}
+.light-stage-effect{font-size:10px;line-height:1.4;opacity:.85}
+.light-preview{height:72px;border-radius:12px;transition:background .6s ease;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff}
+
+/* Chart */
+.chart-bars{display:flex;align-items:flex-end;gap:3px;height:110px;margin:12px 0}
+.chart-bar{flex:1;border-radius:3px 3px 0 0;transition:all .5s ease;cursor:pointer;position:relative}
+.chart-bar:hover::after{content:attr(data-label);position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;font-size:10px;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:10}
+.chart-labels{display:flex;gap:3px;padding-top:6px;border-top:1px solid var(--border)}
+.chart-label{flex:1;text-align:center;font-size:9px;color:var(--muted)}
+
+/* Mirror */
+.mirror-demo{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.mirror-image-side{position:relative;border-radius:16px;overflow:hidden;background:var(--surface2)}
+.mirror-image-side img{width:100%;display:block;border-radius:16px}
+.mirror-scan-overlay{position:absolute;inset:0;pointer-events:none}
+.scan-line-anim{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);animation:scan 2.5s linear infinite;opacity:0}
+.scan-line-anim.scanning{opacity:1}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.mirror-metrics{display:flex;flex-direction:column;gap:10px}
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface2);border-radius:10px}
+.metric-label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.metric-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.metric-value{font-size:14px;font-weight:700}
+.metric-value.ok{color:var(--green)}
+.metric-value.warn{color:var(--gold)}
+.metric-value.alert{color:var(--glow)}
+.scan-btn{margin-top:12px;width:100%;padding:11px;background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.3);border-radius:10px;color:var(--blue);font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;font-family:inherit}
+.scan-btn:hover{background:rgba(79,195,247,.2)}
+.scan-btn:disabled{opacity:.6;cursor:wait}
+.ai-rec{margin-top:10px;padding:12px;background:var(--surface2);border-radius:10px;font-size:12px;color:var(--blue);line-height:1.6;display:none}
+
+/* Sound */
+.sound-waves{display:flex;align-items:center;justify-content:center;gap:4px;height:70px;margin:16px 0}
+.wave-bar{width:5px;background:var(--blue);border-radius:3px;opacity:.65}
+.wave-bar.playing{animation:wv .8s ease-in-out infinite}
+@keyframes wv{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+.sound-controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.sound-btn{padding:9px 18px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+.sound-btn:hover,.sound-btn.active{background:rgba(79,195,247,.12);border-color:rgba(79,195,247,.4);color:var(--blue)}
+.noise-bar-wrap{margin-top:20px;padding:16px;background:var(--surface2);border-radius:12px}
+
+/* Privacy */
+.privacy-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.privacy-card{border-radius:12px;padding:18px;border:1px solid}
+.privacy-card.safe{background:rgba(46,204,113,.05);border-color:rgba(46,204,113,.2)}
+.privacy-card.risk{background:rgba(233,69,96,.05);border-color:rgba(233,69,96,.2)}
+.privacy-card-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.privacy-card.safe .privacy-card-title{color:var(--green)}
+.privacy-card.risk .privacy-card-title{color:var(--glow)}
+.privacy-brand{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.privacy-brand:last-child{border-bottom:none}
+.brand-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.safe .brand-dot{background:var(--green)}
+.risk .brand-dot{background:var(--glow)}
+
+/* Final */
+.final-question{background:var(--surface);border:1px solid rgba(79,195,247,.2);border-radius:20px;padding:44px 36px;text-align:center;margin:52px 0;position:relative;overflow:hidden}
+.final-question::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(79,195,247,.06) 0%,transparent 70%);pointer-events:none}
+.question-text{font-size:clamp(17px,2.5vw,22px);font-weight:700;line-height:1.5;margin-bottom:28px;color:var(--text)}
+.question-text em{color:var(--blue);font-style:normal}
+.answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:480px;margin:0 auto 28px}
+.answer-btn{padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;cursor:pointer;transition:all .3s;font-family:inherit;line-height:1.5}
+.answer-btn:hover{transform:translateY(-2px);border-color:rgba(79,195,247,.4);background:rgba(79,195,247,.08)}
+.answer-btn.pos{background:rgba(46,204,113,.1);border-color:var(--green);color:var(--green)}
+.answer-btn.neg{background:rgba(233,69,96,.1);border-color:var(--glow);color:var(--glow)}
+.answer-result{font-size:14px;color:var(--muted);line-height:1.75;display:none;margin-top:20px;padding:18px 22px;background:var(--surface2);border-radius:12px;text-align:left}
+.answer-result.visible{display:block}
+
+/* Tag */
+.tag-list{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.tag{padding:4px 12px;border-radius:20px;font-size:11px;border:1px solid}
+.tag.blue{background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.3);color:var(--blue)}
+.tag.gold{background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.3);color:var(--gold)}
+.tag.green{background:rgba(46,204,113,.08);border-color:rgba(46,204,113,.3);color:var(--green)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+footer{border-top:1px solid var(--border);padding:36px 40px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+
+@media(max-width:640px){
+  nav{padding:10px 16px}
+  .nav-links{display:none}
+  .container,.featured-image-wrap{padding:0 16px}
+  .mirror-demo{grid-template-columns:1fr}
+  .privacy-grid{grid-template-columns:1fr}
+  .answer-grid{grid-template-columns:1fr}
+  .light-stages{grid-template-columns:repeat(2,1fr)}
+  .hero-stats{gap:20px}
+  .hero{padding:100px 20px 60px}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <span class="nav-brand" data-i18n="nav.brand">Wellness Intelligence 2026</span>
+  <ul class="nav-links">
+    <li><a href="#sanctuary" data-i18n="nav.sanctuary">สถานพยาบาล</a></li>
+    <li><a href="#light" data-i18n="nav.light">แสงสว่าง</a></li>
+    <li><a href="#mirror" data-i18n="nav.mirror">กระจก AI</a></li>
+    <li><a href="#sound" data-i18n="nav.sound">เสียง</a></li>
+    <li><a href="#privacy" data-i18n="nav.privacy">ความปลอดภัย</a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="th" onclick="switchLang('th')">TH</button>
+    <button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+    <button class="lang-btn" data-lang="ru" onclick="switchLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="zh" onclick="switchLang('zh')">中文</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag" data-i18n="hero.tag">Tech Lifestyle · 2026</div>
+    <h1 data-i18n="hero.h1">เมื่อบ้านกลายเป็น<br>"คู่หูทางชีวภาพ"</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Wellness Intelligence: นวัตกรรมที่เปลี่ยนที่พักอาศัยให้กลายเป็นห้องปฏิบัติการมีชีวิตเพื่ออายุขัยที่ยืนยาวแห่งปี 2026</p>
+    <div class="tag-list" style="justify-content:center">
+      <span class="tag blue" data-i18n="tag.1">Circadian Rhythm</span>
+      <span class="tag gold" data-i18n="tag.2">Biometric Data</span>
+      <span class="tag green" data-i18n="tag.3">Longevity Science</span>
+      <span class="tag blue" data-i18n="tag.4">AI Diagnostics</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num" id="c90">0</span><span class="stat-label" data-i18n="stat.1">% เวลาในอาคาร</span></div>
+      <div class="stat-item"><span class="stat-num" id="c30">0</span><span class="stat-label" data-i18n="stat.2">สัญญาณชีพที่ตรวจได้</span></div>
+      <div class="stat-item"><span class="stat-num" id="c22">0</span><span class="stat-label" data-i18n="stat.3">นาที หลับเร็วขึ้น</span></div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span data-i18n="hero.scroll">เลื่อนอ่าน</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</header>
+
+<!-- FEATURED IMAGE 1 -->
+<div class="featured-image-wrap reveal" style="padding-top:0;padding-bottom:0">
+  <div class="featured-image-frame">
+    <img src="https://i.postimg.cc/TPBdHYV2/Screenshot-2569-05-12-at-15-40-13.png" alt="Wellness Intelligence Dashboard 2026" loading="lazy">
+    <div class="featured-image-caption">
+      <div class="caption-dot"></div>
+      <span class="caption-text" data-i18n="img1.caption">Wellness Intelligence Dashboard — ระบบ Active Biological Optimization ที่บูรณาการข้อมูลสิ่งแวดล้อมแบบ Real-time ปี 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section id="sanctuary">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-number" data-i18n="s1.num">01 — The Longevity Sanctuary</span>
+      <h2 class="section-title" data-i18n="s1.title">จาก "ที่ซุกหัวนอน" สู่ <span>"สถานพยาบาลเพื่อความยั่งยืน"</span></h2>
+      <p class="section-body" data-i18n="s1.body1">ในอดีต สถาปัตยกรรมเน้นการสร้างเกราะกำบัง (Shelter) แต่ปัจจุบันเรากำลังเข้าสู่ยุค <strong>Active Biological Optimization</strong> หรือการออกแบบพื้นที่เพื่อเพิ่มประสิทธิภาพทางชีวภาพเชิงรุก บ้านในอนาคตจะทำหน้าที่เป็น "สถานวิจัยที่เน้นมนุษย์เป็นศูนย์กลาง" ซึ่งตรวจสอบสภาพแวดล้อมอย่างละเอียด ทั้งคุณภาพอากาศ (IAQ), ความบริสุทธิ์ของน้ำ และความสอดคล้องของแสง</p>
+      <p class="section-body" data-i18n="s1.body2">หัวใจสำคัญคือการเปลี่ยนจุดโฟกัสจากการมีอายุยืนเพียงตัวเลข (<strong>Lifespan</strong>) ไปสู่การมีช่วงชีวิตที่มีสุขภาพดี (<strong>Healthspan</strong>) เพราะการจัดการสิ่งแวดล้อมในบ้านทุกวันส่งผลต่อสุขภาพมากกว่าการไปพบแพทย์ที่คลินิกเมื่อเริ่มเจ็บป่วย</p>
+    </div>
+    <div class="reveal">
+      <div class="quote-block"><p data-i18n="s1.quote">"Wellness Intelligence กำลังยกระดับสถานะของบ้านให้กลายเป็น 'สถานพยาบาลเพื่ออายุยืนยาวระดับเกรดการแพทย์' ที่ไม่ใช่แค่ฉากหลังของการใช้ชีวิต แต่คือระบบปฏิบัติการที่ดูแลเซลล์ทุกเซลล์ในร่างกายคุณ"</p></div>
+    </div>
+  </div>
+</section>
+<hr class="section-divider">
+
+<!-- SECTION 2: LIGHT -->
+<section id="light">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-number" data-i18n="s2.num">02 — Bio-Rhythm Syncing</span>
+      <h2 class="section-title" data-i18n="s2.title">แสงไฟ: <span>วาทยกรที่มองไม่เห็น</span>ของวงดนตรีชีวภาพ</h2>
+      <p class="section-body" data-i18n="s2.body1">แสงสว่างคือปัจจัยที่ทรงอิทธิพลที่สุดต่อ "นาฬิกาชีวิต" (Circadian Rhythm) ของมนุษย์ การได้รับแสงสีฟ้าจากหน้าจอผิดเวลาในสังคมเมืองทำให้ร่างกายสับสน แต่เทคโนโลยี Bio-Rhythm Syncing จะเข้ามาทำหน้าที่เป็น "วาทยกร" ปรับแต่งแสงในบ้านให้สอดคล้องกับวงจรธรรมชาติผ่านกลไกการกระตุ้นเซลล์ ipRGCs ในดวงตา</p>
+      <p class="section-body" data-i18n="s2.body2">คลิกที่แต่ละช่วงเวลาเพื่อดูว่าแสงแต่ละระดับส่งผลต่อร่างกายอย่างไร:</p>
+    </div>
+    <div class="reveal">
+      <div class="light-visualizer">
+        <div class="viz-title" data-i18n="s2.viz">💡 Bio-Rhythm Light Simulator</div>
+        <div class="light-stages">
+          <div class="light-stage active" style="background:rgba(255,140,66,.15);color:#ffb070"
+            data-bg="linear-gradient(135deg,#ff8c42,#ffa726)"
+            data-i18n-preview="light.morning.preview"
+            onclick="selectStage(this)">
+            <span class="light-stage-icon">🌅</span>
+            <span class="light-stage-name" data-i18n="light.morning">Morning</span>
+            <span class="light-stage-cct">2700K–3500K</span>
+            <span class="light-stage-effect" data-i18n="light.morning.eff">กระตุ้น Cortisol ค่อยๆ ปลุกร่างกาย</span>
+          </div>
+          <div class="light-stage" style="background:rgba(79,195,247,.1);color:#81d4fa"
+            data-bg="linear-gradient(135deg,#4fc3f7,#e3f2fd)"
+            data-i18n-preview="light.midday.preview"
+            onclick="selectStage(this)">
+            <span class="light-stage-icon">☀️</span>
+            <span class="light-stage-name" data-i18n="light.midday">Mid-day</span>
+            <span class="light-stage-cct">4500K–6500K</span>
+            <span class="light-stage-effect" data-i18n="light.midday.eff">Peak Performance เพิ่มสมาธิ 38%</span>
+          </div>
+          <div class="light-stage" style="background:rgba(245,166,35,.1);color:#f5a623"
+            data-bg="linear-gradient(135deg,#f5a623,#ff8c42)"
+            data-i18n-preview="light.evening.preview"
+            onclick="selectStage(this)">
+            <span class="light-stage-icon">🌆</span>
+            <span class="light-stage-name" data-i18n="light.evening">Evening</span>
+            <span class="light-stage-cct">2200K–2700K</span>
+            <span class="light-stage-effect" data-i18n="light.evening.eff">ตัดแสงสีฟ้า เตรียมโหมดพักผ่อน</span>
+          </div>
+          <div class="light-stage" style="background:rgba(100,60,20,.2);color:#d4a574"
+            data-bg="linear-gradient(135deg,#3d2b1f,#5c3a1e)"
+            data-i18n-preview="light.night.preview"
+            onclick="selectStage(this)">
+            <span class="light-stage-icon">🌙</span>
+            <span class="light-stage-name" data-i18n="light.night">Night</span>
+            <span class="light-stage-cct">1800K–2000K</span>
+            <span class="light-stage-effect" data-i18n="light.night.eff">โทนอำพัน นอนหลับลึกสุด</span>
+          </div>
+        </div>
+        <div class="light-preview" id="light-preview" style="background:linear-gradient(135deg,#ff8c42,#ffa726)">
+          <span id="light-preview-text" data-i18n="light.morning.preview">🌅 ตื่นตัว · กระตุ้น Cortisol · เริ่มต้นวัน</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="circadian-chart">
+        <div class="viz-title" data-i18n="s2.chart">📊 ระดับฮอร์โมนตลอด 24 ชั่วโมง</div>
+        <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+          <span style="font-size:11px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#f5a623;display:inline-block"></span><span data-i18n="chart.cortisol">Cortisol (ความตื่นตัว)</span></span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#4fc3f7;display:inline-block"></span><span data-i18n="chart.melatonin">Melatonin (ความง่วง)</span></span>
+        </div>
+        <div style="display:flex;gap:16px">
+          <div style="flex:1">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px" data-i18n="chart.cortisol.label">Cortisol</div>
+            <div class="chart-bars" id="cortisol-bars"></div>
+            <div class="chart-labels" id="cortisol-labels"></div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px" data-i18n="chart.melatonin.label">Melatonin</div>
+            <div class="chart-bars" id="melatonin-bars"></div>
+            <div class="chart-labels" id="melatonin-labels"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="section-divider">
+
+<!-- SECTION 3: MIRROR -->
+<section id="mirror">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-number" data-i18n="s3.num">03 — AI Mirror Diagnostics</span>
+      <h2 class="section-title" data-i18n="s3.title">กระจกเงาที่ <span>อ่านลึกถึงจิตวิญญาณ</span></h2>
+      <p class="section-body" data-i18n="s3.body1">ลืมกระจกแบบเดิมๆ ไปได้เลย เพราะในพื้นที่ Wellness Intelligence กระจกคือ "พอร์ทัล" สู่การวินิจฉัยสุขภาพเชิงรุกผ่านเทคโนโลยี <strong>rPPG (Remote Photoplethysmography)</strong> ที่ตรวจจับการเปลี่ยนแปลงของสีผิวตามจังหวะการสูบฉีดเลือดได้โดยไม่ต้องสัมผัส</p>
+      <p class="section-body" data-i18n="s3.body2">นวัตกรรมอย่าง <strong>NuraLogix Longevity Mirror</strong> หรือแพลตฟอร์ม <strong>Shen AI</strong> สามารถวิเคราะห์สัญญาณชีพได้มากกว่า 30 รายการ ภายในเวลาไม่ถึง 60 วินาที กระจก BMind จะใช้ระบบ Emotion Mapping ตรวจจับ Micro-movements บนใบหน้า</p>
+    </div>
+    <div class="reveal">
+      <div class="mirror-demo">
+        <div class="mirror-image-side">
+          <img src="https://i.postimg.cc/pd5x8bwM/AI-MIRROW.png" alt="AI Mirror Diagnostics" loading="lazy">
+          <div class="mirror-scan-overlay">
+            <div class="scan-line-anim" id="scan-line"></div>
+          </div>
+        </div>
+        <div class="mirror-metrics">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px" data-i18n="mirror.title">Biometric Analysis</div>
+          <div class="metric-row">
+            <span class="metric-label"><span class="metric-dot" style="background:#4fc3f7"></span><span data-i18n="metric.hr">Heart Rate</span></span>
+            <span class="metric-value ok" id="m-hr">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label"><span class="metric-dot" style="background:#f5a623"></span><span data-i18n="metric.bp">Blood Pressure</span></span>
+            <span class="metric-value ok" id="m-bp">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label"><span class="metric-dot" style="background:#2ecc71"></span>SpO₂</span>
+            <span class="metric-value ok" id="m-spo2">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label"><span class="metric-dot" style="background:#e94560"></span><span data-i18n="metric.stress">Stress Index</span></span>
+            <span class="metric-value ok" id="m-stress">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label"><span class="metric-dot" style="background:#9c27b0"></span><span data-i18n="metric.mood">Mood Score</span></span>
+            <span class="metric-value ok" id="m-mood">—</span>
+          </div>
+          <button class="scan-btn" onclick="runScan()" id="scan-btn" data-i18n="scan.btn">🔍 เริ่มสแกน Biometrics</button>
+          <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center" id="scan-status" data-i18n="scan.ready">พร้อมสแกน</p>
+          <div class="ai-rec" id="ai-rec" data-i18n="scan.result">ผล AI จะแสดงที่นี่หลังสแกน</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="section-divider">
+
+<!-- SECTION 4: SOUND -->
+<section id="sound">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-number" data-i18n="s4.num">04 — Biophilic Soundscapes</span>
+      <h2 class="section-title" data-i18n="s4.title">พลังแห่ง <span>เสียงธรรมชาติ</span>ที่สร้างสมาธิ</h2>
+      <p class="section-body" data-i18n="s4.body1">เสียงรบกวนในเมืองคือ "มลพิษเงียบ" ที่สร้างความล้าให้กับสมอง แต่ Wellness Intelligence นำเสนอทางออกด้วย <strong>Biophilic Soundscapes</strong> หรือเสียงธรรมชาติที่มีโครงสร้างแบบ Fractal Sound ซึ่งแตกต่างจากเสียงรบกวนทางเครื่องจักรอย่างสิ้นเชิง</p>
+      <p class="section-body" data-i18n="s4.body2">การใช้เทคโนโลยีอย่าง <strong>Moodsonic</strong> ในบ้าน สามารถลดสิ่งรบกวนได้ถึง 85–90% โดยกระตุ้นให้สมองสร้างคลื่น Alpha และ Theta ระบบ Circadian Audio จะทำงานสอดประสานกับแสงไฟตลอด 24 ชั่วโมง</p>
+    </div>
+    <div class="reveal">
+      <div class="sound-demo">
+        <div class="viz-title" data-i18n="s4.viz">🎵 Circadian Audio Visualizer</div>
+        <div class="sound-waves" id="sound-waves"></div>
+        <div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px" id="sound-label" data-i18n="sound.default">เลือกโหมดเสียงที่ต้องการ</div>
+        <div class="sound-controls">
+          <button class="sound-btn" style="color:#ff8c42;border-color:rgba(255,140,66,.3)" data-sound="morning" onclick="selectSound(this,'morning')" data-i18n="sound.morning">🐦 Morning Wake</button>
+          <button class="sound-btn" style="color:#4fc3f7;border-color:rgba(79,195,247,.3)" data-sound="work" onclick="selectSound(this,'work')" data-i18n="sound.work">🌊 Focus Flow</button>
+          <button class="sound-btn" style="color:#2ecc71;border-color:rgba(46,204,113,.3)" data-sound="evening" onclick="selectSound(this,'evening')" data-i18n="sound.evening">🌿 Evening Forest</button>
+          <button class="sound-btn" style="color:#9c7cce;border-color:rgba(156,124,206,.3)" data-sound="sleep" onclick="selectSound(this,'sleep')" data-i18n="sound.sleep">🌙 Deep Sleep</button>
+        </div>
+        <div class="noise-bar-wrap">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:12px;color:var(--muted)" data-i18n="sound.noise">ลดสิ่งรบกวน</span>
+            <span style="font-size:12px;font-weight:700;color:var(--blue)" id="noise-pct">0%</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div id="noise-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#4fc3f7,#2ecc71);border-radius:3px;transition:width 1s ease"></div></div>
+          <div style="display:flex;gap:12px;margin-top:14px">
+            <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--blue)" id="alpha-v">—</div><div style="font-size:10px;color:var(--muted)">Alpha</div></div>
+            <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--gold)" id="theta-v">—</div><div style="font-size:10px;color:var(--muted)">Theta</div></div>
+            <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--green)" id="mood-v">—</div><div style="font-size:10px;color:var(--muted)" data-i18n="sound.mood">Mood</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="section-divider">
+
+<!-- SECTION 5: PRIVACY -->
+<section id="privacy">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-number" data-i18n="s5.num">05 — Privacy-By-Design</span>
+      <h2 class="section-title" data-i18n="s5.title">ความเป็นส่วนตัวใน <span>ยุค Biometric</span></h2>
+      <p class="section-body" data-i18n="s5.body1">ยิ่งบ้าน "ฉลาด" เท่าไหร่ ความปลอดภัยของข้อมูลชีวภาพ (Biometric Data) ยิ่งสำคัญเท่านั้น การรั่วไหลของข้อมูลสุขภาพถือเป็นความเสี่ยงระดับสูงที่เรียกว่า <strong>Biometric Harvesting</strong></p>
+      <p class="section-body" data-i18n="s5.body2">เทรนด์ในปี 2026 จึงมุ่งไปที่แนวคิด <strong>"Privacy-by-design"</strong> โดยเฉพาะการประมวลผลผ่าน Edge Hubs หรือการให้ AI วิเคราะห์ข้อมูลภายในบ้านของคุณเองโดยไม่ส่งขึ้น Cloud เพื่อลดโอกาสถูกแฮ็ก</p>
+    </div>
+    <div class="reveal">
+      <div class="privacy-grid">
+        <div class="privacy-card safe">
+          <div class="privacy-card-title" data-i18n="priv.safe">✅ ความเสี่ยงต่ำ</div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Apple HomeKit</div><div style="font-size:11px;color:var(--muted)">On-device · E2E Encryption</div></div></div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Google Home + Matter</div><div style="font-size:11px;color:var(--muted)">Transparent policy · GDPR</div></div></div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Samsung SmartThings</div><div style="font-size:11px;color:var(--muted)">Local hub processing</div></div></div>
+        </div>
+        <div class="privacy-card risk">
+          <div class="privacy-card-title" data-i18n="priv.risk">⚠️ ความเสี่ยงสูง</div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Xiaomi Mi Home</div><div style="font-size:11px;color:var(--muted)">Cloud-dependent · Limited transparency</div></div></div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Wyze</div><div style="font-size:11px;color:var(--muted)">Previous data breach (2019)</div></div></div>
+          <div class="privacy-brand"><span class="brand-dot"></span><div><div style="font-weight:600;font-size:13px">Huawei Smart Home</div><div style="font-size:11px;color:var(--muted)">Unclear data governance</div></div></div>
+        </div>
+      </div>
+      <div style="background:rgba(79,195,247,.05);border:1px solid rgba(79,195,247,.2);border-radius:12px;padding:18px 22px">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px" data-i18n="priv.tip.title">💡 คำแนะนำ</div>
+        <p style="font-size:13px;color:rgba(232,232,240,.8);line-height:1.75" data-i18n="priv.tip.text">การเลือกใช้แบรนด์ที่รองรับมาตรฐาน <strong style="color:#4fc3f7">Matter</strong> จะช่วยให้ระบบต่างๆ คุยกันได้โดยยังรักษาความเป็นส่วนตัวไว้ เน้นอุปกรณ์ที่มี Edge Processing เพื่อให้ข้อมูล Biometric ไม่ออกจากบ้านคุณ</p>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="section-divider">
+
+<!-- FINAL -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <div class="final-question">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px" data-i18n="final.sub">บทสรุป · Inhabited Wellness</div>
+        <div class="question-text" data-i18n="final.question">"วันนี้บ้านของคุณกำลัง<em>ช่วยต่ออายุ</em>ให้คุณ<br>หรือกำลัง<em>ลดทอนสุขภาพ</em>ของคุณโดยไม่รู้ตัว?"</div>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:24px" data-i18n="final.prompt">ลองประเมินสภาพแวดล้อมในบ้านของคุณ:</p>
+        <div class="answer-grid">
+          <button class="answer-btn" data-ans="positive" onclick="selectAnswer(this)" data-i18n="ans.1">✅ บ้านฉันมีแสงธรรมชาติดี อากาศถ่ายเท นอนหลับสบาย</button>
+          <button class="answer-btn" data-ans="mixed" onclick="selectAnswer(this)" data-i18n="ans.2">🟡 บ้านดีบ้าง แต่ยังมีปัญหาเรื่องแสงหรือเสียงรบกวน</button>
+          <button class="answer-btn" data-ans="negative" onclick="selectAnswer(this)" data-i18n="ans.3">❌ ใช้จอมากเกินไป นอนดึก แสงในบ้านไม่เหมาะสม</button>
+          <button class="answer-btn" data-ans="upgrade" onclick="selectAnswer(this)" data-i18n="ans.4">🚀 อยากอัปเกรดบ้านสู่ Wellness Intelligence</button>
+        </div>
+        <div class="answer-result" id="answer-result"></div>
+      </div>
+    </div>
+    <div class="reveal" style="text-align:center;padding-bottom:40px">
+      <p style="font-size:14px;color:var(--muted);line-height:1.85;max-width:600px;margin:0 auto" data-i18n="final.closing">Wellness Intelligence กำลังนิยามความหมายของคำว่า "บ้าน" ใหม่ จากเดิมที่เป็นเพียง "เครื่องจักรสำหรับอยู่อาศัย" กลายเป็น <strong style="color:#4fc3f7">"ห้องปฏิบัติการมีชีวิตเพื่ออายุขัยที่ยืนยาว"</strong> ที่ดูแลเราทุกลมหายใจ</p>
+      <div class="tag-list" style="justify-content:center;margin-top:20px">
+        <span class="tag blue">#WellnessIntelligence</span>
+        <span class="tag gold">#Longevity2026</span>
+        <span class="tag green">#BiophilicDesign</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p data-i18n="footer.1">Wellness Intelligence · Tech Lifestyle Series 2026</p>
+  <p data-i18n="footer.2">เขียนโดยบรรณาธิการไลฟ์สไตล์เทคโนโลยี · ข้อมูลอ้างอิงจากงานวิจัยสาธารณะและรายงานอุตสาหกรรม</p>
+</footer>
+
+<script>
+const T = {
+  th:{
+    'nav.brand':'Wellness Intelligence 2026','nav.sanctuary':'สถานพยาบาล','nav.light':'แสงสว่าง','nav.mirror':'กระจก AI','nav.sound':'เสียง','nav.privacy':'ความปลอดภัย',
+    'hero.tag':'Tech Lifestyle · 2026','hero.h1':'เมื่อบ้านกลายเป็น<br>"คู่หูทางชีวภาพ"','hero.sub':'Wellness Intelligence: นวัตกรรมที่เปลี่ยนที่พักอาศัยให้กลายเป็นห้องปฏิบัติการมีชีวิตเพื่ออายุขัยที่ยืนยาวแห่งปี 2026',
+    'stat.1':'% เวลาในอาคาร','stat.2':'สัญญาณชีพที่ตรวจได้','stat.3':'นาที หลับเร็วขึ้น','hero.scroll':'เลื่อนอ่าน',
+    'tag.1':'Circadian Rhythm','tag.2':'Biometric Data','tag.3':'Longevity Science','tag.4':'AI Diagnostics',
+    'img1.caption':'Wellness Intelligence Dashboard — ระบบ Active Biological Optimization ที่บูรณาการข้อมูลสิ่งแวดล้อมแบบ Real-time ปี 2026',
+    's1.num':'01 — The Longevity Sanctuary','s1.title':'จาก "ที่ซุกหัวนอน" สู่ <span>"สถานพยาบาลเพื่อความยั่งยืน"</span>',
+    's1.body1':'ในอดีต สถาปัตยกรรมเน้นการสร้างเกราะกำบัง (Shelter) แต่ปัจจุบันเรากำลังเข้าสู่ยุค <strong>Active Biological Optimization</strong> บ้านในอนาคตจะทำหน้าที่เป็น "สถานวิจัยที่เน้นมนุษย์เป็นศูนย์กลาง" ซึ่งตรวจสอบสภาพแวดล้อมอย่างละเอียด ทั้งคุณภาพอากาศ (IAQ), ความบริสุทธิ์ของน้ำ และความสอดคล้องของแสง',
+    's1.body2':'หัวใจสำคัญคือการเปลี่ยนจุดโฟกัสจาก <strong>Lifespan</strong> ไปสู่ <strong>Healthspan</strong> เพราะการจัดการสิ่งแวดล้อมในบ้านทุกวันส่งผลต่อสุขภาพมากกว่าการไปพบแพทย์ที่คลินิกเมื่อเริ่มเจ็บป่วย',
+    's1.quote':'"Wellness Intelligence กำลังยกระดับสถานะของบ้านให้กลายเป็น \'สถานพยาบาลเพื่ออายุยืนยาวระดับเกรดการแพทย์\' ที่ไม่ใช่แค่ฉากหลังของการใช้ชีวิต แต่คือระบบปฏิบัติการที่ดูแลเซลล์ทุกเซลล์ในร่างกายคุณ"',
+    's2.num':'02 — Bio-Rhythm Syncing','s2.title':'แสงไฟ: <span>วาทยกรที่มองไม่เห็น</span>ของวงดนตรีชีวภาพ',
+    's2.body1':'แสงสว่างคือปัจจัยที่ทรงอิทธิพลที่สุดต่อ "นาฬิกาชีวิต" (Circadian Rhythm) เทคโนโลยี Bio-Rhythm Syncing จะปรับแต่งแสงในบ้านให้สอดคล้องกับวงจรธรรมชาติผ่านกลไกการกระตุ้นเซลล์ ipRGCs ในดวงตา',
+    's2.body2':'คลิกที่แต่ละช่วงเวลาเพื่อดูว่าแสงแต่ละระดับส่งผลต่อร่างกายอย่างไร:',
+    's2.viz':'💡 Bio-Rhythm Light Simulator','s2.chart':'📊 ระดับฮอร์โมนตลอด 24 ชั่วโมง',
+    'light.morning':'Morning','light.morning.eff':'กระตุ้น Cortisol ค่อยๆ ปลุกร่างกาย','light.morning.preview':'🌅 ตื่นตัว · กระตุ้น Cortisol · เริ่มต้นวัน',
+    'light.midday':'Mid-day','light.midday.eff':'Peak Performance เพิ่มสมาธิ 38%','light.midday.preview':'☀️ Peak Performance · สมาธิ +38% · Blue Light Maximum',
+    'light.evening':'Evening','light.evening.eff':'ตัดแสงสีฟ้า เตรียมโหมดพักผ่อน','light.evening.preview':'🌆 ลด Blue Light · กระตุ้น Melatonin · เตรียมพักผ่อน',
+    'light.night':'Night','light.night.eff':'โทนอำพัน นอนหลับลึกสุด','light.night.preview':'🌙 Amber Tone · ไม่รบกวน Melatonin · นอนหลับลึก',
+    'chart.cortisol':'Cortisol (ความตื่นตัว)','chart.melatonin':'Melatonin (ความง่วง)','chart.cortisol.label':'Cortisol','chart.melatonin.label':'Melatonin',
+    's3.num':'03 — AI Mirror Diagnostics','s3.title':'กระจกเงาที่ <span>อ่านลึกถึงจิตวิญญาณ</span>',
+    's3.body1':'กระจกคือ "พอร์ทัล" สู่การวินิจฉัยสุขภาพเชิงรุกผ่านเทคโนโลยี <strong>rPPG</strong> ที่ตรวจจับการเปลี่ยนแปลงของสีผิวตามจังหวะการสูบฉีดเลือดได้โดยไม่ต้องสัมผัส',
+    's3.body2':'<strong>NuraLogix Longevity Mirror</strong> หรือแพลตฟอร์ม <strong>Shen AI</strong> สามารถวิเคราะห์สัญญาณชีพได้มากกว่า 30 รายการ ภายในเวลาไม่ถึง 60 วินาที',
+    'mirror.title':'Biometric Analysis','metric.hr':'Heart Rate','metric.bp':'Blood Pressure','metric.stress':'Stress Index','metric.mood':'Mood Score',
+    'scan.btn':'🔍 เริ่มสแกน Biometrics','scan.ready':'พร้อมสแกน','scan.result':'💡 AI แนะนำ: สุขภาพโดยรวมอยู่ในเกณฑ์ดี ระดับความเครียดต่ำ แนะนำเพิ่มแสง Peak Performance ระหว่าง 9–11 โมงเช้า',
+    's4.num':'04 — Biophilic Soundscapes','s4.title':'พลังแห่ง <span>เสียงธรรมชาติ</span>ที่สร้างสมาธิ',
+    's4.body1':'เสียงรบกวนในเมืองคือ "มลพิษเงียบ" Wellness Intelligence นำเสนอ <strong>Biophilic Soundscapes</strong> หรือเสียงธรรมชาติที่มีโครงสร้างแบบ Fractal Sound ซึ่งแตกต่างจากเสียงรบกวนอย่างสิ้นเชิง',
+    's4.body2':'<strong>Moodsonic</strong> สามารถลดสิ่งรบกวนได้ถึง 85–90% โดยกระตุ้นให้สมองสร้างคลื่น Alpha และ Theta ระบบ Circadian Audio ทำงานสอดประสานกับแสงไฟตลอด 24 ชั่วโมง',
+    's4.viz':'🎵 Circadian Audio Visualizer',
+    'sound.default':'เลือกโหมดเสียงที่ต้องการ','sound.morning':'🐦 Morning Wake','sound.work':'🌊 Focus Flow','sound.evening':'🌿 Evening Forest','sound.sleep':'🌙 Deep Sleep','sound.noise':'ลดสิ่งรบกวน','sound.mood':'Mood',
+    's5.num':'05 — Privacy-By-Design','s5.title':'ความเป็นส่วนตัวใน <span>ยุค Biometric</span>',
+    's5.body1':'ยิ่งบ้าน "ฉลาด" เท่าไหร่ ความปลอดภัยของข้อมูลชีวภาพ (Biometric Data) ยิ่งสำคัญ การรั่วไหลถือเป็นความเสี่ยงระดับสูงที่เรียกว่า <strong>Biometric Harvesting</strong>',
+    's5.body2':'เทรนด์ปี 2026 มุ่งไปที่ <strong>"Privacy-by-design"</strong> ผ่าน Edge Hubs ให้ AI วิเคราะห์ข้อมูลภายในบ้านโดยไม่ส่งขึ้น Cloud',
+    'priv.safe':'✅ ความเสี่ยงต่ำ','priv.risk':'⚠️ ความเสี่ยงสูง','priv.tip.title':'💡 คำแนะนำ',
+    'priv.tip.text':'การเลือกใช้แบรนด์ที่รองรับมาตรฐาน <strong style="color:#4fc3f7">Matter</strong> จะช่วยให้ระบบต่างๆ คุยกันได้โดยยังรักษาความเป็นส่วนตัวไว้ เน้นอุปกรณ์ที่มี Edge Processing',
+    'final.sub':'บทสรุป · Inhabited Wellness',
+    'final.question':'"วันนี้บ้านของคุณกำลัง<em>ช่วยต่ออายุ</em>ให้คุณ<br>หรือกำลัง<em>ลดทอนสุขภาพ</em>ของคุณโดยไม่รู้ตัว?"',
+    'final.prompt':'ลองประเมินสภาพแวดล้อมในบ้านของคุณ:',
+    'ans.1':'✅ บ้านฉันมีแสงธรรมชาติดี อากาศถ่ายเท นอนหลับสบาย','ans.2':'🟡 บ้านดีบ้าง แต่ยังมีปัญหาเรื่องแสงหรือเสียงรบกวน',
+    'ans.3':'❌ ใช้จอมากเกินไป นอนดึก แสงในบ้านไม่เหมาะสม','ans.4':'🚀 อยากอัปเกรดบ้านสู่ Wellness Intelligence',
+    'res.positive':'🎉 ยอดเยี่ยม! บ้านของคุณกำลังทำงานเพื่อสุขภาพที่ดี ขั้นต่อไปลองเพิ่ม Bio-Rhythm Lighting หรือ AI Mirror Diagnostics เพื่อยกระดับสู่ Wellness Intelligence อย่างสมบูรณ์',
+    'res.mixed':'🌱 เริ่มต้นที่แสงก่อนเลย! ลงทุนใน Smart Bulb ที่ปรับ CCT ได้ตามวงจร Circadian อย่าง Philips Hue หรือ LIFX จะเห็นความเปลี่ยนแปลงภายใน 2–3 สัปดาห์',
+    'res.negative':'⚡ เริ่มจากสิ่งง่ายๆ: ตั้งค่า Night Mode บนทุกหน้าจอ ใช้ฟิลเตอร์แสงสีฟ้า และพยายามปิดไฟดาวน์ไลท์หลัง 21.00 น.',
+    'res.upgrade':'🚀 เริ่มจาก Matter-compatible Hub + Circadian Lighting จากนั้นค่อยๆ เพิ่ม IAQ Sensor และ Smart Speaker สำหรับ Biophilic Soundscapes',
+    'final.closing':'Wellness Intelligence กำลังนิยามความหมายของคำว่า "บ้าน" ใหม่ จากเดิมที่เป็น "เครื่องจักรสำหรับอยู่อาศัย" กลายเป็น <strong style="color:#4fc3f7">"ห้องปฏิบัติการมีชีวิตเพื่ออายุขัยที่ยืนยาว"</strong>',
+    'footer.1':'Wellness Intelligence · Tech Lifestyle Series 2026','footer.2':'เขียนโดยบรรณาธิการไลฟ์สไตล์เทคโนโลยี · ข้อมูลอ้างอิงจากงานวิจัยสาธารณะและรายงานอุตสาหกรรม'
+  },
+  en:{
+    'nav.brand':'Wellness Intelligence 2026','nav.sanctuary':'Sanctuary','nav.light':'Light','nav.mirror':'AI Mirror','nav.sound':'Sound','nav.privacy':'Privacy',
+    'hero.tag':'Tech Lifestyle · 2026','hero.h1':'When Your Home Becomes a<br>"Biological Partner"','hero.sub':'Wellness Intelligence: The innovation transforming living spaces into living laboratories for longevity in 2026',
+    'stat.1':'% time indoors','stat.2':'vital signs detectable','stat.3':'min faster to sleep','hero.scroll':'Scroll down',
+    'tag.1':'Circadian Rhythm','tag.2':'Biometric Data','tag.3':'Longevity Science','tag.4':'AI Diagnostics',
+    'img1.caption':'Wellness Intelligence Dashboard — Active Biological Optimization system integrating real-time environmental data, 2026',
+    's1.num':'01 — The Longevity Sanctuary','s1.title':'From "Shelter" to <span>"Longevity Sanctuary"</span>',
+    's1.body1':'Architecture once focused purely on shelter. Today we are entering the era of <strong>Active Biological Optimization</strong> — designing spaces to proactively enhance biological performance. Future homes will function as human-centered research facilities continuously monitoring air quality (IAQ), water purity, and light alignment.',
+    's1.body2':'The key shift is from mere <strong>Lifespan</strong> (living longer) to <strong>Healthspan</strong> (living better). Daily environmental management in the home has a greater impact on long-term health than occasional clinic visits.',
+    's1.quote':'"Wellness Intelligence is elevating the home to a medical-grade longevity sanctuary — not merely the backdrop of life, but the operating system that cares for every cell in your body."',
+    's2.num':'02 — Bio-Rhythm Syncing','s2.title':'Light: <span>The Invisible Conductor</span> of Your Biological Orchestra',
+    's2.body1':'Light is the most powerful driver of the human Circadian Rhythm. Blue light exposure at the wrong times in urban life confuses the body. Bio-Rhythm Syncing technology acts as a "conductor," tuning home lighting to align with natural cycles by stimulating ipRGC cells in the eye.',
+    's2.body2':'Click each time block to see how light at each level affects your body:',
+    's2.viz':'💡 Bio-Rhythm Light Simulator','s2.chart':'📊 Hormone Levels Over 24 Hours',
+    'light.morning':'Morning','light.morning.eff':'Stimulates Cortisol, gently wakes the body','light.morning.preview':'🌅 Alertness · Cortisol Boost · Start the Day',
+    'light.midday':'Mid-day','light.midday.eff':'Peak Performance, boosts focus by 38%','light.midday.preview':'☀️ Peak Performance · Focus +38% · Blue Light Maximum',
+    'light.evening':'Evening','light.evening.eff':'Cuts blue light, prepares rest mode','light.evening.preview':'🌆 Reduce Blue Light · Trigger Melatonin · Prepare for Rest',
+    'light.night':'Night','light.night.eff':'Amber tone for deepest sleep','light.night.preview':'🌙 Amber Tone · No Melatonin Disruption · Deep Sleep',
+    'chart.cortisol':'Cortisol (Alertness)','chart.melatonin':'Melatonin (Sleepiness)','chart.cortisol.label':'Cortisol','chart.melatonin.label':'Melatonin',
+    's3.num':'03 — AI Mirror Diagnostics','s3.title':'The Mirror That <span>Reads Your Biology</span>',
+    's3.body1':'Forget ordinary mirrors. In Wellness Intelligence spaces, the mirror is a portal for proactive health diagnostics using <strong>rPPG (Remote Photoplethysmography)</strong> — detecting subtle skin-color changes from blood flow without any physical contact.',
+    's3.body2':'<strong>NuraLogix Longevity Mirror</strong> and <strong>Shen AI</strong> can analyze over 30 vital signs in under 60 seconds. BMind uses Emotion Mapping to detect micro-movements on the face.',
+    'mirror.title':'Biometric Analysis','metric.hr':'Heart Rate','metric.bp':'Blood Pressure','metric.stress':'Stress Index','metric.mood':'Mood Score',
+    'scan.btn':'🔍 Start Biometric Scan','scan.ready':'Ready to scan','scan.result':'💡 AI Recommendation: Overall health is good. Stress levels are low. Consider adding Peak Performance lighting between 9–11 AM.',
+    's4.num':'04 — Biophilic Soundscapes','s4.title':'The Power of <span>Nature Sounds</span> for Focus',
+    's4.body1':'Urban noise is "silent pollution" that exhausts the brain. Wellness Intelligence offers <strong>Biophilic Soundscapes</strong> — nature sounds with Fractal Sound structure, completely different from mechanical noise.',
+    's4.body2':'<strong>Moodsonic</strong> can reduce disturbances by 85–90%, stimulating the brain to generate Alpha and Theta waves. Circadian Audio works in sync with lighting across the full 24-hour cycle.',
+    's4.viz':'🎵 Circadian Audio Visualizer',
+    'sound.default':'Select a sound mode','sound.morning':'🐦 Morning Wake','sound.work':'🌊 Focus Flow','sound.evening':'🌿 Evening Forest','sound.sleep':'🌙 Deep Sleep','sound.noise':'Noise Reduction','sound.mood':'Mood',
+    's5.num':'05 — Privacy-By-Design','s5.title':'Privacy in the <span>Biometric Era</span>',
+    's5.body1':'The smarter your home, the more critical biometric data security becomes. Health data leaks represent a high-risk threat known as <strong>Biometric Harvesting</strong>.',
+    's5.body2':'The 2026 trend focuses on <strong>"Privacy-by-design"</strong> — using Edge Hubs so AI analyzes your data inside your home without uploading to the cloud.',
+    'priv.safe':'✅ Low Risk','priv.risk':'⚠️ High Risk','priv.tip.title':'💡 Recommendation',
+    'priv.tip.text':'Choose brands supporting the <strong style="color:#4fc3f7">Matter</strong> standard — it enables interoperability while preserving privacy. Prioritize devices with Edge Processing so your biometric data never leaves your home.',
+    'final.sub':'Conclusion · Inhabited Wellness',
+    'final.question':'"Is your home today <em>extending your life</em>,<br>or <em>silently depleting your health</em>?"',
+    'final.prompt':'Evaluate your home environment:',
+    'ans.1':'✅ Great natural light, good airflow, sleep well','ans.2':'🟡 Somewhat good, but issues with light or noise',
+    'ans.3':'❌ Too much screen time, late nights, poor lighting','ans.4':'🚀 Ready to upgrade to Wellness Intelligence',
+    'res.positive':'🎉 Excellent! Your home is already working for your health. Next step: add Bio-Rhythm Lighting or an AI Mirror to complete your Wellness Intelligence setup.',
+    'res.mixed':'🌱 Start with lighting! Invest in a Circadian-tunable smart bulb like Philips Hue or LIFX. You\'ll notice a difference within 2–3 weeks.',
+    'res.negative':'⚡ Start simple: enable Night Mode on all screens, use blue-light filters, and try turning off overhead lights after 9 PM.',
+    'res.upgrade':'🚀 Begin with a Matter-compatible Hub + Circadian Lighting, then gradually add IAQ Sensors and a Smart Speaker for Biophilic Soundscapes.',
+    'final.closing':'Wellness Intelligence is redefining what "home" means — from a "machine for living" to a <strong style="color:#4fc3f7">"living laboratory for longevity"</strong> that cares for every breath you take.',
+    'footer.1':'Wellness Intelligence · Tech Lifestyle Series 2026','footer.2':'By the Technology Lifestyle Editor · References from public research and industry reports'
+  },
+  ru:{
+    'nav.brand':'Wellness Intelligence 2026','nav.sanctuary':'Санктуарий','nav.light':'Свет','nav.mirror':'AI-Зеркало','nav.sound':'Звук','nav.privacy':'Конфиденциальность',
+    'hero.tag':'Tech Lifestyle · 2026','hero.h1':'Когда Дом Становится<br>«Биологическим Партнёром»','hero.sub':'Wellness Intelligence: Инновации, превращающие жильё в живую лабораторию долголетия 2026 года',
+    'stat.1':'% времени в помещении','stat.2':'показателей здоровья','stat.3':'мин быстрее засыпать','hero.scroll':'Прокрутить',
+    'tag.1':'Циркадный Ритм','tag.2':'Биометрические Данные','tag.3':'Наука Долголетия','tag.4':'AI-Диагностика',
+    'img1.caption':'Панель Wellness Intelligence — система активной биологической оптимизации с интеграцией данных окружающей среды в реальном времени, 2026',
+    's1.num':'01 — Святилище Долголетия','s1.title':'От «Убежища» к <span>«Святилищу Долголетия»</span>',
+    's1.body1':'Архитектура прошлого сводилась к созданию укрытия. Сегодня мы вступаем в эпоху <strong>Активной Биологической Оптимизации</strong> — проектирования пространств для проактивного усиления биологических показателей. Дом будущего станет исследовательским центром с человеком в центре, отслеживая качество воздуха (IAQ), чистоту воды и световое соответствие.',
+    's1.body2':'Ключевой сдвиг — от простой продолжительности жизни (<strong>Lifespan</strong>) к качественной (<strong>Healthspan</strong>). Ежедневное управление домашней средой оказывает большее влияние на здоровье, чем редкие визиты к врачу.',
+    's1.quote':'"Wellness Intelligence поднимает статус дома до медицинского святилища долголетия — не просто фона для жизни, а операционной системы, заботящейся о каждой клетке вашего тела."',
+    's2.num':'02 — Синхронизация Биоритмов','s2.title':'Свет: <span>Невидимый Дирижёр</span> Биологического Оркестра',
+    's2.body1':'Свет — самый мощный регулятор циркадного ритма человека. Воздействие синего света в неподходящее время дезориентирует организм. Технология Bio-Rhythm Syncing настраивает освещение дома в соответствии с природными циклами через стимуляцию ipRGC-клеток в глазу.',
+    's2.body2':'Нажмите на каждый временной блок, чтобы увидеть, как свет влияет на ваш организм:',
+    's2.viz':'💡 Симулятор Биоритмического Освещения','s2.chart':'📊 Уровни Гормонов За 24 Часа',
+    'light.morning':'Утро','light.morning.eff':'Стимулирует кортизол, мягко пробуждает','light.morning.preview':'🌅 Бодрость · Кортизол · Начало дня',
+    'light.midday':'День','light.midday.eff':'Пиковая производительность, концентрация +38%','light.midday.preview':'☀️ Пик производительности · Концентрация +38%',
+    'light.evening':'Вечер','light.evening.eff':'Убирает синий свет, готовит к отдыху','light.evening.preview':'🌆 Снижение синего света · Запуск мелатонина',
+    'light.night':'Ночь','light.night.eff':'Янтарный тон для глубокого сна','light.night.preview':'🌙 Янтарный тон · Глубокий сон · Мелатонин сохранён',
+    'chart.cortisol':'Кортизол (Бодрость)','chart.melatonin':'Мелатонин (Сонливость)','chart.cortisol.label':'Кортизол','chart.melatonin.label':'Мелатонин',
+    's3.num':'03 — AI-Диагностика Зеркала','s3.title':'Зеркало, Которое <span>Читает Вашу Биологию</span>',
+    's3.body1':'Забудьте об обычных зеркалах. В пространстве Wellness Intelligence зеркало — портал проактивной диагностики здоровья через технологию <strong>rPPG</strong>, которая определяет изменения цвета кожи по ритму кровотока без физического контакта.',
+    's3.body2':'<strong>NuraLogix Longevity Mirror</strong> и платформа <strong>Shen AI</strong> анализируют более 30 жизненных показателей менее чем за 60 секунд.',
+    'mirror.title':'Биометрический Анализ','metric.hr':'Пульс','metric.bp':'Давление','metric.stress':'Уровень Стресса','metric.mood':'Настроение',
+    'scan.btn':'🔍 Начать Биометрическое Сканирование','scan.ready':'Готово к сканированию','scan.result':'💡 Рекомендация AI: Общее состояние здоровья в норме. Стресс низкий. Рекомендуем добавить освещение Peak Performance с 9 до 11 утра.',
+    's4.num':'04 — Природные Звуковые Пейзажи','s4.title':'Сила <span>Природных Звуков</span> для Концентрации',
+    's4.body1':'Городской шум — это «тихое загрязнение», изматывающее мозг. Wellness Intelligence предлагает <strong>Biophilic Soundscapes</strong> — звуки природы с фрактальной структурой, принципиально отличные от механического шума.',
+    's4.body2':'<strong>Moodsonic</strong> снижает раздражители на 85–90%, стимулируя мозг генерировать альфа- и тета-волны. Circadian Audio синхронизируется с освещением на протяжении 24 часов.',
+    's4.viz':'🎵 Визуализатор Циркадного Звука',
+    'sound.default':'Выберите звуковой режим','sound.morning':'🐦 Утреннее Пробуждение','sound.work':'🌊 Поток Концентрации','sound.evening':'🌿 Вечерний Лес','sound.sleep':'🌙 Глубокий Сон','sound.noise':'Снижение Шума','sound.mood':'Настроение',
+    's5.num':'05 — Конфиденциальность По Дизайну','s5.title':'Конфиденциальность в <span>Эпоху Биометрии</span>',
+    's5.body1':'Чем умнее дом, тем критичнее защита биометрических данных. Утечки медицинских данных — высокий риск, известный как <strong>Biometric Harvesting</strong>.',
+    's5.body2':'Тренд 2026 года — <strong>«Privacy-by-design»</strong>: Edge Hub позволяет AI анализировать данные внутри дома без отправки в облако.',
+    'priv.safe':'✅ Низкий Риск','priv.risk':'⚠️ Высокий Риск','priv.tip.title':'💡 Рекомендация',
+    'priv.tip.text':'Выбирайте бренды, поддерживающие стандарт <strong style="color:#4fc3f7">Matter</strong> — он обеспечивает совместимость при сохранении конфиденциальности. Отдавайте предпочтение устройствам с Edge Processing.',
+    'final.sub':'Заключение · Inhabited Wellness',
+    'final.question':'"Ваш дом сегодня <em>продлевает вашу жизнь</em>,<br>или <em>незаметно подрывает здоровье</em>?"',
+    'final.prompt':'Оцените окружающую среду вашего дома:',
+    'ans.1':'✅ Хорошее освещение, воздух, крепкий сон','ans.2':'🟡 В целом хорошо, но есть проблемы со светом',
+    'ans.3':'❌ Много экранов, поздние ночи, плохое освещение','ans.4':'🚀 Хочу обновить дом до Wellness Intelligence',
+    'res.positive':'🎉 Отлично! Ваш дом работает на ваше здоровье. Следующий шаг: добавьте Bio-Rhythm Lighting или AI-Зеркало для полноценного Wellness Intelligence.',
+    'res.mixed':'🌱 Начните со света! Инвестируйте в умную лампочку с настройкой CCT по циркадному ритму, например Philips Hue или LIFX. Эффект заметите через 2–3 недели.',
+    'res.negative':'⚡ Начните с простого: включите Night Mode на всех экранах и старайтесь выключать яркий свет после 21:00.',
+    'res.upgrade':'🚀 Начните с Matter-совместимого Hub + Circadian Lighting, затем постепенно добавляйте IAQ-датчики и Smart Speaker для звуковых пейзажей.',
+    'final.closing':'Wellness Intelligence переопределяет понятие «дом» — от «машины для жилья» к <strong style="color:#4fc3f7">«живой лаборатории долголетия»</strong>, которая заботится о каждом вашем вдохе.',
+    'footer.1':'Wellness Intelligence · Серия Tech Lifestyle 2026','footer.2':'Автор: редактор технологического образа жизни · Источники: открытые исследования и отраслевые отчёты'
+  },
+  zh:{
+    'nav.brand':'健康智能 2026','nav.sanctuary':'长寿圣地','nav.light':'光线','nav.mirror':'AI镜子','nav.sound':'声音','nav.privacy':'隐私保护',
+    'hero.tag':'科技生活 · 2026','hero.h1':'当家成为你的<br>「生物伙伴」','hero.sub':'健康智能：将居家空间转变为2026年长寿生活实验室的创新科技',
+    'stat.1':'% 室内时间','stat.2':'可检测生命体征','stat.3':'分钟更快入睡','hero.scroll':'向下滚动',
+    'tag.1':'昼夜节律','tag.2':'生物特征数据','tag.3':'长寿科学','tag.4':'AI诊断',
+    'img1.caption':'健康智能仪表盘 — 实时整合环境数据的主动生物优化系统，2026年',
+    's1.num':'01 — 长寿圣地','s1.title':'从「避风港」到 <span>「长寿圣地」</span>',
+    's1.body1':'过去的建筑以遮风避雨为核心。如今我们正进入<strong>主动生物优化</strong>时代，空间设计旨在主动提升生物性能。未来的家将成为以人为中心的研究设施，持续监测空气质量（IAQ）、水质纯度与光线同步。',
+    's1.body2':'核心转变是从单纯延长寿命（<strong>Lifespan</strong>）到拥有健康的生命质量（<strong>Healthspan</strong>）。日常家居环境管理对长期健康的影响，远超偶尔就医。',
+    's1.quote':'"健康智能正在将家的地位提升为医疗级长寿圣地——不只是生活的背景，而是照护你身体每一个细胞的操作系统。"',
+    's2.num':'02 — 生物节律同步','s2.title':'光线：<span>生物节律</span>的无形指挥家',
+    's2.body1':'光线是影响人类昼夜节律最强大的因素。城市生活中错误时间的蓝光暴露会扰乱身体。生物节律同步技术通过刺激眼部ipRGC细胞，将家中的灯光调节到与自然周期同步。',
+    's2.body2':'点击每个时间段，查看不同光线水平对身体的影响：',
+    's2.viz':'💡 生物节律光线模拟器','s2.chart':'📊 24小时激素水平变化',
+    'light.morning':'清晨','light.morning.eff':'刺激皮质醇，唤醒身体','light.morning.preview':'🌅 清醒 · 皮质醇激活 · 开启新的一天',
+    'light.midday':'正午','light.midday.eff':'峰值效能，专注力提升38%','light.midday.preview':'☀️ 峰值效能 · 专注力+38% · 最强蓝光',
+    'light.evening':'傍晚','light.evening.eff':'减少蓝光，准备进入休息模式','light.evening.preview':'🌆 减少蓝光 · 触发褪黑素 · 准备休息',
+    'light.night':'夜晚','light.night.eff':'琥珀色调，进入最深度睡眠','light.night.preview':'🌙 琥珀色调 · 不干扰褪黑素 · 深度睡眠',
+    'chart.cortisol':'皮质醇（清醒度）','chart.melatonin':'褪黑素（困意）','chart.cortisol.label':'皮质醇','chart.melatonin.label':'褪黑素',
+    's3.num':'03 — AI镜子诊断','s3.title':'能<span>读懂你生理状态</span>的镜子',
+    's3.body1':'忘掉普通镜子吧。在健康智能空间中，镜子是主动健康诊断的「门户」，采用<strong>rPPG（远程光电容积脉搏波）</strong>技术，无需接触即可检测血流节律引起的肤色变化。',
+    's3.body2':'<strong>NuraLogix 长寿镜</strong>和<strong>Shen AI</strong>平台可在不到60秒内分析超过30项生命体征，BMind利用情绪映射检测微表情。',
+    'mirror.title':'生物特征分析','metric.hr':'心率','metric.bp':'血压','metric.stress':'压力指数','metric.mood':'情绪评分',
+    'scan.btn':'🔍 开始生物特征扫描','scan.ready':'准备扫描','scan.result':'💡 AI建议：整体健康状况良好，压力水平低。建议在上午9-11时增加峰值效能光照。',
+    's4.num':'04 — 自然声景','s4.title':'创造专注力的 <span>自然声音</span>力量',
+    's4.body1':'城市噪音是「无声的污染」，让大脑疲惫。健康智能提供<strong>自然声景（Biophilic Soundscapes）</strong>——具有分形声音结构的自然声音，与机械噪音截然不同。',
+    's4.body2':'<strong>Moodsonic</strong>可将干扰降低85-90%，激励大脑产生阿尔法和西塔波。Circadian Audio与光线全天候协调工作。',
+    's4.viz':'🎵 昼夜节律音频可视化器',
+    'sound.default':'选择声音模式','sound.morning':'🐦 清晨唤醒','sound.work':'🌊 专注心流','sound.evening':'🌿 傍晚森林','sound.sleep':'🌙 深度睡眠','sound.noise':'降噪效果','sound.mood':'情绪',
+    's5.num':'05 — 隐私优先设计','s5.title':'<span>生物特征时代</span>的隐私保护',
+    's5.body1':'家越「智能」，生物特征数据安全就越重要。健康数据泄露是被称为<strong>生物特征收割</strong>的高风险威胁。',
+    's5.body2':'2026年的趋势指向<strong>「隐私优先设计」</strong>——通过边缘计算Hub，让AI在家中本地分析数据，无需上传云端。',
+    'priv.safe':'✅ 低风险','priv.risk':'⚠️ 高风险','priv.tip.title':'💡 建议',
+    'priv.tip.text':'选择支持<strong style="color:#4fc3f7">Matter</strong>标准的品牌，可实现互联互通同时保护隐私。优先选择具备边缘计算能力的设备，让你的生物特征数据不离开家门。',
+    'final.sub':'结语 · 居住式健康',
+    'final.question':'"今天，你的家是在<em>延长你的寿命</em>，<br>还是在<em>悄悄消耗你的健康</em>？"',
+    'final.prompt':'评估你的家居环境：',
+    'ans.1':'✅ 自然采光好，通风佳，睡眠质量高','ans.2':'🟡 整体不错，但光线或噪音有待改善',
+    'ans.3':'❌ 屏幕时间过长，晚睡，照明不合理','ans.4':'🚀 想将家升级为健康智能空间',
+    'res.positive':'🎉 太棒了！你的家已经在为你的健康服务。下一步：添加生物节律照明或AI镜子，打造完整的健康智能体系。',
+    'res.mixed':'🌱 从光线开始！投资一款可调节色温的智能灯泡，如飞利浦Hue或LIFX。2-3周内你就会感受到变化。',
+    'res.negative':'⚡ 从简单的事开始：在所有屏幕上开启夜间模式，并尝试在晚上9点后关闭明亮的顶灯。',
+    'res.upgrade':'🚀 从Matter兼容Hub + 昼夜节律照明开始，然后逐步添加空气质量传感器和智能音箱，打造自然声景体验。',
+    'final.closing':'健康智能正在重新定义「家」的含义——从「居住机器」到<strong style="color:#4fc3f7">「长寿生活实验室」</strong>，守护你的每一次呼吸。',
+    'footer.1':'健康智能 · 科技生活系列 2026','footer.2':'作者：科技生活方式编辑 · 参考公开研究及行业报告'
+  }
+};
+
+let currentLang = 'th';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (T[lang] && T[lang][k] !== undefined) el.innerHTML = T[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  // Update active light stage preview
+  const activeStage = document.querySelector('.light-stage.active');
+  if (activeStage) {
+    const pk = activeStage.dataset.i18nPreview;
+    const previewEl = document.getElementById('light-preview-text');
+    if (pk && T[lang][pk]) previewEl.innerHTML = T[lang][pk];
+  }
+  // Reset scan
+  document.getElementById('scan-btn').innerHTML = T[lang]['scan.btn'] || '🔍 Scan';
+  document.getElementById('scan-status').innerHTML = T[lang]['scan.ready'] || 'Ready';
+  document.getElementById('ai-rec').style.display = 'none';
+  ['m-hr','m-bp','m-spo2','m-stress','m-mood'].forEach(id => { document.getElementById(id).textContent = '—'; });
+  // Reset answer
+  document.getElementById('answer-result').classList.remove('visible');
+  document.querySelectorAll('.answer-btn').forEach(b => { b.className = 'answer-btn'; });
+}
+
+// Scroll
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// Reveal
+const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Counters
+function animCount(id, target) {
+  const el = document.getElementById(id); let c = 0; const step = target / 50;
+  const t = setInterval(() => { c = Math.min(c + step, target); el.textContent = Math.round(c); if(c>=target) clearInterval(t); }, 25);
+}
+const heroObs = new IntersectionObserver(e => {
+  if(e[0].isIntersecting) { animCount('c90',90); animCount('c30',30); animCount('c22',22); heroObs.disconnect(); }
+},{threshold:.5});
+heroObs.observe(document.querySelector('.hero-stats'));
+
+// Light stages
+function selectStage(el) {
+  document.querySelectorAll('.light-stage').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('light-preview').style.background = el.dataset.bg;
+  const pk = el.dataset.i18nPreview;
+  document.getElementById('light-preview-text').innerHTML = (T[currentLang] && T[currentLang][pk]) || pk;
+}
+
+// Circadian charts
+const cortisol = [20,35,70,95,88,75,65,55,50,45,40,45,55,60,55,45,35,25,15,10,8,8,10,15];
+const melatonin = [75,70,60,30,10,5,5,5,5,5,5,5,5,5,5,5,8,20,45,65,80,88,90,85];
+const hrs = '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23'.split(',');
+function buildChart(barsId, labelsId, data, color) {
+  const bEl = document.getElementById(barsId), lEl = document.getElementById(labelsId);
+  const mx = Math.max(...data);
+  bEl.innerHTML = ''; lEl.innerHTML = '';
+  data.forEach((v, i) => {
+    const b = document.createElement('div'); b.className = 'chart-bar';
+    b.style.cssText = `height:${(v/mx*100)}%;background:${color};opacity:.65`;
+    b.dataset.label = hrs[i] + ':00';
+    b.addEventListener('mouseenter', () => b.style.opacity = '1');
+    b.addEventListener('mouseleave', () => b.style.opacity = '.65');
+    bEl.appendChild(b);
+    const l = document.createElement('div'); l.className = 'chart-label';
+    l.textContent = i % 6 === 0 ? hrs[i] : '';
+    lEl.appendChild(l);
+  });
+}
+buildChart('cortisol-bars','cortisol-labels',cortisol,'#f5a623');
+buildChart('melatonin-bars','melatonin-labels',melatonin,'#4fc3f7');
+
+// Mirror scan
+function runScan() {
+  const btn = document.getElementById('scan-btn');
+  const sl = document.getElementById('scan-line');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ ...';
+  sl.classList.add('scanning');
+  const vals = [
+    {id:'m-hr', v:'72 bpm', c:'ok', d:700},
+    {id:'m-bp', v:'118/76', c:'ok', d:1100},
+    {id:'m-spo2', v:'98%', c:'ok', d:1500},
+    {id:'m-stress', v:'34/100', c:'ok', d:1900},
+    {id:'m-mood', v:'7.2/10', c:'ok', d:2300},
+  ];
+  vals.forEach(({id,v,c,d}) => setTimeout(() => { const el = document.getElementById(id); el.textContent = v; el.className = 'metric-value '+c; }, d));
+  setTimeout(() => {
+    sl.classList.remove('scanning');
+    btn.disabled = false;
+    btn.innerHTML = T[currentLang]['scan.btn'] || '🔍 Scan Again';
+    document.getElementById('scan-status').innerHTML = '✅ Done';
+    const rec = document.getElementById('ai-rec');
+    rec.innerHTML = T[currentLang]['scan.result'] || 'AI result';
+    rec.style.display = 'block';
+  }, 2800);
+}
+
+// Sound waves init
+const sw = document.getElementById('sound-waves');
+for(let i=0;i<30;i++){
+  const b = document.createElement('div'); b.className='wave-bar';
+  b.style.height = (20+Math.random()*55)+'px'; b.id='wb'+i; sw.appendChild(b);
+}
+const soundData = {
+  morning:{noise:85,alpha:'+15%',theta:'+5%',mood:'☀️',color:'#ff8c42'},
+  work:{noise:90,alpha:'+32%',theta:'+18%',mood:'🎯',color:'#4fc3f7'},
+  evening:{noise:88,alpha:'+28%',theta:'+22%',mood:'🌿',color:'#2ecc71'},
+  sleep:{noise:92,alpha:'+10%',theta:'+45%',mood:'🌙',color:'#9c7cce'}
+};
+function selectSound(btn, type) {
+  document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = soundData[type];
+  document.querySelectorAll('.wave-bar').forEach((b,i) => {
+    b.style.background = d.color; b.classList.add('playing');
+    b.style.animationDelay = (i*.06)+'s';
+    b.style.animationDuration = (.4+Math.random()*.9)+'s';
+  });
+  document.getElementById('noise-bar').style.width = d.noise+'%';
+  document.getElementById('noise-pct').textContent = d.noise+'%';
+  document.getElementById('alpha-v').textContent = d.alpha;
+  document.getElementById('theta-v').textContent = d.theta;
+  document.getElementById('mood-v').textContent = d.mood;
+  // label
+  const soundKeys = {morning:'sound.morning',work:'sound.work',evening:'sound.evening',sleep:'sound.sleep'};
+  const lbl = T[currentLang][soundKeys[type]] || type;
+  document.getElementById('sound-label').textContent = lbl;
+}
+
+// Answer
+function selectAnswer(btn) {
+  const ans = btn.dataset.ans;
+  document.querySelectorAll('.answer-btn').forEach(b => b.className='answer-btn');
+  if(ans==='positive'||ans==='upgrade') btn.classList.add('pos');
+  else if(ans==='negative') btn.classList.add('neg');
+  const result = document.getElementById('answer-result');
+  result.innerHTML = T[currentLang]['res.'+ans] || '';
+  result.classList.add('visible');
+  result.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>
