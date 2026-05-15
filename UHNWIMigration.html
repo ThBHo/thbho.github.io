@@ -14,6 +14,12 @@
             -webkit-text-fill-color: transparent;
         }
         
+        /* Language Toggler CSS */
+        body.lang-th [data-lang]:not([data-lang="th"]) { display: none !important; }
+        body.lang-en [data-lang]:not([data-lang="en"]) { display: none !important; }
+        body.lang-ru [data-lang]:not([data-lang="ru"]) { display: none !important; }
+        body.lang-zh [data-lang]:not([data-lang="zh"]) { display: none !important; }
+
         /* Custom Animations */
         .fade-in-section {
             opacity: 0;
@@ -33,7 +39,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed">
+<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed lang-th">
 
     <!-- Navbar -->
     <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300" id="navbar">
@@ -41,31 +47,62 @@
             <div class="text-2xl font-bold text-slate-900 tracking-tight cursor-pointer hover:scale-105 transition-transform duration-300">
                 Wealth<span class="text-blue-600">Insights</span> 2026
             </div>
-            <div class="text-sm font-medium text-slate-500 uppercase tracking-widest hidden md:block">
-                Geopolitical Analysis
+            
+            <div class="flex items-center space-x-6">
+                <div class="text-sm font-medium text-slate-500 uppercase tracking-widest hidden md:block">
+                    <span data-lang="th">Geopolitical Analysis</span>
+                    <span data-lang="en">Geopolitical Analysis</span>
+                    <span data-lang="ru">Геополитический анализ</span>
+                    <span data-lang="zh">地缘政治分析</span>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="relative group inline-block z-50 cursor-pointer">
+                    <button class="flex items-center space-x-1 text-slate-600 hover:text-blue-600 font-medium bg-slate-100 px-3 py-1.5 rounded-full transition-colors focus:outline-none" id="currentLangDisplay">
+                        <span>🇹🇭 TH</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown -->
+                    <div class="absolute right-0 mt-2 w-36 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                        <button onclick="switchLanguage('th', '🇹🇭 TH')" class="block w-full text-left px-4 py-2 hover:bg-blue-50 text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium">🇹🇭 ไทย (TH)</button>
+                        <button onclick="switchLanguage('en', '🇬🇧 EN')" class="block w-full text-left px-4 py-2 hover:bg-blue-50 text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium">🇬🇧 English (EN)</button>
+                        <button onclick="switchLanguage('ru', '🇷🇺 RU')" class="block w-full text-left px-4 py-2 hover:bg-blue-50 text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium">🇷🇺 Русский (RU)</button>
+                        <button onclick="switchLanguage('zh', '🇨🇳 ZH')" class="block w-full text-left px-4 py-2 hover:bg-blue-50 text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium">🇨🇳 中文 (ZH)</button>
+                    </div>
+                </div>
             </div>
-            <button class="md:hidden text-slate-600 hover:text-blue-600 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </button>
         </div>
     </nav>
 
-    <!-- Hero Section with Background Image -->
+    <!-- Hero Section -->
     <header class="relative bg-slate-900 text-white py-28 px-6 overflow-hidden">
-        <!-- Background Image overlay -->
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1920&q=80" alt="" class="w-full h-full object-cover opacity-20 transform scale-105 animate-[pulse_10s_ease-in-out_infinite_alternate]">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1920&q=80" alt="Background" class="w-full h-full object-cover opacity-20 transform scale-105 animate-[pulse_10s_ease-in-out_infinite_alternate]">
             <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900"></div>
         </div>
         
         <div class="relative z-10 max-w-4xl mx-auto text-center fade-in-section is-visible">
-            <span class="bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide mb-6 inline-block shadow-lg shadow-blue-500/30 hover:bg-blue-500 transition-colors cursor-default">Exclusive Report</span>
+            <span class="bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide mb-6 inline-block shadow-lg shadow-blue-500/30 hover:bg-blue-500 transition-colors cursor-default">
+                <span data-lang="th">Exclusive Report</span>
+                <span data-lang="en">Exclusive Report</span>
+                <span data-lang="ru">Эксклюзивный Отчет</span>
+                <span data-lang="zh">独家报告</span>
+            </span>
+            
             <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">
-                2026: ทำไมมหาเศรษฐีโลกถึงทิ้ง ‘ดูไบ’ <br/> แล้วแห่ซบ ‘อาเซียน’?
+                <span data-lang="th">2026: ทำไมมหาเศรษฐีโลกถึงทิ้ง ‘ดูไบ’ <br/> แล้วแห่ซบ ‘อาเซียน’?</span>
+                <span data-lang="en">2026: Why Global Billionaires Are Abandoning 'Dubai' <br/> for 'ASEAN'?</span>
+                <span data-lang="ru">2026: Почему мировые миллиардеры покидают «Дубай» <br/> ради «АСЕАН»?</span>
+                <span data-lang="zh">2026：为什么全球亿万富翁放弃“迪拜” <br/> 转投“东盟”？</span>
             </h1>
+            
             <p class="text-lg md:text-2xl text-slate-300 font-light mb-8 max-w-3xl mx-auto drop-shadow-md">
-                เจาะลึกจุดเปลี่ยนภูมิรัฐศาสตร์สู่การอพยพของทุนระดับโลก (Global Wealth Migration)
+                <span data-lang="th">เจาะลึกจุดเปลี่ยนภูมิรัฐศาสตร์สู่การอพยพของทุนระดับโลก (Global Wealth Migration)</span>
+                <span data-lang="en">Deep Dive into the Geopolitical Shift and Global Wealth Migration</span>
+                <span data-lang="ru">Глубокий анализ геополитических сдвигов и миграции мирового капитала</span>
+                <span data-lang="zh">深入探讨地缘政治转变与全球财富迁移</span>
             </p>
+            
             <div class="flex items-center justify-center space-x-4 text-sm text-slate-400 bg-slate-800/50 w-max mx-auto px-6 py-2 rounded-full backdrop-blur-sm border border-slate-700/50 mb-8">
                 <span class="flex items-center"><span class="mr-2">📍</span> Pattaya, Thailand</span>
                 <span>•</span>
@@ -74,50 +111,91 @@
             
             <a href="https://drive.google.com/file/d/1lrcoxVoHyj3Bt6FTCJvr8AA4n474m-iI/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all duration-300 hover:-translate-y-1">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                ดูสไลด์ Presentation (เปิดเลื่อนดูได้เลย)
+                <span data-lang="th">ดูสไลด์ Presentation (เปิดเลื่อนดูได้เลย)</span>
+                <span data-lang="en">View Executive Presentation</span>
+                <span data-lang="ru">Смотреть презентацию (Executive Presentation)</span>
+                <span data-lang="zh">查看执行演示文稿 (Executive Presentation)</span>
             </a>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-2xl -mt-10 rounded-t-2xl relative z-10 mb-20 border-t border-white/20">
-        
         <article class="prose prose-slate max-w-none prose-lg">
             
+            <!-- Featured Video Section -->
+            <section class="mb-12 fade-in-section">
+                <div class="relative w-full overflow-hidden pt-[56.25%] rounded-xl shadow-lg border border-slate-200 bg-slate-900">
+                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/XHpmjVUFllk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-3 flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-1 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                    <span data-lang="th">วิดีโอวิเคราะห์: ทิศทางความมั่งคั่งและภูมิรัฐศาสตร์โลก 2026</span>
+                    <span data-lang="en">Video Analysis: Global Wealth & Geopolitics 2026</span>
+                    <span data-lang="ru">Видеоанализ: Глобальное богатство и геополитика 2026</span>
+                    <span data-lang="zh">视频分析：2026全球财富与地缘政治</span>
+                </p>
+            </section>
+
             <!-- Section 1 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">01</span> บทนำ: เมื่อ "สวรรค์จำลอง" ถูกสั่นคลอนด้วยความจริงของสงคราม
+                    <span class="text-blue-600 mr-3 text-3xl font-light">01</span> 
+                    <span data-lang="th">บทนำ: เมื่อ "สวรรค์จำลอง" ถูกสั่นคลอนด้วยความจริงของสงคราม</span>
+                    <span data-lang="en">Introduction: When the "Artificial Paradise" is Shaken by War</span>
+                    <span data-lang="ru">Введение: Когда «Искусственный рай» потрясен войной</span>
+                    <span data-lang="zh">简介：当“人造天堂”被战争的现实动摇时</span>
                 </h2>
                 
                 <figure class="my-8 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer">
                     <div class="overflow-hidden">
-                        <img src="https://i.postimg.cc/Ngzxprmh/thahi-he-nch-dth-w-a-ph-nth-taw-nx-xk-klang-m-202603201331.jpg" alt="" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <img src="https://i.postimg.cc/Ngzxprmh/thahi-he-nch-dth-w-a-ph-nth-taw-nx-xk-klang-m-202603201331.jpg" alt="Map" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <figcaption class="absolute bottom-0 left-0 right-0 p-4 text-white text-sm text-center transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                         ภาพจำที่ถูกสั่นคลอน
+                         <span data-lang="th">ภาพจำที่ถูกสั่นคลอน</span>
+                         <span data-lang="en">A shattered illusion</span>
+                         <span data-lang="ru">Разрушенная иллюзия</span>
+                         <span data-lang="zh">被粉碎的幻象</span>
                     </figcaption>
                 </figure>
 
                 <p class="text-slate-700 mb-4">
-                    เป็นเวลากว่าทศวรรษที่ <strong>"ดูไบ"</strong> ครองตำแหน่ง "Black Hole" ที่ดูดซับทุนมหาศาลจากทั่วโลกด้วยภาพลักษณ์ของสวรรค์ไร้ภาษีที่มั่นคงประดุจป้อมปราการ แต่ในวันที่ 15 พฤษภาคม 2026 ภาพจำนั้นกลับถูกทำลายลงด้วยสิ่งที่เรียกว่าการล่มสลายของ <strong>"Psychological Mirage"</strong> (ภาพลวงตาทางจิตวิทยา) เมื่อความขัดแย้งในตะวันออกกลาง (Iran War) ลุกลามจนกลายเป็นความจริงที่หนีไม่พ้น
+                    <span data-lang="th">เป็นเวลากว่าทศวรรษที่ <strong>"ดูไบ"</strong> ครองตำแหน่ง "Black Hole" ที่ดูดซับทุนมหาศาลจากทั่วโลกด้วยภาพลักษณ์ของสวรรค์ไร้ภาษีที่มั่นคงประดุจป้อมปราการ แต่ในวันที่ 15 พฤษภาคม 2026 ภาพจำนั้นกลับถูกทำลายลงด้วยสิ่งที่เรียกว่าการล่มสลายของ <strong>"Psychological Mirage"</strong> (ภาพลวงตาทางจิตวิทยา) เมื่อความขัดแย้งในตะวันออกกลาง (Iran War) ลุกลามจนกลายเป็นความจริงที่หนีไม่พ้น</span>
+                    <span data-lang="en">For over a decade, <strong>"Dubai"</strong> has held the position of a "Black Hole" absorbing massive global capital, presenting an image of a stable, tax-free sanctuary. However, by May 15, 2026, this image was shattered by what is called the collapse of the <strong>"Psychological Mirage."</strong> As the Middle East conflict (Iran War) escalated, it became an inescapable reality.</span>
+                    <span data-lang="ru">Более десяти лет <strong>«Дубай»</strong> занимал позицию «Черной дыры», поглощающей огромный мировой капитал благодаря имиджу стабильной безналоговой гавани. Однако к 15 мая 2026 года этот образ был разрушен из-за краха <strong>«Психологического миража»</strong> по мере эскалации конфликта на Ближнем Востоке.</span>
+                    <span data-lang="zh">十多年来，<strong>“迪拜”</strong>一直占据着吸收全球巨额资本的“黑洞”地位，呈现出稳定、免税的避风港形象。然而，到2026年5月15日，随着中东冲突的升级，这一形象被所谓的<strong>“心理海市蜃楼”</strong>的崩溃所粉碎。</span>
                 </p>
                 
                 <div class="bg-blue-50/80 border border-blue-100 p-6 rounded-xl my-6 hover:shadow-md transition-shadow duration-300">
                     <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        ปัจจัยหลักที่ทำให้ทุนไหลออก (Capital Rotation):
+                        <span data-lang="th">ปัจจัยหลักที่ทำให้ทุนไหลออก (Capital Rotation):</span>
+                        <span data-lang="en">Key Factors Driving Capital Outflow (Capital Rotation):</span>
+                        <span data-lang="ru">Ключевые факторы оттока капитала (Capital Rotation):</span>
+                        <span data-lang="zh">导致资本外流的主要因素（资本轮动）：</span>
                     </h3>
                     <ul class="list-none space-y-3 text-slate-700">
                         <li class="flex items-start">
-                            <span class="text-red-500 mr-2 mt-1">🔻</span> โดรนโจมตีแลนด์มาร์คสำคัญอย่าง Palm Jumeirah
+                            <span class="text-red-500 mr-2 mt-1">🔻</span> 
+                            <span data-lang="th">โดรนโจมตีแลนด์มาร์คสำคัญอย่าง Palm Jumeirah</span>
+                            <span data-lang="en">Drone strikes on key landmarks like Palm Jumeirah.</span>
+                            <span data-lang="ru">Атаки беспилотников на ключевые достопримечательности, такие как Palm Jumeirah.</span>
+                            <span data-lang="zh">无人机袭击朱美拉棕榈岛等关键地标。</span>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-red-500 mr-2 mt-1">🔻</span> การปิดช่องแคบฮอร์มุซที่ลากยาวเข้าสู่ภูมิภาคเป็นวันที่ 70 ตัดขาดเส้นทางเดินเรือ
+                            <span class="text-red-500 mr-2 mt-1">🔻</span> 
+                            <span data-lang="th">การปิดช่องแคบฮอร์มุซที่ลากยาวเข้าสู่ภูมิภาคเป็นวันที่ 70 ตัดขาดเส้นทางเดินเรือ</span>
+                            <span data-lang="en">The closure of the Strait of Hormuz entering its 70th day, severing maritime routes.</span>
+                            <span data-lang="ru">Закрытие Ормузского пролива, которое длится уже 70 дней, отрезало морские маршруты.</span>
+                            <span data-lang="zh">霍尔木兹海峡的关闭进入第70天，切断了海上航线。</span>
                         </li>
                         <li class="flex items-start">
-                            <span class="text-red-500 mr-2 mt-1">🔻</span> "Frictionless Movement" หรืออิสระในการเดินทางและการขนส่งที่เคยเป็นจุดขาย กลายเป็นอัมพาต
+                            <span class="text-red-500 mr-2 mt-1">🔻</span> 
+                            <span data-lang="th">"Frictionless Movement" หรืออิสระในการเดินทางและการขนส่งที่เคยเป็นจุดขาย กลายเป็นอัมพาต</span>
+                            <span data-lang="en">"Frictionless Movement," the former main selling point, became completely paralyzed.</span>
+                            <span data-lang="ru">«Свободное перемещение» (Frictionless Movement), бывшее главным преимуществом, парализовано.</span>
+                            <span data-lang="zh">曾经作为主要卖点的“无摩擦移动”彻底瘫痪。</span>
                         </li>
                     </ul>
                 </div>
@@ -126,64 +204,108 @@
             <!-- Section 2 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">02</span> "ระยะห่าง" คือความหรูหราใหม่ (Geopolitical Arbitrage)
+                    <span class="text-blue-600 mr-3 text-3xl font-light">02</span> 
+                    <span data-lang="th">"ระยะห่าง" คือความหรูหราใหม่ (Geopolitical Arbitrage)</span>
+                    <span data-lang="en">"Distance" is the New Luxury (Geopolitical Arbitrage)</span>
+                    <span data-lang="ru">«Расстояние» — это новая роскошь (Geopolitical Arbitrage)</span>
+                    <span data-lang="zh">“距离”是新的奢侈品 (地缘政治套利)</span>
                 </h2>
                 <p class="text-slate-700 mb-4">
-                    ในปี 2026 นิยามของ Safe Haven ได้เปลี่ยนไปแล้ว มันไม่ใช่แค่เมืองที่ไม่มีอาชญากรรม แต่คือเมืองที่มี <strong>"Geopolitical Distance"</strong> (ระยะห่างทางภูมิรัฐศาสตร์) จากสมรภูมิโลก ความได้เปรียบนี้กลายเป็นสินทรัพย์ที่มีค่าที่สุด ซึ่งเรียกว่าการทำ <strong>"Geopolitical Arbitrage"</strong> หรือการตักตวงผลประโยชน์จากความสงบในภูมิภาค
+                    <span data-lang="th">ในปี 2026 นิยามของ Safe Haven ได้เปลี่ยนไปแล้ว มันไม่ใช่แค่เมืองที่ไม่มีอาชญากรรม แต่คือเมืองที่มี <strong>"Geopolitical Distance"</strong> (ระยะห่างทางภูมิรัฐศาสตร์) จากสมรภูมิโลก ความได้เปรียบนี้กลายเป็นสินทรัพย์ที่มีค่าที่สุด ซึ่งเรียกว่าการทำ <strong>"Geopolitical Arbitrage"</strong> หรือการตักตวงผลประโยชน์จากความสงบในภูมิภาค</span>
+                    <span data-lang="en">In 2026, the definition of a Safe Haven has changed. It's no longer just a crime-free city, but a city with <strong>"Geopolitical Distance"</strong> from global battlegrounds. This advantage has become the most valuable asset, known as <strong>"Geopolitical Arbitrage."</strong></span>
+                    <span data-lang="ru">В 2026 году понятие «Тихая гавань» изменилось. Это больше не просто город без преступности, а город с <strong>«Геополитической дистанцией»</strong> от зон боевых действий. Это преимущество стало ценнейшим активом — <strong>«Геополитическим арбитражем»</strong>.</span>
+                    <span data-lang="zh">到2026年，避风港的定义已经改变。它不再仅仅是一个没有犯罪的城市，而是一个与全球战场保持<strong>“地缘政治距离”</strong>的城市。这种优势已成为最有价值的资产，被称为<strong>“地缘政治套利”</strong>。</span>
                 </p>
                 
                 <div class="grid sm:grid-cols-2 gap-6 my-8">
                     <div class="p-6 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/30 transition-all duration-300 group cursor-default">
                         <div class="w-12 h-12 bg-slate-100 text-2xl flex items-center justify-center rounded-full mb-4 group-hover:scale-110 transition-transform">🇸🇬</div>
                         <h4 class="font-bold text-slate-900 mb-2">Singapore</h4>
-                        <p class="text-sm text-slate-600">วางตัวเป็น "Financial Bunker" (บังเกอร์ทางการเงิน) ที่แข็งแกร่งที่สุดด้วยนโยบายเป็นกลางทางทหาร</p>
+                        <p class="text-sm text-slate-600">
+                            <span data-lang="th">วางตัวเป็น "Financial Bunker" (บังเกอร์ทางการเงิน) ที่แข็งแกร่งที่สุดด้วยนโยบายเป็นกลางทางทหาร</span>
+                            <span data-lang="en">Positions itself as the strongest "Financial Bunker" through strict military neutrality policies.</span>
+                            <span data-lang="ru">Позиционирует себя как самый сильный «Финансовый бункер» благодаря военному нейтралитету.</span>
+                            <span data-lang="zh">通过严格的军事中立政策，将自己定位为最坚固的“金融地堡”。</span>
+                        </p>
                     </div>
                     <div class="p-6 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/30 transition-all duration-300 group cursor-default">
                         <div class="w-12 h-12 bg-slate-100 text-2xl flex items-center justify-center rounded-full mb-4 group-hover:scale-110 transition-transform">🇹🇭</div>
                         <h4 class="font-bold text-slate-900 mb-2">Thailand & Indonesia</h4>
-                        <p class="text-sm text-slate-600">ใช้กลยุทธ์ "Neutral Vault" โดยให้ความสำคัญกับการปกป้องทุนต่างชาติเหนือวัฏจักรการเมืองในประเทศ</p>
+                        <p class="text-sm text-slate-600">
+                            <span data-lang="th">ใช้กลยุทธ์ "Neutral Vault" โดยให้ความสำคัญกับการปกป้องทุนต่างชาติเหนือวัฏจักรการเมืองในประเทศ</span>
+                            <span data-lang="en">Applies the "Neutral Vault" strategy, prioritizing foreign capital protection above domestic political cycles.</span>
+                            <span data-lang="ru">Применяет стратегию «Нейтрального хранилища», защищая иностранный капитал независимо от внутренней политики.</span>
+                            <span data-lang="zh">采用“中立金库”战略，将保护外国资本置于国内政治周期之上。</span>
+                        </p>
                     </div>
                 </div>
 
                 <blockquote class="italic text-slate-600 border-l-4 border-blue-400 bg-slate-50 p-6 rounded-r-lg my-6 text-lg relative">
                     <span class="absolute top-2 left-2 text-4xl text-blue-200 opacity-50 font-serif">"</span>
-                    <span class="relative z-10">ในโลกที่ความขัดแย้งทางกายภาพสามารถทำลายเมืองอัจฉริยะได้ในพริบตา ความเป็นกลางไม่ได้เป็นเพียงนโยบายต่างประเทศ แต่คือ 'Fiscal Firewall' ที่ปกป้องความมั่งคั่งให้คงอยู่ข้ามเจเนอเรชัน</span>
+                    <span class="relative z-10" data-lang="th">ในโลกที่ความขัดแย้งทางกายภาพสามารถทำลายเมืองอัจฉริยะได้ในพริบตา ความเป็นกลางไม่ได้เป็นเพียงนโยบายต่างประเทศ แต่คือ 'Fiscal Firewall' ที่ปกป้องความมั่งคั่งให้คงอยู่ข้ามเจเนอเรชัน</span>
+                    <span class="relative z-10" data-lang="en">In a world where physical conflicts can destroy smart cities in an instant, neutrality is not just foreign policy, but a 'Fiscal Firewall' protecting wealth across generations.</span>
+                    <span class="relative z-10" data-lang="ru">В мире, где физические конфликты могут вмиг разрушить умные города, нейтралитет — это не просто политика, это «Финансовый файрвол», защищающий богатство поколений.</span>
+                    <span class="relative z-10" data-lang="zh">在一个物理冲突可以瞬间摧毁智慧城市的世界里，中立不仅是外交政策，更是保护跨代财富的“财政防火墙”。</span>
                 </blockquote>
             </section>
 
             <!-- Section 3 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">03</span> "Fiscal Firewall" และยุทธศาสตร์ดึงดูดทุน LTR
+                    <span class="text-blue-600 mr-3 text-3xl font-light">03</span> 
+                    <span data-lang="th">"Fiscal Firewall" และยุทธศาสตร์ดึงดูดทุน LTR</span>
+                    <span data-lang="en">"Fiscal Firewall" and the LTR Capital Attraction Strategy</span>
+                    <span data-lang="ru">«Финансовый файрвол» и стратегия привлечения капитала LTR</span>
+                    <span data-lang="zh">“财政防火墙”与LTR资本吸引战略</span>
                 </h2>
 
                 <figure class="my-8 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer">
                     <div class="overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=1000&q=80" alt="" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=1000&q=80" alt="Lounge" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <figcaption class="absolute bottom-0 left-0 right-0 p-4 text-white text-sm text-center transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                         บริหารความมั่งคั่งอย่างไร้พรมแดน
+                         <span data-lang="th">บริหารความมั่งคั่งอย่างไร้พรมแดน</span>
+                         <span data-lang="en">Borderless Wealth Management</span>
+                         <span data-lang="ru">Управление богатством без границ</span>
+                         <span data-lang="zh">无国界财富管理</span>
                     </figcaption>
                 </figure>
 
                 <p class="text-slate-700 mb-4">
-                    ในขณะที่สิงคโปร์เริ่มใช้มาตรการ "Administrative Friction" หรือการเพิ่มความเข้มงวดในการตรวจสอบสินทรัพย์หลังคดีฟอกเงินครั้งใหญ่ ทำให้โอกาสอนุมัติ PR ลดฮวบเหลือเพียง 8.25% ประเทศไทยกลับใช้จังหวะนี้รุกคืบด้วยอาวุธที่เหนือกว่าอย่าง <strong>Long-Term Resident Visa (LTR)</strong>
+                    <span data-lang="th">ในขณะที่สิงคโปร์เริ่มใช้มาตรการ "Administrative Friction" หรือการเพิ่มความเข้มงวดในการตรวจสอบสินทรัพย์หลังคดีฟอกเงินครั้งใหญ่ ทำให้โอกาสอนุมัติ PR ลดฮวบเหลือเพียง 8.25% ประเทศไทยกลับใช้จังหวะนี้รุกคืบด้วยอาวุธที่เหนือกว่าอย่าง <strong>Long-Term Resident Visa (LTR)</strong></span>
+                    <span data-lang="en">While Singapore increased "Administrative Friction" and asset scrutiny following a massive money-laundering case (dropping PR approval rates to 8.25%), Thailand capitalized on this with a superior tool: the <strong>Long-Term Resident Visa (LTR)</strong>.</span>
+                    <span data-lang="ru">В то время как Сингапур усилил проверки активов (снизив уровень одобрения ПМЖ до 8,25%), Таиланд воспользовался этим, предложив превосходный инструмент: <strong>Долгосрочную визу резидента (LTR)</strong>.</span>
+                    <span data-lang="zh">当新加坡在重大洗钱案后加强“行政摩擦”和资产审查（PR批准率降至8.25%）时，泰国利用这一时机推出了卓越的工具：<strong>长期居民签证 (LTR)</strong>。</span>
                 </p>
                 <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg font-bold text-slate-900 mb-4 border-b pb-2">ทำไมไทยถึงเป็นเป้าหมายหลัก?</h3>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 border-b pb-2">
+                        <span data-lang="th">ทำไมไทยถึงเป็นเป้าหมายหลัก?</span>
+                        <span data-lang="en">Why is Thailand the Primary Target?</span>
+                        <span data-lang="ru">Почему Таиланд является главной целью?</span>
+                        <span data-lang="zh">为什么泰国是主要目标？</span>
+                    </h3>
                     <ul class="space-y-4 text-slate-700">
                         <li class="flex items-start group">
                             <span class="flex-shrink-0 h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">✓</span>
-                            <div><strong class="text-slate-900">สิทธิประโยชน์ทางภาษีที่ไร้คู่แข่ง:</strong> ผู้ถือ LTR จะได้รับยกเว้นภาษีเงินได้จากต่างประเทศ แม้จะนำเงินเข้ามาในไทยก็ไม่ถือเป็นรายได้ที่ต้องเสียภาษี</div>
+                            <div data-lang="th"><strong class="text-slate-900">สิทธิประโยชน์ทางภาษีที่ไร้คู่แข่ง:</strong> ผู้ถือ LTR จะได้รับยกเว้นภาษีเงินได้จากต่างประเทศ แม้จะนำเงินเข้ามาในไทยก็ไม่ถือเป็นรายได้ที่ต้องเสียภาษี</div>
+                            <div data-lang="en"><strong class="text-slate-900">Unrivaled Tax Benefits:</strong> LTR holders are exempt from foreign-sourced income tax, creating a true fiscal shield.</div>
+                            <div data-lang="ru"><strong class="text-slate-900">Беспрецедентные налоговые льготы:</strong> Обладатели LTR освобождаются от налогов на доходы из иностранных источников.</div>
+                            <div data-lang="zh"><strong class="text-slate-900">无与伦比的税收优惠：</strong> LTR持有者可免除来源于国外的收入的税收，即使汇入泰国也不需纳税。</div>
                         </li>
                         <li class="flex items-start group">
                             <span class="flex-shrink-0 h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">✓</span>
-                            <div><strong class="text-slate-900">เงื่อนไขที่ชัดเจน (Entry Barriers):</strong> กำหนดให้มีสินทรัพย์ทั่วโลกอย่างน้อย 1 ล้านดอลลาร์ และลงทุนในไทย 5 แสนดอลลาร์</div>
+                            <div data-lang="th"><strong class="text-slate-900">เงื่อนไขที่ชัดเจน (Entry Barriers):</strong> กำหนดให้มีสินทรัพย์ทั่วโลกอย่างน้อย 1 ล้านดอลลาร์ และลงทุนในไทย 5 แสนดอลลาร์</div>
+                            <div data-lang="en"><strong class="text-slate-900">Clear Entry Barriers:</strong> Requires at least $1M in global assets and a $500k investment in Thailand.</div>
+                            <div data-lang="ru"><strong class="text-slate-900">Четкие условия въезда:</strong> Требуется не менее $1 млн глобальных активов и инвестиции в Таиланд на сумму $500 тыс.</div>
+                            <div data-lang="zh"><strong class="text-slate-900">清晰的准入门槛：</strong> 要求拥有至少100万美元的全球资产并在泰国投资50万美元。</div>
                         </li>
                         <li class="flex items-start group">
                             <span class="flex-shrink-0 h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">✓</span>
-                            <div><strong class="text-slate-900">Open Society:</strong> ไทยรองรับ "Marriage Equality" (สมรสเท่าเทียม) สร้างสังคมที่เปิดกว้างและดึงดูด Global Talent ได้อย่างแท้จริง</div>
+                            <div data-lang="th"><strong class="text-slate-900">Open Society:</strong> ไทยรองรับ "Marriage Equality" (สมรสเท่าเทียม) สร้างสังคมที่เปิดกว้างและดึงดูด Global Talent ได้อย่างแท้จริง</div>
+                            <div data-lang="en"><strong class="text-slate-900">Open Society:</strong> Thailand supports Marriage Equality, fostering an inclusive society that truly attracts Global Talent.</div>
+                            <div data-lang="ru"><strong class="text-slate-900">Открытое общество:</strong> Таиланд поддерживает равенство браков, создавая инклюзивную среду для глобальных талантов.</div>
+                            <div data-lang="zh"><strong class="text-slate-900">开放社会：</strong> 泰国支持“婚姻平权”，创造了一个真正吸引全球人才的包容性社会。</div>
                         </li>
                     </ul>
                 </div>
@@ -192,20 +314,30 @@
             <!-- Section 4 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">04</span> "Natural Luxury" ชนะ "Artificial Wonders"
+                    <span class="text-blue-600 mr-3 text-3xl font-light">04</span> 
+                    <span data-lang="th">"Natural Luxury" ชนะ "Artificial Wonders"</span>
+                    <span data-lang="en">"Natural Luxury" Beats "Artificial Wonders"</span>
+                    <span data-lang="ru">«Естественная роскошь» побеждает «Искусственные чудеса»</span>
+                    <span data-lang="zh">“自然奢华”战胜“人造奇迹”</span>
                 </h2>
                 
                 <p class="text-slate-700 mb-6">
-                    ปี 2026 คือจุดสิ้นสุดของยุค "สิ่งมหัศจรรย์สร้างเอง" มหาเศรษฐียุคใหม่เริ่มมองว่าโครงการที่ต้องฝืนธรรมชาติเป็นเรื่อง <strong>"Engineered Folly"</strong> ในทางกลับกัน ภูเก็ตและบาหลีกำลังนำเสนอสิ่งที่เงินซื้อไม่ได้ในทะเลทราย นั่นคือ <strong>"Natural Luxury"</strong> หรือความหรูหราที่เติบโตจากรากฐานของธรรมชาติแท้และการฟื้นฟู
+                    <span data-lang="th">ปี 2026 คือจุดสิ้นสุดของยุค "สิ่งมหัศจรรย์สร้างเอง" มหาเศรษฐียุคใหม่เริ่มมองว่าโครงการที่ต้องฝืนธรรมชาติเป็นเรื่อง <strong>"Engineered Folly"</strong> ในทางกลับกัน ภูเก็ตและบาหลีกำลังนำเสนอสิ่งที่เงินซื้อไม่ได้ในทะเลทราย นั่นคือ <strong>"Natural Luxury"</strong> หรือความหรูหราที่เติบโตจากรากฐานของธรรมชาติแท้และการฟื้นฟู</span>
+                    <span data-lang="en">2026 marks the end of the "man-made wonders" era. Modern billionaires increasingly view engineered environments as <strong>"Engineered Folly."</strong> Conversely, Phuket and Bali offer what money cannot buy in the desert: <strong>"Natural Luxury,"</strong> rooted in authentic nature and regenerative wellness.</span>
+                    <span data-lang="ru">2026 год знаменует конец эпохи «искусственных чудес». Современные миллиардеры всё чаще рассматривают искусственные проекты как <strong>«Инженерную глупость»</strong>. И наоборот, Пхукет и Бали предлагают то, что нельзя купить в пустыне: <strong>«Естественную роскошь»</strong>.</span>
+                    <span data-lang="zh">2026年标志着“人造奇迹”时代的结束。现代亿万富翁越来越将这些项目视为<strong>“工程愚蠢”</strong>。相反，普吉岛和巴厘岛提供了沙漠中金钱买不到的东西：植根于真实自然和重生的<strong>“自然奢华”</strong>。</span>
                 </p>
 
                 <figure class="my-8 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer">
                     <div class="overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?auto=format&fit=crop&w=1000&q=80" alt="" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <img src="https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?auto=format&fit=crop&w=1000&q=80" alt="Villa" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <figcaption class="absolute bottom-0 left-0 right-0 p-4 text-white text-sm text-center transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                         ที่พึ่งพิงแห่งใหม่ของ UHNWIs
+                         <span data-lang="th">ที่พึ่งพิงแห่งใหม่ของ UHNWIs</span>
+                         <span data-lang="en">The New Sanctuary for UHNWIs</span>
+                         <span data-lang="ru">Новое убежище для UHNWIs</span>
+                         <span data-lang="zh">超高净值人士的新避风港</span>
                     </figcaption>
                 </figure>
                 
@@ -213,31 +345,49 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-slate-800 text-white">
-                                <th class="p-4 font-semibold text-sm w-1/4">หัวข้อเปรียบเทียบ</th>
+                                <th class="p-4 font-semibold text-sm w-1/4">
+                                    <span data-lang="th">หัวข้อเปรียบเทียบ</span>
+                                    <span data-lang="en">Criteria</span>
+                                    <span data-lang="ru">Критерий</span>
+                                    <span data-lang="zh">比较标准</span>
+                                </th>
                                 <th class="p-4 font-semibold text-sm w-3/8">Artificial Luxury (Dubai)</th>
-                                <th class="p-4 font-semibold text-sm w-3/8">Natural Luxury (SEA - ภูเก็ต/บาหลี)</th>
+                                <th class="p-4 font-semibold text-sm w-3/8">Natural Luxury (SEA)</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 text-slate-700">
                             <tr class="hover:bg-blue-50 transition-colors">
-                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">สิ่งแวดล้อม</td>
-                                <td class="p-4">เกาะจำลอง, ระบบปรับอากาศกลางแจ้ง</td>
-                                <td class="p-4 text-green-700 font-medium">หาดทรายแท้, ป่าฝน, ชีวภาพหลากหลาย</td>
+                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">
+                                    <span data-lang="th">สิ่งแวดล้อม</span><span data-lang="en">Environment</span><span data-lang="ru">Среда</span><span data-lang="zh">环境</span>
+                                </td>
+                                <td class="p-4">
+                                    <span data-lang="th">เกาะจำลอง, ระบบปรับอากาศกลางแจ้ง</span><span data-lang="en">Man-made islands, outdoor AC</span><span data-lang="ru">Искусственные острова, кондиционеры на улице</span><span data-lang="zh">人造岛屿，户外空调系统</span>
+                                </td>
+                                <td class="p-4 text-green-700 font-medium">
+                                    <span data-lang="th">หาดทรายแท้, ป่าฝน, ชีวภาพหลากหลาย</span><span data-lang="en">Real beaches, rainforests, biodiversity</span><span data-lang="ru">Настоящие пляжи, тропические леса</span><span data-lang="zh">真正的海滩，雨林，生物多样性</span>
+                                </td>
                             </tr>
                             <tr class="hover:bg-blue-50 transition-colors">
-                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">ประสบการณ์</td>
-                                <td class="p-4">การจำลองโลกเสมือน (High-tech)</td>
-                                <td class="p-4 text-green-700 font-medium">ฟื้นฟูสุขภาพและจิตวิญญาณ (Wellness)</td>
+                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">
+                                    <span data-lang="th">ประสบการณ์</span><span data-lang="en">Experience</span><span data-lang="ru">Опыт</span><span data-lang="zh">体验</span>
+                                </td>
+                                <td class="p-4">
+                                    <span data-lang="th">การจำลองโลกเสมือน (High-tech)</span><span data-lang="en">Simulated environments (High-tech)</span><span data-lang="ru">Смоделированная среда (High-tech)</span><span data-lang="zh">模拟环境 (高科技)</span>
+                                </td>
+                                <td class="p-4 text-green-700 font-medium">
+                                    <span data-lang="th">ฟื้นฟูสุขภาพและจิตวิญญาณ (Wellness)</span><span data-lang="en">Health & spiritual restoration (Wellness)</span><span data-lang="ru">Восстановление здоровья (Wellness)</span><span data-lang="zh">身心恢复 (健康养生)</span>
+                                </td>
                             </tr>
                             <tr class="hover:bg-blue-50 transition-colors">
-                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">Sustainability</td>
-                                <td class="p-4">พึ่งพาเทคโนโลยีสูง (Smart Glass/AI)</td>
-                                <td class="p-4 text-green-700 font-medium">เน้นการฟื้นฟูธรรมชาติ (Rewilding)</td>
-                            </tr>
-                            <tr class="hover:bg-blue-50 transition-colors">
-                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">Fiscal Policy</td>
-                                <td class="p-4">Tax Neutrality (ภาษี 0%)</td>
-                                <td class="p-4 text-green-700 font-medium">LTR ยกเว้นภาษีเงินโอนต่างประเทศ</td>
+                                <td class="p-4 font-medium border-r border-slate-100 bg-slate-50">
+                                    <span data-lang="th">Fiscal Policy</span><span data-lang="en">Fiscal Policy</span><span data-lang="ru">Налоговая политика</span><span data-lang="zh">财政政策</span>
+                                </td>
+                                <td class="p-4">
+                                    <span data-lang="th">Tax Neutrality (ภาษี 0%)</span><span data-lang="en">Tax Neutrality (0% Tax)</span><span data-lang="ru">Налоговый нейтралитет (0% налог)</span><span data-lang="zh">税收中立 (0% 税)</span>
+                                </td>
+                                <td class="p-4 text-green-700 font-medium">
+                                    <span data-lang="th">LTR ยกเว้นภาษีเงินโอนต่างประเทศ</span><span data-lang="en">LTR foreign remittance exemption</span><span data-lang="ru">Освобождение LTR от налога на переводы</span><span data-lang="zh">LTR 免除海外汇款税</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -247,80 +397,100 @@
             <!-- Section 5 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">05</span> การปรับฐานอสังหาฯ (The Great Reset)
+                    <span class="text-blue-600 mr-3 text-3xl font-light">05</span> 
+                    <span data-lang="th">การปรับฐานอสังหาฯ (The Great Reset)</span>
+                    <span data-lang="en">Real Estate Correction (The Great Reset)</span>
+                    <span data-lang="ru">Коррекция рынка недвижимости (Великая Перезагрузка)</span>
+                    <span data-lang="zh">房地产市场调整（大重置）</span>
                 </h2>
 
                 <p class="text-slate-700 mb-4">
-                    สถานการณ์อสังหาริมทรัพย์ไทยปี 2026 คือภาวะ <strong>"Creative Destruction"</strong> ที่น่าสนใจที่สุดในรอบ 30 ปี ตลาดระดับกลางอาจซบเซา แต่สำหรับนักลงทุนระดับโลก นี่คือ <strong>"Strategic Window of Opportunity"</strong>
+                    <span data-lang="th">สถานการณ์อสังหาริมทรัพย์ไทยปี 2026 คือภาวะ <strong>"Creative Destruction"</strong> ที่น่าสนใจที่สุดในรอบ 30 ปี ตลาดระดับกลางอาจซบเซา แต่สำหรับนักลงทุนระดับโลก นี่คือ <strong>"Strategic Window of Opportunity"</strong></span>
+                    <span data-lang="en">Thailand's real estate market in 2026 represents the most compelling <strong>"Creative Destruction"</strong> in 30 years. While the mid-market struggles, for global investors, this is a profound <strong>"Strategic Window of Opportunity."</strong></span>
+                    <span data-lang="ru">Рынок недвижимости Таиланда в 2026 году представляет собой самое захватывающее <strong>«Созидательное разрушение»</strong> за 30 лет. Для мировых инвесторов это <strong>«Стратегическое окно возможностей»</strong>.</span>
+                    <span data-lang="zh">2026年泰国的房地产市场呈现出30年来最引人注目的<strong>“创造性破坏”</strong>。对于全球投资者而言，这是一个绝佳的<strong>“战略机遇之窗”</strong>。</span>
                 </p>
                 
                 <div class="grid md:grid-cols-2 gap-6 mt-8">
-                    <!-- Interactive Card 1 -->
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-2 hover:shadow-xl hover:border-blue-300 transition-all duration-300 cursor-default group">
                         <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
                         </div>
                         <h4 class="font-bold text-slate-900 mb-2 text-lg">Prime Land Discount</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">ราคาที่ดินย่าน Blue-chip อย่าง "ทองหล่อ" ดิ่งลง 30-50% จาก 2.5 ล้านบาท เหลือเพียง 1.5-1.7 ล้านบาท/ตารางวา เปิดโอกาสเข้าเก็บสินทรัพย์พรีเมียมในราคาที่ไม่เคยมีมาก่อน</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            <span data-lang="th">ราคาที่ดินย่าน Blue-chip อย่าง "ทองหล่อ" ดิ่งลง 30-50% จาก 2.5 ล้านบาท เหลือเพียง 1.5-1.7 ล้านบาท/ตารางวา เปิดโอกาสเข้าเก็บสินทรัพย์พรีเมียมในราคาที่ไม่เคยมีมาก่อน</span>
+                            <span data-lang="en">Blue-chip land prices like "Thong Lo" plunged 30-50% from 2.5 million to 1.5-1.7 million THB/sq.wah, creating unprecedented opportunities to acquire premium assets.</span>
+                            <span data-lang="ru">Цены на элитные земли, такие как «Тонг Лор», упали на 30-50%, открывая беспрецедентные возможности для приобретения премиальных активов.</span>
+                            <span data-lang="zh">像“通罗”这样的蓝筹土地价格暴跌30-50%，从250万降至150-170万泰铢/平方哇，创造了前所未有的优质资产收购机会。</span>
+                        </p>
                     </div>
                     
-                    <!-- Interactive Card 2 -->
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-2 hover:shadow-xl hover:border-blue-300 transition-all duration-300 cursor-default group">
                         <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                         </div>
                         <h4 class="font-bold text-slate-900 mb-2 text-lg">High-Yield Assets</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">เซกเมนต์ Branded Residences ใน EEC และภูเก็ตเติบโตสวนกระแสด้วย Yield ที่จูงใจ (ภูเก็ต 5-8%, บาหลี 11-14%) ดึงดูดนักลงทุนต่างชาติได้อย่างมหาศาล</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            <span data-lang="th">เซกเมนต์ Branded Residences ใน EEC และภูเก็ตเติบโตสวนกระแสด้วย Yield ที่จูงใจ (ภูเก็ต 5-8%, บาหลี 11-14%) ดึงดูดนักลงทุนต่างชาติได้อย่างมหาศาล</span>
+                            <span data-lang="en">Branded Residences in the EEC and Phuket defy the trend with attractive yields (Phuket 5-8%, Bali 11-14%), drawing massive foreign investment.</span>
+                            <span data-lang="ru">Брендированные резиденции в EEC и на Пхукете бросают вызов трендам с привлекательной доходностью (Пхукет 5-8%, Бали 11-14%).</span>
+                            <span data-lang="zh">EEC和普吉岛的品牌住宅逆势增长，收益率诱人（普吉岛 5-8%，巴厘岛 11-14%），吸引了大量外国投资。</span>
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <!-- Section 6 (Interactive Accordion) -->
+            <!-- Section 6 -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">06</span> โครงสร้างพื้นฐานในฐานะ "Risk Hedge"
+                    <span class="text-blue-600 mr-3 text-3xl font-light">06</span> 
+                    <span data-lang="th">โครงสร้างพื้นฐานในฐานะ "Risk Hedge"</span>
+                    <span data-lang="en">Infrastructure as a "Risk Hedge"</span>
+                    <span data-lang="ru">Инфраструктура как «Хеджирование рисков»</span>
+                    <span data-lang="zh">基础设施作为“风险对冲”</span>
                 </h2>
                 <p class="text-slate-700 mb-6">
-                    รัฐบาลไทยกำลังสร้างทางเลือกใหม่ให้กับการค้าโลกเพื่อ <strong>"Decouple"</strong> ความเสี่ยงจากจุดยุทธศาสตร์เดิมๆ (คลิกเพื่ออ่านรายละเอียด)
+                    <span data-lang="th">รัฐบาลไทยกำลังสร้างทางเลือกใหม่ให้กับการค้าโลกเพื่อ <strong>"Decouple"</strong> ความเสี่ยงจากจุดยุทธศาสตร์เดิมๆ (คลิกเพื่ออ่านรายละเอียด)</span>
+                    <span data-lang="en">The Thai government is building new alternatives for global trade to <strong>"Decouple"</strong> risks from traditional strategic chokepoints. (Click to expand)</span>
+                    <span data-lang="ru">Правительство Таиланда создает новые альтернативы для мировой торговли, чтобы <strong>«развязать»</strong> риски. (Нажмите, чтобы развернуть)</span>
+                    <span data-lang="zh">泰国政府正在为全球贸易建立新的替代方案，以<strong>“脱钩”</strong>传统战略咽喉的风险。（点击展开）</span>
                 </p>
                 
                 <div class="space-y-4 mb-6">
                     <!-- Accordion Item 1 -->
                     <details class="group bg-white border border-slate-200 rounded-lg shadow-sm hover:border-blue-300 transition-colors [&_summary::-webkit-details-marker]:hidden">
                         <summary class="flex items-center justify-between p-5 font-bold text-blue-800 text-lg cursor-pointer select-none">
-                            <span class="flex items-center"><span class="mr-3 text-2xl group-hover:scale-110 transition-transform">✈️</span> U-Tapao Aerotropolis (เมืองการบินอู่ตะเภา)</span>
+                            <span class="flex items-center"><span class="mr-3 text-2xl group-hover:scale-110 transition-transform">✈️</span> U-Tapao Aerotropolis</span>
                             <span class="transition-transform duration-300 group-open:rotate-180 bg-slate-100 p-1 rounded-full text-slate-500">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </span>
                         </summary>
                         <div class="p-5 pt-0 text-slate-600 border-t border-slate-100 mt-2 leading-relaxed animate-[fadeIn_0.3s_ease-in-out]">
-                            การลงนาม NTP เมื่อวันที่ 3 เมษายน 2026 คือจุดเปลี่ยนสำคัญที่แยกการพัฒนาเมืองการบินออกจากความล่าช้าของรถไฟความเร็วสูง (Decoupling strategy) เพื่อเป้าหมายรองรับผู้โดยสาร 60 ล้านคนต่อปี (Phase 1 เปิดใช้ 2031)
+                            <span data-lang="th">การลงนาม NTP เมื่อวันที่ 3 เมษายน 2026 คือจุดเปลี่ยนสำคัญที่แยกการพัฒนาเมืองการบินออกจากความล่าช้าของรถไฟความเร็วสูง (Decoupling strategy) เพื่อเป้าหมายรองรับผู้โดยสาร 60 ล้านคนต่อปี (Phase 1 เปิดใช้ 2031)</span>
+                            <span data-lang="en">The NTP signing on April 3, 2026, marks a pivotal moment, decoupling the aviation city's progress from high-speed rail delays, targeting 60 million passengers annually.</span>
+                            <span data-lang="ru">Подписание NTP отвязало прогресс авиагорода от задержек строительства высокоскоростной железной дороги, с целью обслуживания 60 млн пассажиров ежегодно.</span>
+                            <span data-lang="zh">2026年4月签署NTP是一个关键时刻，将航空城的发展与高铁延误脱钩，目标是每年运送6000万乘客。</span>
                         </div>
                     </details>
                     
                     <!-- Accordion Item 2 -->
                     <details class="group bg-white border border-slate-200 rounded-lg shadow-sm hover:border-blue-300 transition-colors [&_summary::-webkit-details-marker]:hidden">
                         <summary class="flex items-center justify-between p-5 font-bold text-blue-800 text-lg cursor-pointer select-none">
-                            <span class="flex items-center"><span class="mr-3 text-2xl group-hover:scale-110 transition-transform">🌉</span> Land Bridge (แลนด์บริดจ์ 1 ล้านล้านบาท)</span>
+                            <span class="flex items-center"><span class="mr-3 text-2xl group-hover:scale-110 transition-transform">🌉</span> 
+                                <span data-lang="th">Land Bridge (แลนด์บริดจ์ 1 ล้านล้านบาท)</span>
+                                <span data-lang="en">Land Bridge (1 Trillion THB)</span>
+                                <span data-lang="ru">Сухопутный мост (1 трлн бат)</span>
+                                <span data-lang="zh">陆桥项目 (1万亿泰铢)</span>
+                            </span>
                             <span class="transition-transform duration-300 group-open:rotate-180 bg-slate-100 p-1 rounded-full text-slate-500">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </span>
                         </summary>
                         <div class="p-5 pt-0 text-slate-600 border-t border-slate-100 mt-2 leading-relaxed animate-[fadeIn_0.3s_ease-in-out]">
-                            เมกะโปรเจกต์เชื่อมระนอง-ชุมพร เพื่อเป็นทางเลือกใหม่นอกเหนือจากช่องแคบมะละกา ซึ่งเป็นยุทธศาสตร์ป้องกันความเสี่ยงด้านพลังงาน (Energy Security Hedge) จากวิกฤตความขัดแย้งในตะวันออกกลาง
-                        </div>
-                    </details>
-
-                    <!-- Accordion Item 3 -->
-                    <details class="group bg-white border border-slate-200 rounded-lg shadow-sm hover:border-blue-300 transition-colors [&_summary::-webkit-details-marker]:hidden">
-                        <summary class="flex items-center justify-between p-5 font-bold text-blue-800 text-lg cursor-pointer select-none">
-                            <span class="flex items-center"><span class="mr-3 text-2xl group-hover:scale-110 transition-transform">🚢</span> Laem Chabang Port (ท่าเรือแหลมฉบัง Phase 3)</span>
-                            <span class="transition-transform duration-300 group-open:rotate-180 bg-slate-100 p-1 rounded-full text-slate-500">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </span>
-                        </summary>
-                        <div class="p-5 pt-0 text-slate-600 border-t border-slate-100 mt-2 leading-relaxed animate-[fadeIn_0.3s_ease-in-out]">
-                            ปัจจุบันอยู่ระหว่างเตรียมการโครงสร้างพื้นฐาน คาดเสร็จสิ้นและเปิดให้บริการได้เต็มรูปแบบในปี 2029-2030 เพื่อเสริมความแข็งแกร่งในการเป็น New Logistics Node ของภูมิภาคเอเชียตะวันออกเฉียงใต้
+                            <span data-lang="th">เมกะโปรเจกต์เชื่อมระนอง-ชุมพร เพื่อเป็นทางเลือกใหม่นอกเหนือจากช่องแคบมะละกา ซึ่งเป็นยุทธศาสตร์ป้องกันความเสี่ยงด้านพลังงาน (Energy Security Hedge) จากวิกฤตความขัดแย้งในตะวันออกกลาง</span>
+                            <span data-lang="en">A mega-project linking Ranong and Chumphon to provide a Malacca Strait alternative, serving as an Energy Security Hedge against Middle East conflicts.</span>
+                            <span data-lang="ru">Мегапроект, связывающий Ранонг и Чумпхон, как альтернатива Малаккскому проливу и защита энергетической безопасности от конфликтов на Ближнем Востоке.</span>
+                            <span data-lang="zh">连接拉廊和春蓬的超大型项目，提供马六甲海峡的替代方案，作为应对中东冲突的能源安全对冲。</span>
                         </div>
                     </details>
                 </div>
@@ -329,58 +499,79 @@
             <!-- Embedded Slide Section -->
             <section class="mb-16 fade-in-section">
                 <h2 class="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-blue-600 pl-4 flex items-center">
-                    <span class="text-blue-600 mr-3 text-3xl font-light">📊</span> สไลด์สรุปข้อมูล (Executive Presentation)
+                    <span class="text-blue-600 mr-3 text-3xl font-light">📊</span> 
+                    <span data-lang="th">สไลด์สรุปข้อมูล (Executive Presentation)</span>
+                    <span data-lang="en">Executive Presentation</span>
+                    <span data-lang="ru">Презентация для руководителей</span>
+                    <span data-lang="zh">高管演示文稿</span>
                 </h2>
-                <p class="text-slate-700 mb-6">
-                    คุณสามารถเลื่อนดูสไลด์สรุปเจาะลึกจุดเปลี่ยนภูมิรัฐศาสตร์และการอพยพของทุนระดับโลกได้จากหน้าต่างด้านล่างนี้โดยตรง:
-                </p>
                 
                 <div class="relative w-full overflow-hidden pt-[56.25%] rounded-xl shadow-lg border border-slate-200 bg-slate-100">
-                    <!-- Changing /view to /preview enables embedding -->
                     <iframe class="absolute top-0 left-0 w-full h-full" src="https://drive.google.com/file/d/1lrcoxVoHyj3Bt6FTCJvr8AA4n474m-iI/preview" allow="autoplay" frameborder="0" allowfullscreen title="Presentation Slides"></iframe>
                 </div>
                 
                 <div class="mt-4 text-center">
                     <a href="https://drive.google.com/file/d/1lrcoxVoHyj3Bt6FTCJvr8AA4n474m-iI/view?usp=sharing" target="_blank" class="text-blue-600 hover:text-blue-800 font-medium text-sm inline-flex items-center transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        เปิดหน้าต่างใหม่เต็มจอ (Open in new tab)
+                        <span data-lang="th">เปิดหน้าต่างใหม่เต็มจอ (Open in new tab)</span>
+                        <span data-lang="en">Open in new tab</span>
+                        <span data-lang="ru">Открыть в новой вкладке</span>
+                        <span data-lang="zh">在新标签页中打开</span>
                     </a>
                 </div>
             </section>
 
-            <!-- Section 7 -->
+            <!-- Section 7 (Conclusion) -->
             <section class="mb-8 fade-in-section">
                 <div class="bg-slate-900 text-white p-8 md:p-10 rounded-2xl relative overflow-hidden group">
-                    <!-- Background decoration -->
                     <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl transform group-hover:scale-110 transition-transform duration-700"></div>
                     <div class="absolute bottom-0 left-0 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl transform group-hover:scale-110 transition-transform duration-700"></div>
                     
                     <div class="relative z-10">
                         <h2 class="text-2xl md:text-3xl font-bold mb-6 text-blue-400">
-                            7. บทสรุป: อนาคตของการถือครอง "Portfolio of Destinations"
+                            07 <span data-lang="th">บทสรุป: อนาคตของการถือครอง "Portfolio of Destinations"</span>
+                            <span data-lang="en">Conclusion: The Future of Holding a "Portfolio of Destinations"</span>
+                            <span data-lang="ru">Заключение: Будущее владения «Портфелем направлений»</span>
+                            <span data-lang="zh">结论：持有“目的地投资组合”的未来</span>
                         </h2>
                         <p class="text-slate-300 mb-6 text-lg">
-                            เมื่อมองไปถึงปี 2032 อาเซียนจะไม่ได้เป็นแค่แหล่งท่องเที่ยว แต่จะกลายเป็นศูนย์กลางการจัดการความมั่งคั่งใหม่ผ่านระบบ <strong>"SEA Triad"</strong>:
+                            <span data-lang="th">เมื่อมองไปถึงปี 2032 อาเซียนจะไม่ได้เป็นแค่แหล่งท่องเที่ยว แต่จะกลายเป็นศูนย์กลางการจัดการความมั่งคั่งใหม่ผ่านระบบ <strong>"SEA Triad"</strong>:</span>
+                            <span data-lang="en">Looking toward 2032, ASEAN will no longer be just a tourist hub, but a new wealth management center via the <strong>"SEA Triad"</strong>:</span>
+                            <span data-lang="ru">Забегая вперед к 2032 году, АСЕАН станет новым центром управления капиталом через систему <strong>«Триада АСЕАН»</strong>:</span>
+                            <span data-lang="zh">展望2032年，东盟将不再仅仅是一个旅游中心，而是通过<strong>“东盟三剑客”</strong>系统成为新的财富管理中心：</span>
                         </p>
                         
                         <div class="grid sm:grid-cols-2 gap-6 mb-8">
                             <div class="bg-white/10 p-5 rounded-xl backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-colors">
-                                <h4 class="text-blue-300 font-bold mb-2 flex items-center"><span class="bg-blue-500/20 p-2 rounded-lg mr-3">🇸🇬</span> สิงคโปร์</h4>
-                                <p class="text-sm text-slate-300">ทำหน้าที่เป็น "Anchor" สำหรับการปกป้องสินทรัพย์ (Asset Protection) และศูนย์กลาง Family Office</p>
+                                <h4 class="text-blue-300 font-bold mb-2 flex items-center"><span class="bg-blue-500/20 p-2 rounded-lg mr-3">🇸🇬</span> 
+                                    <span data-lang="th">สิงคโปร์</span><span data-lang="en">Singapore</span><span data-lang="ru">Сингапур</span><span data-lang="zh">新加坡</span>
+                                </h4>
+                                <p class="text-sm text-slate-300">
+                                    <span data-lang="th">ทำหน้าที่เป็น "Anchor" สำหรับการปกป้องสินทรัพย์ (Asset Protection) และศูนย์กลาง Family Office</span>
+                                    <span data-lang="en">Serves as the "Anchor" for Asset Protection and Family Office hubs.</span>
+                                    <span data-lang="ru">Выполняет роль «Якоря» для защиты активов и центров семейных офисов.</span>
+                                    <span data-lang="zh">充当资产保护和家族办公室中心的“锚点”。</span>
+                                </p>
                             </div>
                             <div class="bg-white/10 p-5 rounded-xl backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-colors">
-                                <h4 class="text-green-300 font-bold mb-2 flex items-center"><span class="bg-green-500/20 p-2 rounded-lg mr-3">🇹🇭</span> ไทย / อินโดนีเซีย</h4>
-                                <p class="text-sm text-slate-300">เป็น "Growth Engine" สำหรับไลฟ์สไตล์แบบ Transformation Economy และสร้างผลตอบแทนที่สูงกว่า</p>
+                                <h4 class="text-green-300 font-bold mb-2 flex items-center"><span class="bg-green-500/20 p-2 rounded-lg mr-3">🇹🇭</span> 
+                                    <span data-lang="th">ไทย / อินโดนีเซีย</span><span data-lang="en">Thailand & Indonesia</span><span data-lang="ru">Таиланд и Индонезия</span><span data-lang="zh">泰国 & 印尼</span>
+                                </h4>
+                                <p class="text-sm text-slate-300">
+                                    <span data-lang="th">เป็น "Growth Engine" สำหรับไลฟ์สไตล์แบบ Transformation Economy และสร้างผลตอบแทนที่สูงกว่า</span>
+                                    <span data-lang="en">Acts as the "Growth Engine" for the Transformation Economy lifestyle, generating higher yields.</span>
+                                    <span data-lang="ru">Действует как «Двигатель роста» для трансформационной экономики, генерируя более высокую доходность.</span>
+                                    <span data-lang="zh">作为转型经济生活方式的“增长引擎”，产生更高的收益。</span>
+                                </p>
                             </div>
                         </div>
 
-                        <p class="text-slate-300 font-light mb-8">
-                            มหาเศรษฐียุค 2026 ไม่ได้มองหาบ้านหลังเดียว แต่พวกเขากำลังสร้าง <strong>"Portfolio of Destinations"</strong> เพื่อกระจายความเสี่ยงทั้งภูมิรัฐศาสตร์และการเงิน ดูไบอาจจะกลับมาได้หากสงครามจบลง แต่ความเสียหายต่อแบรนด์ "Safe Haven" นั้นฝังรากลึกไปแล้ว
-                        </p>
-                        
                         <div class="border-t border-slate-700/50 pt-8 mt-4">
                             <p class="text-xl md:text-2xl font-medium text-white italic leading-relaxed text-center drop-shadow-md">
-                                "ในโลกที่ความผันผวนคือสถานะปกติใหม่ คำถามสุดท้ายสำหรับคุณไม่ใช่ 'ควรลงทุนที่ไหน?' แต่คือ... สวรรค์ที่ปลอดภัยที่สุดสำหรับความมั่งคั่งและครอบครัวของคุณในทศวรรษหน้า <span class="text-blue-400">ตั้งอยู่ที่พิกัดไหนกันแน่?</span>"
+                                <span data-lang="th">"ในโลกที่ความผันผวนคือสถานะปกติใหม่ คำถามสุดท้ายสำหรับคุณไม่ใช่ 'ควรลงทุนที่ไหน?' แต่คือ... สวรรค์ที่ปลอดภัยที่สุดสำหรับความมั่งคั่งและครอบครัวของคุณในทศวรรษหน้า <span class="text-blue-400">ตั้งอยู่ที่พิกัดไหนกันแน่?</span>"</span>
+                                <span data-lang="en">"In a world where volatility is the new normal, the ultimate question isn't 'Where should I invest?' but... Where exactly is the safest sanctuary for your wealth and family in the next decade?"</span>
+                                <span data-lang="ru">«В мире, где волатильность — новая норма, главный вопрос не "Куда инвестировать?", а... Где именно находится самое безопасное убежище для вашего богатства и семьи?»</span>
+                                <span data-lang="zh">“在一个波动成为新常态的世界里，最终的问题不是‘我应该在哪里投资？’而是……未来十年，您财富和家庭最安全的避风港究竟在哪里？”</span>
                             </p>
                         </div>
                     </div>
@@ -393,7 +584,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-10 text-center text-slate-500 text-sm">
         <p class="mb-2">© 2026 WealthInsights. Geopolitical & Real Estate Analysis.</p>
-        <p class="text-xs text-slate-400">Interactive Edition • Updated May 15, 2026</p>
+        <p class="text-xs text-slate-400">Multilingual Edition • Updated May 15, 2026</p>
     </footer>
 
     <!-- Back to Top Button -->
@@ -403,6 +594,28 @@
 
     <!-- Interactive Scripts -->
     <script>
+        // Language Switcher Logic
+        function switchLanguage(langCode, buttonText) {
+            // Update body class for CSS to handle visibility
+            document.body.className = document.body.className.replace(/lang-\w+/, '');
+            document.body.classList.add('lang-' + langCode);
+            
+            // Update the display button text
+            document.getElementById('currentLangDisplay').firstElementChild.textContent = buttonText;
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = langCode;
+
+            // Optional: Update Document Title
+            const titles = {
+                'th': "2026: ทำไมมหาเศรษฐีโลกถึงทิ้ง 'ดูไบ' สู่ 'อาเซียน'",
+                'en': "2026: Why Billionaires are Leaving Dubai for ASEAN",
+                'ru': "2026: Почему миллиардеры покидают Дубай ради АСЕАН",
+                'zh': "2026：为什么全球亿万富翁放弃迪拜转投东盟"
+            };
+            document.title = titles[langCode];
+        }
+
         // Intersection Observer for scroll animations (Fade in on scroll)
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
@@ -415,7 +628,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Stop observing once visible
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -430,7 +643,6 @@
             const navbar = document.getElementById('navbar');
 
             window.addEventListener('scroll', () => {
-                // Show/hide Back to Top button
                 if (window.scrollY > 500) {
                     backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-10');
                     backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
@@ -439,7 +651,6 @@
                     backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
                 }
 
-                // Add slight shadow to navbar on scroll
                 if (window.scrollY > 10) {
                     navbar.classList.add('shadow-md');
                     navbar.classList.remove('shadow-sm');
@@ -449,12 +660,8 @@
                 }
             });
 
-            // Smooth scroll to top
             backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
