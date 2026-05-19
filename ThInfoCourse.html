@@ -10,13 +10,13 @@
     <meta property="og:description" content="Unlock your Hybrid Creativity with Generative AI" />
     <meta property="og:image" content="https://i.postimg.cc/SxG4qfP1/Image-Placeholder.jpg" />
     
-    <!-- Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Sarabun:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Custom Config & Styles -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -26,19 +26,39 @@
                         display: ['Outfit', 'sans-serif'],
                     },
                     colors: {
-                        dark: '#050505',
+                        dark: '#030303',
                         gold: {
                             DEFAULT: '#FBBF24',
-                            glow: '#D97706'
+                            glow: '#D97706',
+                            light: '#FDE68A'
                         },
                         blue: {
                             DEFAULT: '#38BDF8',
-                            glow: '#0284C7'
+                            glow: '#0284C7',
+                            light: '#7DD3FC'
                         }
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'glass': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                        'glass-gradient': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                        'mesh': 'radial-gradient(at 40% 20%, hsla(28,100%,74%,0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.05) 0px, transparent 50%)'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'aurora': 'aurora 15s ease infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        aurora: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' }
+                        }
                     }
                 }
             }
@@ -47,65 +67,85 @@
 
     <style>
         body {
-            background-color: #050505;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 25%), 
-                radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.08) 0%, transparent 25%);
+            background-color: #030303;
             color: #f3f4f6;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Glassmorphism Utilities */
+        /* Animated Background Mesh */
+        .bg-animated-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.12) 0%, transparent 40%), 
+                radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+            background-size: 200% 200%;
+            animation: aurora 15s ease infinite alternate;
+        }
+
+        /* Glassmorphism Refinements */
         .glass-panel {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .glass-card {
-            background: linear-gradient(180deg, rgba(30, 30, 30, 0.7) 0%, rgba(20, 20, 20, 0.4) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(180deg, rgba(30, 30, 30, 0.4) 0%, rgba(15, 15, 15, 0.6) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(20, 20, 20, 0.7) 100%);
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
         }
 
         /* Text Gradients */
         .text-gradient-gold {
-            background: linear-gradient(to right, #FBBF24, #F59E0B);
+            background: linear-gradient(135deg, #FDE68A 0%, #FBBF24 50%, #D97706 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .text-gradient-blue {
-            background: linear-gradient(to right, #38BDF8, #0EA5E9);
+            background: linear-gradient(135deg, #7DD3FC 0%, #38BDF8 50%, #0284C7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Animations */
+        /* Scroll Reveal Animations */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transform: translateY(40px) scale(0.98);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         /* Language Switcher */
         .lang-btn {
-            opacity: 0.5;
-            transition: all 0.3s;
+            opacity: 0.4;
+            transition: all 0.3s ease;
             filter: grayscale(100%);
+            transform: scale(0.9);
         }
         .lang-btn:hover, .lang-btn.active {
             opacity: 1;
@@ -114,35 +154,66 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; border: 1px solid #050505; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Bento Grid Utility */
+        .bento-hover {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .bento-hover:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-amber-500/30 selection:text-amber-200">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+    <!-- Background Animation Layer -->
+    <div class="bg-animated-mesh"></div>
+
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl font-display font-bold text-white tracking-tighter">AI <span class="text-gradient-gold">GYMMATEX</span></span>
+                <div class="flex items-center gap-2 z-50">
+                    <a href="#home" class="flex items-center gap-2 group">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-blue-500 flex items-center justify-center shadow-lg group-hover:shadow-amber-500/50 transition-shadow">
+                            <span class="text-white font-bold font-display text-sm">AI</span>
+                        </div>
+                        <span class="text-2xl font-display font-bold text-white tracking-tight">GYMMATEX</span>
+                    </a>
                 </div>
                 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-6">
-                    <div class="flex items-baseline space-x-4">
-                        <a href="#home" class="hover:text-amber-400 transition-colors px-2 py-2 rounded-md text-sm font-medium" data-i18n="nav_home">หน้าหลัก</a>
-                        <a href="#course-overview" class="hover:text-amber-400 transition-colors px-2 py-2 rounded-md text-sm font-medium" data-i18n="nav_overview">ภาพรวม</a>
-                        <a href="#learning-journey" class="hover:text-amber-400 transition-colors px-2 py-2 rounded-md text-sm font-medium" data-i18n="nav_content">เนื้อหา</a>
-                        <a href="#instructors" class="hover:text-amber-400 transition-colors px-2 py-2 rounded-md text-sm font-medium" data-i18n="nav_instructors">ผู้สอน</a>
-                        <a href="#portfolio" class="hover:text-amber-400 transition-colors px-2 py-2 rounded-md text-sm font-medium" data-i18n="nav_portfolio">ผลงาน</a>
+                <div class="hidden md:flex items-center gap-8">
+                    <div class="flex items-baseline space-x-6">
+                        <a href="#home" class="hover:text-amber-400 transition-colors text-sm font-medium text-gray-300 relative group" data-i18n="nav_home">
+                            หน้าหลัก
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#course-overview" class="hover:text-amber-400 transition-colors text-sm font-medium text-gray-300 relative group" data-i18n="nav_overview">
+                            ภาพรวม
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#learning-journey" class="hover:text-amber-400 transition-colors text-sm font-medium text-gray-300 relative group" data-i18n="nav_content">
+                            เนื้อหา
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#instructors" class="hover:text-amber-400 transition-colors text-sm font-medium text-gray-300 relative group" data-i18n="nav_instructors">
+                            ผู้สอน
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#portfolio" class="hover:text-amber-400 transition-colors text-sm font-medium text-gray-300 relative group" data-i18n="nav_portfolio">
+                            ผลงาน
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                        </a>
                     </div>
                     
-                    <!-- Language Switcher -->
-                    <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+                    <!-- Language Switcher Desktop -->
+                    <div class="flex items-center gap-2 pl-6 border-l border-white/10 bg-black/20 px-3 py-1.5 rounded-full">
                         <button onclick="changeLanguage('th')" class="lang-btn active text-lg" title="Thai">🇹🇭</button>
                         <button onclick="changeLanguage('en')" class="lang-btn text-lg" title="English">🇬🇧</button>
                         <button onclick="changeLanguage('ru')" class="lang-btn text-lg" title="Russian">🇷🇺</button>
@@ -150,292 +221,391 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                         <button onclick="changeLanguage('th')" class="lang-btn active text-sm">🇹🇭</button>
-                         <button onclick="changeLanguage('en')" class="lang-btn text-sm">🇬🇧</button>
-                         <button onclick="changeLanguage('ru')" class="lang-btn text-sm">🇷🇺</button>
-                         <button onclick="changeLanguage('zh')" class="lang-btn text-sm">🇨🇳</button>
-                    </div>
+                <!-- Mobile Menu Toggle Button -->
+                <div class="md:hidden flex items-center z-50">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 hidden flex-col items-center justify-center gap-8 pt-20 pb-10 px-4 transition-opacity duration-300 opacity-0">
+            <a href="#home" class="mobile-link text-2xl font-medium text-white hover:text-amber-400" data-i18n="nav_home">หน้าหลัก</a>
+            <a href="#course-overview" class="mobile-link text-2xl font-medium text-white hover:text-amber-400" data-i18n="nav_overview">ภาพรวม</a>
+            <a href="#learning-journey" class="mobile-link text-2xl font-medium text-white hover:text-amber-400" data-i18n="nav_content">เนื้อหา</a>
+            <a href="#instructors" class="mobile-link text-2xl font-medium text-white hover:text-amber-400" data-i18n="nav_instructors">ผู้สอน</a>
+            <a href="#portfolio" class="mobile-link text-2xl font-medium text-white hover:text-amber-400" data-i18n="nav_portfolio">ผลงาน</a>
+            
+            <div class="flex items-center gap-4 mt-8 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <button onclick="changeLanguage('th')" class="lang-btn active text-2xl">🇹🇭</button>
+                <button onclick="changeLanguage('en')" class="lang-btn text-2xl">🇬🇧</button>
+                <button onclick="changeLanguage('ru')" class="lang-btn text-2xl">🇷🇺</button>
+                <button onclick="changeLanguage('zh')" class="lang-btn text-2xl">🇨🇳</button>
             </div>
         </div>
     </nav>
 
-    <main id="home" class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+    <main id="home" class="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-32">
         
-        <!-- Hero Section -->
-        <section class="flex flex-col items-center text-center reveal active">
+        <section class="flex flex-col items-center text-center reveal active relative pt-10">
+            
+            <!-- Glow behind text -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[40vh] bg-blue-500/20 blur-[120px] rounded-full z-0 pointer-events-none"></div>
+
             <!-- Badge -->
-            <div class="inline-flex items-center px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-medium mb-6 tracking-wide uppercase" data-i18n="hero_badge">
-                New Generation Course
+            <div class="relative z-10 inline-flex items-center px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs sm:text-sm font-medium mb-8 tracking-wider uppercase shadow-[0_0_20px_rgba(245,158,11,0.15)] backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
+                <span data-i18n="hero_badge">New Generation Course</span>
             </div>
 
-            <h1 class="text-4xl md:text-7xl font-display font-bold mb-6 leading-tight">
-                <span class="text-white" data-i18n="hero_title1">UNLOCK YOUR</span><br />
-                <span class="text-gradient-gold" data-i18n="hero_title2">HYBRID CREATIVITY</span>
+            <h1 class="relative z-10 text-5xl md:text-7xl lg:text-8xl font-display font-extrabold mb-6 leading-[1.1] tracking-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400" data-i18n="hero_title1">UNLOCK YOUR</span><br />
+                <span class="text-gradient-gold drop-shadow-[0_0_30px_rgba(245,158,11,0.3)]" data-i18n="hero_title2">HYBRID CREATIVITY</span>
             </h1>
             
-            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 font-light leading-relaxed" data-i18n="hero_subtitle">
-                ก้าวข้ามการเป็นเพียง 'ผู้ใช้งาน' สู่การเป็น 'Hybrid Creator' ที่ผสานตัวตนและความคิดสร้างสรรค์ของคุณเข้ากับ Generative AI ได้อย่างสมบูรณ์แบบ
+            <p class="relative z-10 text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed" data-i18n="hero_subtitle">
+                ก้าวข้ามการเป็นเพียง 'ผู้ใช้งาน' สู่การเป็น <span class='text-white font-medium'>'Hybrid Creator'</span> ที่ผสานตัวตนและความคิดสร้างสรรค์ของคุณเข้ากับ Generative AI ได้อย่างสมบูรณ์แบบ
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 mb-16">
+            <div class="relative z-10 flex flex-col sm:flex-row gap-5 mb-20 w-full sm:w-auto">
                 <a href="https://drive.google.com/file/d/18mWMYzPOfkBwrM7P-CK-rcDAFV-jyUmr/view?usp=sharing" target="_blank" 
-                   class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-black transition-all duration-200 bg-amber-400 font-sans rounded-full hover:bg-amber-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 focus:ring-offset-gray-900">
-                    <span data-i18n="hero_btn_download">ดาวน์โหลดโครงสร้างหลักสูตร</span>
-                    <svg class="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                   class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-black transition-all duration-300 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full hover:scale-105 hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] overflow-hidden">
+                    <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    <span class="relative z-10 flex items-center" data-i18n="hero_btn_download">
+                        ดาวน์โหลดโครงสร้างหลักสูตร
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </span>
                 </a>
-                <a href="#course-overview" class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white transition-all duration-200 border border-white/20 rounded-full hover:bg-white/10 hover:border-white/40" data-i18n="hero_btn_read">
+                <a href="#course-overview" class="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 border border-white/20 rounded-full hover:bg-white/10 hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] backdrop-blur-sm" data-i18n="hero_btn_read">
                     อ่านรายละเอียด
                 </a>
             </div>
 
-            <!-- Video Container -->
-            <div class="relative w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-amber-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-                <div class="relative aspect-video bg-black">
-                     <iframe src="https://www.youtube.com/embed/NcBrBusk8ts?autoplay=1&mute=1&loop=1&playlist=NcBrBusk8ts&controls=0&rel=0" class="w-full h-full absolute inset-0 border-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <!-- Video Container with Floating Effect -->
+            <div class="relative z-10 w-full max-w-5xl mx-auto animate-float">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                <div class="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black/50 backdrop-blur-sm p-2">
+                    <div class="relative aspect-video rounded-xl overflow-hidden bg-black">
+                         <iframe src="https://www.youtube.com/embed/EaiV-ZXeQvg?autoplay=1&mute=1&loop=1&playlist=EaiV-ZXeQvg&controls=0&rel=0" class="w-full h-full absolute inset-0 border-0 pointer-events-none scale-105" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         <!-- overlay to prevent clicking inside video if it's just a background -->
+                         <div class="absolute inset-0 bg-transparent"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats / Overview -->
         <section id="course-overview" class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
-            <div class="glass-card p-8 rounded-2xl text-center relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <div class="glass-card p-10 rounded-3xl text-center relative overflow-hidden group">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-blue-500/10 rounded-2xl border border-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-6xl font-display font-bold text-gradient-blue mb-2">3</h3>
+                    <p class="text-white font-medium text-xl" data-i18n="overview_months_label">Months Duration</p>
+                    <p class="text-gray-400 text-sm mt-3" data-i18n="overview_months_desc">เรียนรู้แบบเข้มข้นเน้นโปรเจกต์จริง</p>
                 </div>
-                <h3 class="text-5xl font-display font-bold text-gradient-blue mb-2">3</h3>
-                <p class="text-white font-medium text-lg" data-i18n="overview_months_label">Months Duration</p>
-                <p class="text-gray-400 text-sm mt-2" data-i18n="overview_months_desc">เรียนรู้แบบเข้มข้นเน้นโปรเจกต์จริง</p>
             </div>
-            <div class="glass-card p-8 rounded-2xl text-center relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+            
+            <div class="glass-card p-10 rounded-3xl text-center relative overflow-hidden group">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h3 class="text-6xl font-display font-bold text-gradient-gold mb-2">6</h3>
+                    <p class="text-white font-medium text-xl" data-i18n="overview_sessions_label">Core Sessions</p>
+                    <p class="text-gray-400 text-sm mt-3" data-i18n="overview_sessions_desc">เจาะลึกทุกหัวข้อสำคัญของ AI</p>
                 </div>
-                <h3 class="text-5xl font-display font-bold text-gradient-gold mb-2">6</h3>
-                <p class="text-white font-medium text-lg" data-i18n="overview_sessions_label">Core Sessions</p>
-                <p class="text-gray-400 text-sm mt-2" data-i18n="overview_sessions_desc">เจาะลึกทุกหัวข้อสำคัญของ AI</p>
             </div>
-            <div class="glass-card p-8 rounded-2xl text-center relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+
+            <div class="glass-card p-10 rounded-3xl text-center relative overflow-hidden group">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-purple-500/10 rounded-2xl border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-6xl font-display font-bold text-gradient-blue mb-2">4-6</h3>
+                    <p class="text-white font-medium text-xl" data-i18n="overview_class_label">Class Size</p>
+                    <p class="text-gray-400 text-sm mt-3" data-i18n="overview_class_desc">กลุ่มเล็ก ดูแลทั่วถึง ถามตอบได้ทันที</p>
                 </div>
-                <h3 class="text-5xl font-display font-bold text-gradient-blue mb-2">4-6</h3>
-                <p class="text-white font-medium text-lg" data-i18n="overview_class_label">Class Size</p>
-                <p class="text-gray-400 text-sm mt-2" data-i18n="overview_class_desc">กลุ่มเล็ก ดูแลทั่วถึง ถามตอบได้ทันที</p>
             </div>
         </section>
 
-        <!-- Learning Journey Timeline -->
-        <section id="learning-journey" class="reveal">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4"><span class="text-gradient-gold" data-i18n="journey_title">เส้นทางการเรียนรู้</span></h2>
-                <div class="h-1 w-20 bg-amber-500 mx-auto rounded-full"></div>
+        <section id="learning-journey" class="reveal pt-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6"><span class="text-gradient-gold" data-i18n="journey_title">เส้นทางการเรียนรู้</span></h2>
+                <div class="h-1.5 w-24 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto rounded-full"></div>
             </div>
 
-            <div class="relative">
-                <!-- Vertical Line -->
-                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-amber-500 to-blue-500 md:-ml-0.5"></div>
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Glowing Vertical Line -->
+                <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500/20 via-amber-500/50 to-blue-500/20 md:-ml-0.5 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.3)]"></div>
 
-                <div class="space-y-12">
+                <div class="space-y-16">
                     <!-- Month 1 -->
                     <div class="relative flex flex-col md:flex-row items-center justify-between group">
-                        <div class="md:w-5/12 order-2 md:order-1 glass-card p-6 rounded-xl border-l-4 border-blue-400 ml-12 md:ml-0 md:text-right hover:border-blue-300 transition-colors">
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="journey_m1_title">Month 1: Foundation & Ideation</h3>
-                            <ul class="text-gray-400 text-sm space-y-2">
-                                <li><strong class="text-blue-400">Session 1:</strong> <span data-i18n="journey_m1_s1">Hybrid Concept & Prompt Engineering</span></li>
-                                <li><strong class="text-blue-400">Session 2:</strong> <span data-i18n="journey_m1_s2">เสียง & ดนตรี (Sound Gen)</span></li>
+                        <div class="md:w-5/12 order-2 md:order-1 glass-card p-8 rounded-2xl border-l-4 border-blue-400 ml-16 md:ml-0 md:text-right hover:border-blue-300 transition-all duration-300 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <h3 class="text-2xl font-display font-bold text-white mb-4" data-i18n="journey_m1_title">Month 1: Foundation & Ideation</h3>
+                            <ul class="text-gray-300 text-base space-y-3">
+                                <li><strong class="text-blue-400 font-medium">Session 1:</strong> <span data-i18n="journey_m1_s1">Hybrid Concept & Prompt Engineering</span></li>
+                                <li><strong class="text-blue-400 font-medium">Session 2:</strong> <span data-i18n="journey_m1_s2">เสียง & ดนตรี (Sound Gen)</span></li>
                             </ul>
                         </div>
-                        <div class="absolute left-4 md:left-1/2 -ml-3 w-6 h-6 rounded-full border-4 border-gray-900 bg-blue-500 z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                        <!-- Timeline Dot -->
+                        <div class="absolute left-6 md:left-1/2 -ml-4 w-8 h-8 rounded-full border-4 border-black bg-blue-500 z-10 shadow-[0_0_20px_rgba(59,130,246,0.8)] group-hover:scale-125 transition-transform duration-300 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
                         <div class="md:w-5/12 order-3 md:order-2 hidden md:block"></div>
                     </div>
 
                     <!-- Month 2 -->
                     <div class="relative flex flex-col md:flex-row items-center justify-between group">
                         <div class="md:w-5/12 order-2 md:order-1 hidden md:block"></div>
-                        <div class="absolute left-4 md:left-1/2 -ml-3 w-6 h-6 rounded-full border-4 border-gray-900 bg-amber-500 z-10 shadow-[0_0_15px_rgba(245,158,11,0.5)]"></div>
-                        <div class="md:w-5/12 order-3 md:order-2 glass-card p-6 rounded-xl border-l-4 md:border-l-0 md:border-r-4 border-amber-400 ml-12 md:ml-0 hover:border-amber-300 transition-colors">
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="journey_m2_title">Month 2: Visuals & Personas</h3>
-                            <ul class="text-gray-400 text-sm space-y-2">
-                                <li><strong class="text-amber-400">Session 3:</strong> <span data-i18n="journey_m2_s3">ภาพเสมือนจริง & Consistent Style</span></li>
-                                <li><strong class="text-amber-400">Session 4:</strong> <span data-i18n="journey_m2_s4">Hybrid AI Persona Creation</span></li>
+                        <!-- Timeline Dot -->
+                        <div class="absolute left-6 md:left-1/2 -ml-4 w-8 h-8 rounded-full border-4 border-black bg-amber-500 z-10 shadow-[0_0_20px_rgba(245,158,11,0.8)] group-hover:scale-125 transition-transform duration-300 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        <div class="md:w-5/12 order-3 md:order-2 glass-card p-8 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-amber-400 ml-16 md:ml-0 hover:border-amber-300 transition-all duration-300 relative overflow-hidden">
+                             <div class="absolute inset-0 bg-gradient-to-l from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <h3 class="text-2xl font-display font-bold text-white mb-4" data-i18n="journey_m2_title">Month 2: Visuals & Personas</h3>
+                            <ul class="text-gray-300 text-base space-y-3">
+                                <li><strong class="text-amber-400 font-medium">Session 3:</strong> <span data-i18n="journey_m2_s3">ภาพเสมือนจริง & Consistent Style</span></li>
+                                <li><strong class="text-amber-400 font-medium">Session 4:</strong> <span data-i18n="journey_m2_s4">Hybrid AI Persona Creation</span></li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Month 3 -->
                     <div class="relative flex flex-col md:flex-row items-center justify-between group">
-                        <div class="md:w-5/12 order-2 md:order-1 glass-card p-6 rounded-xl border-l-4 border-blue-400 ml-12 md:ml-0 md:text-right hover:border-blue-300 transition-colors">
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="journey_m3_title">Month 3: Content Creation</h3>
-                            <ul class="text-gray-400 text-sm space-y-2">
-                                <li><strong class="text-blue-400">Session 5:</strong> <span data-i18n="journey_m3_s5">สร้างวิดีโอด้วย AI (Video Gen)</span></li>
-                                <li><strong class="text-blue-400">Session 6:</strong> <span data-i18n="journey_m3_s6">Final Project & Future Trends</span></li>
+                        <div class="md:w-5/12 order-2 md:order-1 glass-card p-8 rounded-2xl border-l-4 border-blue-400 ml-16 md:ml-0 md:text-right hover:border-blue-300 transition-all duration-300 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <h3 class="text-2xl font-display font-bold text-white mb-4" data-i18n="journey_m3_title">Month 3: Content Creation</h3>
+                            <ul class="text-gray-300 text-base space-y-3">
+                                <li><strong class="text-blue-400 font-medium">Session 5:</strong> <span data-i18n="journey_m3_s5">สร้างวิดีโอด้วย AI (Video Gen)</span></li>
+                                <li><strong class="text-blue-400 font-medium">Session 6:</strong> <span data-i18n="journey_m3_s6">Final Project & Future Trends</span></li>
                             </ul>
                         </div>
-                        <div class="absolute left-4 md:left-1/2 -ml-3 w-6 h-6 rounded-full border-4 border-gray-900 bg-blue-500 z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                        <!-- Timeline Dot -->
+                        <div class="absolute left-6 md:left-1/2 -ml-4 w-8 h-8 rounded-full border-4 border-black bg-blue-500 z-10 shadow-[0_0_20px_rgba(59,130,246,0.8)] group-hover:scale-125 transition-transform duration-300 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
                         <div class="md:w-5/12 order-3 md:order-2 hidden md:block"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Instructors -->
-        <section id="instructors" class="reveal">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4"><span data-i18n="instructors_title_prefix">พบกับทีม</span> <span class="text-gradient-blue" data-i18n="instructors_title_suffix">ผู้สอน</span></h2>
-                <p class="text-gray-400" data-i18n="instructors_subtitle">3 ผู้เชี่ยวชาญ 3 สไตล์ เพื่อปลดล็อกศักยภาพของคุณ</p>
+        <section id="instructors" class="reveal pt-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-4"><span data-i18n="instructors_title_prefix" class="text-white">พบกับทีม</span> <span class="text-gradient-blue" data-i18n="instructors_title_suffix">ผู้สอน</span></h2>
+                <p class="text-gray-400 text-lg" data-i18n="instructors_subtitle">3 ผู้เชี่ยวชาญ 3 สไตล์ เพื่อปลดล็อกศักยภาพของคุณ</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
                 <!-- Instructor Card 1 -->
-                <div class="glass-card rounded-2xl p-6 text-center group">
-                    <div class="relative w-32 h-32 mx-auto mb-6">
-                        <div class="absolute inset-0 rounded-full bg-amber-400 blur opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                        <img src="https://i.postimg.cc/8kWC94dK/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-1.jpg" alt="Three" class="relative w-full h-full rounded-full object-cover border-2 border-amber-400/50">
-                        <span class="absolute bottom-0 right-0 bg-amber-500 text-black text-xs font-bold px-2 py-1 rounded-full z-10">INFP</span>
+                <div class="glass-card rounded-3xl p-8 text-center group">
+                    <div class="relative w-40 h-40 mx-auto mb-8">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 to-amber-600 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500 group-hover:scale-110"></div>
+                        <div class="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-amber-400 to-transparent">
+                            <img src="https://i.postimg.cc/8kWC94dK/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-1.jpg" alt="Three" class="w-full h-full rounded-full object-cover border-4 border-black">
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-amber-500 text-black text-xs font-extrabold px-3 py-1.5 rounded-full z-10 shadow-lg border border-amber-300">INFP</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white">Three (ที)</h3>
-                    <p class="text-blue-400 text-sm mb-4">The Mediator</p>
-                    <p class="text-gray-400 text-sm italic mb-6 min-h-[60px]" data-i18n="quote_three">"AI คือผืนผ้าใบแห่งจิตวิญญาณ ผมจะสอนให้คุณถักทอตัวตนลงในงานดิจิทัล"</p>
-                    <a href="https://gemini.google.com/share/61650471b388" target="_blank" class="text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors" data-i18n="view_profile">ดูโปรไฟล์ &rarr;</a>
+                    <h3 class="text-2xl font-display font-bold text-white">Three (ที)</h3>
+                    <p class="text-amber-400 text-sm mb-6 font-medium tracking-wide uppercase">The Mediator</p>
+                    <p class="text-gray-300 text-base italic mb-8 min-h-[80px] leading-relaxed" data-i18n="quote_three">"AI คือผืนผ้าใบแห่งจิตวิญญาณ ผมจะสอนให้คุณถักทอตัวตนลงในงานดิจิทัล"</p>
+                    <a href="https://gemini.google.com/share/61650471b388" target="_blank" class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-black bg-amber-400 rounded-full hover:bg-amber-300 transition-colors shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                        <span data-i18n="view_profile">ดูโปรไฟล์</span> <span class="ml-2">&rarr;</span>
+                    </a>
                 </div>
 
                 <!-- Instructor Card 2 -->
-                <div class="glass-card rounded-2xl p-6 text-center group">
-                    <div class="relative w-32 h-32 mx-auto mb-6">
-                        <div class="absolute inset-0 rounded-full bg-blue-400 blur opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                        <img src="https://i.postimg.cc/vmdHqmp6/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-3.jpg" alt="B." class="relative w-full h-full rounded-full object-cover border-2 border-blue-400/50">
-                        <span class="absolute bottom-0 right-0 bg-blue-500 text-black text-xs font-bold px-2 py-1 rounded-full z-10">INFJ</span>
+                <div class="glass-card rounded-3xl p-8 text-center group md:-translate-y-8"> <!-- Lift middle card -->
+                    <div class="relative w-40 h-40 mx-auto mb-8">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-400 to-blue-600 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500 group-hover:scale-110"></div>
+                        <div class="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-blue-400 to-transparent">
+                            <img src="https://i.postimg.cc/vmdHqmp6/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-3.jpg" alt="B." class="w-full h-full rounded-full object-cover border-4 border-black">
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-blue-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-full z-10 shadow-lg border border-blue-400">INFJ</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white">B.</h3>
-                    <p class="text-amber-400 text-sm mb-4">The Advocate</p>
-                    <p class="text-gray-400 text-sm italic mb-6 min-h-[60px]" data-i18n="quote_b">"เปลี่ยนจากผู้ใช้งานธรรมดา ให้เป็นสถาปนิกแห่งคอนเทนต์อนาคต"</p>
-                    <a href="https://gemini.google.com/share/8ddb97d8e54f" target="_blank" class="text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors" data-i18n="view_profile">ดูโปรไฟล์ &rarr;</a>
+                    <h3 class="text-2xl font-display font-bold text-white">B.</h3>
+                    <p class="text-blue-400 text-sm mb-6 font-medium tracking-wide uppercase">The Advocate</p>
+                    <p class="text-gray-300 text-base italic mb-8 min-h-[80px] leading-relaxed" data-i18n="quote_b">"เปลี่ยนจากผู้ใช้งานธรรมดา ให้เป็นสถาปนิกแห่งคอนเทนต์อนาคต"</p>
+                    <a href="https://gemini.google.com/share/8ddb97d8e54f" target="_blank" class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-black bg-blue-400 rounded-full hover:bg-blue-300 transition-colors shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+                        <span data-i18n="view_profile">ดูโปรไฟล์</span> <span class="ml-2">&rarr;</span>
+                    </a>
                 </div>
 
                 <!-- Instructor Card 3 -->
-                <div class="glass-card rounded-2xl p-6 text-center group">
-                    <div class="relative w-32 h-32 mx-auto mb-6">
-                        <div class="absolute inset-0 rounded-full bg-amber-400 blur opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                        <img src="https://i.postimg.cc/3x23vTdr/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg" alt="Hour" class="relative w-full h-full rounded-full object-cover border-2 border-amber-400/50">
-                        <span class="absolute bottom-0 right-0 bg-amber-500 text-black text-xs font-bold px-2 py-1 rounded-full z-10">ESTP</span>
+                <div class="glass-card rounded-3xl p-8 text-center group">
+                    <div class="relative w-40 h-40 mx-auto mb-8">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-400 to-pink-500 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500 group-hover:scale-110"></div>
+                        <div class="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-purple-400 to-transparent">
+                            <img src="https://i.postimg.cc/3x23vTdr/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg" alt="Hour" class="w-full h-full rounded-full object-cover border-4 border-black">
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-purple-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-full z-10 shadow-lg border border-purple-400">ESTP</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white">Hour (อาวว์)</h3>
-                    <p class="text-blue-400 text-sm mb-4">The Entrepreneur</p>
-                    <p class="text-gray-400 text-sm italic mb-6 min-h-[60px]" data-i18n="quote_hour">"เน้นปฏิบัติจริง! เปลี่ยนไอเดียให้เป็นโปรเจกต์ที่จับต้องได้"</p>
-                    <a href="https://gemini.google.com/share/8ae6d1c4eea2" target="_blank" class="text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors" data-i18n="view_profile">ดูโปรไฟล์ &rarr;</a>
+                    <h3 class="text-2xl font-display font-bold text-white">Hour (อาวว์)</h3>
+                    <p class="text-purple-400 text-sm mb-6 font-medium tracking-wide uppercase">The Entrepreneur</p>
+                    <p class="text-gray-300 text-base italic mb-8 min-h-[80px] leading-relaxed" data-i18n="quote_hour">"เน้นปฏิบัติจริง! เปลี่ยนไอเดียให้เป็นโปรเจกต์ที่จับต้องได้"</p>
+                    <a href="https://gemini.google.com/share/8ae6d1c4eea2" target="_blank" class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-purple-500 rounded-full hover:bg-purple-400 transition-colors shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                        <span data-i18n="view_profile">ดูโปรไฟล์</span> <span class="ml-2">&rarr;</span>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio Showcase -->
-        <section id="portfolio" class="reveal bg-white/5 rounded-3xl p-8 md:p-12 border border-white/5 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-50"></div>
-            
-            <div class="space-y-16">
-                <!-- Project 1: Interior Smart Home (Existing) -->
-                <div class="flex flex-col md:flex-row gap-12 items-center">
-                    <div class="w-full md:w-1/2">
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://i.postimg.cc/SQTwL2vy/Photo-Smart-Home.jpg" class="rounded-lg hover:scale-105 transition-transform duration-500 shadow-lg object-cover h-40 w-full">
-                            <img src="https://i.postimg.cc/2y9Mz6tF/14.jpg" class="rounded-lg hover:scale-105 transition-transform duration-500 shadow-lg object-cover h-40 w-full translate-y-4">
-                            <img src="https://i.postimg.cc/Dwv4VzTY/9.jpg" class="rounded-lg hover:scale-105 transition-transform duration-500 shadow-lg object-cover h-40 w-full -translate-y-4">
-                            <img src="https://i.postimg.cc/9FzsLd4x/6.jpg" class="rounded-lg hover:scale-105 transition-transform duration-500 shadow-lg object-cover h-40 w-full">
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 text-left">
-                        <h3 class="text-2xl font-bold text-white mb-4">Interior Smart Home Project</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="portfolio_desc">
-                            ตัวอย่างการออกแบบและแนวคิด Smart Home ภายในที่ขับเคลื่อนด้วย AI ที่ผสมผสานความงามและฟังก์ชัน นี่คือผลลัพธ์ที่คุณจะได้ลงมือทำจริง
-                        </p>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="https://drive.google.com/file/d/1gOyrHme2cHYzY7n7SsCuglUYEMo_KoWY/view?usp=sharing" target="_blank" class="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-sm font-medium transition-colors" data-i18n="btn_pdf">
-                                PDF Download
-                            </a>
-                            <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/30" data-i18n="btn_web">
-                                Visit Website Draft
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <section id="portfolio" class="reveal pt-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-4"><span class="text-white">Featured</span> <span class="text-gradient-gold">Works</span></h2>
+            </div>
 
-                <!-- Project 2: Business Overview (New Video) -->
-                <div class="flex flex-col md:flex-row-reverse gap-12 items-center border-t border-white/5 pt-12">
-                    <div class="w-full md:w-1/2">
-                        <div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 group">
-                            <iframe src="https://www.youtube.com/embed/NcBrBusk8ts?rel=0" class="w-full h-full absolute inset-0" title="Business Overview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <div class="glass-card rounded-[2.5rem] p-6 md:p-12 relative overflow-hidden">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-[30rem] h-[30rem] bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                <div class="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"></div>
+                
+                <div class="space-y-24 relative z-10">
+                    
+                    <!-- Project 1: Bento Style Grid -->
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <!-- Bento Images Grid -->
+                        <div class="w-full lg:w-3/5">
+                            <div class="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4 h-[400px] md:h-[500px]">
+                                <div class="col-span-1 row-span-2 rounded-2xl overflow-hidden bento-hover shadow-xl">
+                                    <img src="https://i.postimg.cc/SQTwL2vy/Photo-Smart-Home.jpg" class="w-full h-full object-cover">
+                                </div>
+                                <div class="col-span-1 row-span-1 rounded-2xl overflow-hidden bento-hover shadow-xl relative">
+                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                                    <img src="https://i.postimg.cc/2y9Mz6tF/14.jpg" class="w-full h-full object-cover">
+                                </div>
+                                <div class="col-span-1 row-span-1 rounded-2xl overflow-hidden grid grid-cols-2 gap-3 md:gap-4">
+                                    <div class="rounded-2xl overflow-hidden bento-hover shadow-xl"><img src="https://i.postimg.cc/Dwv4VzTY/9.jpg" class="w-full h-full object-cover"></div>
+                                    <div class="rounded-2xl overflow-hidden bento-hover shadow-xl"><img src="https://i.postimg.cc/9FzsLd4x/6.jpg" class="w-full h-full object-cover"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Text Content -->
+                        <div class="w-full lg:w-2/5 text-left">
+                            <div class="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-gray-400 mb-4 tracking-wider uppercase">Project Case Study</div>
+                            <h3 class="text-3xl md:text-4xl font-display font-bold text-white mb-6 leading-tight">Interior Smart Home</h3>
+                            <p class="text-gray-400 mb-8 leading-relaxed text-lg" data-i18n="portfolio_desc">
+                                ตัวอย่างการออกแบบและแนวคิด Smart Home ภายในที่ขับเคลื่อนด้วย AI ที่ผสมผสานความงามและฟังก์ชัน นี่คือผลลัพธ์ที่คุณจะได้ลงมือทำจริง
+                            </p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="https://drive.google.com/file/d/1gOyrHme2cHYzY7n7SsCuglUYEMo_KoWY/view?usp=sharing" target="_blank" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-semibold transition-all hover:border-white/30 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
+                                    <span data-i18n="btn_pdf">PDF Download</span>
+                                </a>
+                                <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl text-sm font-semibold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                                    <span data-i18n="btn_web">Visit Website Draft</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="w-full md:w-1/2 text-left md:text-right">
-                        <h3 class="text-2xl font-bold text-white mb-4" data-i18n="portfolio_biz_title">Business Overview</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="portfolio_biz_desc">
-                            ภาพรวมธุรกิจทั้งหมดที่เราทำอยู่ ผสานเทคโนโลยี AI และความคิดสร้างสรรค์เพื่อขับเคลื่อนนวัตกรรมในทุกมิติ
-                        </p>
+
+                    <!-- Separator -->
+                    <div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+                    <!-- Project 2: Video -->
+                    <div class="flex flex-col lg:flex-row-reverse gap-12 items-center">
+                        <div class="w-full lg:w-3/5">
+                            <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group bento-hover">
+                                <div class="absolute inset-0 bg-blue-500/20 mix-blend-overlay group-hover:opacity-0 transition-opacity z-10 pointer-events-none"></div>
+                                <iframe src="https://www.youtube.com/embed/aM6U2rGgmnE?rel=0" class="w-full h-full absolute inset-0" title="Business Overview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-2/5 text-left lg:text-right">
+                             <div class="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-gray-400 mb-4 tracking-wider uppercase">Overview</div>
+                            <h3 class="text-3xl md:text-4xl font-display font-bold text-white mb-6 leading-tight" data-i18n="portfolio_biz_title">Business Overview</h3>
+                            <p class="text-gray-400 mb-6 leading-relaxed text-lg" data-i18n="portfolio_biz_desc">
+                                ภาพรวมธุรกิจทั้งหมดที่เราทำอยู่ ผสานเทคโนโลยี AI และความคิดสร้างสรรค์เพื่อขับเคลื่อนนวัตกรรมในทุกมิติ
+                            </p>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Tools Grid -->
-        <section class="reveal">
-            <h2 class="text-2xl font-bold text-center mb-8 text-gray-300" data-i18n="tools_title">Technology Stack</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="p-4 border border-white/10 rounded-xl bg-black/20 text-center hover:border-amber-500/50 transition-colors">
-                    <div class="text-3xl mb-2">🖼️</div>
-                    <div class="font-bold text-white">Image Gen</div>
-                    <div class="text-xs text-gray-500">Leonardo.AI, etc.</div>
+        <section class="reveal pt-10">
+            <h2 class="text-2xl font-display font-bold text-center mb-10 text-gray-300 tracking-widest uppercase text-sm" data-i18n="tools_title">Technology Stack</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- Stack Cards -->
+                <div class="glass-card p-6 rounded-2xl text-center group cursor-default">
+                    <div class="text-4xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">🖼️</div>
+                    <div class="font-bold text-white mb-1">Image Gen</div>
+                    <div class="text-sm text-amber-400/70">Leonardo.AI, Midjourney</div>
                 </div>
-                <div class="p-4 border border-white/10 rounded-xl bg-black/20 text-center hover:border-blue-500/50 transition-colors">
-                    <div class="text-3xl mb-2">🎬</div>
-                    <div class="font-bold text-white">Video Gen</div>
-                    <div class="text-xs text-gray-500">Higgsfield, VEO, KLING</div>
+                <div class="glass-card p-6 rounded-2xl text-center group cursor-default">
+                    <div class="text-4xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">🎬</div>
+                    <div class="font-bold text-white mb-1">Video Gen</div>
+                    <div class="text-sm text-blue-400/70">Higgsfield, VEO, KLING</div>
                 </div>
-                <div class="p-4 border border-white/10 rounded-xl bg-black/20 text-center hover:border-amber-500/50 transition-colors">
-                    <div class="text-3xl mb-2">🎵</div>
-                    <div class="font-bold text-white">Audio Gen</div>
-                    <div class="text-xs text-gray-500">Suno, ElevenLabs</div>
+                <div class="glass-card p-6 rounded-2xl text-center group cursor-default">
+                    <div class="text-4xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]">🎵</div>
+                    <div class="font-bold text-white mb-1">Audio Gen</div>
+                    <div class="text-sm text-purple-400/70">Suno, ElevenLabs</div>
                 </div>
-                <div class="p-4 border border-white/10 rounded-xl bg-black/20 text-center hover:border-blue-500/50 transition-colors">
-                    <div class="text-3xl mb-2">🧠</div>
-                    <div class="font-bold text-white">LLM</div>
-                    <div class="text-xs text-gray-500">Gemini Advanced, SuperGrok</div>
+                <div class="glass-card p-6 rounded-2xl text-center group cursor-default">
+                    <div class="text-4xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">🧠</div>
+                    <div class="font-bold text-white mb-1">LLM Core</div>
+                    <div class="text-sm text-gray-400">Gemini Adv, SuperGrok</div>
                 </div>
             </div>
         </section>
 
         <!-- Hybrid Concept Banner -->
-        <section class="reveal bg-gradient-to-r from-gray-900 to-black rounded-3xl p-8 text-center border border-white/10">
-            <h2 class="text-2xl md:text-3xl font-bold mb-8">
-                <span class="text-white">YOUR SOUL</span> <span class="text-gray-600 mx-2">+</span> <span class="text-gradient-gold">AI POWER</span>
-            </h2>
-            <div class="flex items-center justify-center gap-4 text-gray-400 text-sm md:text-base">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></span>
-                    <span data-i18n="concept_exp">ประสบการณ์</span>
-                </div>
-                <div class="w-12 h-[1px] bg-gray-700"></div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_white]"></span>
-                    Hybrid Persona
-                </div>
-                <div class="w-12 h-[1px] bg-gray-700"></div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-amber-500 shadow-[0_0_10px_#f59e0b]"></span>
-                    <span data-i18n="concept_tech">เทคโนโลยี</span>
+        <section class="reveal relative rounded-[2.5rem] p-10 md:p-16 text-center border border-white/10 overflow-hidden group">
+            <!-- Animated Banner Background -->
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-black to-gray-900"></div>
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAzNHYtNGgtdjRoLTR2NGgtdjRoNHY0aDR2LTRoNHptMC0yMGgtNHY0aDR2LTR6bS00IDRoNHY0aC00di00em0wLTRoLTR2NGg0di00em0tNCA0aC00djRoNHYtNHptMCA0aDR2NGgtNHYtNHptNC0xMmgtNHY0aDR2LTR6bTQtNGgtNHY0aDR2LTR6bTQtNGgtNHY0aDR2LTR6bS0xMiAwaC00djRoNHYtNHptLTQgMGgtNHY0aDR2LTR6bS00IDRoNHY0aC00di00em00IDRoNHY0aC00di00em0tNCA0aDR2NGgtNHYtNHptLTQgNGgtNHY0aDR2LTR6bTQtMTJoNHY0aC00di00em0tNCAwSDh2NGg0di00em0tNCAwSDR2NGg0di00em0wIDRoNHY0SDR2LTR6bS00IDRoNHY0SDB2LTR6bTAgNGg0djRIOXYtNHptMCA0aDR2NEgwdi00em00IDRoNHY0SDR2LTR6bTQtNGg0djRINFYyOHptNCAwSDh2NGg0di00em00IDBoNHY0aC00di00em00LTRoNHY0aC00di00em0tNCAwaC00djRoNHYtNHptMCA0aC00djRoNHYtNHptMCA0aC00djRoNHYtNHptLTQtOGg0djRoLTR2LTR6bTQtOGg0djRoLTR2LTR6bTQtOGg0djRoLTR2LTR6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDIiLz48L2c+PC9zdmc+')] opacity-50"></div>
+            <div class="absolute -inset-1/2 bg-gradient-to-r from-blue-500/10 via-transparent to-amber-500/10 rotate-12 group-hover:rotate-0 transition-transform duration-1000"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-5xl font-display font-extrabold mb-8 tracking-tight">
+                    <span class="text-white">YOUR SOUL</span> 
+                    <span class="text-gray-600 mx-3 font-light text-4xl">+</span> 
+                    <span class="text-gradient-gold drop-shadow-[0_0_20px_rgba(245,158,11,0.2)]">AI POWER</span>
+                </h2>
+                <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-300 text-sm md:text-base font-medium">
+                    <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6] animate-pulse"></span>
+                        <span data-i18n="concept_exp">ประสบการณ์</span>
+                    </div>
+                    <div class="hidden md:block w-8 h-px bg-gray-700"></div>
+                    <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_white] animate-pulse" style="animation-delay: 0.2s"></span>
+                        Hybrid Persona
+                    </div>
+                    <div class="hidden md:block w-8 h-px bg-gray-700"></div>
+                    <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_#f59e0b] animate-pulse" style="animation-delay: 0.4s"></span>
+                        <span data-i18n="concept_tech">เทคโนโลยี</span>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-black border-t border-white/5 py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-white font-bold text-xl tracking-tight mb-4">AI GYMMATEX FACTORY</p>
-            <p class="text-gray-500 text-sm" data-i18n="footer_rights">&copy; 2025 สงวนลิขสิทธิ์ | Created for Hybrid Creators</p>
+    <footer class="bg-[#020202] border-t border-white/10 py-16 mt-10 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-amber-500 to-blue-500 flex items-center justify-center">
+                    <span class="text-white font-bold font-display text-[10px]">AI</span>
+                </div>
+                <p class="text-white font-display font-bold text-2xl tracking-tight">GYMMATEX FACTORY</p>
+            </div>
+            <p class="text-gray-500 text-sm font-medium" data-i18n="footer_rights">&copy; 2026 สงวนลิขสิทธิ์ | Crafted for Hybrid Creators</p>
         </div>
     </footer>
 
@@ -444,189 +614,100 @@
         // Translations Data
         const translations = {
             th: {
-                nav_home: "หน้าหลัก",
-                nav_overview: "ภาพรวม",
-                nav_content: "เนื้อหา",
-                nav_instructors: "ผู้สอน",
-                nav_portfolio: "ผลงาน",
-                hero_badge: "New Generation Course",
-                hero_title1: "UNLOCK YOUR",
-                hero_title2: "HYBRID CREATIVITY",
+                nav_home: "หน้าหลัก", nav_overview: "ภาพรวม", nav_content: "เนื้อหา", nav_instructors: "ผู้สอน", nav_portfolio: "ผลงาน",
+                hero_badge: "New Generation Course", hero_title1: "UNLOCK YOUR", hero_title2: "HYBRID CREATIVITY",
                 hero_subtitle: "ก้าวข้ามการเป็นเพียง 'ผู้ใช้งาน' สู่การเป็น <span class='text-white font-medium'>'Hybrid Creator'</span> ที่ผสานตัวตนและความคิดสร้างสรรค์ของคุณเข้ากับ Generative AI ได้อย่างสมบูรณ์แบบ",
-                hero_btn_download: "ดาวน์โหลดโครงสร้างหลักสูตร",
-                hero_btn_read: "อ่านรายละเอียด",
-                overview_months_label: "ระยะเวลา (เดือน)",
-                overview_months_desc: "เรียนรู้แบบเข้มข้นเน้นโปรเจกต์จริง",
-                overview_sessions_label: "บทเรียนหลัก",
-                overview_sessions_desc: "เจาะลึกทุกหัวข้อสำคัญของ AI",
-                overview_class_label: "ขนาดกลุ่ม",
-                overview_class_desc: "กลุ่มเล็ก ดูแลทั่วถึง ถามตอบได้ทันที",
+                hero_btn_download: "ดาวน์โหลดโครงสร้างหลักสูตร", hero_btn_read: "อ่านรายละเอียด",
+                overview_months_label: "ระยะเวลา (เดือน)", overview_months_desc: "เรียนรู้แบบเข้มข้นเน้นโปรเจกต์จริง",
+                overview_sessions_label: "บทเรียนหลัก", overview_sessions_desc: "เจาะลึกทุกหัวข้อสำคัญของ AI",
+                overview_class_label: "ขนาดกลุ่ม", overview_class_desc: "กลุ่มเล็ก ดูแลทั่วถึง ถามตอบได้ทันที",
                 journey_title: "เส้นทางการเรียนรู้",
-                journey_m1_title: "Month 1: Foundation & Ideation",
-                journey_m1_s1: "Hybrid Concept & Prompt Engineering",
-                journey_m1_s2: "เสียง & ดนตรี (Sound Gen)",
-                journey_m2_title: "Month 2: Visuals & Personas",
-                journey_m2_s3: "ภาพเสมือนจริง & Consistent Style",
-                journey_m2_s4: "Hybrid AI Persona Creation",
-                journey_m3_title: "Month 3: Content Creation",
-                journey_m3_s5: "สร้างวิดีโอด้วย AI (Video Gen)",
-                journey_m3_s6: "Final Project & Future Trends",
-                instructors_title_prefix: "พบกับทีม",
-                instructors_title_suffix: "ผู้สอน",
-                instructors_subtitle: "3 ผู้เชี่ยวชาญ 3 สไตล์ เพื่อปลดล็อกศักยภาพของคุณ",
+                journey_m1_title: "Month 1: Foundation & Ideation", journey_m1_s1: "Hybrid Concept & Prompt Engineering", journey_m1_s2: "เสียง & ดนตรี (Sound Gen)",
+                journey_m2_title: "Month 2: Visuals & Personas", journey_m2_s3: "ภาพเสมือนจริง & Consistent Style", journey_m2_s4: "Hybrid AI Persona Creation",
+                journey_m3_title: "Month 3: Content Creation", journey_m3_s5: "สร้างวิดีโอด้วย AI (Video Gen)", journey_m3_s6: "Final Project & Future Trends",
+                instructors_title_prefix: "พบกับทีม", instructors_title_suffix: "ผู้สอน", instructors_subtitle: "3 ผู้เชี่ยวชาญ 3 สไตล์ เพื่อปลดล็อกศักยภาพของคุณ",
                 quote_three: "\"AI คือผืนผ้าใบแห่งจิตวิญญาณ ผมจะสอนให้คุณถักทอตัวตนลงในงานดิจิทัล\"",
                 quote_b: "\"เปลี่ยนจากผู้ใช้งานธรรมดา ให้เป็นสถาปนิกแห่งคอนเทนต์อนาคต\"",
                 quote_hour: "\"เน้นปฏิบัติจริง! เปลี่ยนไอเดียให้เป็นโปรเจกต์ที่จับต้องได้\"",
-                view_profile: "ดูโปรไฟล์ &rarr;",
+                view_profile: "ดูโปรไฟล์",
                 portfolio_desc: "ตัวอย่างการออกแบบและแนวคิด Smart Home ภายในที่ขับเคลื่อนด้วย AI ที่ผสมผสานความงามและฟังก์ชัน นี่คือผลลัพธ์ที่คุณจะได้ลงมือทำจริง",
-                btn_pdf: "PDF Download",
-                btn_web: "Visit Website Draft",
-                tools_title: "Technology Stack",
-                footer_rights: "&copy; 2025 สงวนลิขสิทธิ์ | Created for Hybrid Creators",
-                portfolio_biz_title: "Business Overview",
-                portfolio_biz_desc: "ภาพรวมธุรกิจทั้งหมดที่เราทำอยู่ ผสานเทคโนโลยี AI และความคิดสร้างสรรค์เพื่อขับเคลื่อนนวัตกรรมในทุกมิติ",
-                concept_exp: "ประสบการณ์",
-                concept_tech: "เทคโนโลยี"
+                btn_pdf: "PDF Download", btn_web: "Visit Website Draft",
+                tools_title: "Technology Stack", footer_rights: "&copy; 2026 สงวนลิขสิทธิ์ | Crafted for Hybrid Creators",
+                portfolio_biz_title: "Business Overview", portfolio_biz_desc: "ภาพรวมธุรกิจทั้งหมดที่เราทำอยู่ ผสานเทคโนโลยี AI และความคิดสร้างสรรค์เพื่อขับเคลื่อนนวัตกรรมในทุกมิติ",
+                concept_exp: "ประสบการณ์", concept_tech: "เทคโนโลยี"
             },
             en: {
-                nav_home: "Home",
-                nav_overview: "Overview",
-                nav_content: "Content",
-                nav_instructors: "Instructors",
-                nav_portfolio: "Portfolio",
-                hero_badge: "New Generation Course",
-                hero_title1: "UNLOCK YOUR",
-                hero_title2: "HYBRID CREATIVITY",
+                nav_home: "Home", nav_overview: "Overview", nav_content: "Content", nav_instructors: "Instructors", nav_portfolio: "Portfolio",
+                hero_badge: "New Generation Course", hero_title1: "UNLOCK YOUR", hero_title2: "HYBRID CREATIVITY",
                 hero_subtitle: "Transcend from being just a 'user' to a <span class='text-white font-medium'>'Hybrid Creator'</span>, seamlessly merging your identity and creativity with Generative AI.",
-                hero_btn_download: "Download Syllabus",
-                hero_btn_read: "Read Details",
-                overview_months_label: "Months Duration",
-                overview_months_desc: "Intensive project-based learning",
-                overview_sessions_label: "Core Sessions",
-                overview_sessions_desc: "Deep dive into key AI topics",
-                overview_class_label: "Class Size",
-                overview_class_desc: "Small group, close supervision, instant Q&A",
+                hero_btn_download: "Download Syllabus", hero_btn_read: "Read Details",
+                overview_months_label: "Months Duration", overview_months_desc: "Intensive project-based learning",
+                overview_sessions_label: "Core Sessions", overview_sessions_desc: "Deep dive into key AI topics",
+                overview_class_label: "Class Size", overview_class_desc: "Small group, close supervision, instant Q&A",
                 journey_title: "Learning Journey",
-                journey_m1_title: "Month 1: Foundation & Ideation",
-                journey_m1_s1: "Hybrid Concept & Prompt Engineering",
-                journey_m1_s2: "Sound & Music (Sound Gen)",
-                journey_m2_title: "Month 2: Visuals & Personas",
-                journey_m2_s3: "Realistic Visuals & Consistent Style",
-                journey_m2_s4: "Hybrid AI Persona Creation",
-                journey_m3_title: "Month 3: Content Creation",
-                journey_m3_s5: "AI Video Generation",
-                journey_m3_s6: "Final Project & Future Trends",
-                instructors_title_prefix: "Meet the",
-                instructors_title_suffix: "Instructors",
-                instructors_subtitle: "3 Experts, 3 Styles to unlock your potential",
+                journey_m1_title: "Month 1: Foundation & Ideation", journey_m1_s1: "Hybrid Concept & Prompt Engineering", journey_m1_s2: "Sound & Music (Sound Gen)",
+                journey_m2_title: "Month 2: Visuals & Personas", journey_m2_s3: "Realistic Visuals & Consistent Style", journey_m2_s4: "Hybrid AI Persona Creation",
+                journey_m3_title: "Month 3: Content Creation", journey_m3_s5: "AI Video Generation", journey_m3_s6: "Final Project & Future Trends",
+                instructors_title_prefix: "Meet the", instructors_title_suffix: "Instructors", instructors_subtitle: "3 Experts, 3 Styles to unlock your potential",
                 quote_three: "\"AI is the canvas of the soul. I will teach you to weave your identity into digital work.\"",
                 quote_b: "\"Transform from a regular user to an architect of future content.\"",
                 quote_hour: "\"Focus on real practice! Turn ideas into tangible projects.\"",
-                view_profile: "View Profile &rarr;",
+                view_profile: "View Profile",
                 portfolio_desc: "Example of AI-driven interior Smart Home design combining aesthetics and function. This is the result you will actually create.",
-                btn_pdf: "PDF Download",
-                btn_web: "Visit Website Draft",
-                tools_title: "Technology Stack",
-                footer_rights: "&copy; 2025 All Rights Reserved | Created for Hybrid Creators",
-                portfolio_biz_title: "Business Overview",
-                portfolio_biz_desc: "An overview of all our current businesses, integrating AI technology and creativity to drive innovation in every dimension.",
-                concept_exp: "Experience",
-                concept_tech: "Technology"
+                btn_pdf: "PDF Download", btn_web: "Visit Website Draft",
+                tools_title: "Technology Stack", footer_rights: "&copy; 2026 All Rights Reserved | Crafted for Hybrid Creators",
+                portfolio_biz_title: "Business Overview", portfolio_biz_desc: "An overview of all our current businesses, integrating AI technology and creativity to drive innovation in every dimension.",
+                concept_exp: "Experience", concept_tech: "Technology"
             },
             ru: {
-                nav_home: "Главная",
-                nav_overview: "Обзор",
-                nav_content: "Содержание",
-                nav_instructors: "Инструкторы",
-                nav_portfolio: "Портфолио",
-                hero_badge: "Курс Нового Поколения",
-                hero_title1: "РАСКРОЙТЕ СВОЙ",
-                hero_title2: "ГИБРИДНЫЙ ПОТЕНЦИАЛ",
+                nav_home: "Главная", nav_overview: "Обзор", nav_content: "Содержание", nav_instructors: "Инструкторы", nav_portfolio: "Портфолио",
+                hero_badge: "Курс Нового Поколения", hero_title1: "РАСКРОЙТЕ СВОЙ", hero_title2: "ГИБРИДНЫЙ ПОТЕНЦИАЛ",
                 hero_subtitle: "Перестаньте быть просто «пользователем» и станьте <span class='text-white font-medium'>«Гибридным Творцом»</span>, идеально сочетая свою личность и творчество с генеративным ИИ.",
-                hero_btn_download: "Скачать программу",
-                hero_btn_read: "Подробнее",
-                overview_months_label: "Месяца Обучения",
-                overview_months_desc: "Интенсивное обучение на проектах",
-                overview_sessions_label: "Основных Сессий",
-                overview_sessions_desc: "Глубокое погружение в темы ИИ",
-                overview_class_label: "Размер Группы",
-                overview_class_desc: "Малая группа, тесное общение",
+                hero_btn_download: "Скачать программу", hero_btn_read: "Подробнее",
+                overview_months_label: "Месяца Обучения", overview_months_desc: "Интенсивное обучение на проектах",
+                overview_sessions_label: "Основных Сессий", overview_sessions_desc: "Глубокое погружение в темы ИИ",
+                overview_class_label: "Размер Группы", overview_class_desc: "Малая группа, тесное общение",
                 journey_title: "Путь Обучения",
-                journey_m1_title: "Месяц 1: Основы и Идеи",
-                journey_m1_s1: "Гибридный концепт и Промпт-инжиниринг",
-                journey_m1_s2: "Звук и Музыка (Sound Gen)",
-                journey_m2_title: "Месяц 2: Визуал и Персонажи",
-                journey_m2_s3: "Реалистичный визуал и Стиль",
-                journey_m2_s4: "Создание ИИ-персоны",
-                journey_m3_title: "Месяц 3: Создание Контента",
-                journey_m3_s5: "Генерация Видео с ИИ",
-                journey_m3_s6: "Финальный Проект и Тренды",
-                instructors_title_prefix: "Наши",
-                instructors_title_suffix: "Инструкторы",
-                instructors_subtitle: "3 Эксперта, 3 Стиля для раскрытия вашего потенциала",
+                journey_m1_title: "Месяц 1: Основы и Идеи", journey_m1_s1: "Гибридный концепт и Промпт-инжиниринг", journey_m1_s2: "Звук и Музыка (Sound Gen)",
+                journey_m2_title: "Месяц 2: Визуал и Персонажи", journey_m2_s3: "Реалистичный визуал и Стиль", journey_m2_s4: "Создание ИИ-персоны",
+                journey_m3_title: "Месяц 3: Создание Контента", journey_m3_s5: "Генерация Видео с ИИ", journey_m3_s6: "Финальный Проект и Тренды",
+                instructors_title_prefix: "Наши", instructors_title_suffix: "Инструкторы", instructors_subtitle: "3 Эксперта, 3 Стиля для раскрытия вашего потенциала",
                 quote_three: "\"ИИ — это холст души. Я научу вас вплетать свою личность в цифровые работы.\"",
                 quote_b: "\"Превратитесь из обычного пользователя в архитектора контента будущего.\"",
                 quote_hour: "\"Фокус на практике! Превращайте идеи в реальные проекты.\"",
-                view_profile: "Профиль &rarr;",
+                view_profile: "Профиль",
                 portfolio_desc: "Пример дизайна интерьера умного дома с ИИ. Это результат, который вы создадите сами.",
-                btn_pdf: "Скачать PDF",
-                btn_web: "Сайт Проекта",
-                tools_title: "Стек Технологий",
-                footer_rights: "&copy; 2025 Все права защищены",
-                portfolio_biz_title: "Обзор Бизнеса",
-                portfolio_biz_desc: "Обзор всех наших текущих направлений бизнеса, объединяющих технологии ИИ и творчество для стимулирования инноваций.",
-                concept_exp: "Опыт",
-                concept_tech: "Технологии"
+                btn_pdf: "Скачать PDF", btn_web: "Сайт Проекта",
+                tools_title: "Стек Технологий", footer_rights: "&copy; 2026 Все права защищены",
+                portfolio_biz_title: "Обзор Бизнеса", portfolio_biz_desc: "Обзор всех наших текущих направлений бизнеса, объединяющих технологии ИИ и творчество.",
+                concept_exp: "Опыт", concept_tech: "Технологии"
             },
             zh: {
-                nav_home: "首页",
-                nav_overview: "概览",
-                nav_content: "内容",
-                nav_instructors: "导师",
-                nav_portfolio: "作品集",
-                hero_badge: "新一代课程",
-                hero_title1: "释放你的",
-                hero_title2: "混合创造力",
+                nav_home: "首页", nav_overview: "概览", nav_content: "内容", nav_instructors: "导师", nav_portfolio: "作品集",
+                hero_badge: "新一代课程", hero_title1: "释放你的", hero_title2: "混合创造力",
                 hero_subtitle: "超越单纯的“用户”，成为<span class='text-white font-medium'>“混合创作者”</span>，将您的个性和创造力与生成式 AI 完美融合。",
-                hero_btn_download: "下载课程大纲",
-                hero_btn_read: "阅读详情",
-                overview_months_label: "课程时长（月）",
-                overview_months_desc: "基于项目的强化学习",
-                overview_sessions_label: "核心课程",
-                overview_sessions_desc: "深入探讨关键 AI 主题",
-                overview_class_label: "班级人数",
-                overview_class_desc: "小班教学，即时问答",
+                hero_btn_download: "下载大纲", hero_btn_read: "阅读详情",
+                overview_months_label: "课程时长（月）", overview_months_desc: "基于项目的强化学习",
+                overview_sessions_label: "核心课程", overview_sessions_desc: "深入探讨关键 AI 主题",
+                overview_class_label: "班级人数", overview_class_desc: "小班教学，即时问答",
                 journey_title: "学习之旅",
-                journey_m1_title: "第一月: 基础与构思",
-                journey_m1_s1: "混合概念与提示词工程",
-                journey_m1_s2: "声音与音乐 (Sound Gen)",
-                journey_m2_title: "第二月: 视觉与角色",
-                journey_m2_s3: "逼真视觉与统一风格",
-                journey_m2_s4: "混合 AI 角色创建",
-                journey_m3_title: "第三月: 内容创作",
-                journey_m3_s5: "AI 视频生成 (Video Gen)",
-                journey_m3_s6: "最终项目与未来趋势",
-                instructors_title_prefix: "会见",
-                instructors_title_suffix: "导师",
-                instructors_subtitle: "3 位专家，3 种风格，释放您的潜力",
+                journey_m1_title: "第一月: 基础与构思", journey_m1_s1: "混合概念与提示词工程", journey_m1_s2: "声音与音乐 (Sound Gen)",
+                journey_m2_title: "第二月: 视觉与角色", journey_m2_s3: "逼真视觉与统一风格", journey_m2_s4: "混合 AI 角色创建",
+                journey_m3_title: "第三月: 内容创作", journey_m3_s5: "AI 视频生成", journey_m3_s6: "最终项目与未来趋势",
+                instructors_title_prefix: "会见", instructors_title_suffix: "导师", instructors_subtitle: "3 位专家，3 种风格，释放您的潜力",
                 quote_three: "“AI 是灵魂的画布。我将教你如何将你的身份融入数字作品中。”",
                 quote_b: "“从普通用户转变为未来内容的架构师。”",
                 quote_hour: "“注重实战！将想法转化为切实可行的项目。”",
-                view_profile: "查看资料 &rarr;",
+                view_profile: "查看资料",
                 portfolio_desc: "AI 驱动的室内智能家居设计示例，结合了美学与功能。这是您将实际创造的成果。",
-                btn_pdf: "下载 PDF",
-                btn_web: "访问网站草稿",
-                tools_title: "技术栈",
-                footer_rights: "&copy; 2025 版权所有 | 为混合创作者打造",
-                portfolio_biz_title: "业务概览",
-                portfolio_biz_desc: "我们当前所有业务的概览，融合 AI 技术与创造力，在各个维度推动创新。",
-                concept_exp: "经验",
-                concept_tech: "技术"
+                btn_pdf: "下载 PDF", btn_web: "访问网站草稿",
+                tools_title: "技术栈", footer_rights: "&copy; 2026 版权所有 | 为混合创作者打造",
+                portfolio_biz_title: "业务概览", portfolio_biz_desc: "我们当前所有业务的概览，融合 AI 技术与创造力，在各个维度推动创新。",
+                concept_exp: "经验", concept_tech: "技术"
             }
         };
 
         function changeLanguage(lang) {
-            // Highlight all buttons for the selected language (mobile and desktop)
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if(btn.getAttribute('onclick').includes(`'${lang}'`)) {
@@ -634,42 +715,77 @@
                 }
             });
 
-            // Update text content
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
-                    // Use innerHTML to preserve HTML tags in translation strings (e.g. spans)
                     element.innerHTML = translations[lang][key];
                 }
             });
 
-            // Update fonts for specific languages if needed
             if (lang === 'zh') {
                 document.body.style.fontFamily = "'Noto Sans SC', sans-serif";
             } else {
-                document.body.style.fontFamily = "'Sarabun', sans-serif";
+                document.body.style.fontFamily = "'Sarabun', 'Noto Sans SC', sans-serif";
             }
         }
 
-        // Scroll Animation Script
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconPath = document.getElementById('menu-icon-path');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
+                menuIconPath.setAttribute('d', 'M6 18L18 6M6 6l12 12'); // X icon
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                menuIconPath.setAttribute('d', 'M4 6h16M4 12h16M4 18h16'); // Hamburger icon
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(isMenuOpen) toggleMenu();
+            });
+        });
+
+        // Scroll Animation & Navbar blur effect
         document.addEventListener('DOMContentLoaded', function() {
             const reveals = document.querySelectorAll('.reveal');
+            const navbar = document.getElementById('navbar');
 
-            const revealOnScroll = () => {
+            const handleScroll = () => {
+                // Reveal elements
                 const windowHeight = window.innerHeight;
-                const elementVisible = 150;
-
                 reveals.forEach((reveal) => {
                     const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
+                    if (elementTop < windowHeight - 100) {
                         reveal.classList.add('active');
                     }
                 });
+
+                // Navbar background opacity
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-black/70', 'backdrop-blur-xl');
+                    navbar.classList.remove('glass-panel');
+                } else {
+                    navbar.classList.remove('bg-black/70', 'backdrop-blur-xl');
+                    navbar.classList.add('glass-panel');
+                }
             }
 
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // Trigger once on load
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Trigger once on load
         });
     </script>
 </body>
