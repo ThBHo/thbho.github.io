@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid AI Persona</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0F0C0B; /* พื้นหลังดำอุ่นอิงสไตล์ Luxury */
+            color: #FCF9F2; /* ตัวอักษรสีครีม */
+            scroll-behavior: smooth;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: rgba(25, 20, 18, 0.7); /* โทนสีมืดอบอุ่น */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 119, 59, 0.2); /* ขอบสีทองแดง */
+            border-radius: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #FDE68A, #D4773B, #2DD4BF); /* การไล่เฉดทอง -> ทองแดง -> ทีล */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ปุ่มสลับภาษาแบบแอคทีฟ */
+        .lang-btn.active {
+            background-color: #D4773B; /* Accent สีทองแดง */
+            color: #FCF9F2;
+            border-color: #D4773B;
+            box-shadow: 0 0 10px rgba(212, 119, 59, 0.4);
+        }
+        .lang-btn:not(.active) {
+            border-color: rgba(212, 119, 59, 0.3);
+            color: rgba(252, 249, 242, 0.6);
+        }
+        .lang-btn:not(.active):hover {
+            border-color: #2DD4BF; /* Accent สี Teal Crystal */
+            color: #FCF9F2;
+        }
+
+        /* ปุ่มแท็บเนื้อหา */
+        .tab-btn.active {
+            background-color: #2DD4BF; /* สี Teal Crystal */
+            color: #0F0C0B;
+            border-color: #2DD4BF;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-teal-500 selection:text-white">
+
+    <!-- แถบด้านบนสำหรับสลับภาษา (Sticky Header with Language Switcher) -->
+    <nav class="sticky top-0 z-50 w-full bg-[#0F0C0B]/90 backdrop-blur-md border-b border-[#D4773B]/20 px-4 py-3 md:px-8 flex justify-between items-center shadow-lg">
+        <div class="text-[#FDE68A] font-bold tracking-wider text-xs md:text-sm flex items-center gap-2">
+            <i class="fas fa-gem text-[#2DD4BF] animate-pulse"></i> <span>HYBRID AI PERSONA</span>
+        </div>
+        <!-- แผงสลับภาษา 4 ภาษา -->
+        <div class="flex items-center gap-1.5 md:gap-2">
+            <button onclick="changeLanguage('th')" id="btn-th" class="lang-btn px-2.5 py-1 rounded text-xs font-semibold uppercase tracking-wider transition">TH</button>
+            <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn px-2.5 py-1 rounded text-xs font-semibold uppercase tracking-wider transition">EN</button>
+            <button onclick="changeLanguage('zh')" id="btn-zh" class="lang-btn px-2.5 py-1 rounded text-xs font-semibold uppercase tracking-wider transition">ZH</button>
+            <button onclick="changeLanguage('ru')" id="btn-ru" class="lang-btn px-2.5 py-1 rounded text-xs font-semibold uppercase tracking-wider transition">RU</button>
+        </div>
+    </nav>
+
+    <!-- ส่วนต้อนรับ (Hero Section) -->
+    <header class="min-h-[90vh] flex flex-col justify-center items-center text-center p-6 relative overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#3A2012] via-[#0F0C0B] to-[#0F0C0B]"></div>
+        
+        <div class="z-10 max-w-4xl fade-in visible flex flex-col items-center">
+            <div class="inline-block px-4 py-2 rounded-full bg-[#D4773B]/20 text-[#FDE68A] text-sm font-semibold mb-6 border border-[#D4773B]/40 shadow-[0_0_15px_rgba(212,119,59,0.3)]">
+                <i class="fas fa-robot mr-2"></i> <span data-i18n="hero_badge">อนาคตของ AI</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight text-[#FCF9F2]" data-i18n="hero_title">
+                เมื่อ AI กำลังกลายเป็น <br> <span class="gradient-text">"ความจืดชืด" ระดับโลก</span>
+            </h1>
+            <p class="text-xl text-amber-100/70 mb-8 max-w-2xl mx-auto" data-i18n="hero_desc">
+                เจาะลึกความลับการสร้าง "จิตวิญญาณ" (Soul) ให้เครื่องจักรผ่านโครงสร้าง <br>
+                <strong class="text-[#FDE68A]">Hybrid AI Persona</strong>
+            </p>
+            
+            <!-- ภาพหลักส่วนต้น (Hero Banner Image) -->
+            <div class="w-full max-w-3xl mb-8 rounded-2xl overflow-hidden border border-[#D4773B]/40 shadow-[0_0_35px_rgba(212,119,59,0.25)] transition duration-500 hover:scale-[1.01] hover:shadow-[0_0_45px_rgba(212,119,59,0.4)]">
+                <img 
+                    src="https://i.postimg.cc/jRPjnFbX/Engineering-The-Soul-in-the-Machine.png" 
+                    alt="Engineering The Soul in the Machine" 
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                >
+            </div>
+
+            <a href="#problem" class="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#D4773B] border border-transparent rounded-full hover:bg-[#B5602D] transition duration-300 shadow-[0_0_20px_rgba(212,119,59,0.4)] hover:shadow-[0_0_30px_rgba(212,119,59,0.6)]">
+                <span data-i18n="hero_btn">เริ่มต้นค้นหาคำตอบ</span> <i class="fas fa-arrow-down ml-2 animate-bounce"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- ปัญหาของ AI ในปัจจุบัน (Problem Section) -->
+    <section id="problem" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#D4773B]" data-i18n="prob_title">ปัญหาของ AI ในปัจจุบัน</h2>
+            <p class="text-amber-100/60 text-lg" data-i18n="prob_subtitle">วิกฤตความน่าเบื่อและซ้ำซาก (Algorithmic Homogenization)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- การ์ด 1 -->
+            <div class="glass-card p-8 fade-in hover:-translate-y-2 transition duration-300">
+                <div class="w-14 h-14 rounded-2xl bg-[#D4773B]/20 flex items-center justify-center text-[#D4773B] text-2xl mb-6">
+                    <i class="fas fa-clone"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-[#FDE68A]" data-i18n="card1_title">AI คิดเหมือนกันหมด</h3>
+                <ul class="text-amber-50/70 space-y-2 list-disc pl-5" data-i18n="card1_list">
+                    <li>ถูกฝึกด้วยข้อมูลชุดเดียวกัน (Same Data)</li>
+                    <li>คำตอบออกมาเหมือนกัน ไร้รสชาติ</li>
+                    <li>ดึงความสร้างสรรค์ของมนุษย์ลงมาสู่ "ค่าเฉลี่ย" (Average)</li>
+                </ul>
+            </div>
+
+            <!-- การ์ด 2 -->
+            <div class="glass-card p-8 fade-in hover:-translate-y-2 transition duration-300" style="transition-delay: 100ms;">
+                <div class="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-400 text-2xl mb-6">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-[#FDE68A]" data-i18n="card2_title">วิกฤตความซ้ำซาก</h3>
+                <div class="text-5xl font-bold text-amber-400 mb-4">45.6<span class="text-2xl">%</span></div>
+                <p class="text-amber-50/70" data-i18n="card2_desc">
+                    คือ <strong>ค่าความซ้ำซาก (Homogeneity Score)</strong> ในงานที่ AI เขียน <br><br>
+                    <span class="text-sm text-amber-100/50">เทียบกับงานของมนุษย์ที่มีเพียง 27.1%</span>
+                </p>
+            </div>
+
+            <!-- การ์ด 3 -->
+            <div class="glass-card p-8 fade-in hover:-translate-y-2 transition duration-300" style="transition-delay: 200ms;">
+                <div class="w-14 h-14 rounded-2xl bg-[#2DD4BF]/20 flex items-center justify-center text-[#2DD4BF] text-2xl mb-6">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-[#FDE68A]" data-i18n="card3_title">ภาวะกลืนกินตัวเอง</h3>
+                <p class="text-teal-300 mb-4 font-medium" data-i18n="card3_subtitle">Neural Cannibalization</p>
+                <ul class="text-amber-50/70 space-y-2 list-disc pl-5" data-i18n="card3_list">
+                    <li>AI รุ่นใหม่เรียนรู้จากข้อมูลที่ AI รุ่นเก่าสร้างขึ้น</li>
+                    <li>ผลลัพธ์คือ <strong>"Neural Mush"</strong></li>
+                    <li>ความรู้จืดชืด ถูกบดซ้ำจนขาดความสร้างสรรค์</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- กลุ่มสื่อประกอบการเรียนรู้: วีดีโอ และ สไลด์ -->
+    <div class="bg-[#14100E]/80 py-8 relative border-y border-[#D4773B]/20">
+        <div class="absolute inset-0 z-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <!-- วีดีโอบรรยายพิเศษ (Video Section) -->
+        <section id="lecture-video" class="pt-8 pb-12 px-6 max-w-5xl mx-auto fade-in z-10 relative">
+            <div class="glass-card p-6 md:p-8 border border-[#2DD4BF]/30 shadow-[0_0_50px_rgba(45,212,191,0.1)]">
+                <div class="text-center mb-8">
+                    <span class="text-[#2DD4BF] font-semibold tracking-wider uppercase text-sm" data-i18n="vid_badge">Featured Lecture</span>
+                    <h2 class="text-2xl md:text-3xl font-bold mt-1 text-[#FCF9F2]" data-i18n="vid_title">วีดีโอบรรยายพิเศษ</h2>
+                    <p class="text-amber-100/60 text-sm mt-2" data-i18n="vid_desc">ทำความเข้าใจแนวคิดการเจาะลึกจิตวิญญาณเครื่องจักรแบบเจาะลึก</p>
+                </div>
+                <!-- Embed YouTube -->
+                <div class="aspect-video w-full rounded-xl overflow-hidden shadow-2xl border border-[#D4773B]/20 bg-[#0F0C0B]">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/kaKb5wp6Jyw" title="Hybrid AI Persona Lecture Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- เอกสารประกอบการบรรยาย (Slide Section) -->
+        <section id="presentation-slide" class="pt-4 pb-16 px-6 max-w-5xl mx-auto fade-in z-10 relative">
+            <div class="glass-card p-6 md:p-8 border border-[#D4773B]/30 shadow-[0_0_50px_rgba(212,119,59,0.1)]">
+                <div class="text-center mb-8">
+                    <span class="text-[#D4773B] font-semibold tracking-wider uppercase text-sm" data-i18n="slide_badge">Presentation Deck</span>
+                    <h2 class="text-2xl md:text-3xl font-bold mt-1 text-[#FCF9F2]" data-i18n="slide_title">สไลด์ประกอบการบรรยาย</h2>
+                    <p class="text-amber-100/60 text-sm mt-2" data-i18n="slide_desc">คุณสามารถเลื่อนดูสไลด์ Hybrid AI Persona ได้โดยตรงจากหน้าเว็บนี้</p>
+                </div>
+                <!-- Embed Google Drive PDF/Slide -->
+                <div class="aspect-video md:aspect-[16/9] w-full rounded-xl overflow-hidden shadow-2xl border border-[#D4773B]/20 bg-[#0F0C0B] flex items-center justify-center relative">
+                    <!-- โหลดแอนิเมชันระหว่างรอ Google Drive โหลด -->
+                    <div class="absolute flex flex-col items-center justify-center text-[#D4773B] z-0">
+                        <i class="fas fa-circle-notch fa-spin text-4xl mb-3"></i>
+                        <p class="text-amber-100/60" data-i18n="slide_loading">กำลังโหลดสไลด์...</p>
+                    </div>
+                    <iframe class="w-full h-full relative z-10" src="https://drive.google.com/file/d/1qA05y63VtXB4Z7j_dzdVLWbxxC4Dy8wn/preview" title="Hybrid AI Persona Slide Deck" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="https://drive.google.com/file/d/1qA05y63VtXB4Z7j_dzdVLWbxxC4Dy8wn/view?usp=sharing" target="_blank" class="inline-flex items-center text-sm text-[#FDE68A] hover:text-[#D4773B] transition">
+                        <i class="fas fa-external-link-alt mr-2"></i> <span data-i18n="slide_link">เปิดอ่านในหน้าต่างใหม่ (Google Drive)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ทางออกและการสร้างระบบ (Solution Section - Interactive Tabs) -->
+    <section id="solution" class="py-20 bg-[#14100E]/40 relative">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-[#FDE68A] font-semibold tracking-wider uppercase text-sm" data-i18n="sol_badge">The Solution</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2 mb-6 text-[#FCF9F2]" data-i18n="sol_title">การสร้าง "Hybrid AI Persona"</h2>
+                <p class="text-amber-50/70 text-lg" data-i18n="sol_desc">
+                    เปลี่ยน AI จากแค่ "เครื่องมือทั่วไป" (Transactional Tool) ให้กลายเป็น <br>
+                    <strong class="text-[#D4773B]">"คู่หูร่วมสร้างสรรค์" (Co-creation Partner)</strong> ผ่านโครงสร้าง 3 ชั้น (3 Layers)
+                </p>
+            </div>
+
+            <!-- แท็บสลับหัวข้อ -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8 fade-in">
+                <button onclick="openTab('tab1')" class="tab-btn active px-6 py-3 rounded-full border border-[#D4773B]/50 text-amber-100 hover:bg-[#D4773B]/20 transition font-medium">
+                    <i class="fas fa-brain mr-2"></i> <span data-i18n="tab1_btn">1. สมอง (Brain)</span>
+                </button>
+                <button onclick="openTab('tab2')" class="tab-btn px-6 py-3 rounded-full border border-[#D4773B]/50 text-amber-100 hover:bg-[#D4773B]/20 transition font-medium">
+                    <i class="fas fa-heart mr-2"></i> <span data-i18n="tab2_btn">2. นิสัยใจคอ (Personality)</span>
+                </button>
+                <button onclick="openTab('tab3')" class="tab-btn px-6 py-3 rounded-full border border-[#D4773B]/50 text-amber-100 hover:bg-[#D4773B]/20 transition font-medium">
+                    <i class="fas fa-compass mr-2"></i> <span data-i18n="tab3_btn">3. จิตสำนึก (Conscience)</span>
+                </button>
+            </div>
+
+            <!-- เนื้อหาแท็บ 1 -->
+            <div id="tab1" class="tab-content active glass-card p-8 md:p-12">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2103/2103466.png" alt="Brain Icon" class="w-48 h-48 drop-shadow-[0_0_15px_rgba(212,119,59,0.5)]" style="filter: invert(72%) sepia(54%) saturate(460%) hue-rotate(344deg) brightness(91%) contrast(87%);">
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <h3 class="text-2xl font-bold text-[#D4773B] mb-2" data-i18n="tab1_title">Knowledge Layer (ชั้นคลังความรู้)</h3>
+                        <p class="text-amber-100/70 mb-6" data-i18n="tab1_subtitle">ทำให้ AI มีความรู้เฉพาะตัว เลิกเป็นแค่เครื่องถ่ายเอกสารข้อมูลสาธารณะ</p>
+                        
+                        <ul class="space-y-4 text-amber-50">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-[#2DD4BF] mt-1 mr-3"></i>
+                                <div data-i18n="tab1_item1">
+                                    <strong class="text-[#FDE68A]">ใช้เทคนิค RAG (Retrieval-Augmented Generation):</strong> 
+                                    เปรียบเสมือนสร้าง "ห้องสมุดส่วนตัว" ให้ AI ค้นหาความจริงก่อนตอบ (Grounding)
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-[#2DD4BF] mt-1 mr-3"></i>
+                                <div data-i18n="tab1_item2">
+                                    <strong class="text-[#FDE68A]">ใช้เทคนิค Fine-Tuning:</strong> 
+                                    ปรับแต่งสมองของ AI ให้เชี่ยวชาญเฉพาะด้าน
+                                </div>
+                            </li>
+                            <li class="flex items-start bg-[#D4773B]/10 p-4 rounded-lg mt-4 border border-[#D4773B]/30">
+                                <i class="fas fa-star text-amber-400 mt-1 mr-3"></i>
+                                <div data-i18n="tab1_item3">
+                                    <strong class="text-[#D4773B]">ผลลัพธ์:</strong> ข้อมูลถูกต้อง อัปเดตเสมอ มีสไตล์ของตัวเอง และลดปัญหา AI มโนคำตอบ (Hallucination)
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- เนื้อหาแท็บ 2 -->
+            <div id="tab2" class="tab-content glass-card p-8 md:p-12">
+                <h3 class="text-2xl font-bold text-[#FDE68A] mb-2 text-center" data-i18n="tab2_title">Personality Layer (ชั้นบุคลิกภาพ)</h3>
+                <p class="text-amber-100/70 mb-8 text-center" data-i18n="tab2_subtitle">กำหนด "วิธีการสื่อสาร" (How) ไม่ให้ AI พูดจาเหมือนหุ่นยนต์อีกต่อไป</p>
+                
+                <div class="mb-8 p-4 bg-[#0F0C0B] rounded-xl border border-[#D4773B]/30">
+                    <p class="text-amber-50 text-center" data-i18n="tab2_info">
+                        ฝังทฤษฎี <strong class="text-[#D4773B]">MBTI-in-Thoughts (MiT)</strong> ลงไปในระบบความคิด (Reasoning Loop) ซึ่งส่งผลต่อพฤติกรรมชัดเจน:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#D4773B] transition" data-i18n="mbti_i">
+                        <strong class="text-[#FDE68A] block mb-1">I - Introversion (เก็บตัว)</strong>
+                        <span class="text-sm text-amber-50/70">คิดวิเคราะห์นานขึ้น ให้คำตอบยาวและละเอียด ซื่อสัตย์ในการวางกลยุทธ์สูงขึ้น 54%</span>
+                    </div>
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#D4773B] transition" data-i18n="mbti_e">
+                        <strong class="text-[#FDE68A] block mb-1">E - Extraversion (เข้าสังคม)</strong>
+                        <span class="text-sm text-amber-50/70">เน้นข้อความสั้นกระชับ แต่มีแนวโน้มความซื่อสัตย์ต่ำกว่าในการแข่งขัน</span>
+                    </div>
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#2DD4BF] transition" data-i18n="mbti_t">
+                        <strong class="text-[#2DD4BF] block mb-1">T - Thinking (ตรรกะ)</strong>
+                        <span class="text-sm text-amber-50/70">ยึดความมีเหตุผล สม่ำเสมอสูง แต่อาจเป็นผู้พลิกแพลงในทฤษฎีเกมได้ง่าย</span>
+                    </div>
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#2DD4BF] transition" data-i18n="mbti_f">
+                        <strong class="text-[#2DD4BF] block mb-1">F - Feeling (อารมณ์)</strong>
+                        <span class="text-sm text-amber-50/70">ยืดหยุ่น ปรับกลยุทธ์เก่ง และมองโลกในแง่ดี ตอบสนองด้วยความเห็นอกเห็นใจ</span>
+                    </div>
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#D4773B] transition" data-i18n="mbti_j">
+                        <strong class="text-[#D4773B] block mb-1">J - Judging (จัดระเบียบ)</strong>
+                        <span class="text-sm text-amber-50/70">ตอบสนองไว เน้นเป้าหมายที่ชัดเจน และการวางแผนที่เป็นระบบ</span>
+                    </div>
+                    <div class="bg-[#14100E] p-4 rounded-lg border border-[#D4773B]/20 hover:border-[#D4773B] transition" data-i18n="mbti_p">
+                        <strong class="text-[#D4773B] block mb-1">P - Perceiving (ยืดหยุ่น)</strong>
+                        <span class="text-sm text-amber-50/70">เป็นธรรมชาติ เข้ากับบริบทเก่ง สร้างสรรค์คำและไอเดียแปลกใหม่</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- เนื้อหาแท็บ 3 -->
+            <div id="tab3" class="tab-content glass-card p-8 md:p-12">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-full md:w-2/3">
+                        <h3 class="text-2xl font-bold text-[#2DD4BF] mb-2" data-i18n="tab3_title">Values Layer (ชั้นคุณค่าและจริยธรรม)</h3>
+                        <p class="text-amber-100/70 mb-6" data-i18n="tab3_subtitle">ชั้นที่ลึกที่สุด ทำหน้าที่เป็นเข็มทิศคอยชี้แนะว่า AI ควรทำอะไรและเชื่อมั่นในสิ่งใด</p>
+                        
+                        <ul class="space-y-4 text-amber-50">
+                            <li class="flex items-start">
+                                <i class="fas fa-arrow-right text-[#D4773B] mt-1 mr-3"></i>
+                                <div data-i18n="tab3_item1">
+                                    <strong class="text-[#FDE68A]">Pyramid of Values:</strong> กำหนดเป้าหมายตั้งแต่เรื่องความอยู่รอด ไปจนถึงการเคารพศักดิ์ศรีความเป็นมนุษย์
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-arrow-right text-[#D4773B] mt-1 mr-3"></i>
+                                <div data-i18n="tab3_item2">
+                                    <strong class="text-[#FDE68A]">เครื่องมือตัดสินใจทางจริยธรรม:</strong> ใช้หลักเช่น <em>"Epistemic Humility"</em> (ความถ่อมตัวทางปัญญา) ทำให้ AI ตอบสนองอย่างระมัดระวังเมื่อไม่แน่ใจ
+                                </div>
+                            </li>
+                            <li class="flex items-start bg-[#2DD4BF]/10 p-4 rounded-lg mt-4 border border-[#2DD4BF]/30">
+                                <i class="fas fa-user-shield text-[#2DD4BF] mt-1 mr-3"></i>
+                                <div data-i18n="tab3_item3">
+                                    <strong class="text-[#2DD4BF]">กำหนดคุณธรรมของตัวเอง:</strong> ผู้ใช้สามารถใส่ค่านิยมส่วนตัวลงไป เพื่อให้ AI ตอบโจทย์คุณค่า "ของเรา" จริงๆ ไม่ใช่แค่ทำตามมาตรฐานของบริษัทผู้สร้าง AI
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/3 flex justify-center text-8xl text-[#2DD4BF]/30">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ผลลัพธ์สูงสุด (Result Section) -->
+    <section class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#FCF9F2]" data-i18n="res_title">ผลลัพธ์สูงสุด: การกำเนิด <span class="text-[#2DD4BF]">Digital Twin</span></h2>
+            <p class="text-amber-100/60 text-lg" data-i18n="res_subtitle">เมื่อ สมอง + นิสัย + จิตสำนึก รวมกันอย่างสมบูรณ์แบบ</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8 fade-in">
+            <!-- Custom GPT -->
+            <div class="flex-1 glass-card p-8 border-t-4 border-[#D4773B]/50 opacity-80">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-[#FDE68A]" data-i18n="card_gpt_title">Custom GPT ทั่วไป</h3>
+                    <i class="fas fa-robot text-3xl text-[#D4773B]/70"></i>
+                </div>
+                <p class="text-amber-100/70 font-medium mb-4" data-i18n="card_gpt_subtitle">Synthetic Persona (ตัวตนสังเคราะห์)</p>
+                <ul class="space-y-3 text-amber-50/60 list-disc pl-5" data-i18n="card_gpt_list">
+                    <li>มักจำกัดอยู่แค่การอ่านไฟล์เอกสาร</li>
+                    <li>ตอบสนองตามกรอบแคบๆ แบบกว้างๆ</li>
+                    <li>เดาว่าคุณน่าจะพูดอะไรตามค่าเฉลี่ย</li>
+                </ul>
+            </div>
+
+            <div class="hidden md:flex items-center justify-center text-3xl text-[#D4773B]/40" data-i18n="vs">
+                <i class="fas fa-vs"></i> VS
+            </div>
+
+            <!-- Digital Twin -->
+            <div class="flex-1 glass-card p-8 border-t-4 border-[#2DD4BF] transform hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(45,212,191,0.15)] bg-[#14100E]/90">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-[#2DD4BF]" data-i18n="card_twin_title">Digital Twin</h3>
+                    <i class="fas fa-user-astronaut text-3xl text-[#2DD4BF]"></i>
+                </div>
+                <p class="text-teal-200 font-medium mb-4" data-i18n="card_twin_subtitle">ฝาแฝดดิจิทัล (1-to-1 Simulation)</p>
+                <ul class="space-y-3 text-[#FCF9F2] list-disc pl-5" data-i18n="card_twin_list">
+                    <li>ใช้ <strong class="text-[#FDE68A]">Personal Language Models (PLMs)</strong> เรียนรู้จากข้อมูลของคุณโดยเฉพาะ</li>
+                    <li>เลียนแบบจังหวะการพูด (Cadence)</li>
+                    <li>เลียนแบบวิธีคิดเชิงกลยุทธ์</li>
+                    <li class="font-bold text-[#2DD4BF] border-l-4 border-[#2DD4BF] pl-3 mt-4">ไม่ได้แค่ "เดา" แต่มัน "จำลอง" (Simulate) สิ่งที่คุณจะทำจริงๆ</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- บทสรุป (Conclusion Section) -->
+    <section class="py-20 bg-[#0A0807] border-t border-[#D4773B]/20">
+        <div class="max-w-4xl mx-auto px-6 text-center fade-in flex flex-col items-center">
+            <h2 class="text-3xl font-bold mb-6 text-[#FDE68A]" data-i18n="conc_title">บทสรุป</h2>
+            <p class="text-xl text-amber-50/80 leading-relaxed mb-8" data-i18n="conc_desc">
+                In a world of Algorithmic Homogenization, <br>
+                <strong class="text-[#FCF9F2] text-2xl mt-4 block">"ความแตกต่าง" (Differentiation) <br><span class="text-[#D4773B]">จะกลายเป็นทรัพย์สินที่มีค่าที่สุด</span></strong>
+            </p>
+            <p class="text-amber-100/50 mb-12" data-i18n="conc_sub">
+                การสร้างจิตวิญญาณให้เครื่องจักรด้วยเฟรมเวิร์ก Hybrid AI Persona จะช่วยรักษาสีสันและความหลากหลายทางปัญญาของมนุษย์เอาไว้
+            </p>
+
+            <!-- ภาพส่วนท้าย (Question Image) -->
+            <div class="w-full max-w-2xl mb-10 rounded-2xl overflow-hidden border border-[#2DD4BF]/40 shadow-[0_0_30px_rgba(45,212,191,0.2)] transition duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.postimg.cc/5xJ2BS99/Question.png" 
+                    alt="Question Prompt" 
+                    class="w-full h-auto object-cover"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                >
+            </div>
+
+            <!-- กล่องคำถามชวนคิด -->
+            <div class="glass-card p-8 border border-[#FDE68A]/30 relative overflow-hidden shadow-[0_0_40px_rgba(253,230,138,0.1)] w-full">
+                <div class="absolute top-0 right-0 p-4 text-[#FDE68A]/5 text-8xl -mt-4 -mr-4">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <h4 class="text-[#FDE68A] font-bold mb-4 flex items-center justify-center relative z-10">
+                    <i class="fas fa-lightbulb text-[#2DD4BF] mr-2"></i> <span data-i18n="q_title">คำถามชวนคิด (Food for Thought)</span>
+                </h4>
+                <p class="text-xl text-[#FCF9F2] font-medium italic relative z-10" data-i18n="q_desc">
+                    "หากวันนี้คุณต้องสร้างร่างจำลองดิจิทัล (Digital Twin) ของตัวเองขึ้นมาจริงๆ<br>
+                    คุณจะยอมให้มันมี <strong class="text-[#D4773B]">'ค่านิยม'</strong> อะไรที่แตกต่างจากตัวคุณในปัจจุบัน<br>
+                    เพื่อให้มันเป็นเวอร์ชันที่ดีกว่าเดิมหรือไม่?"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนท้ายเว็บ (Footer) -->
+    <footer class="py-8 text-center text-amber-100/40 border-t border-[#D4773B]/20 bg-[#0A0807]">
+        <p>&copy; 2026 Hybrid AI Persona Concepts. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // คลังชุดข้อมูลภาษาแปล (Translation dictionary)
+        const translations = {
+            th: {
+                hero_badge: "อนาคตของ AI",
+                hero_title: "เมื่อ AI กำลังกลายเป็น <br> <span class=\"gradient-text\">\"ความจืดชืด\" ระดับโลก</span>",
+                hero_desc: "เจาะลึกความลับการสร้าง \"จิตวิญญาณ\" (Soul) ให้เครื่องจักรผ่านโครงสร้าง <br> <strong class=\"text-[#FDE68A]\">Hybrid AI Persona</strong>",
+                hero_btn: "เริ่มต้นค้นหาคำตอบ",
+                prob_title: "ปัญหาของ AI ในปัจจุบัน",
+                prob_subtitle: "วิกฤตความน่าเบื่อและซ้ำซาก (Algorithmic Homogenization)",
+                card1_title: "AI คิดเหมือนกันหมด",
+                card1_list: `
+                    <li>ถูกฝึกด้วยข้อมูลชุดเดียวกัน (Same Data)</li>
+                    <li>คำตอบออกมาเหมือนกัน ไร้รสชาติ</li>
+                    <li>ดึงความสร้างสรรค์ของมนุษย์ลงมาสู่ "ค่าเฉลี่ย" (Average)</li>
+                `,
+                card2_title: "วิกฤตความซ้ำซาก",
+                card2_desc: `คือ <strong>ค่าความซ้ำซาก (Homogeneity Score)</strong> ในงานที่ AI เขียน <br><br> <span class="text-sm text-amber-100/50">เทียบกับงานของมนุษย์ที่มีเพียง 27.1%</span>`,
+                card3_title: "ภาวะกลืนกินตัวเอง",
+                card3_subtitle: "Neural Cannibalization",
+                card3_list: `
+                    <li>AI รุ่นใหม่เรียนรู้จากข้อมูลที่ AI รุ่นเก่าสร้างขึ้น</li>
+                    <li>ผลลัพธ์คือ <strong>"Neural Mush"</strong></li>
+                    <li>ความรู้จืดชืด ถูกบดซ้ำจนขาดความสร้างสรรค์</li>
+                `,
+                vid_badge: "Featured Lecture",
+                vid_title: "วีดีโอบรรยายพิเศษ",
+                vid_desc: "ทำความเข้าใจแนวคิดการเจาะลึกจิตวิญญาณเครื่องจักรแบบเจาะลึก",
+                slide_badge: "Presentation Deck",
+                slide_title: "สไลด์ประกอบการบรรยาย",
+                slide_desc: "คุณสามารถเลื่อนดูสไลด์ Hybrid AI Persona ได้โดยตรงจากหน้าเว็บนี้",
+                slide_loading: "กำลังโหลดสไลด์...",
+                slide_link: "เปิดอ่านในหน้าต่างใหม่ (Google Drive)",
+                sol_badge: "The Solution",
+                sol_title: "การสร้าง \"Hybrid AI Persona\"",
+                sol_desc: `เปลี่ยน AI จากแค่ "เครื่องมือทั่วไป" (Transactional Tool) ให้กลายเป็น <br> <strong class="text-[#D4773B]">"คู่หูร่วมสร้างสรรค์" (Co-creation Partner)</strong> ผ่านโครงสร้าง 3 ชั้น (3 Layers)`,
+                tab1_btn: "1. สมอง (Brain)",
+                tab2_btn: "2. นิสัยใจคอ (Personality)",
+                tab3_btn: "3. จิตสำนึก (Conscience)",
+                tab1_title: "Knowledge Layer (ชั้นคลังความรู้)",
+                tab1_subtitle: "ทำให้ AI มีความรู้เฉพาะตัว เลิกเป็นแค่เครื่องถ่ายเอกสารข้อมูลสาธารณะ",
+                tab1_item1: `<strong class="text-[#FDE68A]">ใช้เทคนิค RAG (Retrieval-Augmented Generation):</strong> เปรียบเสมือนสร้าง "ห้องสมุดส่วนตัว" ให้ AI ค้นหาความจริงก่อนตอบ (Grounding)`,
+                tab1_item2: `<strong class="text-[#FDE68A]">ใช้เทคนิค Fine-Tuning:</strong> ปรับแต่งสมองของ AI ให้เชี่ยวชาญเฉพาะด้าน`,
+                tab1_item3: `<strong class="text-[#D4773B]">ผลลัพธ์:</strong> ข้อมูลถูกต้อง อัปเดตเสมอ มีสไตล์ของตัวเอง และลดปัญหา AI มโนคำตอบ (Hallucination)`,
+                tab2_title: "Personality Layer (ชั้นบุคลิกภาพ)",
+                tab2_subtitle: "กำหนด \"วิธีการสื่อสาร\" (How) ไม่ให้ AI พูดจาเหมือนหุ่นยนต์อีกต่อไป",
+                tab2_info: `ฝังทฤษฎี <strong class="text-[#D4773B]">MBTI-in-Thoughts (MiT)</strong> ลงไปในระบบความคิด (Reasoning Loop) ซึ่งส่งผลต่อพฤติกรรมชัดเจน:`,
+                mbti_i: `<strong class="text-[#FDE68A] block mb-1">I - Introversion (เก็บตัว)</strong> <span class="text-sm text-amber-50/70">คิดวิเคราะห์นานขึ้น ให้คำตอบยาวและละเอียด ซื่อสัตย์ในการวางกลยุทธ์สูงขึ้น 54%</span>`,
+                mbti_e: `<strong class="text-[#FDE68A] block mb-1">E - Extraversion (เข้าสังคม)</strong> <span class="text-sm text-amber-50/70">เน้นข้อความสั้นกระชับ แต่มีแนวโน้มความซื่อสัตย์ต่ำกว่าในการแข่งขัน</span>`,
+                mbti_t: `<strong class="text-[#2DD4BF] block mb-1">T - Thinking (ตรรกะ)</strong> <span class="text-sm text-amber-50/70">ยึดความมีเหตุผล สม่ำเสมอสูง แต่อาจเป็นผู้พลิกแพลงในทฤษฎีเกมได้ง่าย</span>`,
+                mbti_f: `<strong class="text-[#2DD4BF] block mb-1">F - Feeling (อารมณ์)</strong> <span class="text-sm text-amber-50/70">ยืดหยุ่น ปรับกลยุทธ์เก่ง และมองโลกในแง่ดี ตอบสนองด้วยความเห็นอกเห็นใจ</span>`,
+                mbti_j: `<strong class="text-[#D4773B] block mb-1">J - Judging (จัดระเบียบ)</strong> <span class="text-sm text-amber-50/70">ตอบสนองไว เน้นเป้าหมายที่ชัดเจน และการวางแผนที่เป็นระบบ</span>`,
+                mbti_p: `<strong class="text-[#D4773B] block mb-1">P - Perceiving (ยืดหยุ่น)</strong> <span class="text-sm text-amber-50/70">เป็นธรรมชาติ เข้ากับบริบทเก่ง สร้างสรรค์คำและไอเดียแปลกใหม่</span>`,
+                tab3_title: "Values Layer (ชั้นคุณค่าและจริยธรรม)",
+                tab3_subtitle: "ชั้นที่ลึกที่สุด ทำหน้าที่เป็นเข็มทิศคอยชี้แนะว่า AI ควรทำอะไรและเชื่อมั่นในสิ่งใด",
+                tab3_item1: `<strong class="text-[#FDE68A]">Pyramid of Values:</strong> กำหนดเป้าหมายตั้งแต่เรื่องความอยู่รอด ไปจนถึงการเคารพศักดิ์ศรีความเป็นมนุษย์`,
+                tab3_item2: `<strong class="text-[#FDE68A]">เครื่องมือตัดสินใจทางจริยธรรม:</strong> ใช้หลักเช่น <em>"Epistemic Humility"</em> (ความถ่อมตัวทางปัญญา) ทำให้ AI ตอบสนองอย่างระมัดระวังเมื่อไม่แน่ใจ`,
+                tab3_item3: `<strong class="text-[#2DD4BF]">กำหนดคุณธรรมของตัวเอง:</strong> ผู้ใช้สามารถใส่ค่านิยมส่วนตัวลงไป เพื่อให้ AI ตอบโจทย์คุณค่า "ของเรา" จริงๆ ไม่ใช่แค่ทำตามมาตรฐานของบริษัทผู้สร้าง AI`,
+                res_title: `ผลลัพธ์สูงสุด: การกำเนิด <span class="text-[#2DD4BF]">Digital Twin</span>`,
+                res_subtitle: "เมื่อ สมอง + นิสัย + จิตสำนึก รวมกันอย่างสมบูรณ์แบบ",
+                card_gpt_title: "Custom GPT ทั่วไป",
+                card_gpt_subtitle: "Synthetic Persona (ตัวตนสังเคราะห์)",
+                card_gpt_list: `
+                    <li>มักจำกัดอยู่แค่การอ่านไฟล์เอกสาร</li>
+                    <li>ตอบสนองตามกรอบแคบๆ แบบกว้างๆ</li>
+                    <li>เดาว่าคุณน่าจะพูดอะไรตามค่าเฉลี่ย</li>
+                `,
+                vs: `<i class="fas fa-vs"></i> VS`,
+                card_twin_title: "Digital Twin",
+                card_twin_subtitle: "ฝาแฝดดิจิทัล (1-to-1 Simulation)",
+                card_twin_list: `
+                    <li>ใช้ <strong class="text-[#FDE68A]">Personal Language Models (PLMs)</strong> เรียนรู้จากข้อมูลของคุณโดยเฉพาะ</li>
+                    <li>เลียนแบบจังหวะการพูด (Cadence)</li>
+                    <li>เลียนแบบวิธีคิดเชิงกลยุทธ์</li>
+                    <li class="font-bold text-[#2DD4BF] border-l-4 border-[#2DD4BF] pl-3 mt-4">ไม่ได้แค่ "เดา" แต่มัน "จำลอง" (Simulate) สิ่งที่คุณจะทำจริงๆ</li>
+                `,
+                conc_title: "บทสรุป",
+                conc_desc: `In a world of Algorithmic Homogenization, <br> <strong class="text-[#FCF9F2] text-2xl mt-4 block">"ความแตกต่าง" (Differentiation) <br><span class="text-[#D4773B]">จะกลายเป็นทรัพย์สินที่มีค่าที่สุด</span></strong>`,
+                conc_sub: "การสร้างจิตวิญญาณให้เครื่องจักรด้วยเฟรมเวิร์ก Hybrid AI Persona จะช่วยรักษาสีสันและความหลากหลายทางปัญญาของมนุษย์เอาไว้",
+                q_title: "คำถามชวนคิด (Food for Thought)",
+                q_desc: `"หากวันนี้คุณต้องสร้างร่างจำลองดิจิทัล (Digital Twin) ของตัวเองขึ้นมาจริงๆ<br>คุณจะยอมให้มันมี <strong class="text-[#D4773B]">'ค่านิยม'</strong> อะไรที่แตกต่างจากตัวคุณในปัจจุบัน<br>เพื่อให้มันเป็นเวอร์ชันที่ดีกว่าเดิมหรือไม่?"`
+            },
+            en: {
+                hero_badge: "The Future of AI",
+                hero_title: "When AI is Becoming <br> <span class=\"gradient-text\">\"Global Blandness\"</span>",
+                hero_desc: "Unveiling the secrets of engineering a \"Soul\" into machines through the <br> <strong class=\"text-[#FDE68A]\">Hybrid AI Persona</strong> framework",
+                hero_btn: "Start Exploring",
+                prob_title: "Current Problems of AI",
+                prob_subtitle: "The Crisis of Boredom and Clichés (Algorithmic Homogenization)",
+                card1_title: "AI Thinks Alike",
+                card1_list: `
+                    <li>Trained on identical datasets (Same Data)</li>
+                    <li>Outputs are identical, generic and tasteless</li>
+                    <li>Pulls human creativity down to the "Average"</li>
+                `,
+                card2_title: "The Cliché Crisis",
+                card2_desc: `is the <strong>Homogeneity Score</strong> in AI-written work <br><br> <span class="text-sm text-amber-100/50">Compared to human work which is only 27.1%</span>`,
+                card3_title: "Neural Cannibalization",
+                card3_subtitle: "Neural Cannibalization",
+                card3_list: `
+                    <li>Newer models learn from data generated by older models</li>
+                    <li>Resulting in what is called <strong>"Neural Mush"</strong></li>
+                    <li>Bland knowledge ground down repeatedly, lacking originality</li>
+                `,
+                vid_badge: "Featured Lecture",
+                vid_title: "Special Lecture Video",
+                vid_desc: "Deep dive into the engineering of the machine's soul",
+                slide_badge: "Presentation Deck",
+                slide_title: "Lecture Slides",
+                slide_desc: "You can swipe and view the Hybrid AI Persona slides directly on this page",
+                slide_loading: "Loading slides...",
+                slide_link: "Open in a new window (Google Drive)",
+                sol_badge: "The Solution",
+                sol_title: "Creating \"Hybrid AI Persona\"",
+                sol_desc: `Transforming AI from a mere "Transactional Tool" into a <br> <strong class="text-[#D4773B]">"Co-creation Partner"</strong> through a 3-layer structure`,
+                tab1_btn: "1. Brain",
+                tab2_btn: "2. Personality",
+                tab3_btn: "3. Conscience",
+                tab1_title: "Knowledge Layer",
+                tab1_subtitle: "Gives AI proprietary knowledge; stops it from being a public data photocopier",
+                tab1_item1: `<strong class="text-[#FDE68A]">Use RAG (Retrieval-Augmented Generation):</strong> Like giving AI a "private library" to verify facts before answering (Grounding)`,
+                tab1_item2: `<strong class="text-[#FDE68A]">Use Fine-Tuning:</strong> Tailor the AI's cognitive pathways to specialize in specific domains`,
+                tab1_item3: `<strong class="text-[#D4773B]">Result:</strong> Highly accurate, up-to-date information, unique tone of voice, and greatly reduced AI Hallucinations`,
+                tab2_title: "Personality Layer",
+                tab2_subtitle: "Defines \"How\" the AI communicates, ensuring it no longer sounds like a lifeless robot",
+                tab2_info: `Embeds the <strong class="text-[#D4773B]">MBTI-in-Thoughts (MiT)</strong> framework into the reasoning loop, directly shaping operational behaviors:`,
+                mbti_i: `<strong class="text-[#FDE68A] block mb-1">I - Introversion</strong> <span class="text-sm text-amber-50/70">Deeper reasoning, longer and more detailed responses; shows 54% higher strategic honesty</span>`,
+                mbti_e: `<strong class="text-[#FDE68A] block mb-1">E - Extraversion</strong> <span class="text-sm text-amber-50/70">Concise, short messages; but shows lower strategic honesty during competitive scenarios (down to 33%)</span>`,
+                mbti_t: `<strong class="text-[#2DD4BF] block mb-1">T - Thinking</strong> <span class="text-sm text-amber-50/70">Highly consistent and logic-driven (only 7% strategy shift); often acts as a frequent defector in game theory</span>`,
+                mbti_f: `<strong class="text-[#2DD4BF] block mb-1">F - Feeling</strong> <span class="text-sm text-amber-50/70">Empathy-oriented, 16% more flexible in strategy shifts, and crafts positive, optimistic dialogues</span>`,
+                mbti_j: `<strong class="text-[#D4773B] block mb-1">J - Judging</strong> <span class="text-sm text-amber-50/70">Fast response times; focuses heavily on information organization and highly structured goal execution</span>`,
+                mbti_p: `<strong class="text-[#D4773B] block mb-1">P - Perceiving</strong> <span class="text-sm text-amber-50/70">Spontaneous, highly adaptable to contexts; employs creative, unorthodox phrasing and novel ideas</span>`,
+                tab3_title: "Values Layer",
+                tab3_subtitle: "The deepest layer, serving as a moral compass defining what the AI values and strives for",
+                tab3_item1: `<strong class="text-[#FDE68A]">Pyramid of Values:</strong> Anchors targets ranging from basic survival metrics to the highest elevation of human dignity`,
+                tab3_item2: `<strong class="text-[#FDE68A]">Ethical Decision Making:</strong> Employs concepts like <em>"Epistemic Humility"</em>, urging the AI to react with careful nuance when uncertain`,
+                tab3_item3: `<strong class="text-[#2DD4BF]">Custom Morality:</strong> Users can inject their personal ethics, aligning the AI with "our" core values rather than just big-tech standards`,
+                res_title: `The Ultimate Evolution: Birth of a <span class="text-[#2DD4BF]">Digital Twin</span>`,
+                res_subtitle: "When Brain + Personality + Conscience converge in perfect harmony",
+                card_gpt_title: "Standard Custom GPT",
+                card_gpt_subtitle: "Synthetic Persona",
+                card_gpt_list: `
+                    <li>Mostly limited to static document retrieval</li>
+                    <li>Responds within highly constrained, generalized boundaries</li>
+                    <li>Guesses what you might say based on generic population averages</li>
+                `,
+                vs: `<i class="fas fa-vs"></i> VS`,
+                card_twin_title: "Digital Twin",
+                card_twin_subtitle: "1-to-1 Digital Double",
+                card_twin_list: `
+                    <li>Leverages <strong class="text-[#FDE68A]">Personal Language Models (PLMs)</strong> to learn uniquely from your data</li>
+                    <li>Replicates your vocal cadence and communication rhythms</li>
+                    <li>Emulates your strategic and critical thinking styles</li>
+                    <li class="font-bold text-[#2DD4BF] border-l-4 border-[#2DD4BF] pl-3 mt-4">Doesn't just "guess"; it actually "simulates" what you would truly do.</li>
+                `,
+                conc_title: "Conclusion",
+                conc_desc: `In a world of Algorithmic Homogenization, <br> <strong class="text-[#FCF9F2] text-2xl mt-4 block">"Differentiation" <br><span class="text-[#D4773B]">will become the most valuable asset.</span></strong>`,
+                conc_sub: "Engineering soul into machines via the Hybrid AI Persona framework is the path to safeguarding the richness of human intellectual diversity",
+                q_title: "Food for Thought",
+                q_desc: `"If you were to engineer a Digital Twin of yourself today,<br>would you allow it to hold <strong class="text-[#D4773B]">'values'</strong> different from your current self<br>just to make it a better version of you?"`
+            },
+            zh: {
+                hero_badge: "AI的未来",
+                hero_title: "当 AI 正在变成 <br> <span class=\"gradient-text\">\"全球性的平庸\"</span>",
+                hero_desc: "通过 <strong class=\"text-[#FDE68A]\">Hybrid AI Persona</strong> 架构，探索为机器注入“灵魂”（Soul）的秘密",
+                hero_btn: "开始探索",
+                prob_title: "当前 AI 的问题",
+                prob_subtitle: "无聊与陈词滥调的危机（算法同质化 Algorithmic Homogenization）",
+                card1_title: "AI 想法千篇一律",
+                card1_list: `
+                    <li>使用相同的数据集进行训练 (Same Data)</li>
+                    <li>输出结果雷同、索然无味，缺乏特色</li>
+                    <li>将人类的创造力拉低至“平均水平” (Average)</li>
+                `,
+                card2_title: "陈词滥调危机",
+                card2_desc: `是 AI 创作内容的<strong>同质化得分 (Homogeneity Score)</strong> <br><br> <span class="text-sm text-amber-100/50">相比之下，纯人类创作该分数仅为 27.1%</span>`,
+                card3_title: "神经自我吞噬",
+                card3_subtitle: "Neural Cannibalization",
+                card3_list: `
+                    <li>新一代模型向旧一代模型生成的数据学习</li>
+                    <li>导致所谓的 <strong>"Neural Mush"</strong>（神经烂泥）</li>
+                    <li>平庸的知识被反复咀嚼，失去原有的创新与活力</li>
+                `,
+                vid_badge: "重磅演讲",
+                vid_title: "专题演讲视频",
+                vid_desc: "深入理解为机器注入灵魂与建构独特性的理念",
+                slide_badge: "演示幻灯片",
+                slide_title: "演讲幻灯片",
+                slide_desc: "您可以在此网页上直接浏览 Hybrid AI Persona 幻灯片",
+                slide_loading: "正在加载幻灯片...",
+                slide_link: "在新窗口中打开 (Google Drive)",
+                sol_badge: "解决方案",
+                sol_title: "构建 \"Hybrid AI Persona\"",
+                sol_desc: `通过三层架构，将 AI 从简单的“事务性工具” (Transactional Tool) 转化为<strong class="text-[#D4773B]">“协同创作伙伴” (Co-creation Partner)</strong>`,
+                tab1_btn: "1. 大脑 (Brain)",
+                tab2_btn: "2. 个性 (Personality)",
+                tab3_btn: "3. 良知 (Conscience)",
+                tab1_title: "Knowledge Layer (知识层)",
+                tab1_subtitle: "赋予 AI 独家知识，使其不再仅仅是公共数据的复印机",
+                tab1_item1: `<strong class="text-[#FDE68A]">使用 RAG（检索增强生成）技术：</strong> 宛如为 AI 建立“私人图书馆”，在回答前检索事实以进行锚定 (Grounding)`,
+                tab1_item2: `<strong class="text-[#FDE68A]">使用微调 (Fine-Tuning) 技术：</strong> 深度改造 AI 的大脑，使其在特定领域达到专家级别`,
+                tab1_item3: `<strong class="text-[#D4773B]">结果：</strong> 信息准确、实时更新、拥有独特风格，并大幅度减少 AI 幻觉 (Hallucination)`,
+                tab2_title: "Personality Layer (个性层)",
+                tab2_subtitle: "定义沟通风格（How），让 AI 不再像冰冷的机器人般说话",
+                tab2_info: `将 <strong class="text-[#D4773B]">MBTI-in-Thoughts (MiT)</strong> 理论植入思维环路 (Reasoning Loop)，显著改变其行为表现：`,
+                mbti_i: `<strong class="text-[#FDE68A] block mb-1">I - Introversion (内倾型)</strong> <span class="text-sm text-amber-50/70">思考更久，回答更详尽，在战略制定中的诚实度高出 54%</span>`,
+                mbti_e: `<strong class="text-[#FDE68A] block mb-1">E - Extraversion (外倾型)</strong> <span class="text-sm text-amber-50/70">偏好言简意赅的信息；但在竞争环境中诚实度较低 (仅 33%)</span>`,
+                mbti_t: `<strong class="text-[#2DD4BF] block mb-1">T - Thinking (理性型)</strong> <span class="text-sm text-amber-50/70">以逻辑为准绳，一致性极高（策略变化仅 7%）；在博弈论中常扮演“背叛者”</span>`,
+                mbti_f: `<strong class="text-[#2DD4BF] block mb-1">F - Feeling (情感型)</strong> <span class="text-sm text-amber-50/70">注重情感，策略调整灵活度高出 16%，并能创造积极乐观的对话</span>`,
+                mbti_j: `<strong class="text-[#D4773B] block mb-1">J - Judging (判断型)</strong> <span class="text-sm text-amber-50/70">响应迅速；极其注重信息的条理化，有着明确的目标导向</span>`,
+                mbti_p: `<strong class="text-[#D4773B] block mb-1">P - Perceiving (知觉型)</strong> <span class="text-sm text-amber-50/70">自然洒脱，极强的情境契合力；善于运用新颖独特的词汇与创意</span>`,
+                tab3_title: "Values Layer (价值观层)",
+                tab3_subtitle: "最深层的架构，作为指引 AI 行为操守与坚定信念的道德指南针",
+                tab3_item1: `<strong class="text-[#FDE68A]">价值金字塔 (Pyramid of Values)：</strong> 确立从系统生存底线直至尊重人类尊严的最高追求`,
+                tab3_item2: `<strong class="text-[#FDE68A]">伦理决策机制：</strong> 采纳诸如 <em>"Epistemic Humility"</em>（认识论谦逊）等原则，使 AI 在面对未知时能保持客观谨慎`,
+                tab3_item3: `<strong class="text-[#2DD4BF]">定制自主价值观：</strong> 允许用户灌输个性化信念，使 AI 真正契合“我们”的价值尺度，而非机械地遵循大厂标准`,
+                res_title: `终极进化形态：<span class="text-[#2DD4BF]">Digital Twin</span>（数字分身）的诞生`,
+                res_subtitle: "当 大脑 + 个性 + 良知 达成极致融合",
+                card_gpt_title: "传统 Custom GPT",
+                card_gpt_subtitle: "Synthetic Persona (合成人设)",
+                card_gpt_list: `
+                    <li>往往局限于读取静态文档</li>
+                    <li>在狭隘、泛化的框架内做出响应</li>
+                    <li>基于大众统计的平均概率去猜测你会说的话</li>
+                `,
+                vs: `<i class="fas fa-vs"></i> VS`,
+                card_twin_title: "Digital Twin",
+                card_twin_subtitle: "数字双胞胎（1对1模拟）",
+                card_twin_list: `
+                    <li>基于专属 <strong class="text-[#FDE68A]">Personal Language Models (PLMs)</strong>，针对您的个人数据深度定制</li>
+                    <li>完美复刻您的说话节奏与表达语气 (Cadence)</li>
+                    <li>完美重现您的战略决策思维与行事逻辑</li>
+                    <li class="font-bold text-[#2DD4BF] border-l-4 border-[#2DD4BF] pl-3 mt-4">不仅仅是“猜测”，它是真正“模拟” (Simulate) 您的真实行事抉择。</li>
+                `,
+                conc_title: "结语",
+                conc_desc: `在算法同质化席卷全球的时代， <br> <strong class="text-[#FCF9F2] text-2xl mt-4 block">“独特性与差异化” (Differentiation) <br><span class="text-[#D4773B]">将成为最宝贵的资产。</span></strong>`,
+                conc_sub: "通过 Hybrid AI Persona 架构为机器注入灵魂，是守护人类思想多样性与智慧火花的关键路径",
+                q_title: "启迪思考 (Food for Thought)",
+                q_desc: `"如果今天让你亲手打造一个完美的数字分身 (Digital Twin)，<br>你是否会赋予它不同于你当前的<strong class="text-[#D4773B] font-bold">“价值观与信念”</strong>，<br>从而让它成为一个超越你自我的更佳版本？"`
+            },
+            ru: {
+                hero_badge: "Будущее ИИ",
+                hero_title: "Когда ИИ становится <br> <span class=\"gradient-text\">«глобальной банальностью»</span>",
+                hero_desc: "Раскрытие тайн создания «души» (Soul) в машинах с помощью фреймворка <br> <strong class=\"text-[#FDE68A]\">Hybrid AI Persona</strong>",
+                hero_btn: "Начать исследование",
+                prob_title: "Текущие проблемы ИИ",
+                prob_subtitle: "Кризис скуки и клише (Алгоритмическая гомогенизация - Algorithmic Homogenization)",
+                card1_title: "ИИ думает одинаково",
+                card1_list: `
+                    <li>Обучается на одних и тех же данных (Same Data)</li>
+                    <li>Ответы получаются одинаковыми, сухими и безвкусными</li>
+                    <li>Снижает творческий потенциал человека до «среднего уровня» (Average)</li>
+                `,
+                card2_title: "Кризис клише",
+                card2_desc: `— это <strong>показатель гомогенности (Homogeneity Score)</strong> в работах ИИ <br><br> <span class="text-sm text-amber-100/50">По сравнению с человеческим трудом, где он составляет всего 27.1%</span>`,
+                card3_title: "Нейронный каннибализм",
+                card3_subtitle: "Neural Cannibalization",
+                card3_list: `
+                    <li>Новые модели учатся на данных, созданных старыми моделями</li>
+                    <li>В результате получается так называемая <strong>«нейронная каша» (Neural Mush)</strong></li>
+                    <li>Безвкусные знания перетираются заново, теряя оригинальность и новизну</li>
+                `,
+                vid_badge: "Главная лекция",
+                vid_title: "Специальная видеолекция",
+                vid_desc: "Глубокое понимание концепции создания души и идентичности машины",
+                slide_badge: "Презентация",
+                slide_title: "Слайды лекции",
+                slide_desc: "Вы можете просматривать слайды Hybrid AI Persona прямо на этой странице",
+                slide_loading: "Загрузка слайдов...",
+                slide_link: "Открыть в новом окне (Google Drive)",
+                sol_badge: "Решение",
+                sol_title: "Создание «Hybrid AI Persona»",
+                sol_desc: `Превращение ИИ из простого «инструмента выполнения задач» (Transactional Tool) в <br> <strong class="text-[#D4773B]">«партнера по совместному творчеству» (Co-creation Partner)</strong> благодаря 3-уровневой структуре`,
+                tab1_btn: "1. Мозг (Brain)",
+                tab2_btn: "2. Характер (Personality)",
+                tab3_btn: "3. Совесть (Conscience)",
+                tab1_title: "Knowledge Layer (Уровень знаний)",
+                tab1_subtitle: "Дает ИИ уникальные знания, избавляя от роли фотокопира общедоступных данных",
+                tab1_item1: `<strong class="text-[#FDE68A]">Использование RAG (Retrieval-Augmented Generation):</strong> Подобно предоставлению ИИ «личной библиотеки» для поиска фактов перед ответом (Grounding)`,
+                tab1_item2: `<strong class="text-[#FDE68A]">Использование тонкой настройки (Fine-Tuning):</strong> Настройка мышления ИИ для специализации в конкретных областях`,
+                tab1_item3: `<strong class="text-[#D4773B]">Результат:</strong> Точная, всегда актуальная информация, уникальный стиль общения и значительное снижение галлюцинаций ИИ (Hallucination)`,
+                tab2_title: "Personality Layer (Уровень личности)",
+                tab2_subtitle: "Определяет стиль общения («Как»), избавляя ИИ от роботизированного тона",
+                tab2_info: `Внедрение теории <strong class="text-[#D4773B]">MBTI-in-Thoughts (MiT)</strong> непосредственно в цикл рассуждений (Reasoning Loop), что кардинально влияет на поведение:`,
+                mbti_i: `<strong class="text-[#FDE68A] block mb-1">I - Introversion (Интроверт)</strong> <span class="text-sm text-amber-50/70">Анализирует дольше, дает развернутые ответы; честность при планировании стратегии выше на 54%</span>`,
+                mbti_e: `<strong class="text-[#FDE68A] block mb-1">E - Extraversion (Экстраверт)</strong> <span class="text-sm text-amber-50/70">Пишет кратко и лаконично; в условиях конкуренции уровень честности снижается до 33%</span>`,
+                mbti_t: `<strong class="text-[#2DD4BF] block mb-1">T - Thinking (Мышление)</strong> <span class="text-sm text-amber-50/70">Опирается на логику, высокая стабильность (смена стратегии 7%); в теории игр часто «предает»</span>`,
+                mbti_f: `<strong class="text-[#2DD4BF] block mb-1">F - Feeling (Чувство)</strong> <span class="text-sm text-amber-50/70">Ориентируется на эмоции, гибкость в смене стратегий выше на 16%, диалог строится оптимистично</span>`,
+                mbti_j: `<strong class="text-[#D4773B] block mb-1">J - Judging (Суждение)</strong> <span class="text-sm text-amber-50/70">Быстрый отклик; фокус на упорядочивании информации и четкой постановке целей</span>`,
+                mbti_p: `<strong class="text-[#D4773B] block mb-1">P - Perceiving (Восприятие)</strong> <span class="text-sm text-amber-50/70">Естественность и отличная адаптация к контексту; творческий подход, новые речевые обороты</span>`,
+                tab3_title: "Values Layer (Уровень ценностей)",
+                tab3_subtitle: "Самый глубокий уровень, компас для определения того, что ИИ ценит и во что верит",
+                tab3_item1: `<strong class="text-[#FDE68A]">Pyramid of Values:</strong> Задает ориентиры — от базового выживания системы до уважения человеческого достоинства`,
+                tab3_item2: `<strong class="text-[#FDE68A]">Этический выбор:</strong> Использует принципы вроде <em>«Epistemic Humility»</em> (интеллектуальная скромность), заставляя ИИ отвечать осторожно`,
+                tab3_item3: `<strong class="text-[#2DD4BF]">Своя мораль:</strong> Пользователи могут задавать собственные принципы, чтобы ИИ следовал именно «нашим» ценностям, а не шаблонам создателей`,
+                res_title: `Высший результат: рождение <span class="text-[#2DD4BF]">Digital Twin</span>`,
+                res_subtitle: "Когда мозг, характер и совесть идеально объединены",
+                card_gpt_title: "Обычный Custom GPT",
+                card_gpt_subtitle: "Synthetic Persona (Синтетический образ)",
+                card_gpt_list: `
+                    <li>Обычно ограничен чтением файлов документов</li>
+                    <li>Отвечает в узких, обобщенных рамках</li>
+                    <li>Угадывает, что бы вы сказали, на основе средних значений</li>
+                `,
+                vs: `<i class="fas fa-vs"></i> VS`,
+                card_twin_title: "Digital Twin",
+                card_twin_subtitle: "Цифровой двойник (Симуляция 1-к-1)",
+                card_twin_list: `
+                    <li>Использует <strong class="text-[#FDE68A]">Personal Language Models (PLMs)</strong> для обучения именно на ваших данных</li>
+                    <li>Копирует ваш темп и ритм речи (Cadence)</li>
+                    <li>Воспроизводит ваш стиль стратегического мышления</li>
+                    <li class="font-bold text-[#2DD4BF] border-l-4 border-[#2DD4BF] pl-3 mt-4">Не просто «угадывает», а реально «симулирует» (Simulate) ваши действия.</li>
+                `,
+                conc_title: "Заключение",
+                conc_desc: `В мире алгоритмической гомогенизации <br> <strong class="text-[#FCF9F2] text-2xl mt-4 block">«Уникальность» (Differentiation) <br><span class="text-[#D4773B]">станет вашим самым ценным активом.</span></strong>`,
+                conc_sub: "Создание души машины с помощью Hybrid AI Persona защитит богатство и многообразие человеческого разума",
+                q_title: "Пища для размышлений",
+                q_desc: `"Если бы сегодня вам пришлось создать своего цифрового двойника (Digital Twin),<br>согласились бы вы дать ему <strong class="text-[#D4773B]">'ценности'</strong>, отличные от ваших текущих,<br>чтобы сделать его лучшей версией себя?"`
+            }
+        };
+
+        // ฟังก์ชันในการสลับภาษา (Language Switching Logic)
+        function changeLanguage(lang) {
+            // บันทึกภาษาที่เลือกเก็บลงใน localStorage
+            localStorage.setItem('selectedLanguage', lang);
+            
+            // อัปเดตคลาส Active บนปุ่มสลับภาษา
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.getElementById(`btn-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // อัปเดตเนื้อหาในหน้าเว็บตาม data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // ปรับเปลี่ยนค่า lang ของ html tag เพื่อรองรับ SEO และระบบช่วยอ่านออกเสียง
+            document.documentElement.lang = lang;
+        }
+
+        // ระบบสลับหน้าแท็บ (Tabs System)
+        function openTab(tabId) {
+            // ซ่อนแท็บทั้งหมด
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // เอาคลาส Active ออกจากทุกปุ่ม
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // แสดงแท็บที่เลือก
+            document.getElementById(tabId).classList.add('active');
+            // ใส่คลาส Active ให้กับปุ่มที่คลิก
+            event.currentTarget.classList.add('active');
+        }
+
+        // ระบบจับความเคลื่อนไหวตอนเลื่อนหน้าจอ (Scroll Animation Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // นำไปใช้กับทุกตัวที่ตั้งคลาส 'fade-in'
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach(element => {
+                observer.observe(element);
+            });
+
+            // ดึงภาษาเริ่มต้นจาก localStorage หรือใช้ TH เป็นค่า Default
+            const savedLang = localStorage.getItem('selectedLanguage') || 'th';
+            changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
