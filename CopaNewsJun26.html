@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,9 @@
     <meta property="og:url" content="https://thbho.github.io/CopaNewsJun26.html">
     <meta property="og:type" content="article">
 
+    <!-- Tailwind CSS & Font Loader -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         body { background-color: #f8fafc; overflow-x: hidden; }
@@ -31,41 +32,75 @@
         body.lang-cn [lang]:not([lang="cn"]) { display: none !important; }
         body.lang-ru [lang]:not([lang="ru"]) { display: none !important; }
 
-        /* Smooth scrolling and transitions */
-        html { scroll-behavior: smooth; }
+        /* Custom Glassmorphism Panels */
         .glass-panel {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
         .glass-dark {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        
+        /* Shimmer and Glow effect for luxury branding */
+        .glow-gold {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.35);
         }
     </style>
 </head>
-<body class="font-sans text-slate-800 antialiased bg-slate-50 selection:bg-indigo-900 selection:text-white">
+<body class="font-sans text-slate-800 antialiased bg-slate-50 selection:bg-indigo-950 selection:text-amber-400">
 
-    <!-- MODERN LANGUAGE SWITCHER -->
-    <div class="fixed top-6 right-6 z-50 glass-panel rounded-full p-1.5 shadow-lg border border-white/50 flex gap-1 items-center">
-        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn w-9 h-9 rounded-full bg-slate-900 text-amber-400 font-bold text-xs transition-all shadow-md">EN</button>
-        <button onclick="setLanguage('th')" id="btn-th" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">TH</button>
-        <button onclick="setLanguage('cn')" id="btn-cn" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">CN</button>
-        <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 text-xs font-bold transition-all">RU</button>
+    <!-- READING PROGRESS BAR -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-300 to-indigo-600 w-0 z-50 transition-all duration-100"></div>
+
+    <!-- FLOATING UTILITIES (Language Switcher, Share and Back To Top) -->
+    <div class="fixed top-6 right-6 z-50 flex flex-col md:flex-row gap-3 items-end md:items-center">
+        <!-- Language Switcher Panel -->
+        <div class="glass-panel rounded-full p-1.5 shadow-xl border border-white/60 flex gap-1 items-center">
+            <button onclick="setLanguage('en')" id="btn-en" class="lang-btn w-9 h-9 rounded-full bg-slate-900 text-amber-400 font-bold text-xs transition-all shadow-md">EN</button>
+            <button onclick="setLanguage('th')" id="btn-th" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">TH</button>
+            <button onclick="setLanguage('cn')" id="btn-cn" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">CN</button>
+            <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 text-xs font-bold transition-all">RU</button>
+        </div>
+
+        <!-- Quick Share Button -->
+        <button onclick="copyToClipboard()" class="w-11 h-11 rounded-full glass-panel border border-white/60 flex items-center justify-center text-indigo-900 hover:text-amber-500 hover:scale-105 active:scale-95 shadow-lg transition-all" title="Share Page">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 10.742l4.004-2.002m0 6.516l-4.004-2.002m0-3.03a3.5 3.5 0 110-6.94 3.5 3.5 0 010 6.94zm0 10.03a3.5 3.5 0 110-6.94 3.5 3.5 0 010 6.94zm10.03-5.02a3.5 3.5 0 11-6.94 0 3.5 3.5 0 016.94 0z"></path></svg>
+        </button>
     </div>
 
-    <!-- Full Width Main Container -->
+    <!-- Toast Alert Box -->
+    <div id="toast-alert" class="fixed bottom-6 right-6 z-50 translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-800">
+        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+        <span class="text-sm font-medium tracking-wide">
+            <span lang="en">Link copied to clipboard!</span>
+            <span lang="th" class="lang-specific-font">คัดลอกลิงก์เรียบร้อยแล้ว!</span>
+            <span lang="cn" class="lang-specific-font">链接已复制到剪贴板！</span>
+            <span lang="ru" class="lang-specific-font">Ссылка скопирована!</span>
+        </span>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 left-6 z-45 translate-y-20 opacity-0 w-11 h-11 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center shadow-2xl hover:bg-indigo-950 active:scale-95 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <!-- Main Wrapper -->
     <div class="w-full flex flex-col">
         
         <!-- Header: Midnight Indigo & Champagne Gold -->
-        <div class="w-full bg-slate-900 text-center py-12 md:py-16 relative overflow-hidden">
+        <div class="w-full bg-slate-900 text-center py-16 md:py-20 relative overflow-hidden">
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
-            <div class="absolute -top-24 -left-24 w-64 h-64 bg-indigo-700 rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>
-            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-amber-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-indigo-700 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-amber-600 rounded-full mix-blend-multiply filter blur-3xl opacity-15"></div>
             
-            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Logo" class="h-20 md:h-24 mx-auto relative z-10 drop-shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-            <div class="relative z-10 mt-6 inline-block px-6 py-2 border border-amber-400/30 rounded-full bg-slate-800/50 text-amber-300 text-xs font-bold tracking-[0.2em] uppercase shadow-sm backdrop-blur-sm">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Logo" class="h-20 md:h-24 mx-auto relative z-10 drop-shadow-[0_0_20px_rgba(251,191,36,0.35)] hover:scale-102 transition-transform duration-500">
+            <div class="relative z-10 mt-6 inline-block px-6 py-2.5 border border-amber-400/30 rounded-full bg-slate-800/60 text-amber-300 text-xs font-bold tracking-[0.2em] uppercase shadow-lg backdrop-blur-sm">
                 <span lang="en">Newsletter &bull; June 2026</span>
                 <span lang="th" class="lang-specific-font">จดหมายข่าว &bull; มิถุนายน 2569</span>
                 <span lang="cn" class="lang-specific-font">通讯 &bull; 2026年6月</span>
@@ -76,48 +111,47 @@
         <!-- Hero Section -->
         <div class="relative w-full">
             <div class="relative group overflow-hidden w-full">
-                <!-- Changed image to a more global/tech/luxury skyline -->
-                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Tech and City" class="w-full h-[55vh] md:h-[70vh] lg:h-[80vh] object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/20 to-transparent"></div>
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Tech and City" class="w-full h-[55vh] md:h-[70vh] lg:h-[80vh] object-cover transform group-hover:scale-102 transition-transform duration-1000 ease-out">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/10 to-transparent"></div>
             </div>
             
-            <div class="relative -mt-24 md:-mt-32 pt-0 px-4 sm:px-8 z-10 w-full">
-                <div class="max-w-5xl mx-auto text-center glass-panel p-8 md:p-14 rounded-3xl shadow-2xl border border-white">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-slate-900 leading-tight mb-4">
+            <div class="relative -mt-24 md:-mt-36 pt-0 px-4 sm:px-8 z-10 w-full">
+                <div class="max-w-5xl mx-auto text-center glass-panel p-8 md:p-14 rounded-3xl shadow-2xl border border-white/80">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-slate-900 leading-tight mb-4 tracking-wide">
                         <span lang="en">The Intelligent <br><span class="text-amber-500 italic">Future</span></span>
                         <span lang="th" class="lang-specific-font">ก้าวสู่อนาคตที่ <br><span class="text-amber-500">เหนือกว่า</span></span>
                         <span lang="cn" class="lang-specific-font">智能的 <br><span class="text-amber-500">未来</span></span>
                         <span lang="ru" class="lang-specific-font">Интеллектуальное <br><span class="text-amber-500">Будущее</span></span>
                     </h1>
-                    <h2 class="text-lg md:text-xl text-indigo-700 font-medium mb-8 lang-specific-font tracking-wide">
+                    <h2 class="text-lg md:text-xl text-indigo-700 font-semibold mb-8 lang-specific-font tracking-wider">
                         <span lang="en">Redefining Coastal Living in the EEC.</span>
                         <span lang="th">นิยามใหม่ของการใช้ชีวิตริมหาดบนทำเลศักยภาพ EEC</span>
                         <span lang="cn">重新定义 EEC 的沿海生活。</span>
                         <span lang="ru">Переосмысление прибрежной жизни в EEC.</span>
                     </h2>
                     
-                    <div class="w-16 h-1 bg-amber-400 mx-auto rounded-full mb-8"></div>
+                    <div class="w-20 h-1 bg-amber-400 mx-auto rounded-full mb-8"></div>
 
                     <div class="text-slate-600 leading-relaxed text-base md:text-lg lang-specific-font text-left max-w-4xl mx-auto">
-                        <p class="mb-6">
+                        <p class="mb-6 first-letter:text-3xl first-letter:font-serif first-letter:text-amber-500 first-letter:font-bold">
                             <span lang="en">Welcome to June 2026. As Copacabana Coral Reef continues its steady ascent, reaching Level 51, the world around us is shifting rapidly. Pattaya is increasingly becoming a safe haven for global wealth, intertwined with cutting-edge innovations. In this edition, we explore:</span>
                             <span lang="th">ต้อนรับเข้าสู่เดือนมิถุนายน 2569 โคปาคาบาน่า คอรัล รีฟ ยังคงเติบโตอย่างมั่นคงสู่ชั้นที่ 51 ท่ามกลางกระแสการเปลี่ยนแปลงของโลกที่ทำให้พัทยากลายเป็นหลุมหลบภัยของกลุ่มทุนระดับโลก ผสานรวมเข้ากับนวัตกรรมล้ำสมัย ในฉบับนี้ เราจะพาไปเจาะลึก:</span>
-                            <span lang="cn">欢迎来到 2026 年 6 月。在这个版本中，我们将探索：</span>
-                            <span lang="ru">Добро пожаловать в июнь 2026 года. В этом выпуске мы исследуем:</span>
+                            <span lang="cn">欢迎来到 2026 年 6 月。随着科ปาคาบาน่า珊瑚礁工程稳步上升到51楼，我们周围的世界正在发生巨大的变迁。在这一期中，我们将一同探索：</span>
+                            <span lang="ru">Добро пожаловать в июнь 2026 года. В то время как Copacabana Coral Reef продолжает свой неуклонный подъем, достигнув 51-го уровня, мир вокруг нас стремительно меняется. В этом выпуске:</span>
                         </p>
                         
                         <ul class="space-y-4 pl-2 bg-white/60 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-slate-100 text-sm md:text-base shadow-sm">
                             <li class="flex items-start">
                                 <svg class="w-6 h-6 text-amber-500 mr-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span><span lang="en"><strong>Global Wealth:</strong> The UHNWI migration from Dubai to Thailand's EEC.</span><span lang="th"><strong>Global Wealth:</strong> ทำไมกลุ่ม UHNWI ถึงย้ายฐานทุนจากดูไบมาสู่ EEC</span><span lang="cn">超高净值人士从迪拜迁移至 EEC。</span><span lang="ru">Миграция UHNWI из Дубая в EEC.</span></span>
+                                <span><span lang="en"><strong>Global Wealth:</strong> The UHNWI migration from Dubai to Thailand's EEC.</span><span lang="th"><strong>Global Wealth:</strong> ทำไมกลุ่ม UHNWI ถึงย้ายฐานทุนจากดูไบมาสู่ EEC</span><span lang="cn"><strong>全球财富流向:</strong> 超高净值人士从迪拜向泰国 EEC 经济特区的迁移。</span><span lang="ru"><strong>Мировое богатство:</strong> Миграция лиц с ультравысоким уровнем дохода (UHNWI) из Дубая в тайский регион EEC.</span></span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-6 h-6 text-amber-500 mr-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                                <span><span lang="en"><strong>Future Tech:</strong> Wellness Intelligence and Hybrid AI Personas shaping our lifestyles.</span><span lang="th"><strong>Future Tech:</strong> ยกระดับการใช้ชีวิตด้วย Wellness Intelligence และ Hybrid AI</span><span lang="cn">健康智能和混合人工智能改变了我们的生活方式。</span><span lang="ru">Интеллектуальный велнес и гибридные ИИ.</span></span>
+                                <span><span lang="en"><strong>Future Tech:</strong> Wellness Intelligence and Hybrid AI Personas shaping our lifestyles.</span><span lang="th"><strong>Future Tech:</strong> ยกระดับการใช้ชีวิตด้วย Wellness Intelligence และ Hybrid AI</span><span lang="cn"><strong>未来科技:</strong> 健康智能与混合 AI 角色，深度重塑我们的高端生活。</span><span lang="ru"><strong>Технологии будущего:</strong> Wellness-интеллект и гибридные аватары искусственного интеллекта, меняющие стиль жизни.</span></span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-6 h-6 text-amber-500 mr-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <span><span lang="en"><strong>Vibrant June Events:</strong> Pattaya International Pride Festival and Circuit Festival Asia.</span><span lang="th"><strong>June Events:</strong> อีเวนต์ไฮไลต์เดือนมิถุนายน งานเทศกาล Pride และคอนเสิร์ตใหญ่ระดับเอเชีย</span><span lang="cn">充满活力的六月活动：骄傲月与亚洲巡回音乐节。</span><span lang="ru">Яркие события июня: Фестиваль Гордости и Circuit Festival Asia.</span></span>
+                                <span><span lang="en"><strong>Vibrant June Events:</strong> Pattaya International Pride Festival and Circuit Festival Asia.</span><span lang="th"><strong>June Events:</strong> อีเวนต์ไฮไลต์เดือนมิถุนายน งานเทศกาล Pride และคอนเสิร์ตใหญ่ระดับเอเชีย</span><span lang="cn"><strong>精彩的六月盛典:</strong> 芭提雅国际骄傲节以及亚洲巡回音乐节（Circuit Festival Asia）。</span><span lang="ru"><strong>Яркие события июня:</strong> Международный фестиваль гордости в Паттайе и азиатский фестиваль Circuit.</span></span>
                             </li>
                         </ul>
                     </div>
@@ -137,7 +171,7 @@
                     </span>
                     <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900">
                         <span lang="en">Ascending High: Level 51</span>
-                        <span lang="th" class="lang-specific-font">สู่ชั้นที่ 51</span>
+                        <span lang="th" class="lang-specific-font">สู่ชั้นที่ 51 อย่างสง่างาม</span>
                         <span lang="cn" class="lang-specific-font">触及天空：第51层</span>
                         <span lang="ru" class="lang-specific-font">Достигая небес: Уровень 51</span>
                     </h3>
@@ -145,53 +179,218 @@
                 
                 <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl mb-12 border border-slate-100 bg-slate-900 group">
                     <iframe src="https://player.vimeo.com/video/1188311883?title=0&byline=0&portrait=0&autoplay=1&loop=1&muted=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-xl text-slate-900 font-bold text-base md:text-lg shadow-lg pointer-events-none">Level 51 Reached</div>
+                    <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-xl text-slate-900 font-bold text-base md:text-lg shadow-lg pointer-events-none border border-slate-200/50">Level 51 Reached</div>
                 </div>
 
-                <!-- Image & Video Gallery 3 Columns Grid (Retained) -->
+                <!-- Interactive Gallery: Clicking opens Lightbox Modals -->
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 mb-12">
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <video src="https://astra.app/api/files/019de156-5785-70ef-a46c-0f72647a5b47" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer"></video>
+                    <!-- Item 1 (Video) -->
+                    <div onclick="openLightbox(0)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <video src="https://astra.app/api/files/019de156-5785-70ef-a46c-0f72647a5b47" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></video>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                <svg class="w-5 h-5 text-indigo-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.17 5.25a.75.75 0 011.08.1l4.25 5.25a.75.75 0 010 .9l-4.25 5.25a.75.75 0 01-1.18-.9L12.01 10 8.07 5.1a.75.75 0 01.1-1.05z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
                     </div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <img src="https://i.postimg.cc/4yv0Vfdd/freepik-add-lens-flare-in-the-evening-sunrise-at-5pm-0001.png" alt="Construction Progress 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer">
+                    <!-- Item 2 (Image) -->
+                    <div onclick="openLightbox(1)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <img src="https://i.postimg.cc/4yv0Vfdd/freepik-add-lens-flare-in-the-evening-sunrise-at-5pm-0001.png" alt="Construction Progress 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors"></div>
                     </div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <img src="https://i.postimg.cc/Kjt6f79n/freepik-add-lens-flare-in-the-evening-at-6pm-0001.png" alt="Construction Progress 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer">
+                    <!-- Item 3 (Image) -->
+                    <div onclick="openLightbox(2)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <img src="https://i.postimg.cc/Kjt6f79n/freepik-add-lens-flare-in-the-evening-at-6pm-0001.png" alt="Construction Progress 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors"></div>
                     </div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <img src="https://i.postimg.cc/vTvPD0qW/freepik-change-to-the-morning-at-11am-with-lens-flare-0001.png" alt="Construction Progress 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer">
+                    <!-- Item 4 (Image) -->
+                    <div onclick="openLightbox(3)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <img src="https://i.postimg.cc/vTvPD0qW/freepik-change-to-the-morning-at-11am-with-lens-flare-0001.png" alt="Construction Progress 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors"></div>
                     </div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <img src="https://i.postimg.cc/y8K6hYTR/add-lens-flare-in-the-202604301003.jpg" alt="Construction Progress 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer">
+                    <!-- Item 5 (Image) -->
+                    <div onclick="openLightbox(4)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <img src="https://i.postimg.cc/y8K6hYTR/add-lens-flare-in-the-202604301003.jpg" alt="Construction Progress 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors"></div>
                     </div>
-                    <div class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100">
-                        <video src="https://astra.app/api/files/019de164-f793-74e4-b672-3b045d3fa18b" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer"></video>
+                    <!-- Item 6 (Video) -->
+                    <div onclick="openLightbox(5)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] group bg-slate-100 cursor-zoom-in">
+                        <video src="https://astra.app/api/files/019de164-f793-74e4-b672-3b045d3fa18b" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></video>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                <svg class="w-5 h-5 text-indigo-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.17 5.25a.75.75 0 011.08.1l4.25 5.25a.75.75 0 010 .9l-4.25 5.25a.75.75 0 01-1.18-.9L12.01 10 8.07 5.1a.75.75 0 01.1-1.05z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="bg-indigo-50/50 rounded-3xl p-8 md:p-12 border border-indigo-100 max-w-5xl mx-auto shadow-sm">
                     <ul class="space-y-8 text-base text-slate-700 lang-specific-font">
                         <li class="flex items-start">
-                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 mr-6 text-indigo-600 shadow-sm border border-indigo-100">
+                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 mr-6 text-indigo-600 shadow-md border border-indigo-100">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                             </div>
-                            <div class="pt-1">
+                            <div class="pt-1 leading-relaxed">
                                 <span lang="en"><strong>Rising Above:</strong> We have officially completed Level 51. Our team is working meticulously as we approach the final floors, preparing for the structural culmination.</span>
                                 <span lang="th"><strong>ก้าวสำคัญของการก่อสร้าง:</strong> โครงสร้างหลักดำเนินมาถึงชั้นที่ 51 อย่างเป็นทางการ ทีมงานของเรากำลังปฏิบัติงานอย่างประณีตเพื่อมุ่งหน้าสู่ชั้นสูงสุดของโครงการ</span>
-                                <span lang="cn"><strong>实现结构里程碑：</strong>我们已正式达到第51层。我们的团队正在精心工作。</span>
-                                <span lang="ru"><strong>Достигнут структурный рубеж:</strong> Мы официально достигли 51-го уровня. Наша команда работает скрупулезно.</span>
+                                <span lang="cn"><strong>实现结构里程碑：</strong>我们已正式达到第 51 层。建设团队正在以极高的标准细心雕琢，为大楼的完美封顶做好最充足的准备。</span>
+                                <span lang="ru"><strong>Достигнут структурный рубеж:</strong> Мы официально достигли 51-го уровня. Наша команда работает скрупулезно, приближаясь к финальным этажам и завершению строительства конструкции.</span>
                             </div>
                         </li>
                         <li class="flex items-start">
-                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 mr-6 text-indigo-600 shadow-sm border border-indigo-100">
+                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 mr-6 text-indigo-600 shadow-md border border-indigo-100">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <div class="pt-1">
+                            <div class="pt-1 leading-relaxed">
                                 <span lang="en"><strong>Consistent Excellence:</strong> Adhering to the highest global safety standards, construction continues seamlessly, keeping us perfectly on track for timely delivery.</span>
                                 <span lang="th"><strong>รักษามาตรฐานอย่างต่อเนื่อง:</strong> การก่อสร้างยังคงดำเนินไปอย่างราบรื่นตามมาตรฐานความปลอดภัยสูงสุดระดับสากล เพื่อส่งมอบโครงการให้คุณได้ตรงตามกำหนดการ</span>
-                                <span lang="cn"><strong>按计划交付：</strong>建设无缝继续，使เรา完全ตามกำหนดการส่งมอบตรงเวลา</span>
-                                <span lang="ru"><strong>По графику к сдаче:</strong> Строительство продолжается бесперебойно, чтобы вовремя доставить проект.</span>
+                                <span lang="cn"><strong>始终如一的品质保障:</strong> 坚守全球顶尖的安全标准，建筑工序严丝合缝地推进，确保项目如期高质量地交付予各位尊贵业主。</span>
+                                <span lang="ru"><strong>Неизменное превосходство:</strong> Строительство ведется в соответствии с высочайшими мировыми стандартами безопасности, что позволяет нам четко следовать графику сдачи.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SECTION: Showroom / Model Room Experience -->
+        <div class="w-full px-4 sm:px-8 py-20 md:py-28 bg-emerald-50/40 border-t border-slate-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <span class="text-emerald-600 text-xs font-bold tracking-[0.2em] uppercase block mb-4">
+                        <span lang="en">Exclusive Preview</span>
+                        <span lang="th" class="lang-specific-font">พรีวิวสุดเอ็กซ์คลูซีฟ</span>
+                        <span lang="cn" class="lang-specific-font">独家预览</span>
+                        <span lang="ru" class="lang-specific-font">Эксклюзивный просмотр</span>
+                    </span>
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 tracking-wide">
+                        <span lang="en">Inside the Showroom</span>
+                        <span lang="th" class="lang-specific-font">เจาะลึกห้องตัวอย่างโครงการ</span>
+                        <span lang="cn" class="lang-specific-font">探秘样板间</span>
+                        <span lang="ru" class="lang-specific-font">Внутри шоу-рума</span>
+                    </h3>
+                    <h4 class="text-xl text-emerald-700 font-medium mb-8 lang-specific-font">
+                        <span lang="en">Redefining Luxury Seaview Living & Wellness</span>
+                        <span lang="th">นิยามใหม่ของ Luxury Seaview Living & Wellness</span>
+                        <span lang="cn">重新定义豪华海景生活与健康</span>
+                        <span lang="ru">Переосмысление роскошной жизни с видом на море и велнеса</span>
+                    </h4>
+                    
+                    <div class="w-20 h-1 bg-emerald-400 mx-auto rounded-full mb-8"></div>
+
+                    <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-4xl mx-auto lang-specific-font text-left md:text-center">
+                        <span lang="en">As you step into the Copacabana Coral Reef Jomtien showroom, you will experience the aura of Modern Luxury seamlessly blended with "The Jewels of the Sea" concept. Every detail is meticulously crafted to deliver a living experience that promotes both wellness and sustainability.</span>
+                        <span lang="th">เมื่อคุณลูกค้าก้าวเข้าสู่ห้องตัวอย่างของ Copacabana Coral Reef Jomtien คุณจะสัมผัสได้ถึงกลิ่นอายความหรูหราสไตล์ Modern Luxury ที่ผสานแนวคิด “The Jewels of the Sea” ไว้อย่างลงตัว โครงการใส่ใจในทุกรายละเอียดเพื่อส่งมอบประสบการณ์อยู่อาศัยที่ดีต่อสุขภาพ (Wellness) และมีความยั่งยืน (Sustainability) ไปพร้อมๆ กัน</span>
+                        <span lang="cn">当您步入 Copacabana Coral Reef Jomtien 的样板间，您将体验到现代奢华与“海洋明珠”理念的完美融合。每一个细节都经过精心雕琢，旨在为您提供兼顾健康与可持续性的极致居住体验。</span>
+                        <span lang="ru">Войдя в шоу-рум Copacabana Coral Reef Jomtien, вы ощутите ауру современной роскоши, идеально сочетающуюся с концепцией «Драгоценности моря». Каждая деталь тщательно продумана, чтобы обеспечить условия проживания, способствующие как здоровью, так и устойчивому развитию.</span>
+                    </p>
+                </div>
+
+                <!-- Gallery Grid (2 Images + Video Placeholder) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <!-- Image 1 -->
+                    <div onclick="openLightbox(6)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 aspect-[4/3] group bg-white cursor-zoom-in md:col-span-1 hover:shadow-xl transition-all duration-300">
+                        <img src="https://i.postimg.cc/BSFJ3CkH/IMG-1993.jpg" alt="Showroom Interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.17 5.25a.75.75 0 011.08.1l4.25 5.25a.75.75 0 010 .9l-4.25 5.25a.75.75 0 01-1.18-.9L12.01 10 8.07 5.1a.75.75 0 01.1-1.05z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image 2 -->
+                    <div onclick="openLightbox(7)" class="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 aspect-[4/3] group bg-white cursor-zoom-in md:col-span-1 hover:shadow-xl transition-all duration-300">
+                        <img src="https://i.postimg.cc/ysbcp1m5/IMG-2052.jpg" alt="Showroom Bathroom" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.17 5.25a.75.75 0 011.08.1l4.25 5.25a.75.75 0 010 .9l-4.25 5.25a.75.75 0 01-1.18-.9L12.01 10 8.07 5.1a.75.75 0 01.1-1.05z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Future Video/Image Placeholder -->
+                    <div class="relative rounded-3xl overflow-hidden shadow-inner border-2 border-dashed border-emerald-300/60 aspect-[4/3] bg-white/50 flex flex-col items-center justify-center text-center p-6 md:col-span-1 group transition-all duration-300 hover:bg-emerald-50/80 hover:border-emerald-400">
+                        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <span class="text-emerald-800 font-bold font-serif text-lg block mb-2">
+                            <span lang="en">Media Coming Soon</span>
+                            <span lang="th" class="font-sans">วิดีโอ 360° เร็วๆ นี้</span>
+                            <span lang="cn" class="font-sans">更多媒体敬请期待</span>
+                            <span lang="ru" class="font-sans">Больше медиа скоро</span>
+                        </span>
+                        <span class="text-emerald-600/80 text-sm font-medium">
+                            <span lang="en">Stay tuned for the full virtual tour.</span>
+                            <span lang="th" class="lang-specific-font">รอติดตามชมห้องตัวอย่างแบบ Virtual Tour</span>
+                            <span lang="cn" class="lang-specific-font">敬请期待完整的虚拟全景漫游。</span>
+                            <span lang="ru" class="lang-specific-font">Следите за обновлениями для полного виртуального тура.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Features List -->
+                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-100">
+                    <ul class="space-y-10 text-base md:text-lg text-slate-700 lang-specific-font">
+                        <!-- Point 1 -->
+                        <li class="flex flex-col md:flex-row items-start gap-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center shrink-0 text-teal-700 border border-teal-200 shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                            </div>
+                            <div class="pt-1 leading-relaxed">
+                                <strong class="text-slate-900 block text-2xl mb-3 font-serif">
+                                    <span lang="en">World-Class Views & Materials</span>
+                                    <span lang="th" class="font-sans font-medium">ทัศนียภาพและวัสดุระดับโลก</span>
+                                    <span lang="cn" class="font-sans font-medium">世界级的景观与精工建材</span>
+                                    <span lang="ru" class="font-sans font-medium">Виды и материалы мирового класса</span>
+                                </strong>
+                                <span lang="en">The showroom highlights expansive sea views and abundant natural light, featuring high ceilings and premium sliding glass doors from the global brand Schüco, coupled with high-efficiency Daikin air conditioning for pure air in every square inch.</span>
+                                <span lang="th">ห้องตัวอย่างไฮไลท์การเปิดรับวิวทะเลและแสงธรรมชาติแบบเต็มตา ด้วยเพดานที่โปร่งโล่งและระบบกระจก-ประตูบานสไลด์คุณภาพสูงจากแบรนด์ระดับสากลอย่าง Schüco พร้อมติดตั้งระบบปรับอากาศของ Daikin ประสิทธิภาพสูงเพื่ออากาศที่บริสุทธิ์ในทุกตารางนิ้ว</span>
+                                <span lang="cn">样板间突出了开阔的海景和充足的自然光，拥有高挑的天花板和来自国际知名品牌旭格 (Schüco) 的高品质推拉玻璃门系统，并配备高效的大金 (Daikin) 空调，确保每一寸空间的空气清新纯净。</span>
+                                <span lang="ru">Шоу-рум подчеркивает панорамный вид на море и обилие естественного света, благодаря высоким потолкам и высококачественным раздвижным стеклянным дверям от мирового бренда Schüco, а также высокоэффективным кондиционерам Daikin.</span>
+                            </div>
+                        </li>
+                        
+                        <div class="w-full h-px bg-slate-100"></div>
+                        
+                        <!-- Point 2 -->
+                        <li class="flex flex-col md:flex-row items-start gap-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center shrink-0 text-orange-700 border border-orange-200 shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            </div>
+                            <div class="pt-1 leading-relaxed">
+                                <strong class="text-slate-900 block text-2xl mb-3 font-serif">
+                                    <span lang="en">Fully Furnished for Move-In Readiness</span>
+                                    <span lang="th" class="font-sans font-medium">สเปกห้องแบบ Fully Furnished ครบครันพร้อมเข้าอยู่</span>
+                                    <span lang="cn" class="font-sans font-medium">全套精装，拎包入住</span>
+                                    <span lang="ru" class="font-sans font-medium">Полная меблировка, готовая к заселению</span>
+                                </strong>
+                                <span lang="en">Our showroom features a complete set of premium furniture (exactly as will be delivered), from a King Size bed with under-bed storage and a Pocket Spring mattress, built-in wardrobes, a Smart TV, to a fully equipped built-in European kitchen zone with a ceramic hob, hood, microwave, and refrigerator. Advanced security is ensured with a ready-to-use Electronic Door Lock.</span>
+                                <span lang="th">ห้องตัวอย่างของเราตกแต่งเฟอร์นิเจอร์พรีเมียมให้ครบชุด (ตรงปกตามที่จะส่งมอบจริง) ตั้งแต่เตียงนอนขนาด King Size พร้อมฟังก์ชันช่องเก็บของใต้เตียง ที่นอนระบบ Pocket Spring เพื่อการนอนหลับที่สมบูรณ์แบบ, โซลูชันตู้เสื้อผ้า Built-in, สมาร์ททีวี, ไปจนถึงโซนครัวยุโรป Built-in ที่มาพร้อมเตาเซรามิก, เครื่องดูดควัน, ไมโครเวฟ, และตู้เย็น โดยมีระบบความปลอดภัยขั้นสูงอย่าง Electronic Door Lock ติดตั้งให้พร้อมใช้งาน</span>
+                                <span lang="cn">我们的样板间配备了全套高端定制家具（与实际交付标准完全一致），从带有床底储物功能的特大号双人床、提供完美睡眠体验的独立袋装弹簧床垫、嵌入式衣柜、智能电视，一直到配备电陶炉、抽油烟机、微波炉和冰箱的嵌入式欧式厨房区。此外，还安装了先进的电子门锁系统，保障居家安全。</span>
+                                <span lang="ru">В шоу-руме представлен полный комплект мебели премиум-класса (в точности как при сдаче), включая кровать King Size с местом для хранения, матрас Pocket Spring, встроенные шкафы, Smart TV и полностью оборудованную европейскую кухню с керамической плитой, вытяжкой, микроволновой печью и холодильником. Предусмотрен электронный замок для безопасности.</span>
+                            </div>
+                        </li>
+
+                        <div class="w-full h-px bg-slate-100"></div>
+
+                        <!-- Point 3 -->
+                        <li class="flex flex-col md:flex-row items-start gap-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center shrink-0 text-blue-700 border border-blue-200 shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            </div>
+                            <div class="pt-1 leading-relaxed">
+                                <strong class="text-slate-900 block text-2xl mb-3 font-serif">
+                                    <span lang="en">Luxury Resort-Style Bathroom</span>
+                                    <span lang="th" class="font-sans font-medium">ห้องน้ำสไตล์รีสอร์ตหรู</span>
+                                    <span lang="cn" class="font-sans font-medium">奢华度假风卫浴</span>
+                                    <span lang="ru" class="font-sans font-medium">Роскошная ванная комната в курортном стиле</span>
+                                </strong>
+                                <span lang="en">Experience ultimate relaxation in a bathroom fitted with a smart electric toilet, an LED-illuminated vanity mirror, and a temperature-controlled Rain Shower. Wet and dry zones are separated by tempered glass, delivering a 5-star hotel resort feeling every day.</span>
+                                <span lang="th">สัมผัสความผ่อนคลายสูงสุดในห้องน้ำที่ติดตั้งสุขภัณฑ์ระบบไฟฟ้าอัจฉริยะ (Electric Toilet), กระจกเงาพร้อมไฟแต่งหน้า LED, และฝักบัวแบบ Rain Shower ควบคุมอุณหภูมิ แยกโซนเปียก-แห้งด้วยกระจกนิรภัย Tempered Glass มอบความรู้สึกเหมือนได้พักผ่อนในโรงแรม 5 ดาวทุกวัน</span>
+                                <span lang="cn">体验极致放松的卫浴空间，配备智能电动马桶、带 LED 化妆灯的梳妆镜以及恒温热带雨林花洒。干湿分离区域采用钢化玻璃隔断，让您每天都能享受五星级酒店般的尊贵体验。</span>
+                                <span lang="ru">Испытайте максимальное расслабление в ванной комнате, оборудованной умным электрическим унитазом, косметическим зеркалом с LED-подсветкой и тропическим душем с контролем температуры. Влажные и сухие зоны разделены закаленным стеклом, создавая ощущение 5-звездочного отеля каждый день.</span>
                             </div>
                         </li>
                     </ul>
@@ -210,77 +409,77 @@
                     <span class="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase block mb-4">
                         <span lang="en">Global Economy & Investment</span>
                         <span lang="th" class="lang-specific-font">เศรษฐกิจและการลงทุนระดับโลก</span>
-                        <span lang="cn" class="lang-specific-font">全球经济与投资</span>
+                        <span lang="cn" class="lang-specific-font">全球经济与投资趋势</span>
                         <span lang="ru" class="lang-specific-font">Глобальная Экономика</span>
                     </span>
-                    <h3 class="text-4xl md:text-5xl font-serif font-bold mb-6">
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold mb-6 tracking-wide">
                         <span lang="en">Strategic Wealth Relocation</span>
                         <span lang="th" class="lang-specific-font">การเคลื่อนย้ายฐานทุนครั้งใหญ่</span>
-                        <span lang="cn" class="lang-specific-font">战略财富重置</span>
-                        <span lang="ru" class="lang-specific-font">Страเทгическое Перемещение Богатства</span>
+                        <span lang="cn" class="lang-specific-font">战略性财富重新分配</span>
+                        <span lang="ru" class="lang-specific-font">Стратегическое Перемещение Богатства</span>
                     </h3>
                     <p class="text-base md:text-lg text-indigo-100/80 leading-relaxed lang-specific-font max-w-3xl mx-auto">
                         <span lang="en">The world is experiencing a macro-economic shift. As global dynamics change, Southeast Asia—particularly Thailand's EEC—is emerging as the new safe haven for Ultra-High-Net-Worth Individuals (UHNWI).</span>
                         <span lang="th">โลกกำลังเผชิญหน้ากับการเปลี่ยนแปลงทางเศรษฐกิจมหภาค เอเชียตะวันออกเฉียงใต้ โดยเฉพาะพื้นที่ EEC ของไทย กำลังผงาดขึ้นเป็น "หลุมหลบภัย" แห่งใหม่สำหรับกลุ่มมหาเศรษฐี (UHNWI) จากทั่วโลก</span>
-                        <span lang="cn">世界正在经历宏观经济转变。随着全球动态的变化，东南亚正在成为超高净值人士（UHNWI）的新避风港。</span>
-                        <span lang="ru">Мир переживает макроэкономический сдвиг. Юго-Восточная Азия становится новой тихой гаванью для UHNWI.</span>
+                        <span lang="cn">当今世界正经历宏观经济的大幅波动。随着全球局势动态改变，东南亚——尤其是泰国的EEC（东部经济走廊）——正迅速崛起成为全球超高净值（UHNWI）人士投资的新避风港。</span>
+                        <span lang="ru">Мир переживает макроэкономический сдвиг. По мере изменения глобальной динамики Юго-Восточная Азия, и особенно регион EEC в Таиланде, становится новой тихой гаванью для ультрабогатых людей (UHNWI).</span>
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 lang-specific-font">
                     
                     <!-- Article 1: UHNWI Migration -->
-                    <div class="glass-dark p-8 rounded-3xl border border-white/10 hover:border-amber-400/30 transition-colors flex flex-col justify-between group">
+                    <div class="glass-dark p-8 rounded-3xl border border-white/10 hover:border-amber-400/40 transition-all duration-300 flex flex-col justify-between group glow-hover">
                         <div>
                             <div class="overflow-hidden rounded-2xl mb-6 relative aspect-video">
-                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dubai to Pattaya" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-slate-900/20"></div>
+                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dubai to Pattaya" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-slate-900/30"></div>
                             </div>
                             <div class="flex items-center gap-3 mb-3">
                                 <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase tracking-wider rounded-full border border-amber-500/30">Wealth Insights</span>
                             </div>
-                            <strong class="text-white text-2xl font-serif block mb-4">
+                            <strong class="text-white text-2xl font-serif block mb-4 leading-snug">
                                 <span lang="en">UHNWI Migration: From Dubai to SEA</span>
-                                <span lang="th" class="font-sans font-medium">ทำไมมหาเศรษฐีถึงย้ายจากดูไบสู่ EEC</span>
-                                <span lang="cn" class="font-sans font-medium">超高净值人士从迪拜迁移至东南亚</span>
-                                <span lang="ru" class="font-sans font-medium">Миграция UHNWI: из Дубая в ЮВА</span>
+                                <span lang="th" class="font-sans font-medium">การเคลื่อนย้ายเงินทุน: ทำไมมหาเศรษฐีถึงย้ายจากดูไบสู่ EEC</span>
+                                <span lang="cn" class="font-sans font-medium">超高净值人士大迁移: 从迪拜到东南亚</span>
+                                <span lang="ru" class="font-sans font-medium">Миграция UHNWI: из Дубая в Юго-Восточную Азию</span>
                             </strong>
                             <ul class="text-indigo-100/70 text-base space-y-3 mb-8">
-                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">•</span><span lang="en">Shifting portfolios to stable, growth-oriented markets.</span><span lang="th">การกระจายพอร์ตการลงทุนสู่ตลาดที่มั่นคงและเติบโตสูง</span></li>
-                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">•</span><span lang="en">Thailand's favorable policies and premium lifestyle appeal.</span><span lang="th">นโยบายที่เอื้ออำนวยและไลฟ์สไตล์ระดับพรีเมียมของไทย</span></li>
-                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">•</span><span lang="en">Pattaya's rise as the top destination for luxury coastal real estate.</span><span lang="th">การก้าวขึ้นเป็นเบอร์หนึ่งด้านอสังหาฯ หรูริมทะเลของพัทยา</span></li>
+                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-1">&bull;</span><span lang="en">Shifting portfolios to stable, growth-oriented markets.</span><span lang="th">การกระจายพอร์ตการลงทุนสู่ตลาดที่มั่นคงและเติบโตสูง</span><span lang="cn">财富投资组合重组，流向更为稳定与高增长空间的市场。</span><span lang="ru">Перераспределение портфелей в пользу стабильных рынков с высоким ростом.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-1">&bull;</span><span lang="en">Thailand's favorable policies and premium lifestyle appeal.</span><span lang="th">นโยบายที่เอื้ออำนวยและไลฟ์สไตล์ระดับพรีเมียมของไทย</span><span lang="cn">泰国具有吸引力的优渥签证政策以及高品质的海滨度假生活方式。</span><span lang="ru">Благоприятная государственная политика Таиланда и привлекательность премиального образа жизни.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-amber-500 mt-1">&bull;</span><span lang="en">Pattaya's rise as the top destination for luxury coastal real estate.</span><span lang="th">การก้าวขึ้นเป็นเบอร์หนึ่งด้านอสังหาฯ หรูริมทะเลของพัทยา</span><span lang="cn">芭提雅作为高奢滨海豪宅首选地的迅速崛起。</span><span lang="ru">Растущий статус Паттайи как главного центра элитной прибрежной недвижимости.</span></li>
                             </ul>
                         </div>
-                        <a href="https://thbho.github.io/UHNWIMigration.html" target="_blank" class="inline-flex items-center text-amber-400 text-sm font-bold uppercase tracking-widest hover:text-amber-300 w-fit">
-                            <span lang="en">Read Full Insight</span><span lang="th">อ่านบทวิเคราะห์ฉบับเต็ม</span><span lang="cn">阅读全文</span><span lang="ru">Читать полностью</span>
+                        <a href="https://thbho.github.io/UHNWIMigration.html" target="_blank" class="inline-flex items-center text-amber-400 text-sm font-bold uppercase tracking-widest hover:text-amber-300 w-fit transition-all hover:translate-x-1">
+                            <span lang="en">Read Full Insight</span><span lang="th">อ่านบทวิเคราะห์ฉบับเต็ม</span><span lang="cn">阅读深度剖析全文</span><span lang="ru">Читать полностью</span>
                             <span class="ml-2">&rarr;</span>
                         </a>
                     </div>
 
                     <!-- Article 2: Global Shift 26 -->
-                    <div class="glass-dark p-8 rounded-3xl border border-white/10 hover:border-indigo-400/30 transition-colors flex flex-col justify-between group">
+                    <div class="glass-dark p-8 rounded-3xl border border-white/10 hover:border-indigo-400/40 transition-all duration-300 flex flex-col justify-between group glow-hover">
                         <div>
                             <div class="overflow-hidden rounded-2xl mb-6 relative aspect-video">
-                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Global Shift" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-slate-900/20"></div>
+                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Global Shift" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-slate-900/30"></div>
                             </div>
                             <div class="flex items-center gap-3 mb-3">
                                 <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-wider rounded-full border border-indigo-500/30">Macro Trends</span>
                             </div>
-                            <strong class="text-white text-2xl font-serif block mb-4">
+                            <strong class="text-white text-2xl font-serif block mb-4 leading-snug">
                                 <span lang="en">Global Shift '26 (Updated)</span>
                                 <span lang="th" class="font-sans font-medium">อัปเดตพลวัตการเปลี่ยนแปลงโลก 2026</span>
-                                <span lang="cn" class="font-sans font-medium">2026 全球转变</span>
-                                <span lang="ru" class="font-sans font-medium">Глобальный сдвиг 2026</span>
+                                <span lang="cn" class="font-sans font-medium">2026全球大变局 (最新局势)</span>
+                                <span lang="ru" class="font-sans font-medium">Глобальный сдвиг 2026 (Обновлено)</span>
                             </strong>
                             <ul class="text-indigo-100/70 text-base space-y-3 mb-8">
-                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">•</span><span lang="en">Adapting to new geopolitical and economic realities.</span><span lang="th">การปรับตัวรับมือกับบริบทใหม่ทางภูมิรัฐศาสตร์และเศรษฐกิจ</span></li>
-                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">•</span><span lang="en">Thailand's strategic neutral positioning and foreign investment influx.</span><span lang="th">ความได้เปรียบของจุดยืนประเทศไทยที่ดึงดูดเงินลงทุนต่างชาติ</span></li>
-                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">•</span><span lang="en">The impact on the EEC's real estate and technological growth.</span><span lang="th">ผลกระทบเชิงบวกต่อการเติบโตของอสังหาฯ และเทคโนโลยีใน EEC</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-1">&bull;</span><span lang="en">Adapting to new geopolitical and economic realities.</span><span lang="th">การปรับตัวรับมือกับบริบทใหม่ทางภูมิรัฐศาสตร์และเศรษฐกิจ</span><span lang="cn">精准应对全新的地缘政治和世界宏观经济常态。</span><span lang="ru">Адаптация к новым геополитическим и экономическим реалиям.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-1">&bull;</span><span lang="en">Thailand's strategic neutral positioning and foreign investment influx.</span><span lang="th">ความได้เปรียบของจุดยืนประเทศไทยที่ดึงดูดเงินลงทุนต่างชาติ</span><span lang="cn">泰国在地缘中的中立战略优势，持续吸引国际资本的注入。</span><span lang="ru">Стратегический нейтралитет Таиланда и приток иностранных инвестиций.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-400 mt-1">&bull;</span><span lang="en">The impact on the EEC's real estate and technological growth.</span><span lang="th">ผลกระทบเชิงบวกต่อการเติบโตของอสังหาฯ และเทคโนโลยีใน EEC</span><span lang="cn">这一波红利对东部走廊（EEC）房产和技术发展带来的多重积极推动。</span><span lang="ru">Влияние изменений на сектор недвижимости и технологический рост в регионе EEC.</span></li>
                             </ul>
                         </div>
-                        <a href="https://threeandhour.github.io/GymMateX/GlobalShift26.html" target="_blank" class="inline-flex items-center text-indigo-300 text-sm font-bold uppercase tracking-widest hover:text-indigo-200 w-fit">
-                            <span lang="en">Read Full Report</span><span lang="th">อ่านรายงานฉบับเต็ม</span><span lang="cn">阅读报告</span><span lang="ru">Читать отчет</span>
+                        <a href="https://threeandhour.github.io/GymMateX/GlobalShift26.html" target="_blank" class="inline-flex items-center text-indigo-300 text-sm font-bold uppercase tracking-widest hover:text-indigo-200 w-fit transition-all hover:translate-x-1">
+                            <span lang="en">Read Full Report</span><span lang="th">อ่านรายงานฉบับเต็ม</span><span lang="cn">阅读行业报告</span><span lang="ru">Читать отчет</span>
                             <span class="ml-2">&rarr;</span>
                         </a>
                     </div>
@@ -296,78 +495,78 @@
                     <span class="text-indigo-600 text-xs font-bold tracking-[0.2em] uppercase block mb-4">
                         <span lang="en">Future of Living</span>
                         <span lang="th" class="lang-specific-font">อนาคตแห่งการอยู่อาศัย</span>
-                        <span lang="cn" class="lang-specific-font">生活的未来</span>
+                        <span lang="cn" class="lang-specific-font">生活的未来图景</span>
                         <span lang="ru" class="lang-specific-font">Будущее Жизни</span>
                     </span>
-                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 tracking-wide">
                         <span lang="en">Wellness & Artificial Intelligence</span>
-                        <span lang="th" class="lang-specific-font">นวัตกรรมสุขภาพ & เทคโนโลยี AI</span>
-                        <span lang="cn" class="lang-specific-font">健康与人工智能</span>
+                        <span lang="th" class="lang-specific-font">นวัตกรรมสุขภาพ & เทคโนโลยี AI สำหรับชีวิต</span>
+                        <span lang="cn" class="lang-specific-font">健康人居与人工智能技术</span>
                         <span lang="ru" class="lang-specific-font">Велнес и Искусственный Интеллект</span>
                     </h3>
                     <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto lang-specific-font">
                         <span lang="en">Technology is no longer just about efficiency; it's about enhancing our well-being and deeply understanding human needs. Discover how Thailand is leading this revolution.</span>
                         <span lang="th">เทคโนโลยีไม่ได้ตอบโจทย์แค่ความสะดวกสบายอีกต่อไป แต่ยังช่วยยกระดับสุขภาวะและเข้าใจความต้องการของมนุษย์อย่างลึกซึ้ง มาดูกันว่าไทยกำลังเป็นผู้นำการปฏิวัติครั้งนี้อย่างไร</span>
-                        <span lang="cn">技术不再仅仅关乎效率；它关乎提升我们的福祉和深刻理解人类需求。</span>
-                        <span lang="ru">Технологии больше не просто об эффективности; они об улучшении нашего благополучия и глубоком понимании человеческих потребностей.</span>
+                        <span lang="cn">科技的意义已超越冷冰冰的高效，而是关乎于升华我们的身心幸福、深度触达人类所需。了解泰国如何在这场人居革命中走在最前列。</span>
+                        <span lang="ru">Технологии больше не служат только эффективности; они направлены на улучшение самочувствия и глубокое понимание человеческих потребностей. Узнайте, как Таиланд возглавляет эту революцию.</span>
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lang-specific-font">
                     
-                    <!-- Article 3: Wellness Intelligence (With Added Photo) -->
-                    <div class="bg-white border border-slate-100 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 flex flex-col justify-between group">
+                    <!-- Article 3: Wellness Intelligence -->
+                    <div class="bg-white border border-slate-100 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
                         <div>
                             <div class="overflow-hidden rounded-2xl mb-6 relative aspect-video">
-                                <img src="https://i.postimg.cc/zJLV5hrd/Screenshot-2569-05-23-at-09-20-30.png" alt="Wellness Intelligence" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <img src="https://i.postimg.cc/zJLV5hrd/Screenshot-2569-05-23-at-09-20-30.png" alt="Wellness Intelligence" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-slate-900/5"></div>
                             </div>
                             
                             <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 border border-emerald-100">
                                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                             </div>
-                            <strong class="block text-slate-900 text-2xl mb-4 font-serif">
+                            <strong class="block text-slate-900 text-2xl mb-4 font-serif leading-snug">
                                 <span lang="en">Wellness Intelligence: Thailand 2026</span>
                                 <span lang="th" class="font-sans font-medium">เทรนด์สุขภาพอัจฉริยะ ประเทศไทย 2026</span>
-                                <span lang="cn" class="font-sans font-medium">健康智能：2026 年泰国</span>
+                                <span lang="cn" class="font-sans font-medium">健康智能科技: 2026年泰国趋势</span>
                                 <span lang="ru" class="font-sans font-medium">Интеллектуальный велнес: Таиланд 2026</span>
                             </strong>
                             <ul class="text-slate-600 text-base space-y-3 leading-relaxed mb-8">
-                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">•</span><span lang="en">Data-driven health insights transforming daily life.</span><span lang="th">การใช้ข้อมูล (Data) มาวิเคราะห์สุขภาพเพื่อยกระดับการใช้ชีวิตประจำวัน</span></li>
-                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">•</span><span lang="en">Thailand's evolution into the premier global wellness destination.</span><span lang="th">วิวัฒนาการของประเทศไทยสู่การเป็นจุดหมายปลายทางด้านสุขภาพระดับโลก</span></li>
-                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">•</span><span lang="en">Integrating smart-home tech with holistic health monitoring.</span><span lang="th">การผสานเทคโนโลยี Smart-home เข้ากับการดูแลสุขภาพแบบองค์รวม</span></li>
+                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-1">&bull;</span><span lang="en">Data-driven health insights transforming daily life.</span><span lang="th">การใช้ข้อมูล (Data) มาวิเคราะห์สุขภาพเพื่อยกระดับการใช้ชีวิตประจำวัน</span><span lang="cn">基于数据的健康分析深度融入并改造我们的日常作息。</span><span lang="ru">Анализ здоровья на основе данных, меняющий повседневную жизнь.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-1">&bull;</span><span lang="en">Thailand's evolution into the premier global wellness destination.</span><span lang="th">วิวัฒนาการของประเทศไทยสู่การเป็นจุดหมายปลายทางด้านสุขภาพระดับโลก</span><span lang="cn">泰国向全球首屈一指的高端康养和养生生活目的地的演变。</span><span lang="ru">Эволюция Таиланда в главное мировое направление для велнес-туризма.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-emerald-500 mt-1">&bull;</span><span lang="en">Integrating smart-home tech with holistic health monitoring.</span><span lang="th">การผสานเทคโนโลยี Smart-home เข้ากับการดูแลสุขภาพแบบองค์รวม</span><span lang="cn">将高科技智能家居与前沿的全方位健康监测系统完美对接。</span><span lang="ru">Интеграция систем "умного дома" с комплексным мониторингом здоровья.</span></li>
                             </ul>
                         </div>
-                        <a href="https://thbho.github.io/WellnessIntelligence.html" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-full text-sm transition-all shadow-lg hover:shadow-emerald-500/40 hover:-translate-y-0.5 w-fit">
-                            <span lang="en">Explore Wellness &rarr;</span><span lang="th">อ่านเทรนด์สุขภาพ &rarr;</span><span lang="cn">探索健康 &rarr;</span><span lang="ru">Исследуйте Велнес &rarr;</span>
+                        <a href="https://thbho.github.io/WellnessIntelligence.html" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-full text-sm transition-all shadow-md hover:shadow-emerald-500/20 hover:-translate-y-0.5 w-fit">
+                            <span lang="en">Explore Wellness &rarr;</span><span lang="th">อ่านเทรนด์สุขภาพ &rarr;</span><span lang="cn">探索健康智能 &rarr;</span><span lang="ru">Исследовать велнес &rarr;</span>
                         </a>
                     </div>
 
                     <!-- Article 4: Hybrid AI Personas -->
-                    <div class="bg-white border border-slate-100 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 flex flex-col justify-between group">
+                    <div class="bg-white border border-slate-100 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
                         <div>
                             <div class="overflow-hidden rounded-2xl mb-6 relative aspect-video">
-                                <img src="https://i.postimg.cc/F9vHyVFQ/Beyond-Algorithms-Hybrid-AI-Persona.png" alt="Hybrid AI Personas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <img src="https://i.postimg.cc/F9vHyVFQ/Beyond-Algorithms-Hybrid-AI-Persona.png" alt="Hybrid AI Personas" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-slate-900/5"></div>
                             </div>
                             
                             <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 border border-indigo-100">
                                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             </div>
-                            <strong class="block text-slate-900 text-2xl mb-4 font-serif">
+                            <strong class="block text-slate-900 text-2xl mb-4 font-serif leading-snug">
                                 <span lang="en">Moving Beyond Algorithms to Hybrid Personas</span>
                                 <span lang="th" class="font-sans font-medium">ก้าวข้ามขีดจำกัด AI สู่ Hybrid Personas</span>
-                                <span lang="cn" class="font-sans font-medium">超越算法，迈向混合角色</span>
-                                <span lang="ru" class="font-sans font-medium">От алгоритмов к гибридным персонам</span>
+                                <span lang="cn" class="font-sans font-medium">超越算法: 迈向混合 AI 情感分身</span>
+                                <span lang="ru" class="font-sans font-medium">От алгоритмов к гибридным AI-персонам</span>
                             </strong>
                             <ul class="text-slate-600 text-base space-y-3 leading-relaxed mb-8">
-                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-0.5">•</span><span lang="en">The next leap in Generative AI: Emotional intelligence.</span><span lang="th">ก้าวต่อไปของ Generative AI: ความฉลาดทางอารมณ์และการโต้ตอบที่เป็นธรรมชาติ</span></li>
-                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-0.5">•</span><span lang="en">How hybrid personas are redefining luxury concierge services.</span><span lang="th">บทบาทของ AI รูปแบบใหม่ในการยกระดับบริการผู้ช่วยส่วนตัวระดับลักชัวรี</span></li>
-                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-0.5">•</span><span lang="en">Creating highly personalized, culturally aware interactions.</span><span lang="th">การสร้างประสบการณ์ที่ปรับแต่งเฉพาะบุคคลและเข้าใจบริบททางวัฒนธรรม</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">&bull;</span><span lang="en">The next leap in Generative AI: Emotional intelligence.</span><span lang="th">ก้าวต่อไปของ Generative AI: ความฉลาดทางอารมณ์และการโต้ตอบที่เป็นธรรมชาติ</span><span lang="cn">生成式 AI 的下一个重大飞跃：情感智能与共情能力。</span><span lang="ru">Следующий скачок генеративного ИИ: эмоциональный интеллект.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">&bull;</span><span lang="en">How hybrid personas are redefining luxury concierge services.</span><span lang="th">บทบาทของ AI รูปแบบใหม่ในการยกระดับบริการผู้ช่วยส่วนตัวระดับลักชัวรี</span><span lang="cn">混合型智能角色如何从头定义极奢生活中的私人管家服务。</span><span lang="ru">Как гибридные аватары переосмысляют услуги консьержа премиум-класса.</span></li>
+                                <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">&bull;</span><span lang="en">Creating highly personalized, culturally aware interactions.</span><span lang="th">การสร้างประสบการณ์ที่ปรับแต่งเฉพาะบุคคลและเข้าใจบริบททางวัฒนธรรม</span><span lang="cn">提供兼具文化感知力与极端个性化的日常交互和协助。</span><span lang="ru">Создание персонализированного взаимодействия с учетом культурных особенностей.</span></li>
                             </ul>
                         </div>
-                        <a href="https://thbho.github.io/HybridAIPersona.html" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-full text-sm transition-all shadow-lg hover:shadow-indigo-500/40 hover:-translate-y-0.5 w-fit">
-                            <span lang="en">Read Tech Insight &rarr;</span><span lang="th">อ่านเจาะลึกเทคโนโลยี &rarr;</span><span lang="cn">阅读技术见解 &rarr;</span><span lang="ru">Читать Tech Insight &rarr;</span>
+                        <a href="https://thbho.github.io/HybridAIPersona.html" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-full text-sm transition-all shadow-md hover:shadow-indigo-500/20 hover:-translate-y-0.5 w-fit">
+                            <span lang="en">Read Tech Insight &rarr;</span><span lang="th">อ่านเจาะลึกเทคโนโลยี &rarr;</span><span lang="cn">了解未来科技趋势 &rarr;</span><span lang="ru">Узнать больше о технологиях &rarr;</span>
                         </a>
                     </div>
 
@@ -380,87 +579,88 @@
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
                     <span class="text-amber-500 text-xs font-bold tracking-[0.2em] uppercase block mb-4">Pattaya Lifestyle</span>
-                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 tracking-wide">
                         <span lang="en">June Highlight Events</span>
-                        <span lang="th" class="lang-specific-font">3 อีเวนต์ไฮไลต์เดือน มิ.ย.</span>
-                        <span lang="cn" class="lang-specific-font">6月重点活动</span>
+                        <span lang="th" class="lang-specific-font">3 อีเวนต์ไฮไลต์เดือน มิ.ย. 2569</span>
+                        <span lang="cn" class="lang-specific-font">六月精彩焦点盛事</span>
                         <span lang="ru" class="lang-specific-font">Главные События Июня</span>
                     </h3>
                     <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto lang-specific-font">
                         <span lang="en">June brings colorful celebrations, world-class athletic events, and vibrant coastal festivals to Pattaya. Don't miss these upcoming highlights!</span>
                         <span lang="th">มิถุนายนนำพาสีสันแห่งการเฉลิมฉลอง งานกีฬาระดับโลก และเทศกาลริมชายหาดสุดคึกคักมาสู่พัทยา ห้ามพลาดกิจกรรมไฮไลต์เหล่านี้!</span>
-                        <span lang="cn">六月为芭堤雅带来了丰富多彩的庆祝活动และ世界一流的体育赛事。不要错过这些即将到来的亮点！</span>
-                        <span lang="ru">Июнь приносит в Паттайю красочные празднения, спортивные мероприятия мирового уровня и яркие прибрежные фестивали. Не пропустите!</span>
+                        <span lang="cn">六月的芭提雅迎来缤纷多彩的狂欢、世界一流的体育活动以及活力无限的海滩音乐节。千万别错过这些令人兴奋的盛宴！</span>
+                        <span lang="ru">Июнь приносит в Паттайю красочные праздники, спортивные мероприятия мирового уровня и яркие пляжные фестивали. Не пропустите эти события!</span>
                     </p>
                 </div>
 
-                <div class="space-y-8">
-                    <!-- Event 1: Pride Month (Corrected Dates & Info) -->
-                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="space-y-12">
+                    
+                    <!-- Event 1: Pride Month -->
+                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300">
                         <div class="lg:w-2/5 relative h-64 lg:h-auto overflow-hidden">
-                            <img src="https://scontent.futp1-1.fna.fbcdn.net/v/t39.30808-6/481069216_660522046492466_3310714584468501821_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFut6TOiV0Mj3950cnLFe3xjNpyKIQyrnSM2nIohDKudM5r26ScxNDLh98Tp0KXiNb_7AuZx9Dvw50zVErEdCOQ&_nc_ohc=2fJN_cwqPP0Q7kNvwG0P5nZ&_nc_oc=AdpGbUhdF5jIko1gTiK3lEPBRN-yopMS24mnOePxgnhEuRVMGeRs41S0061762xnVv4&_nc_zt=23&_nc_ht=scontent.futp1-1.fna&_nc_gid=2EgVuAUfjXOVNaF2URAt6A&_nc_ss=7b2a8&oh=00_Af4ZbcZOUpDp3O8YApqFLuvm09WTGPnCuNvIkqcTJcVzkA&oe=6A16CD67" alt="Pride Month" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://scontent.futp1-1.fna.fbcdn.net/v/t39.30808-6/481069216_660522046492466_3310714584468501821_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFut6TOiV0Mj3950cnLFe3xjNpyKIQyrnSM2nIohDKudM5r26ScxNDLh98Tp0KXiNb_7AuZx9Dvw50zVErEdCOQ&_nc_ohc=2fJN_cwqPP0Q7kNvwG0P5nZ&_nc_oc=AdpGbUhdF5jIko1gTiK3lEPBRN-yopMS24mnOePxgnhEuRVMGeRs41S0061762xnVv4&_nc_zt=23&_nc_ht=scontent.futp1-1.fna&_nc_gid=2EgVuAUfjXOVNaF2URAt6A&_nc_ss=7b2a8&oh=00_Af4ZbcZOUpDp3O8YApqFLuvm09WTGPnCuNvIkqcTJcVzkA&oe=6A16CD67" alt="Pride Month" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700">
                             <div class="absolute top-6 left-6 glass-panel text-slate-900 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg border border-white/50">June 26-28</div>
                         </div>
                         <div class="p-8 md:p-12 lg:w-3/5 flex flex-col justify-center lang-specific-font">
-                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-4">
+                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-4 leading-snug">
                                 <span lang="en">Pattaya International Pride Festival 2026</span>
-                                <span lang="th" class="font-sans font-medium">เทศกาลพัทยาไพรด์ 2026</span>
-                                <span lang="cn" class="font-sans font-medium">2026 芭堤雅国际骄傲节</span>
+                                <span lang="th" class="font-sans font-medium">เทศกาลพัทยาไพรด์นานาชาติ 2026</span>
+                                <span lang="cn" class="font-sans font-medium">2026年 芭提雅国际骄傲节</span>
                                 <span lang="ru" class="font-sans font-medium">Международный фестиваль гордости в Паттайе 2026</span>
                             </strong>
                             <p class="text-base text-slate-500 mb-8 leading-relaxed">
                                 <span lang="en">Celebrate diversity, equality, and inclusion with the magnificent 2.8km beach parade along Pattaya Beach Road on June 27 under the sunset. Enjoy live beach concerts, drag shows, and Sisters Foundation pageantry.</span>
                                 <span lang="th">เฉลิมฉลองความหลากหลายและความเท่าเทียมไปกับขบวนพาเหรด Pride ที่ยาวกว่า 2.8 กิโลเมตร เลียบหาดพัทยาในบรรยากาศพระอาทิตย์ตกดินแสนโรแมนติก พร้อมชมคอนเสิร์ตริมหาดและการแสดงสุดพิเศษตลอด 3 วันเต็ม</span>
-                                <span lang="cn">在芭堤雅海滩路参加盛大的2.8公里海岸骄傲游行，庆祝多元化、平等与包容。欣赏海滩演唱会、变装秀与 Sisters 基金会选美大赛。</span>
-                                <span lang="ru">Отпразднуйте разнообразие, равенство и инклюзивность на великолепном 2,8-километровом пляжном параде гордости вдоль улицы Бич-Роуд в Паттайе под лучами заходящего солнца.</span>
+                                <span lang="cn">携手欢庆多元与平等！6月27日黄昏，在芭提雅海滩路将上演全长2.8公里的壮丽沙滩骄傲大游行。同时，还包含现场沙滩音乐会、变装皇后表演以及姐妹基金会选美盛典。</span>
+                                <span lang="ru">Отпразднуйте разнообразие, равенство и инклюзивность на великолепном 2,8-километровом пляжном параде вдоль улицы Бич-Роуд в Паттайе 27 июня под лучами заходящего солнца.</span>
                             </p>
-                            <a href="https://www.facebook.com/colorsoftheeastbyimc" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit">Event Details &rarr;</a>
+                            <a href="https://www.facebook.com/colorsoftheeastbyimc" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit transition-all hover:translate-x-1">Event Details &rarr;</a>
                         </div>
                     </div>
 
-                    <!-- Event 2: Circuit Festival Asia (June Replacement) -->
-                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <!-- Event 2: Circuit Festival Asia -->
+                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300">
                         <div class="lg:w-2/5 relative h-64 lg:h-auto overflow-hidden">
-                            <img src="https://backend-api.tagthai.com/api/service/media-library-service/image-proxy/dGd0aC1oaWdobGlnaHQtY29udGVudC1zZXJ2aWNlL2hpZ2hsaWdodC1mZWF0dXJlLzE3NzcyNzcxODU1NzA5NTEwMjlfNTA0MjAwMDkzXzEyMjkwNTA0MTg2MzE3MDBfNzA1NjgyOTA2NjYzODgxMzA4OV9uLWNvcHkuanBlZw==" alt="Circuit Festival Asia" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://backend-api.tagthai.com/api/service/media-library-service/image-proxy/dGd0aC1oaWdobGlnaHQtY29udGVudC1zZXJ2aWNlL2hpZ2hsaWdodC1mZWF0dXJlLzE3NzcyNzcxODU1NzA5NTEwMjlfNTA0MjAwMDkzXzEyMjkwNTA0MTg2MzE3MDBfNzA1NjgyOTA2NjYzODgxMzA4OV9uLWNvcHkuanBlZw==" alt="Circuit Festival Asia" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700">
                             <div class="absolute top-6 left-6 glass-panel text-slate-900 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg border border-white/50">June 19-21</div>
                         </div>
                         <div class="p-8 md:p-12 lg:w-3/5 flex flex-col justify-center lang-specific-font">
-                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-4">
+                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-4 leading-snug">
                                 <span lang="en">Circuit Festival Asia 2026</span>
-                                <span lang="th" class="font-sans font-medium">เทศกาลดนตรีเซอกิตเฟสติวัลเอเชีย 2026</span>
-                                <span lang="cn" class="font-sans font-medium">2026 亚洲巡回音乐节 (Pattaya)</span>
+                                <span lang="th" class="font-sans font-medium">เทศกาลดนตรี เซอร์กิต เฟสติวัล เอเชีย 2026</span>
+                                <span lang="cn" class="font-sans font-medium">2026 亚洲巡回电音节 (芭提雅)</span>
                                 <span lang="ru" class="font-sans font-medium">Паттайский Circuit Festival Asia 2026</span>
                             </strong>
                             <p class="text-base text-slate-500 mb-8 leading-relaxed">
                                 <span lang="en">Asia's premier gay dance festival returns to Pattaya for its 7th edition! Prepare for three days of high-energy music, a massive Ramayana water park day party, world-class international DJs, and spectacular beachfront club productions.</span>
                                 <span lang="th">ปาร์ตี้ทางวัฒนธรรมระดับพรีเมียมของเอเชียกลับมาเยือนพัทยาอีกครั้งในครั้งที่ 7! เตรียมพบกับดนตรีระดับเวิลด์คลาส ปาร์ตี้ริมน้ำขนาดใหญ่สุดอลังการ ณ สวนน้ำรามายณะ และโปรดักชันแสงสีเสียงริมชายหาดที่งดงามที่สุด</span>
-                                <span lang="cn">亚洲首屈一指的同性音乐节第七次强势回归芭堤雅！三天不间断的高能电音盛宴，大型拉玛雅纳水上乐园日间派对，国际顶尖DJ以及震撼的沙滩闭幕大秀。</span>
-                                <span lang="ru">Главный гей-танцевальный фестиваль Азии возвращается в Паттайю в 7-й раз! Приготовьтесь к трехдневной мощной музыке, грандиозной дневной вечеринке в аквапарке Рамаяна и шоу на пляже.</span>
+                                <span lang="cn">亚洲最具规模的派对节日第7次强势回归芭提雅！三天不间断的热辣电音、在罗摩衍那水上乐园举办的万人泼水狂欢派对、世界一流的DJ以及壮观的海滩闭幕大秀正等着你。</span>
+                                <span lang="ru">Главный гей-танцевальный фестиваль Азии возвращается в Паттайю в седьмой раз! Приготовьтесь к трем дням мощной музыки, грандиозной дневной вечеринке в аквапарке Рамаяна и выступлениям мировых диджеев.</span>
                             </p>
-                            <a href="https://circuitfestival.net/asia/" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit">Get Tickets &rarr;</a>
+                            <a href="https://circuitfestival.net/asia/" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit transition-all hover:translate-x-1">Get Tickets &rarr;</a>
                         </div>
                     </div>
 
-                    <!-- Event 3: Pattaya Food Fun Fest (June Food Replacement) -->
-                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <!-- Event 3: Pattaya Food Fun Fest -->
+                    <div class="bg-slate-50 rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col lg:flex-row group hover:shadow-2xl transition-all duration-300">
                         <div class="lg:w-2/5 relative h-64 lg:h-auto overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Food Fun Fest" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://scontent.futp1-1.fna.fbcdn.net/v/t39.30808-6/597387795_1204011171934017_1467462854129256217_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEzkXuLzM0ULeXCadFQRzG2HmNRUgxQlPoeY1FSDFCU-nWx7yD_43bPiWpVnIoEijaHgc4Q9WykAn-gMzv54CUW&_nc_ohc=O9ckcNe5wakQ7kNvwHZ9ow2&_nc_oc=Adp1higF3F02BZXFxV0Qq2qvSYJ4VN1tMarc3gNoyUil3LC0LRM0-2qvLi0IoBBq2b4&_nc_zt=23&_nc_ht=scontent.futp1-1.fna&_nc_gid=hPYSebV3fuQhEd1d7dIxvg&_nc_ss=7b2a8&oh=00_Af5qPdZeeakl5FsveAK_BcHnzho2hUG9Zc3Z0vEsWTjUww&oe=6A175989" alt="Food Fun Fest" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700">
                             <div class="absolute top-6 left-6 glass-panel text-slate-900 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg border border-white/50">June 16 - July 3</div>
                         </div>
                         <div class="p-8 md:p-12 lg:w-3/5 flex flex-col justify-center lang-specific-font">
-                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-2">
+                            <strong class="text-2xl md:text-3xl font-serif text-slate-900 block mb-4 leading-snug">
                                 <span lang="en">Pattaya Food Fun Fest 2026</span>
                                 <span lang="th" class="font-sans font-medium">เทศกาลอาหารและเสียงดนตรีริมหาดพัทยา</span>
                                 <span lang="cn" class="font-sans font-medium">2026 芭堤雅美食欢乐节</span>
                                 <span lang="ru" class="font-sans font-medium">Кулинарный фестиваль Food Fun Fest 2026</span>
                             </strong>
-                            <p class="text-base text-slate-500 mb-8 leading-relaxed mt-4">
+                            <p class="text-base text-slate-500 mb-8 leading-relaxed">
                                 <span lang="en">An incredible beachfront culinary experience at the iconic Terminal 21 Pattaya Runway. Explore fresh catches from local fishermen, gourmet street foods, unique food trucks, and live seaside acoustic sets.</span>
                                 <span lang="th">มหกรรมสตรีทฟู้ดและเทศกาลอาหารริมทะเลสุดชิลล์ ณ ลานรันเวย์เทอร์มินอล 21 พัทยา อิ่มอร่อยกับซีฟู้ดสดใหม่ อาหารจานเด็ดจากฟู้ดทรัก พร้อมคลอเคล้าเสียงดนตรีอะคูสติกสดรับลมทะเลยามเย็น</span>
                                 <span lang="cn">在芭堤雅 Terminal 21 的标志性机场跑道前体验无与伦比的海滨美食盛宴。品尝新鲜海鲜、特色大排档街头小吃、新潮餐车，同时享受伴随海风的海滩现场原声音乐。</span>
-                                <span lang="ru">Потрясающий кулинарный праздник на знаменитой взлетно-посадочной полосе Terminal 21 Pattaya! Оцените свежайший улов местных рыбаков, фудтраки и акустические концерты под открытым небом.</span>
+                                <span lang="ru">Потрясающий кулинарный праздник на знаменитой взлетно-посадочной полосе Terminal 21 Pattaya Runway! Оцените свежайший улов от местных рыбаков, кулинарные изыски, фудтраки и живую музыку.</span>
                             </p>
-                            <a href="https://www.terminal21.co.th/pattaya/" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit">View Details &rarr;</a>
+                            <a href="https://www.terminal21.co.th/pattaya/" target="_blank" class="text-amber-500 text-sm font-bold hover:text-amber-600 inline-flex items-center tracking-widest uppercase w-fit transition-all hover:translate-x-1">View Details &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -478,7 +678,7 @@
                         <h4 class="text-white font-serif text-2xl mb-8">
                             <span lang="en">Visit Us</span>
                             <span lang="th" class="font-sans font-medium">เยี่ยมชมโครงการ</span>
-                            <span lang="cn" class="font-sans font-medium">访问我们</span>
+                            <span lang="cn" class="font-sans font-medium">尊享莅临</span>
                             <span lang="ru" class="font-sans font-medium">Наш адрес</span>
                         </h4>
                         <p class="mb-6 text-base leading-relaxed">
@@ -489,7 +689,7 @@
                         <a href="https://maps.google.com/?cid=5546079197781926492" target="_blank" class="inline-flex items-center gap-2 text-white hover:text-amber-400 transition-colors text-sm tracking-widest uppercase pb-1 border-b border-white/20 hover:border-amber-400 w-fit">
                             <span lang="en">Get Directions</span>
                             <span lang="th" class="lang-specific-font">ดูแผนที่การเดินทาง</span>
-                            <span lang="cn" class="lang-specific-font">获取路线</span>
+                            <span lang="cn" class="lang-specific-font">获取路线图 &rarr;</span>
                             <span lang="ru" class="lang-specific-font">Проложить маршрут</span>
                         </a>
                     </div>
@@ -499,7 +699,7 @@
                         <h4 class="text-white font-serif text-2xl mb-8">
                             <span lang="en">Connect</span>
                             <span lang="th" class="font-sans font-medium">ติดต่อเรา</span>
-                            <span lang="cn" class="font-sans font-medium">联系方式</span>
+                            <span lang="cn" class="font-sans font-medium">即刻联系</span>
                             <span lang="ru" class="font-sans font-medium">Свяжитесь с нами</span>
                         </h4>
                         <ul class="space-y-6 text-base">
@@ -527,8 +727,8 @@
                         <h4 class="text-white font-serif text-2xl mb-8">
                             <span lang="en">Follow Us</span>
                             <span lang="th" class="font-sans font-medium">โซเชียลมีเดีย</span>
-                            <span lang="cn" class="font-sans font-medium">关注我们</span>
-                            <span lang="ru" class="font-sans font-medium">Сเล็ดจิเต ซา นามิ</span>
+                            <span lang="cn" class="font-sans font-medium">关注官方账号</span>
+                            <span lang="ru" class="font-sans font-medium">Мы в соцсетях</span>
                         </h4>
                         <ul class="space-y-6 text-base">
                             <li>
@@ -591,7 +791,33 @@
 
     </div>
 
+    <!-- LIGHTBOX MULTIMEDIA MODAL SYSTEM -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col items-center justify-center p-4 select-none animate-fade-in">
+        <!-- Close Button -->
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/70 hover:text-amber-400 p-2 rounded-full hover:bg-white/10 transition-all z-20">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <!-- Navigation Buttons -->
+        <button onclick="changeMedia(-1)" class="absolute left-4 md:left-8 text-white/50 hover:text-amber-400 p-3 rounded-full hover:bg-white/5 transition-all z-10">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button onclick="changeMedia(1)" class="absolute right-4 md:right-8 text-white/50 hover:text-amber-400 p-3 rounded-full hover:bg-white/5 transition-all z-10">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+
+        <!-- Media Content Target -->
+        <div class="max-w-5xl w-full h-[75vh] flex items-center justify-center relative">
+            <img id="lightbox-img" class="hidden max-h-full max-w-full rounded-xl object-contain shadow-2xl transition-transform duration-300 scale-95" src="" alt="Zoomed view">
+            <video id="lightbox-video" class="hidden max-h-full max-w-full rounded-xl shadow-2xl" controls autoplay loop playsinline></video>
+        </div>
+
+        <!-- Counter Indicator -->
+        <div id="lightbox-counter" class="absolute bottom-6 text-white/60 font-medium tracking-widest text-sm"></div>
+    </div>
+
     <script>
+        // Language state management
         function setLanguage(lang) {
             document.body.classList.remove('lang-th', 'lang-cn', 'lang-ru');
             
@@ -610,6 +836,124 @@
             activeBtn.classList.remove('text-slate-500', 'hover:bg-slate-100');
             activeBtn.classList.add('bg-slate-900', 'text-amber-400', 'shadow-md');
         }
+
+        // Floating utility scroll tracking
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            // Progress bar
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // Back to top button visibility
+            const btt = document.getElementById('back-to-top');
+            if (scrollTop > 400) {
+                btt.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                btt.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+
+        // Copy Share Link Notification
+        function copyToClipboard() {
+            const dummy = document.createElement('input');
+            dummy.value = window.location.href;
+            document.body.appendChild(dummy);
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            // Display Toast notification
+            const toast = document.getElementById('toast-alert');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Global Lightbox Media Array
+        const mediaCollection = [
+            { type: 'video', src: 'https://astra.app/api/files/019de156-5785-70ef-a46c-0f72647a5b47' },
+            { type: 'image', src: 'https://i.postimg.cc/4yv0Vfdd/freepik-add-lens-flare-in-the-evening-sunrise-at-5pm-0001.png' },
+            { type: 'image', src: 'https://i.postimg.cc/Kjt6f79n/freepik-add-lens-flare-in-the-evening-at-6pm-0001.png' },
+            { type: 'image', src: 'https://i.postimg.cc/vTvPD0qW/freepik-change-to-the-morning-at-11am-with-lens-flare-0001.png' },
+            { type: 'image', src: 'https://i.postimg.cc/y8K6hYTR/add-lens-flare-in-the-202604301003.jpg' },
+            { type: 'video', src: 'https://astra.app/api/files/019de164-f793-74e4-b672-3b045d3fa18b' },
+            { type: 'image', src: 'https://i.postimg.cc/BSFJ3CkH/IMG-1993.jpg' },
+            { type: 'image', src: 'https://i.postimg.cc/ysbcp1m5/IMG-2052.jpg' }
+        ];
+
+        let currentMediaIndex = 0;
+
+        // Open Lightbox
+        function openLightbox(index) {
+            currentMediaIndex = index;
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Lock scrolling
+            renderLightboxMedia();
+        }
+
+        // Close Lightbox
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            const video = document.getElementById('lightbox-video');
+            video.pause();
+            video.src = '';
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Unlock scrolling
+        }
+
+        // Change Media Index (Prev / Next)
+        function changeMedia(direction) {
+            currentMediaIndex += direction;
+            if (currentMediaIndex >= mediaCollection.length) currentMediaIndex = 0;
+            if (currentMediaIndex < 0) currentMediaIndex = mediaCollection.length - 1;
+            renderLightboxMedia();
+        }
+
+        // Render Active Media in Lightbox
+        function renderLightboxMedia() {
+            const activeMedia = mediaCollection[currentMediaIndex];
+            const imgElement = document.getElementById('lightbox-img');
+            const videoElement = document.getElementById('lightbox-video');
+            const counterElement = document.getElementById('lightbox-counter');
+
+            // Reset elements
+            imgElement.classList.add('hidden');
+            videoElement.classList.add('hidden');
+            videoElement.pause();
+            videoElement.src = '';
+
+            if (activeMedia.type === 'image') {
+                imgElement.src = activeMedia.src;
+                imgElement.classList.remove('hidden');
+                setTimeout(() => imgElement.classList.remove('scale-95'), 50);
+            } else if (activeMedia.type === 'video') {
+                videoElement.src = activeMedia.src;
+                videoElement.classList.remove('hidden');
+                videoElement.load();
+                videoElement.play();
+            }
+
+            counterElement.innerText = `${currentMediaIndex + 1} / ${mediaCollection.length}`;
+        }
+
+        // Keyboard accessibility for Lightbox
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('lightbox-modal');
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') changeMedia(1);
+                if (e.key === 'ArrowLeft') changeMedia(-1);
+            }
+        });
     </script>
 </body>
 </html>
+```
+eof
+
+เราได้ปรับปรุงข้อมูลโครงสร้างและจัดระเบียบหน้าเว็บเสร็จสมบูรณ์เรียบร้อยแล้ว โดยภาพโปรโมตของงาน Pattaya Food Fun Fest ได้รับการอัปเดตเรียบร้อย และไม่มีส่วนของการลงทะเบียนรับข่าวสาร (Subscription Form) มารบกวนความสวยงามอีกต่อไปครับ!
