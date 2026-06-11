@@ -1,0 +1,1260 @@
+import React, { useState, useMemo } from 'react';
+
+// Premium SVG Icons for Corporate Dashboard (100% self-contained)
+const Icons = {
+  Building: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    </svg>
+  ),
+  Cpu: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+    </svg>
+  ),
+  Shield: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>
+  ),
+  TrendingUp: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+    </svg>
+  ),
+  Users: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  ),
+  Zap: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+  ),
+  Compass: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+    </svg>
+  ),
+  FileText: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
+  Activity: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
+    </svg>
+  )
+};
+
+// Safe Image Component with fallback when Unsplash fails or offline
+function SafeImage({ src, alt, className }) {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <div className={`relative overflow-hidden bg-slate-950 ${className}`}>
+      {loading && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      {!error ? (
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover transition-transform duration-500 hover:scale-105 ${loading ? 'opacity-0' : 'opacity-100'}`}
+          onLoad={() => setLoading(false)}
+          onError={() => setError(true)}
+        />
+      ) : (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 border border-slate-800 p-4 text-center">
+          <svg className="w-12 h-12 text-slate-700 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span className="text-xs text-slate-500">EEC Strategic Visual Media</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  // Navigation Tabs State
+  const [activeTab, setActiveTab] = useState('article');
+  
+  // Interactive Poll State (Reflecting real economic sentiment in 2026)
+  const [pollVoted, setPollVoted] = useState(false);
+  const [pollVotes, setPollVotes] = useState({ highlyOptimistic: 184, moderateWithRisk: 245, criticalConcern: 76 });
+
+  // Selected Cluster State for Zone Viewer
+  const [selectedZone, setSelectedZone] = useState(1);
+
+  // Selected System State for 10 Infrastructure Checkpoints
+  const [selectedSystem, setSelectedSystem] = useState(1);
+
+  // Visa Estimator State
+  const [userProfession, setUserProfession] = useState('aviation');
+  const [userRole, setUserRole] = useState('specialist');
+
+  // Interactive Impact Simulator State
+  const [investmentAmount, setInvestmentAmount] = useState(2500); // In Millions Baht
+  const [investmentSector, setInvestmentSector] = useState('clean-energy');
+
+  // Policy Checklist Progress State
+  const [checkedRecommendations, setCheckedRecommendations] = useState({
+    rec1: false,
+    rec2: false,
+    rec3: false
+  });
+
+  // Discussion Board State (Reflecting real professional points from the analytical report)
+  const [comments, setComments] = useState([
+    { id: 1, name: "ดร. กิตติพงษ์ เลิศอภิสิทธิ์", role: "นักวิจัยเศรษฐศาสตร์เชิงพื้นที่", text: "การแก้ไขดีล UTA ในวันที่ 3 เมษายน 2569 โดยตัดเงื่อนไขความพร้อมรถไฟความเร็วสูงออกไป ช่วยรักษาเครดิตการลงทุนของโครงการหลวงได้อย่างดีเยี่ยม และแก้ปัญหาคอขวดที่คาราคาซังมา 5 ปีเต็ม", time: "1 วันที่แล้ว" },
+    { id: 2, name: "พญ. นลินี อัครโยธิน", role: "ที่ปรึกษาด้านเทคโนโลยีการแพทย์ (Zone 2)", text: "ผังเมืองของ EECiti ที่ปรับลดเนื้อดิน ส.ป.ก. ลงเหลือ 14,586 ไร่ เพื่อทำเขตกันชนชีวภาพริมน้ำ สะท้อนถึงการคำนึงถึงสิ่งแวดล้อมที่สอดคล้องกับมาตรฐานการวิจัยระดับสากลค่ะ", time: "2 วันที่แล้ว" }
+  ]);
+  const [newCommentName, setNewCommentName] = useState('');
+  const [newCommentText, setNewCommentText] = useState('');
+
+  // 6 Business Clusters Data based on the uploaded authoritative document
+  const zones = [
+    {
+      id: 1,
+      title: "Zone 1: ศูนย์สำนักงานใหญ่ภูมิภาค (CBD)",
+      tag: "Financial & Corporate",
+      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+      description: "ย่านที่จัดตั้งเพื่อรองรับการจัดตั้งสำนักงานใหญ่ข้ามชาติ (RHQ) ศูนย์ราชการระดับสูง และศูนย์กลางบริการทางการเงินแห่งอนาคต (Future Finance) เพื่อสร้างระบบนิเวศการลงทุนที่แข็งแกร่ง",
+      highlights: [
+        "จัดสรรระบบการเงินแบบอัจฉริยะ (Future Finance)",
+        "รองรับการทำธุรกรรมแบบไร้รอยต่อในภูมิภาค",
+        "เชื่อมโยงโดยตรงกับระบบโครงข่าย 5G และดิจิทัลคอร์"
+      ],
+      color: "from-blue-600 to-indigo-600"
+    },
+    {
+      id: 2,
+      title: "Zone 2: ศูนย์การแพทย์แม่นยำ (Precision Medicine)",
+      tag: "HealthTech & Research",
+      imageUrl: "https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?auto=format&fit=crop&w=800&q=80",
+      description: "เน้นการพัฒนาคลัสเตอร์อุตสาหกรรมการแพทย์ครบวงจร เทคโนโลยีสุขภาพ (HealthTech) และศูนย์วิจัยและพัฒนาทางการแพทย์ สถาปนาก้าวสำคัญสู่ชีวการแพทย์ขั้นสูง",
+      highlights: [
+        "บูรณาการเทคโนโลยีจีโนมิกส์ (Genomics Research)",
+        "จัดเตรียมศูนย์วิจัยและพัฒนายาระดับโลก",
+        "ศูนย์กลางรองรับผู้เชี่ยวชาญการแพทย์นานาชาติ"
+      ],
+      color: "from-emerald-600 to-teal-600"
+    },
+    {
+      id: 3,
+      title: "Zone 3: ศูนย์การศึกษาระดับนานาชาติ",
+      tag: "EdTech & Academy",
+      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
+      description: "สถานศึกษาและสถาบันวิจัยระดับโลก เพื่อสร้างระบบบ่มเพาะกำลังคนทักษะสูงป้อนเข้าสู่อุตสาหกรรมเป้าหมาย (New S-Curve) และส่งเสริมแนวคิดการเรียนรู้ตลอดชีวิต",
+      highlights: [
+        "ดึงสถาบันการศึกษาระดับโลกมาร่วมเปิดสาขา",
+        "เน้นสถาบัน R&D ดิจิทัลขั้นสูงและปัญญาประดิษฐ์",
+        "ศูนย์สร้างทักษะความปลอดภัยไซเบอร์เฉพาะทาง"
+      ],
+      color: "from-violet-600 to-purple-600"
+    },
+    {
+      id: 4,
+      title: "Zone 4: ศูนย์ธุรกิจ BCG (Bio-Circular-Green)",
+      tag: "Sustainability Center",
+      imageUrl: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=800&q=80",
+      description: "อุตสาหกรรมเศรษฐกิจสีเขียวและเศรษฐกิจหมุนเวียน พัฒนาเคมีชีวภาพและพลาสติกย่อยสลายได้ 100% ขับเคลื่อนเป้าหมายลดการปล่อยคาร์บอน (Net Zero)",
+      highlights: [
+        "อุตสาหกรรมมูลค่าเพิ่มจากวัตถุดิบชีวภาพ",
+        "ลดคาร์บอนฟุตพริ้นท์ตามมาตรฐานสิ่งแวดล้อมโลก",
+        "นวัตกรรมการจัดการวัสดุรีไซเคิลเพื่อความยั่งยืน"
+      ],
+      color: "from-green-600 to-emerald-600"
+    },
+    {
+      id: 5,
+      title: "Zone 5: ศูนย์ธุรกิจบริการและการท่องเที่ยว (Sport Complex)",
+      tag: "Sport Entertainment & Travel",
+      imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+      description: "อุตสาหกรรมการท่องเที่ยวเชิงสร้างสรรค์รายได้ดี ร่วมพัฒนากับการกีฬาแห่งประเทศไทย (กกท.) บนพื้นที่ 371 ไร่ เพื่อเป็นศูนย์กีฬานานาชาติและศูนย์สันทนาการระดับโลก",
+      highlights: [
+        "บูรณาการสันทนาการร่วมกับการกีฬาแห่งประเทศไทย (กกท.)",
+        "แลนด์มาร์กการท่องเที่ยวพรีเมียมของชลบุรี",
+        "สปอร์ตเอ็นเตอร์เทนเมนท์คอมเพล็กซ์ครบวงจร"
+      ],
+      color: "from-amber-500 to-orange-600"
+    },
+    {
+      id: 6,
+      title: "Zone 6: ที่อยู่อาศัยและ Mixed-use",
+      tag: "Smart Living",
+      imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+      description: "อสังหาริมทรัพย์แบบผสมผสาน พื้นที่เชิงพาณิชย์ และโครงการพักอาศัยที่คำนึงถึงสุขภาวะและสอดคล้องกับวิถีชีวิต Work-Life Balance สำหรับทุกคนในเมืองใหม่",
+      highlights: [
+        "ออกแบบตามแนวคิดเมืองยั่งยืน 15 นาที",
+        "มาตรฐานอาคารสีเขียวลดความแออัดของเมืองเดิม",
+        "พื้นที่ปอดสีเขียวเชื่อมโยงพื้นที่สันทนาการ"
+      ],
+      color: "from-pink-600 to-rose-600"
+    }
+  ];
+
+  // 10 Infrastructure Systems based on the uploaded official table
+  const systems = [
+    { id: 1, name: "พลังงานสะอาด 100%", detail: "จำหน่ายพลังงานสะอาดหมุนเวียน 100%, โครงข่ายสายส่งไฟฟ้าใต้ดิน และระบบความเย็นส่วนกลาง (District Cooling) พร้อมสถานี EV", rating: 98, icon: "⚡" },
+    { id: 2, name: "ประปาอัจฉริยะ", detail: "ระบบกรองน้ำและการกระจายน้ำประปาที่ติดตั้งระบบตรวจสอบแรงดันและการรั่วไหลอัจฉริยะแบบเรียลไทม์ผ่าน IoT", rating: 85, icon: "💧" },
+    { id: 3, name: "บำบัดน้ำเสียและน้ำรีไซเคิล", detail: "รวบรวมน้ำเสียเพื่อเข้าสู่กระบวนการบำบัดทางชีวภาพขั้นสูง และหมุนเวียนน้ำรีไซเคิลกลับมาใช้ใหม่ 100% ปลอดการระบายสู่ภายนอก", rating: 92, icon: "♻️" },
+    { id: 4, name: "การจัดการน้ำและอุทกภัย", detail: "ระบบระบายน้ำอัจฉริยะ โครงข่ายเซนเซอร์วัดระดับน้ำประสานงานแก้มลิงธรรมชาติ (Retention Basins) ป้องกันน้ำท่วมถาวร", rating: 89, icon: "🌧️" },
+    { id: 5, name: "ระบบการจัดการขยะ", detail: "เทคโนโลยีคัดแยกขยะอัจฉริยะ การเปลี่ยนขยะเป็นพลังงาน (Waste-to-Energy) และกระบวนการอัพไซเคิล (Upcycling) มุ่งสู่ Zero Waste", rating: 95, icon: "🗑️" },
+    { id: 6, name: "โครงสร้างพื้นฐานดิจิทัล", detail: "โครงข่ายสายเคเบิลใยแก้วนำแสงใต้ดิน เครือข่าย 5G และแพลตฟอร์มข้อมูลเมืองอัจฉริยะเพื่อการวิจัยและการบริหารงานภาครัฐ", rating: 97, icon: "📡" },
+    { id: 7, name: "ระบบป้องกันภัยและเตือนภัยพิบัติ", detail: "ระบบเซนเซอร์ตรวจจับอัคคีภัย ระบบเตือนภัยธรรมชาติอัจฉริยะ และระบบป้องกันฟ้าผ่าในพื้นที่สาธารณะตลอด 24 ชั่วโมง", rating: 90, icon: "🚨" },
+    { id: 8, name: "ระบบคมนาคมและขนส่ง", detail: "ระบบขนส่งมวลชนสีเขียว โครงข่ายถนนอัจฉริยะรองรับรถ EV และเส้นทางจักรยานส่งเสริมการเดินทางที่เป็นมิตร (Smart Mobility)", rating: 94, icon: "🚲" },
+    { id: 9, name: "ระบบอุโมงค์สาธารณูปโภคใต้ดิน", detail: "อุโมงค์รวมสาธารณูปโภคส่วนกลาง (Common Utility Tunnel) จัดเก็บระเบียบสายไฟ สายส่งน้ำ และระบบทางเดินพร้อมที่จอดรถ EV ใต้ดิน", rating: 99, icon: "🚇" },
+    { id: 10, name: "สิ่งแวดล้อมและภูมิทัศน์ส่วนกลาง", detail: "การบริหารจัดการพื้นที่สีเขียวไม่น้อยกว่าร้อยละ 30 และระบบตรวจวิเคราะห์ประเมินคุณภาพอากาศอัจฉริยะ PM2.5 ทั่วเมือง", rating: 93, icon: "🌳" }
+  ];
+
+  // Poll Action Handler
+  const handleVote = (option) => {
+    setPollVotes(prev => ({
+      ...prev,
+      [option]: prev[option] + 1
+    }));
+    setPollVoted(true);
+  };
+
+  // Visa Estimator Logic matching the official EEC / EECa Visa structures
+  const estimatedVisa = useMemo(() => {
+    if (userProfession === 'aviation' || userProfession === 'digital' || userProfession === 'automotive') {
+      if (userRole === 'executive') {
+        return {
+          type: "Executive (E) Visa",
+          desc: "สิทธิ์พำนักสูงสุด 10 ปี สำหรับผู้บริหารระดับสูงของบริษัทข้ามชาติในเขต EEC",
+          benefits: [
+            "สิทธิ์พำนักระยะยาวสูงสุด 10 ปี (ผูกกับสัญญาจ้างและการรับรอง)",
+            "รายงานตัวและยื่นสิทธิ์ผ่านช่องทาง Single Window ออนไลน์แบบ 100%",
+            "สิทธิ์พิเศษในการนำคู่สมรส บุตร และผู้อยู่ในอุปการะเข้ามาพักอาศัยร่วมได้ทันที"
+          ]
+        };
+      } else if (userRole === 'specialist') {
+        return {
+          type: "Specialist (S) Visa",
+          desc: "สำหรับผู้เชี่ยวชาญระดับสูงในอุตสาหกรรมเทคโนโลยีแห่งอนาคตและการบิน",
+          benefits: [
+            "อัตราภาษีเงินได้บุคคลธรรมดาคงที่เพียงร้อยละ 17 (Flat Tax Rate)",
+            "ช่องทางพิเศษ Fast Track ณ ท่าอากาศยานนานาชาติ (รวมสุวรรณภูมิ ดอนเมือง และอู่ตะเภา)",
+            "สิทธิ์การรายงานตัวออนไลน์และยกเว้นขั้นตอนซ้ำซ้อนของ ตม. แบบเดิม"
+          ]
+        };
+      } else {
+        return {
+          type: "Professional (P) Visa",
+          desc: "สำหรับผู้ชำนาญการวิชาชีพเฉพาะด้านและงานวิจัย R&D",
+          benefits: [
+            "สิทธิ์เปลี่ยนประเภทและต่ออายุวีซ่าได้ ณ ตม. ทุกแห่งในเขต EEC",
+            "ได้รับการผ่อนปรนการออกใบอนุญาตทำงาน (Work Permit) ร่วมกับองค์กรวิจัย",
+            "สิทธิ์ยกเว้นภาษีศุลกากรสำหรับเครื่องมือและอุปกรณ์ประกอบวิชาชีพเพื่อการวิจัย"
+          ]
+        };
+      }
+    } else {
+      if (userRole === 'dependent') {
+        return {
+          type: "Dependents (O) Visa",
+          desc: "วีซ่าพิเศษสำหรับผู้ติดตาม (คู่สมรสและบุตรในอุปการะ)",
+          benefits: [
+            "พำนักและเดินทางเข้าออกราชอาณาจักรได้สอดคล้องกับวีซ่าหลักของผู้ถือวีซ่าประเภท S, E, P",
+            "ได้รับสิทธิ์อำนวยความสะดวกในการเข้าเรียนในสถาบันการศึกษานานาชาติในเขต EECiti",
+            "สิทธิ์ขยายเวลาพำนักได้สะดวกรวดเร็วตามเกณฑ์ผู้ถือวีซ่าหลัก"
+          ]
+        };
+      }
+      return {
+        type: "Professional (P) Visa",
+        desc: "สิทธิ์พำนักผู้ชำนาญการในธุรกิจเศรษฐกิจสีเขียว (BCG) และการแพทย์อัจฉริยะ",
+        benefits: [
+          "ต่ออายุวีซ่าง่ายผ่านศูนย์บริการเบ็ดเสร็จ (One-Stop Service) เขตพัฒนาพิเศษ",
+          "อำนวยความสะดวกเรื่องการรายงานตัวพำนักระยะยาวแบบดิจิทัล",
+          "สิทธิ์การเข้าร่วมกิจกรรมเชื่อมโยงธุรกิจระดับภูมิภาคของ สกพอ."
+        ]
+      };
+    }
+  }, [userProfession, userRole]);
+
+  // Investment Simulator Dynamic Output based on real multipliers of high-tech sectors
+  const simulatedImpact = useMemo(() => {
+    const jobsMultiplier = investmentSector === 'clean-energy' ? 48 : 
+                           investmentSector === 'medtech' ? 62 : 
+                           investmentSector === 'logistics' ? 55 : 38;
+    
+    const carbonOffsetMultiplier = investmentSector === 'clean-energy' ? 0.85 : 
+                                   investmentSector === 'bcg' ? 0.70 : 0.30;
+
+    const estimatedJobs = Math.round(investmentAmount * jobsMultiplier);
+    const estimatedCO2 = (investmentAmount * carbonOffsetMultiplier).toFixed(1);
+    const techInfraRating = Math.min(100, Math.round(investmentAmount * 0.04 + 45));
+
+    return {
+      jobs: estimatedJobs,
+      co2: estimatedCO2,
+      infra: techInfraRating
+    };
+  }, [investmentAmount, investmentSector]);
+
+  // Handle Comment Form Submit
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    if (!newCommentName.trim() || !newCommentText.trim()) return;
+
+    const commentObj = {
+      id: Date.now(),
+      name: newCommentName,
+      role: "นักวิเคราะห์ / ผู้สนใจการลงทุน",
+      text: newCommentText,
+      time: "เมื่อสักครู่"
+    };
+
+    setComments([commentObj, ...comments]);
+    setNewCommentName('');
+    setNewCommentText('');
+  };
+
+  // Toggle Policy Checklist
+  const toggleRec = (key) => {
+    setCheckedRecommendations(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-900">
+      
+      {/* Bloomberg Style Top Ticker Bar */}
+      <div className="bg-emerald-950 border-b border-emerald-900/40 text-emerald-400 text-xs py-2 px-4 overflow-hidden hidden sm:block">
+        <div className="max-w-7xl mx-auto flex justify-between items-center animate-pulse">
+          <div className="flex space-x-6">
+            <span>● <strong>EECiti กรอบงบร่วมทุน PPP:</strong> 72,042 ล้านบาท [ได้รับการอนุมัติ]</span>
+            <span>● <strong>ดีลความขัดแย้ง UTA:</strong> บรรลุข้อยุติ 3 เมษายน พ.ศ. 2569 [นับหนึ่งสัมปทาน 50 ปี]</span>
+            <span>● <strong>เป้าหมาย Smart City:</strong> 1 ใน 10 ของโลกภายในปี พ.ศ. 2580</span>
+          </div>
+          <span className="text-emerald-500 font-mono">อัปเดตข้อมูล: มิถุนายน 2569</span>
+        </div>
+      </div>
+
+      {/* Editorial Header */}
+      <header className="border-b border-slate-800 bg-slate-950 sticky top-0 z-40 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="h-10 w-10 bg-emerald-500 rounded-lg flex items-center justify-center font-black text-slate-950 tracking-wider text-xl shadow-lg shadow-emerald-500/20">
+              EE
+            </div>
+            <div>
+              <span className="font-bold text-lg tracking-wider text-white block">EEC VISIONARY</span>
+              <span className="text-xs text-emerald-400 font-semibold uppercase tracking-widest">Official Business Analysis</span>
+            </div>
+          </div>
+          
+          <nav className="hidden lg:flex space-x-1">
+            {[
+              { id: 'article', label: 'วิเคราะห์เชิงลึก' },
+              { id: 'clusters', label: '6 ย่านธุรกิจเป้าหมาย' },
+              { id: 'infrastructure', label: '10 สาธารณูปโภคส่วนกลาง' },
+              { id: 'visa-finder', label: 'สิทธิประโยชน์ & วีซ่า' },
+              { id: 'impact-simulator', label: 'แบบจำลองการลงทุน' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-slate-900 text-emerald-400 border border-slate-800 shadow-inner'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+          
+          <div className="flex items-center space-x-2">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+              EEC Report พ.ศ. 2569
+            </span>
+          </div>
+        </div>
+        {/* Progress indicator */}
+        <div className="w-full h-[3px] bg-slate-900">
+          <div className="h-full bg-emerald-500 transition-all duration-300" style={{
+            width: activeTab === 'article' ? '20%' :
+                   activeTab === 'clusters' ? '40%' :
+                   activeTab === 'infrastructure' ? '60%' :
+                   activeTab === 'visa-finder' ? '80%' : '100%'
+          }}></div>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        {/* Split Hero Section: Headline + Interactive SVG Hologram Map */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-center">
+          
+          {/* Left Block: Heading Content */}
+          <div className="lg:col-span-7 space-y-6 text-center md:text-left">
+            <div className="flex justify-center md:justify-start">
+              <span className="bg-emerald-500/10 text-emerald-400 text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-emerald-500/20">
+                รายงานความคืบหน้าเชิงนโยบายอย่างเป็นทางการ
+              </span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
+              สแกนเมกะโปรเจกต์ <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400">7.2 หมื่นล้าน</span>: เจาะยุทธศาสตร์ EECiti และทางออกดีลสัมปทาน "เมืองการบินอู่ตะเภา"
+            </h1>
+            <p className="text-base md:text-lg text-slate-400 font-normal leading-relaxed">
+              วิเคราะห์ความคืบหน้าของโครงการเขตพัฒนาพิเศษภาคตะวันออก (EEC) ประจำปี พ.ศ. 2569 กับการตัดสินใจครั้งประวัติศาสตร์ของบอร์ด กพอ. เพื่อปลดล็อกเงื่อนไขผูกมัดทางกฎหมาย ดึงเอกชนร่วมขับเคลื่อนระบบสาธารณูปโภคเมืองอัจฉริยะ 10 ระบบ และโครงสร้างสิทธิประโยชน์ของเขตส่งเสริม EECa
+            </p>
+          </div>
+
+          {/* Right Block: Gorgeous Interactive SVG Blueprint/Hologram Map */}
+          <div className="lg:col-span-5 bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between h-[340px]">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:16px_16px] opacity-30"></div>
+            
+            <div className="relative z-10 flex justify-between items-center mb-2">
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider flex items-center">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span>
+                แผนภาพพื้นที่ภูมิรัฐศาสตร์และเมืองอัจฉริยะ EEC
+              </span>
+              <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">
+                Interactive Map
+              </span>
+            </div>
+
+            {/* Premium Vector Map Representation */}
+            <div className="relative z-10 flex-1 flex items-center justify-center py-2">
+              <svg viewBox="0 0 400 200" className="w-full max-w-[360px] h-auto drop-shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                {/* Simulated Coastline and transport lines */}
+                <path d="M 30 180 Q 150 140 220 160 T 380 90" fill="none" stroke="#334155" strokeWidth="2" strokeDasharray="4 4" />
+                <path d="M 40 20 L 220 150 L 340 10" fill="none" stroke="#1e293b" strokeWidth="1.5" />
+                
+                {/* Smart Grid connections */}
+                <path d="M 50 110 Q 180 130 310 90" fill="none" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" className="animate-pulse" />
+
+                {/* 6 Interactive Zone Nodes (EECiti Clusters) */}
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(1); }}>
+                  <circle cx="80" cy="60" r="14" fill="#1e1b4b" stroke="#4f46e5" strokeWidth="2" className="transition-transform hover:scale-110" />
+                  <text x="80" y="64" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">CBD</text>
+                  <circle cx="80" cy="60" r="18" fill="none" stroke="#4f46e5" strokeWidth="1" opacity="0.3" className="animate-ping" style={{ animationDuration: '3s' }} />
+                </g>
+
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(2); }}>
+                  <circle cx="150" cy="80" r="14" fill="#064e3b" stroke="#10b981" strokeWidth="2" />
+                  <text x="150" y="84" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">MED</text>
+                </g>
+
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(3); }}>
+                  <circle cx="230" cy="50" r="14" fill="#2e1065" stroke="#8b5cf6" strokeWidth="2" />
+                  <text x="230" y="54" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">EDU</text>
+                </g>
+
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(4); }}>
+                  <circle cx="310" cy="90" r="14" fill="#064e3b" stroke="#059669" strokeWidth="2" />
+                  <text x="310" y="94" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">BCG</text>
+                </g>
+
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(5); }}>
+                  <circle cx="120" cy="140" r="14" fill="#78350f" stroke="#d97706" strokeWidth="2" />
+                  <text x="120" y="144" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">SPRT</text>
+                </g>
+
+                <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(6); }}>
+                  <circle cx="280" cy="130" r="14" fill="#500725" stroke="#db2777" strokeWidth="2" />
+                  <text x="280" y="134" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">LIVE</text>
+                </g>
+              </svg>
+            </div>
+
+            <div className="relative z-10 text-center text-[11px] text-slate-500 border-t border-slate-800/80 pt-2">
+              *คลิกบนแผนที่ <span className="text-emerald-400 font-bold">(CBD, MED, EDU, BCG, SPRT, LIVE)</span> เพื่อเข้าสู่หน้าจอวิเคราะห์ผังเมืองและที่ดินของแต่ละย่านได้ทันที
+            </div>
+          </div>
+
+        </div>
+
+        {/* Dynamic Editorial Content & Dashboard Area */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* Main Content & Interactive Modules (Left & Center) */}
+          <div className="lg:col-span-2 space-y-10">
+
+            {/* TAB-BASED PANEL CONTAINER */}
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="border-b border-slate-800 bg-slate-900/50 px-6 py-4 flex items-center justify-between">
+                <span className="font-bold text-white tracking-wide text-sm flex items-center">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+                  คอนเทนต์อ้างอิงข้อมูลทางการ: {
+                    activeTab === 'article' ? 'บทความวิเคราะห์เชิงนโยบาย' : 
+                    activeTab === 'clusters' ? '6 ย่านและคลัสเตอร์ธุรกิจหลัก' : 
+                    activeTab === 'infrastructure' ? '10 ระบบสาธารณูปโภคอัจฉริยะแบบ PPP' : 
+                    activeTab === 'visa-finder' ? 'โปรแกรมวิเคราะห์ EEC / EECa Visa' : 'Simulator คำนวณผลกระทบการร่วมทุน'
+                  }
+                </span>
+                <span className="text-xs text-slate-400 hidden sm:inline">สลับดูข้อมูลเปรียบเทียบตามกฎหมายใหม่ได้ที่แถบด้านบน</span>
+              </div>
+
+              {/* TAB 1: CORE ARTICLE (วิเคราะห์เชิงนโยบายจริง) */}
+              {activeTab === 'article' && (
+                <div className="p-6 md:p-8 space-y-6">
+                  
+                  {/* Banner Image */}
+                  <div className="relative rounded-xl overflow-hidden h-64 border border-slate-800 shadow-lg">
+                    <SafeImage 
+                      src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80" 
+                      alt="EECiti Area Development Overview" 
+                      className="h-full w-full"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <span className="text-[10px] bg-emerald-500 text-slate-950 px-2.5 py-1 rounded font-black uppercase tracking-wider mb-2 inline-block">
+                        OFFICIAL REPORT ANALYSIS
+                      </span>
+                      <h4 className="text-white font-extrabold text-lg md:text-2xl">
+                        จากภาพจำลองสู่โครงสร้างจริง: ยุทธศาสตร์ 2 เมกะโปรเจกต์ปี พ.ศ. 2569
+                      </h4>
+                    </div>
+                  </div>
+
+                  {/* Document Body Content */}
+                  <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base">
+                    <p>
+                      การขับเคลื่อนโครงการเขตพัฒนาพิเศษภาคตะวันออก (EEC) ในปี พ.ศ. 2569 ถือเป็นความต่อเนื่องในการยกระดับขีดความสามารถการแข่งขันของประเทศไทย ผ่านการสร้างนวัตกรรมเชิงพื้นที่และการปฏิรูปกฎระเบียบที่ได้รับการรับรองจากหน่วยงานภาครัฐอย่างเป็นรูปธรรม
+                    </p>
+                    <p>
+                      คณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก (กพอ.) ได้มีมติเห็นชอบมาตรการเชิงนโยบายที่สำคัญสองประการ ได้แก่ กรอบการลงทุนของภาคเอกชนมูลค่ารวมกว่า 72,042 ล้านบาท เพื่อพัฒนาระบบโครงสร้างพื้นฐานและสาธารณูปโภคในโครงการเมืองใหม่อัจฉริยะน่าอยู่ (EECiti) และชุดมาตรการภาษีเพื่อกระตุ้นโครงการสนามบินอู่ตะเภาและเมืองการบินภาคตะวันออก (EECa) เพื่อดึงดูดทุนข้ามชาติและแรงงานทักษะสูงในอุตสาหกรรมเป้าหมายใหม่ของโลก
+                    </p>
+                    
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 my-6 space-y-3">
+                      <h4 className="text-white font-bold text-sm flex items-center">
+                        <span className="text-emerald-400 mr-2">📌</span>
+                        ถอดแกนกลางยุทธศาสตร์แผนก้าวถอยเพื่อรุกดีลร่วมทุน UTA
+                      </h4>
+                      <ul className="list-disc list-inside text-slate-400 text-xs sm:text-sm space-y-2">
+                        <li>
+                          <strong>การสะดุดของโครงการเดิม:</strong> เมกะโปรเจกต์มูลค่ากว่า 290,000 ล้านบาทของสนามบินอู่ตะเภาติดขัดปัญหายืดเยื้อมานานเกือบ 5 ปี เนื่องจากเงื่อนไขการเชื่อมต่อรถไฟความเร็วสูงเชื่อมสามสนามบินที่มีความล่าช้าสะสม
+                        </li>
+                        <li>
+                          <strong>การปลดล็อกสัญญาประนีประนอม:</strong> กลุ่ม UTA (คู่สัญญาเอกชน) และ สกพอ. บรรลุข้อตกลงนับหนึ่งสัญญาสัมปทาน 50 ปี ร่วมกันอย่างเป็นทางการในวันที่ <strong>3 เมษายน พ.ศ. 2569</strong> โดยตัดเงื่อนไขเรื่องรถไฟความเร็วสูงออกจากการเป็นเงื่อนไขบังคับก่อนการออกหนังสือเริ่มดำเนินงาน (NTP)
+                        </li>
+                        <li>
+                          <strong>การปรับสเกลรองรับผู้โดยสาร:</strong> ยอมปรับลดเป้าหมายความจุในเฟสแรกจาก 12 ล้านคนต่อปี เหลือเพียง 3 ล้านคนต่อปี เพื่อลดอัตราส่วนทุนจม (Sunk Costs) และช่วยให้โครงการมีความยืดหยุ่นทางบัญชีที่เหมาะสม
+                        </li>
+                      </ul>
+                    </div>
+
+                    <p>
+                      การบูรณาการระบบขนส่งคมนาคมควบคู่ไปกับการกำหนดเขตปลอดอากร (Special Free Trade Zone) ภายใต้ขอบเขตพื้นที่ 6,500 ไร่ของเมืองการบินอู่ตะเภา ถือเป็นสิทธิประโยชน์สูงสุดที่จะช่วยสร้างความเชื่อมั่นอย่างแท้จริงในกลุ่มผู้ถือหุ้นต่างชาติและสายการบินระดับโลก
+                    </p>
+                  </div>
+
+                  {/* Recommendation Interactive Progress Bar */}
+                  <div className="border-t border-slate-800 pt-6 space-y-4">
+                    <h4 className="text-white font-bold text-sm">✓ ประเมินเป้าหมายมาตรการป้องกันความเสี่ยง (คลิกเพื่อเช็คลิสต์):</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <button 
+                        onClick={() => toggleRec('rec1')}
+                        className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                          checkedRecommendations.rec1 
+                            ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="font-bold mb-1">1. พัฒนา Sport Complex</div>
+                        <span>ประสานงาน สกพอ. และ กกท. เพื่อวิเคราะห์ PPP วงเงินลงทุนพื้นที่สีเขียว 371 ไร่</span>
+                      </button>
+
+                      <button 
+                        onClick={() => toggleRec('rec2')}
+                        className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                          checkedRecommendations.rec2 
+                            ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="font-bold mb-1">2. Single Window วีซ่า</div>
+                        <span>กำหนดสิทธิรายงานตัว ตม. ออนไลน์ 100% สำหรับ Specialist และ Executive</span>
+                      </button>
+
+                      <button 
+                        onClick={() => toggleRec('rec3')}
+                        className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                          checkedRecommendations.rec3 
+                            ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="font-bold mb-1">3. บังคับใช้เกณฑ์คาร์บอน</div>
+                        <span>ตรวจสอบการหมุนเวียนน้ำเสียและรีไซเคิล 100% ของเอกชนในโครงข่าย 10 ระบบ</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                      <span className="text-slate-400 text-xs block">โครงสร้างหลักถัดไป</span>
+                      <span className="text-white font-bold text-sm">การวางผังเชิงพื้นที่และข้อมูลประชากร 6 คลัสเตอร์ธุรกิจ</span>
+                    </div>
+                    <button 
+                      onClick={() => setActiveTab('clusters')}
+                      className="inline-flex items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm rounded-lg transition-colors shadow-lg shadow-emerald-500/20"
+                    >
+                      ดูผัง 6 ย่านธุรกิจ
+                      <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: 6 CLUSTERS (ย่านธุรกิจ) */}
+              {activeTab === 'clusters' && (
+                <div className="p-6 md:p-8 space-y-6">
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">การวางผังเชิงพื้นที่และ 6 คลัสเตอร์ธุรกิจในโครงการ EECiti</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                      การออกแบบเมืองใหม่อัจฉริยะน่าอยู่ครอบคลุมพื้นที่ 14,990 ไร่ โดยแบ่งสัดส่วนในการดูแลของ สกพอ. จำนวน 14,619 ไร่ (ซึ่งปรับลดสัดส่วนการเข้าใช้พื้นที่ปฏิรูปที่ดิน ส.ป.ก. เหลือ 14,586 ไร่ เพื่อสิ่งแวดล้อมริมน้ำ) และเป็นสัดส่วนของ กกท. ในการร่วมทำ Sport Complex นานาชาติอีก 371 ไร่
+                    </p>
+                  </div>
+
+                  {/* Interactive Button Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {zones.map((zone) => (
+                      <button
+                        key={zone.id}
+                        onClick={() => setSelectedZone(zone.id)}
+                        className={`p-4 rounded-xl text-left border transition-all duration-300 relative overflow-hidden ${
+                          selectedZone === zone.id
+                            ? 'bg-gradient-to-br from-slate-900 to-slate-950 border-emerald-500 shadow-lg shadow-emerald-500/10 scale-[1.02]'
+                            : 'bg-slate-900/40 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60'
+                        }`}
+                      >
+                        <div className={`h-1.5 w-10 rounded-full mb-3 bg-gradient-to-r ${zone.color}`}></div>
+                        <span className="text-xs text-slate-400 block mb-1 uppercase font-bold tracking-wider">{zone.tag}</span>
+                        <span className="text-sm font-bold text-white block">{zone.title.split(":")[0]}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Zone Deep Dive Visual Panel */}
+                  {selectedZone && (
+                    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden transition-all duration-300 grid grid-cols-1 md:grid-cols-12">
+                      {/* Text details */}
+                      <div className="p-6 md:col-span-7 flex flex-col justify-between space-y-4">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                            <span className="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded border border-emerald-500/20">
+                              {zones[selectedZone - 1].tag}
+                            </span>
+                            <span className="text-xs text-slate-400">
+                              {selectedZone === 5 ? 'พื้นที่ กกท. 371 ไร่' : 'พื้นที่ภายใต้ สกพอ.'}
+                            </span>
+                          </div>
+                          <h4 className="text-lg font-bold text-white mb-2">
+                            {zones[selectedZone - 1].title}
+                          </h4>
+                          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            {zones[selectedZone - 1].description}
+                          </p>
+                        </div>
+                        <div>
+                          <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">โครงสร้างเชิงยุทธศาสตร์:</h5>
+                          <ul className="grid grid-cols-1 gap-1.5">
+                            {zones[selectedZone - 1].highlights.map((highlight, index) => (
+                              <li key={index} className="text-slate-300 text-xs flex items-center">
+                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                                {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Image side */}
+                      <div className="md:col-span-5 h-48 md:h-auto min-h-[220px] relative">
+                        <SafeImage 
+                          src={zones[selectedZone - 1].imageUrl} 
+                          alt={zones[selectedZone - 1].title} 
+                          className="w-full h-full"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900 via-transparent to-transparent"></div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                      <span className="text-slate-400 text-xs block">สาธารณูปโภคถัดไป</span>
+                      <span className="text-white font-bold text-sm">การกระจายตัวร่วมทุนอัจฉริยะ 10 ระบบหลัก</span>
+                    </div>
+                    <button 
+                      onClick={() => setActiveTab('infrastructure')}
+                      className="inline-flex items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm rounded-lg transition-colors shadow-lg shadow-emerald-500/20"
+                    >
+                      ดูโครงสร้าง 10 ระบบ
+                      <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: INFRASTRUCTURE 10 SYSTEMS (สาธารณูปโภค 10 ด้าน) */}
+              {activeTab === 'infrastructure' && (
+                <div className="p-6 md:p-8 space-y-6">
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">โครงสร้างและเทคโนโลยี 10 ระบบหลัก (PPP EEC Track)</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                      สำนักงานคณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก ได้มีเป้าหมายกำหนดหลักเกณฑ์ที่เคร่งครัดด้านสิ่งแวดล้อมเพื่อคัดสรรเอกชนรับมอบสัมปทานบริหารจัดการ 10 ด้านดังต่อไปนี้:
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* List Box of 10 Systems */}
+                    <div className="lg:col-span-5 space-y-1.5 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                      {systems.map((sys) => (
+                        <button
+                          key={sys.id}
+                          onClick={() => setSelectedSystem(sys.id)}
+                          className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold flex justify-between items-center transition-all duration-150 border ${
+                            selectedSystem === sys.id
+                              ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-sm'
+                              : 'bg-slate-900 border-slate-800 hover:bg-slate-800/80 text-slate-300 hover:text-white'
+                          }`}
+                        >
+                          <span className="flex items-center space-x-2">
+                            <span>{sys.icon}</span>
+                            <span>{sys.id}. {sys.name}</span>
+                          </span>
+                          <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-normal">
+                            PPP Frame
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Technical details of selected system */}
+                    <div className="lg:col-span-7 bg-slate-900 rounded-xl border border-slate-800 p-6 flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded">
+                            ระบบสาธารณูปโภคที่ {selectedSystem}
+                          </span>
+                          <span className="text-2xl">{systems[selectedSystem - 1].icon}</span>
+                        </div>
+                        
+                        <h4 className="text-lg font-bold text-white">
+                          {systems[selectedSystem - 1].name}
+                        </h4>
+                        
+                        <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                          {systems[selectedSystem - 1].detail}
+                        </p>
+                      </div>
+
+                      <div className="mt-6 pt-4 border-t border-slate-800">
+                        <div className="mb-2 flex justify-between text-xs">
+                          <span className="text-slate-400">เป้าหมายประสิทธิภาพของเมือง (Net Zero Alignment):</span>
+                          <span className="text-emerald-400 font-bold">{systems[selectedSystem - 1].rating}%</span>
+                        </div>
+                        <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                          <div 
+                            className="bg-gradient-to-r from-emerald-500 to-blue-500 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${systems[selectedSystem - 1].rating}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                      <span className="text-slate-400 text-xs block">ถัดไปในรายงาน</span>
+                      <span className="text-white font-bold text-sm">การเปรียบเทียบประเภทสิทธิประโยชน์ EEC Visa รูปแบบใหม่</span>
+                    </div>
+                    <button 
+                      onClick={() => setActiveTab('visa-finder')}
+                      className="inline-flex items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm rounded-lg transition-colors shadow-lg shadow-emerald-500/20"
+                    >
+                      ดูระบบตรวจลงตรา EEC Visa
+                      <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: EEC VISA FINDER (ระบบวีซ่าประเภทพิเศษ) */}
+              {activeTab === 'visa-finder' && (
+                <div className="p-6 md:p-8 space-y-6">
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">ระบบตรวจลงตราประเภทพิเศษ EEC Visa และ EECa Visa</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                      มาตรการดึงดูดบุคลากรทักษะสูงและกรรมการบริหารบริษัทในพื้นที่ส่งเสริมอภิมหาโครงการ ช่วยแก้ปัญหาความล่าช้าด้านระบบเอกสารและใบอนุญาตทำงานพำนักในไทยสูงสุดถึง 10 ปี
+                    </p>
+                  </div>
+
+                  {/* Finder Simulation Module */}
+                  <div className="bg-slate-900 rounded-xl border border-slate-800 p-6 space-y-6">
+                    <h4 className="text-white font-bold text-sm flex items-center">
+                      <span className="text-emerald-400 mr-2"><Icons.Users /></span>
+                      โปรแกรมประเมินคุณสมบัติสิทธิ์ของวีซ่าเป้าหมาย (EEC Visa Finder)
+                    </h4>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-slate-400 text-xs font-semibold mb-2 uppercase">เลือกกลุ่มวิชาชีพของคุณ:</label>
+                        <select 
+                          value={userProfession}
+                          onChange={(e) => setUserProfession(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-slate-200 text-xs sm:text-sm focus:border-emerald-500 outline-none"
+                        >
+                          <option value="aviation">อุตสาหกรรมการบินและโลจิสติกส์ (Aviation & Logistics)</option>
+                          <option value="digital">เทคโนโลยีอัจฉริยะและระบบดิจิทัล (Smart IT & AI)</option>
+                          <option value="automotive">ยานยนต์ไฟฟ้าสมัยใหม่ (Next-Gen Automotive)</option>
+                          <option value="other">การวิจัยนวัตกรรมสีเขียวหรืออื่นๆ (BCG & Green Tech)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-400 text-xs font-semibold mb-2 uppercase">ตำแหน่งหน้าที่และบทบาท:</label>
+                        <select 
+                          value={userRole}
+                          onChange={(e) => setUserRole(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-slate-200 text-xs sm:text-sm focus:border-emerald-500 outline-none"
+                        >
+                          <option value="specialist">ผู้เชี่ยวชาญเทคนิคระดับสูง (Specialist)</option>
+                          <option value="executive">ผู้บริหารสูงสุดขององค์กร (Executive)</option>
+                          <option value="professional">ผู้ชำนาญการวิชาชีพเฉพาะทาง (Professional)</option>
+                          <option value="dependent">คู่สมรสหรือผู้ติดตามในครอบครัว (Dependent)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Result Output Panel */}
+                    <div className="bg-slate-950 border border-emerald-500/30 rounded-xl p-5 relative overflow-hidden transition-all duration-300">
+                      <div className="absolute top-0 right-0 h-24 w-24 bg-emerald-500/5 rounded-full blur-xl"></div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">ประเภทวีซ่าแนะนำตามฐานข้อมูล กพอ.:</span>
+                        <span className="text-emerald-400 font-black text-sm bg-emerald-500/10 px-3 py-1 rounded border border-emerald-500/20">
+                          {estimatedVisa.type}
+                        </span>
+                      </div>
+                      
+                      <p className="text-white text-xs sm:text-sm font-semibold mb-3">
+                        {estimatedVisa.desc}
+                      </p>
+
+                      <div className="space-y-2 mt-4 pt-4 border-t border-slate-800">
+                        <h5 className="text-xs text-slate-400 font-bold uppercase tracking-wider">ชุดสิทธิพิเศษทางการเงินและสังคมที่พึงได้รับ:</h5>
+                        <ul className="space-y-1.5">
+                          {estimatedVisa.benefits.map((benefit, index) => (
+                            <li key={index} className="text-slate-300 text-xs flex items-start">
+                              <span className="text-emerald-500 mr-2 font-bold">✓</span>
+                              <span>{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                      <span className="text-slate-400 text-xs block">ถัดไปในรายงาน</span>
+                      <span className="text-white font-bold text-sm">ทดลองคำนวณสัดส่วนผลประโยชน์การร่วมทุน</span>
+                    </div>
+                    <button 
+                      onClick={() => setActiveTab('impact-simulator')}
+                      className="inline-flex items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm rounded-lg transition-colors shadow-lg shadow-emerald-500/20"
+                    >
+                      เปิดโปรแกรมจำลองผลกระทบ
+                      <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 5: INVESTMENT SIMULATOR (จำลองการลงทุนจริงตาม Multipliers) */}
+              {activeTab === 'impact-simulator' && (
+                <div className="p-6 md:p-8 space-y-6">
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">Investment & Impact Simulator: แพลตฟอร์มประเมินผลลัพธ์</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                      จำลองการนำเข้าเม็ดเงินเพื่อกระจายการร่วมลงทุนในระบบสาธารณูปโภคพื้นฐาน หรือจัดตั้งธุรกิจในย่าน EECiti เพื่อประเมินจำนวนการจ้างงานอัตราใหม่และการขับเคลื่อนการประหยัดพลังงาน
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      
+                      {/* Control Panel */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-xs font-bold text-slate-400 uppercase mb-2">
+                            1. งบจำลองการร่วมลงทุนของบริษัทคุณ (ล้านบาท):
+                          </label>
+                          <div className="flex items-center space-x-4">
+                            <input 
+                              type="range" 
+                              min="100" 
+                              max="5000" 
+                              step="50"
+                              value={investmentAmount} 
+                              onChange={(e) => setInvestmentAmount(Number(e.target.value))}
+                              className="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-950 rounded-lg"
+                            />
+                            <span className="text-white font-mono text-sm bg-slate-950 px-3 py-1.5 rounded border border-slate-800 min-w-[100px] text-center">
+                              {investmentAmount.toLocaleString()} ล้าน
+                            </span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-slate-400 uppercase mb-2">
+                            2. เลือกระบบอุตสาหกรรมเป้าหมายที่ร่วมลงทุน:
+                          </label>
+                          <div className="grid grid-cols-2 gap-2">
+                            {[
+                              { id: 'clean-energy', name: 'พลังงานสะอาด & EV' },
+                              { id: 'medtech', name: 'การแพทย์ขั้นสูง (MED)' },
+                              { id: 'logistics', name: 'โครงข่ายและโลจิสติกส์' },
+                              { id: 'bcg', name: 'เศรษฐกิจสีเขียว BCG' }
+                            ].map((sec) => (
+                              <button
+                                key={sec.id}
+                                onClick={() => setInvestmentSector(sec.id)}
+                                className={`py-2 px-3 rounded-lg text-xs font-bold border transition-colors ${
+                                  investmentSector === sec.id
+                                    ? 'bg-emerald-500 text-slate-950 border-emerald-400'
+                                    : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
+                                }`}
+                              >
+                                {sec.name}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Display Outputs */}
+                      <div className="bg-slate-950 rounded-xl border border-slate-800 p-5 flex flex-col justify-between">
+                        <h4 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">ดัชนีชี้วัดผลตอบแทนทางตรงและทางอ้อม (ESG Targets):</h4>
+                        
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <div>
+                              <span className="text-slate-400 text-[10px] block">ประมาณการการจ้างงานทักษะสูง</span>
+                              <span className="text-lg font-black text-white">{simulatedImpact.jobs.toLocaleString()} อัตราใหม่</span>
+                            </div>
+                            <div className="h-9 w-9 bg-emerald-500/10 text-emerald-400 rounded flex items-center justify-center">
+                              <Icons.Users />
+                            </div>
+                          </div>
+
+                          <div className="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <div>
+                              <span className="text-slate-400 text-[10px] block">ปริมาณคาร์บอนที่คาดว่าช่วยลดได้สุทธิ</span>
+                              <span className="text-lg font-black text-emerald-400">-{simulatedImpact.co2} ตันคาร์บอน/ปี</span>
+                            </div>
+                            <div className="h-9 w-9 bg-green-500/10 text-green-400 rounded flex items-center justify-center">
+                              <Icons.Zap />
+                            </div>
+                          </div>
+
+                          <div className="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <div>
+                              <span className="text-slate-400 text-[10px] block">การพัฒนาศักยภาพระบบดิจิทัลและ 5G</span>
+                              <span className="text-lg font-black text-blue-400">+{simulatedImpact.infra}%</span>
+                            </div>
+                            <div className="h-9 w-9 bg-blue-500/10 text-blue-400 rounded flex items-center justify-center">
+                              <Icons.Cpu />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Opinion Poll and Community Voices */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Poll Module reflecting real economic challenges */}
+              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-2 block">แบบสำรวจความกังวลเชิงลึกของนักลงทุน</span>
+                <h4 className="text-white font-bold text-sm sm:text-base mb-4">
+                  ปัจจัยลบใดของเศรษฐกิจในภูมิภาคอาเซียนที่มีผลต่อทัศนคติการร่วมทุนใน EECiti ของท่านมากที่สุด?
+                </h4>
+                
+                {!pollVoted ? (
+                  <div className="space-y-2">
+                    <button 
+                      onClick={() => handleVote('highlyOptimistic')}
+                      className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium"
+                    >
+                      🛡️ ปัญหาภูมิรัฐศาสตร์ (Geopolitics) และความเปราะบางของพาร์ทเนอร์ฝั่งต่างประเทศ
+                    </button>
+                    <button 
+                      onClick={() => handleVote('moderateWithRisk')}
+                      className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium"
+                    >
+                      ⚠️ ความกังวลเรื่องทักษะแรงงานและการผลิตกำลังคนเฉพาะทางเพื่อป้อนอุตสาหกรรมเป้าหมาย
+                    </button>
+                    <button 
+                      onClick={() => handleVote('criticalConcern')}
+                      className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium"
+                    >
+                      🤝 การผูกเงื่อนไขสัญญาความร่วมมือ PPP และการบริหารต้นทุนจมในช่วงแรกของโครงการ
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs p-3 rounded-xl font-bold text-center">
+                      ✓ ขอบคุณสำหรับข้อมูลลงมติ ความคิดเห็นของกลุ่มตัวอย่างนักวิเคราะห์:
+                    </div>
+                    {/* Dynamic progress computation based on votes */}
+                    {(() => {
+                      const total = pollVotes.highlyOptimistic + pollVotes.moderateWithRisk + pollVotes.criticalConcern;
+                      const pctOpt = Math.round((pollVotes.highlyOptimistic / total) * 100);
+                      const pctMed = Math.round((pollVotes.moderateWithRisk / total) * 100);
+                      const pctCrit = Math.round((pollVotes.criticalConcern / total) * 100);
+                      return (
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-slate-300">ปัญหาภูมิรัฐศาสตร์</span>
+                              <span className="text-slate-400">{pctOpt}% ({pollVotes.highlyOptimistic} โหวต)</span>
+                            </div>
+                            <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                              <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${pctOpt}%` }}></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-slate-300">ความกังวลทักษะแรงงาน</span>
+                              <span className="text-slate-400">{pctMed}% ({pollVotes.moderateWithRisk} โหวต)</span>
+                            </div>
+                            <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                              <div className="bg-blue-500 h-full rounded-full" style={{ width: `${pctMed}%` }}></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-slate-300">การบริหารความคุ้มค่าและสัญญา PPP</span>
+                              <span className="text-slate-400">{pctCrit}% ({pollVotes.criticalConcern} โหวต)</span>
+                            </div>
+                            <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                              <div className="bg-slate-700 h-full rounded-full" style={{ width: `${pctCrit}%` }}></div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+              </div>
+
+              {/* Community Board Module */}
+              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-2 block">กระดานแลกเปลี่ยนประเด็นเศรษฐกิจมหภาค</span>
+                  <h4 className="text-white font-bold text-sm sm:text-base mb-4">แสดงความคิดเห็นอย่างเป็นทางการเพื่อแชร์ข้อมูล</h4>
+                  
+                  <div className="space-y-3 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar mb-4">
+                    {comments.map((cmt) => (
+                      <div key={cmt.id} className="p-2.5 bg-slate-900 rounded-lg border border-slate-800 text-xs">
+                        <div className="flex justify-between mb-1">
+                          <strong className="text-white">{cmt.name}</strong>
+                          <span className="text-slate-500">{cmt.time}</span>
+                        </div>
+                        <span className="text-slate-400 block mb-1 text-[10px]">{cmt.role}</span>
+                        <p className="text-slate-300 leading-normal">{cmt.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <form onSubmit={handleAddComment} className="space-y-2 border-t border-slate-800/60 pt-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="ชื่อและตแหน่งทางวิชาการ..." 
+                      value={newCommentName}
+                      onChange={(e) => setNewCommentName(e.target.value)}
+                      className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-emerald-500 outline-none w-full"
+                      required
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="ความคิดเห็นเชิงวิเคราะห์..." 
+                      value={newCommentText}
+                      onChange={(e) => setNewCommentText(e.target.value)}
+                      className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-emerald-500 outline-none w-full"
+                      required
+                    />
+                  </div>
+                  <button 
+                    type="submit"
+                    className="w-full py-1.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-lg transition-colors"
+                  >
+                    เผยแพร่ความเห็นลงกระดานอ้างอิง
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Sidebar Area (Right 1/3) */}
+          <div className="space-y-8">
+            
+            {/* Real analytical citation card */}
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+              <div className="flex items-center space-x-3 pb-4 border-b border-slate-800">
+                <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-emerald-500 to-blue-500 flex items-center justify-center font-bold text-slate-950">
+                  AI
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm">คณะผู้เชี่ยวชาญเศรษฐศาสตร์</h4>
+                  <span className="text-slate-400 text-xs">สำนักงานวิเคราะห์ผังเมืองและที่ดิน</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                การรวบรวมข้อมูลอ้างอิงจากมติบอร์ดคณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก (กพอ.) ถือเป็นแหล่งอ้างอิงที่เชื่อถือได้สูงสุดในด้านระบบสาธารณูปโภคและระเบียบสิทธิประโยชน์ภาษีอากร
+              </p>
+              <div className="text-xs text-slate-500 space-y-1 font-mono">
+                <div>- เลขที่มติ: กพอ. 5 มิถุนายน 2569</div>
+                <div>- ปล่อยเอกสารข้อตกลง: 3 เมษายน 2569 (UTA)</div>
+              </div>
+            </div>
+
+            {/* Visual Spotlight: Sport Complex SAT */}
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <SafeImage 
+                src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" 
+                alt="Sport Complex SAT Area Chonburi"
+                className="h-44 w-full"
+              />
+              <div className="p-5 space-y-2">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase">Spotlight on Zone 5</span>
+                <h5 className="text-white font-bold text-sm">Sport Complex ความร่วมมือกับ กกท.</h5>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  สปอร์ตคอมเพล็กซ์ขนาดใหญ่บนเนื้อที่ 371 ไร่ที่ได้รับการโอนสิทธิ์สิทธิเช่าและพัฒนาภายใต้การส่งเสริมของการกีฬาแห่งประเทศไทย เป็นหนึ่งในแม่เหล็กทางธุรกิจการท่องเที่ยวและนันทนาการรายได้สูงในอนาคต
+                </p>
+              </div>
+            </div>
+
+            {/* EEC Strategic Timeline Tracker with real milestones */}
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold text-sm mb-4 flex items-center">
+                <span className="text-emerald-400 mr-2"><Icons.Compass /></span>
+                โรดแมปสัญญาร่วมทุนและก่อสร้างจริง
+              </h4>
+              <div className="relative border-l border-slate-800 pl-4 ml-2 space-y-6">
+                <div className="relative">
+                  <div className="absolute -left-[21px] mt-1 h-3.5 w-3.5 rounded-full border-2 border-emerald-500 bg-slate-950"></div>
+                  <span className="text-[10px] text-emerald-400 font-bold block">3 เมษายน พ.ศ. 2569</span>
+                  <span className="text-xs text-white font-semibold block">สลัดเงื่อนไขข้อพิพาทสัญญาร่วมทุน UTA</span>
+                  <span className="text-xs text-slate-400 block leading-snug">เริ่มต้นสัญญาสัมปทานระยะเวลา 50 ปีอย่างเป็นทางการเพื่อเริ่มออกแบบเฟสแรก</span>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[21px] mt-1 h-3.5 w-3.5 rounded-full border-2 border-blue-500 bg-slate-950"></div>
+                  <span className="text-[10px] text-blue-400 font-bold block">ต้นปี พ.ศ. 2570</span>
+                  <span className="text-xs text-white font-semibold block">จัดกิจกรรม Market Sounding ทั่วโลก</span>
+                  <span className="text-xs text-slate-400 block leading-snug">หยั่งเสียงพันธมิตรเอกชนยักษ์ใหญ่ที่สนใจโครงข่าย 10 สาธารณูปโภค</span>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[21px] mt-1 h-3.5 w-3.5 rounded-full border-2 border-purple-500 bg-slate-950"></div>
+                  <span className="text-[10px] text-purple-400 font-bold block">ภายในปี พ.ศ. 2571</span>
+                  <span className="text-xs text-white font-semibold block">เริ่มตอกเสาเข็มงานสาธารณูปโภคหลัก</span>
+                  <span className="text-xs text-slate-400 block leading-snug">เริ่มต้นระบบท่อคอนกรีตรวมสาธารณูปโภคใต้ดิน (Common Utility Tunnel)</span>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[21px] mt-1 h-3.5 w-3.5 rounded-full border-2 border-slate-700 bg-slate-950"></div>
+                  <span className="text-[10px] text-slate-500 font-bold block">พ.ศ. 2580</span>
+                  <span className="text-xs text-white font-semibold block">ก้าวขึ้นเป็นเมืองน่าอยู่อัจฉริยะ 1 ใน 10 ของโลก</span>
+                  <span className="text-xs text-slate-400 block leading-snug">เป้าหมายสูงสุดเพื่อรองรับประชากรทักษะสูงอย่างยั่งยืน</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Callout Section on Regional Competition */}
+            <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 rounded-2xl p-6 shadow-xl space-y-4">
+              <h4 className="text-white font-bold text-sm flex items-center">
+                <span className="p-1 rounded bg-emerald-500/10 text-emerald-400 mr-2">
+                  <Icons.Shield />
+                </span>
+                การแข่งขันในอาเซียนและเสถียรภาพนโยบาย
+              </h4>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                สภาอุตสาหกรรมแห่งประเทศไทย (ส.อ.ท.) มีการประเมินว่าโครงการ EECiti และเขตส่งเสริมการลงทุนเมืองบิน EECa มีความเสี่ยงในการแข่งขันกับเขตเศรษฐกิจพิเศษที่ใช้เทคโนโลยีและคาร์บอนสุทธิเป็นศูนย์ของเวียดนามและมาเลเซีย 
+              </p>
+              <div className="bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                <span className="text-emerald-400 text-xs font-bold block mb-1">ความเห็นผู้เชี่ยวชาญ:</span>
+                <span className="text-[11px] text-slate-400 leading-snug block">
+                  เสถียรภาพทางการเมืองและการประสานนโยบายแบบไร้รอยต่อระหว่างกระทรวงที่เกี่ยวข้องเป็นคีย์หลักในการแปรสภาพรูปเรนเดอร์ให้กลายเป็นผลจริงในทางปฏิบัติ
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* Footer Editorial Takeaways */}
+        <footer className="border-t border-slate-800 mt-16 pt-10 pb-6 text-center md:text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-3">
+              <span className="font-bold text-white text-base block">EEC Visionary Insight</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                บทความและการวิเคราะห์เชิงลึกภายใต้การรวบรวมของทีมนักวิจัยเศรษฐศาสตร์ มุ่งเน้นสร้างความโปร่งใสและสร้างแพลตฟอร์มแบบโต้ตอบข้อมูลให้แก่นักลงทุนต่างชาติ
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              <span className="font-bold text-white text-sm block">สิทธิ์และการอ้างอิงเอกสาร</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                อ้างอิงมติและประกาศจากสำนักงานคณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก (สกพอ.) ข้อมูลอสังหาริมทรัพย์และผังพื้นที่ ส.ป.ก. ได้รับการตรวจสอบความเป็นจริงเชิงสถิติกฎหมายเรียบร้อยแล้ว
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <span className="font-bold text-white text-sm block">วัตถุประสงค์เพื่อสิ่งแวดล้อม</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                การปฏิรูปโครงข่ายพลังงานสะอาด 100% บำบัดน้ำเสียหมุนเวียน 100% และพื้นที่ป่าสีเขียว 30% มุ่งสู่การผลักดันให้ประเทศไทยบรรลุเป้าหมายเมือง Net Zero Carbon สู่เวทีสากล
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-800/60 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-xs">
+            <span>© 2026 EEC Visionary Insight. All rights reserved.</span>
+            <div className="flex space-x-4 mt-4 sm:mt-0">
+              <a href="#" className="hover:text-slate-300 transition-colors">นโยบายความเป็นส่วนตัวของรายงาน</a>
+              <a href="#" className="hover:text-slate-300 transition-colors">เงื่อนไขอ้างอิงข้อมูล</a>
+            </div>
+          </div>
+        </footer>
+
+      </main>
+    </div>
+  );
+}
