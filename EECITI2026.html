@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="th" class="dark">
+<html lang="th" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EECiti Global Hub - Discover Thailand's Smart City of the Future</title>
   
-  <!-- Premium Google Fonts -->
+  <!-- Premium Google Fonts for Luxury Editorial Aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Sarabun:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,19 @@
         extend: {
           fontFamily: {
             sans: ['Sarabun', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
             mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            luxury: {
+              cream: '#F2F6F8',       // Light sea-mist paper background (Oceanic)
+              creamdark: '#E5ECF0',   // Cool foam shade for pages
+              espresso: '#0A1D28',    // Deep ocean navy for text (Replaces espresso)
+              stone: '#4D6575',       // Coastal stone grey-blue for muted text
+              gold: '#1B6A88',        // Rich sea blue / deep teal accent (Replaces gold)
+              goldlight: '#E6F2F7',   // Breezy light sky blue tint
+              border: '#D1DFE5',      // Soft wave-line border
+            }
           }
         }
       }
@@ -31,29 +43,36 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Custom CSS overrides -->
+  <!-- Custom CSS overrides to mimic high-end coastal editorial book pages -->
   <style>
-    /* Custom scrollbar styling for technical UI look */
+    /* Custom scrollbar styling for ocean theme */
     .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #020617;
+      background: #F2F6F8;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 3px;
+      background: #D1DFE5;
+      border-radius: 2px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #334155;
+      background: #1B6A88;
     }
     
     body {
       font-family: 'Sarabun', sans-serif;
+      background-color: #F2F6F8;
+      color: #0A1D28;
+    }
+
+    /* Subtle elegant page shadow representing thick paper edges */
+    .book-page-shadow {
+      box-shadow: 0 4px 20px -2px rgba(10, 29, 40, 0.05), 0 2px 6px -1px rgba(10, 29, 40, 0.03);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-luxury-cream text-luxury-espresso font-sans antialiased">
   
   <div id="root"></div>
 
@@ -61,207 +80,207 @@
   <script type="text/babel">
     const { useState, useMemo } = React;
 
-    // Premium Functional SVG Icons (no external asset dependencies)
+    // Premium Functional SVG Icons designed specifically for oceanic layouts
     const Icons = {
       Building: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       ),
       Cpu: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
         </svg>
       ),
       Shield: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
       TrendingUp: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
         </svg>
       ),
       Users: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       ),
       Zap: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       ),
       Compass: () => (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
         </svg>
       )
     };
 
-    // Safe Image Component with fallback to avoid image load issues
+    // Safe Image Component designed with premium page aesthetics
     function SafeImage({ src, alt, className }) {
       const [error, setError] = useState(false);
       const [loading, setLoading] = useState(true);
 
       return (
-        <div className={`relative overflow-hidden bg-slate-950 ${className}`}>
+        <div className={`relative overflow-hidden bg-luxury-creamdark ${className}`}>
           {loading && !error && (
-            <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
-              <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 flex items-center justify-center bg-luxury-cream">
+              <div className="w-6 h-6 border-2 border-luxury-gold border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
           {!error ? (
             <img
               src={src}
               alt={alt}
-              className={`w-full h-full object-cover transition-transform duration-500 hover:scale-105 ${loading ? 'opacity-0' : 'opacity-100'}`}
+              className={`w-full h-full object-cover grayscale-[15%] contrast-[105%] transition-all duration-700 hover:scale-105 hover:grayscale-0 ${loading ? 'opacity-0' : 'opacity-100'}`}
               onLoad={() => setLoading(false)}
               onError={() => setError(true)}
             />
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 border border-slate-800 p-4 text-center">
-              <svg className="w-12 h-12 text-slate-700 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-luxury-creamdark border border-luxury-border p-4 text-center">
+              <svg className="w-8 h-8 text-luxury-stone mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs text-slate-500">EECiti Concept Representation</span>
+              <span className="text-[11px] uppercase tracking-widest text-luxury-stone">EECiti Concept Representation</span>
             </div>
           )}
         </div>
       );
     }
 
-    // Static Translation Dictionary (Moved outside App for performance and hoisting fix)
+    // Static Translation Dictionary (Bilingual with elegant phrasing)
     const t = {
       th: {
         tagline: "โอกาสตั้งรกรากในเมืองอัจฉริยะแห่งใหม่ของเอเชีย",
-        heroTitle: "ปลดล็อกชีวิตดีๆ ในเมกะเมืองอัจฉริยะ",
+        heroTitle: "สแกนสุนทรียภาพชีวิตดีๆ ในเมกะเมืองอัจฉริยะ",
         heroTitleSpan: "7.2 หมื่นล้าน",
-        heroTitleEnd: "สู่การเป็นพลเมืองของ \"EECiti\" ที่คุณเลือกได้จริง!",
-        heroDesc: "เคยฝันอยากใช้ชีวิตในเมืองแห่งอนาคตที่ไม่เร่งรีบ ปลอดภัย และแวดล้อมด้วยธรรมชาติแสนรื่นรมย์ไหม? มารู้จักกับ EECiti โครงการเมืองใหม่อัจฉริยะน่าอยู่ของไทย บนพื้นที่กว่า 14,990 ไร่ในชลบุรี เมืองสีเขียวที่เพียบพร้อมด้วย 10 โครงข่ายเทคโนโลยีอัจฉริยะ และ 6 ย่านนวัตกรรม เพื่อรองรับคนรุ่นใหม่ ผู้เกษียณอายุ และคนทำงานสร้างสรรค์จากทั่วโลกให้ได้มาตั้งรกรากอย่างมีความสุข",
-        ticker_ppp: "EECiti กรอบงบร่วมทุน PPP โครงสร้างพื้นฐาน: 72,042 ล้านบาท [เห็นชอบแล้ว]",
-        ticker_top10: "ก้าวสู่จุดหมายโลก: ติดอันดับเมืองน่าอยู่อัจฉริยะ 1 ใน 10 ของโลกภายในปี พ.ศ. 2580",
-        ticker_visa: "ย้ายถิ่นฐานแสนง่าย: สิทธิวีซ่าคนต่างชาติพำนักระยะยาวสูงสุดถึง 10 ปี (EEC Visa)",
-        ticker_title: "ชุมชนคนรัก EECiti • 2569",
-        disclaimer: "ประกาศจากชุมชน: แพลตฟอร์มนี้จัดทำขึ้นโดยกลุ่มนักพัฒนาและชุมชนผู้รักอนาคตเพื่อประชาสัมพันธ์ข้อมูลโครงการ EECiti แก่คนทั่วโลก เราไม่มีความเกี่ยวข้องโดยตรงกับสำนักงานคณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก (สกพอ.)",
-        city_smart: "เมืองใหม่อัจฉริยะน่าอยู่",
-        disclaimer_short: "แอปพลิเคชันโดยคอมมูนิตี้",
+        heroTitleEnd: "สู่การเป็นส่วนหนึ่งของครอบครัว \"EECiti\" ที่คุณออกแบบได้จริง",
+        heroDesc: "เคยฝันอยากใช้ชีวิตในย่านที่ปลอดภัย ไร้มลพิษ และแวดล้อมด้วยทิวแถวธรรมชาติธรรมชาติอันรื่นรมย์ไหม? มาร่วมสัมผัส EECiti โครงการเมืองใหม่อัจฉริยะบนพื้นที่ยุทธศาสตร์ 14,990 ไร่ในชลบุรี เมืองที่สรรค์สร้างขึ้นภายใต้ดุลยภาพของความสะดวกสบายล้ำสมัย และสิ่งแวดล้อมสีเขียวอย่างลงตัวที่สุด เพื่อต้อนรับผู้คนรุ่นใหม่ที่มีความฝันและครอบครัวจากทั่วโลก",
+        ticker_ppp: "● กรอบลงทุนร่วมทุนแบบ PPP โครงสร้างพื้นฐาน: 72,042 ล้านบาท",
+        ticker_top10: "● หมุดหมายระดับโลก: สู่เป้าหมายเมืองน่าอยู่อัจฉริยะ 1 ใน 10 ของโลกภายใน พ.ศ. 2580",
+        ticker_visa: "● สิทธิพิเศษพำนัก: ขยายฐานสิทธิ EEC Visa สูงสุดถึง 10 ปีเพื่อการตั้งถิ่นฐาน",
+        ticker_title: "COMMUNITY CAMPAIGN • 2026",
+        disclaimer: "ข้อมูลประชาสัมพันธ์โดยชุมชน: แพลตฟอร์มพอร์ทัลนี้จัดทำขึ้นโดยกลุ่มนักพัฒนาและชุมชนคนรักอนาคตเพื่อแนะนำโครงการ EECiti แก่คนทั่วโลก เราไม่มีส่วนเกี่ยวข้องอย่างเป็นทางการกับสำนักงานเขตพัฒนาพิเศษภาคตะวันออก (สกพอ.)",
+        city_smart: "เมืองอัจฉริยะน่าอยู่เพื่อคนรุ่นใหม่",
+        disclaimer_short: "PORTAL BY COMMUNITY ADMNS",
         
         // Tabs
-        tab_about: "ทำความรู้จัก EECiti",
-        tab_zones: "6 ย่านในฝันของคุณ",
-        tab_infra: "10 นวัตกรรมชีวิตดีๆ",
-        tab_visa: "เรื่องน่ารู้ EEC Visa",
-        tab_matcher: "จับคู่ไลฟ์สไตล์ของคุณ",
+        tab_about: "เรื่องราวของ EECiti",
+        tab_zones: "6 ย่านที่พักอาศัยในฝัน",
+        tab_infra: "10 นวัตกรรมชีวิตคุณภาพ",
+        tab_visa: "สิทธิพำนัก EEC Visa",
+        tab_matcher: "จับคู่ย่านและไลฟ์สไตล์",
 
         // Article
-        art_subtitle: "EECITI OFFICIAL MASTER PLAN",
-        art_title: "วางหมุดหมายระดับสากล: วิเคราะห์ผังเมืองและทิศทางการพัฒนา EECiti",
-        art_p1: "ถ้าคุณเป็นหนึ่งคนที่เริ่มเหนื่อยล้าจากความแออัดของเมืองใหญ่ ฝุ่นควัน และการเดินทางที่ยืดเยื้อ... EECiti กำลังถูกสร้างขึ้นเพื่อเป็น \"คำตอบใหม่ของการอยู่อาศัยแบบมีสมดุล\" บนพื้นที่ชลบุรี-พัทยา ซึ่งได้รับการออกแบบผังเมืองตั้งแต่เริ่มต้นโดยไม่พึ่งพารูปแบบสุ่มเดา [1, 2]",
-        art_p2: "โครงการเมกะโปรเจกต์มูลค่ากว่า 72,042 ล้านบาท นี้ไม่ใช่เรื่องเพ้อฝัน เพราะบอร์ดคณะกรรมการนโยบายเขตพัฒนาพิเศษภาคตะวันออก (กพอ.) ได้อนุมัติกรอบงบประมาณ PPP ร่วมทุนกับบริษัทเทคโนโลยีระดับสากลเรียบร้อยแล้ว เพื่อเริ่มวางฐานรากให้พร้อมเปิดเฟสแรกอย่างเป็นรูปธรรมภายในปี พ.ศ. 2571 [1, 4]",
-        art_green_tag: "NET ZERO EMISSION TOWN",
-        art_green_title: "สัมผัสชีวิตสีเขียวในฝัน ท่ามกลางสังคม Net Zero Carbon",
-        art_green_desc: "ด้วยการออกแบบให้มีพื้นที่สวนสาธารณะสีเขียวครอบคลุมกว่า ร้อยละ 30 ของพื้นที่โครงการทั้งหมด ร่วมกับการวางเครือข่ายรถสาธารณะพลังงานสะอาด 100% บำบัดน้ำเสียหมุนเวียนกลับมาใช้ใหม่ครบวงจร ทำให้คุณได้ใช้ชีวิตที่สงบ ปลอดโปร่ง ปราศจากมลพิษทางอากาศอย่างแท้จริง [2, 5, 19]",
-        art_spec_title: "สรุปข้อกำหนดเชิงยุทธศาสตร์และการจัดรูปที่ดิน",
-        art_spec_1: "การจัดรูปที่ดินและเขตพื้นที่: พื้นที่โครงการทั้งหมดมีขนาด 14,990 ไร่ แบ่งเป็นสัดส่วนที่ดินภายใต้การกำกับของ สกพอ. จำนวน 14,619 ไร่ และพื้นที่ของการกีฬาแห่งประเทศไทย (กกท.) อีกจำนวน 371 ไร่ [2, 8]",
-        art_spec_2: "มาตรการรักษาสภาพแวดล้อมริมน้ำ: สกพอ. ได้ปรับลดสัดส่วนพื้นที่เข้าใช้ประโยชน์ที่ดิน ส.ป.ก. จากเดิม 14,619 ไร่ เหลือ 14,586 ไร่ เพื่อรักษาเขตกันชนสีเขียว (Buffer Strip) และสภาพความหลากหลายทางชีวภาพริมน้ำ [2, 4]",
-        art_spec_3: "กระบวนการคัดเลือกผู้ร่วมทุน: เตรียมเริ่มต้นจัดกิจกรรมทดสอบความสนใจของภาคเอกชน (Market Sounding) ทั่วโลกในช่วงต้นปี พ.ศ. 2570 และคาดว่าจะประกาศผู้ร่วมทุนเพื่อตอกเสาเข็มเริ่มงานก่อสร้างได้ภายในปี พ.ศ. 2571 [4]",
+        art_subtitle: "EECITI MASTER PLAN ESSAY",
+        art_title: "บทความวิเคราะห์: การจัดผังเมืองน่าอยู่อัจฉริยะและทิศทางอนาคตใหม่ของชลบุรี",
+        art_p1: "ในท่ามกลางความแออัดของสังคมเมืองใหญ่ในอดีต ตลอดจนความท้าทายจากมลภาวะ PM2.5 ที่ทวีความรุนแรงมากขึ้น... โครงการ EECiti จึงเปรียบเสมือน \"แนวคิดการสร้างเมืองทางเลือกใหม่\" ที่รังสรรค์ขึ้นจากความมุ่งมั่นที่จะนำความก้าวหน้าทางนวัตกรรมมาสอดรับเข้ากับสุนทรียภาพแห่งชีวิตที่ร่มรื่นในชลบุรี-พัทยา [1, 2]",
+        art_p2: "โครงการที่ได้รับการปักผืนแผ่นดินกว่า 14,990 ไร่นี้ ได้ผ่านกระบวนการเห็นชอบงบประมาณจัดสรรในแผนร่วมพัฒนาแบบ PPP วงเงินรวม 72,042 ล้านบาท เรียบร้อยแล้ว ซึ่งจะเป็นการเปิดทางนำพาผู้เชี่ยวชาญ คลัสเตอร์วิชาการ และกำลังร่วมทุนเอกชนต่างชาติเพื่อเริ่มตอกเสาเข็มวางโครงข่ายหลักจริงในปี พ.ศ. 2571 [1, 4]",
+        art_green_tag: "ECO-FRIENDLY BLUEPRINT",
+        art_green_title: "การจัดผังและพื้นที่สีเขียวเพื่อสุขภาวะอันเป็นเลิศ",
+        art_green_desc: "เมืองใหม่ได้รับการออกแบบอย่างแยบยลเพื่อรักษาสัดส่วนพื้นที่ป่าไม้ สวนพักผ่อนสาธารณะ และโครงข่ายสายน้ำส่วนกลางรวมไม่น้อยกว่าร้อยละ 30 ของพื้นที่เมืองทั้งหมด ประกอบเข้ากับโครงข่ายพลังงานสะอาดและการหมุนเวียนน้ำเสีย 100% เพื่อมุ่งหน้าสู่การเป็นสังคมสีเขียว Net Zero Carbon ที่ยั่งยืนและไร้มลพิษ [2, 5, 19]",
+        art_spec_title: "รายละเอียดเชิงพื้นที่และข้อมูลประชากร",
+        art_spec_1: "การรักษาสิ่งแวดล้อมริมน้ำ: มีการตัดสินใจครั้งประณีตในการปรับลดพื้นที่เข้าปฏิรูปที่ดินจาก ส.ป.ก. จากเดิม 14,619 ไร่ เหลือเพียง 14,586 ไร่ เพื่อทำแนวป่ากันชนธรรมชาติริมน้ำ (Biological Buffer Belt) [2, 4]",
+        art_spec_2: "การบูรณาการสันทนาการ: การกีฬาแห่งประเทศไทย (กกท.) ร่วมเป็นเจ้าภาพจัดสรรพื้นที่ 371 ไร่ พัฒนาเป็นศูนย์กีฬา สวนนันทนาการ และพื้นที่แข่งขันมาตรฐานสากล (Sport Complex) [2, 8]",
+        art_spec_3: "แผนงานส่งมอบพื้นที่: สกพอ. วางแผนจัดกิจกรรมหยั่งเสียง Market Sounding แก่นักธุรกิจต่างชาติในต้นปี 2570 และพร้อมส่งมอบพื้นที่พร้อมใช้งานส่วนแรกรวม 5,795 ไร่ ทันทีที่กระบวนการร่วมทุนเสร็จสมบูรณ์ [4]",
         
         // Checklist
-        chk_title: "✓ ตรวจสอบสถานะการดำเนินงานของข้อเสนอแนะเชิงนโยบาย (คลิกเพื่อเช็คลิสต์):",
-        chk_1_t: "1. รายงานผลประโยชน์ กกท.",
-        chk_1_d: "จัดทำรายงานร่วมทุน PPP บนพื้นที่สีเขียวส่วนกลาง 371 ไร่ สำหรับโครงการศูนย์กีฬา Sport Complex นานาชาติ",
-        chk_2_t: "2. เปิดระบบ Single Window",
-        chk_2_d: "บูรณาการ ตม. และ สกพอ. เพื่อเปิดรายงานตัวออนไลน์ 100% อำนวยความสะดวกบุคลากรทักษะสูง",
-        chk_3_t: "3. เกณฑ์รีไซเคิลน้ำ 100%",
-        chk_3_d: "บังคับใช้ตัววัดสิ่งแวดล้อมที่เคร่งครัดในทีโออาร์คัดเลือกเอกชนสำหรับสัมปทาน 10 ระบบสาธารณูปโภค",
+        chk_title: "✓ สแกนความคืบหน้ามาตรการจัดผังชุมชนจำลอง (คลิกเลือกเช็คลิสต์):",
+        chk_1_t: "1. จัดทำแผนการปันประโยชน์",
+        chk_1_d: "ร่างแผนความเหมาะสมของศูนย์กีฬาร่วมกับ กกท. บนพื้นที่ปอดของเมือง 371 ไร่",
+        chk_2_t: "2. วางโครงข่ายแจ้งออนไลน์",
+        chk_2_d: "ทดสอบแพลตฟอร์มแจ้งพำนักออนไลน์ 100% สำหรับผู้ถือครอง EEC Visa",
+        chk_3_t: "3. ตัวชี้วัดมาตรฐานความยั่งยืน",
+        chk_3_d: "กำหนดเงื่อนไขรีไซเคิลน้ำ 100% ลงในทีโออาร์ผู้ขอสัมปทานสาธารณูปโภค",
 
         // Map & Zones
-        map_title: "ผังเชิงพื้นที่จำลองโครงสร้างยุทธศาสตร์ EECiti",
-        map_desc: "*คลิกบนพื้นที่โหนดเพื่อวิเคราะห์การใช้ประโยชน์ที่ดินในคลัสเตอร์นั้น ๆ ทันที",
-        zones_title: "6 ย่านในฝันเพื่อรองรับไลฟ์สไตล์ที่หลากหลาย",
-        zones_desc: "ไม่ว่าคุณจะเป็นโปรแกรมเมอร์รักอิสระ ครอบครัวรุ่นใหม่ที่มีลูกเล็ก หรือวัยเกษียณที่ห่วงใยสุขภาพ EECiti ได้มีการวางโซนนิ่งเพื่อรองรับการอยู่อาศัยที่ปลอดภัยและมีความสุขในทุกตารางเมตร [2, 4, 8]",
-        zones_map_title: "ผังยุทธศาสตร์ 6 คลัสเตอร์ธุรกิจเป้าหมาย (6 Clusters Map)",
-        zones_tag_sat: "พื้นที่ใกล้หาดชลบุรี",
-        zones_tag_walk: "ระบบผังเมืองเดินได้ 15 นาที",
-        zones_key_point: "จุดน่าสนใจในพื้นที่:",
+        map_title: "ผังจำลองเชิงสุนทรียภาพของ EECiti Node",
+        map_desc: "*คลิกที่จุดวงกลมเพื่อเข้าเยี่ยมชมและวิเคราะห์ลักษณะเฉพาะของแต่ละย่านที่ดินที่คุณพึงใจได้ทันที",
+        zones_title: "6 ย่านพักอาศัยและสังคมแห่งสุนทรียภาพแห่งชีวิต",
+        zones_desc: "เพื่อสอดรับกับความชอบที่แตกต่างของครอบครัวและคนรุ่นใหม่ การจัดผังเมืองจึงแบ่งโครงสร้างตามคุณลักษณะวิถีชีวิตอย่างชัดเจน มอบพื้นที่ที่ปลอดภัยและสมบูรณ์แบบในทุกเวลาพักผ่อน [2, 4, 8]",
+        zones_map_title: "ผังจัดสรรพื้นที่ 6 ย่านอัจฉริยะแห่งอนาคต (6 Clusters)",
+        zones_tag_sat: "ทำเลใกล้โซนธรรมชาติริมน้ำ",
+        zones_tag_walk: "ผังเมืองเพื่อคนเดินและจักรยาน 15 นาที",
+        zones_key_point: "สิ่งอำนวยความสะดวกในย่าน:",
 
         // 10 Systems
-        sys_title: "10 นวัตกรรมอัจฉริยะที่ทำให้ชีวิตน่าอยู่และเป็นสุข",
-        sys_desc: "ลืมภาพเสาไฟรกสายตาและระบบขุดเจาะถนนที่น่ารำคาญใจไปได้เลย เพราะ EECiti มีการปฏิวัติระบบโครงข่ายสาธารณูปโภคทั้งหมดลงไว้ใต้อุโมงค์คอนกรีตขนาดใหญ่ที่ปลอดภัย [5, 7]",
-        sys_img_tag: "นวัตกรรมเมือง 10 ด้าน",
-        sys_img_title: "การวางผังโครงสร้างพื้นฐานเพื่อชีวิตที่ดีขึ้น",
-        sys_img_desc: "แผนภาพแสดงเส้นใยของอุโมงค์สาธารณูปโภคส่วนกลาง (Common Utility Tunnel) แหล่งควบคุมกระแสไฟฟ้าสะอาด ระบบประปา และสายสื่อสารที่ปลอดภัยที่สุดใต้ฝ่าเท้าของคุณ [5, 7]",
-        sys_metric_label: "ระดับยกระดับคุณภาพชีวิต (Quality-of-Life Score):",
+        sys_title: "10 นวัตกรรมส่วนกลางที่ยกระดับความสุขในวันธรรมดา",
+        sys_desc: "สัมผัสเมืองไร้เสาไฟฟ้าและสายระโยงระยางด้วยการวางระบบท่อคอนกรีตร้อยสาธารณูปโภคใต้ดิน Common Utility Tunnel ทั้งหมด ให้ทัศนียภาพของเมืองเปิดรับแสงแดดและสายลมบริสุทธิ์อย่างน่าหลงใหล [5, 7]",
+        sys_img_tag: "10 SMART INFRASTRUCTURES",
+        sys_img_title: "ผังโครงสร้างพื้นฐานเพื่อสุขภาวะที่ดีขึ้น",
+        sys_img_desc: "ภาพร่างแสดงอุโมงค์ส่วนกลางใต้ดินที่ควบคุมการส่งกระแสไฟฟ้าสะอาด ระบบกรองน้ำอัจฉริยะ และสายสื่อสารที่ปลอดภัยที่สุดใต้ทางคนเดิน [5, 7]",
+        sys_metric_label: "ดัชนียกระดับคุณภาพชีวิต (Quality-of-Life Score):",
 
         // Visa
-        visa_title: "สิทธิ์พิเศษ EEC Visa: พรมแดงสู่การย้ายประเทศมายังไทย",
-        visa_desc: "สำหรับเพื่อนๆ ชาวต่างชาติหรือผู้เชี่ยวชาญจากทุกมุมโลก การย้ายถิ่นฐานมายังประเทศไทยจะสะดวกสบายยิ่งขึ้นด้วยโครงสร้างสิทธิ์วีซ่าใหม่พำนักระยะยาวสูงสุดถึง 10 ปี โดยไม่ต้องเผชิญระบบงานเอกสารที่ซ้ำซ้อน [15, 17]",
-        visa_form_prof: "เลือกสายงานหรือกลุ่มทักษะของคุณ:",
-        visa_form_role: "ตำแหน่งหรือเป้าหมายหลัก:",
-        visa_rec_label: "ประเภทวีซ่าที่เราแนะนำสำหรับคุณ:",
-        visa_benefit_title: "สิทธิพิเศษที่คุณจะได้รับเพื่อการย้ายเข้ามาอยู่อาศัย:",
+        visa_title: "สิทธิพิเศษ EEC Visa: พรมแดงสู่การพำนักและใช้ชีวิตระยะยาว",
+        visa_desc: "เพื่อให้การตัดสินใจโยกย้ายเข้ามาใช้ชีวิตในประเทศไทยเป็นเรื่องง่ายและสะดวกโยบาย EEC Visa สำหรับบุคลากรสร้างสรรค์และครอบครัวต่างชาติจึงถูกดีไซน์ขึ้นเพื่อขจัดทุกความกังวล [15, 17]",
+        visa_form_prof: "โปรดระบุกลุ่มสายงานหรือเป้าหมายของคุณ:",
+        visa_form_role: "บทบาทหน้าที่ในการทำงานปัจจุบัน:",
+        visa_rec_label: "สิทธิวีซ่าที่เราประเมินสำหรับคุณ:",
+        visa_benefit_title: "สิทธิพิเศษในการพำนักและสิ่งอำนวยความสะดวกที่จะได้รับ:",
 
         // Matcher
-        match_title: "เครื่องมือค้นหาย่านและวิถีชีวิตในฝันของคุณ (EECiti Lifestyle Matcher)",
-        match_desc: "ทดลองเลือกสไตล์และเป้าหมายชีวิตที่คุณต้องการ แล้วให้ระบบคำนวณและประเมินว่าย่านไหนใน EECiti ที่ตอบโจทย์การย้ายถิ่นฐานของคุณมากที่สุด!",
-        match_q1: "1. เป้าหมายหลักในการย้ายมายัง EECiti ของคุณ:",
-        match_q2: "2. บรรยากาศแวดล้อมที่ชื่นชอบ:",
-        match_q3: "3. ย้ายมาอยู่อาศัยเป็นครอบครัวหรือไม่:",
-        match_family_y: "ใช่ ย้ายมาเป็นครอบครัว (มีบุตร/คู่สมรส)",
-        match_family_n: "ย้ายมาคนเดียว/รักอิสระ",
-        match_res_tag: "ผลการวิเคราะห์ย่านที่เหมาะสมที่สุดสำหรับคุณ:",
-        match_score_label: "ดัชนีคะแนนความพึงพอใจการอยู่อาศัย:",
-        match_btn_go: "สำรวจย่านนี้ในฝัน",
+        match_title: "โปรแกรมจับคู่ย่านและไลฟ์สไตล์ (EECiti Matcher)",
+        match_desc: "เพื่อช่วยให้การโยกย้ายเป็นเรื่องสนุกและตรงใจ ทดลองตอบคำถามไลฟ์สไตล์สั้นๆ 3 ข้อ แล้วระบบปัญญาประดิษฐ์ของเราจะค้นหาย่านที่อยู่อาศัยที่แมตช์กับคุณที่สุดทันที!",
+        match_q1: "1. เป้าหมายสูงสุดในการมาอยู่อาศัยที่ EECiti ของคุณคืออะไร?",
+        match_q2: "2. สภาพแวดล้อมและบรรยากาศแวดล้อมที่ทำให้ใจคุณเป็นสุขที่สุด?",
+        match_q3: "3. คุณมีแผนที่จะย้ายเข้ามาใช้ชีวิตพร้อมครอบครัว/มีบุตรหรือไม่?",
+        match_family_y: "ใช่ ย้ายมาพร้อมครอบครัวและมีบุตรเล็ก",
+        match_family_n: "ย้ายมาคนเดียว / รักวิถีชีวิตอิสระ",
+        match_res_tag: "ย่านที่อยู่อาศัยในฝันที่เราแนะนำสำหรับคุณคือ:",
+        match_score_label: "คะแนนดัชนีความสอดคล้องไลฟ์สไตล์ (Match Score):",
+        match_btn_go: "เจาะลึกย่านนี้เพิ่มเติม",
 
         // Poll
-        poll_tag: "แบบสำรวจความคิดเห็นของชุมชน",
-        poll_q: "หาก EECiti สร้างเสร็จจริง คุณและคนในครอบครัวมีความคิดที่จะพิจารณาย้ายถิ่นฐานมาอยู่อาศัยที่นี่หรือไม่?",
-        poll_opt_1: "👍 แน่นอนที่สุด! อยากสัมผัสเมืองสีเขียวและใช้ชีวิตท่ามกลางสิ่งแวดล้อมที่ปลอดภัย",
-        poll_opt_2: "😐 พิจารณาดูก่อน โดยรอดูนวัตกรรม สภาพสังคม และโรงเรียนของลูกในย่าน Zone 3",
-        poll_opt_3: "🏘️ ชอบและคุ้นเคยกับไลฟ์สไตล์พัทยา-บางละมุงปัจจุบัน แต่อยากเข้ามาพักผ่อนหรือขี่จักรยานในสวน 15 นาที",
-        poll_voted_title: "✓ บันทึกการลงความเห็นร่วมกับชุมชนคนรักเมืองอัจฉริยะ EECiti:",
-        poll_chart_1: "ตั้งใจย้ายมาอยู่อาศัยแน่นอน",
-        poll_chart_2: "รอดูนวัตกรรมและโรงเรียนก่อน",
-        poll_chart_3: "ชอบมาพักผ่อนแต่พักเดิม",
+        poll_tag: "แบบสำรวจเพื่อการสื่อสารสาธารณะ",
+        poll_q: "หากการสร้างเมือง EECiti บรรลุตามแผนงาน คุณคิดว่าอยากจะย้ายถิ่นฐานมาพักอาศัยและร่วมเป็นพลเมืองใหม่ที่นี่หรือไม่?",
+        poll_opt_1: "👍 แน่นอนที่สุด! อยากใช้ชีวิตในสภาพแวดล้อมที่บริสุทธิ์และปลอดภัยเพื่อคุณภาพชีวิตที่ดี",
+        poll_opt_2: "😐 ขอพิจารณาดูระยะสั้น รอดูกลุ่มสถาบันนานาชาติและระบบดูแลสุขภาพก่อน",
+        poll_opt_3: "🏘️ อยากเดินทางมาพักผ่อน ทำกิจกรรมขี่จักรยานในวันหยุด แต่อยากคงที่อยู่อาศัยเดิม",
+        poll_voted_title: "✓ ขอบคุณที่แชร์ทัศนคติกับคอมมูนิตี้คนรักอนาคต สัดส่วนความเห็นขณะนี้:",
+        poll_chart_1: "ตั้งใจย้ายถิ่นฐานมาแน่นอน",
+        poll_chart_2: "รอประเมินระบบการศึกษา/เทคโนโลยี",
+        poll_chart_3: "ชอบแวะมาท่องเที่ยวในวันหยุดสุดสัปดาห์",
 
         // Club Form
         club_title: "EECiti Global Citizen Club",
-        club_subtitle: "เข้าร่วมคลับคนรักเมืองใหม่และรับข่าวสารการย้ายถิ่นฐาน",
-        club_doc_label: "เอกสารแนะนำสำหรับผู้ประสงค์ย้ายเข้า:",
-        club_doc_1: "📁 คู่มือที่อยู่อาศัยน่าอยู่ EECiti 2026.pdf",
-        club_doc_2: "📁 แนวทางการขอสิทธิพำนัก EEC Visa.pdf",
+        club_subtitle: "ลงทะเบียนสมาชิกคลับคนรักอนาคตเพื่อรับคู่มือและนัดหมายย้ายถิ่นฐาน",
+        club_doc_label: "ดาวน์โหลดเอกสารและคู่มืออย่างเป็นทางการของชุมชน:",
+        club_doc_1: "📁 สมุดผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf",
+        club_doc_2: "📁 แนวทางเตรียมความพร้อมการขอสิทธิพำนัก EEC Visa.pdf",
         club_form_name: "ระบุชื่อ-สกุลของคุณ...",
-        club_form_country: "ประเทศบ้านเกิดปัจจุบัน...",
-        club_form_email: "อีเมลติดต่อประสานงาน...",
-        club_form_cluster: "เลือกย่านที่สนใจย้ายเข้า...",
-        club_btn_submit: "📩 ลงทะเบียนรับข่าวอสังหาริมทรัพย์และนัดหมายย้ายถิ่น",
-        club_success_title: "✓ ลงทะเบียนและสร้างรหัสสมาชิกสำเร็จ!",
-        club_success_desc: "ยินดีต้อนรับคุณ เข้าเป็นส่วนหนึ่งของครอบครัวพลเมืองในอนาคต! ระบบได้บันทึกความประสงค์ที่จะย้ายมายังของคุณเรียบร้อยแล้ว คณะแอดมินชุมชนจะคอยจัดส่งความคืบหน้าการสร้างย่าน ยื่นเอกสาร EEC Visa และข่าวสารตลาดบ้านและอสังหาพัทยา-ชลบุรีให้ทางอีเมลติดต่อเป็นระยะค่ะ",
-        club_card_pioneer: "EECiti Digital Pioneer Card:",
-        club_card_reset: "กลับไปหน้าลงทะเบียน",
+        club_form_country: "ประเทศที่คุณพำนักปัจจุบัน...",
+        club_form_email: "อีเมลติดต่อรับเอกสารสำคัญ...",
+        club_form_cluster: "เลือกคลัสเตอร์ที่อยากโยกย้ายเข้า...",
+        club_btn_submit: "📩 ยืนยันสิทธิ์ร่วมคลับ & รับจดหมายข่าวอสังหาพรีเมียม",
+        club_success_title: "✓ ยินดีต้อนรับสู่พลเมืองผู้บุกเบิกแห่ง EECiti!",
+        club_success_desc: "ระบบบันทึกความจำนงของคุณเป็นที่เรียบร้อย คณะผู้บุกเบิกแอดมินคอมมูนิตี้จะจัดส่งชุดข้อมูลอสังหา สแกนความคืบหน้าก่อสร้างย่าน และสิทธิประโยชน์ของ EEC Visa ไปให้ศึกษาเพิ่มเติมทางอีเมล และสลักบัตรสมาชิกประเภทผู้บุกเบิกให้ท่านตามรายละเอียดด้านล่างค่ะ",
+        club_card_pioneer: "EECiti Digital Pioneer Pass",
+        club_card_reset: "ยื่นคำขอร่วมคลับเพิ่มเติม",
 
         // Sidebar
-        side_admin_title: "แกนนำแอดมินชุมชนรักอนาคต",
-        side_admin_desc: "พวกเราคือกลุ่มคนรุ่นใหม่ในพัทยาและชลบุรี ที่ชื่นชอบในสถาปัตยกรรมสีเขียวและเทคโนโลยีเมืองอัจฉริยะ เป้าหมายสูงสุดของเพจนี้คือการพาทุกคนไปสัมผัสถึงความน่าอยู่อัศจรรย์ของ EECiti เพื่อกระตุ้นให้เกิดชุมชนคุณภาพและครอบครัวนานาชาติที่พร้อมจะย้ายถิ่นฐานมาเติบโตไปด้วยกันในอนาคตอันใกล้!",
-        side_spot_tag: "Spotlight on Zone 5",
-        side_spot_title: "Sport Complex สันทนาการระดับโลก",
-        side_spot_desc: "ย่านนันทนาการและสนามกีฬาขนาดใหญ่ 371 ไร่ของการกีฬาแห่งประเทศไทย พรั่งพร้อมด้วยสนามเด็กเล่น แหล่งจัดคอนเสิร์ต และพื้นที่ปั่นจักรยานกลางร่มไม้ เป็นอีกจุดหมายพักผ่อนที่อยู่ถัดไปไม่กี่นาทีจากบ้านคุณ!",
-        side_time_title: "📅 คาดการณ์ไทม์ไลน์ความเคลื่อนไหว EECiti",
-        side_time_1_t: "ปี พ.ศ. 2569 (ปัจจุบัน)",
-        side_time_1_d: "ประกาศผ่านหลักการและผังเมือง: บอร์ด กพอ. อนุมัติงบ และจัดสัดส่วนพื้นที่ริมน้ำ 14,586 ไร่เพื่อความยั่งยืน",
-        side_time_2_t: "ปี พ.ศ. 2570",
-        side_time_2_d: "เริ่ม Market Sounding คัดสรรกลุ่มสร้างเมือง: เปิดระดมทุนในอุโมงค์และสาธารณูปโภค 10 ระบบร่วมกับเอกชนนานาชาติ",
-        side_time_3_t: "ปี พ.ศ. 2571",
-        side_time_3_d: "เริ่มกระบวนการตอกเสาเข็มงานโยธาหลัก: เริ่มต้นการขุดเจาะท่อร้อยสายใต้ดินและโครงสร้างพื้นฐาน 10 ด้าน",
+        side_admin_title: "กลุ่มผู้บุกเบิกชุมชนรักอนาคต",
+        side_admin_desc: "พวกเราคือกลุ่มนักคิด นักสถาปัตยกรรม และคนรุ่นใหม่ในพัทยาที่หลงใหลในศิลปะผังเมืองสีเขียว เพจนี้มีจุดประสงค์เดียวเพื่อเป็นสื่อกลางสื่อสารให้แก่คนธรรมดา และกระตุ้นเตือนให้ทุกคนได้เห็นสิทธิพิเศษของระบบนิเวศการอยู่ร่วมกันแบบ Net Zero ในเมืองหลวงใหม่ EECiti นี้ เพื่อผลักดันให้ทุกคนพร้อมก้าวออกไปใช้ชีวิตที่งดงามขึ้น",
+        side_spot_tag: "Spotlight on SAT",
+        side_spot_title: "สปอร์ตคอมเพล็กซ์เพื่อกิจกรรมสุดแอคทีฟ",
+        side_spot_desc: "พื้นที่รวมสันทนาการ สปอร์ตคอมเพล็กซ์ และสนามแข่ง 371 ไร่ ของการกีฬาแห่งประเทศไทย จะตั้งตระหง่านใกล้กับแนวป่ากันชนริมน้ำเพื่อเป็นย่านท่องเที่ยวและสันทนาการขนาดใหญ่ที่ห่างจากย่านที่อยู่อาศัยอัจฉริยะของคุณเพียงไม่กี่ก้าวเท่านั้น",
+        side_time_title: "📅 คาดการณ์โรดแมปการเติบโตของเมือง",
+        side_time_1_t: "พ.ศ. 2569 (ปีปัจจุบัน)",
+        side_time_1_d: "เห็นชอบกรอบและผังที่ดิน: ปรับสัดส่วนใช้สิทธิ์ผืนป่าริมน้ำ ส.ป.ก. 14,586 ไร่ เพื่อความยั่งยืน",
+        side_time_2_t: "พ.ศ. 2570",
+        side_time_2_d: "เริ่มต้นทดสอบความสนใจ Market Sounding ทั่วโลก และจับคู่ผู้ร่วมทุนรายแรก",
+        side_time_3_t: "พ.ศ. 2571",
+        side_time_3_d: "เริ่มต้นตอกเสาเข็มงานโยธาส่วนกลางและขุดเจาะท่อร้อยใต้อุโมงค์ (CUT) ก้อนแรก",
 
         // Footer
-        foot_desc: "แพลตฟอร์มเผยแพร่ข่าวสารและเรื่องราวนวัตกรรมความน่าอยู่ของเมืองใหม่ เพื่อสร้างความตระหนักรู้และช่วยสร้างเครือข่ายสำหรับนักศึกษาและพลเมืองนานาชาติผู้สนใจย้ายเข้าพำนักในไทย",
-        foot_rights: "ข้อมูลทั้งหมดรวบรวมและวิเคราะห์จากเอกสารรายงานกรอบนโยบาย PPP สกพอ. และมติกพอ. ล่าสุด มิได้จัดทำขึ้นเพื่อกิจกรรมแอบแฝงทางการค้าหรือแสวงหากำไรใดๆ",
-        foot_green: "ระบบบำบัดน้ำเสีย 100% การจัดการขยะ Zero Waste และพื้นที่ธรรมชาติจัดเต็มคือแก่นกลางความน่ารักของเมืองสีเขียวที่เราอยากโปรโมทให้โลกได้เห็น!",
-        foot_privacy: "นโยบายความเป็นส่วนตัวของกลุ่มแอดมิน",
-        foot_terms: "เงื่อนไขและการแชร์ข้อมูลอ้างอิง"
+        foot_desc: "พื้นที่สื่อสารสาธารณะโดยชุมชนคนรักเมืองอัจฉริยะ เพื่อประชาสัมพันธ์วิถีชีวิตคาร์บอนต่ำและการอยู่อาศัยที่สงบสุข ปลอดภัยในอนาคตของจังหวัดชลบุรี",
+        foot_rights: "ข้อมูลทั้งหมดวิเคราะห์และรวบรวมมาจาก ร่างผังพื้นที่ใช้ที่ดิน และมติกรอบร่วมทุนเอกชนแบบ PPP ตลอดจนเกณฑ์ประเมินความสอดคล้องวีซ่าของ สกพอ. ปี 2569 ใช้เพื่อโปรโมตเท่านั้น",
+        foot_green: "การใช้พลังงานหมุนเวียน 100% สัดส่วนพื้นที่ป่าไม้และสีเขียว 30% และเกณฑ์รีไซเคิลน้ำ 100% คือเป้าหมายสูงสุดแห่งความสุขที่เราต้องการส่งต่อสู่คนทั่วโลก",
+        foot_privacy: "นโยบายคุ้มครองส่วนบุคคลผู้ใช้",
+        foot_terms: "ข้อกำหนดและกฎหมายอ้างอิงของระบบ"
       },
       en: {
         tagline: "Relocate to Asia's Premier Eco-Smart City Node",
@@ -292,6 +311,7 @@
         art_green_tag: "NET ZERO EMISSION TOWN",
         art_green_title: "Breathe Easy in a Net Zero Carbon Community",
         art_green_desc: "By allocating over 30% of total land to green forests and community parks, and using 100% clean-energy electric transits alongside closed-loop biological water recycling, EECiti allows you and your loved ones to enjoy a pristine, PM2.5-safe living environment. [2, 5, 19]",
+        art_subtitle_spec: "Key Spatial and Zoning Specifications",
         art_spec_title: "Key Spatial and Zoning Specifications",
         art_spec_1: "Land Allocation: The city spans 14,990 rai total. 14,619 rai is managed by the EECO, and a 371-rai prime plot is allocated to the Sports Authority of Thailand (SAT) for a world-class Sports Complex. [2, 8]",
         art_spec_2: "River Buffer Boundary: In compliance with strict environmental reviews, the industrial land use boundary was refined from 14,619 rai to 14,586 rai to establish a dedicated, protected riparian green belt. [2, 4]",
@@ -394,7 +414,7 @@
       }
     };
 
-    // Static Zones Data (Moved outside App to avoid ReferenceError & Hoisting issues)
+    // Static Zones Data (Hoisted outside to prevent ReferenceError & Hoisting issues)
     const zones = [
       {
         id: 1,
@@ -603,6 +623,10 @@
       const [inquirySubmitted, setInquirySubmitted] = useState(false);
       const [trackingId, setTrackingId] = useState('');
 
+      // Premium Custom In-App Modal States (Replaces alert)
+      const [modalOpen, setModalOpen] = useState(false);
+      const [modalContent, setModalContent] = useState('');
+
       // Multi-language data for Zones 
       const zones_localized = useMemo(() => {
         return zones.map(z => {
@@ -646,40 +670,40 @@
       // Relocation & Dream Lifestyle Matcher Algorithm
       const lifestyleMatch = useMemo(() => {
         let recommendedZoneId = 6; // Default to Zone 6 (Mixed use)
-        let matchedVibe = "เมืองสีเขียวและครอบครัว";
-        let quote = "ชีวิตที่สมบูรณ์แบบคือความสุขในทุกก้าวเดิน";
+        let matchedVibe = lang === 'th' ? "เมืองสีเขียวและครอบครัว" : "Eco-Living & Family";
+        let quote = lang === 'th' ? "ชีวิตที่สมบูรณ์แบบคือความสุขในทุกก้าวเดิน" : "Perfect living is joy in every step";
 
         if (userGoal === 'work') {
           if (preferredVibe === 'high-tech') {
             recommendedZoneId = 1;
-            matchedVibe = "ย่านสำนักงานใหญ่แห่งอนาคต (CBD)";
-            quote = "ทำงานร่วมกับหัวกะทิดิจิทัลในย่านที่มีพลังเทคโนโลยีขับเคลื่อนตลอดเวลา!";
+            matchedVibe = lang === 'th' ? "ย่านสำนักงานใหญ่แห่งอนาคต (CBD)" : "Regional Headquarter (CBD)";
+            quote = lang === 'th' ? "ทำงานร่วมกับหัวกะทิดิจิทัลในย่านที่มีพลังเทคโนโลยีขับเคลื่อนตลอดเวลา!" : "Collaborate with tech minds in a district powered by infinite digital energy!";
           } else {
             recommendedZoneId = 4;
-            matchedVibe = "ย่านเศรษฐกิจสีเขียว (BCG Hub)";
-            quote = "ปลดปล่อยไอเดียรักษ์โลก สร้างนวัตกรรมใหม่ในย่านคาร์บอนต่ำแสนร่มรื่น";
+            matchedVibe = lang === 'th' ? "ย่านเศรษฐกิจสีเขียว (BCG Hub)" : "Green Bio-Circular Hub (BCG)";
+            quote = lang === 'th' ? "ปลดปล่อยไอเดียรักษ์โลก สร้างนวัตกรรมใหม่ในย่านคาร์บอนต่ำแสนร่มรื่น" : "Unleash green concepts and build low-carbon technologies in a peaceful retreat.";
           }
         } else if (userGoal === 'study') {
           recommendedZoneId = 3;
-          matchedVibe = "ย่านการศึกษานานาชาติ (Academy & Creative Lab)";
-          quote = "เรียนรู้ทักษะเปลี่ยนโลก แวดล้อมด้วยเพื่อนฝูงนานาชาติและความคิดสร้างสรรค์";
+          matchedVibe = lang === 'th' ? "ย่านการศึกษานานาชาติ (Academy & Creative Lab)" : "International Education District";
+          quote = lang === 'th' ? "เรียนรู้ทักษะเปลี่ยนโลก แวดล้อมด้วยเพื่อนฝูงนานาชาติและความคิดสร้างสรรค์" : "Absorb world-changing skills surrounded by dynamic minds and premium labs.";
         } else if (userGoal === 'retire' || userGoal === 'health') {
           recommendedZoneId = 2;
-          matchedVibe = "ย่านดูแลสุขภาพแม่นยำ (Precision Medicine)";
-          quote = "ฟื้นฟูสุขภาพร่างกายและจิตใจในย่านการแพทย์ชั้นยอด รายล้อมด้วยธรรมชาติร่มรื่น";
+          matchedVibe = lang === 'th' ? "ย่านดูแลสุขภาพแม่นยำ (Precision Medicine)" : "Precision Health & Wellness District";
+          quote = lang === 'th' ? "ฟื้นฟูสุขภาพร่างกายและจิตใจในย่านการแพทย์ชั้นยอด รายล้อมด้วยธรรมชาติร่มรื่น" : "Rejuvenate mind and body in a specialized care node flanked by river-buffers.";
         } else {
           // Leisure / active life
           recommendedZoneId = 5;
-          matchedVibe = "ย่านศูนย์กีฬานานาชาติและกิจกรรมกลางแจ้ง (Sport Complex)";
-          quote = "สนุกกับชีวิตสุดแอคทีฟ วิ่งมาราธอน คอนเสิร์ตระดับโลก และเพื่อนบ้านที่พลังล้นเหลือ!";
+          matchedVibe = lang === 'th' ? "ย่านศูนย์กีฬานานาชาติและกิจกรรมกลางแจ้ง (Sport Complex)" : "Active SAT Sports & Recreation Complex";
+          quote = lang === 'th' ? "สนุกกับชีวิตสุดแอคทีฟ วิ่งมาราธอน คอนเสิร์ตระดับโลก และเพื่อนบ้านที่พลังล้นเหลือ!" : "Enjoy active, vibrant living! Marathons, concerts, and an energetic community await.";
         }
 
         // Adjust if family is involved
         if (hasFamily === 'yes' && recommendedZoneId !== 3) {
           // Families love zone 6 for mixed-use safety and living comfort
           recommendedZoneId = 6;
-          matchedVibe = "ย่านที่พักอาศัยอัจฉริยะ (Mixed-use Smart Living)";
-          quote = "ทางเลือกที่ดีที่สุดสำหรับครอบครัว! สวนป่าร่มรื่น เลนคนเดินที่ปลอดภัย และโรงเรียนใกล้บ้านคุณ";
+          matchedVibe = lang === 'th' ? "ย่านที่พักอาศัยอัจฉริยะ (Mixed-use Smart Living)" : "Walkable Mixed-Use Residential Hub";
+          quote = lang === 'th' ? "ทางเลือกที่ดีที่สุดสำหรับครอบครัว! สวนป่าร่มรื่น เลนคนเดินที่ปลอดภัย และโรงเรียนใกล้บ้านคุณ" : "The ultimate family harbor! Beautiful forests, traffic-free lanes, and schools nearby.";
         }
 
         return {
@@ -688,7 +712,7 @@
           quote: quote,
           score: hasFamily === 'yes' ? 96 : 94
         };
-      }, [userGoal, preferredVibe, hasFamily]);
+      }, [userGoal, preferredVibe, hasFamily, lang]);
 
       const toggleRec = (key) => {
         setCheckedRecommendations(prev => ({
@@ -697,46 +721,53 @@
         }));
       };
 
+      // Custom in-app alert/modal trigger
+      const triggerModal = (text) => {
+        setModalContent(text);
+        setModalOpen(true);
+      };
+
       return (
-        <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-900">
+        <div className="min-h-screen bg-luxury-cream text-luxury-espresso font-sans antialiased selection:bg-luxury-gold selection:text-white pb-20">
           
           {/* Ticker bar focusing entirely on EECiti */}
-          <div className="bg-emerald-950 border-b border-emerald-900/40 text-emerald-400 text-xs py-2 px-4 overflow-hidden hidden sm:block">
-            <div className="max-w-7xl mx-auto flex justify-between items-center animate-pulse">
-              <div className="flex space-x-6">
+          <div className="bg-luxury-espresso border-b border-luxury-border/30 text-luxury-cream text-xs py-2.5 px-6 overflow-hidden hidden sm:block">
+            <div className="max-w-7xl mx-auto flex justify-between items-center font-serif tracking-widest text-[11px]">
+              <div className="flex space-x-8">
                 <span>{t[lang].ticker_ppp}</span>
                 <span>{t[lang].ticker_top10}</span>
                 <span>{t[lang].ticker_visa}</span>
               </div>
-              <span className="text-emerald-500 font-mono">{t[lang].ticker_title}</span>
+              <span className="text-luxury-gold italic">{t[lang].ticker_title}</span>
             </div>
           </div>
 
           {/* Unofficial Disclaimer Notice */}
-          <div className="bg-slate-900/80 border-b border-slate-800 text-[11px] text-slate-400 py-1.5 px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <span className="text-center sm:text-left">🔔 {t[lang].disclaimer}</span>
+          <div className="bg-luxury-creamdark/50 border-b border-luxury-border text-[11px] text-luxury-stone py-2 px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <span className="text-center sm:text-left font-light leading-relaxed">🔔 {t[lang].disclaimer}</span>
             <button 
               onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
-              className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 px-2.5 py-0.5 rounded font-bold text-xs uppercase transition-colors shrink-0"
+              className="bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream px-3.5 py-1 rounded font-serif text-[10px] tracking-widest uppercase transition-all duration-300 shrink-0"
             >
               {lang === 'th' ? 'English (EN)' : 'ภาษาไทย (TH)'}
             </button>
           </div>
 
-          {/* Header */}
-          <header className="border-b border-slate-800 bg-slate-950 sticky top-0 z-40 shadow-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          {/* Luxury Header */}
+          <header className="border-b border-luxury-border/80 bg-luxury-cream/90 sticky top-0 z-40 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+              
               <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 bg-emerald-500 rounded-lg flex items-center justify-center font-black text-slate-950 tracking-wider text-xl shadow-lg shadow-emerald-500/20">
+                <div className="h-10 w-10 bg-luxury-espresso rounded-sm flex items-center justify-center font-serif font-semibold text-luxury-cream text-lg shadow-sm border border-luxury-border">
                   EE
                 </div>
                 <div>
-                  <span className="font-bold text-lg tracking-wider text-white block">EECiti GLOBAL HUB</span>
-                  <span className="text-xs text-emerald-400 font-semibold uppercase tracking-widest font-mono">{t[lang].disclaimer_short}</span>
+                  <span className="font-serif text-xl tracking-widest text-luxury-espresso font-semibold block">EECITI GLOBAL HUB</span>
+                  <span className="text-[10px] text-luxury-gold font-light tracking-widest uppercase block font-mono mt-0.5">{t[lang].disclaimer_short}</span>
                 </div>
               </div>
               
-              <nav className="hidden lg:flex space-x-1">
+              <nav className="hidden lg:flex space-x-2">
                 {[
                   { id: 'article', label: t[lang].tab_about },
                   { id: 'clusters', label: t[lang].tab_zones },
@@ -747,10 +778,10 @@
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                    className={`px-4 py-2.5 rounded-sm text-xs tracking-wider font-medium uppercase transition-all duration-300 ${
                       activeTab === tab.id
-                        ? 'bg-slate-900 text-emerald-400 border border-slate-750 shadow-inner'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                        ? 'text-luxury-espresso border-b-2 border-luxury-gold font-semibold'
+                        : 'text-luxury-stone hover:text-luxury-espresso hover:bg-luxury-creamdark/30'
                     }`}
                   >
                     {tab.label}
@@ -761,102 +792,96 @@
               <div className="flex items-center space-x-4">
                 <button 
                   onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
-                  className="text-xs font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors uppercase"
+                  className="text-[11px] font-serif tracking-widest font-bold px-3 py-1.5 rounded-sm bg-luxury-creamdark border border-luxury-border hover:border-luxury-gold transition-all duration-300 uppercase"
                 >
                   🌐 {lang === 'th' ? 'EN' : 'TH'}
                 </button>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+                <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-widest uppercase font-semibold bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-pulse"></span>
                   {t[lang].city_smart}
                 </span>
               </div>
             </div>
-            <div className="w-full h-[3px] bg-slate-900">
-              <div className="h-full bg-emerald-500 transition-all duration-300" style={{
-                width: activeTab === 'article' ? '20%' :
-                       activeTab === 'clusters' ? '40%' :
-                       activeTab === 'infrastructure' ? '60%' :
-                       activeTab === 'visa-finder' ? '80%' : '100%'
-              }}></div>
-            </div>
           </header>
 
           {/* Main */}
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
             
-            {/* Split Hero Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-center">
+            {/* Split Hero Section - Mimics an open luxury book cover page */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 items-center">
               
               <div className="lg:col-span-7 space-y-6 text-center md:text-left">
                 <div className="flex justify-center md:justify-start">
-                  <span className="bg-emerald-500/10 text-emerald-400 text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-emerald-500/20">
-                    {t[lang].tagline}
+                  <span className="text-luxury-gold font-serif italic text-sm tracking-wider">
+                    — {t[lang].tagline}
                   </span>
                 </div>
-                <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
-                  {t[lang].heroTitle} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400">{t[lang].heroTitleSpan}</span> {t[lang].heroTitleEnd}
+                <h1 className="text-4xl md:text-6xl font-serif text-luxury-espresso font-light tracking-wide leading-tight">
+                  {t[lang].heroTitle} <br/>
+                  <span className="font-serif italic font-normal text-luxury-gold">{t[lang].heroTitleSpan}</span> {t[lang].heroTitleEnd}
                 </h1>
-                <p className="text-base md:text-lg text-slate-400 font-normal leading-relaxed">
+                <div className="h-[1px] bg-luxury-border/80 w-24 mx-auto md:mx-0 my-4"></div>
+                <p className="text-sm md:text-base text-luxury-stone font-light leading-relaxed max-w-2xl">
                   {t[lang].heroDesc}
                 </p>
               </div>
 
               {/* Dynamic Interactive SVG Map for EECiti */}
-              <div className="lg:col-span-5 bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between h-[340px]">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:16px_16px] opacity-30"></div>
+              <div className="lg:col-span-5 bg-luxury-creamdark/30 border border-luxury-border rounded-xl p-8 book-page-shadow relative overflow-hidden flex flex-col justify-between h-[360px]">
+                <div className="absolute inset-0 bg-[radial-gradient(#d1dfe5_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
                 
-                <div className="relative z-10 flex justify-between items-center mb-2">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider flex items-center">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span>
+                <div className="relative z-10 flex justify-between items-center mb-2 border-b border-luxury-border/60 pb-3">
+                  <span className="text-[10px] text-luxury-stone font-medium uppercase tracking-widest flex items-center">
+                    <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-ping"></span>
                     {t[lang].map_title}
                   </span>
-                  <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">
-                    Interactive Grid
+                  <span className="text-[9px] font-serif italic text-luxury-gold tracking-widest">
+                    BLUEPRINT
                   </span>
                 </div>
 
                 <div className="relative z-10 flex-1 flex items-center justify-center py-2">
-                  <svg viewBox="0 0 400 200" className="w-full max-w-[360px] h-auto drop-shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                  <svg viewBox="0 0 400 200" className="w-full max-w-[340px] h-auto drop-shadow-[0_2px_10px_rgba(27,106,136,0.1)]">
                     {/* Simulated buffer line / River boundary */}
-                    <path d="M 30 180 Q 150 140 220 160 T 380 90" fill="none" stroke="#059669" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.6" />
-                    <path d="M 40 20 L 220 150 L 340 10" fill="none" stroke="#1e293b" strokeWidth="1.5" />
-                    <path d="M 50 110 Q 180 130 310 90" fill="none" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" className="animate-pulse" />
+                    <path d="M 30 180 Q 150 140 220 160 T 380 90" fill="none" stroke="#1B6A88" strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
+                    <path d="M 40 20 L 220 150 L 340 10" fill="none" stroke="#FAF6F0" strokeWidth="2" opacity="0.3" />
+                    <path d="M 50 110 Q 180 130 310 90" fill="none" stroke="#0A1D28" strokeWidth="1.2" opacity="0.2" />
 
                     {/* 6 Interactive Zone Nodes */}
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(1); }}>
-                      <circle cx="80" cy="60" r="14" fill="#1e1b4b" stroke="#4f46e5" strokeWidth="2" />
-                      <text x="80" y="64" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">CBD</text>
-                      <circle cx="80" cy="60" r="18" fill="none" stroke="#4f46e5" strokeWidth="1" opacity="0.3" className="animate-ping" style={{ animationDuration: '3s' }} />
+                      <circle cx="80" cy="60" r="14" fill="#0A1D28" stroke="#1B6A88" strokeWidth="1.5" />
+                      <text x="80" y="63.5" fill="#F2F6F8" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">CBD</text>
+                      <circle cx="80" cy="60" r="18" fill="none" stroke="#1B6A88" strokeWidth="0.5" opacity="0.4" className="animate-ping" style={{ animationDuration: '4s' }} />
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(2); }}>
-                      <circle cx="150" cy="80" r="14" fill="#064e3b" stroke="#10b981" strokeWidth="2" />
-                      <text x="150" y="84" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">MED</text>
+                      <circle cx="150" cy="80" r="14" fill="#F2F6F8" stroke="#0A1D28" strokeWidth="1.5" />
+                      <text x="150" y="83.5" fill="#0A1D28" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">MED</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(3); }}>
-                      <circle cx="230" cy="50" r="14" fill="#2e1065" stroke="#8b5cf6" strokeWidth="2" />
-                      <text x="230" y="54" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">EDU</text>
+                      <circle cx="230" cy="50" r="14" fill="#0A1D28" stroke="#F2F6F8" strokeWidth="1.5" />
+                      <text x="230" y="53.5" fill="#F2F6F8" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">EDU</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(4); }}>
-                      <circle cx="310" cy="90" r="14" fill="#064e3b" stroke="#059669" strokeWidth="2" />
-                      <text x="310" y="94" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">BCG</text>
+                      <circle cx="310" cy="90" r="14" fill="#F2F6F8" stroke="#1B6A88" strokeWidth="1.5" />
+                      <text x="310" y="93.5" fill="#1B6A88" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">BCG</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(5); }}>
-                      <circle cx="120" cy="140" r="14" fill="#78350f" stroke="#d97706" strokeWidth="2" />
-                      <text x="120" y="144" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">SPRT</text>
+                      <circle cx="120" cy="140" r="14" fill="#F2F6F8" stroke="#0A1D28" strokeWidth="1" />
+                      <text x="120" y="143.5" fill="#0A1D28" fontSize="8" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">SPRT</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(6); }}>
-                      <circle cx="280" cy="130" r="14" fill="#500725" stroke="#db2777" strokeWidth="2" />
-                      <text x="280" y="134" fill="#e2e8f0" fontSize="9" fontWeight="bold" textAnchor="middle">LIVE</text>
+                      <circle cx="280" cy="130" r="14" fill="#0A1D28" stroke="#1B6A88" strokeWidth="1" />
+                      <text x="280" y="133.5" fill="#1B6A88" fontSize="8" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">LIVE</text>
                     </g>
                   </svg>
                 </div>
 
-                <div className="relative z-10 text-center text-[11px] text-slate-500 border-t border-slate-800/80 pt-2">
+                <div className="relative z-10 text-center text-[10px] text-luxury-stone border-t border-luxury-border/60 pt-3 italic font-light">
                   {t[lang].map_desc}
                 </div>
               </div>
@@ -864,14 +889,15 @@
             </div>
 
             {/* Dashboard Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               
-              <div className="lg:col-span-2 space-y-10">
+              {/* Left & Center Main Book Pages */}
+              <div className="lg:col-span-2 space-y-12">
 
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                  <div className="border-b border-slate-800 bg-slate-900/50 px-6 py-4 flex items-center justify-between">
-                    <span className="font-bold text-white tracking-wide text-sm flex items-center">
-                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+                <div className="bg-luxury-cream border border-luxury-border rounded-lg overflow-hidden book-page-shadow">
+                  <div className="border-b border-luxury-border bg-luxury-creamdark/30 px-6 py-4 flex items-center justify-between">
+                    <span className="font-serif tracking-widest text-[11px] uppercase text-luxury-stone font-semibold flex items-center">
+                      <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-pulse"></span>
                       {activeTab === 'article' && t[lang].tab_about}
                       {activeTab === 'clusters' && t[lang].tab_zones}
                       {activeTab === 'infrastructure' && t[lang].tab_infra}
@@ -882,39 +908,39 @@
 
                   {/* TAB 1: CORE ARTICLE (ทำความรู้จัก EECiti) */}
                   {activeTab === 'article' && (
-                    <div className="p-6 md:p-8 space-y-6">
+                    <div className="p-6 md:p-10 space-y-8">
                       
-                      <div className="relative rounded-xl overflow-hidden h-64 border border-slate-800 shadow-lg">
+                      <div className="relative rounded-lg overflow-hidden h-72 border border-luxury-border shadow-md">
                         <SafeImage 
                           src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80" 
                           alt="EECiti Future Smart City Vision" 
                           className="h-full w-full"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-                        <div className="absolute bottom-0 left-0 p-6">
-                          <span className="text-[10px] bg-emerald-500 text-slate-950 px-2.5 py-1 rounded font-black uppercase tracking-wider mb-2 inline-block">
+                        <div className="absolute inset-0 bg-gradient-to-t from-luxury-espresso via-luxury-espresso/35 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 p-8">
+                          <span className="text-[10px] bg-luxury-gold text-white px-2.5 py-1 rounded-sm font-semibold uppercase tracking-widest mb-3 inline-block font-mono">
                             {t[lang].art_subtitle}
                           </span>
-                          <h4 className="text-white font-extrabold text-lg md:text-2xl">
+                          <h4 className="text-luxury-cream font-serif font-light text-xl md:text-3xl tracking-wide leading-snug">
                             {t[lang].art_title}
                           </h4>
                         </div>
                       </div>
 
-                      <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base">
-                        <p>{t[lang].art_p1}</p>
+                      <div className="space-y-5 text-luxury-stone font-light leading-relaxed text-sm md:text-base">
+                        <p className="first-letter:text-4xl first-letter:font-serif first-letter:text-luxury-gold first-letter:mr-2 first-letter:float-left first-letter:font-bold">{t[lang].art_p1}</p>
                         <p>{t[lang].art_p2}</p>
                         
                         {/* Integrated Net Zero Official Image Graphic */}
-                        <div className="my-6 border border-emerald-500/20 rounded-xl overflow-hidden bg-slate-900/50 p-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <div className="my-8 border border-luxury-border rounded-lg overflow-hidden bg-luxury-creamdark/20 p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                           <div className="md:col-span-7 space-y-3">
-                            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                            <span className="text-[9px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 px-2.5 py-1 rounded-sm font-semibold uppercase tracking-widest font-mono">
                               {t[lang].art_green_tag}
                             </span>
-                            <h4 className="text-white font-bold text-base md:text-lg">
+                            <h4 className="text-luxury-espresso font-serif text-lg font-normal">
                               {t[lang].art_green_title}
                             </h4>
-                            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light">
                               {t[lang].art_green_desc}
                             </p>
                           </div>
@@ -922,62 +948,62 @@
                             <SafeImage 
                               src="https://i.postimg.cc/sV2Shymg/Net-Zero.png" 
                               alt="Net Zero Carbon Blueprint in EECiti" 
-                              className="rounded-lg h-full w-full border border-slate-800"
+                              className="rounded-sm h-full w-full border border-luxury-border"
                             />
                           </div>
                         </div>
 
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 my-6 space-y-3">
-                          <h4 className="text-white font-bold text-sm flex items-center">
-                            <span className="text-emerald-400 mr-2">🌟</span>
+                        <div className="bg-luxury-creamdark/30 border border-luxury-border rounded-lg p-6 space-y-4">
+                          <h4 className="text-luxury-espresso font-serif text-base font-normal flex items-center">
+                            <span className="text-luxury-gold mr-2">✦</span>
                             {t[lang].art_spec_title}
                           </h4>
-                          <ul className="list-disc list-inside text-slate-400 text-xs sm:text-sm space-y-2">
-                            <li>{t[lang].art_spec_1}</li>
-                            <li>{t[lang].art_spec_2}</li>
-                            <li>{t[lang].art_spec_3}</li>
+                          <ul className="space-y-3 text-xs sm:text-sm text-luxury-stone font-light">
+                            <li className="flex items-start"><span className="text-luxury-gold mr-2.5">▪</span><span>{t[lang].art_spec_1}</span></li>
+                            <li className="flex items-start"><span className="text-luxury-gold mr-2.5">▪</span><span>{t[lang].art_spec_2}</span></li>
+                            <li className="flex items-start"><span className="text-luxury-gold mr-2.5">▪</span><span>{t[lang].art_spec_3}</span></li>
                           </ul>
                         </div>
                       </div>
 
                       {/* Interactive Checklist */}
-                      <div className="border-t border-slate-800 pt-6 space-y-4">
-                        <h4 className="text-white font-bold text-sm">{t[lang].chk_title}</h4>
+                      <div className="border-t border-luxury-border pt-8 space-y-4">
+                        <h4 className="text-luxury-espresso font-serif text-sm uppercase tracking-wider">{t[lang].chk_title}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                           <button 
                             onClick={() => toggleRec('rec1')}
-                            className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                            className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec1 
-                                ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
-                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
-                            <div className="font-bold mb-1">{t[lang].chk_1_t}</div>
-                            <span>{t[lang].chk_1_d}</span>
+                            <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_1_t}</div>
+                            <span className="font-light leading-relaxed">{t[lang].chk_1_d}</span>
                           </button>
 
                           <button 
                             onClick={() => toggleRec('rec2')}
-                            className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                            className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec2 
-                                ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
-                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
-                            <div className="font-bold mb-1">{t[lang].chk_2_t}</div>
-                            <span>{t[lang].chk_2_d}</span>
+                            <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_2_t}</div>
+                            <span className="font-light leading-relaxed">{t[lang].chk_2_d}</span>
                           </button>
 
                           <button 
                             onClick={() => toggleRec('rec3')}
-                            className={`p-3 rounded-lg border text-left text-xs transition-colors ${
+                            className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec3 
-                                ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' 
-                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
-                            <div className="font-bold mb-1">{t[lang].chk_3_t}</div>
-                            <span>{t[lang].chk_3_d}</span>
+                            <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_3_t}</div>
+                            <span className="font-light leading-relaxed">{t[lang].chk_3_d}</span>
                           </button>
                         </div>
                       </div>
@@ -986,21 +1012,21 @@
 
                   {/* TAB 2: 6 CLUSTERS (6 ย่านในฝัน) */}
                   {activeTab === 'clusters' && (
-                    <div className="p-6 md:p-8 space-y-6">
+                    <div className="p-6 md:p-10 space-y-8">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white">{t[lang].zones_title}</h3>
-                        <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                        <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].zones_title}</h3>
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 leading-relaxed font-light">
                           {t[lang].zones_desc}
                         </p>
                       </div>
 
                       {/* Integrated 6 Clusters Layout Blueprint Image */}
-                      <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-900/50 p-4">
-                        <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block mb-2">{t[lang].zones_map_title}</span>
+                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-creamdark/20 p-4">
+                        <span className="text-[10px] text-luxury-gold font-semibold uppercase tracking-wider block mb-2">{t[lang].zones_map_title}</span>
                         <SafeImage 
                           src="https://i.postimg.cc/p2d8FxCR/6Clusters.png" 
                           alt="6 Clusters Business Zoning Plan" 
-                          className="w-full h-48 md:h-64 rounded-lg border border-slate-800"
+                          className="w-full h-48 md:h-64 rounded-sm border border-luxury-border"
                         />
                       </div>
 
@@ -1009,44 +1035,44 @@
                           <button
                             key={zone.id}
                             onClick={() => setSelectedZone(zone.id)}
-                            className={`p-4 rounded-xl text-left border transition-all duration-300 relative overflow-hidden ${
+                            className={`p-4 rounded-sm text-left border transition-all duration-500 relative overflow-hidden ${
                               selectedZone === zone.id
-                                ? 'bg-gradient-to-br from-slate-900 to-slate-950 border-emerald-500 shadow-lg shadow-emerald-500/10 scale-[1.02]'
-                                : 'bg-slate-900/40 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60'
+                                ? 'bg-luxury-goldlight border-luxury-gold scale-[1.01]'
+                                : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/50'
                             }`}
                           >
-                            <div className={`h-1.5 w-10 rounded-full mb-3 bg-gradient-to-r ${zone.color}`}></div>
-                            <span className="text-xs text-slate-400 block mb-1 uppercase font-bold tracking-wider">{zones_meta[lang][zone.id - 1].tag}</span>
-                            <span className="text-sm font-bold text-white block">{zones_meta[lang][zone.id - 1].title.split(":")[0]}</span>
+                            <div className={`h-1.5 w-8 rounded-full mb-3 bg-luxury-gold`}></div>
+                            <span className="text-[10px] text-luxury-stone block mb-1 uppercase font-bold tracking-wider font-mono">{zones_meta[lang][zone.id - 1].tag}</span>
+                            <span className="text-xs sm:text-sm font-serif font-bold text-luxury-espresso block truncate">{zones_meta[lang][zone.id - 1].title.split(":")[0]}</span>
                           </button>
                         ))}
                       </div>
 
                       {selectedZone && (
-                        <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden transition-all duration-300 grid grid-cols-1 md:grid-cols-12">
-                          <div className="p-6 md:col-span-7 flex flex-col justify-between space-y-4">
+                        <div className="bg-luxury-creamdark/25 rounded-lg border border-luxury-border overflow-hidden transition-all duration-500 grid grid-cols-1 md:grid-cols-12">
+                          <div className="p-6 md:col-span-7 flex flex-col justify-between space-y-5">
                             <div>
                               <div className="flex flex-wrap items-center gap-2 mb-3">
-                                <span className="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded border border-emerald-500/20">
+                                <span className="bg-luxury-gold/10 text-luxury-gold text-[10px] font-semibold px-2 py-0.5 rounded-sm border border-luxury-gold/20 font-mono">
                                   {matchedZoneData.tag}
                                 </span>
-                                <span className="text-xs text-slate-400">
+                                <span className="text-[11px] text-luxury-stone font-light">
                                   {selectedZone === 5 ? t[lang].zones_tag_sat : t[lang].zones_tag_walk}
                                 </span>
                               </div>
-                              <h4 className="text-lg font-bold text-white mb-2">
+                              <h4 className="text-lg font-serif font-bold text-luxury-espresso mb-2">
                                 {matchedZoneData.title}
                               </h4>
-                              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                              <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light">
                                 {matchedZoneData.desc}
                               </p>
                             </div>
                             <div>
-                              <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">{t[lang].zones_key_point}</h5>
-                              <ul className="grid grid-cols-1 gap-1.5">
+                              <h5 className="text-[10px] font-bold uppercase tracking-widest text-luxury-gold mb-2.5">{t[lang].zones_key_point}</h5>
+                              <ul className="grid grid-cols-1 gap-2">
                                 {matchedZoneData.perks.map((highlight, index) => (
-                                  <li key={index} className="text-slate-300 text-xs flex items-center">
-                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                                  <li key={index} className="text-luxury-stone text-xs flex items-center font-light">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2.5"></span>
                                     {highlight}
                                   </li>
                                 ))}
@@ -1060,7 +1086,7 @@
                               alt={matchedZoneData.title} 
                               className="w-full h-full"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900 via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-luxury-cream via-transparent to-transparent opacity-80"></div>
                           </div>
                         </div>
                       )}
@@ -1069,20 +1095,20 @@
 
                   {/* TAB 3: INFRASTRUCTURE 10 SYSTEMS (สาธารณูปโภค) */}
                   {activeTab === 'infrastructure' && (
-                    <div className="p-6 md:p-8 space-y-6">
+                    <div className="p-6 md:p-10 space-y-8">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white">{t[lang].sys_title}</h3>
-                        <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                        <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].sys_title}</h3>
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
                           {t[lang].sys_desc}
                         </p>
                       </div>
 
                       {/* Integrated 10 Systems Layout Blueprint Image */}
-                      <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-creamdark/10 p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                         <div className="md:col-span-5 space-y-2">
-                          <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">{t[lang].sys_img_tag}</span>
-                          <h4 className="text-white font-bold text-base">{t[lang].sys_img_title}</h4>
-                          <p className="text-slate-400 text-xs leading-relaxed">
+                          <span className="text-[9px] text-luxury-gold font-semibold uppercase tracking-widest font-mono block">{t[lang].sys_img_tag}</span>
+                          <h4 className="text-luxury-espresso font-serif text-base font-normal">{t[lang].sys_img_title}</h4>
+                          <p className="text-luxury-stone text-xs leading-relaxed font-light">
                             {t[lang].sys_img_desc}
                           </p>
                         </div>
@@ -1090,7 +1116,7 @@
                           <SafeImage 
                             src="https://i.postimg.cc/D2zsXF6K/10system-EECiti.png" 
                             alt="10 Systems of EECiti Smart Infrastructure Map" 
-                            className="w-full h-full rounded-lg border border-slate-800"
+                            className="w-full h-full rounded-sm border border-luxury-border"
                           />
                         </div>
                       </div>
@@ -1101,10 +1127,10 @@
                             <button
                               key={sys.id}
                               onClick={() => setSelectedSystem(sys.id)}
-                              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold flex justify-between items-center transition-all duration-150 border ${
+                              className={`w-full text-left px-3.5 py-2.5 rounded-sm text-xs font-semibold flex justify-between items-center transition-all duration-150 border ${
                                 selectedSystem === sys.id
-                                  ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-sm'
-                                  : 'bg-slate-900 border-slate-800 hover:bg-slate-800/80 text-slate-300 hover:text-white'
+                                  ? 'bg-luxury-goldlight border-luxury-gold text-luxury-espresso'
+                                  : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/30 text-luxury-stone hover:text-luxury-espresso'
                               }`}
                             >
                               <span className="flex items-center space-x-2">
@@ -1115,30 +1141,30 @@
                           ))}
                         </div>
 
-                        <div className="lg:col-span-7 bg-slate-900 rounded-xl border border-slate-800 p-6 flex flex-col justify-between">
+                        <div className="lg:col-span-7 bg-luxury-creamdark/25 rounded-lg border border-luxury-border p-6 flex flex-col justify-between">
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded">
+                              <span className="text-[9px] uppercase font-bold tracking-widest text-luxury-gold bg-luxury-gold/10 px-2.5 py-1 rounded-sm border border-luxury-gold/20 font-mono">
                                 {lang === 'th' ? `นวัตกรรมย่อยที่ ${selectedSystem}` : `System Sub-node ${selectedSystem}`}
                               </span>
-                              <span className="text-2xl">{systems[selectedSystem - 1].icon}</span>
+                              <span className="text-xl">{systems[selectedSystem - 1].icon}</span>
                             </div>
-                            <h4 className="text-lg font-bold text-white">
+                            <h4 className="text-base font-serif font-bold text-luxury-espresso">
                               {lang === 'th' ? systems[selectedSystem - 1].name : systems[selectedSystem - 1].detail.split(",")[0]}
                             </h4>
-                            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light">
                               {lang === 'th' ? systems[selectedSystem - 1].detail : systems[selectedSystem - 1].detail}
                             </p>
                           </div>
 
-                          <div className="mt-6 pt-4 border-t border-slate-800">
-                            <div className="mb-2 flex justify-between text-xs">
-                              <span className="text-slate-400">{t[lang].sys_metric_label}</span>
-                              <span className="text-emerald-400 font-bold">{systems[selectedSystem - 1].rating}%</span>
+                          <div className="mt-6 pt-4 border-t border-luxury-border/60">
+                            <div className="mb-2.5 flex justify-between text-xs">
+                              <span className="text-luxury-stone">{t[lang].sys_metric_label}</span>
+                              <span className="text-luxury-gold font-bold">{systems[selectedSystem - 1].rating}%</span>
                             </div>
-                            <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                            <div className="w-full bg-luxury-cream h-[3px] rounded-full overflow-hidden">
                               <div 
-                                className="bg-gradient-to-r from-emerald-500 to-blue-500 h-full rounded-full transition-all duration-500"
+                                className="bg-luxury-gold h-full rounded-full transition-all duration-500"
                                 style={{ width: `${systems[selectedSystem - 1].rating}%` }}
                               ></div>
                             </div>
@@ -1150,22 +1176,22 @@
 
                   {/* TAB 4: VISA FINDER */}
                   {activeTab === 'visa-finder' && (
-                    <div className="p-6 md:p-8 space-y-6">
+                    <div className="p-6 md:p-10 space-y-8">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white">{t[lang].visa_title}</h3>
-                        <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                        <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].visa_title}</h3>
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
                           {t[lang].visa_desc}
                         </p>
                       </div>
 
-                      <div className="bg-slate-900 rounded-xl border border-slate-800 p-6 space-y-6">
+                      <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-slate-400 text-xs font-semibold mb-2 uppercase">{t[lang].visa_form_prof}</label>
+                            <label className="block text-luxury-stone text-[11px] font-semibold mb-2 uppercase tracking-wider">{t[lang].visa_form_prof}</label>
                             <select 
                               value={userProfession}
                               onChange={(e) => setUserProfession(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-slate-200 text-xs sm:text-sm focus:border-emerald-500 outline-none"
+                              className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none font-sans"
                             >
                               <option value="digital">{lang === 'th' ? 'โปรแกรมเมอร์/ดิจิทัลคอนเทนต์/AI (Smart Tech & AI)' : 'Programmer/Digital/AI (Smart Tech & AI)'}</option>
                               <option value="medical">{lang === 'th' ? 'แพทย์อัจฉริยะ/งานชีวการแพทย์ (Precision Med)' : 'Precision Medical Experts (Precision Med)'}</option>
@@ -1175,11 +1201,11 @@
                           </div>
 
                           <div>
-                            <label className="block text-slate-400 text-xs font-semibold mb-2 uppercase">{t[lang].visa_form_role}</label>
+                            <label className="block text-luxury-stone text-[11px] font-semibold mb-2 uppercase tracking-wider">{t[lang].visa_form_role}</label>
                             <select 
                               value={userRole}
                               onChange={(e) => setUserRole(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-slate-200 text-xs sm:text-sm focus:border-emerald-500 outline-none"
+                              className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none font-sans"
                             >
                               <option value="specialist">{lang === 'th' ? 'ผู้เชี่ยวชาญทางเทคนิระดับสูง (Specialist)' : 'Technical Specialist (R&D)'}</option>
                               <option value="executive">{lang === 'th' ? 'ผู้บริหารสูงสุดหรือผู้ก่อตั้งองค์กร (Executive)' : 'Founder / Corporate Executive'}</option>
@@ -1189,22 +1215,22 @@
                           </div>
                         </div>
 
-                        <div className="bg-slate-950 border border-emerald-500/30 rounded-xl p-5 relative overflow-hidden transition-all duration-300">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">{t[lang].visa_rec_label}</span>
-                            <span className="text-emerald-400 font-black text-sm bg-emerald-500/10 px-3 py-1 rounded border border-emerald-500/20 font-mono">
+                        <div className="bg-luxury-creamdark/35 border border-luxury-border rounded-sm p-6 relative overflow-hidden transition-all duration-300">
+                          <div className="flex items-center justify-between mb-3 border-b border-luxury-border/60 pb-3">
+                            <span className="text-[10px] text-luxury-stone font-bold uppercase tracking-wider">{t[lang].visa_rec_label}</span>
+                            <span className="text-luxury-espresso font-serif font-black text-sm bg-luxury-cream px-3 py-1 rounded-sm border border-luxury-border tracking-wider font-mono">
                               {lang === 'en' ? estimatedVisa.type.replace('วีซ่า', 'Visa') : estimatedVisa.type}
                             </span>
                           </div>
-                          <p className="text-white text-xs sm:text-sm font-semibold mb-3">
+                          <p className="text-luxury-espresso text-xs sm:text-sm font-semibold mb-3">
                             {lang === 'th' ? estimatedVisa.desc : estimatedVisa.desc.replace('สิทธิ์', 'Residency rights').replace('สูงสุด', 'up to')}
                           </p>
-                          <div className="space-y-2 mt-4 pt-4 border-t border-slate-800">
-                            <h5 className="text-xs text-slate-400 font-bold uppercase tracking-wider">{t[lang].visa_benefit_title}</h5>
-                            <ul className="space-y-1.5">
+                          <div className="space-y-3 mt-4 pt-4">
+                            <h5 className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest">{t[lang].visa_benefit_title}</h5>
+                            <ul className="space-y-2">
                               {estimatedVisa.benefits.map((benefit, index) => (
-                                <li key={index} className="text-slate-300 text-xs flex items-start">
-                                  <span className="text-emerald-500 mr-2 font-bold">✓</span>
+                                <li key={index} className="text-luxury-stone text-xs flex items-start font-light font-sans">
+                                  <span className="text-luxury-gold mr-2.5 font-bold">✓</span>
                                   <span>{benefit}</span>
                                 </li>
                               ))}
@@ -1215,23 +1241,23 @@
                     </div>
                   )}
 
-                  {/* TAB 5: LIFESTYLE MATCHER (จับคู่ย่านและวิถีชีวิต) */}
+                  {/* TAB 5: LIFESTYLE MATCHER */}
                   {activeTab === 'impact-simulator' && (
-                    <div className="p-6 md:p-8 space-y-6">
+                    <div className="p-6 md:p-10 space-y-8">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white">{t[lang].match_title}</h3>
-                        <p className="text-slate-400 text-xs sm:text-sm mt-2">
+                        <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].match_title}</h3>
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
                           {t[lang].match_desc}
                         </p>
                       </div>
 
-                      <div className="bg-slate-900 border border-slate-800 p-6 space-y-6">
+                      <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           
                           {/* Matcher Inputs */}
                           <div className="space-y-4">
                             <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase mb-2">
+                              <label className="block text-luxury-stone text-[11px] font-semibold mb-2 uppercase tracking-wider">
                                 {t[lang].match_q1}
                               </label>
                               <div className="grid grid-cols-2 gap-2">
@@ -1244,10 +1270,10 @@
                                   <button
                                     key={goal.id}
                                     onClick={() => setUserGoal(goal.id)}
-                                    className={`py-2 px-3 rounded-lg text-xs font-bold border transition-colors ${
+                                    className={`py-2.5 px-3 rounded-sm text-xs font-bold border transition-colors ${
                                       userGoal === goal.id
-                                        ? 'bg-emerald-500 text-slate-950 border-emerald-400'
-                                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
+                                        ? 'bg-luxury-espresso text-luxury-cream border-luxury-espresso'
+                                        : 'bg-luxury-cream text-luxury-stone border-luxury-border hover:border-luxury-gold/50'
                                     }`}
                                   >
                                     {goal.name}
@@ -1257,13 +1283,13 @@
                             </div>
 
                             <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase mb-2">
+                              <label className="block text-luxury-stone text-[11px] font-semibold mb-2 uppercase tracking-wider">
                                 {t[lang].match_q2}
                               </label>
                               <select 
                                 value={preferredVibe}
                                 onChange={(e) => setPreferredVibe(e.target.value)}
-                                className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-300 focus:border-emerald-500 outline-none"
+                                className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-xs text-luxury-espresso focus:border-luxury-gold outline-none"
                               >
                                 <option value="high-tech">{lang === 'th' ? 'ย่านตึกสูงระฟ้า ล้ำสมัย ผสมผสานดิจิทัล (High-tech Modern)' : 'High-tech smart grids & towering modern layouts'}</option>
                                 <option value="nature">{lang === 'th' ? 'ย่านสีเขียว รายล้อมด้วยสายน้ำและร่มไม้ร่มรื่น (Nature Buffer)' : 'Calm, green protected forests & bio-buffers'}</option>
@@ -1272,60 +1298,60 @@
                             </div>
 
                             <div>
-                              <label className="block text-xs font-bold text-slate-400 uppercase mb-2">
+                              <label className="block text-luxury-stone text-[11px] font-semibold mb-2 uppercase tracking-wider">
                                 {t[lang].match_q3}
                               </label>
-                              <div className="flex space-x-4">
-                                <label className="flex items-center text-xs text-slate-300 cursor-pointer">
+                              <div className="flex flex-col sm:flex-row gap-3">
+                                <label className="flex items-center text-xs text-luxury-stone cursor-pointer">
                                   <input 
                                     type="radio" 
                                     name="family" 
                                     value="yes"
                                     checked={hasFamily === 'yes'}
                                     onChange={() => setHasFamily('yes')}
-                                    className="mr-2 accent-emerald-500" 
+                                    className="mr-2.5 accent-luxury-gold" 
                                   />
-                                  {t[lang].match_family_y}
+                                  <span>{t[lang].match_family_y}</span>
                                 </label>
-                                <label className="flex items-center text-xs text-slate-300 cursor-pointer">
+                                <label className="flex items-center text-xs text-luxury-stone cursor-pointer">
                                   <input 
                                     type="radio" 
                                     name="family" 
                                     value="no"
                                     checked={hasFamily === 'no'}
                                     onChange={() => setHasFamily('no')}
-                                    className="mr-2 accent-emerald-500" 
+                                    className="mr-2.5 accent-luxury-gold" 
                                   />
-                                  {t[lang].match_family_n}
+                                  <span>{t[lang].match_family_n}</span>
                                 </label>
                               </div>
                             </div>
                           </div>
 
                           {/* Matcher Output */}
-                          <div className="bg-slate-950 rounded-xl border border-slate-800 p-5 flex flex-col justify-between space-y-4">
+                          <div className="bg-luxury-goldlight rounded-lg border border-luxury-border p-6 flex flex-col justify-between space-y-4">
                             <div>
-                              <span className="text-[10px] text-slate-500 uppercase block mb-1">{t[lang].match_res_tag}</span>
-                              <span className="text-sm bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-black inline-block mb-3">
+                              <span className="text-[10px] text-luxury-stone uppercase block mb-1.5 tracking-wider">{t[lang].match_res_tag}</span>
+                              <span className="text-xs bg-luxury-espresso text-luxury-cream px-3 py-1 rounded-sm font-black inline-block mb-3 font-mono tracking-widest">
                                 {lang === 'th' ? lifestyleMatch.vibe : lifestyleMatch.vibe.replace('ย่าน', 'District: ')}
                               </span>
                               
-                              <p className="text-white text-xs sm:text-sm font-bold mb-1">
+                              <p className="text-luxury-espresso font-serif text-base italic font-bold mb-2">
                                 "{lifestyleMatch.quote}"
                               </p>
-                              <p className="text-slate-400 text-xs">
+                              <p className="text-luxury-stone text-xs leading-relaxed font-light">
                                 {lang === 'th' ? lifestyleMatch.zone.description : matchedZoneData.desc}
                               </p>
                             </div>
 
-                            <div className="border-t border-slate-800/80 pt-3 flex items-center justify-between">
+                            <div className="border-t border-luxury-border/60 pt-4 flex items-center justify-between">
                               <div>
-                                <span className="text-[10px] text-slate-500 block">{t[lang].match_score_label}</span>
-                                <span className="text-emerald-400 text-lg font-black">{lifestyleMatch.score} / 100</span>
+                                <span className="text-[9px] text-luxury-stone uppercase block tracking-wider">{t[lang].match_score_label}</span>
+                                <span className="text-luxury-gold font-serif text-lg font-black">{lifestyleMatch.score} / 100</span>
                               </div>
                               <button 
                                 onClick={() => { setActiveTab('clusters'); setSelectedZone(lifestyleMatch.zone.id); }}
-                                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-md transition-colors"
+                                className="px-4 py-2 bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream font-serif text-[11px] tracking-widest uppercase rounded-sm transition-all duration-300"
                               >
                                 {t[lang].match_btn_go}
                               </button>
@@ -1340,30 +1366,30 @@
                 </div>
 
                 {/* Poll & Updated Investment Coordination Portal (Replaced Comments) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   
                   {/* Opinion Poll */}
-                  <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-2 block">{t[lang].poll_tag}</span>
-                    <h4 className="text-white font-bold text-sm sm:text-base mb-4">
+                  <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm">
+                    <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest mb-2 block">{t[lang].poll_tag}</span>
+                    <h4 className="text-luxury-espresso font-serif text-base font-normal mb-4 leading-relaxed">
                       {t[lang].poll_q}
                     </h4>
                     
                     {!pollVoted ? (
                       <div className="space-y-2">
-                        <button onClick={() => handleVote('highlyOptimistic')} className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium">
+                        <button onClick={() => handleVote('highlyOptimistic')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed">
                           {t[lang].poll_opt_1}
                         </button>
-                        <button onClick={() => handleVote('moderateWithRisk')} className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium">
+                        <button onClick={() => handleVote('moderateWithRisk')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed">
                           {t[lang].poll_opt_2}
                         </button>
-                        <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 transition-all text-xs sm:text-sm text-slate-300 font-medium">
+                        <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed">
                           {t[lang].poll_opt_3}
                         </button>
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        <div className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs p-3 rounded-xl font-bold text-center">
+                        <div className="bg-luxury-goldlight text-luxury-gold border border-luxury-border text-xs p-3 rounded-sm font-bold text-center">
                           {t[lang].poll_voted_title}
                         </div>
                         {(() => {
@@ -1375,29 +1401,29 @@
                             <div className="space-y-3">
                               <div>
                                 <div className="flex justify-between text-xs mb-1">
-                                  <span className="text-slate-300">{t[lang].poll_chart_1}</span>
-                                  <span className="text-slate-400">{pctOpt}% ({pollVotes.highlyOptimistic} {lang === 'th' ? 'โหวต' : 'votes'})</span>
+                                  <span className="text-luxury-stone font-light">{t[lang].poll_chart_1}</span>
+                                  <span className="text-luxury-espresso font-semibold">{pctOpt}% ({pollVotes.highlyOptimistic} {lang === 'th' ? 'โหวต' : 'votes'})</span>
                                 </div>
-                                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${pctOpt}%` }}></div>
-                                </div>
-                              </div>
-                              <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                  <span className="text-slate-300">{t[lang].poll_chart_2}</span>
-                                  <span className="text-slate-400">{pctMed}% ({pollVotes.moderateWithRisk} {lang === 'th' ? 'โหวต' : 'votes'})</span>
-                                </div>
-                                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className="bg-blue-500 h-full rounded-full" style={{ width: `${pctMed}%` }}></div>
+                                <div className="w-full h-1 bg-luxury-border rounded-full overflow-hidden">
+                                  <div className="bg-luxury-gold h-full rounded-full" style={{ width: `${pctOpt}%` }}></div>
                                 </div>
                               </div>
                               <div>
                                 <div className="flex justify-between text-xs mb-1">
-                                  <span className="text-slate-300">{t[lang].poll_chart_3}</span>
-                                  <span className="text-slate-400">{pctCrit}% ({pollVotes.criticalConcern} {lang === 'th' ? 'โหวต' : 'votes'})</span>
+                                  <span className="text-luxury-stone font-light">{t[lang].poll_chart_2}</span>
+                                  <span className="text-luxury-espresso font-semibold">{pctMed}% ({pollVotes.moderateWithRisk} {lang === 'th' ? 'โหวต' : 'votes'})</span>
                                 </div>
-                                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className="bg-slate-700 h-full rounded-full" style={{ width: `${pctCrit}%` }}></div>
+                                <div className="w-full h-1 bg-luxury-border rounded-full overflow-hidden">
+                                  <div className="bg-luxury-espresso h-full rounded-full" style={{ width: `${pctMed}%` }}></div>
+                                </div>
+                              </div>
+                              <div>
+                                <div className="flex justify-between text-xs mb-1">
+                                  <span className="text-luxury-stone font-light">{t[lang].poll_chart_3}</span>
+                                  <span className="text-luxury-espresso font-semibold">{pctCrit}% ({pollVotes.criticalConcern} {lang === 'th' ? 'โหวต' : 'votes'})</span>
+                                </div>
+                                <div className="w-full h-1 bg-luxury-border rounded-full overflow-hidden">
+                                  <div className="bg-luxury-stone h-full rounded-full" style={{ width: `${pctCrit}%` }}></div>
                                 </div>
                               </div>
                             </div>
@@ -1408,36 +1434,36 @@
                   </div>
 
                   {/* PRO Investor Resource & Inquiry Portal (Replaces Mock Comments) */}
-                  <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between space-y-4">
+                  <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm flex flex-col justify-between space-y-4">
                     <div>
-                      <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-2 block">{t[lang].club_title}</span>
-                      <h4 className="text-white font-bold text-sm sm:text-base mb-3">{t[lang].club_subtitle}</h4>
+                      <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest mb-2 block">{t[lang].club_title}</span>
+                      <h4 className="text-luxury-espresso font-serif text-base font-normal mb-3 leading-relaxed">{t[lang].club_subtitle}</h4>
                       
                       {!inquirySubmitted ? (
                         <div className="space-y-4">
                           {/* Official Publications / Download list */}
-                          <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80 space-y-2">
-                            <span className="text-[10px] text-slate-400 font-bold uppercase block">{t[lang].club_doc_label}</span>
-                            <div className="space-y-1.5">
-                              <a href="#" onClick={(e) => { e.preventDefault(); alert(lang === 'th' ? "ระบบเริ่มดาวน์โหลด: คู่มือผังที่ดินและที่อยู่อาศัยในอนาคต EECiti 2026.pdf (3.8 MB)" : "Downloading: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-                                <span className="truncate">📁 {t[lang].club_doc_1}</span>
-                                <span className="text-[9px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400 font-mono">3.8 MB</span>
+                          <div className="p-4 bg-luxury-creamdark/40 rounded-sm border border-luxury-border space-y-2.5">
+                            <span className="text-[10px] text-luxury-stone font-bold uppercase tracking-widest block">{t[lang].club_doc_label}</span>
+                            <div className="space-y-2">
+                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: คู่มือผังที่ดินและที่อยู่อาศัยในอนาคต EECiti 2026.pdf (3.8 MB)" : "Initiating download: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
+                                <span className="truncate pr-2">📁 {t[lang].club_doc_1}</span>
+                                <span className="text-[9px] bg-luxury-cream border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">3.8 MB</span>
                               </a>
-                              <a href="#" onClick={(e) => { e.preventDefault(); alert(lang === 'th' ? "ระบบเริ่มดาวน์โหลด: แนวทางและขั้นตอนยื่นสิทธิขอย้ายถิ่นฐาน EEC Visa.pdf (1.9 MB)" : "Downloading: EEC Visa Application Pathway.pdf (1.9 MB)"); }} className="flex justify-between items-center text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-                                <span className="truncate">📁 {t[lang].club_doc_2}</span>
-                                <span className="text-[9px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400 font-mono">1.9 MB</span>
+                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: แนวทางและขั้นตอนยื่นสิทธิขอย้ายถิ่นฐาน EEC Visa.pdf (1.9 MB)" : "Initiating download: EEC Visa Application Pathway.pdf (1.9 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
+                                <span className="truncate pr-2">📁 {t[lang].club_doc_2}</span>
+                                <span className="text-[9px] bg-luxury-cream border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">1.9 MB</span>
                               </a>
                             </div>
                           </div>
 
-                          <form onSubmit={handleInquirySubmit} className="space-y-2.5">
+                          <form onSubmit={handleInquirySubmit} className="space-y-2.5 font-sans">
                             <div className="grid grid-cols-2 gap-2">
                               <input 
                                 type="text" 
                                 placeholder={t[lang].club_form_name} 
                                 value={inquiryName}
                                 onChange={(e) => setInquiryName(e.target.value)}
-                                className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-emerald-500 outline-none w-full"
+                                className="bg-luxury-cream border border-luxury-border rounded-sm px-2.5 py-2 text-xs text-luxury-espresso focus:border-luxury-gold outline-none w-full font-sans"
                                 required
                               />
                               <input 
@@ -1445,7 +1471,7 @@
                                 placeholder={t[lang].club_form_country} 
                                 value={inquiryCountry}
                                 onChange={(e) => setInquiryCountry(e.target.value)}
-                                className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-emerald-500 outline-none w-full"
+                                className="bg-luxury-cream border border-luxury-border rounded-sm px-2.5 py-2 text-xs text-luxury-espresso focus:border-luxury-gold outline-none w-full font-sans"
                                 required
                               />
                             </div>
@@ -1455,34 +1481,34 @@
                                 placeholder={t[lang].club_form_email} 
                                 value={inquiryEmail}
                                 onChange={(e) => setInquiryEmail(e.target.value)}
-                                className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-emerald-500 outline-none w-full"
+                                className="bg-luxury-cream border border-luxury-border rounded-sm px-2.5 py-2 text-xs text-luxury-espresso focus:border-luxury-gold outline-none w-full font-sans"
                                 required
                               />
                               <select 
                                 value={inquiryCluster}
                                 onChange={(e) => setInquiryCluster(e.target.value)}
-                                className="bg-slate-900 border border-slate-800 rounded-lg px-2 py-1.5 text-xs text-slate-300 focus:border-emerald-500 outline-none w-full"
+                                className="bg-luxury-cream border border-luxury-border rounded-sm px-2 py-2 text-xs text-luxury-stone focus:border-luxury-gold outline-none w-full font-sans"
                               >
-                                <option value="Zone 1">{lang === 'th' ? 'สนใจย่านการทำงาน CBD (ย่าน 1)' : 'Zone 1: Tech & Corporate CBD'}</option>
-                                <option value="Zone 2">{lang === 'th' ? 'สนใจย่านสุขภาพ Precision Med (ย่าน 2)' : 'Zone 2: Precision Medical & Lifecare'}</option>
-                                <option value="Zone 3">{lang === 'th' ? 'สนใจย่านโรงเรียน/การศึกษา (ย่าน 3)' : 'Zone 3: Schools & Academy Zone'}</option>
-                                <option value="Zone 5">{lang === 'th' ? 'สนใจย่านคอนเสิร์ตและกีฬา (ย่าน 5)' : 'Zone 5: Active Sports SAT Complex'}</option>
+                                <option value="Zone 1">{lang === 'th' ? 'สนใจย่าน CBD (ย่าน 1)' : 'Zone 1: Tech & Corporate CBD'}</option>
+                                <option value="Zone 2">{lang === 'th' ? 'สนใจย่าน Precision Med (ย่าน 2)' : 'Zone 2: Precision Medical & Lifecare'}</option>
+                                <option value="Zone 3">{lang === 'th' ? 'สนใจย่านการศึกษา (ย่าน 3)' : 'Zone 3: Schools & Academy Zone'}</option>
+                                <option value="Zone 5">{lang === 'th' ? 'สนใจย่าน Sport Complex (ย่าน 5)' : 'Zone 5: Active Sports SAT Complex'}</option>
                                 <option value="Zone 6">{lang === 'th' ? 'สนใจย่านพักอาศัย Smart Living (ย่าน 6)' : 'Zone 6: Walkable Mixed-use living'}</option>
                               </select>
                             </div>
-                            <button type="submit" className="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-lg transition-colors flex items-center justify-center space-x-1.5">
+                            <button type="submit" className="w-full py-2.5 bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream font-serif text-[11px] tracking-widest uppercase rounded-sm transition-all duration-300 flex items-center justify-center space-x-1.5">
                               <span>{t[lang].club_btn_submit}</span>
                             </button>
                           </form>
                         </div>
                       ) : (
-                        <div className="space-y-4 py-2">
-                          <div className="bg-emerald-500/10 border border-emerald-500/20 text-xs p-4 rounded-xl space-y-2">
-                            <div className="flex items-center space-x-2 text-emerald-400 font-bold">
+                        <div className="space-y-4 py-2 font-sans">
+                          <div className="bg-luxury-goldlight border border-luxury-gold text-xs p-4 rounded-sm space-y-2">
+                            <div className="flex items-center space-x-2 text-luxury-gold font-bold">
                               <span>✓</span>
                               <span>{t[lang].club_success_title}</span>
                             </div>
-                            <p className="text-slate-300 text-[11px] leading-relaxed">
+                            <p className="text-luxury-stone text-[11px] leading-relaxed font-light">
                               {lang === 'th' ? (
                                 `ยินดีต้อนรับคุณ ${inquiryName} เข้าเป็นส่วนหนึ่งของครอบครัวพลเมืองในอนาคต! ระบบได้บันทึกความประสงค์ที่จะย้ายมายัง ${inquiryCluster} ของคุณเรียบร้อยแล้ว คณะแอดมินชุมชนจะคอยจัดส่งความคืบหน้าการสร้างย่าน ยื่นเอกสาร EEC Visa และข่าวสารตลาดบ้านและอสังหาพัทยา-ชลบุรีให้ทางอีเมล ${inquiryEmail} เป็นระยะค่ะ`
                               ) : (
@@ -1491,16 +1517,32 @@
                             </p>
                           </div>
                           
-                          {/* Digital Hologram Pioneer Card representation */}
-                          <div className="p-4 bg-gradient-to-r from-emerald-950 to-slate-900 rounded-xl border border-emerald-500/30 flex justify-between items-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 h-16 w-16 bg-emerald-500/5 rounded-full blur-lg"></div>
-                            <div>
-                              <span className="text-[9px] text-emerald-400 uppercase tracking-widest font-mono block">{t[lang].club_card_pioneer}</span>
-                              <strong className="text-white font-mono text-sm tracking-wider">{trackingId}</strong>
+                          {/* Premium Minimalist Silver/Blue Inlaid Member Card */}
+                          <div className="p-6 bg-gradient-to-br from-luxury-espresso to-slate-900 rounded-sm border border-luxury-gold flex flex-col justify-between h-40 relative overflow-hidden book-page-shadow">
+                            <div className="absolute top-0 right-0 h-24 w-24 bg-luxury-gold/15 rounded-full blur-xl"></div>
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <span className="text-[8px] text-luxury-gold uppercase tracking-widest font-mono block">{t[lang].club_card_pioneer}</span>
+                                <span className="text-xs text-luxury-cream font-serif font-light tracking-wide block mt-1">EECITI GLOBAL CITIZEN CLUB</span>
+                              </div>
+                              <span className="text-[10px] text-luxury-gold font-serif italic">EST. 2026</span>
                             </div>
+                            <div className="flex justify-between items-end border-t border-luxury-gold/20 pt-4">
+                              <div>
+                                <span className="text-[8px] text-slate-400 block uppercase font-mono">MEMBER NAME</span>
+                                <span className="text-xs text-luxury-cream font-medium tracking-wide block">{inquiryName}</span>
+                              </div>
+                              <div className="text-right">
+                                <span className="text-[8px] text-slate-400 block uppercase font-mono">PASS ID</span>
+                                <span className="text-xs text-luxury-gold font-mono tracking-widest block font-bold">{trackingId}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="text-center pt-2">
                             <button 
                               onClick={() => { setInquirySubmitted(false); setInquiryName(''); setInquiryEmail(''); }} 
-                              className="text-xs text-slate-400 hover:text-white transition-colors underline"
+                              className="text-xs text-luxury-stone hover:text-luxury-espresso transition-all duration-300 underline font-light"
                             >
                               {t[lang].club_card_reset}
                             </button>
@@ -1514,60 +1556,65 @@
 
               </div>
 
-              {/* Sidebar Panel */}
-              <div className="space-y-8">
+              {/* Sidebar Panel - Representing the adjacent book pages and quick highlights */}
+              <div className="space-y-12">
                 
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-                  <div className="flex items-center space-x-3 pb-4 border-b border-slate-800">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-emerald-500 to-blue-500 flex items-center justify-center font-bold text-slate-950">
+                {/* Community Bios */}
+                <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm space-y-4">
+                  <div className="flex items-center space-x-3 pb-4 border-b border-luxury-border">
+                    <div className="h-11 w-11 rounded-full bg-luxury-creamdark flex items-center justify-center font-serif font-bold text-luxury-espresso border border-luxury-border">
                       CH
                     </div>
                     <div>
-                      <h4 className="text-white font-bold text-sm">{t[lang].side_admin_title}</h4>
-                      <span className="text-slate-400 text-xs">EECiti Fanbase & Global Citizens</span>
+                      <h4 className="text-luxury-espresso font-serif text-sm font-semibold">{t[lang].side_admin_title}</h4>
+                      <span className="text-luxury-gold text-[10px] tracking-wider uppercase font-mono block mt-0.5">EECiti Fanbase Group</span>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-luxury-stone leading-relaxed font-light">
                     {t[lang].side_admin_desc}
                   </p>
                 </div>
 
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                {/* Spotlights of Zone 5 */}
+                <div className="bg-luxury-cream border border-luxury-border rounded-lg overflow-hidden shadow-sm">
                   <SafeImage 
                     src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" 
                     alt="Sport Complex SAT Area Chonburi"
                     className="h-44 w-full"
                   />
-                  <div className="p-5 space-y-2">
-                    <span className="text-[10px] text-emerald-400 font-bold uppercase">{t[lang].side_spot_tag}</span>
-                    <h5 className="text-white font-bold text-sm">{t[lang].side_spot_title}</h5>
-                    <p className="text-slate-400 text-xs leading-relaxed">
+                  <div className="p-6 space-y-2">
+                    <span className="text-[9px] text-luxury-gold font-bold uppercase tracking-widest font-mono block">{t[lang].side_spot_tag}</span>
+                    <h5 className="text-luxury-espresso font-serif text-base font-normal">{t[lang].side_spot_title}</h5>
+                    <p className="text-luxury-stone text-xs leading-relaxed font-light">
                       {t[lang].side_spot_desc}
                     </p>
                   </div>
                 </div>
 
-                {/* Timeline */}
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                  <h4 className="text-white font-bold text-sm mb-4 flex items-center">
-                    <span className="text-emerald-400 mr-2">📅</span>
+                {/* Timeline Roadmap */}
+                <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm">
+                  <h4 className="text-luxury-espresso font-serif text-sm font-semibold mb-6 flex items-center">
+                    <span className="text-luxury-gold mr-2 font-sans">✦</span>
                     {t[lang].side_time_title}
                   </h4>
-                  <div className="relative border-l border-slate-800 pl-4 ml-2 space-y-6">
-                    <div>
-                      <span className="text-[10px] text-emerald-400 font-bold block">{t[lang].side_time_1_t}</span>
-                      <span className="text-xs text-white font-semibold block">{lang === 'th' ? 'ประกาศผ่านหลักการและผังเมือง' : 'Blueprint & Master Plan Approved'}</span>
-                      <span className="text-xs text-slate-400 block leading-snug">{t[lang].side_time_1_d}</span>
+                  <div className="relative border-l border-luxury-border/80 pl-4 ml-2 space-y-8 text-xs">
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-gold bg-luxury-cream"></div>
+                      <span className="text-[9px] text-luxury-gold font-bold block font-mono">{t[lang].side_time_1_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'ประกาศผ่านหลักการและผังเมือง' : 'Blueprint & Master Plan Approved'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_1_d}</span>
                     </div>
-                    <div>
-                      <span className="text-[10px] text-blue-400 font-bold block">{t[lang].side_time_2_t}</span>
-                      <span className="text-xs text-white font-semibold block">{lang === 'th' ? 'เริ่ม Market Sounding คัดสรรกลุ่มสร้างเมือง' : 'Global Market Sounding Initiated'}</span>
-                      <span className="text-xs text-slate-400 block leading-snug">{t[lang].side_time_2_d}</span>
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-stone bg-luxury-cream"></div>
+                      <span className="text-[9px] text-luxury-stone font-bold block font-mono">{t[lang].side_time_2_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เริ่ม Market Sounding คัดสรรกลุ่มสร้างเมือง' : 'Global Market Sounding Initiated'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_2_d}</span>
                     </div>
-                    <div>
-                      <span className="text-[10px] text-purple-400 font-bold block">{t[lang].side_time_3_t}</span>
-                      <span className="text-xs text-white font-semibold block">{lang === 'th' ? 'เริ่มกระบวนการตอกเสาเข็มงานโยธาหลัก' : 'Infrastructure Groundbreaking'}</span>
-                      <span className="text-xs text-slate-400 block leading-snug">{t[lang].side_time_3_d}</span>
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-espresso bg-luxury-cream"></div>
+                      <span className="text-[9px] text-luxury-espresso font-bold block font-mono">{t[lang].side_time_3_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เริ่มกระบวนการตอกเสาเข็มงานโยธาหลัก' : 'Infrastructure Groundbreaking'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_3_d}</span>
                     </div>
                   </div>
                 </div>
@@ -1577,31 +1624,57 @@
             </div>
 
             {/* Footer */}
-            <footer className="border-t border-slate-800 mt-16 pt-10 pb-6 text-center md:text-left text-slate-500 text-xs">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-left">
-                <div>
-                  <span className="font-bold text-white block mb-2">EECiti Global Hub ({lang === 'th' ? 'กิจกรรมโดยชุมชน' : 'Community Initiative'})</span>
-                  <p>{t[lang].foot_desc}</p>
+            <footer className="border-t border-luxury-border/60 mt-20 pt-12 pb-6 text-center md:text-left text-luxury-stone text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 text-left">
+                <div className="space-y-2">
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">EECiti Global Hub ({lang === 'th' ? 'กิจกรรมโดยชุมชน' : 'Community Initiative'})</span>
+                  <p className="font-light leading-relaxed">{t[lang].foot_desc}</p>
                 </div>
-                <div>
-                  <span className="font-bold text-white block mb-2">{lang === 'th' ? 'ความโปร่งใสและอ้างอิงเอกสาร' : 'Transparency & Data Sources'}</span>
-                  <p>{t[lang].foot_rights}</p>
+                <div className="space-y-2">
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">{lang === 'th' ? 'ความโปร่งใสและอ้างอิงเอกสาร' : 'Transparency & Data Sources'}</span>
+                  <p className="font-light leading-relaxed">{t[lang].foot_rights}</p>
                 </div>
-                <div>
-                  <span className="font-bold text-white block mb-2">{lang === 'th' ? 'มุ่งหน้าสู่อนาคตสีเขียว' : 'Green Living Mission'}</span>
-                  <p>{t[lang].foot_green}</p>
+                <div className="space-y-2">
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">{lang === 'th' ? 'มุ่งหน้าสู่อนาคตสีเขียว' : 'Green Living Mission'}</span>
+                  <p className="font-light leading-relaxed">{t[lang].foot_green}</p>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row justify-between items-center border-t border-slate-800/60 pt-4">
-                <span>© 2026 EECiti Global Hub - Community Campaign. All rights reserved.</span>
-                <div className="flex space-x-4 mt-2 sm:mt-0">
-                  <a href="#" className="hover:text-slate-300">{t[lang].foot_privacy}</a>
-                  <a href="#" className="hover:text-slate-300">{t[lang].foot_terms}</a>
+              <div className="flex flex-col sm:flex-row justify-between items-center border-t border-luxury-border/40 pt-6">
+                <span className="font-light">© 2026 EECiti Global Hub - Community Campaign. All rights reserved.</span>
+                <div className="flex space-x-6 mt-3 sm:mt-0 font-light">
+                  <a href="#" className="hover:text-luxury-gold transition-colors">{t[lang].foot_privacy}</a>
+                  <a href="#" className="hover:text-luxury-gold transition-colors">{t[lang].foot_terms}</a>
                 </div>
               </div>
             </footer>
 
           </main>
+
+          {/* Premium In-App Notification Modal (Replaces standard window alert) */}
+          {modalOpen && (
+            <div className="fixed inset-0 bg-luxury-espresso/30 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+              <div className="bg-luxury-cream border border-luxury-border p-6 rounded-lg max-w-sm w-full book-page-shadow relative overflow-hidden border-t-4 border-t-luxury-gold">
+                <div className="space-y-4 text-center">
+                  <div className="h-10 w-10 bg-luxury-goldlight rounded-full flex items-center justify-center mx-auto text-luxury-gold text-lg">
+                    ✓
+                  </div>
+                  <h4 className="text-luxury-espresso font-serif text-base font-semibold uppercase tracking-wider">
+                    {lang === 'th' ? "ดำเนินการสำเร็จ" : "System Notification"}
+                  </h4>
+                  <p className="text-luxury-stone text-xs sm:text-sm font-light leading-relaxed">
+                    {modalContent}
+                  </p>
+                  <button 
+                    onClick={() => setModalOpen(false)}
+                    className="mt-2 w-full py-2 bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream text-xs uppercase tracking-widest font-serif rounded-sm transition-all duration-300 font-sans"
+                  >
+                    {lang === 'th' ? "ตกลง" : "Close"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       );
     }
