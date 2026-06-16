@@ -24,13 +24,13 @@
           },
           colors: {
             luxury: {
-              cream: '#F2F6F8',       // Light sea-mist paper background (Oceanic)
-              creamdark: '#E5ECF0',   // Cool foam shade for pages
-              espresso: '#0A1D28',    // Deep ocean navy for text (Replaces espresso)
-              stone: '#4D6575',       // Coastal stone grey-blue for muted text
-              gold: '#1B6A88',        // Rich sea blue / deep teal accent (Replaces gold)
-              goldlight: '#E6F2F7',   // Breezy light sky blue tint
-              border: '#D1DFE5',      // Soft wave-line border
+              cream: '#D9E4EC',       // Rich sea-fog slate blue background (Clearly defined, no longer white)
+              creamdark: '#FFFFFF',   // Crisp art-paper white for editorial pages (High contrast pop)
+              espresso: '#05101A',    // Deep abyssal navy-black for absolute text readability
+              stone: '#3A506B',       // Coastal deep-slate blue for secondary text
+              gold: '#0F4C6F',        // Rich marine teal accent for selected states & gold replacements
+              goldlight: '#C8E2EE',   // Defined sky water tint for highlight/selected states
+              border: '#A9C3D3',      // Tidal slate-blue for crisp and highly visible borders
             }
           }
         }
@@ -50,25 +50,25 @@
       width: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #F2F6F8;
+      background: #D9E4EC;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #D1DFE5;
+      background: #A9C3D3;
       border-radius: 2px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #1B6A88;
+      background: #0F4C6F;
     }
     
     body {
       font-family: 'Sarabun', sans-serif;
-      background-color: #F2F6F8;
-      color: #0A1D28;
+      background-color: #D9E4EC;
+      color: #05101A;
     }
 
-    /* Subtle elegant page shadow representing thick paper edges */
+    /* Elegant shadow representing thick paper edges on misty background */
     .book-page-shadow {
-      box-shadow: 0 4px 20px -2px rgba(10, 29, 40, 0.05), 0 2px 6px -1px rgba(10, 29, 40, 0.03);
+      box-shadow: 0 10px 30px -5px rgba(10, 29, 40, 0.12), 0 4px 12px -2px rgba(10, 29, 40, 0.08);
     }
   </style>
 </head>
@@ -119,7 +119,7 @@
       )
     };
 
-    // Safe Image Component designed with premium page aesthetics
+    // Safe Image Component with fallback to avoid image load issues
     function SafeImage({ src, alt, className }) {
       const [error, setError] = useState(false);
       const [loading, setLoading] = useState(true);
@@ -135,7 +135,7 @@
             <img
               src={src}
               alt={alt}
-              className={`w-full h-full object-cover grayscale-[15%] contrast-[105%] transition-all duration-700 hover:scale-105 hover:grayscale-0 ${loading ? 'opacity-0' : 'opacity-100'}`}
+              className={`w-full h-full object-cover grayscale-[10%] contrast-[105%] transition-all duration-700 hover:scale-105 hover:grayscale-0 ${loading ? 'opacity-0' : 'opacity-100'}`}
               onLoad={() => setLoading(false)}
               onError={() => setError(true)}
             />
@@ -144,187 +144,187 @@
               <svg className="w-8 h-8 text-luxury-stone mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-[11px] uppercase tracking-widest text-luxury-stone">EECiti Concept Representation</span>
+              <span className="text-xs text-luxury-stone font-sans">EECiti Concept Representation</span>
             </div>
           )}
         </div>
       );
     }
 
-    // Static Translation Dictionary (Bilingual with elegant phrasing)
+    // Static Translation Dictionary (Simple, engaging, and clear for general audience)
     const t = {
       th: {
-        tagline: "โอกาสตั้งรกรากในเมืองอัจฉริยะแห่งใหม่ของเอเชีย",
-        heroTitle: "สแกนสุนทรียภาพชีวิตดีๆ ในเมกะเมืองอัจฉริยะ",
+        tagline: "เกาะติดความเคลื่อนไหวอภิมหาเมืองใหม่อัจฉริยะริมชายฝั่งตะวันออก",
+        heroTitle: "เจาะลึก EECiti ชลบุรี เมืองใหม่อัจฉริยะ",
         heroTitleSpan: "7.2 หมื่นล้าน",
-        heroTitleEnd: "สู่การเป็นส่วนหนึ่งของครอบครัว \"EECiti\" ที่คุณออกแบบได้จริง",
-        heroDesc: "เคยฝันอยากใช้ชีวิตในย่านที่ปลอดภัย ไร้มลพิษ และแวดล้อมด้วยทิวแถวธรรมชาติธรรมชาติอันรื่นรมย์ไหม? มาร่วมสัมผัส EECiti โครงการเมืองใหม่อัจฉริยะบนพื้นที่ยุทธศาสตร์ 14,990 ไร่ในชลบุรี เมืองที่สรรค์สร้างขึ้นภายใต้ดุลยภาพของความสะดวกสบายล้ำสมัย และสิ่งแวดล้อมสีเขียวอย่างลงตัวที่สุด เพื่อต้อนรับผู้คนรุ่นใหม่ที่มีความฝันและครอบครัวจากทั่วโลก",
-        ticker_ppp: "● กรอบลงทุนร่วมทุนแบบ PPP โครงสร้างพื้นฐาน: 72,042 ล้านบาท",
-        ticker_top10: "● หมุดหมายระดับโลก: สู่เป้าหมายเมืองน่าอยู่อัจฉริยะ 1 ใน 10 ของโลกภายใน พ.ศ. 2580",
-        ticker_visa: "● สิทธิพิเศษพำนัก: ขยายฐานสิทธิ EEC Visa สูงสุดถึง 10 ปีเพื่อการตั้งถิ่นฐาน",
-        ticker_title: "COMMUNITY CAMPAIGN • 2026",
-        disclaimer: "ข้อมูลประชาสัมพันธ์โดยชุมชน: แพลตฟอร์มพอร์ทัลนี้จัดทำขึ้นโดยกลุ่มนักพัฒนาและชุมชนคนรักอนาคตเพื่อแนะนำโครงการ EECiti แก่คนทั่วโลก เราไม่มีส่วนเกี่ยวข้องอย่างเป็นทางการกับสำนักงานเขตพัฒนาพิเศษภาคตะวันออก (สกพอ.)",
-        city_smart: "เมืองอัจฉริยะน่าอยู่เพื่อคนรุ่นใหม่",
-        disclaimer_short: "PORTAL BY COMMUNITY ADMNS",
+        heroTitleEnd: "พิมพ์เขียวสังคมสีเขียวที่ทุกคนอยากออกเดินทางมาใช้ชีวิต",
+        heroDesc: "ขอต้อนรับสู่ศูนย์ข่าวกรองข้อมูลและอัปเดตสถานะความคืบหน้าของ EECiti (เมืองใหม่อัจฉริยะน่าอยู่) พื้นที่ยุทธศาสตร์ 14,990 ไร่ จังหวัดชลบุรี ซึ่งริเริ่มขึ้นเพื่อสื่อสารประชาสัมพันธ์และนำเสนอทัศนียภาพของเมืองแห่งอนาคตที่จะปฏิวัติระบบสาธารณูปโภค 10 ด้าน ควบคู่ไปกับ 6 คลัสเตอร์ที่อยู่อาศัยและนวัตกรรม เพื่อเตรียมปูพรมต้อนรับผู้เชี่ยวชาญจากทั่วโลกในอนาคต",
+        ticker_ppp: "● บอร์ด สกพอ. ไฟเขียวเม็ดเงินความร่วมมือร่วมลงทุนแบบ PPP แล้ว 72,042 ล้านบาท",
+        ticker_top10: "● ปักหมุดหมายโลก: สู่เป้าหมายสมาร์ทซิตี้ที่น่าอยู่อันดับ 1 ใน 10 ของโลกภายในปี 2580",
+        ticker_visa: "● เรื่องน่าตื่นเต้นสำหรับต่างชาติ: มีการผ่านสิทธิ์วีซ่าพำนักสูงสุด 10 ปี (EEC Visa) แล้ว",
+        ticker_title: "EECiti Fan Community Blog • 2026",
+        disclaimer: "จุดประสงค์ของเพจ: พวกเราไม่ใช่ สกพอ. หรือหน่วยงานทางการใดๆ ของทางรัฐบาลนะคร้าบ! พวกเราแค่อยากนำเสนอและแชร์ความคืบหน้าของเมืองสีเขียว EECiti เพื่อให้คนทั่วไปได้ร่วมติดตามความคืบหน้าอย่างถูกต้อง เห็นสิทธิประโยชน์ของ EEC Visa และร่วมลุ้นรอวันที่พวกเราจะย้ายเข้าไปอยู่อาศัยด้วยกันในอนาคตครับ",
+        city_smart: "แฟนบล็อกสรุปข่าวสารสำหรับประชาชน",
+        disclaimer_short: "PORTAL BY COMMUNITY FANS",
         
         // Tabs
-        tab_about: "เรื่องราวของ EECiti",
-        tab_zones: "6 ย่านที่พักอาศัยในฝัน",
-        tab_infra: "10 นวัตกรรมชีวิตคุณภาพ",
-        tab_visa: "สิทธิพำนัก EEC Visa",
-        tab_matcher: "จับคู่ย่านและไลฟ์สไตล์",
+        tab_about: "อ่านข่าวสารอัปเดตล่าสุด",
+        tab_zones: "ส่องผัง 6 ย่านอัจฉริยะ",
+        tab_infra: "ส่องระบบอุโมงค์ 10 ด้าน",
+        tab_visa: "ย้ายประเทศง่ายๆ ด้วย EEC Visa",
+        tab_matcher: "เกมจำลองจับคู่ย่านที่ชอบ",
 
         // Article
-        art_subtitle: "EECITI MASTER PLAN ESSAY",
-        art_title: "บทความวิเคราะห์: การจัดผังเมืองน่าอยู่อัจฉริยะและทิศทางอนาคตใหม่ของชลบุรี",
-        art_p1: "ในท่ามกลางความแออัดของสังคมเมืองใหญ่ในอดีต ตลอดจนความท้าทายจากมลภาวะ PM2.5 ที่ทวีความรุนแรงมากขึ้น... โครงการ EECiti จึงเปรียบเสมือน \"แนวคิดการสร้างเมืองทางเลือกใหม่\" ที่รังสรรค์ขึ้นจากความมุ่งมั่นที่จะนำความก้าวหน้าทางนวัตกรรมมาสอดรับเข้ากับสุนทรียภาพแห่งชีวิตที่ร่มรื่นในชลบุรี-พัทยา [1, 2]",
-        art_p2: "โครงการที่ได้รับการปักผืนแผ่นดินกว่า 14,990 ไร่นี้ ได้ผ่านกระบวนการเห็นชอบงบประมาณจัดสรรในแผนร่วมพัฒนาแบบ PPP วงเงินรวม 72,042 ล้านบาท เรียบร้อยแล้ว ซึ่งจะเป็นการเปิดทางนำพาผู้เชี่ยวชาญ คลัสเตอร์วิชาการ และกำลังร่วมทุนเอกชนต่างชาติเพื่อเริ่มตอกเสาเข็มวางโครงข่ายหลักจริงในปี พ.ศ. 2571 [1, 4]",
-        art_green_tag: "ECO-FRIENDLY BLUEPRINT",
-        art_green_title: "การจัดผังและพื้นที่สีเขียวเพื่อสุขภาวะอันเป็นเลิศ",
-        art_green_desc: "เมืองใหม่ได้รับการออกแบบอย่างแยบยลเพื่อรักษาสัดส่วนพื้นที่ป่าไม้ สวนพักผ่อนสาธารณะ และโครงข่ายสายน้ำส่วนกลางรวมไม่น้อยกว่าร้อยละ 30 ของพื้นที่เมืองทั้งหมด ประกอบเข้ากับโครงข่ายพลังงานสะอาดและการหมุนเวียนน้ำเสีย 100% เพื่อมุ่งหน้าสู่การเป็นสังคมสีเขียว Net Zero Carbon ที่ยั่งยืนและไร้มลพิษ [2, 5, 19]",
-        art_spec_title: "รายละเอียดเชิงพื้นที่และข้อมูลประชากร",
-        art_spec_1: "การรักษาสิ่งแวดล้อมริมน้ำ: มีการตัดสินใจครั้งประณีตในการปรับลดพื้นที่เข้าปฏิรูปที่ดินจาก ส.ป.ก. จากเดิม 14,619 ไร่ เหลือเพียง 14,586 ไร่ เพื่อทำแนวป่ากันชนธรรมชาติริมน้ำ (Biological Buffer Belt) [2, 4]",
-        art_spec_2: "การบูรณาการสันทนาการ: การกีฬาแห่งประเทศไทย (กกท.) ร่วมเป็นเจ้าภาพจัดสรรพื้นที่ 371 ไร่ พัฒนาเป็นศูนย์กีฬา สวนนันทนาการ และพื้นที่แข่งขันมาตรฐานสากล (Sport Complex) [2, 8]",
-        art_spec_3: "แผนงานส่งมอบพื้นที่: สกพอ. วางแผนจัดกิจกรรมหยั่งเสียง Market Sounding แก่นักธุรกิจต่างชาติในต้นปี 2570 และพร้อมส่งมอบพื้นที่พร้อมใช้งานส่วนแรกรวม 5,795 ไร่ ทันทีที่กระบวนการร่วมทุนเสร็จสมบูรณ์ [4]",
+        art_subtitle: "EASY NEWS & EDUCATION",
+        art_title: "สรุปข่าวล่าสุด: แผนบุกเบิกและเป้าหมายการพัฒนาเมืองใหม่ EECiti",
+        art_p1: "เพจข่าวสารชุมชนของเราตั้งใจสรุปประเด็นอัปเดตล่าสุดของ EECiti (เมืองใหม่อัจฉริยะน่าอยู่) ในผืนดินชลบุรี เพื่อสื่อสารให้ผู้ที่สนใจทั่วไปได้รับข้อมูลที่ถูกต้อง น่าตื่นเต้น และเห็นโรดแมปการเตรียมงานรังวัดจัดรูปพื้นที่อย่างเป็นรูปธรรม โดยเมืองนี้เป็นโครงการขนาดใหญ่ที่จะทยอยสร้างขึ้นเป็นขั้นเป็นตอนในอนาคตอันใกล้ [1, 2]",
+        art_p2: "โดยความเคลื่อนไหวล่าสุด บอร์ด กพอ. ได้อนุมัติกรอบวงเงินร่วมทุนกับเอกชนแบบ PPP เรียบร้อยแล้วที่จำนวน 72,042 ล้านบาท โดยมีแผนจะเริ่มทำ Market Sounding หยั่งเสียงและคัดสรรเทคโนโลยีจากทั่วโลกในต้นปี 2570 และพร้อมตอกเสาเข็มทำทางหลักและขุดทางใต้อุโมงค์ดินจริงในปี พ.ศ. 2571 [1, 4]",
+        art_green_tag: "VIBRANT GREEN LIVING PLAN",
+        art_green_title: "เป้าหมายชีวิตคาร์บอนต่ำ Net Zero ที่เป็นมิตรกับครอบครัว",
+        art_green_desc: "นวัตกรรมเด่นของเมืองคือการบังคับใช้เกณฑ์คาร์บอนต่ำที่เข้มงวด โดยผู้พัฒนาที่อยู่อาศัยต้องมอบพื้นที่ป่าสีเขียวและสวนสันทนาการในสัดส่วนสูงถึง 30% ของพื้นที่ทั้งหมด และใช้ระบบรีไซเคิลน้ำเสียให้กลับมาวนใช้ได้ครบ 100% ปลอดภัย ไร้ฝุ่น PM2.5 ต้อนรับทุกคนอย่างเป็นมิตร [2, 5, 19]",
+        art_spec_title: "สรุปความคืบหน้าและข้อมูลเชิงพื้นที่จำลอง",
+        art_spec_1: "การกันเขตระบบนิเวศริมนาม: เพื่อรักษาสิ่งแวดล้อม สกพอ. ได้ปรับปรุงผังจัดที่ดิน ส.ป.ก. จากเดิม 14,619 ไร่ เหลือ 14,586 ไร่ เพื่อปูแนวเขตอนุรักษ์พืชพันธุ์ริมแม่น้ำ [2, 4]",
+        art_spec_2: "สนามกีฬาระดับสากล: มีการมอบพื้นที่พัฒนาขนาด 371 ไร่ ให้กับการกีฬาแห่งประเทศไทย (กกท.) เพื่อเตรียมพัฒนาเป็นศูนย์สันทนาการและ Sport Complex พรีเมียมสำหรับการพักผ่อน [2, 8]",
+        art_spec_3: "การเปิดพัฒนาเฟสแรก: แผนงานระยะแรกจะเน้นการเตรียมจัดสรรพื้นที่ย่านใจกลางรวม 5,795 ไร่ ให้เป็นย่านธุรกิจอัจฉริยะและสังคมน่าอยู่ในลำดับต้นๆ ทันทีที่ระบบสายไฟฟ้าลงดินเสร็จสิ้น [4]",
         
         // Checklist
-        chk_title: "✓ สแกนความคืบหน้ามาตรการจัดผังชุมชนจำลอง (คลิกเลือกเช็คลิสต์):",
-        chk_1_t: "1. จัดทำแผนการปันประโยชน์",
-        chk_1_d: "ร่างแผนความเหมาะสมของศูนย์กีฬาร่วมกับ กกท. บนพื้นที่ปอดของเมือง 371 ไร่",
-        chk_2_t: "2. วางโครงข่ายแจ้งออนไลน์",
-        chk_2_d: "ทดสอบแพลตฟอร์มแจ้งพำนักออนไลน์ 100% สำหรับผู้ถือครอง EEC Visa",
-        chk_3_t: "3. ตัวชี้วัดมาตรฐานความยั่งยืน",
-        chk_3_d: "กำหนดเงื่อนไขรีไซเคิลน้ำ 100% ลงในทีโออาร์ผู้ขอสัมปทานสาธารณูปโภค",
+        chk_title: "✓ ติดตามความคืบหน้าของโครงการเชิงประจักษ์ (คลิกเช็คลิสต์):",
+        chk_1_t: "1. การปรับแนวเขตริมน้ำ",
+        chk_1_d: "ปรับพื้นที่ใช้ประโยชน์ ส.ป.ก. เหลือ 14,586 ไร่ เพื่อทำแนวป่ากันชนริมฝั่งอย่างสมบูรณ์",
+        chk_2_t: "2. บริการ EEC Visa ออนไลน์",
+        chk_2_d: "เตรียมความพร้อมช่องทางยื่นขอวีซ่าพำนัก 10 ปี สำหรับชาวต่างชาติทักษะสูงบนเว็บออนไลน์",
+        chk_3_t: "3. แผนเปิดรับร่วมทุน PPP",
+        chk_3_d: "การเตรียมพร้อมนำเสนอร่าง TOR สัญญา 10 นวัตกรรมระบบส่วนกลางให้เอกชนช่วงต้นปี 2570",
 
         // Map & Zones
-        map_title: "ผังจำลองเชิงสุนทรียภาพของ EECiti Node",
-        map_desc: "*คลิกที่จุดวงกลมเพื่อเข้าเยี่ยมชมและวิเคราะห์ลักษณะเฉพาะของแต่ละย่านที่ดินที่คุณพึงใจได้ทันที",
-        zones_title: "6 ย่านพักอาศัยและสังคมแห่งสุนทรียภาพแห่งชีวิต",
-        zones_desc: "เพื่อสอดรับกับความชอบที่แตกต่างของครอบครัวและคนรุ่นใหม่ การจัดผังเมืองจึงแบ่งโครงสร้างตามคุณลักษณะวิถีชีวิตอย่างชัดเจน มอบพื้นที่ที่ปลอดภัยและสมบูรณ์แบบในทุกเวลาพักผ่อน [2, 4, 8]",
-        zones_map_title: "ผังจัดสรรพื้นที่ 6 ย่านอัจฉริยะแห่งอนาคต (6 Clusters)",
-        zones_tag_sat: "ทำเลใกล้โซนธรรมชาติริมน้ำ",
-        zones_tag_walk: "ผังเมืองเพื่อคนเดินและจักรยาน 15 นาที",
-        zones_key_point: "สิ่งอำนวยความสะดวกในย่าน:",
+        map_title: "แบบร่างผังเมืองจำลองก่อนการปรับดินก่อสร้างจริง",
+        map_desc: "*คลิกที่จุดวงกลมสีทองเพื่อเข้าเยี่ยมชมและวิเคราะห์ลักษณะเฉพาะของแต่ละย่านที่ดินที่คุณอยากอาศัยในอนาคต",
+        zones_title: "6 ย่านในอนาคต: เลือกดีไซน์ชีวิตที่ตรงกับหัวใจของคุณ",
+        zones_desc: "เพื่อสอดรับกับความฝันที่หลากหลายของคนรุ่นใหม่ ผังเมืองของ EECiti จึงถูกจำลองและออกแบบย่านออกมา 6 รูปแบบเฉพาะตัวเพื่อให้ทุกคนได้เลือกพักผ่อนและทำงานอย่างมีความสุข [2, 4, 8]",
+        zones_map_title: "ผังยุทธศาสตร์ 6 ย่านนวัตกรรมและสังคมสีเขียว (6 Clusters Map)",
+        zones_tag_sat: "ย่านพักผ่อนริมชายน้ำชลบุรี",
+        zones_tag_walk: "แนวคิดเมืองเดินง่าย 15 นาที มีเลนจักรยานปลอดภัย",
+        zones_key_point: "สิ่งอำนวยความสะดวกในโครงการอนาคต:",
 
         // 10 Systems
-        sys_title: "10 นวัตกรรมส่วนกลางที่ยกระดับความสุขในวันธรรมดา",
-        sys_desc: "สัมผัสเมืองไร้เสาไฟฟ้าและสายระโยงระยางด้วยการวางระบบท่อคอนกรีตร้อยสาธารณูปโภคใต้ดิน Common Utility Tunnel ทั้งหมด ให้ทัศนียภาพของเมืองเปิดรับแสงแดดและสายลมบริสุทธิ์อย่างน่าหลงใหล [5, 7]",
+        sys_title: "10 นวัตกรรมส่วนกลางที่ยกระดับคุณภาพชีวิตวันธรรมดา",
+        sys_desc: "ลืมสายไฟที่รกสายตาและฝาท่อระบายน้ำขรุขระไปได้เลย เพราะ EECiti วางพิมพ์เขียวระบบท่อคอนกรีตรวมสาธารณูปโภคใต้ดิน Common Utility Tunnel ทั้งหมด ให้เมืองสวยงามและปลอดภัย 100% [5, 7]",
         sys_img_tag: "10 SMART INFRASTRUCTURES",
-        sys_img_title: "ผังโครงสร้างพื้นฐานเพื่อสุขภาวะที่ดีขึ้น",
-        sys_img_desc: "ภาพร่างแสดงอุโมงค์ส่วนกลางใต้ดินที่ควบคุมการส่งกระแสไฟฟ้าสะอาด ระบบกรองน้ำอัจฉริยะ และสายสื่อสารที่ปลอดภัยที่สุดใต้ทางคนเดิน [5, 7]",
-        sys_metric_label: "ดัชนียกระดับคุณภาพชีวิต (Quality-of-Life Score):",
+        sys_img_title: "พิมพ์เขียวระบบสาธารณูปโภคเพื่อชีวิตที่ดีขึ้นของคนทั่วไป",
+        sys_img_desc: "ผังจำลองโครงข่ายท่อส่งประปาอัจฉริยะ สายส่งกระแสไฟฟ้าสะอาด และท่อสื่อสารที่ปลอดภัยที่สุดใต้อุโมงค์ดินของเมืองใหม่ [5, 7]",
+        sys_metric_label: "ดัชนีชี้วัดความน่าอยู่คาดหวัง (Quality-of-Life Score):",
 
         // Visa
-        visa_title: "สิทธิพิเศษ EEC Visa: พรมแดงสู่การพำนักและใช้ชีวิตระยะยาว",
-        visa_desc: "เพื่อให้การตัดสินใจโยกย้ายเข้ามาใช้ชีวิตในประเทศไทยเป็นเรื่องง่ายและสะดวกโยบาย EEC Visa สำหรับบุคลากรสร้างสรรค์และครอบครัวต่างชาติจึงถูกดีไซน์ขึ้นเพื่อขจัดทุกความกังวล [15, 17]",
-        visa_form_prof: "โปรดระบุกลุ่มสายงานหรือเป้าหมายของคุณ:",
-        visa_form_role: "บทบาทหน้าที่ในการทำงานปัจจุบัน:",
+        visa_title: "ย้ายประเทศมาไทยง่ายๆ ด้วยสิทธิพิเศษ EEC Visa",
+        visa_desc: "ข่าวดีสำหรับเพื่อนชาวต่างชาติหรือผู้เชี่ยวชาญจากทั่วโลก! ครม. มีการอนุมัติสิทธิวีซ่าเฉพาะพื้นที่ในเขตส่งเสริมอภิมหาโครงการ ช่วยยกเว้นขั้นตอนที่วุ่นวาย พำนักได้ยาวๆ ถึง 10 ปี [15, 17]",
+        visa_form_prof: "เลือกกลุ่มสายงานหรือเป้าหมายที่สนใจย้ายมาอยู่:",
+        visa_form_role: "บทบาทหน้าที่หรือระดับตำแหน่ง:",
         visa_rec_label: "สิทธิวีซ่าที่เราประเมินสำหรับคุณ:",
-        visa_benefit_title: "สิทธิพิเศษในการพำนักและสิ่งอำนวยความสะดวกที่จะได้รับ:",
+        visa_benefit_title: "สิทธิประโยชน์ที่คุณจะได้รับในการย้ายเข้ามาพำนัก:",
 
         // Matcher
-        match_title: "โปรแกรมจับคู่ย่านและไลฟ์สไตล์ (EECiti Matcher)",
-        match_desc: "เพื่อช่วยให้การโยกย้ายเป็นเรื่องสนุกและตรงใจ ทดลองตอบคำถามไลฟ์สไตล์สั้นๆ 3 ข้อ แล้วระบบปัญญาประดิษฐ์ของเราจะค้นหาย่านที่อยู่อาศัยที่แมตช์กับคุณที่สุดทันที!",
+        match_title: "โปรแกรมเกมจำลอง: จับคู่ย่านที่รักและไลฟ์สไตล์ที่ชอบ",
+        match_desc: "ลองตอบคำถามสไตล์ชีวิตที่คุณรัก 3 ข้อ แล้วระบบปัญญาประดิษฐ์ชุมชนของเราจะช่วยค้นหาว่าย่านใดใน EECiti ที่แมตช์และเหมาะกับการย้ายถิ่นฐานของคุณที่สุดในอนาคต!",
         match_q1: "1. เป้าหมายสูงสุดในการมาอยู่อาศัยที่ EECiti ของคุณคืออะไร?",
         match_q2: "2. สภาพแวดล้อมและบรรยากาศแวดล้อมที่ทำให้ใจคุณเป็นสุขที่สุด?",
         match_q3: "3. คุณมีแผนที่จะย้ายเข้ามาใช้ชีวิตพร้อมครอบครัว/มีบุตรหรือไม่?",
-        match_family_y: "ใช่ ย้ายมาพร้อมครอบครัวและมีบุตรเล็ก",
-        match_family_n: "ย้ายมาคนเดียว / รักวิถีชีวิตอิสระ",
+        match_family_y: "ใช่ ย้ายมาเป็นครอบครัว (มีบุตร/คู่สมรส)",
+        match_family_n: "ย้ายมาคนเดียว / รักวิถีชีวิตอิสระแบบคนรุ่นใหม่",
         match_res_tag: "ย่านที่อยู่อาศัยในฝันที่เราแนะนำสำหรับคุณคือ:",
         match_score_label: "คะแนนดัชนีความสอดคล้องไลฟ์สไตล์ (Match Score):",
-        match_btn_go: "เจาะลึกย่านนี้เพิ่มเติม",
+        match_btn_go: "เจาะลึกย่านที่แนะนำนี้",
 
         // Poll
-        poll_tag: "แบบสำรวจเพื่อการสื่อสารสาธารณะ",
-        poll_q: "หากการสร้างเมือง EECiti บรรลุตามแผนงาน คุณคิดว่าอยากจะย้ายถิ่นฐานมาพักอาศัยและร่วมเป็นพลเมืองใหม่ที่นี่หรือไม่?",
-        poll_opt_1: "👍 แน่นอนที่สุด! อยากใช้ชีวิตในสภาพแวดล้อมที่บริสุทธิ์และปลอดภัยเพื่อคุณภาพชีวิตที่ดี",
-        poll_opt_2: "😐 ขอพิจารณาดูระยะสั้น รอดูกลุ่มสถาบันนานาชาติและระบบดูแลสุขภาพก่อน",
-        poll_opt_3: "🏘️ อยากเดินทางมาพักผ่อน ทำกิจกรรมขี่จักรยานในวันหยุด แต่อยากคงที่อยู่อาศัยเดิม",
-        poll_voted_title: "✓ ขอบคุณที่แชร์ทัศนคติกับคอมมูนิตี้คนรักอนาคต สัดส่วนความเห็นขณะนี้:",
-        poll_chart_1: "ตั้งใจย้ายถิ่นฐานมาแน่นอน",
-        poll_chart_2: "รอประเมินระบบการศึกษา/เทคโนโลยี",
-        poll_chart_3: "ชอบแวะมาท่องเที่ยวในวันหยุดสุดสัปดาห์",
+        poll_tag: "แบบสำรวจเพื่อแชร์ความเห็นสาธารณะ",
+        poll_q: "หากโครงการ EECiti บุกเบิกก่อสร้างระบบแล้วเสร็จและเปิดขายบ้าน คุณและครอบครัวมีความคิดที่จะโยกย้ายถิ่นฐานมาอยู่อาศัยที่นี่หรือไม่?",
+        poll_opt_1: "👍 แน่นอนที่สุด! อยากสัมผัสเมืองสีเขียวและใช้ชีวิตท่ามกลางสิ่งแวดล้อมที่ปลอดภัย",
+        poll_opt_2: "😐 ขอรอดูความคืบหน้าของโรงเรียนนานาชาติใน Zone 3 และโรงพยาบาลส่วนกลางก่อน",
+        poll_opt_3: "🏘️ อยากเดินทางมาท่องเที่ยว พักผ่อน ขี่จักรยานช่วงสุดสัปดาห์ แต่อยากคงที่อยู่อาศัยเดิม",
+        poll_voted_title: "✓ ขอบคุณสำหรับการลงความเห็นร่วมกับชุมชนคนรักอนาคต สัดส่วนคำตอบล่าสุด:",
+        poll_chart_1: "ตั้งใจย้ายถิ่นฐานมาแน่นอนร้อยละ",
+        poll_chart_2: "รอดูความพร้อมระบบการศึกษาและโรงพยาบาลร้อยละ",
+        poll_chart_3: "ต้องการใช้เป็นจุดท่องเที่ยวในวันหยุดร้อยละ",
 
         // Club Form
-        club_title: "EECiti Global Citizen Club",
-        club_subtitle: "ลงทะเบียนสมาชิกคลับคนรักอนาคตเพื่อรับคู่มือและนัดหมายย้ายถิ่นฐาน",
-        club_doc_label: "ดาวน์โหลดเอกสารและคู่มืออย่างเป็นทางการของชุมชน:",
-        club_doc_1: "📁 สมุดผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf",
+        club_title: "EECiti Fan Club Registration",
+        club_subtitle: "ร่วมลงชื่อรับจดหมายข่าวอัปเดตและจับสลากร่วมทริปสัญจรพื้นที่จริงของชุมชน",
+        club_doc_label: "คลังข้อมูลและเอกสารแจกฟรีของกลุ่มแฟนคลับ:",
+        club_doc_1: "📁 สมุดเผยแพร่ผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf",
         club_doc_2: "📁 แนวทางเตรียมความพร้อมการขอสิทธิพำนัก EEC Visa.pdf",
         club_form_name: "ระบุชื่อ-สกุลของคุณ...",
         club_form_country: "ประเทศที่คุณพำนักปัจจุบัน...",
-        club_form_email: "อีเมลติดต่อรับเอกสารสำคัญ...",
-        club_form_cluster: "เลือกคลัสเตอร์ที่อยากโยกย้ายเข้า...",
-        club_btn_submit: "📩 ยืนยันสิทธิ์ร่วมคลับ & รับจดหมายข่าวอสังหาพรีเมียม",
-        club_success_title: "✓ ยินดีต้อนรับสู่พลเมืองผู้บุกเบิกแห่ง EECiti!",
-        club_success_desc: "ระบบบันทึกความจำนงของคุณเป็นที่เรียบร้อย คณะผู้บุกเบิกแอดมินคอมมูนิตี้จะจัดส่งชุดข้อมูลอสังหา สแกนความคืบหน้าก่อสร้างย่าน และสิทธิประโยชน์ของ EEC Visa ไปให้ศึกษาเพิ่มเติมทางอีเมล และสลักบัตรสมาชิกประเภทผู้บุกเบิกให้ท่านตามรายละเอียดด้านล่างค่ะ",
+        club_form_email: "อีเมลสำหรับรับคู่มืออัปเดตข่าวสาร...",
+        club_form_cluster: "ย่านที่คุณสนใจย้ายเข้าในอนาคต...",
+        club_btn_submit: "📩 ลงทะเบียนรับคู่มืออัปเดตข่าวสารและประกาศจากเพจ",
+        club_success_title: "✓ ลงทะเบียนร่วมกลุ่มคนรักอนาคตสำเร็จ!",
+        club_success_desc: "ยินดีต้อนรับเข้าสู่คอมมูนิตี้ของเราครับ! ระบบได้บันทึกความจำนงของคุณเรียบร้อยแล้ว ทีมงานแอดมินอิสระจะจัดส่งข่าวสารความเคลื่อนไหวอสังหาชลบุรี คู่มือเตรียมตัวย้ายถิ่นฐาน และขั้นตอนยื่นขอ EEC Visa ไปให้ศึกษาเพิ่มเติมทางอีเมล และสลักบัตรสมาชิกประเภทผู้ร่วมบุกเบิกจำลองให้ท่านตามรายละเอียดด้านล่างครับ",
         club_card_pioneer: "EECiti Digital Pioneer Pass",
-        club_card_reset: "ยื่นคำขอร่วมคลับเพิ่มเติม",
+        club_card_reset: "ยื่นสิทธิ์ลงทะเบียนใหม่อีกครั้ง",
 
         // Sidebar
-        side_admin_title: "กลุ่มผู้บุกเบิกชุมชนรักอนาคต",
-        side_admin_desc: "พวกเราคือกลุ่มนักคิด นักสถาปัตยกรรม และคนรุ่นใหม่ในพัทยาที่หลงใหลในศิลปะผังเมืองสีเขียว เพจนี้มีจุดประสงค์เดียวเพื่อเป็นสื่อกลางสื่อสารให้แก่คนธรรมดา และกระตุ้นเตือนให้ทุกคนได้เห็นสิทธิพิเศษของระบบนิเวศการอยู่ร่วมกันแบบ Net Zero ในเมืองหลวงใหม่ EECiti นี้ เพื่อผลักดันให้ทุกคนพร้อมก้าวออกไปใช้ชีวิตที่งดงามขึ้น",
-        side_spot_tag: "Spotlight on SAT",
-        side_spot_title: "สปอร์ตคอมเพล็กซ์เพื่อกิจกรรมสุดแอคทีฟ",
-        side_spot_desc: "พื้นที่รวมสันทนาการ สปอร์ตคอมเพล็กซ์ และสนามแข่ง 371 ไร่ ของการกีฬาแห่งประเทศไทย จะตั้งตระหง่านใกล้กับแนวป่ากันชนริมน้ำเพื่อเป็นย่านท่องเที่ยวและสันทนาการขนาดใหญ่ที่ห่างจากย่านที่อยู่อาศัยอัจฉริยะของคุณเพียงไม่กี่ก้าวเท่านั้น",
-        side_time_title: "📅 คาดการณ์โรดแมปการเติบโตของเมือง",
-        side_time_1_t: "พ.ศ. 2569 (ปีปัจจุบัน)",
-        side_time_1_d: "เห็นชอบกรอบและผังที่ดิน: ปรับสัดส่วนใช้สิทธิ์ผืนป่าริมน้ำ ส.ป.ก. 14,586 ไร่ เพื่อความยั่งยืน",
-        side_time_2_t: "พ.ศ. 2570",
-        side_time_2_d: "เริ่มต้นทดสอบความสนใจ Market Sounding ทั่วโลก และจับคู่ผู้ร่วมทุนรายแรก",
-        side_time_3_t: "พ.ศ. 2571",
-        side_time_3_d: "เริ่มต้นตอกเสาเข็มงานโยธาส่วนกลางและขุดเจาะท่อร้อยใต้อุโมงค์ (CUT) ก้อนแรก",
+        side_admin_title: "กลุ่มแอดมินอิสระผู้โปรโมตผังเมืองสีเขียว",
+        side_admin_desc: "พวกเราคือกลุ่มคนธรรมดาที่รักในศิลปะและนวัตกรรมการจัดวางผังเมืองสีเขียว เพจนี้มีจุดประสงค์ขึ้นเพื่อเป็นสื่อกลางสื่อสารให้คนทั่วไปได้รับรู้ข้อมูลข่าวสารล่าสุดของโครงการเมืองใหม่อัจฉริยะ EECiti และกระตุ้นความสนใจให้ผู้คนจากทั่วทุกมุมโลกได้รู้จักระเบียงเศรษฐกิจชลบุรี เพื่อรอวันย้ายเข้ามาใช้ชีวิตร่วมกันในอนาคต",
+        side_spot_tag: "Future Land delivery",
+        side_spot_title: "สปอร์ตคอมเพล็กซ์นานาชาติ 371 ไร่",
+        side_spot_desc: "พื้นที่นันทนาการและศูนย์กีฬาขนาดใหญ่ร่วมกับการกีฬาแห่งประเทศไทย ได้รับการโอนสิทธิ์และสำรวจแนวป่ากันชนริมน้ำเสร็จเรียบร้อยแล้ว เพื่อเตรียมความพร้อมก่อสร้างสนามฝึกซ้อมมาตรฐานสากลที่เปิดต้อนรับทุกคนในอนาคต [3, 4]",
+        side_time_title: "📅 เกาะติดไทม์ไลน์ความเคลื่อนไหวอย่างเป็นทางการ",
+        side_time_1_t: "ปี พ.ศ. 2569 (ปีปัจจุบัน)",
+        side_time_1_d: "เห็นชอบกรอบ PPP 7.2 หมื่นล้าน: บอร์ด กพอ. อนุมัติแผน และรังวัดที่ดินริมแม่น้ำเหลือ 14,586 ไร่เพื่อสร้างแนวกั้นระบบนิเวศริมน้ำ [1, 4]",
+        side_time_2_t: "ปี พ.ศ. 2570",
+        side_time_2_d: "จัด Market Sounding ทั่วโลก: สกพอ. เตรียมส่งร่าง TOR เชิญชวนบริษัทเทคโนโลยีชั้นนำร่วมเสนอราคางานอุโมงค์ใต้อุดมคติ [4]",
+        side_time_3_t: "ปี พ.ศ. 2571",
+        side_time_3_d: "บุกเบิกตอกเสาเข็มงานวิศวกรรมโยธาส่วนกลาง: เริ่มต้นงานก่อสร้างระบบท่อใต้ดิน Common Utility Tunnel ก้อนแรก [4, 6]",
 
         // Footer
-        foot_desc: "พื้นที่สื่อสารสาธารณะโดยชุมชนคนรักเมืองอัจฉริยะ เพื่อประชาสัมพันธ์วิถีชีวิตคาร์บอนต่ำและการอยู่อาศัยที่สงบสุข ปลอดภัยในอนาคตของจังหวัดชลบุรี",
-        foot_rights: "ข้อมูลทั้งหมดวิเคราะห์และรวบรวมมาจาก ร่างผังพื้นที่ใช้ที่ดิน และมติกรอบร่วมทุนเอกชนแบบ PPP ตลอดจนเกณฑ์ประเมินความสอดคล้องวีซ่าของ สกพอ. ปี 2569 ใช้เพื่อโปรโมตเท่านั้น",
-        foot_green: "การใช้พลังงานหมุนเวียน 100% สัดส่วนพื้นที่ป่าไม้และสีเขียว 30% และเกณฑ์รีไซเคิลน้ำ 100% คือเป้าหมายสูงสุดแห่งความสุขที่เราต้องการส่งต่อสู่คนทั่วโลก",
+        foot_desc: "พื้นที่รวบรวมและสื่อสารประชาสัมพันธ์ข่าวสารล่าสุดเกี่ยวกับเมืองใหม่อัจฉริยะน่าอยู่ EECiti ชลบุรี ขับเคลื่อนโดยกลุ่มพัฒนาและแอดมินอิสระเพื่อประโยชน์สาธารณะ",
+        foot_rights: "ข้อมูลทั้งหมดนำมาจากร่างข้อกำหนดการพัฒนาและรายงานสถิติของ สกพอ. ปี 2569 โดยทำหน้าที่สรุปประเด็นสำคัญให้อ่านง่ายเป็นข้อๆ เพื่อส่งต่อแรงบันดาลใจในการใช้ชีวิตที่ยั่งยืนแก่คนธรรมดาทั่วโลก",
+        foot_green: "การใช้พลังงานสะอาด 100% สัดส่วนพื้นที่ธรรมชาติป่าไม้ 30% และเกณฑ์รีไซเคิลน้ำเสีย 100% คือแก่นของเมืองในอนาคตที่เราภูมิใจอยากให้ทุกคนทั่วโลกได้เรียนรู้และเข้ามาอยู่",
         foot_privacy: "นโยบายคุ้มครองส่วนบุคคลผู้ใช้",
         foot_terms: "ข้อกำหนดและกฎหมายอ้างอิงของระบบ"
       },
       en: {
-        tagline: "Relocate to Asia's Premier Eco-Smart City Node",
-        heroTitle: "Unlock the Perfect Balance in a",
-        heroTitleSpan: "$2B Mega-Project",
-        heroTitleEnd: ": Step into Your Dream Life at \"EECiti\"!",
-        heroDesc: "Ever dreamed of a modern, stress-free life cradled by green buffer parks and hyper-advanced infrastructure? Meet EECiti, Thailand's landmark smart city spanning 14,990 rai in Chonburi-Pattaya. Built from the ground up, this sustainable city incorporates 10 central utilities and 6 diverse innovation clusters, welcoming young creators, global families, and medical-retirees alike.",
-        ticker_ppp: "● EECiti Infrastructure PPP Funding: 72,042M Baht Approved",
+        tagline: "Follow the Progress of Asia's Landmark Coastal Eco-Smart Mega Project",
+        heroTitle: "Live Updates: Preparing the Roadmap for a",
+        heroTitleSpan: "$2B Future Smart City",
+        heroTitleEnd: "—Get Ready for Your Journey to \"EECiti\"!",
+        heroDesc: "Welcome to the central community intelligence hub and news portal for EECiti (Eco-Smart Liveable Town). Spanning 14,990 rai in Chonburi, this future-oriented coastal mega-project is designed to pioneer 10 underground utility systems and 6 world-class innovation clusters, preparing to welcome global citizens and families to Thailand's future smart capital.",
+        ticker_ppp: "● Infrastructure PPP Funding Framework Approved: 72,042 Million Baht",
         ticker_top10: "● Global Destination: Targeting Top 10 World-Class Liveable Cities by 2037",
-        ticker_visa: "● Seamless Move: EEC Visa offers up to 10-year long-term residency privileges",
-        ticker_title: "EECiti Fan Community • 2026",
-        disclaimer: "Community Notice: This platform is launched and run by developers and future-oriented enthusiasts to promote EECiti globally. We are an unofficial community campaign and have no official affiliation with the Eastern Economic Corridor Office (EECO).",
-        city_smart: "Eco-Smart Liveable Town",
-        disclaimer_short: "Unofficial Fan Initiative",
+        ticker_visa: "● Relocation Prep: Seamless up to 10-Year Long-term EEC Visa Approved for Specialists",
+        ticker_title: "EECiti Fan Community News • 2026",
+        disclaimer: "Our Mission: This platform is created and managed by an independent fanbase of green architecture lovers. Our goal is to spread the word, share the latest updated official progress, and inspire people worldwide to discover EECiti so they can relocate and settle down here in the near future. We are not officially affiliated with the EECO.",
+        city_smart: "Official Smart City Progress Portal",
+        disclaimer_short: "UNOFFICIAL NEWS PORTAL",
 
         // Tabs
-        tab_about: "Discover EECiti",
-        tab_zones: "6 Dream Clusters",
-        tab_infra: "10 Utility Breakthroughs",
-        tab_visa: "About EEC Visa",
-        tab_matcher: "Lifestyle Matcher",
+        tab_about: "Latest Progress & News",
+        tab_zones: "6 Future Dream Clusters",
+        tab_infra: "10 Underground Utilities",
+        tab_visa: "EEC Visa Relocation Prep",
+        tab_matcher: "Zoning & Lifestyle Matcher",
 
         // Article
-        art_subtitle: "EECITI MASTER BLUEPRINT",
-        art_title: "Setting Global Benchmarks: Analyzing the Spatial Layout and Goals of EECiti",
-        art_p1: "If you are weary of dense city congestion, chronic smog, and endless traffic, EECiti is carefully engineered as the ultimate solution for a balanced, peaceful lifestyle in the Chonburi-Pattaya area—completely masterplanned from scratch with scientific precision. [1, 2]",
-        art_p2: "This 72,042 million Baht mega-project is already moving past renders. The Eastern Economic Corridor Policy Committee (EECO) has formally approved the PPP EEC Track funding framework to co-develop smart networks with top global technology providers, with primary civil construction set for 2028. [1, 4]",
-        art_green_tag: "NET ZERO EMISSION TOWN",
-        art_green_title: "Breathe Easy in a Net Zero Carbon Community",
-        art_green_desc: "By allocating over 30% of total land to green forests and community parks, and using 100% clean-energy electric transits alongside closed-loop biological water recycling, EECiti allows you and your loved ones to enjoy a pristine, PM2.5-safe living environment. [2, 5, 19]",
+        art_subtitle: "LIVE PROGRESS & DEVELOPMENT UPDATE",
+        art_title: "Live Report: Decoding Spatial Zoning, Land Adjustment, and Official Milestones of EECiti",
+        art_p1: "As EECiti is a futuristic smart city destined to rise in Chonburi in the coming years, this portal focuses on providing the most up-to-date and credible news updates directly from EECO board resolutions, helping people visualize the transition from initial blueprints to actual civil works. [1, 2]",
+        art_p2: "According to the latest official releases, the EECO has approved the 72,042 million Baht public-private partnership (PPP EEC Track) framework. The EECO is currently preparing global market soundings for tech firms in early 2027, clearing the way for developer selection and core utility groundbreaking in 2028. [1, 4]",
+        art_green_tag: "PRE-CONSTRUCTION NET ZERO PLAN",
+        art_green_title: "Coastal Biological Buffers & Eco-Engineering Standards",
+        art_green_desc: "Strict pre-construction criteria are being written into the concession terms. Developers must allocate over 30% of total land to green buffers, creating robust PM2.5-safe microclimates and ensuring the city meets its Net Zero targets before residents move in. [2, 5, 19]",
         art_subtitle_spec: "Key Spatial and Zoning Specifications",
         art_spec_title: "Key Spatial and Zoning Specifications",
         art_spec_1: "Land Allocation: The city spans 14,990 rai total. 14,619 rai is managed by the EECO, and a 371-rai prime plot is allocated to the Sports Authority of Thailand (SAT) for a world-class Sports Complex. [2, 8]",
         art_spec_2: "River Buffer Boundary: In compliance with strict environmental reviews, the industrial land use boundary was refined from 14,619 rai to 14,586 rai to establish a dedicated, protected riparian green belt. [2, 4]",
-        art_spec_3: "Market Sounding Roadmap: Official global market soundings with multinational consortia will kick off in early 2027, clearing the way for targeted developer selection and infrastructure groundbreaking in 2028. [4]",
+        art_spec_3: "Pilot Phase Targets: EECO has established a 5,795-rai master development phase for the first wave of medical wellness clusters and smart residential networks immediately following utility groundbreaking. [4]",
 
         // Checklist
         chk_title: "✓ Track Community-led Strategic Checklist (Click to Toggle):",
-        chk_1_t: "1. SAT Sport Feasibility",
-        chk_1_d: "Assess joint PPP structures on the 371-rai green area allocated for international-grade sports hubs.",
-        chk_2_t: "2. Single-Window Visa Portal",
-        chk_2_d: "Integrate immigration channels online to support 100% digital check-ins for specialists.",
-        chk_3_t: "3. Water Recycling Standard",
-        chk_3_d: "Enforce zero liquid discharge criteria in private concession tenders for the 10 utility segments.",
+        chk_1_t: "1. Land Boundary Completed",
+        chk_1_d: "ALRO boundary corrected to 14,586 rai, safeguarding critical coastal buffers.",
+        chk_2_t: "2. EEC Visa Portal Prep",
+        chk_2_d: "Currently working with immigration authorities to test 10-year residency application pipelines.",
+        chk_3_t: "3. PPP Concession Draft",
+        chk_3_d: "Drafting strict eco-standards for the 10 utility concessions prior to early 2027 market sounding.",
 
         // Map & Zones
         map_title: "Spatial Interactive Blueprint of EECiti Node",
@@ -347,8 +347,8 @@
         // Visa
         visa_title: "EEC Visa Privilege: Red Carpet Long-term Stay",
         visa_desc: "Relocating to Thailand as a skilled foreign researcher or executive is now simple. The special EEC Visa provides up to 10 years of residency with a simplified fast-track immigration pipeline. [15, 17]",
-        visa_form_prof: "Select Your Current Core Industry:",
-        visa_form_role: "Your Targeted Career Role:",
+        visa_form_prof: "Select Your Targeted Career Pathway:",
+        visa_form_role: "Select Your Targeted Residency Role:",
         visa_rec_label: "Recommended Visa Category for You:",
         visa_benefit_title: "Privileges Granted Under This Residency Track:",
 
@@ -371,12 +371,12 @@
         poll_opt_2: "😐 Maybe. I want to wait and see the school developments in Zone 3 first.",
         poll_opt_3: "🏘️ I prefer Pattaya's existing vibe but will visit the 15-minute park on weekends.",
         poll_voted_title: "✓ Vote logged! Community sentiments so far:",
-        poll_chart_1: "Intend to relocate for sure",
-        poll_chart_2: "Waiting on school/tech ecosystem",
-        poll_chart_3: "Keep existing home but visit parks",
+        poll_chart_1: "Intend to relocate for sure (%)",
+        poll_chart_2: "Waiting on school/tech ecosystem (%)",
+        poll_chart_3: "Keep existing home but visit parks (%)",
 
         // Club Form
-        club_title: "EECiti Global Citizen Club",
+        club_title: "EECiti Fan Club Registration",
         club_subtitle: "Join our fan circle and receive relocation updates",
         club_doc_label: "Recommended Living Guides for Download:",
         club_doc_1: "📁 EECiti Sustainable Living Guide 2026.pdf",
@@ -670,7 +670,7 @@
       // Relocation & Dream Lifestyle Matcher Algorithm
       const lifestyleMatch = useMemo(() => {
         let recommendedZoneId = 6; // Default to Zone 6 (Mixed use)
-        let matchedVibe = lang === 'th' ? "เมืองสีเขียวและครอบครัว" : "Eco-Living & Family";
+        let matchedVibe = lang === 'th' ? "ย่านเมืองสีเขียวสำหรับครอบครัว" : "Target: Eco-Living & Family";
         let quote = lang === 'th' ? "ชีวิตที่สมบูรณ์แบบคือความสุขในทุกก้าวเดิน" : "Perfect living is joy in every step";
 
         if (userGoal === 'work') {
@@ -721,12 +721,6 @@
         }));
       };
 
-      // Custom in-app alert/modal trigger
-      const triggerModal = (text) => {
-        setModalContent(text);
-        setModalOpen(true);
-      };
-
       return (
         <div className="min-h-screen bg-luxury-cream text-luxury-espresso font-sans antialiased selection:bg-luxury-gold selection:text-white pb-20">
           
@@ -754,7 +748,7 @@
           </div>
 
           {/* Luxury Header */}
-          <header className="border-b border-luxury-border/80 bg-luxury-cream/90 sticky top-0 z-40 backdrop-blur-md">
+          <header className="border-b border-luxury-border/85 bg-luxury-cream/90 sticky top-0 z-40 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
               
               <div className="flex items-center space-x-3">
@@ -767,7 +761,7 @@
                 </div>
               </div>
               
-              <nav className="hidden lg:flex space-x-2">
+              <nav className="hidden lg:flex space-x-2 font-sans font-medium">
                 {[
                   { id: 'article', label: t[lang].tab_about },
                   { id: 'clusters', label: t[lang].tab_zones },
@@ -780,7 +774,7 @@
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-4 py-2.5 rounded-sm text-xs tracking-wider font-medium uppercase transition-all duration-300 ${
                       activeTab === tab.id
-                        ? 'text-luxury-espresso border-b-2 border-luxury-gold font-semibold'
+                        ? 'text-luxury-espresso border-b-2 border-luxury-gold font-semibold animate-pulse'
                         : 'text-luxury-stone hover:text-luxury-espresso hover:bg-luxury-creamdark/30'
                     }`}
                   >
@@ -796,7 +790,7 @@
                 >
                   🌐 {lang === 'th' ? 'EN' : 'TH'}
                 </button>
-                <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-widest uppercase font-semibold bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] tracking-widest uppercase font-semibold bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20">
                   <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-pulse"></span>
                   {t[lang].city_smart}
                 </span>
@@ -821,46 +815,46 @@
                   <span className="font-serif italic font-normal text-luxury-gold">{t[lang].heroTitleSpan}</span> {t[lang].heroTitleEnd}
                 </h1>
                 <div className="h-[1px] bg-luxury-border/80 w-24 mx-auto md:mx-0 my-4"></div>
-                <p className="text-sm md:text-base text-luxury-stone font-light leading-relaxed max-w-2xl">
+                <p className="text-sm md:text-base text-luxury-stone font-light leading-relaxed max-w-2xl font-sans">
                   {t[lang].heroDesc}
                 </p>
               </div>
 
-              {/* Dynamic Interactive SVG Map for EECiti */}
-              <div className="lg:col-span-5 bg-luxury-creamdark/30 border border-luxury-border rounded-xl p-8 book-page-shadow relative overflow-hidden flex flex-col justify-between h-[360px]">
-                <div className="absolute inset-0 bg-[radial-gradient(#d1dfe5_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+              {/* Dynamic Interactive SVG Map for EECiti in Gold/Navy Blueprint Style */}
+              <div className="lg:col-span-5 bg-luxury-creamdark border border-luxury-border rounded-xl p-8 book-page-shadow relative overflow-hidden flex flex-col justify-between h-[360px]">
+                <div className="absolute inset-0 bg-[radial-gradient(#d1dfe5_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
                 
                 <div className="relative z-10 flex justify-between items-center mb-2 border-b border-luxury-border/60 pb-3">
                   <span className="text-[10px] text-luxury-stone font-medium uppercase tracking-widest flex items-center">
-                    <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-ping"></span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-2 animate-ping"></span>
                     {t[lang].map_title}
                   </span>
-                  <span className="text-[9px] font-serif italic text-luxury-gold tracking-widest">
-                    BLUEPRINT
+                  <span className="text-[9px] font-serif italic text-luxury-gold tracking-widest uppercase">
+                    Blueprint
                   </span>
                 </div>
 
                 <div className="relative z-10 flex-1 flex items-center justify-center py-2">
-                  <svg viewBox="0 0 400 200" className="w-full max-w-[340px] h-auto drop-shadow-[0_2px_10px_rgba(27,106,136,0.1)]">
+                  <svg viewBox="0 0 400 200" className="w-full max-w-[340px] h-auto drop-shadow-[0_2px_12px_rgba(15,76,111,0.15)]">
                     {/* Simulated buffer line / River boundary */}
-                    <path d="M 30 180 Q 150 140 220 160 T 380 90" fill="none" stroke="#1B6A88" strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
+                    <path d="M 30 180 Q 150 140 220 160 T 380 90" fill="none" stroke="#1B6A88" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
                     <path d="M 40 20 L 220 150 L 340 10" fill="none" stroke="#FAF6F0" strokeWidth="2" opacity="0.3" />
-                    <path d="M 50 110 Q 180 130 310 90" fill="none" stroke="#0A1D28" strokeWidth="1.2" opacity="0.2" />
+                    <path d="M 50 110 Q 180 130 310 90" fill="none" stroke="#05101A" strokeWidth="1.2" opacity="0.25" />
 
                     {/* 6 Interactive Zone Nodes */}
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(1); }}>
-                      <circle cx="80" cy="60" r="14" fill="#0A1D28" stroke="#1B6A88" strokeWidth="1.5" />
+                      <circle cx="80" cy="60" r="14" fill="#05101A" stroke="#1B6A88" strokeWidth="1.5" />
                       <text x="80" y="63.5" fill="#F2F6F8" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">CBD</text>
                       <circle cx="80" cy="60" r="18" fill="none" stroke="#1B6A88" strokeWidth="0.5" opacity="0.4" className="animate-ping" style={{ animationDuration: '4s' }} />
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(2); }}>
-                      <circle cx="150" cy="80" r="14" fill="#F2F6F8" stroke="#0A1D28" strokeWidth="1.5" />
-                      <text x="150" y="83.5" fill="#0A1D28" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">MED</text>
+                      <circle cx="150" cy="80" r="14" fill="#F2F6F8" stroke="#05101A" strokeWidth="1.5" />
+                      <text x="150" y="83.5" fill="#05101A" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">MED</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(3); }}>
-                      <circle cx="230" cy="50" r="14" fill="#0A1D28" stroke="#F2F6F8" strokeWidth="1.5" />
+                      <circle cx="230" cy="50" r="14" fill="#05101A" stroke="#F2F6F8" strokeWidth="1.5" />
                       <text x="230" y="53.5" fill="#F2F6F8" fontSize="9" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">EDU</text>
                     </g>
 
@@ -870,12 +864,12 @@
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(5); }}>
-                      <circle cx="120" cy="140" r="14" fill="#F2F6F8" stroke="#0A1D28" strokeWidth="1" />
-                      <text x="120" y="143.5" fill="#0A1D28" fontSize="8" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">SPRT</text>
+                      <circle cx="120" cy="140" r="14" fill="#F2F6F8" stroke="#05101A" strokeWidth="1" />
+                      <text x="120" y="143.5" fill="#05101A" fontSize="8" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">SPRT</text>
                     </g>
 
                     <g className="cursor-pointer" onClick={() => { setActiveTab('clusters'); setSelectedZone(6); }}>
-                      <circle cx="280" cy="130" r="14" fill="#0A1D28" stroke="#1B6A88" strokeWidth="1" />
+                      <circle cx="280" cy="130" r="14" fill="#05101A" stroke="#1B6A88" strokeWidth="1" />
                       <text x="280" y="133.5" fill="#1B6A88" fontSize="8" fontFamily="Cormorant Garamond" fontWeight="bold" textAnchor="middle">LIVE</text>
                     </g>
                   </svg>
@@ -894,8 +888,8 @@
               {/* Left & Center Main Book Pages */}
               <div className="lg:col-span-2 space-y-12">
 
-                <div className="bg-luxury-cream border border-luxury-border rounded-lg overflow-hidden book-page-shadow">
-                  <div className="border-b border-luxury-border bg-luxury-creamdark/30 px-6 py-4 flex items-center justify-between">
+                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg overflow-hidden book-page-shadow">
+                  <div className="border-b border-luxury-border bg-luxury-cream/40 px-6 py-4 flex items-center justify-between">
                     <span className="font-serif tracking-widest text-[11px] uppercase text-luxury-stone font-semibold flex items-center">
                       <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-pulse"></span>
                       {activeTab === 'article' && t[lang].tab_about}
@@ -927,12 +921,12 @@
                         </div>
                       </div>
 
-                      <div className="space-y-5 text-luxury-stone font-light leading-relaxed text-sm md:text-base">
+                      <div className="space-y-5 text-luxury-stone font-light leading-relaxed text-sm md:text-base font-sans">
                         <p className="first-letter:text-4xl first-letter:font-serif first-letter:text-luxury-gold first-letter:mr-2 first-letter:float-left first-letter:font-bold">{t[lang].art_p1}</p>
                         <p>{t[lang].art_p2}</p>
                         
                         {/* Integrated Net Zero Official Image Graphic */}
-                        <div className="my-8 border border-luxury-border rounded-lg overflow-hidden bg-luxury-creamdark/20 p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <div className="my-8 border border-luxury-border rounded-lg overflow-hidden bg-luxury-cream/20 p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                           <div className="md:col-span-7 space-y-3">
                             <span className="text-[9px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 px-2.5 py-1 rounded-sm font-semibold uppercase tracking-widest font-mono">
                               {t[lang].art_green_tag}
@@ -953,7 +947,7 @@
                           </div>
                         </div>
 
-                        <div className="bg-luxury-creamdark/30 border border-luxury-border rounded-lg p-6 space-y-4">
+                        <div className="bg-luxury-cream/10 border border-luxury-border rounded-lg p-6 space-y-4">
                           <h4 className="text-luxury-espresso font-serif text-base font-normal flex items-center">
                             <span className="text-luxury-gold mr-2">✦</span>
                             {t[lang].art_spec_title}
@@ -967,15 +961,15 @@
                       </div>
 
                       {/* Interactive Checklist */}
-                      <div className="border-t border-luxury-border pt-8 space-y-4">
+                      <div className="border-t border-luxury-border pt-8 space-y-4 font-sans">
                         <h4 className="text-luxury-espresso font-serif text-sm uppercase tracking-wider">{t[lang].chk_title}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                           <button 
                             onClick={() => toggleRec('rec1')}
                             className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec1 
-                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold font-medium' 
+                                : 'bg-luxury-creamdark border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_1_t}</div>
@@ -986,8 +980,8 @@
                             onClick={() => toggleRec('rec2')}
                             className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec2 
-                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold font-medium' 
+                                : 'bg-luxury-creamdark border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_2_t}</div>
@@ -998,8 +992,8 @@
                             onClick={() => toggleRec('rec3')}
                             className={`p-4 rounded-sm border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec3 
-                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                ? 'bg-luxury-goldlight border-luxury-gold text-luxury-gold font-medium' 
+                                : 'bg-luxury-creamdark border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className="font-serif font-bold mb-1.5 text-luxury-espresso">{t[lang].chk_3_t}</div>
@@ -1015,13 +1009,13 @@
                     <div className="p-6 md:p-10 space-y-8">
                       <div>
                         <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].zones_title}</h3>
-                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 leading-relaxed font-light">
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 leading-relaxed font-light font-sans">
                           {t[lang].zones_desc}
                         </p>
                       </div>
 
                       {/* Integrated 6 Clusters Layout Blueprint Image */}
-                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-creamdark/20 p-4">
+                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-cream p-4">
                         <span className="text-[10px] text-luxury-gold font-semibold uppercase tracking-wider block mb-2">{t[lang].zones_map_title}</span>
                         <SafeImage 
                           src="https://i.postimg.cc/p2d8FxCR/6Clusters.png" 
@@ -1038,7 +1032,7 @@
                             className={`p-4 rounded-sm text-left border transition-all duration-500 relative overflow-hidden ${
                               selectedZone === zone.id
                                 ? 'bg-luxury-goldlight border-luxury-gold scale-[1.01]'
-                                : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/50'
+                                : 'bg-luxury-creamdark border-luxury-border hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`h-1.5 w-8 rounded-full mb-3 bg-luxury-gold`}></div>
@@ -1049,11 +1043,11 @@
                       </div>
 
                       {selectedZone && (
-                        <div className="bg-luxury-creamdark/25 rounded-lg border border-luxury-border overflow-hidden transition-all duration-500 grid grid-cols-1 md:grid-cols-12">
+                        <div className="bg-luxury-cream border border-luxury-border rounded-lg overflow-hidden transition-all duration-500 grid grid-cols-1 md:grid-cols-12">
                           <div className="p-6 md:col-span-7 flex flex-col justify-between space-y-5">
                             <div>
                               <div className="flex flex-wrap items-center gap-2 mb-3">
-                                <span className="bg-luxury-gold/10 text-luxury-gold text-[10px] font-semibold px-2 py-0.5 rounded-sm border border-luxury-gold/20 font-mono">
+                                <span className="bg-luxury-gold/10 text-luxury-gold text-[10px] font-semibold px-2 py-0.5 rounded-sm border border-luxury-gold/20 font-mono font-sans">
                                   {matchedZoneData.tag}
                                 </span>
                                 <span className="text-[11px] text-luxury-stone font-light">
@@ -1063,15 +1057,15 @@
                               <h4 className="text-lg font-serif font-bold text-luxury-espresso mb-2">
                                 {matchedZoneData.title}
                               </h4>
-                              <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light">
+                              <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light font-sans">
                                 {matchedZoneData.desc}
                               </p>
                             </div>
                             <div>
                               <h5 className="text-[10px] font-bold uppercase tracking-widest text-luxury-gold mb-2.5">{t[lang].zones_key_point}</h5>
-                              <ul className="grid grid-cols-1 gap-2">
+                              <ul className="grid grid-cols-1 gap-2 font-sans">
                                 {matchedZoneData.perks.map((highlight, index) => (
-                                  <li key={index} className="text-luxury-stone text-xs flex items-center font-light">
+                                  <li key={index} className="text-luxury-stone text-xs flex items-center font-light font-sans">
                                     <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2.5"></span>
                                     {highlight}
                                   </li>
@@ -1098,17 +1092,17 @@
                     <div className="p-6 md:p-10 space-y-8">
                       <div>
                         <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].sys_title}</h3>
-                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light font-sans">
                           {t[lang].sys_desc}
                         </p>
                       </div>
 
                       {/* Integrated 10 Systems Layout Blueprint Image */}
-                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-creamdark/10 p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                      <div className="rounded-lg overflow-hidden border border-luxury-border bg-luxury-cream p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                         <div className="md:col-span-5 space-y-2">
                           <span className="text-[9px] text-luxury-gold font-semibold uppercase tracking-widest font-mono block">{t[lang].sys_img_tag}</span>
-                          <h4 className="text-luxury-espresso font-serif text-base font-normal">{t[lang].sys_img_title}</h4>
-                          <p className="text-luxury-stone text-xs leading-relaxed font-light">
+                          <h4 className="text-white font-serif text-base font-normal">{t[lang].sys_img_title}</h4>
+                          <p className="text-luxury-stone text-xs leading-relaxed font-light font-sans">
                             {t[lang].sys_img_desc}
                           </p>
                         </div>
@@ -1130,7 +1124,7 @@
                               className={`w-full text-left px-3.5 py-2.5 rounded-sm text-xs font-semibold flex justify-between items-center transition-all duration-150 border ${
                                 selectedSystem === sys.id
                                   ? 'bg-luxury-goldlight border-luxury-gold text-luxury-espresso'
-                                  : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/30 text-luxury-stone hover:text-luxury-espresso'
+                                  : 'bg-luxury-creamdark border-luxury-border hover:border-luxury-gold/30 text-luxury-stone hover:text-luxury-espresso'
                               }`}
                             >
                               <span className="flex items-center space-x-2">
@@ -1141,7 +1135,7 @@
                           ))}
                         </div>
 
-                        <div className="lg:col-span-7 bg-luxury-creamdark/25 rounded-lg border border-luxury-border p-6 flex flex-col justify-between">
+                        <div className="lg:col-span-7 bg-luxury-cream rounded-lg border border-luxury-border p-6 flex flex-col justify-between font-sans">
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
                               <span className="text-[9px] uppercase font-bold tracking-widest text-luxury-gold bg-luxury-gold/10 px-2.5 py-1 rounded-sm border border-luxury-gold/20 font-mono">
@@ -1152,7 +1146,7 @@
                             <h4 className="text-base font-serif font-bold text-luxury-espresso">
                               {lang === 'th' ? systems[selectedSystem - 1].name : systems[selectedSystem - 1].detail.split(",")[0]}
                             </h4>
-                            <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light">
+                            <p className="text-luxury-stone text-xs sm:text-sm leading-relaxed font-light font-sans">
                               {lang === 'th' ? systems[selectedSystem - 1].detail : systems[selectedSystem - 1].detail}
                             </p>
                           </div>
@@ -1162,7 +1156,7 @@
                               <span className="text-luxury-stone">{t[lang].sys_metric_label}</span>
                               <span className="text-luxury-gold font-bold">{systems[selectedSystem - 1].rating}%</span>
                             </div>
-                            <div className="w-full bg-luxury-cream h-[3px] rounded-full overflow-hidden">
+                            <div className="w-full bg-luxury-creamdark h-[3px] rounded-full overflow-hidden">
                               <div 
                                 className="bg-luxury-gold h-full rounded-full transition-all duration-500"
                                 style={{ width: `${systems[selectedSystem - 1].rating}%` }}
@@ -1176,7 +1170,7 @@
 
                   {/* TAB 4: VISA FINDER */}
                   {activeTab === 'visa-finder' && (
-                    <div className="p-6 md:p-10 space-y-8">
+                    <div className="p-6 md:p-10 space-y-8 font-sans">
                       <div>
                         <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].visa_title}</h3>
                         <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
@@ -1191,7 +1185,7 @@
                             <select 
                               value={userProfession}
                               onChange={(e) => setUserProfession(e.target.value)}
-                              className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none font-sans"
+                              className="w-full bg-luxury-creamdark border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none"
                             >
                               <option value="digital">{lang === 'th' ? 'โปรแกรมเมอร์/ดิจิทัลคอนเทนต์/AI (Smart Tech & AI)' : 'Programmer/Digital/AI (Smart Tech & AI)'}</option>
                               <option value="medical">{lang === 'th' ? 'แพทย์อัจฉริยะ/งานชีวการแพทย์ (Precision Med)' : 'Precision Medical Experts (Precision Med)'}</option>
@@ -1205,7 +1199,7 @@
                             <select 
                               value={userRole}
                               onChange={(e) => setUserRole(e.target.value)}
-                              className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none font-sans"
+                              className="w-full bg-luxury-creamdark border border-luxury-border rounded-sm py-2.5 px-3 text-luxury-espresso text-xs focus:border-luxury-gold outline-none"
                             >
                               <option value="specialist">{lang === 'th' ? 'ผู้เชี่ยวชาญทางเทคนิระดับสูง (Specialist)' : 'Technical Specialist (R&D)'}</option>
                               <option value="executive">{lang === 'th' ? 'ผู้บริหารสูงสุดหรือผู้ก่อตั้งองค์กร (Executive)' : 'Founder / Corporate Executive'}</option>
@@ -1215,10 +1209,10 @@
                           </div>
                         </div>
 
-                        <div className="bg-luxury-creamdark/35 border border-luxury-border rounded-sm p-6 relative overflow-hidden transition-all duration-300">
+                        <div className="bg-luxury-cream border border-luxury-border rounded-sm p-6 relative overflow-hidden transition-all duration-300">
                           <div className="flex items-center justify-between mb-3 border-b border-luxury-border/60 pb-3">
                             <span className="text-[10px] text-luxury-stone font-bold uppercase tracking-wider">{t[lang].visa_rec_label}</span>
-                            <span className="text-luxury-espresso font-serif font-black text-sm bg-luxury-cream px-3 py-1 rounded-sm border border-luxury-border tracking-wider font-mono">
+                            <span className="text-luxury-espresso font-serif font-black text-sm bg-luxury-creamdark px-3 py-1 rounded-sm border border-luxury-border tracking-wider font-mono">
                               {lang === 'en' ? estimatedVisa.type.replace('วีซ่า', 'Visa') : estimatedVisa.type}
                             </span>
                           </div>
@@ -1229,7 +1223,7 @@
                             <h5 className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest">{t[lang].visa_benefit_title}</h5>
                             <ul className="space-y-2">
                               {estimatedVisa.benefits.map((benefit, index) => (
-                                <li key={index} className="text-luxury-stone text-xs flex items-start font-light font-sans">
+                                <li key={index} className="text-luxury-stone text-xs flex items-start font-light">
                                   <span className="text-luxury-gold mr-2.5 font-bold">✓</span>
                                   <span>{benefit}</span>
                                 </li>
@@ -1243,7 +1237,7 @@
 
                   {/* TAB 5: LIFESTYLE MATCHER */}
                   {activeTab === 'impact-simulator' && (
-                    <div className="p-6 md:p-10 space-y-8">
+                    <div className="p-6 md:p-10 space-y-8 font-sans">
                       <div>
                         <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].match_title}</h3>
                         <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light">
@@ -1273,7 +1267,7 @@
                                     className={`py-2.5 px-3 rounded-sm text-xs font-bold border transition-colors ${
                                       userGoal === goal.id
                                         ? 'bg-luxury-espresso text-luxury-cream border-luxury-espresso'
-                                        : 'bg-luxury-cream text-luxury-stone border-luxury-border hover:border-luxury-gold/50'
+                                        : 'bg-luxury-creamdark text-luxury-stone border-luxury-border hover:border-luxury-gold/50'
                                     }`}
                                   >
                                     {goal.name}
@@ -1289,7 +1283,7 @@
                               <select 
                                 value={preferredVibe}
                                 onChange={(e) => setPreferredVibe(e.target.value)}
-                                className="w-full bg-luxury-cream border border-luxury-border rounded-sm py-2.5 px-3 text-xs text-luxury-espresso focus:border-luxury-gold outline-none"
+                                className="w-full bg-luxury-creamdark border border-luxury-border rounded-sm py-2.5 px-3 text-xs text-luxury-espresso focus:border-luxury-gold outline-none"
                               >
                                 <option value="high-tech">{lang === 'th' ? 'ย่านตึกสูงระฟ้า ล้ำสมัย ผสมผสานดิจิทัล (High-tech Modern)' : 'High-tech smart grids & towering modern layouts'}</option>
                                 <option value="nature">{lang === 'th' ? 'ย่านสีเขียว รายล้อมด้วยสายน้ำและร่มไม้ร่มรื่น (Nature Buffer)' : 'Calm, green protected forests & bio-buffers'}</option>
@@ -1329,7 +1323,7 @@
                           </div>
 
                           {/* Matcher Output */}
-                          <div className="bg-luxury-goldlight rounded-lg border border-luxury-border p-6 flex flex-col justify-between space-y-4">
+                          <div className="bg-luxury-goldlight rounded-lg border border-luxury-border p-6 flex flex-col justify-between space-y-4 font-sans">
                             <div>
                               <span className="text-[10px] text-luxury-stone uppercase block mb-1.5 tracking-wider">{t[lang].match_res_tag}</span>
                               <span className="text-xs bg-luxury-espresso text-luxury-cream px-3 py-1 rounded-sm font-black inline-block mb-3 font-mono tracking-widest">
@@ -1351,7 +1345,7 @@
                               </div>
                               <button 
                                 onClick={() => { setActiveTab('clusters'); setSelectedZone(lifestyleMatch.zone.id); }}
-                                className="px-4 py-2 bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream font-serif text-[11px] tracking-widest uppercase rounded-sm transition-all duration-300"
+                                className="px-4 py-2 bg-luxury-espresso hover:bg-luxury-stone text-luxury-cream font-serif text-[11px] tracking-widest uppercase rounded-sm transition-all duration-300 font-sans"
                               >
                                 {t[lang].match_btn_go}
                               </button>
@@ -1365,11 +1359,11 @@
 
                 </div>
 
-                {/* Poll & Updated Investment Coordination Portal (Replaced Comments) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Poll & Updated Investment Coordination Portal (Replaces Comments) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
                   
                   {/* Opinion Poll */}
-                  <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm">
+                  <div className="bg-luxury-creamdark border border-luxury-border rounded-lg p-6 shadow-sm">
                     <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest mb-2 block">{t[lang].poll_tag}</span>
                     <h4 className="text-luxury-espresso font-serif text-base font-normal mb-4 leading-relaxed">
                       {t[lang].poll_q}
@@ -1383,7 +1377,7 @@
                         <button onClick={() => handleVote('moderateWithRisk')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed">
                           {t[lang].poll_opt_2}
                         </button>
-                        <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed">
+                        <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-3.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all text-xs text-luxury-espresso font-medium leading-relaxed font-sans">
                           {t[lang].poll_opt_3}
                         </button>
                       </div>
@@ -1434,7 +1428,7 @@
                   </div>
 
                   {/* PRO Investor Resource & Inquiry Portal (Replaces Mock Comments) */}
-                  <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm flex flex-col justify-between space-y-4">
+                  <div className="bg-luxury-creamdark border border-luxury-border rounded-lg p-6 shadow-sm flex flex-col justify-between space-y-4 font-sans">
                     <div>
                       <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest mb-2 block">{t[lang].club_title}</span>
                       <h4 className="text-luxury-espresso font-serif text-base font-normal mb-3 leading-relaxed">{t[lang].club_subtitle}</h4>
@@ -1442,16 +1436,16 @@
                       {!inquirySubmitted ? (
                         <div className="space-y-4">
                           {/* Official Publications / Download list */}
-                          <div className="p-4 bg-luxury-creamdark/40 rounded-sm border border-luxury-border space-y-2.5">
+                          <div className="p-4 bg-luxury-cream rounded-sm border border-luxury-border space-y-2.5">
                             <span className="text-[10px] text-luxury-stone font-bold uppercase tracking-widest block">{t[lang].club_doc_label}</span>
                             <div className="space-y-2">
-                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: คู่มือผังที่ดินและที่อยู่อาศัยในอนาคต EECiti 2026.pdf (3.8 MB)" : "Initiating download: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
+                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: สมุดเผยแพร่ผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf (3.8 MB)" : "Initiating download: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
                                 <span className="truncate pr-2">📁 {t[lang].club_doc_1}</span>
-                                <span className="text-[9px] bg-luxury-cream border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">3.8 MB</span>
+                                <span className="text-[9px] bg-luxury-creamdark border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">3.8 MB</span>
                               </a>
-                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: แนวทางและขั้นตอนยื่นสิทธิขอย้ายถิ่นฐาน EEC Visa.pdf (1.9 MB)" : "Initiating download: EEC Visa Application Pathway.pdf (1.9 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
+                              <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: แนวทางเตรียมความพร้อมการขอสิทธิพำนัก EEC Visa.pdf (1.9 MB)" : "Initiating download: EEC Visa Application Pathway.pdf (1.9 MB)"); }} className="flex justify-between items-center text-xs text-luxury-stone hover:text-luxury-gold transition-all duration-300">
                                 <span className="truncate pr-2">📁 {t[lang].club_doc_2}</span>
-                                <span className="text-[9px] bg-luxury-cream border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">1.9 MB</span>
+                                <span className="text-[9px] bg-luxury-creamdark border border-luxury-border px-1.5 py-0.5 rounded-sm text-luxury-stone font-mono">1.9 MB</span>
                               </a>
                             </div>
                           </div>
@@ -1502,7 +1496,7 @@
                           </form>
                         </div>
                       ) : (
-                        <div className="space-y-4 py-2 font-sans">
+                        <div className="space-y-4 py-2 text-left">
                           <div className="bg-luxury-goldlight border border-luxury-gold text-xs p-4 rounded-sm space-y-2">
                             <div className="flex items-center space-x-2 text-luxury-gold font-bold">
                               <span>✓</span>
@@ -1510,9 +1504,9 @@
                             </div>
                             <p className="text-luxury-stone text-[11px] leading-relaxed font-light">
                               {lang === 'th' ? (
-                                `ยินดีต้อนรับคุณ ${inquiryName} เข้าเป็นส่วนหนึ่งของครอบครัวพลเมืองในอนาคต! ระบบได้บันทึกความประสงค์ที่จะย้ายมายัง ${inquiryCluster} ของคุณเรียบร้อยแล้ว คณะแอดมินชุมชนจะคอยจัดส่งความคืบหน้าการสร้างย่าน ยื่นเอกสาร EEC Visa และข่าวสารตลาดบ้านและอสังหาพัทยา-ชลบุรีให้ทางอีเมล ${inquiryEmail} เป็นระยะค่ะ`
+                                `ยินดีต้อนรับคุณ ${inquiryName} เข้าเป็นส่วนหนึ่งของครอบครัวคนรักเมืองในฝัน! ระบบบันทึกข้อมูลเพื่อเตรียมจัดส่งจดหมายข่าวของ ${inquiryCluster} เรียบร้อย คณะผู้บุกเบิกจะส่งแผนงานจัดทริปสัญจรและข่าวสาร EEC Visa ล่าสุดไปให้ศึกษาเพิ่มเติมทางอีเมล ${inquiryEmail} เป็นประจำครับ`
                               ) : (
-                                `Welcome ${inquiryName} into our dream neighborhood circle! We recorded your relocation preference for ${inquiryCluster}. Our fan community admins will send regular progress on zoning, EEC Visa checklists, and Pattaya-Chonburi local housing updates to ${inquiryEmail}.`
+                                `Welcome ${inquiryName} to our future-smart town fan circle! We securely logged your interest in ${inquiryCluster}. Our admin team will send seasonal updates, regional walkabout invites, and EEC Visa guides directly to ${inquiryEmail}.`
                               )}
                             </p>
                           </div>
@@ -1525,7 +1519,7 @@
                                 <span className="text-[8px] text-luxury-gold uppercase tracking-widest font-mono block">{t[lang].club_card_pioneer}</span>
                                 <span className="text-xs text-luxury-cream font-serif font-light tracking-wide block mt-1">EECITI GLOBAL CITIZEN CLUB</span>
                               </div>
-                              <span className="text-[10px] text-luxury-gold font-serif italic">EST. 2026</span>
+                              <span className="text-[10px] text-luxury-gold font-serif italic font-bold">EST. 2026</span>
                             </div>
                             <div className="flex justify-between items-end border-t border-luxury-gold/20 pt-4">
                               <div>
@@ -1560,9 +1554,9 @@
               <div className="space-y-12">
                 
                 {/* Community Bios */}
-                <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm space-y-4">
+                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg p-6 shadow-sm space-y-4">
                   <div className="flex items-center space-x-3 pb-4 border-b border-luxury-border">
-                    <div className="h-11 w-11 rounded-full bg-luxury-creamdark flex items-center justify-center font-serif font-bold text-luxury-espresso border border-luxury-border">
+                    <div className="h-11 w-11 rounded-full bg-luxury-cream flex items-center justify-center font-serif font-bold text-luxury-espresso border border-luxury-border">
                       CH
                     </div>
                     <div>
@@ -1570,19 +1564,19 @@
                       <span className="text-luxury-gold text-[10px] tracking-wider uppercase font-mono block mt-0.5">EECiti Fanbase Group</span>
                     </div>
                   </div>
-                  <p className="text-xs text-luxury-stone leading-relaxed font-light">
+                  <p className="text-xs text-luxury-stone leading-relaxed font-light font-sans">
                     {t[lang].side_admin_desc}
                   </p>
                 </div>
 
                 {/* Spotlights of Zone 5 */}
-                <div className="bg-luxury-cream border border-luxury-border rounded-lg overflow-hidden shadow-sm">
+                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg overflow-hidden shadow-sm">
                   <SafeImage 
                     src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" 
                     alt="Sport Complex SAT Area Chonburi"
                     className="h-44 w-full"
                   />
-                  <div className="p-6 space-y-2">
+                  <div className="p-6 space-y-2 text-left font-sans">
                     <span className="text-[9px] text-luxury-gold font-bold uppercase tracking-widest font-mono block">{t[lang].side_spot_tag}</span>
                     <h5 className="text-luxury-espresso font-serif text-base font-normal">{t[lang].side_spot_title}</h5>
                     <p className="text-luxury-stone text-xs leading-relaxed font-light">
@@ -1592,29 +1586,29 @@
                 </div>
 
                 {/* Timeline Roadmap */}
-                <div className="bg-luxury-cream border border-luxury-border rounded-lg p-6 shadow-sm">
-                  <h4 className="text-luxury-espresso font-serif text-sm font-semibold mb-6 flex items-center">
+                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg p-6 shadow-sm">
+                  <h4 className="text-luxury-espresso font-serif text-sm font-semibold mb-6 flex items-center font-sans">
                     <span className="text-luxury-gold mr-2 font-sans">✦</span>
                     {t[lang].side_time_title}
                   </h4>
-                  <div className="relative border-l border-luxury-border/80 pl-4 ml-2 space-y-8 text-xs">
+                  <div className="relative border-l border-luxury-border pl-4 ml-2 space-y-8 text-xs text-left font-sans">
                     <div className="relative">
-                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-gold bg-luxury-cream"></div>
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-gold bg-luxury-creamdark"></div>
                       <span className="text-[9px] text-luxury-gold font-bold block font-mono">{t[lang].side_time_1_t}</span>
-                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'ประกาศผ่านหลักการและผังเมือง' : 'Blueprint & Master Plan Approved'}</span>
-                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_1_d}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เห็นชอบแผนร่วมทุน PPP' : 'PPP framework approved'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_1_d}</span>
                     </div>
                     <div className="relative">
-                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-stone bg-luxury-cream"></div>
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-stone bg-luxury-creamdark"></div>
                       <span className="text-[9px] text-luxury-stone font-bold block font-mono">{t[lang].side_time_2_t}</span>
-                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เริ่ม Market Sounding คัดสรรกลุ่มสร้างเมือง' : 'Global Market Sounding Initiated'}</span>
-                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_2_d}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เตรียมทำ Market Sounding ทั่วโลก' : 'Global Market Sounding Initiated'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_2_d}</span>
                     </div>
                     <div className="relative">
-                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-espresso bg-luxury-cream"></div>
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-espresso bg-luxury-creamdark"></div>
                       <span className="text-[9px] text-luxury-espresso font-bold block font-mono">{t[lang].side_time_3_t}</span>
-                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เริ่มกระบวนการตอกเสาเข็มงานโยธาหลัก' : 'Infrastructure Groundbreaking'}</span>
-                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed">{t[lang].side_time_3_d}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'วางท่อใต้อุโมงค์ (CUT) ก้อนแรก' : 'Underground CUT Construction begins'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_3_d}</span>
                     </div>
                   </div>
                 </div>
@@ -1624,24 +1618,24 @@
             </div>
 
             {/* Footer */}
-            <footer className="border-t border-luxury-border/60 mt-20 pt-12 pb-6 text-center md:text-left text-luxury-stone text-xs">
+            <footer className="border-t border-luxury-border/40 mt-20 pt-12 pb-6 text-center md:text-left text-luxury-stone text-xs">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 text-left">
                 <div className="space-y-2">
-                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">EECiti Global Hub ({lang === 'th' ? 'กิจกรรมโดยชุมชน' : 'Community Initiative'})</span>
-                  <p className="font-light leading-relaxed">{t[lang].foot_desc}</p>
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block font-sans">EECiti Global Hub ({lang === 'th' ? 'กิจกรรมโดยชุมชน' : 'Community Initiative'})</span>
+                  <p className="font-light leading-relaxed font-sans">{t[lang].foot_desc}</p>
                 </div>
                 <div className="space-y-2">
-                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">{lang === 'th' ? 'ความโปร่งใสและอ้างอิงเอกสาร' : 'Transparency & Data Sources'}</span>
-                  <p className="font-light leading-relaxed">{t[lang].foot_rights}</p>
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block font-sans">{lang === 'th' ? 'ความโปร่งใสและอ้างอิงเอกสาร' : 'Transparency & Data Sources'}</span>
+                  <p className="font-light leading-relaxed font-sans">{t[lang].foot_rights}</p>
                 </div>
                 <div className="space-y-2">
-                  <span className="font-serif text-sm text-luxury-espresso font-semibold block">{lang === 'th' ? 'มุ่งหน้าสู่อนาคตสีเขียว' : 'Green Living Mission'}</span>
-                  <p className="font-light leading-relaxed">{t[lang].foot_green}</p>
+                  <span className="font-serif text-sm text-luxury-espresso font-semibold block font-sans">{lang === 'th' ? 'มุ่งหน้าสู่อนาคตสีเขียว' : 'Green Living Mission'}</span>
+                  <p className="font-light leading-relaxed font-sans">{t[lang].foot_green}</p>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-between items-center border-t border-luxury-border/40 pt-6">
-                <span className="font-light">© 2026 EECiti Global Hub - Community Campaign. All rights reserved.</span>
-                <div className="flex space-x-6 mt-3 sm:mt-0 font-light">
+                <span className="font-light font-sans">© 2026 EECiti Global Hub - Community Campaign. All rights reserved.</span>
+                <div className="flex space-x-6 mt-3 sm:mt-0 font-light font-sans">
                   <a href="#" className="hover:text-luxury-gold transition-colors">{t[lang].foot_privacy}</a>
                   <a href="#" className="hover:text-luxury-gold transition-colors">{t[lang].foot_terms}</a>
                 </div>
@@ -1653,15 +1647,15 @@
           {/* Premium In-App Notification Modal (Replaces standard window alert) */}
           {modalOpen && (
             <div className="fixed inset-0 bg-luxury-espresso/30 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
-              <div className="bg-luxury-cream border border-luxury-border p-6 rounded-lg max-w-sm w-full book-page-shadow relative overflow-hidden border-t-4 border-t-luxury-gold">
+              <div className="bg-luxury-creamdark border border-luxury-border p-6 rounded-lg max-w-sm w-full book-page-shadow relative overflow-hidden border-t-4 border-t-luxury-gold text-left">
                 <div className="space-y-4 text-center">
-                  <div className="h-10 w-10 bg-luxury-goldlight rounded-full flex items-center justify-center mx-auto text-luxury-gold text-lg">
+                  <div className="h-10 w-10 bg-luxury-goldlight rounded-full flex items-center justify-center mx-auto text-luxury-gold text-lg font-sans">
                     ✓
                   </div>
-                  <h4 className="text-luxury-espresso font-serif text-base font-semibold uppercase tracking-wider">
+                  <h4 className="text-luxury-espresso font-serif text-base font-semibold uppercase tracking-wider font-sans">
                     {lang === 'th' ? "ดำเนินการสำเร็จ" : "System Notification"}
                   </h4>
-                  <p className="text-luxury-stone text-xs sm:text-sm font-light leading-relaxed">
+                  <p className="text-luxury-stone text-xs sm:text-sm font-light leading-relaxed font-sans">
                     {modalContent}
                   </p>
                   <button 
