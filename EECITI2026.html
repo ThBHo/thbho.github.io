@@ -264,22 +264,6 @@
         poll_chart_2: "รอดูความพร้อมระบบการศึกษาและโรงพยาบาลร้อยละ",
         poll_chart_3: "ต้องการใช้เป็นจุดท่องเที่ยวในวันหยุดร้อยละ",
 
-        // Club Form
-        club_title: "EECiti Fan Club Registration",
-        club_subtitle: "ร่วมลงชื่อรับจดหมายข่าวอัปเดตและจับสลากร่วมทริปสัญจรพื้นที่จริงของชุมชน",
-        club_doc_label: "คลังข้อมูลและเอกสารแจกฟรีของกลุ่มแฟนคลับ:",
-        club_doc_1: "📁 สมุดเผยแพร่ผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf",
-        club_doc_2: "📁 แนวทางเตรียมความพร้อมการขอสิทธิพำนัก EEC Visa.pdf",
-        club_form_name: "ระบุชื่อ-สกุลของคุณ...",
-        club_form_country: "ประเทศที่คุณพำนักปัจจุบัน...",
-        club_form_email: "อีเมลสำหรับรับคู่มืออัปเดตข่าวสาร...",
-        club_form_cluster: "ย่านที่คุณสนใจย้ายเข้าในอนาคต...",
-        club_btn_submit: "📩 ลงทะเบียนรับคู่มืออัปเดตข่าวสารและประกาศจากเพจ",
-        club_success_title: "✓ ลงทะเบียนร่วมกลุ่มคนรักอนาคตสำเร็จ!",
-        club_success_desc: "ยินดีต้อนรับเข้าสู่คอมมูนิตี้ของเราครับ! ระบบได้บันทึกความจำนงของคุณเรียบร้อยแล้ว ทีมงานแอดมินอิสระจะจัดส่งข่าวสารความเคลื่อนไหวอสังหาชลบุรี คู่มือเตรียมตัวย้ายถิ่นฐาน และขั้นตอนยื่นขอ EEC Visa ไปให้ศึกษาเพิ่มเติมทางอีเมล และสลักบัตรสมาชิกประเภทผู้ร่วมบุกเบิกจำลองให้ท่านตามรายละเอียดด้านล่างครับ",
-        club_card_pioneer: "EECiti Digital Pioneer Pass",
-        club_card_reset: "ยื่นสิทธิ์ลงทะเบียนใหม่อีกครั้ง",
-
         // Sidebar
         side_admin_title: "กลุ่มแอดมินอิสระผู้โปรโมตผังเมืองสีเขียว",
         side_admin_desc: "พวกเราคือกลุ่มคนธรรมดาที่รักในศิลปะและนวัตกรรมการจัดวางผังเมืองสีเขียว เพจนี้มีจุดประสงค์ขึ้นเพื่อเป็นสื่อกลางสื่อสารให้คนทั่วไปได้รับรู้ข้อมูลข่าวสารล่าสุดของโครงการเมืองใหม่อัจฉริยะ EECiti และกระตุ้นความสนใจให้ผู้คนจากทั่วทุกมุมโลกได้รู้จักระเบียงเศรษฐกิจชลบุรี เพื่อรอวันย้ายเข้ามาใช้ชีวิตร่วมกันในอนาคต",
@@ -393,22 +377,6 @@
         poll_chart_1: "Intend to relocate for sure (%)",
         poll_chart_2: "Waiting on school/tech ecosystem (%)",
         poll_chart_3: "Keep existing home but visit parks (%)",
-
-        // Club Form
-        club_title: "EECiti Fan Club Registration",
-        club_subtitle: "Join our fan circle and receive relocation updates",
-        club_doc_label: "Recommended Living Guides for Download:",
-        club_doc_1: "📁 EECiti Sustainable Living Guide 2026.pdf",
-        club_doc_2: "📁 EEC Visa Application Pathway.pdf",
-        club_form_name: "Your Full Name...",
-        club_form_country: "Your Current Country of Residence...",
-        club_form_email: "Your Primary Contact Email...",
-        club_form_cluster: "Select Your Preferred District...",
-        club_btn_submit: "📩 Join Club & Get Property & Visa Newsletters",
-        club_success_title: "✓ Global Citizen Membership Active!",
-        club_success_desc: "Welcome to the family! We have securely logged your interest. The fan admin team will keep you updated on cluster developments, EEC Visa policy updates, and property listings in Chonburi-Pattaya via email. Your digital pioneer card is generated below.",
-        club_card_pioneer: "EECiti Digital Pioneer Card:",
-        club_card_reset: "Back to Registration Page",
 
         // Sidebar
         side_admin_title: "Community Pioneer Admins",
@@ -658,14 +626,6 @@
         rec3: false
       });
 
-      // States for EECiti Global Citizen Club (Replacing corporate inquiry)
-      const [inquiryName, setInquiryName] = useState('');
-      const [inquiryCountry, setInquiryCountry] = useState('Thailand');
-      const [inquiryEmail, setInquiryEmail] = useState('');
-      const [inquiryCluster, setInquiryCluster] = useState('Zone 6');
-      const [inquirySubmitted, setInquirySubmitted] = useState(false);
-      const [trackingId, setTrackingId] = useState('');
-
       // Premium Custom In-App Modal States (Replaces alert)
       const [modalOpen, setModalOpen] = useState(false);
       const [modalContent, setModalContent] = useState('');
@@ -699,15 +659,6 @@
           [option]: prev[option] + 1
         }));
         setPollVoted(true);
-      };
-
-      // Handler for simulating Investment Inquiry Form
-      const handleInquirySubmit = (e) => {
-        e.preventDefault();
-        if (!inquiryName.trim() || !inquiryEmail.trim()) return;
-        const randomId = Math.floor(1000 + Math.random() * 9000);
-        setTrackingId(`EECITI-MEMBER-${randomId}`);
-        setInquirySubmitted(true);
       };
 
       // Relocation & Dream Lifestyle Matcher Algorithm
@@ -957,7 +908,7 @@
               <div className="lg:col-span-2 space-y-12">
 
                 <div className="bg-luxury-white border border-luxury-border rounded-[2rem] overflow-hidden book-page-shadow">
-                  <div className="border-b border-luxury-border bg-luxury-bg/50 px-8 py-5 flex items-center justify-between">
+                  <div className="border-b border-luxury-border bg-luxury-cream px-8 py-5 flex items-center justify-between">
                     <span className="font-serif tracking-widest text-xs uppercase text-luxury-espresso font-bold flex items-center">
                       <span className="h-2 w-2 rounded-full bg-luxury-gold mr-3 animate-pulse"></span>
                       {activeTab === 'article' && t[lang].tab_about}
@@ -994,7 +945,7 @@
                         <p>{t[lang].art_p2}</p>
                         
                         {/* Integrated Net Zero Official Image Graphic */}
-                        <div className="my-10 border border-luxury-border rounded-2xl overflow-hidden bg-luxury-bg p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
+                        <div className="my-10 border border-luxury-border rounded-2xl overflow-hidden bg-luxury-cream p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
                           <div className="md:col-span-7 space-y-4">
                             <span className="text-[10px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 px-3 py-1 rounded-sm font-bold uppercase tracking-widest font-mono">
                               {t[lang].art_green_tag}
@@ -1037,7 +988,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec1 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec1 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_1_t}</div>
@@ -1049,7 +1000,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec2 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec2 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_2_t}</div>
@@ -1061,7 +1012,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec3 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec3 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_3_t}</div>
@@ -1083,7 +1034,7 @@
                       </div>
 
                       {/* Integrated 6 Clusters Layout Blueprint Image */}
-                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-bg p-5 shadow-sm">
+                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-cream p-5 shadow-sm">
                         <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest block mb-3 pl-1 font-mono">{t[lang].zones_map_title}</span>
                         <SafeImage 
                           src="https://i.postimg.cc/p2d8FxCR/6Clusters.png" 
@@ -1100,7 +1051,7 @@
                             className={`p-5 rounded-xl text-left border transition-all duration-500 relative overflow-hidden ${
                               selectedZone === zone.id
                                 ? 'bg-luxury-navy border-luxury-navy text-white shadow-lg scale-[1.02]'
-                                : 'bg-luxury-bg border-luxury-border hover:border-luxury-gold/50 text-luxury-espresso'
+                                : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/50 text-luxury-espresso'
                             }`}
                           >
                             <div className={`h-1.5 w-8 rounded-full mb-4 ${selectedZone === zone.id ? 'bg-luxury-goldlight' : 'bg-luxury-gold'}`}></div>
@@ -1170,7 +1121,7 @@
                       </div>
 
                       {/* Integrated 10 Systems Layout Blueprint Image */}
-                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-bg p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
+                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-cream p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
                         <div className="md:col-span-5 space-y-3">
                           <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest font-mono block">{t[lang].sys_img_tag}</span>
                           <h4 className="text-luxury-espresso font-serif text-lg font-medium leading-snug">{t[lang].sys_img_title}</h4>
@@ -1196,7 +1147,7 @@
                               className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex justify-between items-center transition-all duration-300 border ${
                                 selectedSystem === sys.id
                                   ? 'bg-luxury-navy border-luxury-navy text-white shadow-md'
-                                  : 'bg-luxury-bg border-luxury-border hover:border-luxury-gold/40 text-luxury-stone hover:text-luxury-espresso'
+                                  : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/40 text-luxury-stone hover:text-luxury-espresso'
                               }`}
                             >
                               <span className="flex items-center space-x-3">
@@ -1228,7 +1179,7 @@
                               <span className="text-luxury-stone font-medium uppercase tracking-wider text-[10px]">{t[lang].sys_metric_label}</span>
                               <span className="text-luxury-gold font-bold">{systems[selectedSystem - 1].rating}%</span>
                             </div>
-                            <div className="w-full bg-luxury-bg h-1.5 rounded-full overflow-hidden">
+                            <div className="w-full bg-luxury-cream h-1.5 rounded-full overflow-hidden">
                               <div 
                                 className="bg-luxury-gold h-full rounded-full transition-all duration-700 ease-out"
                                 style={{ width: `${systems[selectedSystem - 1].rating}%` }}
@@ -1250,7 +1201,7 @@
                         </p>
                       </div>
 
-                      <div className="bg-luxury-bg border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
+                      <div className="bg-luxury-cream border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-luxury-stone text-[11px] font-bold mb-3 uppercase tracking-wider">{t[lang].visa_form_prof}</label>
@@ -1296,7 +1247,7 @@
                             <h5 className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest">{t[lang].visa_benefit_title}</h5>
                             <ul className="space-y-3">
                               {estimatedVisa.benefits.map((benefit, index) => (
-                                <li key={index} className="text-luxury-bg text-sm flex items-start font-light font-sans">
+                                <li key={index} className="text-luxury-cream text-sm flex items-start font-light font-sans">
                                   <span className="text-luxury-gold mr-3 font-bold">✓</span>
                                   <span className="pt-0.5">{benefit}</span>
                                 </li>
@@ -1318,7 +1269,7 @@
                         </p>
                       </div>
 
-                      <div className="bg-luxury-bg border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
+                      <div className="bg-luxury-cream border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           
                           {/* Matcher Inputs */}
@@ -1408,7 +1359,7 @@
                               <p className="text-white font-serif text-lg italic font-normal mb-3 leading-snug">
                                 "{lifestyleMatch.quote}"
                               </p>
-                              <p className="text-luxury-bg text-xs sm:text-sm leading-relaxed font-light">
+                              <p className="text-luxury-cream text-xs sm:text-sm leading-relaxed font-light">
                                 {lang === 'th' ? lifestyleMatch.zone.description : matchedZoneData.desc}
                               </p>
                             </div>
@@ -1450,7 +1401,7 @@
                       <span className="text-luxury-goldlight text-[10px] tracking-widest uppercase font-mono block mt-1">EECiti Fanbase Group</span>
                     </div>
                   </div>
-                  <p className="text-sm text-luxury-bg leading-relaxed font-light font-sans relative z-10">
+                  <p className="text-sm text-luxury-cream leading-relaxed font-light font-sans relative z-10">
                     {t[lang].side_admin_desc}
                   </p>
                 </div>
@@ -1458,14 +1409,14 @@
                 {/* Spotlights of Zone 5 */}
                 <div className="bg-luxury-navy text-white rounded-[2rem] overflow-hidden dark-page-shadow">
                   <SafeImage 
-                    src="https://i.postimg.cc/447sdw6g/4a308eec-0394-4bda-acc0-84c746118631.jpg" 
+                    src="https://i.postimg.cc/Mps0Ky2R/506069c1-7af6-4ce5-8fb5-70ebb0863364.jpg" 
                     alt="Sport Complex SAT Area Chonburi"
                     className="h-48 w-full"
                   />
                   <div className="p-8 space-y-3 text-left font-sans bg-luxury-navy">
                     <span className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest font-mono block">{t[lang].side_spot_tag}</span>
                     <h5 className="font-serif text-lg font-medium">{t[lang].side_spot_title}</h5>
-                    <p className="text-luxury-bg text-sm leading-relaxed font-light">
+                    <p className="text-luxury-cream text-sm leading-relaxed font-light">
                       {t[lang].side_spot_desc}
                     </p>
                   </div>
@@ -1504,7 +1455,7 @@
                           <div className="space-y-4 font-sans">
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_1}</span>
+                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_1}</span>
                                 <span className="text-white font-bold">{pctOpt}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1513,7 +1464,7 @@
                             </div>
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_2}</span>
+                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_2}</span>
                                 <span className="text-white font-bold">{pctMed}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1522,7 +1473,7 @@
                             </div>
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_3}</span>
+                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_3}</span>
                                 <span className="text-white font-bold">{pctCrit}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1534,124 +1485,6 @@
                       })()}
                     </div>
                   )}
-                </div>
-
-                {/* PRO Investor Resource & Inquiry Portal */}
-                <div className="bg-luxury-navy text-white border border-luxury-navy rounded-[2rem] p-8 dark-page-shadow flex flex-col justify-between space-y-5 font-sans relative overflow-hidden">
-                  <div className="absolute -top-20 -left-20 w-48 h-48 bg-luxury-gold opacity-20 rounded-full blur-3xl pointer-events-none"></div>
-                  
-                  <div className="relative z-10">
-                    <span className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest mb-2 block">{t[lang].club_title}</span>
-                    <h4 className="font-serif text-lg font-medium mb-4 leading-relaxed">{t[lang].club_subtitle}</h4>
-                    
-                    {!inquirySubmitted ? (
-                      <div className="space-y-5">
-                        <div className="p-5 bg-white/5 rounded-xl border border-white/10 space-y-3 backdrop-blur-md">
-                          <span className="text-[10px] text-luxury-bg font-bold uppercase tracking-widest block font-sans">{t[lang].club_doc_label}</span>
-                          <div className="space-y-2.5">
-                            <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: สมุดเผยแพร่ผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf (3.8 MB)" : "Initiating download: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-luxury-goldlight hover:text-white transition-all duration-300 group">
-                              <span className="truncate pr-2 font-sans flex items-center"><span className="mr-2 opacity-70 group-hover:opacity-100 transition-opacity">📁</span> {t[lang].club_doc_1}</span>
-                              <span className="text-[9px] bg-white/10 px-2 py-1 rounded-sm text-white font-mono">3.8 MB</span>
-                            </a>
-                            <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: แนวทางเตรียมความพร้อมการขอสิทธิพำนัก EEC Visa.pdf (1.9 MB)" : "Initiating download: EEC Visa Application Pathway.pdf (1.9 MB)"); }} className="flex justify-between items-center text-xs text-luxury-goldlight hover:text-white transition-all duration-300 group">
-                              <span className="truncate pr-2 font-sans flex items-center"><span className="mr-2 opacity-70 group-hover:opacity-100 transition-opacity">📁</span> {t[lang].club_doc_2}</span>
-                              <span className="text-[9px] bg-white/10 px-2 py-1 rounded-sm text-white font-mono">1.9 MB</span>
-                            </a>
-                          </div>
-                        </div>
-
-                        <form onSubmit={handleInquirySubmit} className="space-y-3 font-sans">
-                          <div className="space-y-3">
-                            <input 
-                              type="text" 
-                              placeholder={t[lang].club_form_name} 
-                              value={inquiryName}
-                              onChange={(e) => setInquiryName(e.target.value)}
-                              className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/60 focus:border-luxury-goldlight focus:bg-white/20 outline-none w-full font-sans transition-all"
-                              required
-                            />
-                            <input 
-                              type="text" 
-                              placeholder={t[lang].club_form_country} 
-                              value={inquiryCountry}
-                              onChange={(e) => setInquiryCountry(e.target.value)}
-                              className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/60 focus:border-luxury-goldlight focus:bg-white/20 outline-none w-full font-sans transition-all"
-                              required
-                            />
-                            <input 
-                              type="email" 
-                              placeholder={t[lang].club_form_email} 
-                              value={inquiryEmail}
-                              onChange={(e) => setInquiryEmail(e.target.value)}
-                              className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/60 focus:border-luxury-goldlight focus:bg-white/20 outline-none w-full font-sans transition-all"
-                              required
-                            />
-                            <select 
-                              value={inquiryCluster}
-                              onChange={(e) => setInquiryCluster(e.target.value)}
-                              className="bg-white/10 border border-white/20 rounded-lg px-3 py-3 text-sm text-white focus:border-luxury-goldlight focus:bg-white/20 outline-none w-full font-sans transition-all [&>option]:bg-luxury-navy [&>option]:text-white"
-                            >
-                              <option value="Zone 1">{lang === 'th' ? 'สนใจย่าน CBD (ย่าน 1)' : 'Zone 1: Tech & Corporate CBD'}</option>
-                              <option value="Zone 2">{lang === 'th' ? 'สนใจย่าน Precision Med (ย่าน 2)' : 'Zone 2: Precision Medical & Lifecare'}</option>
-                              <option value="Zone 3">{lang === 'th' ? 'สนใจย่านการศึกษา (ย่าน 3)' : 'Zone 3: Schools & Academy Zone'}</option>
-                              <option value="Zone 5">{lang === 'th' ? 'สนใจย่าน Sport Complex (ย่าน 5)' : 'Zone 5: Active Sports SAT Complex'}</option>
-                              <option value="Zone 6">{lang === 'th' ? 'สนใจย่านพักอาศัย Smart Living (ย่าน 6)' : 'Zone 6: Walkable Mixed-use living'}</option>
-                            </select>
-                          </div>
-                          <button type="submit" className="w-full mt-2 py-3 bg-white hover:bg-luxury-goldlight text-luxury-navy font-serif text-xs tracking-widest uppercase rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 font-bold shadow-lg">
-                            <span>{t[lang].club_btn_submit}</span>
-                          </button>
-                        </form>
-                      </div>
-                    ) : (
-                      <div className="space-y-5 py-2 font-sans text-left">
-                        <div className="bg-white text-luxury-navy text-xs p-5 rounded-xl space-y-3 shadow-lg">
-                          <div className="flex items-center space-x-2 font-bold text-sm">
-                            <span className="bg-luxury-gold text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">✓</span>
-                            <span>{t[lang].club_success_title}</span>
-                          </div>
-                          <p className="text-luxury-espresso text-xs leading-relaxed font-normal">
-                            {lang === 'th' ? (
-                              `ยินดีต้อนรับคุณ ${inquiryName} เข้าเป็นส่วนหนึ่งของครอบครัวคนรักเมืองในฝัน! ระบบบันทึกข้อมูลเพื่อเตรียมจัดส่งจดหมายข่าวของ ${inquiryCluster} เรียบร้อย คณะผู้บุกเบิกจะส่งแผนงานจัดทริปสัญจรและข่าวสาร EEC Visa ล่าสุดไปให้ศึกษาเพิ่มเติมทางอีเมล ${inquiryEmail} เป็นประจำครับ`
-                            ) : (
-                              `Welcome ${inquiryName} to our future-smart town fan circle! We securely logged your interest in ${inquiryCluster}. Our admin team will send seasonal updates, regional walkabout invites, and EEC Visa guides directly to ${inquiryEmail}.`
-                            )}
-                          </p>
-                        </div>
-                        
-                        <div className="p-6 bg-gradient-to-br from-[#0F4C6F] to-luxury-navy rounded-xl border border-white/20 flex flex-col justify-between h-44 relative overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 h-28 w-28 bg-white/10 rounded-full blur-xl"></div>
-                          <div className="flex justify-between items-start relative z-10">
-                            <div>
-                              <span className="text-[9px] text-luxury-goldlight uppercase tracking-widest font-mono block opacity-80">{t[lang].club_card_pioneer}</span>
-                              <span className="text-sm text-white font-serif font-medium tracking-wide block mt-1">EECITI GLOBAL CITIZEN CLUB</span>
-                            </div>
-                            <span className="text-[10px] text-white font-serif italic font-bold opacity-80">EST. 2026</span>
-                          </div>
-                          <div className="flex justify-between items-end border-t border-white/20 pt-4 relative z-10">
-                            <div>
-                              <span className="text-[9px] text-luxury-goldlight block uppercase font-mono opacity-80">MEMBER NAME</span>
-                              <span className="text-sm text-white font-bold tracking-wide block mt-0.5">{inquiryName}</span>
-                            </div>
-                            <div className="text-right">
-                              <span className="text-[9px] text-luxury-goldlight block uppercase font-mono opacity-80">PASS ID</span>
-                              <span className="text-sm text-white font-mono tracking-widest block font-bold mt-0.5">{trackingId}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center pt-3">
-                          <button 
-                            onClick={() => { setInquirySubmitted(false); setInquiryName(''); setInquiryEmail(''); }} 
-                            className="text-xs text-luxury-goldlight hover:text-white transition-all duration-300 underline font-light"
-                          >
-                            {t[lang].club_card_reset}
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
                 </div>
 
               </div>
