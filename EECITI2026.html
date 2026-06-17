@@ -24,13 +24,14 @@
           },
           colors: {
             luxury: {
-              cream: '#D9E4EC',       // Rich sea-fog slate blue background (Clearly defined, no longer white)
-              creamdark: '#FFFFFF',   // Crisp art-paper white for editorial pages (High contrast pop)
-              espresso: '#05101A',    // Deep abyssal navy-black for absolute text readability
-              stone: '#3A506B',       // Coastal deep-slate blue for secondary text
-              gold: '#0F4C6F',        // Rich marine teal accent for selected states & gold replacements
-              goldlight: '#C8E2EE',   // Defined sky water tint for highlight/selected states
-              border: '#A9C3D3',      // Tidal slate-blue for crisp and highly visible borders
+              cream: '#F2F6F8',       // Very light sea-mist for overall background
+              white: '#FFFFFF',       // Pure white for content cards
+              sand: '#F0EBE1',        // Chic warm sand for distinct sidebars and alternate cards
+              espresso: '#05101A',    // Deep abyssal navy (Hero bg, main text)
+              stone: '#4D6575',       // Muted coastal blue/grey text
+              gold: '#1B6A88',        // Rich marine teal (Accent)
+              goldlight: '#DCECF5',   // Highlight background / Soft sky
+              border: '#D1DFE5',      // Soft borders
             }
           }
         }
@@ -50,29 +51,34 @@
       width: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #D9E4EC;
+      background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #A9C3D3;
+      background: #D1DFE5;
       border-radius: 2px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #0F4C6F;
+      background: #1B6A88;
     }
     
     body {
       font-family: 'Sarabun', sans-serif;
-      background-color: #D9E4EC;
+      background-color: #F2F6F8;
       color: #05101A;
     }
 
     /* Elegant shadow representing thick paper edges on misty background */
     .book-page-shadow {
-      box-shadow: 0 10px 30px -5px rgba(10, 29, 40, 0.12), 0 4px 12px -2px rgba(10, 29, 40, 0.08);
+      box-shadow: 0 12px 30px -8px rgba(5, 16, 26, 0.12), 0 4px 12px -3px rgba(5, 16, 26, 0.08);
+    }
+    
+    /* Darker shadow for elements inside the dark navy section */
+    .dark-page-shadow {
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
     }
   </style>
 </head>
-<body class="bg-luxury-cream text-luxury-espresso font-sans antialiased">
+<body class="bg-luxury-cream text-luxury-espresso font-sans antialiased overflow-x-hidden">
   
   <div id="root"></div>
 
@@ -119,13 +125,13 @@
       )
     };
 
-    // Safe Image Component with fallback to avoid image load issues
+    // Safe Image Component with fallback
     function SafeImage({ src, alt, className }) {
       const [error, setError] = useState(false);
       const [loading, setLoading] = useState(true);
 
       return (
-        <div className={`relative overflow-hidden bg-luxury-creamdark ${className}`}>
+        <div className={`relative overflow-hidden bg-luxury-cream ${className}`}>
           {loading && !error && (
             <div className="absolute inset-0 flex items-center justify-center bg-luxury-cream">
               <div className="w-6 h-6 border-2 border-luxury-gold border-t-transparent rounded-full animate-spin"></div>
@@ -140,18 +146,18 @@
               onError={() => setError(true)}
             />
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-luxury-creamdark border border-luxury-border p-4 text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-luxury-sand border border-luxury-border p-4 text-center">
               <svg className="w-8 h-8 text-luxury-stone mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs text-luxury-stone font-sans">EECiti Concept Representation</span>
+              <span className="text-xs text-luxury-stone font-sans">EECiti Concept</span>
             </div>
           )}
         </div>
       );
     }
 
-    // Static Translation Dictionary (Simple, engaging, and clear for general audience)
+    // Static Translation Dictionary
     const t = {
       th: {
         tagline: "เกาะติดความเคลื่อนไหวอภิมหาเมืองใหม่อัจฉริยะริมชายฝั่งตะวันออก",
@@ -198,7 +204,7 @@
 
         // Map & Zones
         map_title: "แบบร่างผังเมืองจำลองก่อนการปรับดินก่อสร้างจริง",
-        map_desc: "*คลิกที่จุดวงกลมสีทองเพื่อเข้าเยี่ยมชมและวิเคราะห์ลักษณะเฉพาะของแต่ละย่านที่ดินที่คุณอยากอาศัยในอนาคต",
+        map_desc: "*คลิกที่จุดสีฟ้าสว่างเพื่อวิเคราะห์ลักษณะเฉพาะของแต่ละย่านที่ดินที่คุณอยากอาศัยในอนาคต",
         zones_title: "6 ย่านในอนาคต: เลือกดีไซน์ชีวิตที่ตรงกับหัวใจของคุณ",
         zones_desc: "เพื่อสอดรับกับความฝันที่หลากหลายของคนรุ่นใหม่ ผังเมืองของ EECiti จึงถูกจำลองและออกแบบย่านออกมา 6 รูปแบบเฉพาะตัวเพื่อให้ทุกคนได้เลือกพักผ่อนและทำงานอย่างมีความสุข [2, 4, 8]",
         zones_map_title: "ผังยุทธศาสตร์ 6 ย่านนวัตกรรมและสังคมสีเขียว (6 Clusters Map)",
@@ -328,7 +334,7 @@
 
         // Map & Zones
         map_title: "Spatial Interactive Blueprint of EECiti Node",
-        map_desc: "*Click on the map nodes to immediately analyze the specific zoning and land use for each dream cluster.",
+        map_desc: "*Click on the bright nodes to immediately analyze the specific zoning and land use for each dream cluster.",
         zones_title: "6 Dream Districts Designed for Diverse Lifestyles",
         zones_desc: "Whether you are a location-independent tech nomad, a growing family, or an active medical-retiree, EECiti's zoning ensures your safety, walkability, and happiness are preserved 24/7. [2, 4, 8]",
         zones_map_title: "Strategic Zoning Layout (6 Dedicated Clusters Map)",
@@ -817,9 +823,11 @@
                   </span>
                 </div>
                 <h1 className="text-4xl md:text-6xl font-serif text-luxury-espresso font-light tracking-wide leading-tight">
-                  {t[lang].heroTitle} <br/>
+                  {lang === 'th' ? "เจาะลึก EECiti ชลบุรี เมืองใหม่อัจฉริยะ " : "Inside EECiti: The Blueprint for a "}
                   <span className="font-serif italic font-normal text-luxury-gold">{t[lang].heroTitleSpan}</span> <br/>
-                  <span className="text-3xl md:text-4xl font-serif text-luxury-espresso font-light tracking-wide leading-tight">{t[lang].heroTitleEnd}</span>
+                  <span className="text-3xl md:text-4xl font-serif text-luxury-espresso font-light tracking-wide leading-tight">
+                    {lang === 'th' ? "พิมพ์เขียวสังคมสีเขียวที่ทุกคนอยากออกเดินทางมาใช้ชีวิต" : "— A Future Smart City Everyone Wants to Call Home"}
+                  </span>
                 </h1>
                 <div className="h-[1px] bg-luxury-border/80 w-24 mx-auto md:mx-0 my-4"></div>
                 <p className="text-sm md:text-base text-luxury-stone font-light leading-relaxed max-w-2xl font-sans">
@@ -833,7 +841,7 @@
                 
                 <div className="relative z-10 flex justify-between items-center mb-2 border-b border-luxury-border/60 pb-3">
                   <span className="text-[10px] text-luxury-stone font-medium uppercase tracking-widest flex items-center">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-2 animate-ping"></span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-luxury-gold mr-2 animate-ping"></span>
                     {t[lang].map_title}
                   </span>
                   <span className="text-[9px] font-serif italic text-luxury-gold tracking-widest uppercase">
@@ -1579,7 +1587,7 @@
                 {/* Spotlights of Zone 5 */}
                 <div className="bg-luxury-creamdark border border-luxury-border rounded-lg overflow-hidden shadow-sm">
                   <SafeImage 
-                    src="https://i.postimg.cc/g0Y3zCRq/make-it-realistic-change-202606171129.jpg" 
+                    src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" 
                     alt="Sport Complex SAT Area Chonburi"
                     className="h-44 w-full"
                   />
