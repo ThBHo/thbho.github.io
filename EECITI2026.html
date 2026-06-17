@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EECiti Global Hub - Discover Thailand's Smart City of the Future</title>
   
+  <!-- Open Graph / Social Media Meta Tags สำหรับ LINE, Facebook, Twitter -->
+  <meta property="og:title" content="เจาะลึก EECiti ชลบุรี เมืองใหม่อัจฉริยะ 7.2 หมื่นล้าน" />
+  <meta property="og:description" content="พิมพ์เขียวสังคมสีเขียวที่ทุกคนอยากออกเดินทางมาใช้ชีวิต ค้นหาและทำความรู้จักกับเมืองแห่งอนาคต EECiti" />
+  <meta property="og:image" content="https://i.postimg.cc/R089QbKC/make-it-realistic-change-202606171414.jpg" />
+  <meta property="og:type" content="website" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="เจาะลึก EECiti ชลบุรี เมืองใหม่อัจฉริยะ 7.2 หมื่นล้าน" />
+  <meta name="twitter:description" content="พิมพ์เขียวสังคมสีเขียวที่ทุกคนอยากออกเดินทางมาใช้ชีวิต" />
+  <meta name="twitter:image" content="https://i.postimg.cc/R089QbKC/make-it-realistic-change-202606171414.jpg" />
+
   <!-- Premium Google Fonts for Luxury Editorial Aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,14 +60,15 @@
   <style>
     /* Custom scrollbar styling for ocean theme */
     .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
+      height: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #D6E4ED;
+      background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #B9CFDE;
-      border-radius: 3px;
+      background: #D1DFE5;
+      border-radius: 2px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #166E99;
@@ -420,6 +433,30 @@
       }
     };
 
+    // Helper function for Visa generation to ensure strictly bug-free switching
+    const getVisaInfo = (prof, role, lang) => {
+      const isTarget = ['digital', 'medical', 'automotive'].includes(prof);
+      if (lang === 'en') {
+         if (isTarget) {
+            if (role === 'executive') return { type: 'Executive (E) EEC Visa', desc: 'Up to 10 years of residency for top executives and tech pioneers.', benefits: ['Long-term 10-year continuous stay', '100% online check-in (no physical reporting)', 'Spouse and dependents receive immediate residency'] };
+            if (role === 'specialist') return { type: 'Specialist (S) EEC Visa', desc: 'VIP red carpet for software, digital, and science experts.', benefits: ['Flat 17% personal income tax rate', 'Fast Track lane at international airports', 'Digital reporting via application'] };
+            return { type: 'Professional (P) EEC Visa', desc: 'For young professionals and creative specialists.', benefits: ['One-Stop Service visa extension in EEC', 'No traditional Thai sponsor documents needed', 'Duty exemptions on research and art equipment'] };
+         } else {
+            if (role === 'dependent') return { type: 'Dependents (O) EEC Visa', desc: 'Convenient visa for your entire family.', benefits: ['Stay matches the primary visa holder', 'International school discounts and credits', 'Seamless online application'] };
+            return { type: 'Professional (P) EEC Visa', desc: 'For BCG and health lifestyle experts.', benefits: ['Green city residency with easy relocation', 'Online 90-day reporting exemption', 'Exclusive access to smart association events'] };
+         }
+      } else {
+         if (isTarget) {
+            if (role === 'executive') return { type: 'Executive (E) EEC Visa', desc: 'สิทธิ์พำนักสูงสุด 10 ปี สำหรับผู้บริหารระดับสูงและผู้บุกเบิกเทคโนโลยีรายใหม่', benefits: ['สิทธิ์พำนักและขยายเวลาอยู่อาศัยระยะยาวต่อเนื่องสูงสุด 10 ปี', 'รายงานตัวออนไลน์และยกเว้นการยื่นเอกสารการเงินที่วุ่นวาย', 'คู่สมรส บุตร และผู้อยู่ในอุปการะได้รับสิทธิวีซ่าและพำนักร่วมได้ทันที'] };
+            if (role === 'specialist') return { type: 'Specialist (S) EEC Visa', desc: 'พรมแดงระดับวีไอพีสำหรับผู้เชี่ยวชาญด้านซอฟต์แวร์ ดิจิทัล และนักวิทยาศาสตร์', benefits: ['ลดหย่อนอัตราภาษีเงินได้บุคคลธรรมดาคงที่เหลือร้อยละ 17 ตลอดอายุสัญญา', 'บริการ Fast Track พิเศษ ตรวจหนังสือเดินทางผ่านช่องด่วนสนามบินทั่วประเทศ', 'รายงานตัวพำนักและต่ออายุดิจิทัลผ่านแอปพลิเคชัน ไม่ต้องเดินทางไปจุด ตม.'] };
+            return { type: 'Professional (P) EEC Visa', desc: 'สำหรับคนรุ่นใหม่และผู้ชำนาญการสายงานสร้างสรรค์', benefits: ['เปลี่ยนประเภทและต่ออายุวีซ่าผ่าน One-Stop Service ณ ตม. พื้นที่ EEC ชลบุรี', 'ขั้นตอนง่าย ไม่ผูกมัดเอกสารค้ำประกันแบบเดิมของไทย', 'ลดภาษีนำเข้าอุปกรณ์วิจัยและการสร้างสรรค์งานศิลปะเฉพาะตัว'] };
+         } else {
+            if (role === 'dependent') return { type: 'Dependents (O) EEC Visa', desc: 'วีซ่าอำนวยความสะดวกสำหรับทุกคนในครอบครัวของคุณ', benefits: ['สิทธิ์การเดินทางและพำนักสากลล้อตามระยะเวลาของผู้ถือวีซ่าหลัก', 'เข้าเรียนโรงเรียนนานาชาติในโครงการด้วยสิทธิประโยชน์ส่วนลดและเครดิต', 'ยื่นขอออนไลน์ไร้รอยต่อในระบบเดียวกับวีซ่าหลัก'] };
+            return { type: 'Professional (P) EEC Visa', desc: 'สำหรับผู้เชี่ยวชาญเศรษฐกิจชีวภาพ-สีเขียว (BCG) และไลฟ์สไตล์สุขภาพ', benefits: ['สิทธิ์การอยู่อาศัยในเมืองสีเขียว EECiti พร้อมช่องทางย้ายถิ่นฐานเบ็ดเสร็จ', 'รายงานตัวออนไลน์ ยกเว้นระเบียบ 90 วันแบบดั้งเดิมของไทย', 'สิทธิ์ร่วมงานเสวนาและพบปะแลกเปลี่ยนกับสมาคมอัจฉริยะ'] };
+         }
+      }
+    };
+
     // Static Zones Data (Hoisted outside to prevent ReferenceError & Hoisting issues)
     const zones = [
       {
@@ -733,11 +770,13 @@
         setModalOpen(true);
       };
 
+      const estimatedVisa = useMemo(() => getVisaInfo(userProfession, userRole, lang), [userProfession, userRole, lang]);
+
       return (
-        <div className="min-h-screen bg-luxury-cream text-luxury-espresso font-sans antialiased selection:bg-luxury-gold selection:text-white pb-20">
+        <div className="min-h-screen bg-luxury-bg text-luxury-espresso font-sans antialiased selection:bg-luxury-gold selection:text-white pb-20">
           
           {/* Ticker bar focusing entirely on EECiti */}
-          <div className="bg-luxury-espresso border-b border-luxury-border/30 text-white text-xs py-2.5 px-6 overflow-hidden hidden sm:block">
+          <div className="bg-luxury-navy border-b border-white/10 text-white text-xs py-2.5 px-6 overflow-hidden hidden sm:block">
             <div className="max-w-7xl mx-auto flex justify-between items-center font-serif tracking-widest text-[11px]">
               <div className="flex space-x-8">
                 <span>{t[lang].ticker_ppp}</span>
@@ -749,7 +788,7 @@
           </div>
 
           {/* Unofficial Disclaimer Notice */}
-          <div className="bg-luxury-white/90 border-b border-luxury-border text-[11px] text-luxury-stone py-2 px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="bg-white/90 border-b border-luxury-border text-[11px] text-luxury-stone py-2 px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
             <span className="text-center sm:text-left font-light leading-relaxed">🔔 {t[lang].disclaimer}</span>
             <button 
               onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
@@ -760,20 +799,32 @@
           </div>
 
           {/* Luxury Header */}
-          <header className="border-b border-luxury-border/85 bg-luxury-white/95 sticky top-0 z-40 backdrop-blur-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+          <header className="border-b border-luxury-border/85 bg-white/95 sticky top-0 z-40 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:h-24 flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-0">
               
-              <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 bg-luxury-navy rounded-sm flex items-center justify-center font-serif font-semibold text-white text-lg shadow-sm border border-luxury-border">
-                  EE
+              <div className="flex items-center justify-between w-full lg:w-auto">
+                <div className="flex items-center space-x-3">
+                  <div className="h-10 w-10 bg-luxury-navy rounded-sm flex items-center justify-center font-serif font-semibold text-white text-lg shadow-sm border border-luxury-border">
+                    EE
+                  </div>
+                  <div>
+                    <span className="font-serif text-xl tracking-widest text-luxury-espresso font-semibold block">EECITI GLOBAL HUB</span>
+                    <span className="text-[10px] text-luxury-stone font-light tracking-widest uppercase block font-mono mt-0.5">{t[lang].disclaimer_short}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="font-serif text-xl tracking-widest text-luxury-espresso font-semibold block">EECITI GLOBAL HUB</span>
-                  <span className="text-[10px] text-luxury-stone font-light tracking-widest uppercase block font-mono mt-0.5">{t[lang].disclaimer_short}</span>
+                
+                {/* Mobile Lang Button */}
+                <div className="lg:hidden flex items-center space-x-2">
+                  <button 
+                    onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
+                    className="text-[10px] font-serif tracking-widest font-bold px-2.5 py-1 rounded-sm bg-luxury-bg border border-luxury-border text-luxury-espresso uppercase"
+                  >
+                    🌐 {lang === 'th' ? 'EN' : 'TH'}
+                  </button>
                 </div>
               </div>
               
-              <nav className="hidden lg:flex space-x-2 font-sans font-medium">
+              <nav className="flex overflow-x-auto w-full lg:w-auto space-x-2 font-sans font-medium pb-2 lg:pb-0 custom-scrollbar">
                 {[
                   { id: 'article', label: t[lang].tab_about },
                   { id: 'clusters', label: t[lang].tab_zones },
@@ -784,10 +835,10 @@
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 py-2.5 rounded-sm text-xs tracking-wider font-medium uppercase transition-all duration-300 ${
+                    className={`shrink-0 px-4 py-2.5 rounded-sm text-xs tracking-wider font-medium uppercase transition-all duration-300 ${
                       activeTab === tab.id
                         ? 'bg-luxury-navy text-white shadow-md'
-                        : 'text-luxury-stone hover:text-luxury-espresso hover:bg-luxury-cream/50'
+                        : 'text-luxury-stone hover:text-luxury-espresso hover:bg-luxury-bg/50'
                     }`}
                   >
                     {tab.label}
@@ -795,10 +846,10 @@
                 ))}
               </nav>
               
-              <div className="flex items-center space-x-4">
+              <div className="hidden lg:flex items-center space-x-4">
                 <button 
                   onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
-                  className="text-[11px] font-serif tracking-widest font-bold px-3 py-1.5 rounded-sm bg-luxury-cream border border-luxury-border hover:border-luxury-gold transition-all duration-300 uppercase text-luxury-espresso"
+                  className="text-[11px] font-serif tracking-widest font-bold px-3 py-1.5 rounded-sm bg-luxury-bg border border-luxury-border hover:border-luxury-gold transition-all duration-300 uppercase text-luxury-espresso"
                 >
                   🌐 {lang === 'th' ? 'EN' : 'TH'}
                 </button>
@@ -906,7 +957,7 @@
               <div className="lg:col-span-2 space-y-12">
 
                 <div className="bg-luxury-white border border-luxury-border rounded-[2rem] overflow-hidden book-page-shadow">
-                  <div className="border-b border-luxury-border bg-luxury-cream px-8 py-5 flex items-center justify-between">
+                  <div className="border-b border-luxury-border bg-luxury-bg/50 px-8 py-5 flex items-center justify-between">
                     <span className="font-serif tracking-widest text-xs uppercase text-luxury-espresso font-bold flex items-center">
                       <span className="h-2 w-2 rounded-full bg-luxury-gold mr-3 animate-pulse"></span>
                       {activeTab === 'article' && t[lang].tab_about}
@@ -943,7 +994,7 @@
                         <p>{t[lang].art_p2}</p>
                         
                         {/* Integrated Net Zero Official Image Graphic */}
-                        <div className="my-10 border border-luxury-border rounded-2xl overflow-hidden bg-luxury-cream p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
+                        <div className="my-10 border border-luxury-border rounded-2xl overflow-hidden bg-luxury-bg p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
                           <div className="md:col-span-7 space-y-4">
                             <span className="text-[10px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 px-3 py-1 rounded-sm font-bold uppercase tracking-widest font-mono">
                               {t[lang].art_green_tag}
@@ -986,7 +1037,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec1 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec1 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_1_t}</div>
@@ -998,7 +1049,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec2 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec2 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_2_t}</div>
@@ -1010,7 +1061,7 @@
                             className={`p-5 rounded-xl border text-left text-xs transition-all duration-300 ${
                               checkedRecommendations.rec3 
                                 ? 'bg-luxury-gold text-white border-luxury-gold shadow-md' 
-                                : 'bg-luxury-cream border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
+                                : 'bg-luxury-bg border-luxury-border text-luxury-stone hover:border-luxury-gold/50'
                             }`}
                           >
                             <div className={`font-serif font-bold mb-2 text-sm ${checkedRecommendations.rec3 ? 'text-white' : 'text-luxury-espresso'}`}>{t[lang].chk_3_t}</div>
@@ -1032,7 +1083,7 @@
                       </div>
 
                       {/* Integrated 6 Clusters Layout Blueprint Image */}
-                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-cream p-5 shadow-sm">
+                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-bg p-5 shadow-sm">
                         <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest block mb-3 pl-1 font-mono">{t[lang].zones_map_title}</span>
                         <SafeImage 
                           src="https://i.postimg.cc/p2d8FxCR/6Clusters.png" 
@@ -1049,7 +1100,7 @@
                             className={`p-5 rounded-xl text-left border transition-all duration-500 relative overflow-hidden ${
                               selectedZone === zone.id
                                 ? 'bg-luxury-navy border-luxury-navy text-white shadow-lg scale-[1.02]'
-                                : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/50 text-luxury-espresso'
+                                : 'bg-luxury-bg border-luxury-border hover:border-luxury-gold/50 text-luxury-espresso'
                             }`}
                           >
                             <div className={`h-1.5 w-8 rounded-full mb-4 ${selectedZone === zone.id ? 'bg-luxury-goldlight' : 'bg-luxury-gold'}`}></div>
@@ -1119,7 +1170,7 @@
                       </div>
 
                       {/* Integrated 10 Systems Layout Blueprint Image */}
-                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-cream p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
+                      <div className="rounded-2xl overflow-hidden border border-luxury-border bg-luxury-bg p-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
                         <div className="md:col-span-5 space-y-3">
                           <span className="text-[10px] text-luxury-gold font-bold uppercase tracking-widest font-mono block">{t[lang].sys_img_tag}</span>
                           <h4 className="text-luxury-espresso font-serif text-lg font-medium leading-snug">{t[lang].sys_img_title}</h4>
@@ -1145,7 +1196,7 @@
                               className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex justify-between items-center transition-all duration-300 border ${
                                 selectedSystem === sys.id
                                   ? 'bg-luxury-navy border-luxury-navy text-white shadow-md'
-                                  : 'bg-luxury-cream border-luxury-border hover:border-luxury-gold/40 text-luxury-stone hover:text-luxury-espresso'
+                                  : 'bg-luxury-bg border-luxury-border hover:border-luxury-gold/40 text-luxury-stone hover:text-luxury-espresso'
                               }`}
                             >
                               <span className="flex items-center space-x-3">
@@ -1177,7 +1228,7 @@
                               <span className="text-luxury-stone font-medium uppercase tracking-wider text-[10px]">{t[lang].sys_metric_label}</span>
                               <span className="text-luxury-gold font-bold">{systems[selectedSystem - 1].rating}%</span>
                             </div>
-                            <div className="w-full bg-luxury-cream h-1.5 rounded-full overflow-hidden">
+                            <div className="w-full bg-luxury-bg h-1.5 rounded-full overflow-hidden">
                               <div 
                                 className="bg-luxury-gold h-full rounded-full transition-all duration-700 ease-out"
                                 style={{ width: `${systems[selectedSystem - 1].rating}%` }}
@@ -1199,7 +1250,7 @@
                         </p>
                       </div>
 
-                      <div className="bg-luxury-cream border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
+                      <div className="bg-luxury-bg border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-luxury-stone text-[11px] font-bold mb-3 uppercase tracking-wider">{t[lang].visa_form_prof}</label>
@@ -1245,7 +1296,7 @@
                             <h5 className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest">{t[lang].visa_benefit_title}</h5>
                             <ul className="space-y-3">
                               {estimatedVisa.benefits.map((benefit, index) => (
-                                <li key={index} className="text-luxury-cream text-sm flex items-start font-light font-sans">
+                                <li key={index} className="text-luxury-bg text-sm flex items-start font-light font-sans">
                                   <span className="text-luxury-gold mr-3 font-bold">✓</span>
                                   <span className="pt-0.5">{benefit}</span>
                                 </li>
@@ -1267,7 +1318,7 @@
                         </p>
                       </div>
 
-                      <div className="bg-luxury-cream border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
+                      <div className="bg-luxury-bg border border-luxury-border rounded-2xl p-8 space-y-8 shadow-sm mx-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           
                           {/* Matcher Inputs */}
@@ -1357,7 +1408,7 @@
                               <p className="text-white font-serif text-lg italic font-normal mb-3 leading-snug">
                                 "{lifestyleMatch.quote}"
                               </p>
-                              <p className="text-luxury-cream text-xs sm:text-sm leading-relaxed font-light">
+                              <p className="text-luxury-bg text-xs sm:text-sm leading-relaxed font-light">
                                 {lang === 'th' ? lifestyleMatch.zone.description : matchedZoneData.desc}
                               </p>
                             </div>
@@ -1399,22 +1450,22 @@
                       <span className="text-luxury-goldlight text-[10px] tracking-widest uppercase font-mono block mt-1">EECiti Fanbase Group</span>
                     </div>
                   </div>
-                  <p className="text-sm text-luxury-cream leading-relaxed font-light font-sans relative z-10">
+                  <p className="text-sm text-luxury-bg leading-relaxed font-light font-sans relative z-10">
                     {t[lang].side_admin_desc}
                   </p>
                 </div>
 
                 {/* Spotlights of Zone 5 */}
-                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg overflow-hidden shadow-sm">
+                <div className="bg-luxury-navy text-white rounded-[2rem] overflow-hidden dark-page-shadow">
                   <SafeImage 
                     src="https://i.postimg.cc/447sdw6g/4a308eec-0394-4bda-acc0-84c746118631.jpg" 
                     alt="Sport Complex SAT Area Chonburi"
-                    className="h-44 w-full"
+                    className="h-48 w-full"
                   />
-                  <div className="p-6 space-y-2 text-left font-sans">
+                  <div className="p-8 space-y-3 text-left font-sans bg-luxury-navy">
                     <span className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest font-mono block">{t[lang].side_spot_tag}</span>
                     <h5 className="font-serif text-lg font-medium">{t[lang].side_spot_title}</h5>
-                    <p className="text-luxury-cream text-sm leading-relaxed font-light">
+                    <p className="text-luxury-bg text-sm leading-relaxed font-light">
                       {t[lang].side_spot_desc}
                     </p>
                   </div>
@@ -1453,7 +1504,7 @@
                           <div className="space-y-4 font-sans">
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_1}</span>
+                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_1}</span>
                                 <span className="text-white font-bold">{pctOpt}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1462,7 +1513,7 @@
                             </div>
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_2}</span>
+                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_2}</span>
                                 <span className="text-white font-bold">{pctMed}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1471,7 +1522,7 @@
                             </div>
                             <div>
                               <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_3}</span>
+                                <span className="text-luxury-bg font-light">{t[lang].poll_chart_3}</span>
                                 <span className="text-white font-bold">{pctCrit}%</span>
                               </div>
                               <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -1485,7 +1536,7 @@
                   )}
                 </div>
 
-                {/* PRO Investor Resource & Inquiry Portal (Replaces Mock Comments) */}
+                {/* PRO Investor Resource & Inquiry Portal */}
                 <div className="bg-luxury-navy text-white border border-luxury-navy rounded-[2rem] p-8 dark-page-shadow flex flex-col justify-between space-y-5 font-sans relative overflow-hidden">
                   <div className="absolute -top-20 -left-20 w-48 h-48 bg-luxury-gold opacity-20 rounded-full blur-3xl pointer-events-none"></div>
                   
@@ -1495,9 +1546,8 @@
                     
                     {!inquirySubmitted ? (
                       <div className="space-y-5">
-                        {/* Official Publications / Download list */}
                         <div className="p-5 bg-white/5 rounded-xl border border-white/10 space-y-3 backdrop-blur-md">
-                          <span className="text-[10px] text-luxury-cream font-bold uppercase tracking-widest block font-sans">{t[lang].club_doc_label}</span>
+                          <span className="text-[10px] text-luxury-bg font-bold uppercase tracking-widest block font-sans">{t[lang].club_doc_label}</span>
                           <div className="space-y-2.5">
                             <a href="#" onClick={(e) => { e.preventDefault(); triggerModal(lang === 'th' ? "ระบบดาวน์โหลด: สมุดเผยแพร่ผังเมืองและคู่มือวิถีชีวิตน่าอยู่ EECiti 2026.pdf (3.8 MB)" : "Initiating download: EECiti Sustainable Living Guide 2026.pdf (3.8 MB)"); }} className="flex justify-between items-center text-xs text-luxury-goldlight hover:text-white transition-all duration-300 group">
                               <span className="truncate pr-2 font-sans flex items-center"><span className="mr-2 opacity-70 group-hover:opacity-100 transition-opacity">📁</span> {t[lang].club_doc_1}</span>
@@ -1569,7 +1619,6 @@
                           </p>
                         </div>
                         
-                        {/* Premium Minimalist Silver/Blue Inlaid Member Card */}
                         <div className="p-6 bg-gradient-to-br from-[#0F4C6F] to-luxury-navy rounded-xl border border-white/20 flex flex-col justify-between h-44 relative overflow-hidden shadow-2xl">
                           <div className="absolute top-0 right-0 h-28 w-28 bg-white/10 rounded-full blur-xl"></div>
                           <div className="flex justify-between items-start relative z-10">
@@ -1636,7 +1685,7 @@
 
           </main>
 
-          {/* Premium In-App Notification Modal (Replaces standard window alert) */}
+          {/* Premium In-App Notification Modal */}
           {modalOpen && (
             <div className="fixed inset-0 bg-luxury-espresso/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
               <div className="bg-luxury-white border-0 p-8 rounded-2xl max-w-sm w-full book-page-shadow relative overflow-hidden text-left shadow-2xl">
