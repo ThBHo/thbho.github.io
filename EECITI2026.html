@@ -245,7 +245,7 @@
         match_title: "โปรแกรมเกมจำลอง: จับคู่ย่านที่รักและไลฟ์สไตล์ที่ชอบ",
         match_desc: "ลองตอบคำถามสไตล์ชีวิตที่คุณรัก 3 ข้อ แล้วระบบปัญญาประดิษฐ์ชุมชนของเราจะช่วยค้นหาว่าย่านใดใน EECiti ที่แมตช์และเหมาะกับการย้ายถิ่นฐานของคุณที่สุดในอนาคต!",
         match_q1: "1. เป้าหมายสูงสุดในการมาอยู่อาศัยที่ EECiti ของคุณคืออะไร?",
-        match_q2: "2. สภาพแวดล้อมและบรรยากาศแวดล้อมที่ทำให้ใจคุณเป็นสุขที่สุด?",
+        match_q2: "2. สภาพแวดล้อม and บรรยากาศแวดล้อมที่ทำให้ใจคุณเป็นสุขที่สุด?",
         match_q3: "3. คุณมีแผนที่จะย้ายเข้ามาใช้ชีวิตพร้อมครอบครัว/มีบุตรหรือไม่?",
         match_family_y: "ใช่ ย้ายมาเป็นครอบครัว (มีบุตร/คู่สมรส)",
         match_family_n: "ย้ายมาคนเดียว / รักวิถีชีวิตอิสระแบบคนรุ่นใหม่",
@@ -1161,7 +1161,7 @@
                         <div className="lg:col-span-7 bg-luxury-white rounded-2xl border border-luxury-border p-8 flex flex-col justify-between font-sans shadow-md">
                           <div className="space-y-5">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] uppercase font-bold tracking-widest text-luxury-gold bg-luxury-gold/10 px-3 py-1.5 rounded-sm border border-luxury-gold/20 font-mono font-sans">
+                              <span className="text-[9px] uppercase font-bold tracking-widest text-luxury-gold bg-luxury-gold/10 px-3 py-1.5 rounded-sm border border-luxury-gold/20 font-mono font-sans">
                                 {lang === 'th' ? `นวัตกรรมย่อยที่ ${selectedSystem}` : `System Sub-node ${selectedSystem}`}
                               </span>
                               <span className="text-3xl opacity-80">{systems[selectedSystem - 1].icon}</span>
@@ -1247,7 +1247,7 @@
                             <h5 className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest">{t[lang].visa_benefit_title}</h5>
                             <ul className="space-y-3">
                               {estimatedVisa.benefits.map((benefit, index) => (
-                                <li key={index} className="text-luxury-cream text-sm flex items-start font-light font-sans">
+                                <li key={index} className="text-luxury-bg text-sm flex items-start font-light font-sans">
                                   <span className="text-luxury-gold mr-3 font-bold">✓</span>
                                   <span className="pt-0.5">{benefit}</span>
                                 </li>
@@ -1261,10 +1261,10 @@
 
                   {/* TAB 5: LIFESTYLE MATCHER */}
                   {activeTab === 'impact-simulator' && (
-                    <div className="p-8 md:p-12 space-y-10 font-sans">
-                      <div className="px-2">
-                        <h3 className="text-2xl md:text-3xl font-serif text-luxury-espresso font-medium">{t[lang].match_title}</h3>
-                        <p className="text-luxury-stone text-sm mt-3 font-light max-w-2xl leading-relaxed">
+                    <div className="p-8 md:p-10 space-y-8 font-sans">
+                      <div>
+                        <h3 className="text-xl md:text-2xl font-serif text-luxury-espresso font-light">{t[lang].match_title}</h3>
+                        <p className="text-luxury-stone text-xs sm:text-sm mt-2 font-light max-w-2xl leading-relaxed">
                           {t[lang].match_desc}
                         </p>
                       </div>
@@ -1359,7 +1359,7 @@
                               <p className="text-white font-serif text-lg italic font-normal mb-3 leading-snug">
                                 "{lifestyleMatch.quote}"
                               </p>
-                              <p className="text-luxury-cream text-xs sm:text-sm leading-relaxed font-light">
+                              <p className="text-luxury-bg text-xs sm:text-sm leading-relaxed font-light">
                                 {lang === 'th' ? lifestyleMatch.zone.description : matchedZoneData.desc}
                               </p>
                             </div>
@@ -1409,7 +1409,7 @@
                 {/* Spotlights of Zone 5 */}
                 <div className="bg-luxury-navy text-white rounded-[2rem] overflow-hidden dark-page-shadow">
                   <SafeImage 
-                    src="https://i.postimg.cc/Mps0Ky2R/506069c1-7af6-4ce5-8fb5-70ebb0863364.jpg" 
+                    src="https://i.postimg.cc/Dw2Vdv29/add-lens-flare-in-the-202606231052.jpg" 
                     alt="Sport Complex SAT Area Chonburi"
                     className="h-48 w-full"
                   />
@@ -1422,69 +1422,99 @@
                   </div>
                 </div>
 
-                {/* Poll Section Moved to Sidebar to fit layout */}
-                <div className="bg-luxury-navy text-white rounded-[2rem] p-8 dark-page-shadow">
-                  <span className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest mb-3 block">{t[lang].poll_tag}</span>
-                  <h4 className="font-serif text-base font-normal mb-5 leading-relaxed">
-                    {t[lang].poll_q}
-                  </h4>
-                  
-                  {!pollVoted ? (
-                    <div className="space-y-3">
-                      <button onClick={() => handleVote('highlyOptimistic')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
-                        {t[lang].poll_opt_1}
-                      </button>
-                      <button onClick={() => handleVote('moderateWithRisk')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
-                        {t[lang].poll_opt_2}
-                      </button>
-                      <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
-                        {t[lang].poll_opt_3}
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="space-y-5 font-sans">
-                      <div className="bg-luxury-gold text-white text-xs p-4 rounded-xl font-bold text-center shadow-inner">
-                        {t[lang].poll_voted_title}
+                {/* Poll Section Full Width */}
+                <div className="w-full font-sans">
+                  <div className="bg-luxury-navy text-white rounded-[2rem] p-8 dark-page-shadow">
+                    <span className="text-[10px] text-luxury-goldlight font-bold uppercase tracking-widest mb-3 block">{t[lang].poll_tag}</span>
+                    <h4 className="font-serif text-base font-normal mb-5 leading-relaxed">
+                      {t[lang].poll_q}
+                    </h4>
+                    
+                    {!pollVoted ? (
+                      <div className="space-y-3">
+                        <button onClick={() => handleVote('highlyOptimistic')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
+                          {t[lang].poll_opt_1}
+                        </button>
+                        <button onClick={() => handleVote('moderateWithRisk')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
+                          {t[lang].poll_opt_2}
+                        </button>
+                        <button onClick={() => handleVote('criticalConcern')} className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/20 hover:border-luxury-goldlight transition-all text-xs text-white font-light leading-relaxed font-sans backdrop-blur-sm">
+                          {t[lang].poll_opt_3}
+                        </button>
                       </div>
-                      {(() => {
-                        const total = pollVotes.highlyOptimistic + pollVotes.moderateWithRisk + pollVotes.criticalConcern;
-                        const pctOpt = Math.round((pollVotes.highlyOptimistic / total) * 100);
-                        const pctMed = Math.round((pollVotes.moderateWithRisk / total) * 100);
-                        const pctCrit = Math.round((pollVotes.criticalConcern / total) * 100);
-                        return (
-                          <div className="space-y-4 font-sans">
-                            <div>
-                              <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_1}</span>
-                                <span className="text-white font-bold">{pctOpt}%</span>
+                    ) : (
+                      <div className="space-y-5 font-sans">
+                        <div className="bg-luxury-gold text-white text-xs p-4 rounded-xl font-bold text-center shadow-inner">
+                          {t[lang].poll_voted_title}
+                        </div>
+                        {(() => {
+                          const total = pollVotes.highlyOptimistic + pollVotes.moderateWithRisk + pollVotes.criticalConcern;
+                          const pctOpt = Math.round((pollVotes.highlyOptimistic / total) * 100);
+                          const pctMed = Math.round((pollVotes.moderateWithRisk / total) * 100);
+                          const pctCrit = Math.round((pollVotes.criticalConcern / total) * 100);
+                          return (
+                            <div className="space-y-4 font-sans">
+                              <div>
+                                <div className="flex justify-between text-xs mb-1.5">
+                                  <span className="text-luxury-cream font-light">{t[lang].poll_chart_1}</span>
+                                  <span className="text-white font-bold">{pctOpt}%</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                                  <div className="bg-luxury-goldlight h-full rounded-full" style={{ width: `${pctOpt}%` }}></div>
+                                </div>
                               </div>
-                              <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
-                                <div className="bg-luxury-goldlight h-full rounded-full" style={{ width: `${pctOpt}%` }}></div>
+                              <div>
+                                <div className="flex justify-between text-xs mb-1.5">
+                                  <span className="text-luxury-cream font-light">{t[lang].poll_chart_2}</span>
+                                  <span className="text-white font-bold">{pctMed}%</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                                  <div className="bg-[#60A5FA] h-full rounded-full" style={{ width: `${pctMed}%` }}></div>
+                                </div>
+                              </div>
+                              <div>
+                                <div className="flex justify-between text-xs mb-1.5">
+                                  <span className="text-luxury-cream font-light">{t[lang].poll_chart_3}</span>
+                                  <span className="text-white font-bold">{pctCrit}%</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                                  <div className="bg-luxury-stone h-full rounded-full" style={{ width: `${pctCrit}%` }}></div>
+                                </div>
                               </div>
                             </div>
-                            <div>
-                              <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_2}</span>
-                                <span className="text-white font-bold">{pctMed}%</span>
-                              </div>
-                              <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
-                                <div className="bg-[#60A5FA] h-full rounded-full" style={{ width: `${pctMed}%` }}></div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="flex justify-between text-xs mb-1.5">
-                                <span className="text-luxury-cream font-light">{t[lang].poll_chart_3}</span>
-                                <span className="text-white font-bold">{pctCrit}%</span>
-                              </div>
-                              <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
-                                <div className="bg-luxury-stone h-full rounded-full" style={{ width: `${pctCrit}%` }}></div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })()}
+                          );
+                        })()}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Timeline Roadmap */}
+                <div className="bg-luxury-creamdark border border-luxury-border rounded-lg p-6 shadow-sm">
+                  <h4 className="text-luxury-espresso font-serif text-sm font-semibold mb-6 flex items-center font-sans">
+                    <span className="text-luxury-gold mr-2 font-sans">✦</span>
+                    {t[lang].side_time_title}
+                  </h4>
+                  <div className="relative border-l border-luxury-border pl-4 ml-2 space-y-8 text-xs text-left font-sans">
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-gold bg-luxury-creamdark"></div>
+                      <span className="text-[9px] text-luxury-gold font-bold block font-mono">{t[lang].side_time_1_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เห็นชอบแผนร่วมทุน PPP' : 'PPP framework approved'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_1_d}</span>
                     </div>
-                  )}
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-stone bg-luxury-creamdark"></div>
+                      <span className="text-[9px] text-luxury-stone font-bold block font-mono">{t[lang].side_time_2_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'เตรียมทำ Market Sounding ทั่วโลก' : 'Global Market Sounding Initiated'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_2_d}</span>
+                    </div>
+                    <div className="relative">
+                      <div className="absolute -left-[21px] mt-1 h-3 w-3 rounded-full border-2 border-luxury-espresso bg-luxury-creamdark"></div>
+                      <span className="text-[9px] text-luxury-espresso font-bold block font-mono">{t[lang].side_time_3_t}</span>
+                      <span className="text-luxury-espresso font-serif font-bold block mt-0.5">{lang === 'th' ? 'วางท่อใต้อุโมงค์ (CUT) ก้อนแรก' : 'Underground CUT Construction begins'}</span>
+                      <span className="text-luxury-stone block mt-1 font-light leading-relaxed font-sans">{t[lang].side_time_3_d}</span>
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -1492,7 +1522,7 @@
             </div>
 
             {/* Footer */}
-            <footer className="border-t border-luxury-border/80 mt-24 pt-12 pb-8 text-center md:text-left text-luxury-stone text-xs">
+            <footer className="border-t border-luxury-border/40 mt-20 pt-12 pb-6 text-center md:text-left text-luxury-stone text-xs">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 text-left">
                 <div className="space-y-3">
                   <span className="font-serif text-base text-luxury-espresso font-semibold block font-sans">EECiti Global Hub ({lang === 'th' ? 'กิจกรรมโดยชุมชน' : 'Community Initiative'})</span>
