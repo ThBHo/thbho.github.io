@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>COPA MKT PLAN 2026–2027 : Inside Out</title>
+
+  <!-- Open Graph — LINE / Social thumbnail -->
+  <meta property="og:title" content="COPA MKT PLAN 2026–2027 : Inside Out" />
+  <meta property="og:description" content="Hybrid AI · O2O Strategy · Creator &amp; Art Lab · 3 Core Focus Axes" />
+  <meta property="og:image" content="https://i.postimg.cc/XNFSm0Sx/hf-20260525-021408-84bf4ed4-8fb5-49a1-a127-f30f47b15946.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://i.postimg.cc/XNFSm0Sx/hf-20260525-021408-84bf4ed4-8fb5-49a1-a127-f30f47b15946.jpg" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; line-height: 1.75; }
@@ -40,11 +50,24 @@
 
     /* ─── HERO ─── */
     .hero {
+      position: relative;
       background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #1a1a2e 100%);
       color: #fff;
       text-align: center;
       padding: 70px 24px 52px;
+      overflow: hidden;
     }
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0.22;
+      mix-blend-mode: luminosity;
+    }
+    .hero > *:not(.hero-photo) { position: relative; z-index: 1; }
     .hero .badge {
       display: inline-block;
       background: rgba(255,255,255,0.15);
@@ -58,12 +81,14 @@
       margin-bottom: 20px;
       color: #a8d8ea;
     }
+    .hero .logo { display: block; margin: 0 auto 20px; height: 56px; width: auto; object-fit: contain; }
     .hero h1 { font-size: clamp(26px, 5vw, 42px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
     .hero h1 span { color: #f5a623; }
     .hero .subtitle { margin-top: 12px; font-size: 15px; color: rgba(255,255,255,0.65); max-width: 560px; margin-left: auto; margin-right: auto; }
+    .footer-logo { display: block; margin: 0 auto 10px; height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.4; }
 
     /* ─── LAYOUT ─── */
-    .container { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+    .container { max-width: 980px; margin: 0 auto; padding: 48px 24px; }
 
     /* ─── SECTION HEADER ─── */
     .section-label {
@@ -72,19 +97,18 @@
       text-transform: uppercase; color: #888; margin-bottom: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: #ddd; }
-    .section-title { font-size: clamp(20px, 3vw, 28px); font-weight: 800; color: #0f3460; margin-bottom: 24px; }
+    .section-title { font-size: clamp(18px, 2.5vw, 26px); font-weight: 800; color: #0f3460; margin-bottom: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 
-    /* ─── PRINCIPLE CARDS ─── */
-    .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 56px; }
+    /* ─── PRINCIPLE CARDS — 2×2 desktop, 1 col mobile ─── */
+    .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 56px; }
     .principle-card { background: #fff; border-radius: 16px; padding: 24px; border-left: 4px solid #0f3460; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .principle-card .icon { font-size: 28px; margin-bottom: 10px; }
     .principle-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #0f3460; }
     .principle-card p { font-size: 13.5px; color: #555; }
 
-    /* ─── O2O ─── */
+    /* ─── O2O — always 2 col, stack on mobile ─── */
     .o2o-wrapper { margin-bottom: 56px; }
     .o2o-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 600px) { .o2o-grid { grid-template-columns: 1fr; } }
     .o2o-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .o2o-card .o2o-header { padding: 18px 22px; font-size: 14px; font-weight: 800; letter-spacing: 0.5px; color: #fff; }
     .online .o2o-header { background: #0f3460; }
@@ -103,10 +127,11 @@
     .phase-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px; background: #0f3460; color: #fff; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
     .phase-item:nth-child(2) .phase-num { background: #1a6fa8; }
     .phase-item:nth-child(3) .phase-num { background: #f5a623; }
+    .phase-body { flex: 1; min-width: 0; }
     .phase-body h3 { font-size: 15px; font-weight: 700; color: #0f3460; margin-bottom: 6px; }
     .phase-body p { font-size: 13.5px; color: #555; margin-bottom: 6px; }
     .phase-body .target { font-size: 12px; color: #888; font-style: italic; }
-    .phase-body a { font-size: 11.5px; color: #1a6fa8; word-break: break-all; }
+    .phase-body a { font-size: 11.5px; color: #1a6fa8; word-break: break-all; display: inline-block; margin-top: 4px; }
 
     /* ─── CREATOR LAB ─── */
     .creator-wrapper { margin-bottom: 56px; }
@@ -127,7 +152,9 @@
     .creator-quote { border-left: 3px solid #f5a623; margin: 16px 0 0; padding: 18px 22px; background: rgba(255,255,255,0.07); border-radius: 0 12px 12px 0; }
     .creator-quote p { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.8; font-style: italic; }
     .creator-quote p em { color: #f5a623; font-style: normal; font-weight: 600; }
-    .creator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+
+    /* ─── CREATOR STEPS — 2×2 desktop ─── */
+    .creator-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
     .creator-step { background: #fff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .creator-step .step-dot { width: 32px; height: 32px; border-radius: 10px; background: #0f3460; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
     .creator-step:nth-child(2) .step-dot { background: #1a6fa8; }
@@ -140,38 +167,67 @@
     .creator-outcome p { font-size: 13px; color: #7a5500; line-height: 1.7; }
     .creator-outcome strong { color: #5a3a00; }
 
-    /* ─── 3 AXES ─── */
+    /* ─── WHO THIS IS FOR — 3×2 desktop ─── */
+    .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 0; }
+    .who-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px; padding: 14px 12px; text-align: center;
+    }
+    .who-card .who-icon { font-size: 26px; margin-bottom: 6px; }
+    .who-card .who-title { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 3px; line-height: 1.3; }
+    .who-card .who-sub { font-size: 10.5px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+
+    /* ─── 3 AXES — 3 col desktop ─── */
     .axes-wrapper { margin-bottom: 56px; }
     .axes-intro { background: #fff; border-radius: 16px; padding: 22px 26px; margin-bottom: 24px; border-left: 4px solid #f5a623; box-shadow: 0 2px 12px rgba(0,0,0,0.06); font-size: 14px; color: #444; }
     .axes-intro strong { color: #0f3460; }
-    .axes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .axes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .axis-card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
     .axis-card .axis-header { padding: 22px 22px 14px; display: flex; align-items: flex-start; gap: 14px; }
     .axis-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
     .ax1 .axis-icon { background: #e8f0fe; }
     .ax2 .axis-icon { background: #fef3e2; }
     .ax3 .axis-icon { background: #e8f8f0; }
-    .axis-meta { flex: 1; }
+    .axis-meta { flex: 1; min-width: 0; }
     .axis-num { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
     .ax1 .axis-num { color: #3b5bdb; }
     .ax2 .axis-num { color: #e67700; }
     .ax3 .axis-num { color: #1a7a47; }
-    .axis-meta h3 { font-size: 16px; font-weight: 800; color: #0f3460; line-height: 1.3; }
+    .axis-meta h3 { font-size: 15px; font-weight: 800; color: #0f3460; line-height: 1.3; }
     .axis-body { padding: 0 22px 20px; flex: 1; }
     .axis-body p { font-size: 13px; color: #555; margin-bottom: 14px; line-height: 1.65; }
     .axis-topics { list-style: none; border-top: 1px solid #f0f0f0; padding-top: 14px; }
-    .axis-topics li { font-size: 12.5px; color: #333; padding: 5px 0; display: flex; align-items: baseline; gap: 8px; }
+    .axis-topics li { font-size: 12px; color: #333; padding: 5px 0; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
     .axis-topics li::before { content: '▸'; font-size: 10px; color: #aaa; flex-shrink: 0; }
     .axis-topics li a { color: #1a6fa8; font-size: 11px; margin-left: auto; white-space: nowrap; }
 
-    /* ─── TOPICS ─── */
+    /* ─── TOPICS — 2×2 desktop ─── */
     .topics-wrapper { margin-bottom: 56px; }
-    .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .topics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .topic-card { background: #fff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 4px solid #f5a623; }
     .topic-card .tag { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #f5a623; margin-bottom: 8px; }
     .topic-card h3 { font-size: 14.5px; font-weight: 700; color: #0f3460; margin-bottom: 6px; }
     .topic-card p { font-size: 13px; color: #555; margin-bottom: 8px; }
     .topic-card a { font-size: 11.5px; color: #1a6fa8; word-break: break-all; }
+
+    /* ─── RESPONSIVE BREAKPOINTS ─── */
+    @media (max-width: 768px) {
+      .container { padding: 32px 16px; }
+      .principles { grid-template-columns: 1fr; }
+      .o2o-grid { grid-template-columns: 1fr; }
+      .creator-grid { grid-template-columns: 1fr; }
+      .who-grid { grid-template-columns: repeat(2, 1fr); }
+      .axes-grid { grid-template-columns: 1fr; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .phase-item { flex-direction: row; }
+    }
+    @media (max-width: 480px) {
+      .who-grid { grid-template-columns: repeat(2, 1fr); }
+      .creator-hero { padding: 24px 18px; }
+      .phase-item { padding: 18px; gap: 14px; }
+      .lang-toggle button { padding: 7px 12px; font-size: 11px; }
+    }
 
     /* ─── FOOTER ─── */
     .footer { background: #0f3460; color: rgba(255,255,255,0.5); text-align: center; padding: 24px; font-size: 12px; }
@@ -189,6 +245,8 @@
 
 <!-- HERO -->
 <div class="hero">
+  <img src="https://i.postimg.cc/XNFSm0Sx/hf-20260525-021408-84bf4ed4-8fb5-49a1-a127-f30f47b15946.jpg" alt="" class="hero-photo" />
+  <img src="https://i.postimg.cc/pdbFfCwb/226EC476-BACF-4AFF-A104-954B9F9BC2BE.png" alt="Copacabana Group" class="logo" />
   <div class="badge">Marketing Strategy</div>
   <h1>COPA MKT PLAN<br/><span>2026 – 2027</span></h1>
   <p class="subtitle"
@@ -264,9 +322,9 @@
         <ul>
           <li>
             <strong>2 Dual Avatar / Persona</strong><br/>
-            <span data-th="สร้างตัวตน 2 แบบคู่กัน : (1) ผู้เชี่ยวชาญด้านการขาย และ (2) ตัวแทนลูกค้า เพื่อสื่อสารได้ทั้งสองมุม"
-                  data-en="Build two paired identities: (1) Sales Expert and (2) Customer Representative — communicating from both perspectives.">
-              สร้างตัวตน 2 แบบคู่กัน : (1) ผู้เชี่ยวชาญด้านการขาย และ (2) ตัวแทนลูกค้า เพื่อสื่อสารได้ทั้งสองมุม
+            <span data-th="สร้างตัวตน 2 แบบคู่กัน : (1) ผู้เชี่ยวชาญด้านการขาย (Copa Sales) และ (2) ตัวแทนลูกค้า (Influencers) เพื่อสื่อสารได้ทั้งสองมุม"
+                  data-en="Build two paired identities: (1) Sales Expert (Copa Sales) and (2) Customer Representative (Influencers) — communicating from both perspectives.">
+              สร้างตัวตน 2 แบบคู่กัน : (1) ผู้เชี่ยวชาญด้านการขาย (Copa Sales) และ (2) ตัวแทนลูกค้า (Influencers) เพื่อสื่อสารได้ทั้งสองมุม
             </span>
             <a href="https://threeandhour.github.io/GymMateX/ThDualAvatar.html" target="_blank"
                data-th="→ ดู Dual Avatar Concept"
@@ -300,16 +358,16 @@
         <ul>
           <li>
             <strong>Living Wellness Lifestyle Workshops</strong><br/>
-            <span data-th="นำ Persona ทั้งสองมาใช้จริงในงาน Workshop สาย Wellness / Lifestyle"
-                  data-en="Bring both Personas into real-life Wellness / Lifestyle Workshops.">
-              นำ Persona ทั้งสองมาใช้จริงในงาน Workshop สาย Wellness / Lifestyle
+            <span data-th="นำ Influencers, คนสาย Art และ Dual Persona ทั้งสองมาร่วมสร้างงาน Workshop สาย Wellness / Lifestyle ให้มีชีวิตและเชื่อมต่อกับคนได้จริง"
+                  data-en="Bring Influencers, Art-oriented creatives, and both Dual Personas together to co-create Wellness / Lifestyle Workshops that feel alive and genuinely connect with people.">
+              นำ Influencers, คนสาย Art และ Dual Persona ทั้งสองมาร่วมสร้างงาน Workshop สาย Wellness / Lifestyle ให้มีชีวิตและเชื่อมต่อกับคนได้จริง
             </span>
           </li>
           <li>
             <strong>CSR &amp; Corporate Collab</strong><br/>
-            <span data-th="ออกนอก COPA — ร่วมกับองค์กรอื่น เช่น มหาวิทยาลัย, AirAsia, The Mall, ฯลฯ"
-                  data-en="Expand beyond COPA — collaborate with universities, AirAsia, The Mall, and more.">
-              ออกนอก COPA — ร่วมกับองค์กรอื่น เช่น มหาวิทยาลัย, AirAsia, The Mall, ฯลฯ
+            <span data-th="ขยายออกนอก COPA — ร่วมกับองค์กรภายนอกที่มีวิสัยทัศน์ตรงกัน ทั้งภาคการศึกษา ภาคธุรกิจ และภาคบริการ"
+                  data-en="Expand beyond COPA — collaborate with like-minded external organizations across education, business, and service sectors.">
+              ขยายออกนอก COPA — ร่วมกับองค์กรภายนอกที่มีวิสัยทัศน์ตรงกัน ทั้งภาคการศึกษา ภาคธุรกิจ และภาคบริการ
             </span>
           </li>
           <li>
@@ -357,16 +415,19 @@
       <div class="phase-item">
         <div class="phase-num">2</div>
         <div class="phase-body">
-          <h3>Hybrid AI Creator Lab — Influencer &amp; Content Creator Program</h3>
-          <p data-th="COPA คัดเลือก Creators ที่ Fit → สอน, ทดลอง และ Workshop แบบ 1-on-1 หรือกลุ่มเล็ก → ช่วยพัฒนา Content เดิมของพวกเขาให้เป็น Hybrid AI Style → ขยายเป็น COPA Affiliated Network ที่ร่วม Events และ PR ด้วยกัน"
-             data-en="COPA selects the right Creators → teaches, experiments, and runs 1-on-1 or small group workshops → helps evolve their existing content into Hybrid AI Style → expands into a COPA Affiliated Network for Events and PR together.">
-            COPA คัดเลือก Creators ที่ Fit → สอน, ทดลอง และ Workshop แบบ 1-on-1 หรือกลุ่มเล็ก → ช่วยพัฒนา Content เดิมของพวกเขาให้เป็น Hybrid AI Style → ขยายเป็น COPA Affiliated Network ที่ร่วม Events และ PR ด้วยกัน
+          <h3>Hybrid AI Creator &amp; Art Lab — Creative Professionals Program</h3>
+          <p data-th="เปิดกว้างสำหรับ Influencer, ช่างภาพ (Art / Portrait / Fashion / โฆษณา), นักทำหนัง, ทีม Production และทุกคนที่มี Artistic Sense → COPA สอน, ทดลอง Workshop 1-on-1 → ช่วยนำ Hybrid AI มาปรับใช้กับงาน เดิมของพวกเขาให้ดีขึ้น → ขยายเป็น COPA Affiliated Creative Network"
+             data-en="Open to Influencers, Photographers (Art / Portrait / Fashion / Advertising), Filmmakers, Production teams, and anyone with artistic sensibility → COPA teaches, experiments, 1-on-1 workshops → helps apply Hybrid AI to elevate their existing work → expands into a COPA Affiliated Creative Network.">
+            เปิดกว้างสำหรับ Influencer, ช่างภาพ (Art / Portrait / Fashion / โฆษณา), นักทำหนัง, ทีม Production และทุกคนที่มี Artistic Sense → COPA สอน, ทดลอง Workshop 1-on-1 → ช่วยนำ Hybrid AI มาปรับใช้กับงานเดิมของพวกเขาให้ดีขึ้น → ขยายเป็น COPA Affiliated Creative Network
           </p>
           <p class="target"
-             data-th="เป้าหมาย: ไม่ใช่แค่จ้าง Influencer โพสต์ แต่คือสร้าง Hybrid AI Creator Network ที่โตไปพร้อมกับ COPA"
-             data-en="Goal: Not just hiring Influencers to post — but building a Hybrid AI Creator Network that grows alongside COPA.">
-            เป้าหมาย: ไม่ใช่แค่จ้าง Influencer โพสต์ แต่คือสร้าง Hybrid AI Creator Network ที่โตไปพร้อมกับ COPA
+             data-th="เป้าหมาย: สร้าง Hybrid AI Creative Network ที่ครอบคลุมทุก Creative Discipline ที่มี Idea และ Art อยู่ในตัว"
+             data-en="Goal: Build a Hybrid AI Creative Network spanning every creative discipline — anyone with ideas and art inside.">
+            เป้าหมาย: สร้าง Hybrid AI Creative Network ที่ครอบคลุมทุก Creative Discipline ที่มี Idea และ Art อยู่ในตัว
           </p>
+          <a href="https://thbho.github.io/CopaCreatorLab.html" target="_blank"
+             data-th="→ ดู Hybrid AI Creator &amp; Art Lab"
+             data-en="→ View Hybrid AI Creator &amp; Art Lab">→ ดู Hybrid AI Creator &amp; Art Lab</a>
         </div>
       </div>
 
@@ -398,25 +459,67 @@
          data-th="🎬 New Initiative"
          data-en="🎬 New Initiative">🎬 New Initiative</div>
     <div class="section-title"
-         data-th="Hybrid AI Creator Lab"
-         data-en="Hybrid AI Creator Lab">Hybrid AI Creator Lab</div>
+         data-th="Hybrid AI Creator &amp; Art Lab"
+         data-en="Hybrid AI Creator &amp; Art Lab">Hybrid AI Creator &amp; Art Lab
+      <a href="https://thbho.github.io/CopaCreatorLab.html" target="_blank"
+         style="font-size: 12px; font-weight: 600; color: #1a6fa8; margin-left: 12px; letter-spacing: 0; text-decoration: none;"
+         data-th="→ ดูรายละเอียด"
+         data-en="→ View Details">→ ดูรายละเอียด</a>
+    </div>
 
     <div class="creator-hero">
       <div class="chip"
-           data-th="Influencers &amp; Content Creators Program"
-           data-en="Influencers &amp; Content Creators Program">
-        Influencers &amp; Content Creators Program
+           data-th="Creative Professionals × Hybrid AI Program"
+           data-en="Creative Professionals × Hybrid AI Program">
+        Creative Professionals × Hybrid AI Program
       </div>
-      <h2 data-th="เปลี่ยน Content เดิม<br/>ให้กลายเป็น Hybrid AI Content"
-          data-en="Transform Existing Content<br/>into Hybrid AI Content">
-        เปลี่ยน Content เดิม<br/>ให้กลายเป็น Hybrid AI Content
+      <h2 data-th="สำหรับทุกคนที่มี Art อยู่ในตัว<br/>และอยากสร้างงาน Hybrid ด้วยตัวเอง"
+          data-en="For Everyone with Art Inside<br/>Who Wants to Build Hybrid Work Themselves">
+        สำหรับทุกคนที่มี Art อยู่ในตัว<br/>และอยากสร้างงาน Hybrid ด้วยตัวเอง
       </h2>
-      <p data-th="COPA คัดเลือก Creators ที่ใช่ แล้วเข้าไปช่วยพัฒนา Content ที่พวกเขาทำอยู่แล้ว ให้ฉลาดขึ้น สร้างสรรค์ขึ้น และ Scale ได้ง่ายขึ้น — ด้วย Hybrid AI ไม่ใช่การแทนที่ตัวตนของ Creator แต่คือการยกระดับมัน"
-         data-en="COPA selects the right Creators and helps develop the content they're already making — making it smarter, more creative, and easier to scale — with Hybrid AI. Not replacing the Creator's identity, but elevating it.">
-        COPA คัดเลือก Creators ที่ใช่ แล้วเข้าไปช่วยพัฒนา Content ที่พวกเขาทำอยู่แล้ว ให้ฉลาดขึ้น สร้างสรรค์ขึ้น และ Scale ได้ง่ายขึ้น — ด้วย Hybrid AI ไม่ใช่การแทนที่ตัวตนของ Creator แต่คือการยกระดับมัน
+      <p data-th="ไม่ว่าคุณจะเป็น Influencer, ช่างภาพ, นักทำหนัง, ทีม Production, หรือใครก็ตามที่มี Idea และ Artistic Sense อยู่ในตัว — COPA พร้อมเข้ามาช่วยยกระดับงานที่คุณทำอยู่แล้ว ให้กลายเป็น Hybrid AI Work ที่ยังคงเป็นตัวคุณ 100%"
+         data-en="Whether you're an Influencer, Photographer, Filmmaker, Production professional, or anyone with ideas and artistic sensibility — COPA is ready to help elevate the work you're already doing into Hybrid AI Work that's still 100% you.">
+        ไม่ว่าคุณจะเป็น Influencer, ช่างภาพ, นักทำหนัง, ทีม Production, หรือใครก็ตามที่มี Idea และ Artistic Sense อยู่ในตัว — COPA พร้อมเข้ามาช่วยยกระดับงานที่คุณทำอยู่แล้ว ให้กลายเป็น Hybrid AI Work ที่ยังคงเป็นตัวคุณ 100%
       </p>
-      <div class="creator-quote">
-        <p>"COPA is looking for creators who <em>truly connect with our vision</em>. We don't want to replace your unique spark; instead, we want to help you grow. By using Hybrid AI together, we can make your creative process smarter and help your meaningful stories reach more people — all while keeping your work <em>authentic, realistic, and perfectly aligned with your unique personality type (MBTI)</em>."</p>
+
+      <div class="who-grid">
+        <div class="who-card">
+          <div class="who-icon">📸</div>
+          <div class="who-title" data-th="ช่างภาพ" data-en="Photographer">ช่างภาพ</div>
+          <div class="who-sub">Art · Portrait · Fashion · Ads</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">🎬</div>
+          <div class="who-title" data-th="นักทำหนัง / วิดีโอ" data-en="Film / Video">นักทำหนัง / วิดีโอ</div>
+          <div class="who-sub">Film · Short · Documentary</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">🎨</div>
+          <div class="who-title" data-th="ศิลปิน / Designer" data-en="Artist / Designer">ศิลปิน / Designer</div>
+          <div class="who-sub">Visual · Graphic · Art Direction</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">🎭</div>
+          <div class="who-title" data-th="Production Team" data-en="Production Team">Production Team</div>
+          <div class="who-sub">Set · Styling · Creative Ops</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">📱</div>
+          <div class="who-title" data-th="Influencer / Creator" data-en="Influencer / Creator">Influencer / Creator</div>
+          <div class="who-sub">Content · Social · Brand</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">✍️</div>
+          <div class="who-title" data-th="นักเล่าเรื่อง" data-en="Storyteller">นักเล่าเรื่อง</div>
+          <div class="who-sub">Writer · Script · Copywriter</div>
+        </div>
+      </div>
+
+      <div class="creator-quote" style="margin-top: 20px;">
+        <p data-th="&quot;COPA กำลังมองหา Creators ที่ <em>เชื่อมต่อกับวิสัยทัศน์ของเราได้จริงๆ</em> เราไม่ได้ต้องการมาแทนที่ความเป็นตัวคุณ แต่ต้องการช่วยให้คุณเติบโต ด้วยการใช้ Hybrid AI ร่วมกัน เราจะช่วยให้กระบวนการสร้างสรรค์ของคุณฉลาดขึ้น และช่วยให้เรื่องราวที่มีความหมายของคุณเข้าถึงคนได้มากขึ้น — ทั้งหมดนี้โดยยังคง <em>ความเป็นตัวตน ความสมจริง และความสอดคล้องกับบุคลิกภาพที่เป็นเอกลักษณ์ของคุณ (MBTI)</em> ไว้อย่างครบถ้วน&quot;"
+           data-en="&quot;COPA is looking for creators who <em>truly connect with our vision</em>. We don't want to replace your unique spark; instead, we want to help you grow. By using Hybrid AI together, we can make your creative process smarter and help your meaningful stories reach more people — all while keeping your work <em>authentic, realistic, and perfectly aligned with your unique personality type (MBTI)</em>.&quot;">
+          "COPA กำลังมองหา Creators ที่ <em>เชื่อมต่อกับวิสัยทัศน์ของเราได้จริงๆ</em> เราไม่ได้ต้องการมาแทนที่ความเป็นตัวคุณ แต่ต้องการช่วยให้คุณเติบโต ด้วยการใช้ Hybrid AI ร่วมกัน เราจะช่วยให้กระบวนการสร้างสรรค์ของคุณฉลาดขึ้น และช่วยให้เรื่องราวที่มีความหมายของคุณเข้าถึงคนได้มากขึ้น — ทั้งหมดนี้โดยยังคง <em>ความเป็นตัวตน ความสมจริง และความสอดคล้องกับบุคลิกภาพที่เป็นเอกลักษณ์ของคุณ (MBTI)</em> ไว้อย่างครบถ้วน"
+        </p>
       </div>
     </div>
 
@@ -425,9 +528,9 @@
       <div class="creator-step">
         <div class="step-dot">1</div>
         <h4 data-th="คัดเลือก (Curate)" data-en="Curate">คัดเลือก (Curate)</h4>
-        <p data-th="COPA เลือก Creators เอง — ไม่ใช่ Mass แต่คือคนที่ Fit กับแนวทาง Wellness, AI หรือ Lifestyle ของ COPA จริงๆ"
-           data-en="COPA selects Creators themselves — not mass recruitment, but people who truly fit COPA's Wellness, AI, or Lifestyle direction.">
-          COPA เลือก Creators เอง — ไม่ใช่ Mass แต่คือคนที่ Fit กับแนวทาง Wellness, AI หรือ Lifestyle ของ COPA จริงๆ
+        <p data-th="COPA เลือก Creative Professionals เอง — ไม่ว่าจะเป็นช่างภาพ, นักทำหนัง, ทีม Production หรือ Influencer ขอแค่มี Art อยู่ในตัวและ Vibe ตรงกับ COPA"
+           data-en="COPA handpicks Creative Professionals — photographers, filmmakers, production teams, influencers, or anyone with genuine artistic sensibility whose vision aligns with COPA.">
+          COPA เลือก Creative Professionals เอง — ไม่ว่าจะเป็นช่างภาพ, นักทำหนัง, ทีม Production หรือ Influencer ขอแค่มี Art อยู่ในตัวและ Vibe ตรงกับ COPA
         </p>
       </div>
 
@@ -462,9 +565,9 @@
 
     <div class="creator-outcome">
       <div class="co-icon">💡</div>
-      <p data-th="<strong>เป้าหมายของ Creator Lab :</strong> ไม่ใช่แค่ให้ Influencer มาโปรโมต COPA แต่คือการสร้าง <strong>Hybrid AI Creator Network</strong> ที่ขับเคลื่อนด้วยตัวตนจริงของแต่ละคน — เมื่อ Creator เก่งขึ้น COPA ก็เติบโตไปพร้อมกัน"
-         data-en="<strong>Creator Lab Goal:</strong> Not just having Influencers promote COPA — but building a <strong>Hybrid AI Creator Network</strong> driven by each person's authentic identity. When Creators grow, COPA grows with them.">
-        <strong>เป้าหมายของ Creator Lab :</strong> ไม่ใช่แค่ให้ Influencer มาโปรโมต COPA แต่คือการสร้าง <strong>Hybrid AI Creator Network</strong> ที่ขับเคลื่อนด้วยตัวตนจริงของแต่ละคน — เมื่อ Creator เก่งขึ้น COPA ก็เติบโตไปพร้อมกัน
+      <p data-th="<strong>เป้าหมายของ Creator Lab :</strong> สร้าง <strong>Hybrid AI Creative Network</strong> ที่เปิดกว้างสำหรับทุกสายงาน Creative — ช่างภาพ, นักทำหนัง, ทีม Production, Artist และ Influencer ล้วนเป็นส่วนหนึ่งของระบบนิเวศเดียวกัน ขับเคลื่อนด้วยตัวตนจริงของแต่ละคน เมื่อพวกเขาเก่งขึ้น COPA ก็เติบโตไปพร้อมกัน"
+         data-en="<strong>Creator Lab Goal:</strong> Build a <strong>Hybrid AI Creative Network</strong> open to all creative disciplines — photographers, filmmakers, production teams, artists, and influencers — all part of the same ecosystem, driven by each person's authentic identity. When they grow, COPA grows with them.">
+        <strong>เป้าหมายของ Creator Lab :</strong> สร้าง <strong>Hybrid AI Creative Network</strong> ที่เปิดกว้างสำหรับทุกสายงาน Creative — ช่างภาพ, นักทำหนัง, ทีม Production, Artist และ Influencer ล้วนเป็นส่วนหนึ่งของระบบนิเวศเดียวกัน ขับเคลื่อนด้วยตัวตนจริงของแต่ละคน เมื่อพวกเขาเก่งขึ้น COPA ก็เติบโตไปพร้อมกัน
       </p>
     </div>
   </div>
@@ -475,13 +578,13 @@
          data-th="🎯 Strategic Focus"
          data-en="🎯 Strategic Focus">🎯 Strategic Focus</div>
     <div class="section-title"
-         data-th="3 แกนหลักของการบรรยาย"
-         data-en="3 Core Axes of Our Talks">3 แกนหลักของการบรรยาย</div>
+         data-th="3 แกนหลักที่ COPA จะ Focus ตลอดปี"
+         data-en="3 Core Focus Topics for the Year">3 แกนหลักที่ COPA จะ Focus ตลอดปี</div>
 
     <div class="axes-intro"
-         data-th="หัวข้อบรรยายทั้งหมดของ COPA จะวนอยู่บน <strong>3 แกนหลัก</strong> นี้เสมอ — ไม่ว่าจะเป็น Roadshow, Workshop, หรือ CSR ใดก็ตาม แต่ละ Event สามารถเลือก Focus แกนใดแกนหนึ่ง หรือผสมกันตามกลุ่มเป้าหมาย"
-         data-en="All COPA lecture topics revolve around these <strong>3 core axes</strong> — whether it's a Roadshow, Workshop, or CSR event. Each event can focus on one axis or blend them according to the target audience.">
-      หัวข้อบรรยายทั้งหมดของ COPA จะวนอยู่บน <strong>3 แกนหลัก</strong> นี้เสมอ — ไม่ว่าจะเป็น Roadshow, Workshop, หรือ CSR ใดก็ตาม แต่ละ Event สามารถเลือก Focus แกนใดแกนหนึ่ง หรือผสมกันตามกลุ่มเป้าหมาย
+         data-th="ทุก Topic ที่ COPA จะ Focus ตลอดปี 2026–2027 วนอยู่บน <strong>3 แกนหลัก</strong> นี้เสมอ — ไม่ว่าจะเป็น Roadshow, Workshop, Events หรือ CSR ใดก็ตาม แต่ละครั้งสามารถเลือก Focus แกนใดแกนหนึ่ง หรือผสมกันตามกลุ่มเป้าหมาย"
+         data-en="Every topic COPA focuses on throughout 2026–2027 revolves around these <strong>3 core axes</strong> — whether it's a Roadshow, Workshop, Event, or CSR. Each occasion can focus on one axis or blend them according to the target audience.">
+      ทุก Topic ที่ COPA จะ Focus ตลอดปี 2026–2027 วนอยู่บน <strong>3 แกนหลัก</strong> นี้เสมอ — ไม่ว่าจะเป็น Roadshow, Workshop, Events หรือ CSR ใดก็ตาม แต่ละครั้งสามารถเลือก Focus แกนใดแกนหนึ่ง หรือผสมกันตามกลุ่มเป้าหมาย
     </div>
 
     <div class="axes-grid">
@@ -504,7 +607,7 @@
                 data-th="→ ลิงก์" data-en="→ Link">→ ลิงก์</a></li>
             <li>AEO / GEO / MCP — New Era of Search <a href="https://thbho.github.io/GEO&MCP.html" target="_blank"
                 data-th="→ ลิงก์" data-en="→ Link">→ ลิงก์</a></li>
-            <li>Hybrid AI Creator Lab — Collab &amp; Upskill Creators <a href="https://thbho.github.io/CopaCreatorLab.html" target="_blank"
+            <li>Hybrid AI Creator &amp; Art Lab — Collab &amp; Upskill Creators <a href="https://thbho.github.io/CopaCreatorLab.html" target="_blank"
                 data-th="→ ลิงก์" data-en="→ Link">→ ลิงก์</a></li>
           </ul>
         </div>
@@ -569,8 +672,8 @@
          data-th="🎤 Phase 3 Content"
          data-en="🎤 Phase 3 Content">🎤 Phase 3 Content</div>
     <div class="section-title"
-         data-th="หัวข้อบรรยายหลัก (เริ่ม July 2026)"
-         data-en="Main Lecture Topics (Starting July 2026)">หัวข้อบรรยายหลัก (เริ่ม July 2026)</div>
+         data-th="Focus Topics ตลอดปี (เริ่ม July 2026)"
+         data-en="Focus Topics for the Year (Starting July 2026)">Focus Topics ตลอดปี (เริ่ม July 2026)</div>
     <div class="topics-grid">
 
       <div class="topic-card">
@@ -628,6 +731,7 @@
 </div><!-- /container -->
 
 <div class="footer">
+  <img src="https://i.postimg.cc/pdbFfCwb/226EC476-BACF-4AFF-A104-954B9F9BC2BE.png" alt="Copacabana Group" class="footer-logo" />
   <span>COPA MKT PLAN 2026–2027</span> ·
   <span data-th="Inside Out Strategy · จัดทำเพื่อใช้ภายใน"
         data-en="Inside Out Strategy · Internal Strategy Document">
