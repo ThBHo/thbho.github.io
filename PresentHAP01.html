@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hybrid AI for Modern Marketing — VDO Presentation | AI GYMMATEX FACTORY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b14; --bg2:#0a1020; --panel:#0e1626;
+  --cyan:#2ee6d6; --cyan-dim:rgba(46,230,214,.14);
+  --pink:#ff2e63; --gold:#e6b84c; --white:#f2f6fb; --grey:#8b98ad;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#04060c;font-family:'Kanit',sans-serif;color:var(--white);overflow:hidden}
+#stage-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#04060c}
+#stage{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:radial-gradient(120% 140% at 70% -10%, #101a30 0%, var(--bg) 55%, #05070f 100%);overflow:hidden;box-shadow:0 0 120px rgba(46,230,214,.06)}
+/* grid + glow ambience */
+#stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(46,230,214,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,230,214,.05) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(80% 80% at 50% 40%,#000 30%,transparent 100%);pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none}
+.orb.c{width:40%;height:40%;background:var(--cyan);top:-15%;right:-10%;animation:drift 14s ease-in-out infinite alternate}
+.orb.p{width:35%;height:35%;background:var(--pink);bottom:-18%;left:-8%;animation:drift 17s ease-in-out infinite alternate-reverse;opacity:.22}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(4%,6%) scale(1.15)}}
+
+/* ============ scenes ============ */
+.scene{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4% 7% 12%;}
+.scene.active{display:flex}
+.kicker{font-family:'JetBrains Mono',monospace;letter-spacing:.35em;font-size:clamp(10px,1.3vw,16px);color:var(--cyan);text-transform:uppercase;margin-bottom:1.2em;animation:fadeUp .8s both}
+.big{font-family:'Anton',sans-serif;font-size:clamp(30px,5.6vw,74px);line-height:1.08;letter-spacing:.02em;text-transform:uppercase;animation:fadeUp .9s .15s both}
+.big .hl{color:var(--cyan);text-shadow:0 0 30px rgba(46,230,214,.55)}
+.big .hp{color:var(--pink);text-shadow:0 0 30px rgba(255,46,99,.5)}
+.sub{font-weight:300;font-size:clamp(13px,1.7vw,22px);color:var(--grey);margin-top:1.4em;max-width:70%;animation:fadeUp 1s .35s both}
+.sub b{color:var(--white);font-weight:600}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.7)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{text-shadow:0 0 24px rgba(46,230,214,.4)}50%{text-shadow:0 0 60px rgba(46,230,214,.95)}}
+
+.chiprow{display:flex;gap:2.2%;margin-top:3em;justify-content:center;width:100%}
+.chip{background:var(--panel);border:1px solid rgba(46,230,214,.25);border-radius:14px;padding:1.4em 1.6em;min-width:24%;animation:pop .7s both}
+.chip:nth-child(2){animation-delay:.25s}.chip:nth-child(3){animation-delay:.5s}
+.chip .n{font-family:'JetBrains Mono',monospace;color:var(--pink);font-size:clamp(10px,1vw,13px);letter-spacing:.25em}
+.chip h3{font-size:clamp(14px,1.8vw,24px);font-weight:600;margin:.35em 0 .3em;color:var(--cyan)}
+.chip p{font-weight:300;font-size:clamp(11px,1.25vw,16px);color:var(--grey);line-height:1.45}
+
+.hero-banner{width:82%;border-radius:16px;border:1px solid rgba(46,230,214,.3);box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(46,230,214,.15);margin-bottom:2.4em;animation:pop .9s both}
+.img-frame{border-radius:16px;overflow:hidden;border:1px solid rgba(46,230,214,.3);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+
+/* stat bars */
+.bars{width:70%;margin-top:3em;text-align:left}
+.bar-item{margin-bottom:2em}
+.bar-item .lbl{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:clamp(11px,1.3vw,16px);margin-bottom:.5em;color:var(--grey)}
+.bar-item .lbl .v{font-family:'Anton';font-size:clamp(18px,2.6vw,34px)}
+.bar{height:clamp(14px,2vw,24px);background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;width:0;transition:width 2.2s cubic-bezier(.2,.8,.2,1)}
+.b-ai i{background:linear-gradient(90deg,var(--pink),#ff7aa0);box-shadow:0 0 24px rgba(255,46,99,.6)}
+.b-hu i{background:linear-gradient(90deg,var(--cyan),#8ef5ea);box-shadow:0 0 24px rgba(46,230,214,.6)}
+.b-ai .v{color:var(--pink)}.b-hu .v{color:var(--cyan)}
+
+/* vs split */
+.vs{display:flex;width:92%;gap:3%;margin-top:2.6em;align-items:stretch}
+.vs .side{flex:1;background:var(--panel);border-radius:18px;padding:2em 1.8em;text-align:left;animation:fadeUp .8s both}
+.vs .side.right{animation-delay:.3s}
+.vs .side h3{font-family:'Anton';font-size:clamp(16px,2.3vw,30px);letter-spacing:.03em;margin-bottom:.5em}
+.vs .side ul{list-style:none;font-weight:300;font-size:clamp(11px,1.35vw,17px);color:var(--grey);line-height:1.8}
+.vs .side ul li::before{content:"— ";color:inherit}
+.vs .left{border:1px solid rgba(255,255,255,.12)}
+.vs .left h3{color:var(--grey)}
+.vs .right{border:1px solid rgba(46,230,214,.45);box-shadow:0 0 40px rgba(46,230,214,.12)}
+.vs .right h3{color:var(--cyan)}
+.vs-badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:'Anton';background:var(--pink);color:#fff;border-radius:50%;width:clamp(44px,6vw,76px);height:clamp(44px,6vw,76px);display:flex;align-items:center;justify-content:center;font-size:clamp(14px,2vw,26px);box-shadow:0 0 40px rgba(255,46,99,.7);animation:pop .6s .5s both}
+
+/* layers */
+.layerno{font-family:'Anton';font-size:clamp(70px,13vw,170px);color:transparent;-webkit-text-stroke:2px rgba(46,230,214,.55);line-height:1;animation:pop .8s both}
+.persona-row{display:flex;gap:2.5%;margin-top:2.2em;width:88%;justify-content:center}
+.pcard{flex:1;background:var(--panel);border:1px solid rgba(46,230,214,.3);border-radius:18px;padding:1.5em 1em 1.3em;animation:pop .7s both}
+.pcard:nth-child(2){animation-delay:.25s;border-color:rgba(255,46,99,.45)}
+.pcard:nth-child(3){animation-delay:.5s}
+.pcard img{width:clamp(64px,9vw,120px);height:clamp(64px,9vw,120px);object-fit:cover;border-radius:50%;border:3px solid var(--cyan);box-shadow:0 0 24px rgba(46,230,214,.4)}
+.pcard:nth-child(2) img{border-color:var(--pink);box-shadow:0 0 24px rgba(255,46,99,.4)}
+.pcard h3{font-size:clamp(15px,2vw,26px);font-weight:800;margin-top:.5em}
+.pcard .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1vw,13px);color:var(--cyan);border:1px solid rgba(46,230,214,.4);border-radius:99px;padding:.25em 1em;margin-top:.5em}
+.pcard:nth-child(2) .tag{color:var(--pink);border-color:rgba(255,46,99,.4)}
+.pcard p{font-weight:300;font-size:clamp(10px,1.15vw,14px);color:var(--grey);margin-top:.7em;line-height:1.5}
+
+/* equation */
+.eq{display:flex;align-items:center;gap:2.5%;margin-top:2.5em;justify-content:center;width:100%}
+.eq .t{background:var(--panel);border:1px solid rgba(46,230,214,.3);border-radius:16px;padding:1.2em 1.6em;font-weight:600;font-size:clamp(13px,1.8vw,24px);animation:pop .6s both}
+.eq .t:nth-child(3){animation-delay:.25s}.eq .t:nth-child(5){animation-delay:.5s}
+.eq .op{font-family:'Anton';font-size:clamp(22px,3.4vw,46px);color:var(--pink);animation:pop .5s .6s both}
+.eq .res{background:linear-gradient(135deg,rgba(46,230,214,.18),rgba(255,46,99,.14));border:1px solid var(--cyan);border-radius:16px;padding:1.2em 1.8em;font-family:'Anton';font-size:clamp(17px,2.6vw,36px);color:var(--cyan);text-shadow:0 0 24px rgba(46,230,214,.6);animation:pop .7s .85s both}
+
+/* network dots */
+.net{position:relative;width:clamp(180px,26vw,340px);height:clamp(180px,26vw,340px);margin-top:1.6em}
+.net .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18%;height:18%;background:var(--cyan);border-radius:50%;box-shadow:0 0 50px var(--cyan);animation:pulse 2s infinite}
+.net .nd{position:absolute;width:7%;height:7%;background:rgba(255,255,255,.75);border-radius:50%;animation:pop .6s both}
+.ring{position:absolute;inset:0;border:1px dashed rgba(46,230,214,.35);border-radius:50%;animation:spin 24s linear infinite}
+.ring.r2{inset:14%;animation-duration:16s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.quotebox{border-left:4px solid var(--pink);background:rgba(255,46,99,.07);border-radius:0 14px 14px 0;padding:1.2em 1.6em;margin-top:2.2em;max-width:76%;text-align:left;font-weight:300;font-size:clamp(12px,1.5vw,19px);color:var(--grey);animation:fadeUp .8s .4s both}
+.quotebox b{color:var(--white)}
+
+/* caption + controls */
+#caption{position:absolute;left:50%;bottom:9.5%;transform:translateX(-50%);max-width:86%;background:rgba(4,7,14,.82);border:1px solid rgba(46,230,214,.25);border-radius:10px;padding:.55em 1.3em;font-family:'Anton',sans-serif;font-size:clamp(13px,1.75vw,23px);letter-spacing:.04em;color:#fff;text-transform:uppercase;line-height:1.3;z-index:40;text-shadow:0 2px 8px #000}
+#hud{position:absolute;left:0;right:0;bottom:0;height:7.5%;display:flex;align-items:center;gap:14px;padding:0 2.2%;background:linear-gradient(transparent,rgba(3,5,10,.92) 40%);z-index:50}
+#hud button{background:rgba(46,230,214,.12);color:var(--cyan);border:1px solid rgba(46,230,214,.4);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:clamp(10px,1.1vw,14px);padding:.35em 1em;cursor:pointer}
+#hud button:hover{background:rgba(46,230,214,.25)}
+#pbar{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;cursor:pointer}
+#pfill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));border-radius:99px;transition:width .3s linear}
+#scount{font-family:'JetBrains Mono',monospace;color:var(--grey);font-size:clamp(10px,1.1vw,14px);min-width:64px;text-align:right}
+#brandtag{position:absolute;top:3.5%;left:3%;font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1vw,13px);letter-spacing:.3em;color:var(--cyan);opacity:.8;z-index:40}
+#brandtag b{color:var(--pink)}
+
+/* start overlay */
+#gate{position:absolute;inset:0;z-index:100;background:radial-gradient(100% 120% at 50% 20%,#101a30,#05070f);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8%}
+#gate .k{font-family:'JetBrains Mono',monospace;letter-spacing:.4em;color:var(--cyan);font-size:clamp(10px,1.2vw,15px);margin-bottom:1.6em}
+#gate h1{font-family:'Anton';font-size:clamp(34px,6vw,82px);text-transform:uppercase;line-height:1.05}
+#gate h1 span{color:var(--cyan);text-shadow:0 0 40px rgba(46,230,214,.6)}
+#gate p{font-weight:300;color:var(--grey);margin-top:1.2em;font-size:clamp(12px,1.5vw,19px)}
+#playbtn{margin-top:2.6em;width:clamp(74px,9vw,120px);height:clamp(74px,9vw,120px);border-radius:50%;border:2px solid var(--cyan);background:rgba(46,230,214,.1);color:var(--cyan);font-size:clamp(26px,3.4vw,44px);cursor:pointer;box-shadow:0 0 60px rgba(46,230,214,.35);animation:pulse 2.4s infinite;display:flex;align-items:center;justify-content:center}
+#playbtn:hover{background:rgba(46,230,214,.28)}
+#endcard .sm{font-family:'JetBrains Mono',monospace;color:var(--gold);letter-spacing:.2em;font-size:clamp(10px,1.2vw,15px);margin-top:2.4em}
+.paused .scene *, .paused .orb{animation-play-state:paused !important}
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+  <div class="orb c"></div><div class="orb p"></div>
+  <div id="brandtag">AI GYMMATE<b>X</b> · FACTORY</div>
+
+  <div id="gate">
+    <div class="k">AI GYMMATEX FACTORY · VDO PRESENTATION</div>
+    <h1>Hybrid AI<br><span>for Modern Marketing</span></h1>
+    <p>Moving Beyond Algorithms to Hybrid Personas · เตชธร อายะนันทน์ (THOR)<br>Narrated by TH-1 Hybrid Voice · 18 Scenes · ~3 Minutes</p>
+    <button id="playbtn" title="Play">▶</button>
+  </div>
+
+  <div id="scenes"></div>
+  <div id="caption" style="display:none"></div>
+  <div id="hud" style="display:none">
+    <button id="btn-pp">PAUSE</button>
+    <button id="btn-rs">RESTART</button>
+    <button id="btn-skip">SKIP ›</button>
+    <div id="pbar"><div id="pfill"></div></div>
+    <div id="scount">0 / 18</div>
+  </div>
+</div></div>
+
+<script>
+const IMG = {
+  banner:"https://i.postimg.cc/P5nB3xXZ/003_Hybrid_AI_Persona_Banner_(1600_x_400_px).png",
+  origin:"https://i.postimg.cc/ZRVSS9tk/pr-bs-thons-hi-khe-ak-b-web-202603270033-(1).png",
+  three:"https://i.postimg.cc/DzqmnGqg/magnifics_upscale-wYE3ZijWt4Og8ozSRKPs-Image_45_(4).jpg",
+  b:"https://i.postimg.cc/vmdHqmp6/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-3.jpg",
+  hour:"https://i.postimg.cc/3x23vTdr/magnifics-upscale-w-YE3-Zij-Wt4-Og8oz-SRKPs-Image-45-2.jpg",
+  thor:"https://i.postimg.cc/j27XthYk/9420DB72_D46F_4E29_8C8C_B6D4C6D615E1_1_201_a.jpg"
+};
+const A = "https://d8j0ntlcm91z4.cloudfront.net/user_31QA2V0kqpAPJkGVE8dYxJel5Jd/";
+const SCENES = [
+{aud:A+"hf_20260714_043755_6f1657dd-c358-4af8-80b8-657f582be108.wav",
+ cap:"Everything AI creates is starting to look exactly the same.",
+ html:`<img class="hero-banner" src="${IMG.banner}" alt="">
+   <div class="kicker">Hybrid AI for Modern Marketing</div>
+   <div class="big">AI gets smarter…<br>so why does it all <span class="hp">look the same?</span></div>
+   <div class="sub">วิกฤต <b>Algorithmic Homogenization</b> — the crisis of sameness</div>`},
+{aud:A+"hf_20260714_043757_15857613-3886-4d9d-9623-0e680e66aa11.wav",
+ cap:"Same data. Bland answers. Creativity pulled down to the average.",
+ html:`<div class="kicker">Section 01 · The AI Crisis</div>
+   <div class="big">Trained on the <span class="hl">same data</span></div>
+   <div class="chiprow">
+     <div class="chip"><div class="n">01</div><h3>Same Data</h3><p>Almost every AI learns from the same internet.</p></div>
+     <div class="chip"><div class="n">02</div><h3>Bland Output</h3><p>คำตอบไร้รสชาติ — answers with no taste, no identity.</p></div>
+     <div class="chip"><div class="n">03</div><h3>Pulled to Average</h3><p>Human creativity dragged down to the mean.</p></div>
+   </div>`},
+{aud:A+"hf_20260714_043759_06e85d33-b76d-4a5f-acd9-71fdbd87eb3f.wav",
+ cap:"AI homogeneity: 45.6% — humans: only 27.1%.",
+ html:`<div class="kicker">The Homogeneity Problem</div>
+   <div class="big">The <span class="hp">shocking</span> numbers</div>
+   <div class="bars">
+     <div class="bar-item b-ai"><div class="lbl"><span>AI-GENERATED WRITING</span><span class="v">45.6%</span></div><div class="bar"><i data-w="91"></i></div></div>
+     <div class="bar-item b-hu"><div class="lbl"><span>HUMAN WRITING</span><span class="v">27.1%</span></div><div class="bar"><i data-w="54"></i></div></div>
+   </div>
+   <div class="sub">Homogeneity Score — Veselovsky et al., 2023</div>`},
+{aud:A+"hf_20260714_043801_f4527f79-248b-460e-835a-613a82db8b8d.wav",
+ cap:"AI learning from AI — knowledge blurs into neural mush.",
+ html:`<div class="kicker">Neural Cannibalization</div>
+   <div class="net"><div class="ring"></div><div class="ring r2"></div><div class="hub"></div>
+     <div class="nd" style="left:46%;top:0"></div><div class="nd" style="left:88%;top:30%"></div>
+     <div class="nd" style="left:80%;top:78%"></div><div class="nd" style="left:14%;top:80%"></div>
+     <div class="nd" style="left:2%;top:32%"></div></div>
+   <div class="big" style="margin-top:.4em">AI แกงตัวเอง → <span class="hp">"Neural Mush"</span></div>
+   <div class="sub">New models trained on old AI output — round after round, everything blurs.</div>`},
+{aud:A+"hf_20260714_043803_50ab0b6d-c6d8-479c-9123-be839fb928ce.wav",
+ cap:"From transactional tool to co-creation partner.",
+ html:`<div class="kicker">The Mindset Shift</div>
+   <div class="big">Tool <span class="hp">vs</span> <span class="hl">Partner</span></div>
+   <div class="vs" style="position:relative">
+     <div class="side left"><h3>Transactional Tool</h3><ul><li>"AI เบ๊" — does what it's told</li><li>No memory, no taste</li><li>Answers = internet average</li></ul></div>
+     <div class="vs-badge">VS</div>
+     <div class="side right"><h3>Co-Creation Partner</h3><ul><li>"AI ร่างทอง" — thinks with you</li><li>Own knowledge, style, values</li><li>Joins strategic decisions</li></ul></div>
+   </div>`},
+{aud:A+"hf_20260714_043804_5e740f30-4a5f-46ad-b725-d8f4b1fb4994.wav",
+ cap:"Without persona, every AI is just a copy. We build the soul.",
+ html:`<div class="kicker">The Answer · Hybrid AI Persona</div>
+   <div class="big" style="animation:pulse 3s infinite, fadeUp .9s both">"Without Persona,<br>every AI is just a <span class="hp">copy</span>."</div>
+   <div class="big" style="font-size:clamp(22px,3.6vw,48px);margin-top:.6em"><span class="hl">WE BUILD THE SOUL.</span></div>`},
+{aud:A+"hf_20260714_043927_1cdf2eba-7d2c-4ac4-94db-f0185ed31e4c.wav",
+ cap:"Layer 1 — The Brain. RAG + fine-tuning: real facts, no hallucination.",
+ html:`<div class="layerno">01</div>
+   <div class="big">The <span class="hl">Brain</span> · Knowledge Layer</div>
+   <div class="chiprow" style="width:80%">
+     <div class="chip"><div class="n">RAG</div><h3>Private Library</h3><p>ห้องสมุดส่วนตัว — AI checks truth before answering.</p></div>
+     <div class="chip"><div class="n">FINE-TUNING</div><h3>Deep Expertise</h3><p>Specialized in your business & industry.</p></div>
+     <div class="chip"><div class="n">RESULT</div><h3>No มโน</h3><p>Accurate, updated, hallucination reduced.</p></div>
+   </div>`},
+{aud:A+"hf_20260714_043929_ab74d0eb-2233-43d7-b790-db35e9202f77.wav",
+ cap:"Layer 2 — Personality. MBTI-coded tone of voice, alive and consistent.",
+ html:`<div class="layerno" style="-webkit-text-stroke-color:rgba(255,46,99,.55)">02</div>
+   <div class="big"><span class="hp">Personality</span> Layer</div>
+   <div class="chiprow" style="width:80%">
+     <div class="chip"><div class="n">TONE</div><h3>Voice & Style</h3><p>น้ำเสียงและคลังคำติดปาก of your persona.</p></div>
+     <div class="chip"><div class="n">MBTI</div><h3>Behavior Code</h3><p>INFP · INFJ · ESTP — frames every reaction.</p></div>
+     <div class="chip"><div class="n">EFFECT</div><h3>Feels Alive</h3><p>Consistent rhythm & word choice in every chat.</p></div>
+   </div>`},
+{aud:A+"hf_20260714_043930_1eed3c09-d3c6-4027-b492-bf9823498e43.wav",
+ cap:"Layer 3 — Conscience. A moral compass with epistemic humility.",
+ html:`<div class="layerno" style="-webkit-text-stroke-color:rgba(230,184,76,.6)">03</div>
+   <div class="big" style="color:var(--gold)">Conscience · Values Layer</div>
+   <div class="chiprow" style="width:80%">
+     <div class="chip"><div class="n">VALUES</div><h3>Pyramid of Values</h3><p>From survival to human dignity.</p></div>
+     <div class="chip"><div class="n">HUMILITY</div><h3>Epistemic Humility</h3><p>"I don't have data on this" — honest when unsure.</p></div>
+     <div class="chip"><div class="n">YOURS</div><h3>Your Core Values</h3><p>ค่านิยม "ของเรา" — not the vendor's defaults.</p></div>
+   </div>`},
+{aud:A+"hf_20260714_043932_25993f22-3dd7-4b5b-8b2e-a79cf08b64fd.wav",
+ cap:"Brain + Personality + Conscience = Digital Twin.",
+ html:`<div class="kicker">The Ultimate Outcome</div>
+   <div class="big">The birth of a <span class="hl">Digital Twin</span></div>
+   <div class="eq">
+     <div class="t">🧠 สมอง</div><div class="op">+</div>
+     <div class="t">💬 นิสัย</div><div class="op">+</div>
+     <div class="t">🧭 จิตสำนึก</div><div class="op">=</div>
+     <div class="res">DIGITAL TWIN</div>
+   </div>
+   <div class="sub">Thinks & decides in the same style as its real owner.</div>`},
+{aud:A+"hf_20260714_043947_b907a4d6-c3fc-4cb6-9fc1-64e3a61e0ccd.wav",
+ cap:"Real case — Copacabana Coral Reef Jomtien, luxury sea-view condos in the EEC.",
+ html:`<div class="kicker">Real Case Study · 01</div>
+   <div class="big">Copacabana<br><span class="hl">Coral Reef Jomtien</span></div>
+   <div class="sub">Luxury sea-view condominium · Jomtien, Pattaya · <b>EEC</b><br>Hybrid AI Creator & Art Lab — protecting the brand's visual & artistic taste</div>`},
+{aud:A+"hf_20260714_043949_9e2dc8f3-4304-44bb-a68d-0a1af12f6919.wav",
+ cap:"One brief — sixteen AI sales personalities, tuned to each customer.",
+ html:`<div class="kicker">MBTI × Personalization</div>
+   <div class="big"><span class="hl">16</span> personalities, <span class="hp">16</span> customers</div>
+   <div class="vs" style="position:relative">
+     <div class="side right"><h3 style="color:var(--cyan)">TJ · Thinker</h3><ul><li>"ROI eight percent, guaranteed contract…"</li><li>Numbers, logic, payback tables</li></ul></div>
+     <div class="vs-badge" style="background:var(--cyan);color:#04121a;box-shadow:0 0 40px rgba(46,230,214,.7)">⇄</div>
+     <div class="side left" style="border-color:rgba(255,46,99,.45)"><h3 style="color:var(--pink)">NF · Feeler</h3><ul><li>"Morning light on the sea, a home that embraces your soul…"</li><li>Story, atmosphere, emotion</li></ul></div>
+   </div>`},
+{aud:A+"hf_20260714_044043_f90d825e-b5c6-48a4-9d51-e3286b373d41.wav",
+ cap:"Personalization at scale — thousands at once, taste intact.",
+ html:`<div class="kicker">The Superpower</div>
+   <div class="big"><span class="hl">Personalization</span> at Scale</div>
+   <div class="net"><div class="ring"></div><div class="ring r2"></div><div class="hub"></div>
+     <div class="nd" style="left:46%;top:0"></div><div class="nd" style="left:88%;top:30%"></div>
+     <div class="nd" style="left:80%;top:78%"></div><div class="nd" style="left:14%;top:80%"></div>
+     <div class="nd" style="left:2%;top:32%"></div><div class="nd" style="left:30%;top:8%"></div><div class="nd" style="left:68%;top:6%"></div></div>
+   <div class="sub">ประสบการณ์ส่วนตัวขั้นสุด for <b>tens of thousands</b> — standards & taste preserved.</div>`},
+{aud:A+"hf_20260714_044045_55abc75a-d38f-4a1e-bfe0-d171f10ca9d4.wav",
+ cap:"Case 2 — AI GYMMATEX FACTORY: inject your identity into AI.",
+ html:`<img class="hero-banner" src="${IMG.banner}" alt="">
+   <div class="kicker">Real Case Study · 02</div>
+   <div class="big">AI GYMMATE<span class="hp">X</span> FACTORY</div>
+   <div class="sub">Hybrid AI Knowledge Hub — ฉีดตัวตนของคุณเข้าไปในโมเดล AI<br><b>"ปลุกชีวิตให้ AI · Awaken Your AI"</b></div>`},
+{aud:A+"hf_20260714_044047_e2da53b3-f6fb-4402-8a05-f0eb47c66af4.wav",
+ cap:"One identity — three personas: Three, B., and Hour.",
+ html:`<div class="kicker">The Genesis of 3 Personas from a Single Identity</div>
+   <div class="persona-row">
+     <div class="pcard"><img src="${IMG.three}" alt=""><h3>ที · Three</h3><div class="tag">STORYTELLER · INFP</div><p>Narrative design · Creative writing · Emotional AI</p></div>
+     <div class="pcard"><img src="${IMG.b}" alt=""><h3>บี · B.</h3><div class="tag">STRATEGIST · INFJ</div><p>Strategic planning · System thinking · Future trends</p></div>
+     <div class="pcard"><img src="${IMG.hour}" alt=""><h3>อาวว์ · Hour</h3><div class="tag">ENTREPRENEUR · ESTP</div><p>Business growth · Rapid execution · Practical AI</p></div>
+   </div>`},
+{aud:A+"hf_20260714_044049_763cc955-3c07-4545-8c7f-45cf1107a1cc.wav",
+ cap:"When humanoid robots walk among us, your hybrid persona is the difference.",
+ html:`<div class="kicker">The Near Future · Physical AI</div>
+   <div class="big">Generic machine<br>or <span class="hl">trusted companion?</span></div>
+   <div class="quotebox">When <b>Humanoid Robots</b> walk among us, the only difference between a generic machine and a trusted companion will be the <b>Hybrid Persona you create</b>.</div>`},
+{aud:A+"hf_20260714_044059_27274ec5-b75f-46db-908a-775125dc9630.wav",
+ cap:"Differentiation and identity — your most valuable assets.",
+ html:`<div class="kicker">The Future of Marketers</div>
+   <div class="big"><span class="hp">"ความแตกต่าง"</span><br>is the most valuable asset</div>
+   <div class="sub">In the era of sameness — identity wins.<br><b>It's time to awaken your AI.</b></div>`},
+{aud:A+"hf_20260714_044100_5184da8f-155e-41f3-8a84-8b0c63397edd.wav",
+ cap:"Human invented AI — AI engineered us. Join the journey.",
+ html:`<div class="kicker">Join the Journey</div>
+   <div class="big">AI GYMMATE<span class="hp">X</span> <span class="hl">FACTORY</span></div>
+   <div class="big" style="font-size:clamp(16px,2.4vw,32px);margin-top:.8em;animation:pulse 3s infinite, fadeUp .9s both">"HUMAN INVENTED AI, AI ENGINEERED US"</div>
+   <div id="endcard"><div class="sm">thbho.github.io/AIGymmateXFactory.html · เตชธร อายะนันทน์ (THOR) · threeandhour@gmail.com</div></div>`}
+];
+
+const scenesEl=document.getElementById('scenes'),cap=document.getElementById('caption'),
+ hud=document.getElementById('hud'),pfill=document.getElementById('pfill'),
+ scount=document.getElementById('scount'),gate=document.getElementById('gate'),
+ stage=document.getElementById('stage');
+SCENES.forEach((s,i)=>{const d=document.createElement('div');d.className='scene';d.id='sc'+i;d.innerHTML=s.html;scenesEl.appendChild(d);});
+const audio=new Audio();audio.preload='auto';
+let idx=-1,playing=false,fallbackT=null;
+
+function show(i){
+  document.querySelectorAll('.scene').forEach(e=>e.classList.remove('active'));
+  const el=document.getElementById('sc'+i);
+  el.classList.add('active');
+  // re-trigger animations
+  el.querySelectorAll('*').forEach(n=>{const a=getComputedStyle(n).animationName;if(a&&a!=='none'){n.style.animation='none';void n.offsetWidth;n.style.animation='';}});
+  el.querySelectorAll('.bar i').forEach(b=>{b.style.width='0';setTimeout(()=>b.style.width=b.dataset.w+'%',150);});
+  cap.textContent=SCENES[i].cap;
+  scount.textContent=(i+1)+' / '+SCENES.length;
+}
+function playScene(i){
+  if(i>=SCENES.length){finish();return;}
+  idx=i;show(i);
+  clearTimeout(fallbackT);
+  audio.src=SCENES[i].aud;
+  audio.volume=1;
+  audio.play().catch(()=>{fallbackT=setTimeout(()=>{if(playing)playScene(idx+1);},9000);});
+  if(i+1<SCENES.length){const pre=new Audio();pre.preload='auto';pre.src=SCENES[i+1].aud;}
+}
+audio.addEventListener('ended',()=>{if(playing)fallbackT=setTimeout(()=>playScene(idx+1),1600);});
+audio.addEventListener('error',()=>{if(playing)fallbackT=setTimeout(()=>playScene(idx+1),9000);});
+audio.addEventListener('timeupdate',()=>{
+  const d=audio.duration||9,f=Math.min(audio.currentTime/d,1);
+  pfill.style.width=(((idx+f)/SCENES.length)*100)+'%';
+});
+function start(){gate.style.display='none';cap.style.display='block';hud.style.display='flex';playing=true;playScene(0);}
+function finish(){playing=false;document.getElementById('btn-pp').textContent='REPLAY';pfill.style.width='100%';}
+document.getElementById('playbtn').onclick=start;
+document.getElementById('btn-pp').onclick=function(){
+  if(idx>=SCENES.length-1&&audio.ended){this.textContent='PAUSE';playing=true;playScene(0);return;}
+  if(playing){playing=false;audio.pause();clearTimeout(fallbackT);stage.classList.add('paused');this.textContent='PLAY';}
+  else{playing=true;stage.classList.remove('paused');this.textContent='PAUSE';audio.play().catch(()=>playScene(idx));}
+};
+document.getElementById('btn-rs').onclick=()=>{playing=true;stage.classList.remove('paused');document.getElementById('btn-pp').textContent='PAUSE';playScene(0);};
+document.getElementById('btn-skip').onclick=()=>{if(idx<SCENES.length-1){clearTimeout(fallbackT);playScene(idx+1);}};
+document.getElementById('pbar').onclick=e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const t=Math.floor(((e.clientX-r.left)/r.width)*SCENES.length);
+  clearTimeout(fallbackT);playing=true;stage.classList.remove('paused');
+  document.getElementById('btn-pp').textContent='PAUSE';playScene(Math.max(0,Math.min(t,SCENES.length-1)));
+};
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'){e.preventDefault();if(gate.style.display!=='none')start();else document.getElementById('btn-pp').click();}
+  if(e.code==='ArrowRight')document.getElementById('btn-skip').click();
+});
+</script>
+</body>
+</html>
