@@ -493,6 +493,14 @@ main{flex:1 0 auto;padding-bottom:60px}
 .line-qty .n{font-size:12px;font-weight:600;color:var(--parch);font-variant-numeric:tabular-nums}
 
 .tally-box{padding:22px 24px;border-top:1px solid var(--gold-line-2);background:#151920;flex:none}
+/* ช่องกรอกอีเมลติดต่อในตะกร้า */
+.mail-field{padding-bottom:16px;margin-bottom:14px;border-bottom:1px solid var(--gold-line-2)}
+.mail-field .label{display:block}
+.mail-field .note-in{margin-top:8px}
+.mail-field .note-in.invalid{border-color:var(--ember)}
+.mail-hint{margin:7px 0 0;font-size:10.5px;color:var(--faint);font-family:var(--f-thai);line-height:1.5}
+.rcp-line.contact{border-bottom:0;padding-top:12px;color:var(--muted);font-size:11.5px}
+.rcp-line.contact .v{color:var(--gold-soft);font-variant-numeric:tabular-nums}
 .tally-row{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);padding:4px 0}
 .tally-row span:last-child{font-variant-numeric:tabular-nums}
 .tally-row.grand{
@@ -829,6 +837,13 @@ main{flex:1 0 auto;padding-bottom:60px}
     </div>
 
     <div class="tally-box" id="cartFooterSection">
+      <div class="mail-field">
+        <label class="label" for="orderEmail" data-i18n="emailLabel">อีเมลติดต่อ (ไม่บังคับ)</label>
+        <input type="email" id="orderEmail" class="note-in" autocomplete="email" inputmode="email"
+               data-i18n-ph="emailPh" placeholder="name@example.com">
+        <p class="mail-hint" data-i18n="emailHint">ร้านจะใช้ติดต่อกลับเรื่องออเดอร์นี้</p>
+      </div>
+
       <div class="tally-row"><span data-i18n="subtotal">ค่าอาหารรวม</span><span id="billSubtotal">฿0.00</span></div>
       <div class="tally-row"><span data-i18n="service">ค่าบริการ 3%</span><span id="billServiceCharge">฿0.00</span></div>
       <div class="tally-row"><span data-i18n="vat">ภาษีมูลค่าเพิ่ม 7%</span><span id="billVat">฿0.00</span></div>
@@ -860,6 +875,10 @@ main{flex:1 0 auto;padding-bottom:60px}
     </div>
 
     <div class="rcp-lines" id="receiptItemsContainer"></div>
+
+    <div class="rcp-line contact" id="receiptContact" hidden>
+      <span data-i18n="rcpContact">อีเมลติดต่อ</span><span class="v"></span>
+    </div>
 
     <div class="rcp-tally">
       <div class="tally-row"><span data-i18n="subtotal">ค่าอาหารรวม</span><span id="receiptSubtotal">฿0.00</span></div>
@@ -1405,6 +1424,9 @@ const I18N = {
     cartEmptyBody:'เลือกเมนูที่คุณต้องการจากหน้าเมนูได้เลยครับ',
     subtotal:'ค่าอาหารรวม', service:'ค่าบริการ 3%', vat:'ภาษีมูลค่าเพิ่ม 7%', grandTotal:'ยอดรวมสุทธิ (THB)',
     clearBtn:'ล้าง', sendBtn:'ส่งออเดอร์',
+    emailLabel:'อีเมลติดต่อ (ไม่บังคับ)', emailPh:'name@example.com',
+    emailHint:'ร้านจะใช้ติดต่อกลับเรื่องออเดอร์นี้',
+    emailBad:'รูปแบบอีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง', rcpContact:'อีเมลติดต่อ',
     rcpTitle:'ส่งรายการอาหารสำเร็จ', rcpSub:'Order Placed · โต๊ะ',
     printBtn:'พิมพ์ใบเสร็จ', closeBtn:'ปิดหน้าต่าง',
     priceCap:'ราคา', priceFrom:'เริ่มต้น',
@@ -1439,6 +1461,9 @@ const I18N = {
     cartEmptyBody:'Choose a dish from the carte to start your order.',
     subtotal:'Subtotal', service:'Service charge 3%', vat:'VAT 7%', grandTotal:'Grand total (THB)',
     clearBtn:'Clear', sendBtn:'Send order',
+    emailLabel:'Contact email (optional)', emailPh:'name@example.com',
+    emailHint:'The restaurant will use this to reach you about this order.',
+    emailBad:'That email address does not look right — please check it.', rcpContact:'Contact email',
     rcpTitle:'Order placed', rcpSub:'ส่งรายการอาหารสำเร็จ · Table',
     printBtn:'Print receipt', closeBtn:'Close',
     priceCap:'Price', priceFrom:'From',
@@ -1890,6 +1915,8 @@ function changeCartItemQty(index, delta){
 function clearAllCart(){
   if (cart.length === 0) return;
   cart = [];
+  document.getElementById('orderEmail').value = '';
+  document.getElementById('orderEmail').classList.remove('invalid');
   updateCartDisplay();
   showToast(t('toastCleared'));
 }
@@ -1900,7 +1927,19 @@ function clearAllCart(){
 function submitOrder(){
   if (cart.length === 0) return;
 
-  lastOrder = { items: cart.slice(), table: currentTable, at: new Date() };
+  const emailBox = document.getElementById('orderEmail');
+  const email = emailBox.value.trim();
+  // ปล่อยว่างได้ แต่ถ้ากรอกมาต้องเป็นรูปแบบอีเมลจริง
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+    emailBox.classList.add('invalid');
+    emailBox.focus();
+    showToast(t('emailBad'));
+    return;
+  }
+  emailBox.classList.remove('invalid');
+
+  lastOrder = { items: cart.slice(), table: currentTable, email, at: new Date() };
+  sendOrderEmail(lastOrder);
   renderReceipt(lastOrder);
 
   toggleCartModal(false);
@@ -1930,10 +1969,61 @@ function renderReceipt(order){
       <div class="amt">${money(item.totalPrice)}</div>
     </div>`).join('');
 
+  const contact = document.getElementById('receiptContact');
+  contact.hidden = !order.email;
+  if (order.email) contact.querySelector('.v').textContent = order.email;
+
   document.getElementById('receiptSubtotal').textContent = money2(subtotal);
   document.getElementById('receiptService').textContent = money2(serviceCharge);
   document.getElementById('receiptVat').textContent = money2(vat);
   document.getElementById('receiptTotal').textContent = money2(subtotal + serviceCharge + vat);
+}
+
+/* ==========================================================================
+   ส่งออเดอร์เข้าอีเมลร้าน — ยังไม่ได้ต่อระบบส่ง
+   --------------------------------------------------------------------------
+   ตอนนี้ทำหน้าที่แค่ประกอบข้อความออเดอร์ให้พร้อมส่งเท่านั้น ยังไม่มีการส่งจริง
+   เพราะหน้านี้เป็น static page บน GitHub Pages ซึ่งส่งอีเมลเองไม่ได้
+   ต้องมีตัวกลางรับข้อมูลแล้วส่งต่อ
+
+   วิธีเปิดใช้งาน: สร้าง Google Apps Script (หรือ Web3Forms) แล้วใส่ URL ตรง
+   ENDPOINT ด้านล่าง จากนั้นปลดคอมเมนต์บล็อก fetch — ส่วนอื่นของหน้าไม่ต้องแก้
+   ========================================================================== */
+const ORDER_EMAIL_ENDPOINT = '';   // ← ใส่ URL ปลายทางตรงนี้เมื่อพร้อมใช้งาน
+
+function buildOrderText(order){
+  const subtotal = order.items.reduce((s, i) => s + i.totalPrice, 0);
+  const service = subtotal * 0.03;
+  const vat = (subtotal + service) * 0.07;
+  const lines = order.items.map(i => {
+    const opt = [lineOpt(i), i.spiceKey ? t(SPICE_KEYS[i.spiceKey]) : '', i.specialNotes]
+      .filter(Boolean).join(' · ');
+    return `- ${i.nameTh} (${i.nameEn}) x${i.qty} = ${money(i.totalPrice)}${opt ? '\n    ' + opt : ''}`;
+  }).join('\n');
+  return [
+    'COPACABANA RESTAURANT — ออเดอร์ใหม่',
+    `โต๊ะ: ${order.table}`,
+    `เวลา: ${order.at.toLocaleString('th-TH')}`,
+    order.email ? `อีเมลลูกค้า: ${order.email}` : 'อีเมลลูกค้า: -',
+    '', lines, '',
+    `ค่าอาหารรวม: ${money2(subtotal)}`,
+    `ค่าบริการ 3%: ${money2(service)}`,
+    `ภาษี 7%: ${money2(vat)}`,
+    `ยอดรวมสุทธิ: ${money2(subtotal + service + vat)}`
+  ].join('\n');
+}
+
+function sendOrderEmail(order){
+  const body = buildOrderText(order);
+  if (!ORDER_EMAIL_ENDPOINT){
+    console.info('[ออเดอร์พร้อมส่ง — ยังไม่ได้ตั้งค่า ENDPOINT]\n' + body);
+    return;
+  }
+  // fetch(ORDER_EMAIL_ENDPOINT, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ table: order.table, email: order.email, text: body })
+  // }).catch(err => console.error('ส่งอีเมลไม่สำเร็จ', err));
 }
 
 function closeReceiptModal(){
