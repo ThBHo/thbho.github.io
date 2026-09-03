@@ -507,11 +507,12 @@ main{flex:1 0 auto;padding-bottom:60px}
 
 /* ---------- receipt ---------- */
 .receipt{max-width:430px}
+/* โลโก้บนหัวใบเสร็จ */
+.rcp-logo{display:block;width:175px;height:auto;margin:0 auto 12px}
 .rcp-brand{
-  margin:0 0 16px;font-family:var(--f-display);font-size:12px;letter-spacing:.22em;
-  color:var(--gold);text-align:center;line-height:1.8;
+  margin:0 0 16px;font-family:var(--f-ui);font-size:11px;letter-spacing:.14em;
+  color:var(--muted);text-align:center;font-variant-numeric:tabular-nums;
 }
-.rcp-brand span{display:block;font-family:var(--f-ui);font-size:11px;letter-spacing:.14em;color:var(--muted);font-variant-numeric:tabular-nums}
 .receipt .stamp{width:52px;height:52px;border-radius:50%;border:1px solid var(--gold-line);display:grid;place-items:center;margin:0 auto 16px;color:var(--gold)}
 .rcp-lines{padding:20px 28px;overflow-y:auto;max-height:230px}
 .rcp-line{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dotted var(--gold-line-2);font-size:12.5px}
@@ -566,7 +567,9 @@ main{flex:1 0 auto;padding-bottom:60px}
   .veil{position:static;background:#fff;backdrop-filter:none;display:block;padding:0}
   .sheet{max-width:none;max-height:none;background:#fff;animation:none}
   .sheet-head h3,.rcp-line .amt,.sum .amt,.tally-row.grand .val{color:#000}
-  .rcp-brand,.rcp-brand span{color:#000}
+  .rcp-brand{color:#000}
+  /* โลโก้เป็นทอง-เงิน พิมพ์บนกระดาษขาวจะจาง จึงแปลงเป็นขาวดำเข้ม */
+  .rcp-logo{filter:grayscale(1) brightness(.5) contrast(1.5);width:150px}
   .rcp-line .th,.blurb{color:#000}
   .x-close,.rcp-actions{display:none!important}
 }
@@ -637,10 +640,12 @@ main{flex:1 0 auto;padding-bottom:60px}
           <select id="tableSelector" onchange="updateTableNumber(this.value)" aria-label="Table">
             <option value="A01">A01</option>
             <option value="A02">A02</option>
-            <option value="T01" data-i18n="tblTerrace">T01 (ระเบียง)</option>
-            <option value="T02" data-i18n="tblSeaside">T02 (ริมทะเล)</option>
-            <option value="VIP-1">VIP 1</option>
+            <option value="T01">T01</option>
+            <option value="T02">T02</option>
+            <option value="VIP1">VIP1</option>
+            <option value="VIP2">VIP2</option>
             <option value="Takeaway" data-i18n="tblTakeaway">กลับบ้าน</option>
+            <option value="Delivery" data-i18n="tblDelivery">เดลิเวอรี่</option>
           </select>
         </div>
 
@@ -846,9 +851,8 @@ main{flex:1 0 auto;padding-bottom:60px}
 <div id="receiptModal" class="veil center" hidden>
   <div class="sheet receipt frame">
     <div class="sheet-head">
-      <p class="rcp-brand">COPACABANA RESTAURANT
-        <span><span data-i18n="telLabel">โทร</span> 090-994-3456</span>
-      </p>
+      <img class="rcp-logo" src="menu-img/logo-full.png" alt="COPACABANA RESTAURANT" onerror="this.remove()">
+      <p class="rcp-brand"><span data-i18n="telLabel">โทร</span> 090-994-3456</p>
       <div class="stamp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
       <h3 data-i18n="rcpTitle">ส่งรายการอาหารสำเร็จ</h3>
       <p class="th"><span data-i18n="rcpSub">Order Placed · Table</span> <b id="receiptTableNum">A01</b></p>
@@ -1380,7 +1384,7 @@ const I18N = {
     kitchenOpen:'ครัวเปิดให้บริการ', dineIn:'ทานที่ร้าน & สั่งกลับบ้าน',
     priceNote:'ราคาทั้งหมดเป็นเงินบาท (THB) ไม่รวม Vat 7% & Service Charge 3%',
     searchDesk:'ค้นหาเมนู…', searchMob:'ค้นหาเมนู หรือวัตถุดิบ…',
-    tableLabel:'โต๊ะ', tblTerrace:'T01 (ระเบียง)', tblSeaside:'T02 (ริมทะเล)', tblTakeaway:'กลับบ้าน',
+    tableLabel:'โต๊ะ', tblTakeaway:'กลับบ้าน', tblDelivery:'เดลิเวอรี่',
     orderList:'รายการสั่ง',
     callLabel:'โทรสั่ง & จองโต๊ะ', reserveLabel:'สำรองโต๊ะ · สั่งกลับบ้าน', telLabel:'โทร',
     heroTitle:'เมนูอาหารคัดสรรพิเศษ', heroAlt:'Culinary Selections',
@@ -1414,7 +1418,7 @@ const I18N = {
     kitchenOpen:'Kitchen Open', dineIn:'Dine-in & Takeaway',
     priceNote:'All prices in Thai Baht (THB) · excl. VAT 7% & Service Charge 3%',
     searchDesk:'Search the carte…', searchMob:'Search a dish or ingredient…',
-    tableLabel:'Table', tblTerrace:'T01 (Terrace)', tblSeaside:'T02 (Seaside)', tblTakeaway:'Takeaway',
+    tableLabel:'Table', tblTakeaway:'Takeaway', tblDelivery:'Delivery',
     orderList:'Order',
     callLabel:'Call & Reservations', reserveLabel:'Reservations · Takeaway', telLabel:'Tel',
     heroTitle:'Culinary Selections', heroAlt:'เมนูอาหารคัดสรรพิเศษ',
