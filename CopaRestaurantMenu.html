@@ -532,6 +532,17 @@ main{flex:1 0 auto;padding-bottom:60px}
 }
 .tally-row.grand .ttl{font-family:var(--f-display);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--parch)}
 .tally-row.grand .val{font-family:var(--f-display);font-size:22px;color:var(--gold)}
+/* ป้ายแจ้งว่าเมนูยังอยู่ในช่วงทดลอง ยังไม่เชื่อมระบบสั่งอาหารของร้าน */
+.notice{
+  display:flex;gap:11px;align-items:flex-start;text-align:left;
+  padding:12px 14px;margin-bottom:16px;
+  border:1px solid rgba(192,106,75,.45);background:rgba(192,106,75,.08);
+}
+.notice svg{stroke:var(--ember);fill:none;flex:none;margin-top:2px}
+.notice p{margin:0;font-family:var(--f-thai);font-size:11.5px;line-height:1.8;color:var(--parch)}
+.notice b{display:block;margin-bottom:2px;color:var(--ember);font-weight:600}
+.receipt .notice{margin:16px 28px 0}
+
 .tally-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:20px}
 .tally-actions .btn-gold{justify-content:center}
 .is-idle{opacity:.35;pointer-events:none}
@@ -599,6 +610,9 @@ main{flex:1 0 auto;padding-bottom:60px}
   .sheet{max-width:none;max-height:none;background:#fff;animation:none}
   .sheet-head h3,.rcp-line .amt,.sum .amt,.tally-row.grand .val{color:#000}
   .rcp-brand,.rcp-addr{color:#000}
+  .notice{border-color:#000;background:transparent}
+  .notice p,.notice b{color:#000}
+  .notice svg{stroke:#000}
   /* โลโก้เป็นทอง-เงิน พิมพ์บนกระดาษขาวจะจาง จึงแปลงเป็นขาวดำเข้ม */
   .rcp-logo{filter:grayscale(1) brightness(.5) contrast(1.5);width:150px}
   .rcp-line .th,.blurb{color:#000}
@@ -883,6 +897,12 @@ main{flex:1 0 auto;padding-bottom:60px}
       <div class="tally-row"><span data-i18n="service">ค่าบริการ 3%</span><span id="billServiceCharge">฿0.00</span></div>
       <div class="tally-row"><span data-i18n="vat">ภาษีมูลค่าเพิ่ม 7%</span><span id="billVat">฿0.00</span></div>
       <div class="tally-row grand"><span class="ttl" data-i18n="grandTotal">ยอดรวมสุทธิ (THB)</span><span class="val" id="billGrandTotal">฿0.00</span></div>
+      <div class="notice">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.4" r=".7" fill="currentColor"/></svg>
+        <p><b data-i18n="noticeTitle">เมนูนี้อยู่ในช่วงทดลองใช้งาน</b>
+        <span data-i18n="noticeBody">ยังไม่ได้เชื่อมกับระบบสั่งอาหารของร้านอย่างเป็นทางการ เมื่อต้องการสั่งอาหาร กรุณาแสดงหน้าจอนี้กับพนักงาน โทร 090-994-3456 หรือติดต่อพนักงานที่ร้าน</span></p>
+      </div>
+
       <div class="tally-actions">
         <button class="btn-ghost" onclick="clearAllCart()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg>
@@ -908,6 +928,12 @@ main{flex:1 0 auto;padding-bottom:60px}
       <h3 data-i18n="rcpTitle">ส่งรายการอาหารสำเร็จ</h3>
       <p class="th"><span data-i18n="rcpSub">Order Placed · Table</span> <b id="receiptTableNum">A01</b></p>
       <p class="label" style="margin-top:8px" id="receiptTime">—</p>
+    </div>
+
+    <div class="notice">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.4" r=".7" fill="currentColor"/></svg>
+      <p><b data-i18n="noticeTitle">เมนูนี้อยู่ในช่วงทดลองใช้งาน</b>
+      <span data-i18n="noticeBody">ยังไม่ได้เชื่อมกับระบบสั่งอาหารของร้านอย่างเป็นทางการ เมื่อต้องการสั่งอาหาร กรุณาแสดงหน้าจอนี้กับพนักงาน โทร 090-994-3456 หรือติดต่อพนักงานที่ร้าน</span></p>
     </div>
 
     <div class="rcp-lines" id="receiptItemsContainer"></div>
@@ -1464,6 +1490,8 @@ const I18N = {
     emailHint:'ร้านจะใช้ติดต่อกลับเรื่องออเดอร์นี้',
     emailBad:'รูปแบบอีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง', rcpContact:'อีเมลติดต่อ',
     addrLabel:'ที่อยู่ร้าน · แตะเพื่อเปิดแผนที่',
+    noticeTitle:'เมนูนี้อยู่ในช่วงทดลองใช้งาน',
+    noticeBody:'ยังไม่ได้เชื่อมกับระบบสั่งอาหารของร้านอย่างเป็นทางการ เมื่อต้องการสั่งอาหาร กรุณาแสดงหน้าจอนี้กับพนักงาน โทร 090-994-3456 หรือติดต่อพนักงานที่ร้าน',
     rcpTitle:'ส่งรายการอาหารสำเร็จ', rcpSub:'Order Placed · โต๊ะ',
     printBtn:'พิมพ์ใบเสร็จ', closeBtn:'ปิดหน้าต่าง',
     priceCap:'ราคา', priceFrom:'เริ่มต้น',
@@ -1502,6 +1530,8 @@ const I18N = {
     emailHint:'The restaurant will use this to reach you about this order.',
     emailBad:'That email address does not look right — please check it.', rcpContact:'Contact email',
     addrLabel:'Find us · tap for directions',
+    noticeTitle:'This menu is a trial version',
+    noticeBody:'It is not yet linked to the restaurant\'s official ordering system. To order, please show this screen to our staff, call 090-994-3456, or speak to a member of staff.',
     rcpTitle:'Order placed', rcpSub:'ส่งรายการอาหารสำเร็จ · Table',
     printBtn:'Print receipt', closeBtn:'Close',
     priceCap:'Price', priceFrom:'From',
