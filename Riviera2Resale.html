@@ -1,1 +1,1296 @@
+<title>Riviera Jomtien Resale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#E9EEEE; --surface:#FFFFFF; --surface-2:#F3F7F7; --surface-3:#E2EBEB;
+  --ink:#0F2129; --ink-2:#2C464F; --muted:#5A7178; --line:#CFDBDC; --line-2:#B9CACC;
+  --sea:#0B6C7C; --sea-deep:#04404B; --sea-soft:#DCEDEF;
+  --coral:#C0442B; --coral-soft:#FBE7E1;
+  --gold:#8E6A18; --gold-soft:#F6EED8;
+  --sold:#8A9598; --shadow:0 1px 2px rgba(15,33,41,.06),0 8px 24px -12px rgba(15,33,41,.22);
+  --radius:10px;
+  --f-display:'Bodoni Moda',Georgia,'Times New Roman',serif;
+  --f-ui:'IBM Plex Sans Thai','IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono','IBM Plex Sans Thai',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#08151A; --surface:#0F2129; --surface-2:#15303A; --surface-3:#1D3D48;
+  --ink:#E4EDEE; --ink-2:#C2D6D9; --muted:#8CA5AB; --line:#23404A; --line-2:#2F5460;
+  --sea:#4CB6C6; --sea-deep:#8FD8E2; --sea-soft:#0E3742;
+  --coral:#F0866B; --coral-soft:#3A1E17;
+  --gold:#D8B45E; --gold-soft:#332A14;
+  --sold:#5E7178; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --bg:#08151A; --surface:#0F2129; --surface-2:#15303A; --surface-3:#1D3D48;
+  --ink:#E4EDEE; --ink-2:#C2D6D9; --muted:#8CA5AB; --line:#23404A; --line-2:#2F5460;
+  --sea:#4CB6C6; --sea-deep:#8FD8E2; --sea-soft:#0E3742;
+  --coral:#F0866B; --coral-soft:#3A1E17;
+  --gold:#D8B45E; --gold-soft:#332A14;
+  --sold:#5E7178; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sea);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
 
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:14px;min-height:54px;flex-wrap:wrap}
+.mark{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:.01em;margin-right:auto;white-space:nowrap}
+.mark small{display:block;font-family:var(--f-ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sea);font-weight:600}
+.langs{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px}
+.langs button{border:0;background:none;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.langs button[aria-pressed="true"]{background:var(--sea);color:#fff}
+
+/* ---------- hero ---------- */
+.hero{padding-block:34px 26px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.95fr);gap:34px;align-items:start}
+.hero h1{font-family:var(--f-display);font-weight:600;font-size:clamp(34px,6.2vw,60px);line-height:1.02;letter-spacing:-.015em}
+.hero h1 em{font-style:italic;color:var(--sea)}
+.lede{margin:14px 0 0;max-width:56ch;color:var(--ink-2);font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px;margin-top:26px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.stat b{display:block;font-family:var(--f-mono);font-size:clamp(17px,2.2vw,20px);font-weight:600;letter-spacing:-.03em;line-height:1.25;overflow-wrap:anywhere}
+.stat span{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.35}
+.stat.hot b{color:var(--coral)}
+
+/* ---------- tower stack ---------- */
+.tower{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.tower-hd{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tower-hd h2{font-size:13px;font-weight:600}
+.tower-hd p{margin:0;font-size:11px;color:var(--muted)}
+.tower-body{max-height:360px;overflow-y:auto;padding:6px 8px 10px}
+.frow{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:8px;width:100%;border:0;background:none;padding:3px 6px;border-radius:6px;text-align:left}
+.frow:hover{background:var(--surface-2)}
+.frow[aria-pressed="true"]{background:var(--sea-soft);box-shadow:inset 2px 0 0 var(--sea)}
+.frow .fl{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:right}
+.frow[aria-pressed="true"] .fl{color:var(--sea);font-weight:600}
+.cells{display:flex;gap:3px;flex-wrap:wrap}
+.cell{width:13px;height:13px;border-radius:3px;background:var(--surface-3);border:1px solid var(--line-2)}
+.cell.sea{background:var(--sea);border-color:var(--sea)}
+.cell.city{background:var(--sea-soft);border-color:var(--sea)}
+.cell.promo{background:var(--coral);border-color:var(--coral)}
+.cell.sold{background:var(--surface-3);border-color:var(--line-2);opacity:.55}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:9px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* ---------- project hero slideshow ---------- */
+.phero{position:relative;height:clamp(340px,54vh,540px);overflow:hidden;background:var(--sea-deep);isolation:isolate}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;pointer-events:none}
+.slide.on{opacity:1}
+.slide img,.slide video{width:100%;height:100%;object-fit:cover;display:block}
+.scrim{position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,32,39,.86) 0%,rgba(4,32,39,.62) 42%,rgba(4,32,39,.22) 78%,rgba(4,32,39,.35) 100%)}
+.phero-in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-block:26px 22px;color:#F2F8F8}
+.phero .eyebrow{color:#9FD4DC}
+.phero h1{font-family:var(--f-display);font-weight:600;font-size:clamp(30px,5.6vw,58px);line-height:1.02;letter-spacing:-.015em;margin-top:8px;text-shadow:0 2px 20px rgba(0,20,26,.45)}
+.phero p.ptag{margin:12px 0 0;max-width:46ch;font-size:clamp(14px,1.5vw,17px);color:#D5E9EC;text-shadow:0 1px 12px rgba(0,20,26,.5)}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.facts span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(6px);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600}
+.facts span b{font-family:var(--f-mono);font-weight:600}
+.scap{position:absolute;right:20px;top:20px;z-index:3;max-width:44%;text-align:right;font-size:11.5px;color:rgba(255,255,255,.82);text-shadow:0 1px 8px rgba(0,20,26,.7)}
+.sctrl{position:relative;z-index:3;display:flex;align-items:center;gap:8px;margin-top:20px}
+.sdot{width:26px;height:4px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.3)}
+.sdot[aria-pressed="true"]{background:#fff;width:40px}
+.sarrow{margin-left:auto;display:flex;gap:7px}
+.sarrow button{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:17px;line-height:1;display:grid;place-items:center;padding:0 0 2px}
+.phero-todo{position:absolute;inset:0;z-index:1;display:grid;place-items:center;background:linear-gradient(150deg,var(--sea-deep),#0A2C35);color:rgba(255,255,255,.5);font-size:13px}
+
+/* ---------- project intro ---------- */
+.intro{background:var(--surface);border-bottom:1px solid var(--line);padding-block:30px 34px}
+.intro-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr);gap:34px;align-items:start}
+.intro p{margin:0;max-width:66ch;font-size:15px;color:var(--ink-2);line-height:1.75}
+.intro h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);margin-bottom:11px}
+.intro ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.intro li{position:relative;padding-left:18px;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.intro li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--sea)}
+@media (max-width:760px){ .intro-grid{grid-template-columns:1fr;gap:24px} }
+
+/* ---------- highlight units ---------- */
+.hl{background:var(--surface-2);border-block:1px solid var(--line);padding-block:30px 34px}
+.hl-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.hl-hd h2{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:600}
+.hl-hd .mo{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--coral);background:var(--coral-soft);padding:3px 10px;border-radius:999px}
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:18px}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;text-align:left;transition:transform .16s ease,box-shadow .16s ease}
+.hcard:hover{transform:translateY(-3px);box-shadow:0 3px 6px rgba(15,33,41,.1),0 20px 38px -18px rgba(15,33,41,.4)}
+.hcard .shot{aspect-ratio:3/2}
+.hbody{padding:14px 15px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
+.hbody .ucode{font-size:19px}
+.hnow{font-family:var(--f-mono);font-size:21px;font-weight:600;letter-spacing:-.025em;color:var(--coral);margin-top:auto}
+.hnow.plain{color:var(--ink)}
+
+/* ---------- controls ---------- */
+.controls{position:sticky;top:calc(54px + env(safe-area-inset-top,0px));z-index:30;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px}
+.ctl-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.field{position:relative;flex:1 1 210px;min-width:0}
+.field input,.sel{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:13.5px;color:var(--ink)}
+.sel{flex:0 1 auto;width:auto;min-width:118px;appearance:none;padding-right:28px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--coral);border-color:var(--coral);color:#fff}
+.chip.ghost[aria-pressed="true"]{background:var(--sea);border-color:var(--sea)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 13px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sea);color:#fff}
+.meta-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:14px 12px;font-size:13px;color:var(--muted)}
+.meta-row b{color:var(--ink);font-family:var(--f-mono);font-weight:600}
+.linkbtn{border:0;background:none;padding:0;color:var(--sea);font-size:12.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;padding-bottom:40px}
+.card{cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .16s ease,box-shadow .16s ease;text-align:left;padding:0;border-width:1px}
+.card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(15,33,41,.08),0 16px 32px -16px rgba(15,33,41,.35)}
+.card.is-sold{opacity:.62}
+.shot{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden;display:grid;place-items:center}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot img.planfit{object-fit:contain;background:#fff;padding:6px}
+.ph{display:grid;place-items:center;gap:6px;text-align:center;padding:16px;color:var(--muted)}
+.ph svg{opacity:.5}
+.ph span{font-size:11px;letter-spacing:.06em}
+.ph.sea{background:linear-gradient(170deg,var(--sea-soft),var(--surface-2))}
+.mcount{position:absolute;left:9px;bottom:9px;display:flex;gap:5px}
+.mcount span{background:rgba(6,28,34,.62);color:#fff;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;display:inline-flex;gap:4px;align-items:center;line-height:1.5}
+.badges{position:absolute;top:9px;left:9px;right:9px;display:flex;gap:5px;flex-wrap:wrap;pointer-events:none}
+.bdg{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 7px;border-radius:4px;background:var(--surface);color:var(--ink-2);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.bdg.sea{background:var(--sea);color:#fff}
+.bdg.city{background:var(--surface);color:var(--sea)}
+.bdg.promo{background:var(--coral);color:#fff;margin-left:auto}
+.bdg.sold{background:var(--sold);color:#fff;margin-left:auto}
+.bdg.fr{background:var(--gold);color:#fff}
+.star{position:absolute;bottom:9px;right:9px;width:30px;height:30px;border-radius:50%;border:0;background:color-mix(in srgb,var(--surface) 92%,transparent);display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.2);pointer-events:auto;color:var(--muted)}
+.star[aria-pressed="true"]{color:var(--gold)}
+.cbody{padding:13px 14px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
+.utop{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.ucode{font-family:var(--f-mono);font-size:17px;font-weight:600;letter-spacing:-.01em}
+.usub{font-size:11.5px;color:var(--muted)}
+.specs{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);border-block:1px solid var(--line);padding-block:8px}
+.specs span{display:inline-flex;align-items:center;gap:4px}
+.specs b{font-family:var(--f-mono);font-weight:600}
+.price{margin-top:auto}
+.was{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--coral)}
+.now{font-family:var(--f-mono);font-size:22px;font-weight:600;letter-spacing:-.025em;line-height:1.15}
+.now.promo{color:var(--coral)}
+.psq{font-size:11.5px;color:var(--muted);margin-top:2px}
+.save{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--coral);background:var(--coral-soft);padding:2px 7px;border-radius:4px}
+
+/* ---------- table ---------- */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-bottom:40px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+thead th{position:sticky;top:0;background:var(--surface-2);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;z-index:1}
+td.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+tr.is-sold{color:var(--sold)}
+.tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--sea-soft);color:var(--sea)}
+.tag.promo{background:var(--coral-soft);color:var(--coral)}
+.tag.sold{background:var(--surface-3);color:var(--sold)}
+
+/* ---------- dialog ---------- */
+dialog{border:0;padding:0;background:transparent;max-width:min(880px,94vw);width:100%}
+dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
+.sheet{background:var(--surface);color:var(--ink);border-radius:14px;overflow:hidden;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 30px 70px -20px rgba(0,0,0,.5)}
+.sheet-hd{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.sheet-hd h2{font-family:var(--f-mono);font-size:24px;font-weight:600;letter-spacing:-.02em}
+.sheet-hd p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--surface-2);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:17px;line-height:1;color:var(--muted);flex:none}
+.sheet-body{overflow-y:auto;padding:18px}
+.gal{margin-bottom:18px}
+.stage{position:relative;aspect-ratio:4/3;max-width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:grid;place-items:center}
+.stage img,.stage video{width:100%;height:100%;object-fit:contain;display:block;position:relative}
+.stage .bgblur{position:absolute;inset:0;object-fit:cover;filter:blur(28px) saturate(1.15);transform:scale(1.2);opacity:.5}
+.stage iframe{width:100%;height:100%;border:0;display:block}
+.navb{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;background:rgba(6,28,34,.55);color:#fff;display:grid;place-items:center;font-size:19px;line-height:1;padding:0 0 3px}
+.navb:hover{background:rgba(6,28,34,.78)}
+.navb.prev{left:10px}.navb.next{right:10px}
+.stagetag{position:absolute;left:10px;top:10px;background:rgba(6,28,34,.62);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.stage.isplan{background:#fff}
+.stage.isplan .bgblur{display:none}
+.stage.isplan img{object-fit:contain;padding:8px}
+.thumb.plan{background:#fff}
+.thumb.plan img{object-fit:contain;padding:3px}
+.counter{position:absolute;right:10px;bottom:10px;background:rgba(6,28,34,.62);color:#fff;font-family:var(--f-mono);font-size:11px;padding:3px 8px;border-radius:999px}
+.thumbs{display:flex;gap:7px;margin-top:9px;overflow-x:auto;padding-bottom:4px}
+.thumb{flex:0 0 78px;height:56px;border-radius:7px;border:1px solid var(--line);overflow:hidden;background:var(--surface-2);padding:0;position:relative;display:grid;place-items:center;color:var(--muted)}
+.thumb[aria-pressed="true"]{border-color:var(--sea);box-shadow:0 0 0 2px var(--sea-soft)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb.vid::after{content:"";position:absolute;inset:0;background:rgba(6,28,34,.32)}
+.thumb.vid::before{content:"\25B6";position:absolute;inset:0;z-index:1;display:grid;place-items:center;color:#fff;font-size:15px}
+.d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.panel h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.kv:last-child{border-bottom:0}
+.kv b{font-family:var(--f-mono);font-weight:600;text-align:right}
+.kv.total{border-top:2px solid var(--ink);border-bottom:0;margin-top:5px;padding-top:9px;font-weight:600}
+.kv.total b{font-size:17px}
+.kv.hi b{color:var(--coral)}
+.notebox{margin-top:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6}
+.notebox ul{margin:6px 0 0;padding-left:17px}
+.sheet-ft{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:var(--surface-2)}
+.btn{border:1px solid var(--sea);background:var(--sea);color:#fff;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600}
+.btn.alt{background:var(--surface);color:var(--sea)}
+.btn.wide{flex:1}
+
+/* ---------- shortlist bar ---------- */
+.slbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--sea-deep);color:#fff;padding:11px 20px calc(11px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -6px 24px -8px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .slbar,:root:not([data-theme="light"]) .slbar{color:#04212A}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .slbar{color:#fff}}
+.slbar span{font-size:13px}
+.slbar .btn{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.14);color:inherit}
+.slbar .btn.solid{background:#fff;color:var(--sea-deep);border-color:#fff}
+
+/* ---------- info + contact ---------- */
+.info{background:var(--surface);border-top:1px solid var(--line);padding-block:38px 44px;margin-top:10px}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px}
+.info h2{font-family:var(--f-display);font-size:24px;font-weight:600;margin-bottom:12px}
+.info h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--sea);margin-bottom:9px}
+.info p,.info li{font-size:13.5px;color:var(--ink-2);line-height:1.65}
+.info ul{margin:0;padding-left:18px}
+.todo{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:4px;padding:1px 6px;margin-left:6px}
+.foot{border-top:1px solid var(--line);padding-block:18px 90px;font-size:11.5px;color:var(--muted)}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty b{display:block;font-family:var(--f-display);font-size:22px;color:var(--ink);margin-bottom:6px}
+
+@media (max-width:860px){ .hero-grid{grid-template-columns:1fr;gap:24px} .tower-body{max-height:260px} .scap{display:none} }
+@media (max-width:520px){ .wrap{padding-inline:16px} .controls{position:static} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+
+/* ---------- print ---------- */
+@media print{
+  body{background:#fff;color:#000}
+  .topbar,.hero,.phero,.intro,.hl,.controls,.meta-row,.grid,.tblwrap,.slbar,.info,.foot,.sheet-ft,.x,.star,.navb,.thumbs,.counter{display:none!important}
+  dialog{max-width:100%;display:block!important;position:static}
+  dialog::backdrop{display:none}
+  .sheet{box-shadow:none;max-height:none;border-radius:0}
+  .sheet-body{overflow:visible;padding:0}
+}
+</style>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="mark">Riviera Jomtien<small data-i18n="markSub">Resale Inventory</small></div>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="th" aria-pressed="true">ไทย</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
+</header>
+
+<section class="phero" id="phero" aria-roledescription="carousel" aria-label="Riviera Jomtien">
+  <div id="slides"></div>
+  <div class="scrim"></div>
+  <p class="scap" id="scap"></p>
+  <div class="wrap phero-in">
+    <p class="eyebrow" data-i18n="eyebrow">จอมเทียน · พัทยา · ชลบุรี</p>
+    <h1 id="pheroTitle">The Riviera Jomtien</h1>
+    <p class="ptag" id="pheroTag"></p>
+    <div class="facts" id="facts"></div>
+    <div class="sctrl">
+      <div id="sdots" style="display:flex;gap:6px"></div>
+      <div class="sarrow">
+        <button type="button" id="sPrev" data-slide="-1" aria-label="Previous">‹</button>
+        <button type="button" id="sNext" data-slide="1" aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap intro-grid">
+    <p id="introText"></p>
+    <div>
+      <h3 data-i18n="facH">สิ่งอำนวยความสะดวกในโครงการ</h3>
+      <ul id="facList"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="hl" id="hl">
+  <div class="wrap">
+    <div class="hl-hd">
+      <h2 data-i18n="hlTitle">ยูนิตแนะนำ</h2>
+      <span class="mo" id="hlMonth"></span>
+    </div>
+    <div class="hl-grid" id="hlGrid"></div>
+  </div>
+</section>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow" data-i18n="eyebrow">จอมเทียน · พัทยา · ชลบุรี</p>
+      <h1 style="font-size:clamp(26px,4vw,40px)"><span data-i18n="h1a">ห้องพร้อมโอน</span> <em data-i18n="h1b">ทั้งหมด</em></h1>
+      <p class="lede" data-i18n="lede">รายการห้องขายต่อจากโครงการ พร้อมราคาโปรโมชั่นจริง ทั้งวิวทะเลและวิวเมือง อัปเดตจากไพรซ์ลิสต์ล่าสุด สำหรับลูกค้าและเอเยนต์พาร์ทเนอร์</p>
+      <div class="stats" id="stats"></div>
+    </div>
+    <aside class="tower" aria-labelledby="towerTitle">
+      <div class="tower-hd">
+        <h2 id="towerTitle" data-i18n="towerTitle">ผังห้องว่างตามชั้น</h2>
+        <p data-i18n="towerHint">คลิกที่ชั้นเพื่อกรอง</p>
+      </div>
+      <div class="tower-body" id="tower"></div>
+      <div class="legend">
+        <span><i style="background:var(--sea)"></i><span data-i18n="legSea">วิวทะเล</span></span>
+        <span><i style="background:var(--sea-soft);border:1px solid var(--sea)"></i><span data-i18n="legCity">วิวเมือง</span></span>
+        <span><i style="background:var(--coral)"></i><span data-i18n="legPromo">ราคาโปรโมชั่น</span></span>
+        <span><i style="background:var(--surface-3);border:1px solid var(--line-2)"></i><span data-i18n="legSold">ขายแล้ว</span></span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="ctl-row">
+      <div class="field"><input type="search" id="q" data-i18n-ph="searchPh" placeholder="ค้นหาเลขห้อง เช่น 8A03, 19E…" autocomplete="off"></div>
+      <select class="sel" id="fView" aria-label="View"></select>
+      <select class="sel" id="fType" aria-label="Type"></select>
+      <select class="sel" id="fQuota" aria-label="Quota"></select>
+      <select class="sel" id="fSort" aria-label="Sort"></select>
+      <button type="button" class="chip" id="cPromo" aria-pressed="false" data-i18n="promoOnly">เฉพาะโปรโมชั่น</button>
+      <button type="button" class="chip ghost" id="cFurn" aria-pressed="false" data-i18n="furnOnly">มีเฟอร์ฯ</button>
+      <div class="seg" role="group" aria-label="Layout">
+        <button type="button" id="vGrid" aria-pressed="true" data-i18n="viewGrid">การ์ด</button>
+        <button type="button" id="vTable" aria-pressed="false" data-i18n="viewTable">ตาราง</button>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div><b id="count">0</b> <span data-i18n="unitsFound">ห้องที่ตรงเงื่อนไข</span> · <span data-i18n="fromLabel">เริ่มต้น</span> <b id="cheapest">—</b></div>
+      <button type="button" class="linkbtn" id="reset" data-i18n="reset">ล้างตัวกรองทั้งหมด</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+  <div class="tblwrap" id="tblwrap" hidden>
+    <table>
+      <thead><tr>
+        <th data-i18n="thUnit">ห้อง</th><th data-i18n="thFloor">ชั้น</th><th data-i18n="thView">วิว</th>
+        <th data-i18n="thType">แบบ</th><th data-i18n="thQuota">โควตา</th>
+        <th class="n" style="text-align:right" data-i18n="thSqm">ตร.ม.</th>
+        <th class="n" style="text-align:right" data-i18n="thList">ราคาปกติ</th>
+        <th class="n" style="text-align:right" data-i18n="thNow">ราคาขาย</th>
+        <th class="n" style="text-align:right" data-i18n="thPerSqm">฿/ตร.ม.</th>
+        <th data-i18n="thFurn">เฟอร์นิเจอร์</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<section class="info">
+  <div class="wrap">
+    <div class="info-grid">
+      <div>
+        <h2 data-i18n="infoTitle">ซื้อห้องนี้ต้องรู้อะไรบ้าง</h2>
+        <h3 data-i18n="infoCostH">ค่าใช้จ่ายนอกเหนือราคาห้อง</h3>
+        <ul>
+          <li data-i18n="infoCost1">กองทุนสำรอง (Sinking fund) 500 บาท/ตร.ม. จ่ายครั้งเดียว</li>
+          <li data-i18n="infoCost2">ค่าส่วนกลาง 50 บาท/ตร.ม./เดือน เก็บล่วงหน้า 1 ปี</li>
+          <li data-i18n="infoCost3">ค่าโอนกรรมสิทธิ์ 1% ของราคาประเมิน (ตกลงแบ่งกับผู้ขายได้)</li>
+          <li data-i18n="infoCost4">เงินจอง 50,000 บาท/ห้อง (อาคารพาณิชย์ 200,000 บาท)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-i18n="infoTermH">เงื่อนไขโครงการ</h3>
+        <ul>
+          <li data-i18n="infoTerm1">ทำสัญญาซื้อขายกับโครงการโดยตรงทุกห้อง</li>
+          <li data-i18n="infoTerm2">แพ็กเกจเฟอร์นิเจอร์เป็นไปตามรายการที่โครงการกำหนด</li>
+          <li data-i18n="infoTerm3">“เฟอร์ครบ” = เฟอร์นิเจอร์ เครื่องใช้ไฟฟ้า และของตกแต่ง · “เฟอร์ชุดนอน” = เตียง ที่นอน ผ้าม่าน โต๊ะหัวเตียง โคมไฟ</li>
+          <li data-i18n="infoTerm4">“ฝั่งทะเล” = อยู่ฝั่งทะเลแต่อาจเห็นวิวได้จากระเบียง · “วิวทะเล” = เห็นวิวทะเลจากในห้อง</li>
+          <li data-i18n="infoTerm5">ราคาโปรโมชั่นมีจำนวนจำกัดและมีวันหมดอายุ กรุณาเช็กสถานะห้องก่อนรับจอง</li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-i18n="contactH">ติดต่อทีมขาย</h3>
+        <p data-i18n="contactP">นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ</p>
+        <p class="num" id="contactBlock" style="margin-top:10px;font-size:14px;line-height:2"></p>
+        <p style="margin-top:14px"><span class="todo" data-i18n="todo">ยังไม่ได้ใส่ข้อมูลติดต่อ</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap foot">
+  <p id="footNote"></p>
+</footer>
+
+<div class="slbar" id="slbar" hidden>
+  <span><b class="num" id="slCount">0</b> <span data-i18n="slLabel">ห้องที่บันทึกไว้</span></span>
+  <button type="button" class="btn" id="slShow" data-i18n="slShow">ดูเฉพาะที่บันทึก</button>
+  <button type="button" class="btn solid" id="slCopy" data-i18n="slCopy">คัดลอกรายการ</button>
+  <button type="button" class="btn" id="slClear" data-i18n="slClear">ล้าง</button>
+</div>
+
+<dialog id="dlg"><div class="sheet">
+  <div class="sheet-hd">
+    <div><h2 id="dTitle">—</h2><p id="dSub">—</p></div>
+    <button type="button" class="x" id="dClose" aria-label="Close">✕</button>
+  </div>
+  <div class="sheet-body" id="dBody"></div>
+  <div class="sheet-ft">
+    <button type="button" class="btn alt" id="dStar" data-i18n="addShortlist">บันทึกห้องนี้</button>
+    <button type="button" class="btn alt" id="dCopy" data-i18n="copyListing">คัดลอกข้อมูลห้อง</button>
+    <button type="button" class="btn" id="dPrint" data-i18n="printQuote">พิมพ์ใบเสนอราคา</button>
+  </div>
+</div></dialog>
+
+<script>
+/* =====================================================================
+   ADDING REAL PHOTOS AND A CLIP FOR EACH UNIT
+   ---------------------------------------------------------------------
+   One entry per unit, keyed by the unit number exactly as it appears in
+   the price list. Up to 5 photos plus one short clip per unit:
+
+     "8A03": {
+       photos: [
+         "riviera-img/8A03-1.jpg",   // cover — the one shown on the card
+         "riviera-img/8A03-2.jpg",
+         "riviera-img/8A03-3.jpg",
+         "riviera-img/8A03-4.jpg",
+         "riviera-img/8A03-5.jpg"
+       ],
+       video:   "riviera-img/8A03.mp4",  // a direct .mp4/.webm file, OR
+       youtube: "dQw4w9WgXcQ",           // a YouTube video id instead
+       poster:  "riviera-img/8A03-1.jpg" // optional still for the clip
+     },
+
+   Fewer than 5 photos is fine — the gallery only shows what exists.
+   Relative paths need the files sitting next to this page on the server;
+   hosted URLs (postimg.cc, a CDN, YouTube) work from anywhere.
+
+   SHOOT LANDSCAPE 4:3 — hold the phone sideways. Rooms read wider and
+   the cover fills the card with no crop. Portrait is for the balcony
+   view, floor-to-ceiling glass and the bathroom only, and never for the
+   cover; those still display correctly, just letterboxed on a blurred
+   backdrop in the gallery.
+   ===================================================================== */
+const MAX_PHOTOS = 5;
+
+const UNIT_MEDIA = {
+  "14E06": { photos: ["riviera-img/14E06-1.jpg"] },
+  "8A03": { photos: ["riviera-img/8A03-1.jpg", "riviera-img/8A03-2.jpg", "riviera-img/8A03-3.jpg", "riviera-img/8A03-4.jpg", "riviera-img/8A03-5.jpg"] },
+  "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg"], plan: "riviera-img/8A05-plan.jpg" }
+};
+
+/* =====================================================================
+   PROJECT HERO + MONTHLY HIGHLIGHTS
+   ---------------------------------------------------------------------
+   PROJECT_SLIDES auto-advances every 6 seconds. Each slide is either
+     { src: "riviera-img/xxx.jpg", caption: "..." }   an image
+     { video: "riviera-img/xxx.mp4", caption: "..." } a muted looping clip
+   caption takes one string, or {th,en,ru,zh} for per-language text.
+   These are placeholders using real unit photos — swap them for the
+   project's own shots and clip when they arrive.
+
+   HIGHLIGHTS picks the units promoted at the top of the page. Change
+   `units` each month and set `month` to that month.
+   ===================================================================== */
+const PROJECT_SLIDES = [
+  { src: "riviera-img/hero-1.jpg", caption: { th: "สระลอยฟ้าและวิวทะเลจากชั้นบนของโครงการ", en: "The sky pool and sea view from the upper floors", ru: "Бассейн на верхнем этаже и вид на море", zh: "高楼层空中泳池与海景" } },
+  { src: "riviera-img/hero-2.jpg", caption: { th: "สระว่ายน้ำและสวนน้ำมองจากมุมสูง", en: "The pool gardens from above", ru: "Бассейны и сады с высоты", zh: "俯瞰泳池花园" } },
+  { src: "riviera-img/hero-3.jpg", caption: { th: "ตัวอาคารและสวนแนวตั้ง", en: "The tower and its vertical gardens", ru: "Башня и вертикальные сады", zh: "塔楼与垂直绿化" } },
+  { src: "riviera-img/hero-4.jpg", caption: { th: "สระว่ายน้ำและสวนพักผ่อนชั้นล่าง", en: "Ground-level pool and garden", ru: "Бассейн и сад на нижнем уровне", zh: "首层泳池与花园" } },
+  { src: "riviera-img/hero-5.jpg", caption: { th: "ห้องฟิตเนสของโครงการ", en: "The project's fitness room", ru: "Фитнес-зал проекта", zh: "项目健身房" } }
+];
+
+/* Standard unit layouts from the project sales kit (13-1-21). Each is shown on
+   the units whose tower, room line and size it covers — see layoutFor() below.
+   A unit that has its own surveyed plan in UNIT_MEDIA uses that one instead. */
+const STANDARD_LAYOUTS = {
+  "STU-C":  { src: "riviera-img/layout-STU-C.jpg",  sqm: 22.70, floors: "7–19" },
+  "STU-A1": { src: "riviera-img/layout-STU-A1.jpg", sqm: 26.68, floors: "7–19" },
+  "STU-B3": { src: "riviera-img/layout-STU-B3.jpg", sqm: 32.20, floors: "7–19" },
+  "1BR-E1": { src: "riviera-img/layout-1BR-E1.jpg", sqm: 34.55, floors: "7–19" },
+  "1BR-H":  { src: "riviera-img/layout-1BR-H.jpg",  sqm: 34.85, floors: "13–14, 18–19" },
+  "1BR-D":  { src: "riviera-img/layout-1BR-D.jpg",  sqm: 35.00, floors: "7–41" },
+  "1BR-B1": { src: "riviera-img/layout-1BR-B1.jpg", sqm: 47.45, floors: "7–19" },
+  "1BR-C":  { src: "riviera-img/layout-1BR-C.jpg",  sqm: 47.75, floors: "7–45" }
+};
+
+/* Which standard layout covers a unit, from its tower letter, room line and size.
+   Read off the sales kit's typical room-number layout and its size legend:
+   tower E is the city-view rear line (1BR 34–35.3 sqm) except line 10, which is
+   the larger 35.7–48 band; on tower A lines 2/3/6 are studios and 4/5 the large
+   one-bedrooms. Returns null where the kit publishes no layout for that size. */
+function layoutFor(u){
+  const m = /([A-E])(\d{2})$/.exec(u.unit);
+  if (!m) return null;
+  const [, tower, line] = m, n = parseInt(line, 10), a = u.sqm;
+  if (tower === "E") return n === 10 ? null : "1BR-D";
+  if (tower === "A") return a < 33 ? "STU-B3" : a > 40 ? "1BR-B1" : null;
+  if (a <= 23.5) return "STU-C";
+  if (a <= 28) return "STU-A1";
+  return null;
+}
+
+const HIGHLIGHTS = { month: "2026-09", units: ["7D02", "8A03", "9A06", "8A05", "8A06", "9A02"] };
+
+const PROJECT_TAGLINE = {
+  th: "คอนโดมิเนียม 46 ชั้น ย่านหาดจอมเทียน สร้างเสร็จพร้อมเข้าอยู่ มีสระลอยฟ้าชั้น 37 และสระอินฟินิตี้ชั้น 42",
+  en: "A 46-storey condominium in Jomtien, completed and ready to move in, with sky pools on the 37th and 42nd floors.",
+  ru: "46-этажный дом в Джомтьене, сдан и готов к заселению, с бассейнами на 37 и 42 этажах.",
+  zh: "宗滴恩 46 层公寓，已竣工可即时入住，37 楼与 42 楼设空中泳池。"
+};
+
+const PROJECT_INTRO = {
+  th: "เดอะ ริเวียร่า จอมเทียน เป็นคอนโดมิเนียมสูง 46 ชั้น บนถนนจอมเทียนสาย 2 พัทยา พัฒนาโดย The Riviera Group สร้างเสร็จพร้อมโอน ห้องในรายการนี้เป็นห้องขายต่อจากโครงการ มีทั้งฝั่งวิวทะเล (อาคาร A–D) และฝั่งวิวเมือง (อาคาร E) ชั้น 7 ถึงชั้น 36 ขนาด 22–47 ตร.ม. ทั้งสตูดิโอและ 1 ห้องนอน พร้อมแพ็กเกจเฟอร์นิเจอร์จากโครงการ และมีอาคารพาณิชย์ 4 ชั้นติดถนนอีก 1 ยูนิต",
+  en: "The Riviera Jomtien is a 46-storey condominium on Jomtien 2nd Road, Pattaya, by The Riviera Group, completed and ready to transfer. The units listed here are released by the developer — sea-view stacks (towers A–D) and city-view stacks (tower E), floors 7 to 36, from 22 to 47 sqm, studios and one-bedrooms, with the project's furniture packages. One 4-storey roadside commercial building is also available.",
+  ru: "The Riviera Jomtien — 46-этажный кондоминиум на Jomtien 2nd Road в Паттайе от The Riviera Group, сдан и готов к передаче. В списке — квартиры от застройщика: корпуса с видом на море (A–D) и на город (E), этажи 7–36, от 22 до 47 м², студии и квартиры с одной спальней, с мебельными пакетами проекта. Также доступно 4-этажное коммерческое здание у дороги.",
+  zh: "The Riviera Jomtien 是 The Riviera Group 开发的 46 层公寓，位于芭提雅宗滴恩二路，已竣工可过户。本列表房源均由开发商释出：海景栋（A–D 座）与城景栋（E 座），7 至 36 楼，22 至 47 平米，开间与一房，配项目家具包。另有临街四层商业楼一栋。"
+};
+
+/* Facilities, as listed in the project sales kit. */
+const PROJECT_FACILITIES = {
+  th: ["สระลอยฟ้าชั้น 37 และสระอินฟินิตี้ชั้น 42", "สระว่ายน้ำใหญ่ชั้นล่างและสระเด็ก", "ชั้น 42 ทั้งชั้นเป็นพื้นที่พักผ่อนของเจ้าของร่วม", "ฟิตเนส สกายยิม และลานออกกำลังกายกลางแจ้ง", "คิดส์คลับและสนามเด็กเล่น", "สวนพักผ่อน 58 โซน", "ร้านค้าและร้านอาหารในโครงการ", "รักษาความปลอดภัย 24 ชั่วโมง"],
+  en: ["Sky pool on the 37th floor, infinity sky pool on the 42nd", "Large ocean pool and children's pools", "The entire 42nd floor given to owners' recreation", "Fitness room, sky gym and outdoor gym", "Kids' club and children's playground", "58 quiet garden zones", "Commercial units with food and beverage shops", "24-hour security"],
+  ru: ["Бассейн на 37 этаже и инфинити-бассейн на 42", "Большой бассейн и детские бассейны", "Весь 42 этаж — зона отдыха для собственников", "Фитнес-зал, sky gym и уличный спортзал", "Детский клуб и игровая площадка", "58 садовых зон отдыха", "Магазины и заведения питания на территории", "Охрана 24 часа"],
+  zh: ["37 楼空中泳池，42 楼无边际泳池", "首层大泳池与儿童泳池", "整个 42 楼为业主休闲层", "健身房、空中健身房与户外健身区", "儿童俱乐部与游乐场", "58 处静谧花园区", "项目内商铺与餐饮", "24 小时保安"]
+};
+
+/* Sales contact — fill these in, then the placeholder badge disappears. */
+const CONTACT = { phone: "", line: "", email: "", website: "" };
+
+const UNITS = [
+  {"unit":"7D02","floor":"7","view":"Sea View","type":"Studio","quota":"TH","sqm":25.77,"pricePerSqm":131000,"price":3375870,"booking":50000,"furniture":"Include","status":"AVAILABLE"},
+  {"unit":"8A03","floor":"8","view":"Sea View","type":"1 BED","quota":"TH","sqm":32.66,"pricePerSqm":132000,"price":4311120,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":85701,"promoPrice":2799000,"seaSite":true},
+  {"unit":"8A05","floor":"8","view":"Sea View","type":"1 BED","quota":"TH","sqm":46.92,"pricePerSqm":132000,"price":6193440,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":85656,"promoPrice":4019000,"seaSite":true},
+  {"unit":"8A06","floor":"8","view":"Sea View","type":"1 BED","quota":"TH","sqm":31.86,"pricePerSqm":132000,"price":4205520,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":84714,"promoPrice":2699000,"seaSite":true},
+  {"unit":"8C05","floor":"8","view":"Sea View","type":"Studio","quota":"TH","sqm":22.66,"pricePerSqm":132000,"price":2991120,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"9A02","floor":"9","view":"Sea View","type":"1 BED","quota":"TH","sqm":32.64,"pricePerSqm":133000,"price":4341120,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":87853,"promoPrice":2867522,"seaSite":true},
+  {"unit":"9A04","floor":"9","view":"Sea View","type":"1 BED","quota":"TH","sqm":47.38,"pricePerSqm":133000,"price":6301540,"booking":50000,"furniture":"Include","status":"SOLD"},
+  {"unit":"9A06","floor":"9","view":"Sea View","type":"Studio","quota":"TH","sqm":31.86,"pricePerSqm":133000,"price":4237380,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":87853,"promoPrice":2799000,"seaSite":true},
+  {"unit":"9B03","floor":"9","view":"Sea View","type":"Studio","quota":"TH","sqm":25.82,"pricePerSqm":133000,"price":3434060,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"10A02","floor":"10","view":"Sea View","type":"Studio","quota":"TH","sqm":32.64,"pricePerSqm":134000,"price":4373760,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":95000,"promoPrice":3100800,"seaSite":false},
+  {"unit":"10A03","floor":"10","view":"Sea View","type":"Studio","quota":"TH","sqm":32.66,"pricePerSqm":134000,"price":4376440,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":95000,"promoPrice":3102700,"seaSite":false},
+  {"unit":"11A02","floor":"11","view":"Sea View","type":"Studio","quota":"TH","sqm":32.64,"pricePerSqm":135000,"price":4406400,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":104136,"promoPrice":3399000,"seaSite":false},
+  {"unit":"12A02","floor":"12","view":"Sea View","type":"Studio","quota":"TH","sqm":32.64,"pricePerSqm":135000,"price":4406400,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"12A03","floor":"12","view":"Sea View","type":"Studio","quota":"TH","sqm":32.66,"pricePerSqm":135000,"price":4409100,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"12AA02","floor":"12A","view":"Sea View","type":"Studio","quota":"TH","sqm":32.64,"pricePerSqm":135000,"price":4406400,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":106000,"promoPrice":3459840,"seaSite":false},
+  {"unit":"12AA06","floor":"12A","view":"Sea View","type":"Studio","quota":"TH","sqm":32.86,"pricePerSqm":135000,"price":4436100,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":106000,"promoPrice":3377160,"seaSite":false},
+  {"unit":"16A02","floor":"16","view":"Sea View","type":"Studio","quota":"FR","sqm":32.64,"pricePerSqm":136000,"price":4439040,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":128646,"promoPrice":4199000,"seaSite":false},
+  {"unit":"16A06","floor":"16","view":"Sea View","type":"Studio","quota":"TH","sqm":31.86,"pricePerSqm":136000,"price":4332960,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":106685,"promoPrice":3399000,"seaSite":false},
+  {"unit":"17A06","floor":"17","view":"Sea View","type":"Studio","quota":"TH","sqm":31.86,"pricePerSqm":136000,"price":4332960,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":107313,"promoPrice":3419000,"seaSite":false},
+  {"unit":"14E05","floor":"14","view":"City View","type":"1 BED","quota":"TH","sqm":35.14,"pricePerSqm":114000,"price":4005960,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":93000,"promoPrice":3268020,"seaSite":false},
+  {"unit":"14E06","floor":"14","view":"City View","type":"1 BED","quota":"TH","sqm":34.28,"pricePerSqm":114000,"price":3907920,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":93000,"promoPrice":3188040,"seaSite":false},
+  {"unit":"14E10","floor":"14","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":114000,"price":4082340,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":93000,"promoPrice":3330330,"seaSite":false},
+  {"unit":"15E07","floor":"15","view":"City View","type":"1 BED","quota":"TH","sqm":34.61,"pricePerSqm":115000,"price":3980150,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":94000,"promoPrice":3253340,"seaSite":false},
+  {"unit":"15E10","floor":"15","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":115000,"price":4118150,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":94000,"promoPrice":3366140,"seaSite":false},
+  {"unit":"16E03","floor":"16","view":"City View","type":"1 BED","quota":"TH","sqm":34.41,"pricePerSqm":116000,"price":3991560,"booking":50000,"furniture":"Include","status":"AVAILABLE"},
+  {"unit":"18E10","floor":"18","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":118000,"price":4225580,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":94500,"promoPrice":3384045,"seaSite":false},
+  {"unit":"19E02","floor":"19","view":"City View","type":"1 BED","quota":"TH","sqm":34.52,"pricePerSqm":119000,"price":4107880,"booking":50000,"furniture":"Fully Furnished","status":"AVAILABLE","promoPerSqm":94500,"promoPrice":3296660,"seaSite":false},
+  {"unit":"19E05","floor":"19","view":"City View","type":"1 BED","quota":"TH","sqm":35.59,"pricePerSqm":119000,"price":4235210,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":94500,"promoPrice":3363255,"seaSite":false},
+  {"unit":"19E06","floor":"19","view":"City View","type":"1 BED","quota":"TH","sqm":34.35,"pricePerSqm":119000,"price":4087650,"booking":50000,"furniture":"Furniture Pack","status":"AVAILABLE","promoPerSqm":94500,"promoPrice":3246075,"seaSite":false},
+  {"unit":"19E07","floor":"19","view":"City View","type":"1 BED","quota":"TH","sqm":34.68,"pricePerSqm":119000,"price":4126920,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"19E11","floor":"19","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":119000,"price":4141200,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"20E12","floor":"20","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":120000,"price":4134000,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"21E04","floor":"21","view":"City View","type":"1 BED","quota":"TH","sqm":34.59,"pricePerSqm":121000,"price":4185390,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"21E10","floor":"21","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":121000,"price":4333010,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"22E04","floor":"22","view":"City View","type":"1 BED","quota":"TH","sqm":34.59,"pricePerSqm":122000,"price":4219980,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"22E10","floor":"22","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":122000,"price":4368820,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"22E11","floor":"22","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":122000,"price":4245600,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"22E12","floor":"22","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":122000,"price":4202900,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"24E05","floor":"24","view":"City View","type":"1 BED","quota":"TH","sqm":35.59,"pricePerSqm":124000,"price":4413160,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"24E11","floor":"24","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":124000,"price":4315200,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"26E04","floor":"26","view":"City View","type":"1 BED","quota":"TH","sqm":34.59,"pricePerSqm":126000,"price":4358340,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"26E11","floor":"26","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":126000,"price":4384800,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"26E12","floor":"26","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":126000,"price":4340700,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"27E04","floor":"27","view":"City View","type":"1 BED","quota":"TH","sqm":34.59,"pricePerSqm":127000,"price":4392930,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"27E09","floor":"27","view":"City View","type":"1 BED","quota":"TH","sqm":34.36,"pricePerSqm":127000,"price":4363720,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"27E10","floor":"27","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":127000,"price":4547870,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"27E12","floor":"27","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":127000,"price":4375150,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"28E05","floor":"28","view":"City View","type":"1 BED","quota":"TH","sqm":35.59,"pricePerSqm":128000,"price":4555520,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"28E11","floor":"28","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":128000,"price":4454400,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"28E12","floor":"28","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":128000,"price":4409600,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"29E05","floor":"29","view":"City View","type":"1 BED","quota":"TH","sqm":35.59,"pricePerSqm":129000,"price":4591110,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"29E10","floor":"29","view":"City View","type":"1 BED","quota":"TH","sqm":35.81,"pricePerSqm":129000,"price":4619490,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"29E11","floor":"29","view":"City View","type":"1 BED","quota":"TH","sqm":34.8,"pricePerSqm":129000,"price":4489200,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"29E12","floor":"29","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":129000,"price":4444050,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"30E06","floor":"30","view":"City View","type":"1 BED","quota":"TH","sqm":34.43,"pricePerSqm":130000,"price":4475900,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"30E07","floor":"30","view":"City View","type":"1 BED","quota":"TH","sqm":34.77,"pricePerSqm":130000,"price":4520100,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"30E11","floor":"30","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":130000,"price":4478500,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"30E12","floor":"30","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":130000,"price":4478500,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"31E10","floor":"31","view":"City View","type":"1 BED","quota":"TH","sqm":35.82,"pricePerSqm":131000,"price":4692420,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"33E01","floor":"33","view":"City View","type":"1 BED","quota":"TH","sqm":34.45,"pricePerSqm":133000,"price":4581850,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"33E02","floor":"33","view":"City View","type":"1 BED","quota":"TH","sqm":34.77,"pricePerSqm":133000,"price":4624410,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"35E06","floor":"35","view":"City View","type":"1 BED","quota":"TH","sqm":34.43,"pricePerSqm":135000,"price":4648050,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"35E08","floor":"35","view":"City View","type":"1 BED","quota":"TH","sqm":34.58,"pricePerSqm":135000,"price":4668300,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"36E04","floor":"36","view":"City View","type":"1 BED","quota":"TH","sqm":34.38,"pricePerSqm":136000,"price":4675680,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"36E06","floor":"36","view":"City View","type":"1 BED","quota":"TH","sqm":34.43,"pricePerSqm":136000,"price":4682480,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"36E09","floor":"36","view":"City View","type":"1 BED","quota":"TH","sqm":34.43,"pricePerSqm":136000,"price":4682480,"booking":50000,"furniture":"Exclude","status":"AVAILABLE"},
+  {"unit":"COMMERCIAL-1","floor":"G","view":"Front of Road","type":"Commercial","quota":"TH","sqm":182.75,"pricePerSqm":79575,"price":14542361,"booking":200000,"furniture":"Exclude","status":"AVAILABLE","tower":""}
+];
+
+const PRICE_LIST_DATE = "9 Jul 2026";
+const PROMO_LIST_DATE = "1 Sep 2026";
+
+/* ------------------------------ i18n ------------------------------ */
+const T = {
+th:{markSub:"รายการห้องขาย",eyebrow:"จอมเทียน · พัทยา · ชลบุรี",
+ h1a:"ห้องพร้อมโอน",h1b:"ริเวียร่า จอมเทียน",
+ lede:"รายการห้องขายต่อจากโครงการ พร้อมราคาโปรโมชั่นจริง ทั้งวิวทะเลและวิวเมือง อัปเดตจากไพรซ์ลิสต์ล่าสุด สำหรับลูกค้าและเอเยนต์พาร์ทเนอร์",
+ stAvail:"ห้อง Resale พร้อมเข้าอยู่",stFrom:"ราคาเริ่มต้น",stSea:"วิวทะเล",stCity:"วิวเมือง",stPromo:"ห้องราคาโปรฯ",
+ towerTitle:"ผังห้องว่างตามชั้น",towerHint:"คลิกที่ชั้นเพื่อกรอง",legSea:"วิวทะเล",legCity:"วิวเมือง",legPromo:"ราคาโปรโมชั่น",legSold:"ขายแล้ว",
+ floorWord:"ชั้น",searchPh:"ค้นหาเลขห้อง เช่น 8A03, 19E…",
+ allViews:"ทุกวิว",seaView:"วิวทะเล",cityView:"วิวเมือง",shopView:"อาคารพาณิชย์",
+ allTypes:"ทุกแบบห้อง",studio:"สตูดิโอ",oneBed:"1 ห้องนอน",shopType:"อาคารพาณิชย์ 4 ชั้น",
+ allQuota:"ทุกโควตา",quotaTH:"โควตาไทย",quotaFR:"โควตาต่างชาติ",
+ sortPriceAsc:"ราคา ต่ำ → สูง",sortPriceDesc:"ราคา สูง → ต่ำ",sortPerSqm:"฿/ตร.ม. ต่ำสุด",sortSqm:"ขนาดใหญ่สุด",sortFloor:"ชั้นสูงสุด",sortSave:"ส่วนลดมากสุด",
+ promoOnly:"เฉพาะโปรโมชั่น",furnOnly:"มีเฟอร์ฯ",viewGrid:"การ์ด",viewTable:"ตาราง",
+ unitsFound:"ห้องที่ตรงเงื่อนไข",fromLabel:"เริ่มต้น",reset:"ล้างตัวกรองทั้งหมด",
+ thUnit:"ห้อง",thFloor:"ชั้น",thView:"วิว",thType:"แบบ",thQuota:"โควตา",thSqm:"ตร.ม.",thList:"ราคาปกติ",thNow:"ราคาขาย",thPerSqm:"฿/ตร.ม.",thFurn:"เฟอร์นิเจอร์", bSea:"วิวทะเล",bCity:"วิวเมือง",bShop:"ติดถนน",bPromo:"โปรโมชั่น",bSold:"ขายแล้ว",bFr:"โควตาต่างชาติ",bSeaSite:"ฝั่งทะเล",
+ fFull:"เฟอร์ครบ",fPack:"เฟอร์ชุดนอน",fInc:"รวมเฟอร์นิเจอร์",fExc:"ไม่รวมเฟอร์นิเจอร์",
+ perSqm:"ตร.ม.ละ",saveWord:"ถูกลง",noPhoto:"ยังไม่มีรูปห้องนี้",
+ dSpecs:"รายละเอียดห้อง",dCost:"ประมาณการค่าใช้จ่าย",kFloor:"ชั้น",kView:"วิว",kType:"แบบห้อง",kQuota:"โควตา",kSize:"พื้นที่ใช้สอย",kFurn:"เฟอร์นิเจอร์",kStatus:"สถานะ",kAvail:"ว่าง",
+ cList:"ราคาปกติ",cPrice:"ราคาขาย",cBooking:"เงินจอง",cSinking:"กองทุนสำรอง 500/ตร.ม.",cMaint:"ส่วนกลาง 50/ตร.ม. × 12 เดือน",cTransfer:"ค่าโอน 1%",cTotal:"รวมโดยประมาณ",
+   noteTitle:"หมายเหตุ",n1:"ราคานี้ยังไม่รวมกองทุนสำรอง ค่าส่วนกลาง และค่าโอนกรรมสิทธิ์",n2:"ทำสัญญาซื้อขายกับโครงการโดยตรง",n3:"ราคาโปรโมชั่นมีจำนวนจำกัดและอาจเปลี่ยนแปลงได้ กรุณาเช็กสถานะห้องก่อนรับจอง",
+ addShortlist:"บันทึกห้องนี้",removeShortlist:"เอาออกจากรายการ",copyListing:"คัดลอกข้อมูลห้อง",printQuote:"พิมพ์ใบเสนอราคา",copied:"คัดลอกแล้ว ✓",
+ slLabel:"ห้องที่บันทึกไว้",slShow:"ดูเฉพาะที่บันทึก",slShowAll:"ดูทั้งหมด",slCopy:"คัดลอกรายการ",slClear:"ล้าง",
+ infoTitle:"ซื้อห้องนี้ต้องรู้อะไรบ้าง",infoCostH:"ค่าใช้จ่ายนอกเหนือราคาห้อง",infoTermH:"เงื่อนไขโครงการ",
+ contactH:"ติดต่อทีมขาย",contactP:"นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ",todo:"ยังไม่ได้ใส่ข้อมูลติดต่อ",
+ empty:"ไม่พบห้องที่ตรงเงื่อนไข",emptyHint:"ลองล้างตัวกรองแล้วค้นหาใหม่",
+  mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
+ hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
+  planStd:"ผังห้องมาตรฐาน",
+ foot:`ข้อมูลราคาจากไพรซ์ลิสต์โครงการ ${PRICE_LIST_DATE} และไพรซ์ลิสต์โปรโมชั่น ${PROMO_LIST_DATE} · ราคาและสถานะห้องอาจเปลี่ยนแปลงได้โดยไม่แจ้งล่วงหน้า กรุณายืนยันกับทีมขายก่อนรับจองทุกครั้ง`},
+
+en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
+ h1a:"Ready-to-transfer units",h1b:"Riviera Jomtien",
+ lede:"Resale units released by the developer, with live promotion pricing across sea-view and city-view stacks. Built from the latest price lists for buyers and partner agents.",
+ stAvail:"Units available",stFrom:"Starting from",stSea:"Sea view",stCity:"City view",stPromo:"On promotion",
+ towerTitle:"Availability by floor",towerHint:"Tap a floor to filter",legSea:"Sea view",legCity:"City view",legPromo:"Promotion price",legSold:"Sold",
+ floorWord:"Floor",searchPh:"Search a unit — 8A03, 19E…",
+ allViews:"All views",seaView:"Sea view",cityView:"City view",shopView:"Shophouse",
+ allTypes:"All layouts",studio:"Studio",oneBed:"1 Bedroom",shopType:"4-storey commercial",
+ allQuota:"All quota",quotaTH:"Thai quota",quotaFR:"Foreign quota",
+ sortPriceAsc:"Price low → high",sortPriceDesc:"Price high → low",sortPerSqm:"Lowest ฿/sqm",sortSqm:"Largest first",sortFloor:"Highest floor",sortSave:"Biggest discount",
+ promoOnly:"Promotion only",furnOnly:"Furnished",viewGrid:"Cards",viewTable:"Table",
+ unitsFound:"units match",fromLabel:"from",reset:"Clear all filters",
+ thUnit:"Unit",thFloor:"Floor",thView:"View",thType:"Layout",thQuota:"Quota",thSqm:"Sqm",thList:"List price",thNow:"Selling price",thPerSqm:"฿/sqm",thFurn:"Furniture", bSea:"Sea view",bCity:"City view",bShop:"Roadside",bPromo:"Promotion",bSold:"Sold",bFr:"Foreign quota",bSeaSite:"Sea side",
+ fFull:"Fully furnished",fPack:"Bedroom package",fInc:"Furniture included",fExc:"Unfurnished",
+ perSqm:"per sqm",saveWord:"less",noPhoto:"Photos coming soon",
+ dSpecs:"Unit details",dCost:"Estimated costs",kFloor:"Floor",kView:"View",kType:"Layout",kQuota:"Quota",kSize:"Usable area",kFurn:"Furniture",kStatus:"Status",kAvail:"Available",
+ cList:"List price",cPrice:"Selling price",cBooking:"Booking deposit",cSinking:"Sinking fund 500/sqm",cMaint:"Maintenance 50/sqm × 12 months",cTransfer:"Transfer fee 1%",cTotal:"Estimated total",
+   noteTitle:"Notes",n1:"Price excludes sinking fund, maintenance fee and transfer fee.",n2:"All units are contracted directly with the developer.",n3:"Promotion prices are limited and may change — always re-confirm the unit before taking a deposit.",
+ addShortlist:"Save this unit",removeShortlist:"Remove from list",copyListing:"Copy unit details",printQuote:"Print quotation",copied:"Copied ✓",
+ slLabel:"units saved",slShow:"Show saved only",slShowAll:"Show all",slCopy:"Copy list",slClear:"Clear",
+ infoTitle:"What a buyer needs to know",infoCostH:"Costs on top of the unit price",infoTermH:"Project terms",
+ contactH:"Talk to the sales team",contactP:"Book a viewing, request a floor plan, or get a quotation for your client.",todo:"Contact details not set yet",
+ empty:"No units match these filters",emptyHint:"Try clearing the filters and searching again",
+  mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
+ hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
+  planStd:"Standard layout",
+ foot:`Prices from the project price list dated ${PRICE_LIST_DATE} and the promotion price list dated ${PROMO_LIST_DATE}. Prices and availability may change without notice — always re-confirm with the sales team before taking a booking.`},
+
+ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · Паттайя · Чонбури",
+ h1a:"Готовы к передаче",h1b:"Riviera Jomtien",
+ lede:"Квартиры от застройщика с актуальными акционными ценами — виды на море и на город. Составлено по последним прайс-листам для покупателей и агентов-партнёров.",
+ stAvail:"Свободно квартир",stFrom:"Цена от",stSea:"Вид на море",stCity:"Вид на город",stPromo:"По акции",
+ towerTitle:"Наличие по этажам",towerHint:"Нажмите на этаж",legSea:"Вид на море",legCity:"Вид на город",legPromo:"Акционная цена",legSold:"Продано",
+ floorWord:"Этаж",searchPh:"Поиск квартиры — 8A03, 19E…",
+ allViews:"Все виды",seaView:"Вид на море",cityView:"Вид на город",shopView:"Коммерция",
+ allTypes:"Все планировки",studio:"Студия",oneBed:"1 спальня",shopType:"Коммерческое здание, 4 этажа",
+ allQuota:"Все квоты",quotaTH:"Тайская квота",quotaFR:"Иностранная квота",
+ sortPriceAsc:"Цена по возрастанию",sortPriceDesc:"Цена по убыванию",sortPerSqm:"Дешевле за м²",sortSqm:"Сначала большие",sortFloor:"Выше этаж",sortSave:"Больше скидка",
+ promoOnly:"Только акции",furnOnly:"С мебелью",viewGrid:"Карточки",viewTable:"Таблица",
+ unitsFound:"квартир найдено",fromLabel:"от",reset:"Сбросить фильтры",
+ thUnit:"Квартира",thFloor:"Этаж",thView:"Вид",thType:"Планировка",thQuota:"Квота",thSqm:"м²",thList:"Прайс",thNow:"Цена продажи",thPerSqm:"฿/м²",thFurn:"Мебель", bSea:"Вид на море",bCity:"Вид на город",bShop:"У дороги",bPromo:"Акция",bSold:"Продано",bFr:"Иностр. квота",bSeaSite:"Морская сторона",
+ fFull:"Полная меблировка",fPack:"Спальный комплект",fInc:"Мебель включена",fExc:"Без мебели",
+ perSqm:"за м²",saveWord:"дешевле",noPhoto:"Фото скоро появятся",
+ dSpecs:"О квартире",dCost:"Оценка расходов",kFloor:"Этаж",kView:"Вид",kType:"Планировка",kQuota:"Квота",kSize:"Площадь",kFurn:"Мебель",kStatus:"Статус",kAvail:"Свободна",
+ cList:"Прайсовая цена",cPrice:"Цена продажи",cBooking:"Депозит за бронь",cSinking:"Фонд 500/м²",cMaint:"Обслуживание 50/м² × 12 мес.",cTransfer:"Сбор за передачу 1%",cTotal:"Итого примерно",
+   noteTitle:"Примечания",n1:"Цена не включает фонд, обслуживание и сбор за передачу.",n2:"Договор заключается напрямую с застройщиком.",n3:"Количество акционных квартир ограничено, цены могут измениться — уточняйте перед приёмом депозита.",
+ addShortlist:"Сохранить",removeShortlist:"Убрать из списка",copyListing:"Копировать описание",printQuote:"Печать предложения",copied:"Скопировано ✓",
+ slLabel:"сохранено",slShow:"Только сохранённые",slShowAll:"Показать все",slCopy:"Копировать список",slClear:"Очистить",
+ infoTitle:"Что важно знать покупателю",infoCostH:"Расходы сверх цены квартиры",infoTermH:"Условия проекта",
+ contactH:"Отдел продаж",contactP:"Запишитесь на просмотр, запросите планировку или предложение для клиента.",todo:"Контакты ещё не указаны",
+ empty:"Ничего не найдено",emptyHint:"Попробуйте сбросить фильтры",
+  mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
+ hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
+  planStd:"Типовая планировка",
+ foot:`Цены по прайс-листу проекта от ${PRICE_LIST_DATE} и акционному прайс-листу от ${PROMO_LIST_DATE}. Цены и наличие могут измениться без уведомления — уточняйте у отдела продаж.`},
+
+zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
+ h1a:"可即时过户",h1b:"Riviera Jomtien",
+ lede:"开发商释出的转售房源，海景与城景均有现行优惠价。数据取自最新价目表，供客户与合作代理使用。",
+ stAvail:"可售房源",stFrom:"起价",stSea:"海景",stCity:"城景",stPromo:"优惠房源",
+ towerTitle:"各楼层房源",towerHint:"点击楼层筛选",legSea:"海景",legCity:"城景",legPromo:"优惠价",legSold:"已售",
+ floorWord:"楼层",searchPh:"搜索房号 — 8A03、19E…",
+ allViews:"全部景观",seaView:"海景",cityView:"城景",shopView:"临街商铺",
+ allTypes:"全部户型",studio:"开间",oneBed:"一房",shopType:"四层商业楼",
+ allQuota:"全部产权",quotaTH:"泰籍产权",quotaFR:"外籍产权",
+ sortPriceAsc:"价格由低到高",sortPriceDesc:"价格由高到低",sortPerSqm:"每平米最低",sortSqm:"面积最大",sortFloor:"楼层最高",sortSave:"折扣最多",
+ promoOnly:"仅看优惠",furnOnly:"含家具",viewGrid:"卡片",viewTable:"表格",
+ unitsFound:"套符合条件",fromLabel:"起价",reset:"清除全部筛选",
+ thUnit:"房号",thFloor:"楼层",thView:"景观",thType:"户型",thQuota:"产权",thSqm:"平米",thList:"原价",thNow:"售价",thPerSqm:"฿/平米",thFurn:"家具", bSea:"海景",bCity:"城景",bShop:"临街",bPromo:"优惠",bSold:"已售",bFr:"外籍产权",bSeaSite:"临海侧",
+ fFull:"全屋家具家电",fPack:"卧室家具包",fInc:"含家具",fExc:"不含家具",
+ perSqm:"每平米",saveWord:"立减",noPhoto:"实拍图即将上传",
+ dSpecs:"房源信息",dCost:"费用估算",kFloor:"楼层",kView:"景观",kType:"户型",kQuota:"产权",kSize:"使用面积",kFurn:"家具",kStatus:"状态",kAvail:"在售",
+ cList:"原价",cPrice:"售价",cBooking:"订金",cSinking:"维修基金 500/平米",cMaint:"物业费 50/平米 × 12 个月",cTransfer:"过户费 1%",cTotal:"预估合计",
+   noteTitle:"备注",n1:"售价不含维修基金、物业费与过户费。",n2:"所有房源均与开发商直接签约。",n3:"优惠房源数量有限且可能调整，收订前请再次确认房态。",
+ addShortlist:"收藏此房",removeShortlist:"取消收藏",copyListing:"复制房源信息",printQuote:"打印报价单",copied:"已复制 ✓",
+ slLabel:"套已收藏",slShow:"只看收藏",slShowAll:"看全部",slCopy:"复制清单",slClear:"清空",
+ infoTitle:"买家须知",infoCostH:"房价之外的费用",infoTermH:"项目条款",
+ contactH:"联系销售团队",contactP:"预约看房、索取户型图，或为您的客户索取报价单。",todo:"尚未填写联系方式",
+ empty:"没有符合条件的房源",emptyHint:"请尝试清除筛选条件",
+  mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
+ hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
+  planStd:"标准户型",
+ foot:`价格取自 ${PRICE_LIST_DATE} 项目价目表与 ${PROMO_LIST_DATE} 优惠价目表。价格与房态可能随时变动，收订前请向销售团队确认。`}
+};
+
+/* ---------------------------- helpers ---------------------------- */
+let lang = "th";
+const t = k => (T[lang] && T[lang][k]) || T.en[k] || k;
+const nf = new Intl.NumberFormat("en-US");
+const baht = n => "฿" + nf.format(Math.round(n));
+const sqmFmt = n => n.toFixed(2);
+const floorKey = f => f === "G" ? 0 : (f === "12A" ? 12.5 : parseFloat(f) || 0);
+const sell = u => u.promoPrice || u.price;
+const perSqm = u => sell(u) / u.sqm;
+const discount = u => u.promoPrice ? 1 - u.promoPrice / u.price : 0;
+const isFurnished = u => u.furniture !== "Exclude";
+const $ = s => document.querySelector(s);
+
+const furnLabel = u => ({ "Fully Furnished":"fFull", "Furniture Pack":"fPack", "Include":"fInc", "Exclude":"fExc" })[u.furniture];
+const viewLabel = u => u.view === "Sea View" ? "bSea" : u.view === "City View" ? "bCity" : "bShop";
+const typeLabel = u => u.type === "Studio" ? "studio" : u.type === "1 BED" ? "oneBed" : "shopType";
+
+/* shortlist ------------------------------------------------------- */
+let saved = new Set();
+try { saved = new Set(JSON.parse(localStorage.getItem("rv-saved") || "[]")); } catch (e) {}
+const persist = () => { try { localStorage.setItem("rv-saved", JSON.stringify([...saved])); } catch (e) {} };
+
+/* state ----------------------------------------------------------- */
+const state = { q:"", view:"", type:"", quota:"", sort:"priceAsc", promo:false, furn:false, floor:"", savedOnly:false, table:false };
+
+/* ------------------------- option rendering ---------------------- */
+function fillSelects(){
+  const mk = (el, opts, val) => {
+    el.innerHTML = opts.map(([v,k]) => `<option value="${v}">${t(k)}</option>`).join("");
+    el.value = val;
+  };
+  mk($("#fView"), [["","allViews"],["Sea View","seaView"],["City View","cityView"],["Front of Road","shopView"]], state.view);
+  mk($("#fType"), [["","allTypes"],["Studio","studio"],["1 BED","oneBed"],["Commercial","shopType"]], state.type);
+  mk($("#fQuota"), [["","allQuota"],["TH","quotaTH"],["FR","quotaFR"]], state.quota);
+  mk($("#fSort"), [["priceAsc","sortPriceAsc"],["priceDesc","sortPriceDesc"],["perSqm","sortPerSqm"],["sqm","sortSqm"],["floor","sortFloor"],["save","sortSave"]], state.sort);
+}
+
+/* ------------------------------ filter --------------------------- */
+function filtered(){
+  const q = state.q.trim().toUpperCase();
+  let list = UNITS.filter(u => {
+    if (q && !u.unit.toUpperCase().includes(q)) return false;
+    if (state.view && u.view !== state.view) return false;
+    if (state.type && u.type !== state.type) return false;
+    if (state.quota && u.quota !== state.quota) return false;
+    if (state.floor && u.floor !== state.floor) return false;
+    if (state.promo && !u.promoPrice) return false;
+    if (state.furn && !isFurnished(u)) return false;
+    if (state.savedOnly && !saved.has(u.unit)) return false;
+    return true;
+  });
+  const cmp = {
+    priceAsc: (a,b) => sell(a) - sell(b),
+    priceDesc: (a,b) => sell(b) - sell(a),
+    perSqm: (a,b) => perSqm(a) - perSqm(b),
+    sqm: (a,b) => b.sqm - a.sqm,
+    floor: (a,b) => floorKey(b.floor) - floorKey(a.floor),
+    save: (a,b) => discount(b) - discount(a)
+  }[state.sort];
+  list.sort((a,b) => (a.status === "SOLD") - (b.status === "SOLD") || cmp(a,b));
+  return list;
+}
+
+/* ------------------------------ stats ---------------------------- */
+function renderStats(){
+  const live = UNITS.filter(u => u.status !== "SOLD");
+  const cells = [
+    [live.length, "stAvail", false],
+    [baht(Math.min(...live.map(sell))), "stFrom", true],
+    [live.filter(u => u.view === "Sea View").length, "stSea", false],
+    [live.filter(u => u.view === "City View").length, "stCity", false],
+    [live.filter(u => u.promoPrice).length, "stPromo", true]
+  ];
+  $("#stats").innerHTML = cells.map(([v,k,hot]) =>
+    `<div class="stat${hot ? " hot" : ""}"><b>${v}</b><span>${t(k)}</span></div>`).join("");
+}
+
+/* --------------------------- floor stack ------------------------- */
+function renderTower(){
+  const byFloor = new Map();
+  UNITS.forEach(u => { if (!byFloor.has(u.floor)) byFloor.set(u.floor, []); byFloor.get(u.floor).push(u); });
+  const floors = [...byFloor.keys()].sort((a,b) => floorKey(b) - floorKey(a));
+  $("#tower").innerHTML = floors.map(f => {
+    const cells = byFloor.get(f)
+      .sort((a,b) => a.unit.localeCompare(b.unit))
+      .map(u => {
+        const cls = u.status === "SOLD" ? "sold" : u.promoPrice ? "promo" : u.view === "Sea View" ? "sea" : "city";
+        return `<i class="cell ${cls}" title="${u.unit}"></i>`;
+      }).join("");
+    return `<button type="button" class="frow" data-floor="${f}" aria-pressed="${state.floor === f}">
+      <span class="fl">${f}</span><span class="cells">${cells}</span></button>`;
+  }).join("");
+}
+
+/* ------------------------------ cards ---------------------------- */
+const camIcon = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>`;
+const starIcon = f => `<svg width="15" height="15" viewBox="0 0 24 24" fill="${f ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.5l2.6 5.5 5.9.8-4.3 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.5 9.8l5.9-.8z"/></svg>`;
+
+const playIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>`;
+const planIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 10h9M12 3v18M12 15h9"/></svg>`;
+const picIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-4 4 3 3-3 6 5"/></svg>`;
+
+function mediaOf(u){
+  const m = UNIT_MEDIA[u.unit] || {};
+  void u;
+  const photos = (m.photos || []).slice(0, MAX_PHOTOS);
+  const items = photos.map(src => ({ kind: "photo", src }));
+  const poster = m.poster || photos[0] || "";
+  if (m.video) items.push({ kind: "video", src: m.video, poster });
+  else if (m.youtube) items.push({ kind: "yt", src: m.youtube, poster });
+  const code = m.plan ? null : layoutFor(u);
+  const std = code ? STANDARD_LAYOUTS[code] : null;
+  if (m.plan) items.push({ kind: "plan", src: m.plan });
+  else if (std) items.push({ kind: "plan", src: std.src, code });
+  const planSrc = m.plan || (std && std.src) || "";
+  return { photos, items, hasVideo: !!(m.video || m.youtube), hasPlan: !!planSrc, planSrc };
+}
+
+function shot(u){
+  const { photos, hasVideo, hasPlan, planSrc } = mediaOf(u);
+  if (!photos.length && !hasVideo && !hasPlan)
+    return `<div class="ph${u.view === "Sea View" ? " sea" : ""}">${camIcon}<span>${t("noPhoto")}</span></div>`;
+  const tally = [];
+  if (photos.length) tally.push(`<span>${picIcon}${photos.length}</span>`);
+  if (hasVideo) tally.push(`<span>${playIcon}1</span>`);
+  if (hasPlan) tally.push(`<span>${planIcon}</span>`);
+  const onlyPlan = !photos.length;                 // no photos yet — lead with the layout
+  return `<img${onlyPlan ? ' class="planfit"' : ""} src="${photos[0] || planSrc}" alt="${u.unit}" loading="lazy">`
+       + `<div class="mcount">${tally.join("")}</div>`;
+}
+
+function badges(u){
+  const b = [`<span class="bdg ${u.view === "Sea View" ? "sea" : "city"}">${t(viewLabel(u))}</span>`];
+  if (u.quota === "FR") b.push(`<span class="bdg fr">${t("bFr")}</span>`);
+  if (u.seaSite) b.push(`<span class="bdg">${t("bSeaSite")}</span>`);
+  if (u.status === "SOLD") b.push(`<span class="bdg sold">${t("bSold")}</span>`);
+  else if (u.promoPrice) b.push(`<span class="bdg promo">−${Math.round(discount(u)*100)}%</span>`);
+  return b.join("");
+}
+
+function renderGrid(list){
+  if (!list.length){
+    $("#grid").innerHTML = `<div class="empty" style="grid-column:1/-1"><b>${t("empty")}</b>${t("emptyHint")}</div>`;
+    return;
+  }
+  $("#grid").innerHTML = list.map(u => `
+    <div class="card${u.status === "SOLD" ? " is-sold" : ""}" data-unit="${u.unit}" role="button" tabindex="0" aria-label="${u.unit}">
+      <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div>
+        <button type="button" class="star" aria-pressed="${saved.has(u.unit)}" aria-label="${t("addShortlist")} ${u.unit}" data-star="${u.unit}">${starIcon(saved.has(u.unit))}</button>
+      </div>
+      <div class="cbody">
+        <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+        <div class="specs">
+          <span><b>${sqmFmt(u.sqm)}</b> ${t("thSqm")}</span>
+          <span>${t(typeLabel(u))}</span>
+          <span>${t(furnLabel(u))}</span>
+        </div>
+        <div class="price">
+          ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
+          <div class="now${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
+          <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+          ${u.promoPrice ? `<span class="save">${t("saveWord")} ${baht(u.price - u.promoPrice)}</span>` : ""}
+        </div>
+      </div>
+    </div>`).join("");
+}
+
+function renderTable(list){
+  $("#tbody").innerHTML = list.map(u => `
+    <tr data-unit="${u.unit}" class="${u.status === "SOLD" ? "is-sold" : ""}">
+      <td><b class="num">${u.unit}</b> ${u.status === "SOLD" ? `<span class="tag sold">${t("bSold")}</span>` : u.promoPrice ? `<span class="tag promo">−${Math.round(discount(u)*100)}%</span>` : ""}</td>
+      <td class="num">${u.floor}</td>
+      <td>${t(viewLabel(u))}</td>
+      <td>${t(typeLabel(u))}</td>
+      <td>${u.quota === "FR" ? t("quotaFR") : t("quotaTH")}</td>
+      <td class="n">${sqmFmt(u.sqm)}</td>
+      <td class="n" style="color:var(--muted)">${u.promoPrice ? nf.format(u.price) : "—"}</td>
+      <td class="n" style="font-weight:600${u.promoPrice ? ";color:var(--coral)" : ""}">${nf.format(sell(u))}</td>
+      <td class="n">${nf.format(Math.round(perSqm(u)))}</td>
+      <td>${t(furnLabel(u))}</td>
+    </tr>`).join("");
+}
+
+/* ----------------------------- gallery --------------------------- */
+let gal = { items: [], i: 0, unit: null };
+
+function stageNode(it, u){
+  if (it.kind === "photo" || it.kind === "plan")
+    return `<img class="bgblur" src="${it.src}" alt="" aria-hidden="true"><img src="${it.src}" alt="${u.unit}">`;
+  if (it.kind === "video") return `<video src="${it.src}" controls playsinline preload="metadata"${it.poster ? ` poster="${it.poster}"` : ""}></video>`;
+  return `<iframe src="https://www.youtube.com/embed/${it.src}?rel=0" title="${u.unit}" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+}
+
+function thumbStrip(){
+  const items = gal.items;
+  const shot = items.map((it, idx) => {
+    const src = it.kind === "photo" || it.kind === "plan" ? it.src : (it.poster || "");
+    const kls = it.kind === "photo" ? "" : it.kind === "plan" ? " plan" : " vid";
+    return `<button type="button" class="thumb${kls}" data-go="${idx}"
+      aria-pressed="${idx === gal.i}" aria-label="${idx + 1}">${src ? `<img src="${src}" alt="">` : ""}</button>`;
+  }).join("");
+  return items.length > 1 ? `<div class="thumbs">${shot}</div>` : "";
+}
+
+function renderGallery(){
+  const u = gal.unit, el = document.getElementById("gal");
+  if (!u || !el) return;
+  const items = gal.items;
+  gal.i = items.length ? Math.min(Math.max(gal.i, 0), items.length - 1) : 0;
+  const it = items[gal.i];
+  const stage = items.length
+    ? `${stageNode(it, u)}
+       ${it.kind === "plan" ? `<span class="stagetag">${it.code ? t("planStd") + " " + it.code : t("planLabel")}</span>` : ""}
+       ${items.length > 1 ? `<button type="button" class="navb prev" data-nav="-1" aria-label="${t("prev")}">‹</button>
+         <button type="button" class="navb next" data-nav="1" aria-label="${t("next")}">›</button>` : ""}
+       <span class="counter">${gal.i + 1} / ${items.length}</span>`
+    : `<div class="ph${u.view === "Sea View" ? " sea" : ""}">${camIcon}<span>${t("mediaSoon")}</span></div>`;
+  el.innerHTML = `<div class="stage${items.length && items[gal.i].kind === "plan" ? " isplan" : ""}">${stage}</div>${thumbStrip()}`;
+}
+
+function galGo(step){
+  if (gal.items.length < 2) return;
+  gal.i = (gal.i + step + gal.items.length) % gal.items.length;
+  renderGallery();
+}
+
+/* ------------------------------ dialog --------------------------- */
+let current = null;
+
+function costs(u){
+  const price = sell(u);
+  const sinking = 500 * u.sqm;
+  const maint = 50 * u.sqm * 12;
+  const transfer = price * 0.01;
+  return { price, sinking, maint, transfer, total: price + sinking + maint + transfer };
+}
+
+function openUnit(code){
+  const u = UNITS.find(x => x.unit === code);
+  if (!u) return;
+  current = u;
+  const c = costs(u);
+
+  $("#dTitle").textContent = u.unit;
+  $("#dSub").textContent = `${t(viewLabel(u))} · ${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}`;
+
+  $("#dBody").innerHTML = `
+    <div class="gal" id="gal"></div>
+    <div class="d-grid">
+      <div class="panel">
+        <h3>${t("dSpecs")}</h3>
+        <div class="kv"><span>${t("kFloor")}</span><b>${u.floor}</b></div>
+        <div class="kv"><span>${t("kView")}</span><b>${t(viewLabel(u))}${u.seaSite ? " · " + t("bSeaSite") : ""}</b></div>
+        <div class="kv"><span>${t("kType")}</span><b>${t(typeLabel(u))}</b></div>
+        <div class="kv"><span>${t("kSize")}</span><b>${sqmFmt(u.sqm)} ${t("thSqm")}</b></div>
+        <div class="kv"><span>${t("kQuota")}</span><b>${u.quota === "FR" ? t("quotaFR") : t("quotaTH")}</b></div>
+        <div class="kv"><span>${t("kFurn")}</span><b>${t(furnLabel(u))}</b></div>
+        <div class="kv"><span>${t("kStatus")}</span><b style="color:${u.status === "SOLD" ? "var(--sold)" : "var(--sea)"}">${u.status === "SOLD" ? t("bSold") : t("kAvail")}</b></div>
+      </div>
+      <div class="panel">
+        <h3>${t("dCost")}</h3>
+        ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
+        <div class="kv hi"><span>${t("cPrice")}</span><b>${baht(c.price)}</b></div>
+        <div class="kv"><span>${t("cSinking")}</span><b>${baht(c.sinking)}</b></div>
+        <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
+        <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
+        <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
+        <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
+      </div>
+    </div>
+    <div class="notebox"><b>${t("noteTitle")}</b>
+      <ul><li>${t("n1")}</li><li>${t("n2")}</li><li>${t("n3")}</li></ul>
+    </div>`;
+
+  gal = { items: mediaOf(u).items, i: 0, unit: u };
+  renderGallery();
+
+  $("#dStar").textContent = saved.has(u.unit) ? t("removeShortlist") : t("addShortlist");
+  $("#dlg").showModal();
+}
+
+function listingText(u){
+  const c = costs(u);
+  const lines = [
+    `Riviera Jomtien — ${u.unit}`,
+    `${t(viewLabel(u))} · ${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}`,
+    `${t(furnLabel(u))} · ${u.quota === "FR" ? t("quotaFR") : t("quotaTH")}`,
+    u.promoPrice ? `${t("cList")}: ${baht(u.price)}` : null,
+    `${t("cPrice")}: ${baht(c.price)}  (${baht(perSqm(u))}/${t("thSqm")})`,
+    `${t("cSinking")}: ${baht(c.sinking)}`,
+    `${t("cMaint")}: ${baht(c.maint)}`,
+    `${t("cTransfer")}: ${baht(c.transfer)}`,
+    `${t("cTotal")}: ${baht(c.total)}`,
+    `${t("cBooking")}: ${baht(u.booking)}`
+  ].filter(Boolean);
+  return lines.join("\n");
+}
+
+function copyText(text, btn){
+  const done = () => { const old = btn.textContent; btn.textContent = t("copied"); setTimeout(() => { btn.textContent = old; }, 1600); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => {});
+  else {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    ta.remove();
+  }
+}
+
+/* --------------------------- project hero ------------------------ */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SLIDE_MS = 6000;
+let slideI = 0, slideTimer = null;
+
+const capOf = c => !c ? "" : (typeof c === "string" ? c : (c[lang] || c.en || ""));
+
+function renderSlides(){
+  const box = document.getElementById("slides");
+  if (!PROJECT_SLIDES.length){
+    box.innerHTML = `<div class="phero-todo">${t("slidesTodo")}</div>`;
+    document.getElementById("sdots").innerHTML = "";
+    document.querySelector(".sarrow").hidden = true;
+    return;
+  }
+  box.innerHTML = PROJECT_SLIDES.map((sl, i) => `<div class="slide${i === slideI ? " on" : ""}">${
+    sl.video
+      ? `<video src="${sl.video}" muted loop playsinline autoplay${sl.poster ? ` poster="${sl.poster}"` : ""}></video>`
+      : `<img src="${sl.src}" alt="" ${i === 0 ? "" : 'loading="lazy"'}>`}</div>`).join("");
+  document.getElementById("sdots").innerHTML = PROJECT_SLIDES.length > 1
+    ? PROJECT_SLIDES.map((_, i) => `<button type="button" class="sdot" data-dot="${i}" aria-pressed="${i === slideI}" aria-label="${i + 1}"></button>`).join("")
+    : "";
+  document.querySelector(".sarrow").hidden = PROJECT_SLIDES.length < 2;
+  paintSlide();
+}
+
+function paintSlide(){
+  document.querySelectorAll("#slides .slide").forEach((el, i) => el.classList.toggle("on", i === slideI));
+  document.querySelectorAll(".sdot").forEach((el, i) => el.setAttribute("aria-pressed", String(i === slideI)));
+  document.getElementById("scap").textContent = capOf((PROJECT_SLIDES[slideI] || {}).caption);
+}
+
+function goSlide(step){
+  if (PROJECT_SLIDES.length < 2) return;
+  slideI = (slideI + step + PROJECT_SLIDES.length) % PROJECT_SLIDES.length;
+  paintSlide();
+}
+
+function startSlides(){
+  stopSlides();
+  if (reduceMotion || PROJECT_SLIDES.length < 2 || document.hidden) return;
+  slideTimer = setInterval(() => goSlide(1), SLIDE_MS);
+}
+function stopSlides(){ if (slideTimer){ clearInterval(slideTimer); slideTimer = null; } }
+
+function renderHero(){
+  document.getElementById("pheroTag").textContent = PROJECT_TAGLINE[lang] || PROJECT_TAGLINE.en;
+  const live = UNITS.filter(u => u.status !== "SOLD");
+  document.getElementById("facts").innerHTML = [
+    `<b>${live.length}</b> ${t("stAvail")}`,
+    `${t("stFrom")} <b>${baht(Math.min(...live.map(sell)))}</b>`,
+    `<b>${live.filter(u => u.view === "Sea View").length}</b> ${t("stSea")}`,
+    `<b>${live.filter(u => u.promoPrice).length}</b> ${t("stPromo")}`
+  ].map(x => `<span>${x}</span>`).join("");
+  document.getElementById("introText").textContent = PROJECT_INTRO[lang] || PROJECT_INTRO.en;
+  document.getElementById("facList").innerHTML =
+    (PROJECT_FACILITIES[lang] || PROJECT_FACILITIES.en).map(f => `<li>${f}</li>`).join("");
+  renderSlides();
+}
+
+/* --------------------------- highlights -------------------------- */
+function renderHighlights(){
+  const picks = HIGHLIGHTS.units.map(c => UNITS.find(u => u.unit === c)).filter(Boolean);
+  const sec = document.getElementById("hl");
+  sec.hidden = !picks.length;
+  if (!picks.length) return;
+  const [y, m] = (HIGHLIGHTS.month || "").split("-").map(Number);
+  document.getElementById("hlMonth").textContent = y
+    ? new Intl.DateTimeFormat((lang === "zh" ? "zh-CN" : lang) + "-u-ca-gregory", { month: "long", year: "numeric" }).format(new Date(y, m - 1, 1))
+    : "";
+  document.getElementById("hlGrid").innerHTML = picks.map(u => `
+    <div class="hcard" data-unit="${u.unit}" role="button" tabindex="0" aria-label="${u.unit}">
+      <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
+      <div class="hbody">
+        <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+        <div class="specs">
+          <span><b>${sqmFmt(u.sqm)}</b> ${t("thSqm")}</span>
+          <span>${t(typeLabel(u))}</span>
+          <span>${t(furnLabel(u))}</span>
+        </div>
+        ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
+        <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+        <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+      </div>
+    </div>`).join("");
+}
+
+/* ------------------------------ render --------------------------- */
+function render(){
+  const list = filtered();
+  $("#count").textContent = list.length;
+  const live = list.filter(u => u.status !== "SOLD");
+  $("#cheapest").textContent = live.length ? baht(Math.min(...live.map(sell))) : "—";
+  if (state.table){ renderTable(list); $("#grid").hidden = true; $("#tblwrap").hidden = false; }
+  else { renderGrid(list); $("#grid").hidden = false; $("#tblwrap").hidden = true; }
+  renderTower();
+  const n = saved.size;
+  $("#slbar").hidden = n === 0;
+  $("#slCount").textContent = n;
+  $("#slShow").textContent = state.savedOnly ? t("slShowAll") : t("slShow");
+}
+
+function applyLang(){
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  fillSelects();
+  renderStats();
+  renderHero();
+  renderHighlights();
+  $("#footNote").textContent = t("foot");
+  const has = CONTACT.phone || CONTACT.line || CONTACT.email || CONTACT.website;
+  $("#contactBlock").innerHTML = has
+    ? [CONTACT.phone && `☎ ${CONTACT.phone}`, CONTACT.line && `LINE ${CONTACT.line}`,
+       CONTACT.email && `✉ ${CONTACT.email}`, CONTACT.website && `↗ ${CONTACT.website}`].filter(Boolean).join("<br>")
+    : "☎ —<br>LINE —<br>✉ —";
+  document.querySelector(".todo").hidden = !!has;
+  render();
+}
+
+/* ------------------------------ events --------------------------- */
+$("#q").addEventListener("input", e => { state.q = e.target.value; render(); });
+$("#fView").addEventListener("change", e => { state.view = e.target.value; render(); });
+$("#fType").addEventListener("change", e => { state.type = e.target.value; render(); });
+$("#fQuota").addEventListener("change", e => { state.quota = e.target.value; render(); });
+$("#fSort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+
+const chip = (el, key) => el.addEventListener("click", () => {
+  state[key] = !state[key]; el.setAttribute("aria-pressed", String(state[key])); render();
+});
+chip($("#cPromo"), "promo");
+chip($("#cFurn"), "furn");
+
+$("#vGrid").addEventListener("click", () => { state.table = false; $("#vGrid").setAttribute("aria-pressed","true"); $("#vTable").setAttribute("aria-pressed","false"); render(); });
+$("#vTable").addEventListener("click", () => { state.table = true; $("#vTable").setAttribute("aria-pressed","true"); $("#vGrid").setAttribute("aria-pressed","false"); render(); });
+
+$("#reset").addEventListener("click", () => {
+  Object.assign(state, { q:"", view:"", type:"", quota:"", promo:false, furn:false, floor:"", savedOnly:false, sort:"priceAsc" });
+  $("#q").value = "";
+  $("#cPromo").setAttribute("aria-pressed","false");
+  $("#cFurn").setAttribute("aria-pressed","false");
+  fillSelects();
+  render();
+});
+
+$("#tower").addEventListener("click", e => {
+  const row = e.target.closest("[data-floor]");
+  if (!row) return;
+  state.floor = state.floor === row.dataset.floor ? "" : row.dataset.floor;
+  render();
+});
+
+$("#grid").addEventListener("click", e => {
+  const star = e.target.closest("[data-star]");
+  if (star){
+    e.stopPropagation();
+    const code = star.dataset.star;
+    saved.has(code) ? saved.delete(code) : saved.add(code);
+    persist(); render(); return;
+  }
+  const card = e.target.closest("[data-unit]");
+  if (card) openUnit(card.dataset.unit);
+});
+$("#grid").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const card = e.target.closest("[data-unit]");
+  if (card && !e.target.closest("[data-star]")){ e.preventDefault(); openUnit(card.dataset.unit); }
+});
+$("#tbody").addEventListener("click", e => {
+  const row = e.target.closest("[data-unit]");
+  if (row) openUnit(row.dataset.unit);
+});
+
+document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => { lang = b.dataset.lang; applyLang(); }));
+
+const phero = $("#phero");
+phero.addEventListener("click", e => {
+  const arrow = e.target.closest("[data-slide]");
+  if (arrow){ goSlide(parseInt(arrow.dataset.slide, 10)); startSlides(); return; }
+  const dot = e.target.closest("[data-dot]");
+  if (dot){ slideI = parseInt(dot.dataset.dot, 10); paintSlide(); startSlides(); }
+});
+phero.addEventListener("mouseenter", stopSlides);
+phero.addEventListener("mouseleave", startSlides);
+phero.addEventListener("focusin", stopSlides);
+phero.addEventListener("focusout", startSlides);
+document.addEventListener("visibilitychange", () => document.hidden ? stopSlides() : startSlides());
+
+$("#hlGrid").addEventListener("click", e => {
+  const c = e.target.closest("[data-unit]");
+  if (c) openUnit(c.dataset.unit);
+});
+$("#hlGrid").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const c = e.target.closest("[data-unit]");
+  if (c){ e.preventDefault(); openUnit(c.dataset.unit); }
+});
+
+$("#dBody").addEventListener("click", e => {
+  const nav = e.target.closest("[data-nav]");
+  if (nav){ galGo(parseInt(nav.dataset.nav, 10)); return; }
+  const th = e.target.closest("[data-go]");
+  if (th){ gal.i = parseInt(th.dataset.go, 10); renderGallery(); }
+});
+$("#dlg").addEventListener("keydown", e => {
+  if (e.key === "ArrowRight"){ e.preventDefault(); galGo(1); }
+  else if (e.key === "ArrowLeft"){ e.preventDefault(); galGo(-1); }
+});
+$("#dClose").addEventListener("click", () => $("#dlg").close());
+$("#dlg").addEventListener("click", e => { if (e.target === $("#dlg")) $("#dlg").close(); });
+$("#dPrint").addEventListener("click", () => window.print());
+$("#dCopy").addEventListener("click", e => { if (current) copyText(listingText(current), e.currentTarget); });
+$("#dStar").addEventListener("click", e => {
+  if (!current) return;
+  saved.has(current.unit) ? saved.delete(current.unit) : saved.add(current.unit);
+  persist();
+  e.currentTarget.textContent = saved.has(current.unit) ? t("removeShortlist") : t("addShortlist");
+  render();
+});
+
+$("#slShow").addEventListener("click", () => { state.savedOnly = !state.savedOnly; render(); });
+$("#slClear").addEventListener("click", () => { saved.clear(); state.savedOnly = false; persist(); render(); });
+$("#slCopy").addEventListener("click", e => {
+  const picks = UNITS.filter(u => saved.has(u.unit));
+  if (!picks.length) return;
+  copyText("Riviera Jomtien — " + t("slLabel") + "\n\n" + picks.map(listingText).join("\n\n———\n\n"), e.currentTarget);
+});
+
+applyLang();
+startSlides();
+
+</script>
