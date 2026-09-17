@@ -250,6 +250,7 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .navb.prev{left:10px}.navb.next{right:10px}
 .stagetag{position:absolute;left:10px;top:10px;background:rgba(6,28,34,.62);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
 .stage.isplan{background:#fff}
+.stage.isvid{background:#000}
 .stage.isplan .bgblur{display:none}
 .stage.isplan img{object-fit:contain;padding:8px}
 .thumb.plan{background:#fff}
@@ -546,7 +547,7 @@ const MAX_PHOTOS = 8;
 const UNIT_MEDIA = {
   "14E06": { photos: ["riviera-img/14E06-1.jpg"] },
   "8A03": { photos: ["riviera-img/8A03-1.jpg", "riviera-img/8A03-2.jpg", "riviera-img/8A03-3.jpg", "riviera-img/8A03-4.jpg", "riviera-img/8A03-5.jpg"] },
-  "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg", "riviera-img/8A05-6.jpg", "riviera-img/8A05-7.jpg"], plan: "riviera-img/8A05-plan.jpg" },
+  "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg", "riviera-img/8A05-6.jpg", "riviera-img/8A05-7.jpg"], video: "riviera-img/8A05.mp4", plan: "riviera-img/8A05-plan.jpg" },
   "8A06": { photos: ["riviera-img/8A06-1.jpg", "riviera-img/8A06-2.jpg", "riviera-img/8A06-3.jpg", "riviera-img/8A06-4.jpg", "riviera-img/8A06-5.jpg", "riviera-img/8A06-6.jpg", "riviera-img/8A06-7.jpg"] }
 };
 
@@ -590,7 +591,13 @@ const STANDARD_LAYOUTS = {
    tower E is the city-view rear line (1BR 34–35.3 sqm) except line 10, which is
    the larger 35.7–48 band; on tower A lines 2/3/6 are studios and 4/5 the large
    one-bedrooms. Returns null where the kit publishes no layout for that size. */
+/* Units whose standard layout is set by hand, ahead of the rule below. */
+const LAYOUT_BY_UNIT = {
+  "14E05": "1BR-H", "19E05": "1BR-H", "24E05": "1BR-H", "28E05": "1BR-H", "29E05": "1BR-H"
+};
+
 function layoutFor(u){
+  if (LAYOUT_BY_UNIT[u.unit]) return LAYOUT_BY_UNIT[u.unit];
   const m = /([A-E])(\d{2})$/.exec(u.unit);
   if (!m) return null;
   const [, tower, line] = m, n = parseInt(line, 10), a = u.sqm;
@@ -1037,7 +1044,8 @@ function renderGallery(){
          <button type="button" class="navb next" data-nav="1" aria-label="${t("next")}">›</button>` : ""}
        <span class="counter">${gal.i + 1} / ${items.length}</span>`
     : `<div class="ph${u.view === "Sea View" ? " sea" : ""}">${camIcon}<span>${t("mediaSoon")}</span></div>`;
-  el.innerHTML = `<div class="stage${items.length && items[gal.i].kind === "plan" ? " isplan" : ""}">${stage}</div>${thumbStrip()}`;
+  const kind = items.length ? items[gal.i].kind : "";
+  el.innerHTML = `<div class="stage${kind === "plan" ? " isplan" : kind === "video" || kind === "yt" ? " isvid" : ""}">${stage}</div>${thumbStrip()}`;
 }
 
 function galGo(step){
