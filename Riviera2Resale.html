@@ -255,7 +255,13 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .info h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--sea);margin-bottom:9px}
 .info p,.info li{font-size:13.5px;color:var(--ink-2);line-height:1.65}
 .info ul{margin:0;padding-left:18px}
-.todo{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:4px;padding:1px 6px;margin-left:6px}
+.c-addr{margin:12px 0 14px;font-size:13px;line-height:1.7;color:var(--ink-2)}
+.c-row{display:flex;align-items:baseline;gap:9px;padding:7px 0;border-bottom:1px dashed var(--line);color:var(--ink);text-decoration:none;font-size:14px}
+.c-row:last-child{border-bottom:0}
+.c-row:hover .num,.c-row:hover .c-mail{color:var(--sea);text-decoration:underline;text-underline-offset:3px}
+.c-ic{flex:none;min-width:34px;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--sea)}
+.c-row em{font-style:normal;font-size:11.5px;color:var(--muted);margin-left:auto}
+.c-mail{font-size:12.5px;overflow-wrap:anywhere}
 .foot{border-top:1px solid var(--line);padding-block:18px 90px;font-size:11.5px;color:var(--muted)}
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 .empty b{display:block;font-family:var(--f-display);font-size:22px;color:var(--ink);margin-bottom:6px}
@@ -416,8 +422,7 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
       <div>
         <h3 data-i18n="contactH">ติดต่อทีมขาย</h3>
         <p data-i18n="contactP">นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ</p>
-        <p class="num" id="contactBlock" style="margin-top:10px;font-size:14px;line-height:2"></p>
-        <p style="margin-top:14px"><span class="todo" data-i18n="todo">ยังไม่ได้ใส่ข้อมูลติดต่อ</span></p>
+        <div id="contactBlock"></div>
       </div>
     </div>
   </div>
@@ -561,7 +566,15 @@ const PROJECT_FACILITIES = {
 };
 
 /* Sales contact — fill these in, then the placeholder badge disappears. */
-const CONTACT = { phone: "", line: "", email: "", website: "" };
+const CONTACT = {
+  address: {
+    th: "29/1128 Commercial 21CU หมู่ 12 ถนนจอมเทียนสาย 2<br>ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150",
+    en: "29/1128 Commercial 21CU, Moo 12, Jomtien 2nd Road<br>Nongprue, Banglamung, Chonburi 20150, Thailand"
+  },
+  phones: [{ name: "Kung", tel: "0661253116" }, { name: "Koy", tel: "0661253117" }],
+  email: "koy24.clarepattayapperty@gmail.com",
+  line: "koyuni"
+};
 
 const UNITS = [
   {"unit":"7D02","floor":"7","view":"Sea View","type":"Studio","quota":"TH","sqm":25.77,"pricePerSqm":131000,"price":3375870,"booking":50000,"furniture":"Include","status":"AVAILABLE"},
@@ -659,8 +672,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
  addShortlist:"บันทึกห้องนี้",removeShortlist:"เอาออกจากรายการ",copyListing:"คัดลอกข้อมูลห้อง",printQuote:"พิมพ์ใบเสนอราคา",copied:"คัดลอกแล้ว ✓",
  slLabel:"ห้องที่บันทึกไว้",slShow:"ดูเฉพาะที่บันทึก",slShowAll:"ดูทั้งหมด",slCopy:"คัดลอกรายการ",slClear:"ล้าง",
  infoTitle:"ซื้อห้องนี้ต้องรู้อะไรบ้าง",infoCostH:"ค่าใช้จ่ายนอกเหนือราคาห้อง",infoTermH:"เงื่อนไขโครงการ",
- contactH:"ติดต่อทีมขาย",contactP:"นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ",todo:"ยังไม่ได้ใส่ข้อมูลติดต่อ",
- empty:"ไม่พบห้องที่ตรงเงื่อนไข",emptyHint:"ลองล้างตัวกรองแล้วค้นหาใหม่",
+ contactH:"ติดต่อทีมขาย",contactP:"นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ", empty:"ไม่พบห้องที่ตรงเงื่อนไข",emptyHint:"ลองล้างตัวกรองแล้วค้นหาใหม่",
   mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
  hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
   planStd:"ผังห้องมาตรฐาน",
@@ -687,8 +699,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
  addShortlist:"Save this unit",removeShortlist:"Remove from list",copyListing:"Copy unit details",printQuote:"Print quotation",copied:"Copied ✓",
  slLabel:"units saved",slShow:"Show saved only",slShowAll:"Show all",slCopy:"Copy list",slClear:"Clear",
  infoTitle:"What a buyer needs to know",infoCostH:"Costs on top of the unit price",infoTermH:"Project terms",
- contactH:"Talk to the sales team",contactP:"Book a viewing, request a floor plan, or get a quotation for your client.",todo:"Contact details not set yet",
- empty:"No units match these filters",emptyHint:"Try clearing the filters and searching again",
+ contactH:"Talk to the sales team",contactP:"Book a viewing, request a floor plan, or get a quotation for your client.", empty:"No units match these filters",emptyHint:"Try clearing the filters and searching again",
   mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
  hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
   planStd:"Standard layout",
@@ -715,8 +726,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
  addShortlist:"Сохранить",removeShortlist:"Убрать из списка",copyListing:"Копировать описание",printQuote:"Печать предложения",copied:"Скопировано ✓",
  slLabel:"сохранено",slShow:"Только сохранённые",slShowAll:"Показать все",slCopy:"Копировать список",slClear:"Очистить",
  infoTitle:"Что важно знать покупателю",infoCostH:"Расходы сверх цены квартиры",infoTermH:"Условия проекта",
- contactH:"Отдел продаж",contactP:"Запишитесь на просмотр, запросите планировку или предложение для клиента.",todo:"Контакты ещё не указаны",
- empty:"Ничего не найдено",emptyHint:"Попробуйте сбросить фильтры",
+ contactH:"Отдел продаж",contactP:"Запишитесь на просмотр, запросите планировку или предложение для клиента.", empty:"Ничего не найдено",emptyHint:"Попробуйте сбросить фильтры",
   mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
  hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
   planStd:"Типовая планировка",
@@ -743,8 +753,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
  addShortlist:"收藏此房",removeShortlist:"取消收藏",copyListing:"复制房源信息",printQuote:"打印报价单",copied:"已复制 ✓",
  slLabel:"套已收藏",slShow:"只看收藏",slShowAll:"看全部",slCopy:"复制清单",slClear:"清空",
  infoTitle:"买家须知",infoCostH:"房价之外的费用",infoTermH:"项目条款",
- contactH:"联系销售团队",contactP:"预约看房、索取户型图，或为您的客户索取报价单。",todo:"尚未填写联系方式",
- empty:"没有符合条件的房源",emptyHint:"请尝试清除筛选条件",
+ contactH:"联系销售团队",contactP:"预约看房、索取户型图，或为您的客户索取报价单。", empty:"没有符合条件的房源",emptyHint:"请尝试清除筛选条件",
   mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
  hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
   planStd:"标准户型",
@@ -1173,12 +1182,17 @@ function applyLang(){
   renderHero();
   renderHighlights();
   $("#footNote").textContent = t("foot");
-  const has = CONTACT.phone || CONTACT.line || CONTACT.email || CONTACT.website;
-  $("#contactBlock").innerHTML = has
-    ? [CONTACT.phone && `☎ ${CONTACT.phone}`, CONTACT.line && `LINE ${CONTACT.line}`,
-       CONTACT.email && `✉ ${CONTACT.email}`, CONTACT.website && `↗ ${CONTACT.website}`].filter(Boolean).join("<br>")
-    : "☎ —<br>LINE —<br>✉ —";
-  document.querySelector(".todo").hidden = !!has;
+  const intl = t => "+66" + t.replace(/\D/g, "").replace(/^0/, "");
+  const pretty = t => t.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
+  const rows = [];
+  rows.push(`<p class="c-addr">${CONTACT.address[lang] || CONTACT.address.en}</p>`);
+  CONTACT.phones.forEach(ph => rows.push(
+    `<a class="c-row" href="tel:${intl(ph.tel)}"><span class="c-ic">☎</span><span class="num">${pretty(ph.tel)}</span><em>${ph.name}</em></a>`));
+  if (CONTACT.line) rows.push(
+    `<a class="c-row" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener"><span class="c-ic">LINE</span><span class="num">${CONTACT.line}</span></a>`);
+  if (CONTACT.email) rows.push(
+    `<a class="c-row" href="mailto:${CONTACT.email}"><span class="c-ic">✉</span><span class="c-mail">${CONTACT.email}</span></a>`);
+  $("#contactBlock").innerHTML = rows.join("");
   render();
 }
 
