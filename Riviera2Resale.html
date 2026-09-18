@@ -76,6 +76,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .c-brand{margin:0 0 16px;line-height:0}
 .c-brand img{width:200px;max-width:100%;height:auto}
 .print-brand{display:none}
+.q-media{display:none}
 @media (max-width:680px){ .brand-sep,.brand .mark{display:none} .brand-logo img{height:34px} }
 @media (max-width:430px){
   .topbar-in{gap:10px;flex-wrap:nowrap}
@@ -505,6 +506,19 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
   .print-brand .logo-pale{display:none!important}
   .print-brand .logo-ink{display:block!important}
   .print-brand p{margin:0;font-size:10.5px;line-height:1.55;text-align:right;color:#000}
+  @page{size:A4;margin:12mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet-body .gal{display:none!important}
+  .q-media{display:grid!important;grid-template-columns:2fr 1fr;gap:4mm;margin:0 0 6mm;break-inside:avoid}
+  .q-media.no-side{grid-template-columns:1fr}
+  .q-media.no-plan{grid-template-columns:1fr 1fr}
+  .q-plan{height:92mm;border:1px solid #cfd6d6;border-radius:3mm;background:#fff;padding:2mm;display:flex;align-items:center;justify-content:center}
+  .q-plan img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .q-side{display:grid;grid-template-rows:1fr 1fr;gap:4mm;height:92mm}
+  .q-side.one{grid-template-rows:1fr}
+  .q-side img,.q-media.no-plan img{width:100%;height:100%;object-fit:cover;border-radius:3mm;display:block}
+  .q-media.no-plan img{height:60mm}
+  .d-grid,.notebox{break-inside:avoid}
 }
 </style>
 <style>img{max-width:100%}</style>
@@ -1700,6 +1714,7 @@ function openUnit(code){
 
   $("#dBody").innerHTML = `
     <div class="gal" id="gal"></div>
+    ${quoteMedia(u)}
     <div class="d-grid">
       <div class="panel">
         <h3>${t("dSpecs")}</h3>
@@ -1731,6 +1746,20 @@ function openUnit(code){
 
   $("#dStar").textContent = saved.has(u.unit) ? t("removeShortlist") : t("addShortlist");
   $("#dlg").showModal();
+}
+
+/* Images for the printed quotation: the unit plan large, two room photos beside it. */
+function quoteMedia(u){
+  const m = mediaOf(u);
+  const plan = m.items.find(i => i.kind === "plan");
+  const side = m.photos.slice(0, 2);
+  if (!plan && !side.length) return "";
+  const img = src => `<img src="${src}" alt="${u.unit}">`;
+  if (!plan) return `<div class="q-media no-plan">${side.map(img).join("")}</div>`;
+  return `<div class="q-media${side.length ? "" : " no-side"}">
+    <div class="q-plan">${img(plan.src)}</div>
+    ${side.length ? `<div class="q-side${side.length === 1 ? " one" : ""}">${side.map(img).join("")}</div>` : ""}
+  </div>`;
 }
 
 function listingText(u){
@@ -2380,7 +2409,11 @@ $("#dPrint").addEventListener("click", () => {
   const was = document.title;
   document.title = `${PROJECT_NAME} ${current ? current.unit : ""} — Quotation`;
   window.addEventListener("afterprint", () => { document.title = was; }, { once: true });
-  window.print();
+  const imgs = [...document.querySelectorAll("#dBody .q-media img")];
+  Promise.race([
+    Promise.all(imgs.map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))),
+    new Promise(r => setTimeout(r, 3000))
+  ]).then(() => window.print());
 });
 $("#dCopy").addEventListener("click", e => { if (current) copyText(listingText(current), e.currentTarget); });
 $("#dStar").addEventListener("click", e => {
