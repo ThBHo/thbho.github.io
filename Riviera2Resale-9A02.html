@@ -829,8 +829,12 @@ const HIGHLIGHTS = { month: "2026-09", units: ["7D02", "8A03", "9A06", "8A05", "
    palette colours of photographed units were sampled from their photos.
    Facing is approximate: the front (sea) side of towers A–D looks west
    over Jomtien Bay; tower E looks east over the city.
-   th/en are written out; ru/zh fall back to en for these texts.
+   Written out in th, en, ru and zh.
    ===================================================================== */
+/* Palette colour names; English is the key. */
+const COLOR_NAMES = {"Charcoal": {"th": "ถ่าน", "ru": "Уголь", "zh": "炭灰"}, "Walnut": {"th": "วอลนัต", "ru": "Орех", "zh": "胡桃木"}, "Honey brass": {"th": "ทองเหลืองน้ำผึ้ง", "ru": "Медовая латунь", "zh": "蜜色黄铜"}, "Stone": {"th": "หิน", "ru": "Камень", "zh": "石色"}, "Ivory": {"th": "งาช้าง", "ru": "Слоновая кость", "zh": "象牙白"}, "Espresso": {"th": "เอสเปรสโซ", "ru": "Эспрессо", "zh": "浓缩咖啡色"}, "Teak": {"th": "สัก", "ru": "Тик", "zh": "柚木"}, "Amber": {"th": "อำพัน", "ru": "Янтарь", "zh": "琥珀"}, "Sand": {"th": "ทราย", "ru": "Песок", "zh": "沙色"}, "Champagne": {"th": "แชมเปญ", "ru": "Шампань", "zh": "香槟色"}, "Caramel": {"th": "คาราเมล", "ru": "Карамель", "zh": "焦糖"}, "Linen": {"th": "ลินิน", "ru": "Лён", "zh": "亚麻色"}, "Pearl": {"th": "ไข่มุก", "ru": "Жемчуг", "zh": "珍珠白"}, "Salt white": {"th": "ขาวเกลือ", "ru": "Морская соль", "zh": "盐白"}, "Sea glass": {"th": "แก้วทะเล", "ru": "Морское стекло", "zh": "海玻璃"}, "Lagoon": {"th": "ลากูน", "ru": "Лагуна", "zh": "泻湖蓝"}, "Deep sea": {"th": "ทะเลลึก", "ru": "Глубокое море", "zh": "深海蓝"}, "Oat": {"th": "ข้าวโอ๊ต", "ru": "Овсяный", "zh": "燕麦色"}, "Ash wood": {"th": "ไม้แอช", "ru": "Ясень", "zh": "白蜡木"}, "Sage": {"th": "เสจ", "ru": "Шалфей", "zh": "鼠尾草绿"}, "Ink": {"th": "หมึก", "ru": "Чернила", "zh": "墨色"}, "Shell": {"th": "เปลือกหอย", "ru": "Ракушка", "zh": "贝壳色"}, "Apricot": {"th": "แอปริคอต", "ru": "Абрикос", "zh": "杏色"}, "Sunset clay": {"th": "ดินเผายามเย็น", "ru": "Закатная глина", "zh": "落日陶土"}, "Harbour blue": {"th": "น้ำเงินท่าเรือ", "ru": "Синева гавани", "zh": "港湾蓝"}, "Night": {"th": "ราตรี", "ru": "Ночь", "zh": "夜色"}};
+const colorName = n => (COLOR_NAMES[n] && COLOR_NAMES[n][lang]) || n;
+
 const UNIT_STORIES = {
   "8A05": {
     mbti: ["ENFJ", "ESFJ", "ENTJ"],
@@ -850,6 +854,22 @@ const UNIT_STORIES = {
       fengshui: ["The entrance does not line up with the balcony, so energy circulates instead of rushing out — a layout said to keep wealth in", "The bedroom sits in the far corner, away from the door — restful and secure", "The bathroom is near the entrance: keep its door closed and add a leafy plant for balance", "The west side belongs to the Metal element; the gold, cream and earth tones already here support it"],
       concept: { actual: true, title: "Warm Luxe", text: "A walnut feature wall sets the backdrop, a crystal chandelier anchors the room, cream upholstery meets black dining chairs, and a full-height mirror doubles the sense of space." },
       mbtiText: "Natural hosts who love cooking for friends, want a home that looks its best whenever guests arrive, and still value a separate bedroom to retreat to."
+    },
+    ru: {
+      name: "The Host Suite",
+      tagline: "Самая просторная квартира с одной спальней по акции — отдельная спальня и стол на четверых, чтобы принимать гостей",
+      highlights: ["46,92 м² — самая большая из всех квартир по акции", "Отдельная спальня с дверью, а не студия со стеклянной перегородкой", "Гостиная и обеденный стол на четыре персоны у балкона — удобно принимать друзей", "Полностью меблирована: орех и хрусталь, можно въезжать сразу; есть видеообзор"],
+      fengshui: ["Вход не находится на одной линии с балконом, поэтому энергия циркулирует, а не уходит наружу — считается, что такая планировка удерживает достаток", "Спальня в дальнем углу, вдали от двери — для спокойного отдыха и ощущения защищённости", "Ванная рядом со входом: держите её дверь закрытой и поставьте живое растение для баланса", "Западная сторона относится к стихии Металла; золотые, кремовые и землистые оттенки интерьера её поддерживают"],
+      concept: { actual: true, title: "Warm Luxe", text: "Стена из ореха задаёт фон, хрустальная люстра становится центром комнаты, кремовая мебель сочетается с чёрными обеденными стульями, а зеркало во всю высоту визуально удваивает пространство." },
+      mbtiText: "Гостеприимные хозяева, которые любят готовить для друзей, хотят, чтобы дом всегда выглядел отлично к приходу гостей, и ценят отдельную спальню для уединения."
+    },
+    zh: {
+      name: "The Host Suite",
+      tagline: "优惠房源中面积最大的一房——独立卧室、四人餐桌，适合招待亲友",
+      highlights: ["46.92 平米，所有优惠房源中面积最大", "独立卧室带门，并非玻璃隔断的开间", "客厅与四人餐桌同在阳台一侧，方便招待朋友", "全屋家具，胡桃木与水晶灯装饰，可即时入住，附视频看房"],
+      fengshui: ["大门与阳台不在同一直线上，气流在室内回旋而不外泄——被视为聚财格局", "卧室位于最里侧，远离大门，利于休息与安稳", "卫生间靠近入口：请保持卫生间门关闭，并摆放绿植平衡气场", "西侧属金；室内已有的金色、米色与大地色可助旺此方位"],
+      concept: { actual: true, title: "Warm Luxe", text: "胡桃木墙面作为背景，水晶吊灯成为视觉中心，米色软装与黑色餐椅相映成趣，落地镜让空间感倍增。" },
+      mbtiText: "天生的好主人：喜欢为朋友下厨，希望家中随时体面待客，同时也珍惜一间可以安静休息的独立卧室。"
     }
   },
 
@@ -871,6 +891,22 @@ const UNIT_STORIES = {
       fengshui: ["The unit runs straight from door to balcony; the glass screen slows energy so it doesn't rush through", "The bed sits inside by the window, away from the door — a settled sleeping position", "Kitchen and bathroom are by the entrance, clearly apart from the sleeping zone", "The west side is Metal; the champagne and sand tones here suit it"],
       concept: { actual: true, title: "Soft Champagne", text: "Champagne tones with light teak, a cascading crystal chandelier that lifts a small room, and crisp white bedding against black-and-white cushions for a quiet edge." },
       mbtiText: "People who love a warm private corner, notice the small details at home, and want to come back to something soft after a long day."
+    },
+    ru: {
+      name: "The Cozy Nest",
+      tagline: "Самая уютная из компактных квартир — спальня за стеклянной перегородкой и свет по всей квартире",
+      highlights: ["Раздвижная стеклянная перегородка отделяет спальню от гостиной, но свет проходит во всю квартиру", "Хрустальная люстра и мягкий ворсистый ковёр создают атмосферу гостиничного номера", "Ванная с мокрой и сухой зонами и накладной раковиной на столешнице", "Полностью меблирована, можно въезжать сразу; есть видеообзор"],
+      fengshui: ["Квартира тянется от двери к балкону; стеклянная перегородка замедляет поток энергии", "Кровать стоит в глубине у окна, вдали от двери — устойчивое место для сна", "Кухня и ванная у входа, отдельно от зоны сна", "Западная сторона — стихия Металла; тона шампанского и песка здесь уместны"],
+      concept: { actual: true, title: "Soft Champagne", text: "Тона шампанского со светлым тиком, каскадная хрустальная люстра, которая делает небольшую комнату роскошнее, и белоснежное постельное бельё с чёрно-белыми подушками для сдержанного акцента." },
+      mbtiText: "Те, кто любит тёплый уединённый уголок, замечает мелочи в доме и хочет возвращаться в мягкую атмосферу после долгого дня."
+    },
+    zh: {
+      name: "The Cozy Nest",
+      tagline: "紧凑户型中最温馨的一套——玻璃隔断卧室，采光贯穿全屋",
+      highlights: ["玻璃推拉门分隔卧室与客厅，同时让阳光照进整个房间", "水晶吊灯与长绒地毯，营造酒店套房氛围", "干湿分区卫生间，台上盆设计", "全屋家具，可即时入住，附视频看房"],
+      fengshui: ["户型从大门直通阳台；玻璃隔断可减缓气流直冲", "床位于内侧靠窗，远离大门——安稳的睡眠位置", "厨房与卫生间靠近入口，与睡眠区明确分开", "西侧属金；香槟色与沙色调与之相宜"],
+      concept: { actual: true, title: "Soft Champagne", text: "香槟色调搭配浅色柚木，瀑布式水晶吊灯让小空间更显华贵，洁白床品配黑白抱枕，低调中带出个性。" },
+      mbtiText: "喜欢温暖私密角落、留意家中细节，希望忙碌一天后回到柔和空间的人。"
     }
   },
 
@@ -892,6 +928,22 @@ const UNIT_STORIES = {
       fengshui: ["The unit runs straight from door to balcony; the glass screen slows the flow of energy", "The bed sits inside by the window, away from the door — a settled sleeping position", "The bathroom's vertical garden adds Wood energy to balance the damp", "The west side is Metal; the cream and gold tones here suit it"],
       concept: { actual: true, title: "Riviera Boutique", text: "Warm cream with caramel wood, a round crystal chandelier as the centrepiece, soft-pile rugs and fresh flowers — a hotel room ready for the morning." },
       mbtiText: "Fun-loving people who want a home that looks great from day one, ready for photos and friends, with a full kitchen for cooking in."
+    },
+    ru: {
+      name: "The Boutique Suite",
+      tagline: "Оформлена как бутик-отель — хрустальная люстра в центре и полностью оборудованная кухня",
+      highlights: ["Круглая хрустальная люстра создаёт атмосферу бутик-отеля", "Спальня за стеклянной перегородкой, открытая к гостиной и балкону", "Встроенная кухня со стиральной машиной, микроволновкой и холодильником", "Ванная в кремовых тонах с вертикальным садом"],
+      fengshui: ["Квартира тянется от двери к балкону; стеклянная перегородка замедляет поток энергии", "Кровать стоит в глубине у окна, вдали от двери — устойчивое место для сна", "Вертикальный сад в ванной добавляет энергию Дерева и уравновешивает влажность", "Западная сторона — стихия Металла; кремовые и золотые тона здесь уместны"],
+      concept: { actual: true, title: "Riviera Boutique", text: "Тёплый кремовый с карамельным деревом, круглая хрустальная люстра как центральный акцент, мягкие ковры и свежие цветы — гостиничный номер, готовый встретить утро." },
+      mbtiText: "Жизнерадостные люди, которым нужен дом, красивый с первого дня — для фото и друзей, — и полноценная кухня, чтобы готовить самим."
+    },
+    zh: {
+      name: "The Boutique Suite",
+      tagline: "精品酒店风格装修——中央水晶吊灯，全套嵌入式厨房",
+      highlights: ["圆形水晶吊灯，营造精品酒店氛围", "玻璃隔断卧室，视线通向客厅与阳台", "嵌入式厨房配洗衣机、微波炉与冰箱", "米色卫生间，配垂直绿植墙"],
+      fengshui: ["户型从大门直通阳台；玻璃隔断可减缓气流", "床位于内侧靠窗，远离大门——安稳的睡眠位置", "卫生间的垂直绿植增添木气，平衡湿气", "西侧属金；米色与金色调与之相宜"],
+      concept: { actual: true, title: "Riviera Boutique", text: "温暖米色配焦糖色木材，圆形水晶吊灯为视觉焦点，柔软地毯与鲜花点缀——像一间随时迎接清晨的酒店客房。" },
+      mbtiText: "热爱生活的人：希望家从第一天起就好看、上镜、适合招待朋友，同时要有完整厨房自己下厨。"
     }
   },
 
@@ -913,6 +965,22 @@ const UNIT_STORIES = {
       fengshui: ["The unit runs straight from door to balcony; a rug or plant mid-room slows the energy", "Place the bed inside by the window, headboard against a solid wall", "Kitchen and bathroom sit by the entrance, apart from the sleeping zone", "The west side is Metal; whites, sand and blue-greys suit it"],
       concept: { actual: false, title: "Coastal Minimal", text: "Salt white and sand, with sea-glass green-blue in cushions or curtains and a few pieces that each do more than one job — the room reads airy and larger than it is." },
       mbtiText: "Systematic thinkers who like things that work and need little upkeep, and want a clean base to adapt their own way."
+    },
+    ru: {
+      name: "The Smart Start",
+      tagline: "Меблированная студия на 9 этаже с морской стороны — чёткое зонирование и простой уход",
+      highlights: ["Морская сторона здания, 9 этаж, мебельный пакет от застройщика", "Планировка STU-B3 чётко разделяет зоны сна, отдыха и кухни на 31,86 м²", "Компактная и простая в обслуживании; плата за содержание зависит от площади", "Хороший первый дом — чтобы жить или как актив"],
+      fengshui: ["Квартира тянется от двери к балкону; ковёр или растение посередине замедлят поток энергии", "Поставьте кровать в глубине у окна, изголовьем к глухой стене", "Кухня и ванная у входа, отдельно от зоны сна", "Западная сторона — стихия Металла; белые, песочные и серо-голубые тона ей подходят"],
+      concept: { actual: false, title: "Coastal Minimal", text: "Белый, как морская соль, и песочный, немного зелёно-голубого «морского стекла» в подушках или шторах и несколько многофункциональных предметов — комната кажется воздушной и больше, чем есть." },
+      mbtiText: "Системные мыслители, которые ценят практичные вещи и минимум хлопот и хотят чистую основу, чтобы обустроить всё по-своему."
+    },
+    zh: {
+      name: "The Smart Start",
+      tagline: "9 楼海景面带家具开间——分区清晰，易于打理",
+      highlights: ["位于楼栋海景面 9 楼，配开发商家具包", "STU-B3 户型在 31.86 平米内清晰划分睡眠、起居与厨房区", "面积紧凑、打理省心；物业费按面积计算", "理想的第一套房——自住或持有皆宜"],
+      fengshui: ["户型从大门直通阳台；在房间中部放地毯或绿植可减缓气流", "床放在内侧靠窗，床头靠实墙", "厨房与卫生间靠近入口，与睡眠区分开", "西侧属金；白色、沙色与蓝灰色与之相宜"],
+      concept: { actual: false, title: "Coastal Minimal", text: "以盐白与沙色为底，在抱枕或窗帘中加入海玻璃般的蓝绿色，搭配几件一物多用的家具——空间通透，显得比实际更大。" },
+      mbtiText: "条理清晰的思考者：喜欢实用、省心的东西，想要一个干净的基础空间，按自己的方式改造。"
     }
   },
 
@@ -934,6 +1002,22 @@ const UNIT_STORIES = {
       fengshui: ["The unit runs straight from door to balcony; a screen or open bookcase at the sleeping zone slows the energy", "Face the desk towards the door with a wall behind — the 'command' position", "Kitchen and bathroom sit by the entrance, apart from the sleeping zone", "The west side is Metal; oat, stone grey and sage suit it"],
       concept: { actual: false, title: "Japandi Calm", text: "Oat and pale ash wood, sage from plants or linen, and a few dark accents in a lamp or frame — calm enough to work and rest in the same room." },
       mbtiText: "People who need quiet to think deeply, like an orderly home, and use one room for both rest and remote work."
+    },
+    ru: {
+      name: "The Quiet Retreat",
+      tagline: "Квартира с одной спальней на 9 этаже с морской стороны — кровать у окна, в гостиной есть место для рабочего стола",
+      highlights: ["9 этаж, морская сторона, планировка STU-B3: спальня в глубине у окна", "В гостиной помещается полноценный рабочий стол — удобно работать из дома", "Полный мебельный пакет застройщика, можно въезжать сразу", "32,64 м², простой уход и умеренная плата за содержание"],
+      fengshui: ["Квартира тянется от двери к балкону; ширма или открытый стеллаж у зоны сна замедлят энергию", "Поставьте стол лицом к двери, спиной к стене — «позиция руководителя»", "Кухня и ванная у входа, отдельно от зоны сна", "Западная сторона — стихия Металла; овсяный, каменно-серый и шалфейный ей подходят"],
+      concept: { actual: false, title: "Japandi Calm", text: "Овсяный цвет и светлый ясень, шалфейный из растений или льна и немного тёмных акцентов в лампе или раме — достаточно спокойно, чтобы работать и отдыхать в одной комнате." },
+      mbtiText: "Те, кому нужна тишина для глубоких размышлений, кто любит порядок и использует одну комнату и для отдыха, и для удалённой работы."
+    },
+    zh: {
+      name: "The Quiet Retreat",
+      tagline: "9 楼海景面一房——床靠窗，客厅可放下书桌",
+      highlights: ["9 楼海景面，STU-B3 户型，卧室在内侧靠窗", "客厅可放一张正式书桌，适合居家办公", "开发商全套家具包，可即时入住", "32.64 平米，打理方便，物业费适中"],
+      fengshui: ["户型从大门直通阳台；在睡眠区设屏风或开放书架可减缓气流", "书桌面向大门、背后靠墙——所谓“靠山位”", "厨房与卫生间靠近入口，与睡眠区分开", "西侧属金；燕麦色、石灰色与鼠尾草绿与之相宜"],
+      concept: { actual: false, title: "Japandi Calm", text: "燕麦色搭配浅色白蜡木，以绿植或亚麻带出鼠尾草绿，再在灯具或画框加入少量深色点缀——安静到足以在同一个房间里工作与休息。" },
+      mbtiText: "需要安静来深度思考、喜欢井然有序，并在同一个房间里兼顾休息与远程办公的人。"
     }
   },
 
@@ -955,6 +1039,22 @@ const UNIT_STORIES = {
       fengshui: ["Bed and lounge share one room; a curtain or light screen marks out the rest zone", "Set the bed against a solid wall, feet not pointing straight at the door", "Kitchen and bathroom sit by the entrance, apart from the bed", "The west side is Metal; lead with shell and navy, and add a little sunset colour as an accent"],
       concept: { actual: false, title: "Sunset Studio", text: "A shell-coloured base with harbour blue, lifted by apricot and sunset clay in cushions or art — a small room with the mood of a beach holiday." },
       mbtiText: "Travellers and adventurers who use home as a base to come back to, and want a place that is easy to keep and safe to lock up."
+    },
+    ru: {
+      name: "The Lock & Leave",
+      tagline: "Меблированная студия с морской стороны в торцевом крыле здания — закрыли дверь и в путь",
+      highlights: ["Корпус D, торцевое крыло здания, морская сторона, 7 этаж", "Планировка STU-A1 вмещает балкон, кухню и ванную с мокрой и сухой зонами на 25,77 м²", "Мебель включена — можно въезжать сразу", "Идеально как второй дом у моря или база между поездками"],
+      fengshui: ["Кровать и гостиная в одной комнате; штора или лёгкая ширма выделят зону отдыха", "Поставьте кровать у глухой стены, ногами не прямо к двери", "Кухня и ванная у входа, отдельно от кровати", "Западная сторона — стихия Металла; основа — цвет ракушки и тёмно-синий, немного закатных оттенков для акцента"],
+      concept: { actual: false, title: "Sunset Studio", text: "Основа цвета ракушки с синевой гавани, оживлённая абрикосовым и закатной глиной в подушках или картинах — маленькая комната с настроением пляжного отпуска." },
+      mbtiText: "Путешественники и искатели приключений, для которых дом — база, куда можно вернуться; им нужно место, которое легко содержать и не страшно оставить закрытым."
+    },
+    zh: {
+      name: "The Lock & Leave",
+      tagline: "楼栋端翼海景面带家具开间——锁门即可出发",
+      highlights: ["D 座，楼栋端翼，海景面，7 楼", "STU-A1 户型在 25.77 平米内容纳阳台、厨房与干湿分区卫生间", "含家具，可即时入住", "适合作为海边第二个家，或旅途间的落脚点"],
+      fengshui: ["睡眠与起居同在一室；可用窗帘或轻薄屏风划出休息区", "床靠实墙摆放，脚尖不要正对大门", "厨房与卫生间靠近入口，与床铺分开", "西侧属金；以贝壳色与海军蓝为主，点缀少量落日色"],
+      concept: { actual: false, title: "Sunset Studio", text: "以贝壳色为底，搭配港湾蓝，再用杏色与落日陶土色的抱枕或画作点亮——小小空间也有海滩度假的心情。" },
+      mbtiText: "旅行者与冒险家：把家当作回来歇脚的基地，想要一个好打理、放心锁门离开的地方。"
     }
   }
 };
@@ -963,7 +1063,7 @@ const UNIT_STORIES = {
 /* =====================================================================
    PERSONALIZED MATCHING — reference article (#matching / -matching.html)
    Every research claim below is tied to a source in MATCHING_REFS.
-   th/en are written out; ru/zh fall back to en for the body text.
+   Written out in th, en, ru and zh.
    ===================================================================== */
 const MATCHING_REFS = [
   { id: "gosling", cite: "Gosling, S. D., Ko, S. J., Mannarelli, T., & Morris, M. E. (2002). A room with a cue: Personality judgments based on offices and bedrooms. Journal of Personality and Social Psychology, 82(3), 379–398.", url: "https://pubmed.ncbi.nlm.nih.gov/11902623/" },
@@ -1079,7 +1179,9 @@ const MATCHING = {
     ],
     refsH: "References",
     readMore: "Read the study"
-  }
+  },
+  ru: {"eyebrow": "Personalized Matching · Clare Pattaya Property", "title": "Правильный дом начинается с понимания себя", "lede": "Почему личность важна при выборе жилья — и как Personalized Matching помогает найти квартиру, которая действительно подходит вашей жизни: для счастья, комфорта и удачи.", "whyH": "Что говорят исследования о личности и доме", "why": [{"ref": "gosling", "h": "Наш дом хранит нашу личность", "p": "Психологи показывали незнакомым людям только спальню или кабинет человека. Независимые наблюдатели сходились во мнениях о характере хозяина и частично оказывались правы — пространство действительно хранит следы того, кто мы есть."}, {"ref": "jokela", "h": "Подходящее место влияет на удовлетворённость жизнью", "p": "Исследование 56 019 жителей Лондона в 216 почтовых районах показало, что одни и те же черты личности по-разному связаны с удовлетворённостью жизнью в зависимости от района. Учёные называют это соответствием человека и среды (person–environment fit)."}, {"ref": "oishi", "h": "Даже место выбирают по характеру", "p": "Исследователи Университета Вирджинии обнаружили, что общительные люди чаще предпочитают пляж, а более спокойные — горы: пляж открыт и полон людей, горы дают уединение. Более 613 000 анкет по всем США показали ту же картину."}, {"ref": "graham", "h": "Дом важен, но его выбирают только по цифрам", "p": "Психологи отмечают: люди вкладывают массу времени и денег в выбор и обустройство жилья, но редко спрашивают, подходит ли оно им. Этот пробел и заполняет Personalized Matching."}], "dimsH": "Четыре шкалы MBTI — и на что смотреть в квартире", "dimsNote": "Четыре шкалы MBTI связаны с четырьмя из пяти измерений «Большой пятёрки» — модели, которую психологи используют чаще всего.", "dims": [{"k": "E · I", "h": "Откуда берётся энергия", "a": ["E — заряжается от людей", "Ищите гостиную или обеденный стол для гостей, рядом бассейн, фитнес и магазины"], "b": ["I — восстанавливается в тишине", "Ищите отдельную спальню, личный уголок и вход, который не открывается прямо в зону отдыха"]}, {"k": "S · N", "h": "Как вы воспринимаете мир", "a": ["S — доверяет осязаемому", "Практичная планировка, достаточно места для хранения, встроенная кухня — квартира, в которой явно удобно жить"], "b": ["N — видит возможности", "Квартира с характером, выразительный интерьер или пространство, которое можно сделать своим"]}, {"k": "T · F", "h": "Как вы принимаете решения", "a": ["T — логикой и цифрами", "Цена за м², общие расходы, скидка, выгода по сравнению с другими квартирами"], "b": ["F — чувствами", "Свет, атмосфера, тепло и ощущение «это мой дом»"]}, {"k": "J · P", "h": "Как вы любите жить", "a": ["J — любит порядок", "Чёткие зоны, полная меблировка, всё на своих местах"], "b": ["P — любит гибкость", "Открытое пространство, которое легко менять, минимум ухода — закрыл дверь и в путь"]}], "groupsH": "Четыре группы личности — и подходящие квартиры в этом проекте", "groups": {"an": {"h": "Продуманная квартира", "p": "Эффективная планировка, выгодная цена за квадратный метр, уголок для работы и концентрации"}, "di": {"h": "Квартира с душой", "p": "Тепло, много света, свой уголок и место для близких людей"}, "se": {"h": "Надёжная квартира", "p": "Готова к жизни, понятные расходы, простой уход, надёжна на годы"}, "ex": {"h": "Квартира для активной жизни", "p": "Минимум ухода, закрыл и уехал, рядом пляжная жизнь"}}, "groupsNone": "В этой группе пока нет рекомендуемых квартир — спросите отдел продаж", "pillarsH": "Счастье, комфорт и удача", "pillars": [{"h": "Счастье", "p": "Квартира, подходящая вашему характеру, делает повседневную жизнь легче — это соответствие человека и среды, которое исследования связывают с удовлетворённостью жизнью."}, {"h": "Комфорт", "p": "Планировка, свет, шум и зонирование, которые соответствуют тому, как вы живёте на самом деле, а не только площадь или цена."}, {"h": "Удача", "ref": "fortin", "p": "Фэн-шуй важен для многих покупателей. Исследование около 117 000 продаж домов в Ванкувере показало: дома с номером на 8 продавались на 2,5% дороже, а на 4 — на 2,2% дешевле. Верите вы в это или нет, это убеждение влияет на реальные цены."}], "stepsH": "Как работает Personalized Matching", "steps": [{"h": "Узнайте свой тип", "p": "Пройдите тест личности на 16personalities.com и пришлите нам свои четыре буквы."}, {"h": "Расскажите, как хотите жить", "p": "Поделитесь образом жизни, составом семьи, бюджетом и обязательными требованиями."}, {"h": "Мы подберём подходящие квартиры", "p": "Мы сопоставим личность, планировку, ориентацию, фэн-шуй и бюджет и предложим лучшие варианты."}, {"h": "Посмотрите и решите", "p": "Осмотрите квартиры с полным коммерческим предложением и выбирайте уверенно."}], "ctaH": "Подберём квартиру именно для вас", "ctaP": "Свяжитесь с отделом продаж напрямую — с результатом MBTI или без него; мы поможем начать.", "testBtn": "Пройти тест MBTI", "honestH": "Полезно знать", "honest": [{"ref": "pittenger", "p": "MBTI — инструмент для разговора, который помогает обсуждать предпочтения, а не клиническая методика. Многие психологи предостерегают от восприятия четырёх букв как окончательного вердикта."}, {"ref": "mccrae", "p": "Исследования показывают, что черты личности — это непрерывные шкалы, а не чёткие противоположные типы, поэтому мы всегда дополняем MBTI живым разговором."}, {"p": "Фэн-шуй — культурная традиция; мы даём общие рекомендации, чтобы помочь с решением. Ориентация на этих страницах приблизительная."}], "refsH": "Источники", "readMore": "Читать исследование"},
+  zh: {"eyebrow": "Personalized Matching · Clare Pattaya Property", "title": "理想的家，从了解自己开始", "lede": "为什么选房时性格很重要——以及 Personalized Matching 如何帮您找到真正适合生活的房源，带来幸福、舒适与好运。", "whyH": "关于性格与家，研究怎么说", "why": [{"ref": "gosling", "h": "家承载着我们的个性", "p": "心理学家只让陌生人看某人的卧室或办公室。不同的观察者对主人性格的判断高度一致，而且部分准确——我们的空间确实留下了自我的痕迹。"}, {"ref": "jokela", "h": "与自己契合的地方，影响生活满意度", "p": "一项针对伦敦 216 个邮政区、56,019 名居民的研究发现，同样的性格特质与生活满意度的关系会因居住区域而不同。研究者称之为“人与环境的契合”（person–environment fit）。"}, {"ref": "oishi", "h": "连选址也跟着性格走", "p": "弗吉尼亚大学的研究发现，外向的人更偏爱海滩，内向的人更偏爱山区——海滩开阔热闹，山区提供独处。全美超过 613,000 份性格问卷也呈现相同趋势。"}, {"ref": "graham", "h": "家很重要，却常只凭数字来选", "p": "心理学家指出，人们在挑选和布置住所上投入大量时间与金钱，却很少问这个家是否适合自己。Personalized Matching 正是为填补这一空白。"}], "dimsH": "MBTI 四个维度——以及选房时该看什么", "dimsNote": "MBTI 的四个维度与心理学界最常用的“大五人格”中的四个维度相关。", "dims": [{"k": "E · I", "h": "能量从哪里来", "a": ["E — 从人群中获得能量", "寻找可待客的客厅或餐桌，靠近泳池、健身房与商铺"], "b": ["I — 在安静中充电", "寻找独立卧室、私人角落，以及入口不直对休息区的户型"]}, {"k": "S · N", "h": "如何感知世界", "a": ["S — 相信看得见摸得着的", "实用户型、充足收纳、嵌入式厨房——一眼就知道好住的房子"], "b": ["N — 看见可能性", "有个性的房子、特色装修，或可按自己心意改造的空间"]}, {"k": "T · F", "h": "如何做决定", "a": ["T — 靠逻辑与数字", "每平米价格、总费用、折扣，以及与其他房源的性价比"], "b": ["F — 靠感受", "光线、氛围、温度，以及“这就是家”的感觉"]}, {"k": "J · P", "h": "喜欢怎样生活", "a": ["J — 喜欢井然有序", "分区清晰，家具齐全即可入住，一切各就其位"], "b": ["P — 喜欢灵活自在", "开放易变的空间，少打理，锁门就能出发"]}], "groupsH": "四种性格类型——以及本项目的推荐房源", "groups": {"an": {"h": "深思熟虑的房子", "p": "高效户型，每平米性价比高，有专注工作的角落"}, "di": {"h": "有温度的房子", "p": "温暖明亮，有属于自己的角落，也有留给重要之人的空间"}, "se": {"h": "可靠安稳的房子", "p": "拎包入住，费用清楚，易于打理，长久可靠"}, "ex": {"h": "让您出门享受生活的房子", "p": "少打理，锁门即走，贴近海滨生活"}}, "groupsNone": "此类型暂无推荐房源——欢迎咨询销售团队", "pillarsH": "幸福、舒适与好运", "pillars": [{"h": "幸福", "p": "与性格相符的房子让日常生活更顺畅——即研究发现与生活满意度相关的“人与环境契合”。"}, {"h": "舒适", "p": "户型、采光、声音与分区，贴合您真实的生活方式，而不只是面积或价格。"}, {"h": "好运", "ref": "fortin", "p": "风水对许多买家很重要。一项针对温哥华约 117,000 宗房屋交易的研究发现，门牌尾数为 8 的房屋售价高出 2.5%，尾数为 4 的低 2.2%——无论您是否相信，这种观念确实影响真实房价。"}], "stepsH": "Personalized Matching 如何进行", "steps": [{"h": "了解您的类型", "p": "在 16personalities.com 完成性格测试，并把四个字母发给我们。"}, {"h": "告诉我们您想要的生活", "p": "分享您的生活方式、同住成员、预算与必备条件。"}, {"h": "我们为您筛选合适房源", "p": "综合性格、户型、朝向、风水与预算，推荐最契合的选择。"}, {"h": "实地看房再决定", "p": "带着完整报价单实地看房，安心做出选择。"}], "ctaH": "为您找到真正合适的房源", "ctaP": "欢迎直接咨询销售团队——有没有 MBTI 结果都可以，我们帮您开始。", "testBtn": "进行 MBTI 测试", "honestH": "值得了解", "honest": [{"ref": "pittenger", "p": "MBTI 是帮助沟通偏好的工具，并非临床评估。许多心理学家提醒，不应把四个字母当作固定结论。"}, {"ref": "mccrae", "p": "研究发现，性格是连续的程度，而非非此即彼的类型，因此我们总是把 MBTI 与真实的沟通结合使用。"}, {"p": "风水属于文化传统；我们提供一般性建议供您参考。本页面所示朝向为大致方向。"}], "refsH": "参考文献", "readMore": "阅读研究"}
 };
 
 
@@ -1909,7 +2011,7 @@ function renderUnitPage(code){
           <div class="u-concept">
             <div><div class="kicker">${st.concept.actual ? t("uConceptActual") : t("uConceptSuggest")}</div><h3>${st.concept.title}</h3></div>
             <p>${st.concept.text}</p>
-            ${full.palette ? `<div class="u-swatches">${full.palette.map(([hex, name]) => `<div><i style="background:${hex}"></i><span>${name}<code>${hex}</code></span></div>`).join("")}</div>` : ""}
+            ${full.palette ? `<div class="u-swatches">${full.palette.map(([hex, name]) => `<div><i style="background:${hex}"></i><span>${colorName(name)}<code>${hex}</code></span></div>`).join("")}</div>` : ""}
             ${st.concept.actual ? `<p class="note">${t("uPaletteNote")}</p>` : ""}
           </div>
         </section>
