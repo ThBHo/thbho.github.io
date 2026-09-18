@@ -155,7 +155,21 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hl-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
 .hl-hd h2{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:600}
 .hl-hd .mo{white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--coral);background:var(--coral-soft);padding:3px 10px;border-radius:999px}
-.hl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:18px}
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px}
+/* featured set: 3 across so six units sit as two even rows; 2 across on tablets, 1 on phones */
+#hlGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+#hlGrid[data-n="1"]{grid-template-columns:minmax(0,560px)}
+#hlGrid[data-n="2"],#hlGrid[data-n="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:960px){ #hlGrid,#hlGrid[data-n]{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px} }
+@media (max-width:540px){ #hlGrid,#hlGrid[data-n]{grid-template-columns:1fr} }
+#hlGrid .hcard{position:relative;border-radius:14px;border-color:transparent;box-shadow:0 1px 2px rgba(15,33,41,.06),0 14px 34px -16px rgba(15,33,41,.38)}
+#hlGrid .hcard::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;z-index:4;background:linear-gradient(90deg,var(--coral),var(--gold))}
+#hlGrid .hcard:hover{transform:translateY(-4px);box-shadow:0 4px 8px rgba(15,33,41,.1),0 26px 48px -20px rgba(15,33,41,.48)}
+#hlGrid .hcard .shot{aspect-ratio:4/3}
+#hlGrid .hbody{padding:16px 18px 18px;gap:9px}
+#hlGrid .ucode{font-size:20px}
+#hlGrid .hnow{font-size:25px}
+#hlGrid .mbti-strip span{font-size:11px;padding:3px 8px}
 .hcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;text-align:left;transition:transform .16s ease,box-shadow .16s ease}
 .hcard:hover{transform:translateY(-3px);box-shadow:0 3px 6px rgba(15,33,41,.1),0 20px 38px -18px rgba(15,33,41,.4)}
 .hcard .shot{aspect-ratio:3/2}
@@ -719,7 +733,7 @@ const MAX_PHOTOS = 8;
 
 const UNIT_MEDIA = {
   "14E06": { photos: ["riviera-img/14E06-1.jpg"] },
-  "8A03": { photos: ["riviera-img/8A03-1.jpg", "riviera-img/8A03-2.jpg", "riviera-img/8A03-3.jpg", "riviera-img/8A03-4.jpg", "riviera-img/8A03-5.jpg"] },
+  "8A03": { photos: ["riviera-img/8A03-1.jpg", "riviera-img/8A03-2.jpg", "riviera-img/8A03-3.jpg", "riviera-img/8A03-4.jpg", "riviera-img/8A03-5.jpg", "riviera-img/8A03-6.jpg"] },
   "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg", "riviera-img/8A05-6.jpg", "riviera-img/8A05-7.jpg"], video: "riviera-img/8A05.mp4", plan: "riviera-img/8A05-plan.jpg" },
   "8A06": { photos: ["riviera-img/8A06-1.jpg", "riviera-img/8A06-2.jpg", "riviera-img/8A06-3.jpg", "riviera-img/8A06-4.jpg", "riviera-img/8A06-5.jpg", "riviera-img/8A06-6.jpg", "riviera-img/8A06-7.jpg"], video: "riviera-img/8A06.mp4" },
   "9A02": { photos: ["riviera-img/9A02-1.jpg", "riviera-img/9A02-2.jpg", "riviera-img/9A02-3.jpg", "riviera-img/9A02-4.jpg", "riviera-img/9A02-5.jpg", "riviera-img/9A02-6.jpg", "riviera-img/9A02-7.jpg"] }
@@ -918,7 +932,7 @@ const UNIT_STORIES = {
 
   "8A03": {
     mbti: ["ESFP", "ENFP", "ISFJ"],
-    palette: [["#3F3620", "Espresso"], ["#6E5131", "Walnut"], ["#BB946B", "Caramel"], ["#D4C2A7", "Linen"], ["#E5E6E1", "Pearl"]],
+    palette: [["#2D200F", "Espresso"], ["#54442D", "Walnut"], ["#926F50", "Caramel"], ["#BD9C7E", "Sand"], ["#F1E4D0", "Ivory"]],
     th: {
       name: "The Boutique Suite",
       tagline: "ห้องแต่งแบบบูติกโฮเทล โคมคริสตัลกลางห้อง ครัวบิลท์อินครบชุด",
@@ -1815,6 +1829,7 @@ function renderHighlights(){
     : "";
   const lg = document.getElementById("hlLegend");
   lg.outerHTML = `<div id="hlLegend" class="mbti-legend-wrap">${picks.some(u => UNIT_STORIES[u.unit]) ? mbtiLegend() + `<a class="mbti-more" href="${matchingHref()}">${t("mWhat")} →</a>` : ""}</div>`;
+  document.getElementById("hlGrid").dataset.n = picks.length;
   document.getElementById("hlGrid").innerHTML = picks.map(u => `
     ${hasPage(u.unit) ? `<a class="hcard" href="${unitHref(u.unit)}" aria-label="${u.unit}">` : `<div class="hcard" data-unit="${u.unit}" role="button" tabindex="0" aria-label="${u.unit}">`}
       <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
