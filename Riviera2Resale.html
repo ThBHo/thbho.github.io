@@ -493,6 +493,50 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
 .mbti-more{font-size:12px;font-weight:600;color:var(--sea);text-decoration:none;white-space:nowrap}
 .mbti-more:hover{text-decoration:underline;text-underline-offset:3px}
 .u-match .more{display:inline-block;margin-top:12px;font-size:13.5px;font-weight:600;color:var(--sea);text-decoration:underline;text-underline-offset:3px}
+/* ---------- room matcher ---------- */
+.mx{margin-top:26px;padding:24px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.mx-head h2{font-family:var(--f-display);font-size:clamp(24px,3.2vw,32px);font-weight:600;margin-top:4px}
+.mx-head p{margin:8px 0 0;color:var(--ink-2);max-width:62ch;line-height:1.65}
+.mx-form{display:grid;gap:18px;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+.mx-field{display:grid;gap:8px;align-content:start;min-width:0}
+.mx-lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mx-lbl small{text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px}
+.mx-pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.mx-pair{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.mx-pair button{border:0;background:none;padding:9px 6px;font-size:11.5px;color:var(--muted);display:grid;gap:1px;justify-items:center;line-height:1.25}
+.mx-pair button b{font-family:var(--f-mono);font-size:17px;color:var(--ink)}
+.mx-pair button+button{border-left:1px solid var(--line)}
+.mx-pair button[aria-pressed="true"]{background:var(--sea);color:#fff}
+.mx-pair button[aria-pressed="true"] b{color:#fff}
+.mx-type{font-size:14px;font-weight:600;min-height:24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mx-type span{color:#fff;border-radius:6px;padding:2px 8px;font-family:var(--f-mono)}
+.mx-type small{font-weight:500;color:var(--muted);font-size:12.5px}
+.mx-seg{flex-wrap:wrap;width:fit-content;max-width:100%}
+.mx-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mx-row select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.mx-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mx-reset{border:0;background:none;color:var(--muted);font-size:12.5px;font-weight:600;text-decoration:underline;margin-left:auto}
+.mx-out{margin-top:22px}
+.mx-sum{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:14px}
+.mx-sum b{color:var(--ink)}
+.mx-acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.mx-acts .btn{text-decoration:none;font-size:12.5px;padding:8px 13px}
+.mx-line{background:#06C755;border-color:#06C755}
+.mx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.mx-card{font:inherit;padding:0;width:100%}
+.mx-card .shot{aspect-ratio:3/2}
+.mx-rank{position:absolute;right:9px;bottom:9px;z-index:2;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-family:var(--f-mono);font-size:12.5px;font-weight:600}
+.mx-pct{font-size:12px;color:var(--muted);white-space:nowrap}
+.mx-pct b{font-family:var(--f-mono);font-size:16px;color:var(--sea)}
+.mx-bar{height:5px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.mx-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--sea),var(--gold))}
+.mx-name{font-size:13px;font-weight:600;color:var(--ink-2)}
+.mx-why{display:flex;flex-wrap:wrap;gap:5px}
+.mx-why span{font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;background:var(--sea-soft);color:var(--sea)}
+.mx-morewrap{text-align:center;margin-top:16px}
+.mx-note{margin:16px 0 0;font-size:12px;color:var(--muted)}
+.mx .empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+@media (max-width:760px){ .mx{padding:18px 16px} .mx-pairs{grid-template-columns:repeat(2,minmax(0,1fr))} .mx-row{grid-template-columns:1fr} .mx-acts{margin-left:0} }
 @media (max-width:900px){ .ar-groups,.ar-steps{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:720px){ .ar-dim{grid-template-columns:1fr;gap:10px} .ar-ab{grid-template-columns:1fr} }
 @media (max-width:560px){ .ar-why,.ar-groups,.ar-steps{grid-template-columns:1fr} }
@@ -2161,6 +2205,8 @@ function renderMatchingPage(){
       <div class="ar-swatch">${Object.keys(MBTI_GROUPS).map(g => `<i class="g-${g}"></i>`).join("")}</div>
     </header>
 
+    ${matcherHTML()}
+
     <section class="ar-sec">
       <h2>${a.whyH}</h2>
       <div class="ar-why">${a.why.map(w => `<article>
@@ -2216,8 +2262,206 @@ function renderMatchingPage(){
       <ol class="ar-refs">${MATCHING_REFS.map(r => `<li id="ref-${r.id}">${r.cite} <a href="${r.url}" target="_blank" rel="noopener">${a.readMore} ↗</a></li>`).join("")}</ol>
     </section>
   </div>`;
+  renderMatches();
   document.title = `Personalized Matching — ${a.title}`;
 }
+
+/* ------------------------- room matcher (matching page) ------------------------- */
+const MX_T = {
+  th: { kicker:"Room Matcher", h:"ค้นหาห้องที่เข้ากับคุณ", p:"เลือกบุคลิก MBTI (ถ้ารู้) และสิ่งที่ต้องการ ระบบจะจัดอันดับห้องว่างทั้งหมดในโครงการให้ทันที",
+    mbti:"บุคลิก MBTI", mbtiHint:"เลือกทีละคู่ ถ้าไม่แน่ใจเว้นไว้ได้", unknown:"ไม่ทราบ", typeIs:"คุณคือ", partial:"เลือกให้ครบ 4 คู่เพื่อดูประเภท",
+    pairs:[["E","เปิดตัว","I","เก็บตัว"],["N","มองภาพรวม","S","ลงรายละเอียด"],["T","ใช้เหตุผล","F","ใช้ความรู้สึก"],["J","วางแผน","P","ยืดหยุ่น"]],
+    goal:"ซื้อเพื่อ", goals:{ live:"อยู่เอง", invest:"ลงทุน/ปล่อยเช่า", holiday:"บ้านพักตากอากาศ" },
+    budget:"งบไม่เกิน", any:"ไม่จำกัด", type:"แบบห้อง", view:"วิว", sea:"วิวทะเล", city:"วิวเมือง",
+    must:"ต้องมี", mFurn:"เฟอร์นิเจอร์พร้อมอยู่", mPromo:"ราคาโปรโมชั่น", mFr:"โควตาต่างชาติ", mPhoto:"มีรูปห้องจริง",
+    found:n => `พบ ${n} ห้องที่ตรงเงื่อนไข`, showing:n => `แสดง ${n} อันดับแรก`, more:"แสดงเพิ่ม", reset:"ล้างค่า",
+    none:"ไม่พบห้องที่ตรงทุกเงื่อนไข ลองเพิ่มงบหรือเอาบางข้อออก", match:"เข้ากัน", view2:"ดูห้อง",
+    copy:"คัดลอกรายการ", copied:"คัดลอกแล้ว", ask:"ส่งให้ทีมขายทาง LINE",
+    r:{ exact:x=>`ออกแบบมาสำหรับ ${x}`, group:g=>`เหมาะกับกลุ่ม${g}`, sea:"วิวทะเล", seaSite:"ฝั่งทะเล", high:"ชั้นสูง", furn:"พร้อมอยู่", full:"เฟอร์ครบ",
+      studio:"สตูดิโอดูแลง่าย", onebed:"1 ห้องนอน แยกโซนชัด", big:"พื้นที่กว้าง", promo:d=>`ลด ${d}%`, value:"ราคา/ตร.ม. คุ้ม", design:"ตกแต่งแล้วจริง", budget:"อยู่ในงบ" },
+    note:"ผลการจับคู่เป็นแนวทางช่วยเลือกจากข้อมูลห้องและบุคลิก ไม่ใช่การรับรองทางวิทยาศาสตร์ ทีมขายช่วยคัดห้องให้ละเอียดขึ้นได้" },
+  en: { kicker:"Room Matcher", h:"Find the rooms that fit you", p:"Pick your MBTI type (if you know it) and what you need — every available unit in the project is ranked for you instantly.",
+    mbti:"MBTI type", mbtiHint:"Choose one side of each pair — leave any you're unsure of", unknown:"Not sure", typeIs:"You are", partial:"Choose all four pairs to see your type",
+    pairs:[["E","Outgoing","I","Reserved"],["N","Big picture","S","Details"],["T","Logic","F","Feelings"],["J","Planned","P","Flexible"]],
+    goal:"Buying to", goals:{ live:"Live in", invest:"Invest / rent out", holiday:"Holiday home" },
+    budget:"Budget up to", any:"Any", type:"Unit type", view:"View", sea:"Sea view", city:"City view",
+    must:"Must have", mFurn:"Move-in ready furniture", mPromo:"Promotion price", mFr:"Foreign quota", mPhoto:"Real photos",
+    found:n => `${n} units match`, showing:n => `showing the top ${n}`, more:"Show more", reset:"Reset",
+    none:"No unit meets every condition — try a higher budget or fewer must-haves.", match:"match", view2:"View unit",
+    copy:"Copy list", copied:"Copied", ask:"Send to sales on LINE",
+    r:{ exact:x=>`Designed for ${x}`, group:g=>`Suits ${g}`, sea:"Sea view", seaSite:"Sea side", high:"High floor", furn:"Move-in ready", full:"Fully furnished",
+      studio:"Easy-care studio", onebed:"1 bedroom, clear zones", big:"Generous size", promo:d=>`${d}% off`, value:"Good price per sqm", design:"Actually decorated", budget:"Within budget" },
+    note:"Matching is a guide built from unit data and personality — not a scientific verdict. The sales team can refine the shortlist with you." },
+  ru: { kicker:"Room Matcher", h:"Найдите квартиры, которые подходят вам", p:"Выберите тип MBTI (если знаете) и свои требования — все свободные квартиры проекта будут ранжированы мгновенно.",
+    mbti:"Тип MBTI", mbtiHint:"Выберите по одной букве в каждой паре — можно пропустить", unknown:"Не знаю", typeIs:"Ваш тип", partial:"Выберите все 4 пары, чтобы увидеть тип",
+    pairs:[["E","Общительный","I","Сдержанный"],["N","Общая картина","S","Детали"],["T","Логика","F","Чувства"],["J","План","P","Гибкость"]],
+    goal:"Цель покупки", goals:{ live:"Жить", invest:"Инвестиции / аренда", holiday:"Дом для отдыха" },
+    budget:"Бюджет до", any:"Любой", type:"Тип", view:"Вид", sea:"Вид на море", city:"Вид на город",
+    must:"Обязательно", mFurn:"Мебель, можно въезжать", mPromo:"Акционная цена", mFr:"Иностранная квота", mPhoto:"Реальные фото",
+    found:n => `Подходит квартир: ${n}`, showing:n => `показаны первые ${n}`, more:"Показать ещё", reset:"Сбросить",
+    none:"Нет квартир, отвечающих всем условиям — увеличьте бюджет или уберите часть требований.", match:"совпадение", view2:"Смотреть",
+    copy:"Скопировать список", copied:"Скопировано", ask:"Отправить в отдел продаж (LINE)",
+    r:{ exact:x=>`Создана для ${x}`, group:g=>`Подходит: ${g}`, sea:"Вид на море", seaSite:"Морская сторона", high:"Высокий этаж", furn:"Можно въезжать", full:"Полностью меблирована",
+      studio:"Студия, простой уход", onebed:"1 спальня, чёткие зоны", big:"Просторная", promo:d=>`скидка ${d}%`, value:"Выгодная цена за м²", design:"Уже с дизайном", budget:"В рамках бюджета" },
+    note:"Подбор — это ориентир на основе данных квартир и типа личности, а не научный вывод. Отдел продаж поможет уточнить список." },
+  zh: { kicker:"Room Matcher", h:"找到适合您的房源", p:"选择您的 MBTI 类型（如已知）与需求，系统会立即为项目内所有在售房源排序。",
+    mbti:"MBTI 类型", mbtiHint:"每组选一项，不确定可留空", unknown:"不确定", typeIs:"您的类型", partial:"四组全部选择后显示类型",
+    pairs:[["E","外向","I","内向"],["N","看全局","S","重细节"],["T","重逻辑","F","重感受"],["J","有计划","P","随性"]],
+    goal:"购买目的", goals:{ live:"自住", invest:"投资 / 出租", holiday:"度假屋" },
+    budget:"预算上限", any:"不限", type:"户型", view:"景观", sea:"海景", city:"城景",
+    must:"必须具备", mFurn:"家具齐全可入住", mPromo:"优惠价", mFr:"外国人配额", mPhoto:"有实拍图",
+    found:n => `共 ${n} 套符合条件`, showing:n => `显示前 ${n} 套`, more:"显示更多", reset:"重置",
+    none:"没有完全符合条件的房源，请提高预算或减少必选项。", match:"匹配", view2:"查看房源",
+    copy:"复制列表", copied:"已复制", ask:"通过 LINE 发给销售",
+    r:{ exact:x=>`专为 ${x} 设计`, group:g=>`适合${g}`, sea:"海景", seaSite:"海景面", high:"高楼层", furn:"拎包入住", full:"全套家具",
+      studio:"开间好打理", onebed:"一居室分区清晰", big:"面积宽敞", promo:d=>`优惠 ${d}%`, value:"单价划算", design:"实景装修", budget:"在预算内" },
+    note:"匹配结果是基于房源数据与性格的参考，并非科学结论。销售团队可以与您一起进一步筛选。" }
+};
+const MX_BUDGETS = [0, 3000000, 3500000, 4000000, 4500000, 5000000, 7000000];
+const mx = { l:["","","",""], goal:"", budget:0, type:"", view:"", furn:false, promo:false, fr:false, photo:false, shown:12 };
+const mxT = () => MX_T[lang] || MX_T.en;
+const mxType = () => mx.l.every(Boolean) ? mx.l.join("") : "";
+function mxGroup(){                                   // the two letters that define a 16personalities role group
+  const [, ns, tf, jp] = mx.l;
+  if (ns === "N" && tf === "T") return "an";
+  if (ns === "N" && tf === "F") return "di";
+  if (ns === "S" && jp === "J") return "se";
+  if (ns === "S" && jp === "P") return "ex";
+  return "";
+}
+
+function mxScore(u, medianPsq){
+  const T2 = mxT().r, st = UNIT_STORIES[u.unit], type = mxType(), g = mxGroup();
+  const sea = u.view === "Sea View", fl = floorKey(u.floor), full = u.furniture === "Fully Furnished";
+  const photos = mediaOf(u).photos.length, cheap = perSqm(u) <= medianPsq, d = Math.round(discount(u) * 100);
+  let s = 40; const why = [];
+  const add = (pts, label) => { s += pts; if (label && !why.includes(label)) why.push(label); };
+
+  /* personality — the rooms written for a type first, then what each group looks for in a home */
+  let fit = 0;
+  if (st && type && st.mbti.includes(type)){ fit = st.mbti[0] === type ? 30 : 24; why.push(T2.exact(`${type} ${MBTI_ROLE[type]}`)); }
+  else if (st && g && st.mbti.some(x => mbtiGroup(x) === g)){ fit = 18; why.push(T2.group(groupName(g))); }
+  else if (g){
+    const f = { an: (sea ? 10 : 0) + Math.min(10, fl / 3.5) + (u.seaSite ? 3 : 0),
+                di: (sea || u.seaSite ? 9 : 0) + (full ? 6 : 0) + (st ? 6 : 0),
+                se: (isFurnished(u) ? 8 : 0) + (u.type === "1 BED" ? 6 : 0) + (cheap ? 5 : 0),
+                ex: (u.type === "Studio" ? 8 : 0) + (isFurnished(u) ? 7 : 0) + (u.promoPrice ? 6 : 0) }[g];
+    fit = Math.min(22, f);
+    if (fit >= 12) why.push(T2.group(groupName(g)));
+  }
+  s += fit;
+
+  /* goal */
+  if (mx.goal === "live"){ if (u.type === "1 BED") add(7, T2.onebed); if (u.sqm >= 35) add(4, T2.big); if (isFurnished(u)) add(3, T2.furn); }
+  if (mx.goal === "invest"){ if (cheap) add(7, T2.value); if (d) add(Math.min(8, d / 4), T2.promo(d)); if (u.type === "Studio") add(3, T2.studio); }
+  if (mx.goal === "holiday"){ if (sea) add(8, T2.sea); else if (u.seaSite) add(4, T2.seaSite); if (full) add(5, T2.full); if (st) add(3, T2.design); }
+
+  /* small tie-breakers everyone likes */
+  if (!mx.goal){ if (sea) add(4, T2.sea); if (d) add(Math.min(6, d / 5), T2.promo(d)); }
+  if (fl >= 20) add(2, T2.high);
+  if (photos) s += 2;
+  if (mx.budget && sell(u) <= mx.budget) why.push(T2.budget);
+  return { u, score: Math.max(1, Math.min(99, Math.round(s))), why: why.slice(0, 4) };
+}
+
+function mxResults(){
+  const pool = UNITS.filter(u => u.status === "AVAILABLE" && u.type !== "Commercial");
+  const psq = pool.map(perSqm).sort((a, b) => a - b), medianPsq = psq[Math.floor(psq.length / 2)];
+  return pool.filter(u =>
+      (!mx.budget || sell(u) <= mx.budget) &&
+      (!mx.type || u.type === mx.type) &&
+      (!mx.view || (mx.view === "sea" ? u.view === "Sea View" : u.view !== "Sea View")) &&
+      (!mx.furn || isFurnished(u)) && (!mx.promo || u.promoPrice) &&
+      (!mx.fr || u.quota === "FR") && (!mx.photo || mediaOf(u).photos.length))
+    .map(u => mxScore(u, medianPsq))
+    .sort((a, b) => b.score - a.score || sell(a.u) - sell(b.u));
+}
+
+function matcherHTML(){
+  const M = mxT(), seg = (key, opts) => `<div class="seg mx-seg">${opts.map(([v, l]) =>
+    `<button type="button" data-mx="${key}" data-v="${v}" aria-pressed="${String(mx[key]) === String(v)}">${l}</button>`).join("")}</div>`;
+  return `<section class="mx" id="matcher" aria-labelledby="mxH">
+    <div class="mx-head"><div class="ar-eyebrow">${M.kicker}</div><h2 id="mxH">${M.h}</h2><p>${M.p}</p></div>
+    <div class="mx-form">
+      <div class="mx-field mx-mbti"><div class="mx-lbl">${M.mbti} <small>${M.mbtiHint}</small></div>
+        <div class="mx-pairs">${M.pairs.map(([a, al, b, bl], i) => `<div class="mx-pair">
+          <button type="button" data-mxl="${i}" data-v="${a}" aria-pressed="${mx.l[i] === a}"><b>${a}</b>${al}</button>
+          <button type="button" data-mxl="${i}" data-v="${b}" aria-pressed="${mx.l[i] === b}"><b>${b}</b>${bl}</button></div>`).join("")}</div>
+        <div class="mx-type" id="mxType"></div>
+      </div>
+      <div class="mx-field"><div class="mx-lbl">${M.goal}</div>${seg("goal", [["", M.any], ...Object.entries(M.goals)])}</div>
+      <div class="mx-row">
+        <label class="mx-field"><span class="mx-lbl">${M.budget}</span>
+          <select id="mxBudget" data-mxsel="budget">${MX_BUDGETS.map(b => `<option value="${b}"${mx.budget === b ? " selected" : ""}>${b ? baht(b) : M.any}</option>`).join("")}</select></label>
+        <label class="mx-field"><span class="mx-lbl">${M.type}</span>
+          <select id="mxTypeSel" data-mxsel="type"><option value="">${M.any}</option><option value="Studio"${mx.type === "Studio" ? " selected" : ""}>${t("studio")}</option><option value="1 BED"${mx.type === "1 BED" ? " selected" : ""}>${t("oneBed")}</option></select></label>
+        <label class="mx-field"><span class="mx-lbl">${M.view}</span>
+          <select id="mxView" data-mxsel="view"><option value="">${M.any}</option><option value="sea"${mx.view === "sea" ? " selected" : ""}>${M.sea}</option><option value="city"${mx.view === "city" ? " selected" : ""}>${M.city}</option></select></label>
+      </div>
+      <div class="mx-field"><div class="mx-lbl">${M.must}</div><div class="mx-chips">${[["furn", M.mFurn], ["promo", M.mPromo], ["fr", M.mFr], ["photo", M.mPhoto]].map(([k, l]) =>
+        `<button type="button" class="chip ghost" data-mxc="${k}" aria-pressed="${mx[k]}">${l}</button>`).join("")}
+        <button type="button" class="mx-reset" data-mxreset="1">${M.reset}</button></div></div>
+    </div>
+    <div class="mx-out" id="mxOut" aria-live="polite"></div>
+    <p class="mx-note">${M.note}</p>
+  </section>`;
+}
+
+function renderMatches(){
+  const out = document.getElementById("mxOut"); if (!out) return;
+  const M = mxT(), type = mxType(), g = mxGroup(), res = mxResults(), list = res.slice(0, mx.shown);
+  const tp = document.getElementById("mxType");
+  if (tp) tp.innerHTML = type ? `${M.typeIs} <span class="g-${g}">${type}</span> ${MBTI_ROLE[type]} · ${groupName(g)}`
+    : g ? `<span class="g-${g}">${groupName(g)}</span> <small>${M.partial}</small>` : `<small>${M.partial}</small>`;
+  if (!res.length){ out.innerHTML = `<div class="empty"><b>${M.none}</b></div>`; return; }
+  out.innerHTML = `<div class="mx-sum"><b>${M.found(res.length)}</b>${res.length > list.length ? ` · ${M.showing(list.length)}` : ""}
+      <span class="mx-acts"><button type="button" class="btn alt" data-mxcopy="1">${M.copy}</button>
+      <a class="btn mx-line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">${M.ask}</a></span></div>
+    <div class="mx-grid">${list.map(({ u, score, why }, i) => `
+      <button type="button" class="hcard mx-card" data-mxopen="${u.unit}">
+        <div class="shot">${shot(u, HIGHLIGHT_COVERS[u.unit])}<div class="badges">${badges(u)}</div><span class="mx-rank">${i + 1}</span></div>
+        <div class="hbody">
+          <div class="utop"><span class="ucode">${u.unit}</span><span class="mx-pct"><b>${score}%</b> ${M.match}</span></div>
+          <div class="mx-bar"><i style="width:${score}%"></i></div>
+          <div class="usub">${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}</div>
+          ${storyOf(u.unit) ? `<div class="mx-name">${storyOf(u.unit).name}</div>` : ""}
+          <div class="mx-why">${why.map(w => `<span>${w}</span>`).join("")}</div>
+          <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+        </div>
+      </button>`).join("")}</div>
+    ${res.length > list.length ? `<div class="mx-morewrap"><button type="button" class="btn alt" data-mxmore="1">${M.more}</button></div>` : ""}`;
+}
+
+function mxCopyText(){
+  const M = mxT(), type = mxType(), res = mxResults().slice(0, mx.shown);
+  const head = `${PROJECT_NAME} — Room Matcher${type ? ` (${type})` : ""}`;
+  return [head, ...res.map(({ u, score }, i) => `${i + 1}. ${u.unit} · ${t(typeLabel(u))} ${sqmFmt(u.sqm)} ${t("thSqm")} · ${baht(sell(u))} · ${score}% ${M.match}`)].join("\n");
+}
+
+document.addEventListener("click", e => {
+  if (!e.target.closest("#matcher")) return;
+  const l = e.target.closest("[data-mxl]");
+  if (l){ const i = +l.dataset.mxl; mx.l[i] = mx.l[i] === l.dataset.v ? "" : l.dataset.v;
+    l.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(mx.l[i] === b.dataset.v))); }
+  const s = e.target.closest("[data-mx]");
+  if (s){ mx[s.dataset.mx] = s.dataset.v; s.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b === s))); }
+  const c = e.target.closest("[data-mxc]");
+  if (c){ mx[c.dataset.mxc] = !mx[c.dataset.mxc]; c.setAttribute("aria-pressed", String(mx[c.dataset.mxc])); }
+  if (e.target.closest("[data-mxreset]")){ Object.assign(mx, { l:["","","",""], goal:"", budget:0, type:"", view:"", furn:false, promo:false, fr:false, photo:false, shown:12 }); renderMatchingPage(); document.getElementById("matcher").scrollIntoView(); return; }
+  if (e.target.closest("[data-mxmore]")){ mx.shown += 12; renderMatches(); return; }
+  const cp = e.target.closest("[data-mxcopy]");
+  if (cp){ const done = () => { cp.textContent = mxT().copied; setTimeout(() => cp.textContent = mxT().copy, 1600); };
+    try { navigator.clipboard.writeText(mxCopyText()).then(done, done); } catch (err) { done(); } return; }
+  const o = e.target.closest("[data-mxopen]");
+  if (o){ showUnit(o.dataset.mxopen); return; }
+  if (l || s || c){ mx.shown = 12; renderMatches(); }
+});
+document.addEventListener("change", e => {
+  const sel = e.target.closest("[data-mxsel]");
+  if (!sel) return;
+  mx[sel.dataset.mxsel] = sel.dataset.mxsel === "budget" ? +sel.value : sel.value;
+  mx.shown = 12; renderMatches();
+});
 
 function route(){
   const sub = subPageFromUrl();
