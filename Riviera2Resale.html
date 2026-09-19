@@ -522,6 +522,16 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
 .mx-acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 .mx-acts .btn{text-decoration:none;font-size:12.5px;padding:8px 13px}
 .mx-line{background:#06C755;border-color:#06C755}
+/* LINE chooser */
+#lineDlg{max-width:min(560px,94vw)}
+.ldlg .sheet-hd h2{font-family:var(--f-ui);font-size:20px;letter-spacing:0}
+.lgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.lcard{border:1px solid var(--line);border-radius:12px;padding:16px 14px;display:grid;justify-items:center;gap:8px;text-align:center;background:var(--surface-2)}
+.lcard img{width:100%;max-width:170px;height:auto;aspect-ratio:1;background:#fff;border-radius:8px;padding:6px;image-rendering:pixelated}
+.lcard b{font-size:18px}
+.lcard .lid{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.lcard .lopen{display:block;width:100%;background:#06C755;color:#fff;border-radius:9px;padding:10px 12px;font-size:14px;font-weight:700;text-decoration:none}
+@media (max-width:420px){ .lgrid{gap:10px} .lcard{padding:12px 10px} }
 .mx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
 .mx-card{font:inherit;padding:0;width:100%}
 .mx-card .shot{aspect-ratio:3/2}
@@ -748,6 +758,14 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
     <button type="button" class="btn alt" id="dCopy" data-i18n="copyListing">คัดลอกข้อมูลห้อง</button>
     <button type="button" class="btn" id="dPrint" data-i18n="printQuote">พิมพ์ใบเสนอราคา</button>
   </div>
+</div></dialog>
+
+<dialog id="lineDlg"><div class="sheet ldlg">
+  <div class="sheet-hd">
+    <div><p class="d-proj">LINE · Clare Pattaya Property</p><h2 id="lTitle" data-i18n="lineH">เลือกเซลล์ที่ต้องการคุย</h2><p id="lSub" data-i18n="lineP">สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน</p></div>
+    <button type="button" class="x" id="lClose" aria-label="Close">✕</button>
+  </div>
+  <div class="sheet-body"><div class="lgrid" id="lGrid"></div></div>
 </div></dialog>
 
 <script>
@@ -1292,8 +1310,11 @@ const CONTACT = {
   },
   phones: [{ name: "Kung", tel: "0661253116" }, { name: "Koy", tel: "0661253117" }],
   email: "koy24.clarepattayaproperty@gmail.com",
-  line: "koyuni"
+  lines: [{ name: "Koy", id: "koyuni", qr: "riviera-img/line-qr-koy.png" }, { name: "Kung", id: "nureekung", qr: "riviera-img/line-qr-kung.png" }]
 };
+const lineUrl = id => `https://line.me/ti/p/~${id}`;
+/* One green LINE button everywhere; it opens the chooser with each salesperson's QR code. */
+const lineBtn = (cls, label) => `<a class="${cls}" href="${lineUrl(CONTACT.lines[0].id)}" data-line="1" target="_blank" rel="noopener">${label}</a>`;
 
 const UNITS = [
   {"unit":"7D02","floor":"7","view":"Sea View","type":"Studio","quota":"TH","sqm":25.77,"pricePerSqm":131000,"price":3375870,"booking":50000,"furniture":"Include","status":"AVAILABLE"},
@@ -1399,7 +1420,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
   mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
  hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
   planStd:"ผังห้องมาตรฐาน",
- backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
+ lineH:"เลือกเซลล์ที่ต้องการคุย",lineP:"สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน",lineOpen:"เปิดใน LINE",backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
  uOwnPlan:"ผังเฉพาะห้อง",
  mbtiRef:"ยังไม่รู้ว่าตัวเองเป็นแบบไหน? ทำแบบทดสอบบุคลิกภาพได้ที่",pmTitle:"ให้เราช่วยหาห้องที่ใช่สำหรับคุณ",pmBody:"บริการ Personalized Matching จับคู่บุคลิกภาพ ไลฟ์สไตล์ และความต้องการของคุณ เข้ากับห้องแต่ละยูนิตในโครงการ ช่วยให้เลือกห้องได้ง่ายขึ้น และได้บ้านที่ตอบโจทย์การอยู่อาศัยของคุณจริงๆ ทั้งความสุข ความสบาย และโชคลาภ",pmCta:"ปรึกษาทีมขายได้โดยตรง",
  mLink:"ทำไม MBTI ถึงสำคัญกับการเลือกบ้าน",mWhat:"ทำไมต้อง MBTI",
@@ -1430,7 +1451,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
   mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
  hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
   planStd:"Standard layout",
- backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
+ lineH:"Choose who to chat with",lineP:"Scan the QR code in the LINE app, or tap the button to add as a friend.",lineOpen:"Open in LINE",backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
  uOwnPlan:"Unit-specific",
  mbtiRef:"Not sure of your type? Take the free personality test at",pmTitle:"Let us find the unit that fits you",pmBody:"Our Personalized Matching service pairs your personality, lifestyle and needs with the right unit in the project — so choosing is easier and you end up in a home that truly suits the way you live, for comfort, happiness and good fortune.",pmCta:"Talk to our sales team directly.",
  mLink:"Why MBTI matters when choosing a home",mWhat:"Why MBTI?",
@@ -1461,7 +1482,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
   mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
  hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
   planStd:"Типовая планировка",
- backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
+ lineH:"Выберите менеджера",lineP:"Отсканируйте QR-код в приложении LINE или нажмите кнопку, чтобы добавить в друзья.",lineOpen:"Открыть в LINE",backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
  uOwnPlan:"Индивидуальная",
  mbtiRef:"Не знаете свой тип? Пройдите бесплатный тест личности на",pmTitle:"Подберём квартиру именно для вас",pmBody:"Сервис Personalized Matching сопоставляет ваш тип личности, образ жизни и пожелания с подходящей квартирой в проекте — выбор становится проще, а дом действительно отвечает тому, как вы живёте: для комфорта, счастья и удачи.",pmCta:"Свяжитесь с отделом продаж напрямую.",
  mLink:"Почему MBTI важен при выборе жилья",mWhat:"Зачем MBTI?",
@@ -1492,7 +1513,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
   mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
  hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
   planStd:"标准户型",
- backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
+ lineH:"选择要联系的销售顾问",lineP:"用 LINE 扫描二维码，或点击按钮添加好友。",lineOpen:"在 LINE 中打开",backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
  uOwnPlan:"专属户型",
  mbtiRef:"还不清楚自己的类型？可在此免费进行性格测试：",pmTitle:"为您找到真正合适的房源",pmBody:"Personalized Matching 服务将您的性格、生活方式与需求，与项目内合适的房源进行匹配，让选房更轻松，住得真正称心——舒适、幸福，也添好运。",pmCta:"欢迎直接咨询销售团队。",
  mLink:"为什么选房要看 MBTI",mWhat:"为什么看 MBTI？",
@@ -2124,7 +2145,7 @@ function renderUnitPage(code){
             <p class="u-match-cta">${t("pmCta")}</p>
             <a class="more" href="${matchingHref()}">${t("mLink")} →</a>
             <div class="u-match-btns">
-              <a class="line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">LINE · ${CONTACT.line}</a>
+              ${lineBtn("line", "LINE")}
               <a class="call" href="tel:${intl(CONTACT.phones[1].tel)}">☎ ${t("uCall")}</a>
             </div>
           </div>
@@ -2148,7 +2169,7 @@ function renderUnitPage(code){
           <div class="big${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
           <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
           <div class="u-ctas">
-            <a class="line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">LINE · ${CONTACT.line}</a>
+            ${lineBtn("line", "LINE")}
             <a class="call" href="tel:${intl(CONTACT.phones[1].tel)}">☎ ${t("uCall")}</a>
             <button type="button" data-ushare="1">${t("uShare")}</button>
             <button type="button" data-uprint="1">${t("printQuote")}</button>
@@ -2170,7 +2191,7 @@ function renderUnitPage(code){
   </div>
   <div class="u-mbar">
     <div class="p">${baht(sell(u))}<small>${u.unit} · ${sqmFmt(u.sqm)} ${t("thSqm")}</small></div>
-    <a class="line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">LINE</a>
+    ${lineBtn("line", "LINE")}
     <a class="call" href="tel:${intl(CONTACT.phones[1].tel)}">☎</a>
   </div>`;
 
@@ -2245,7 +2266,7 @@ function renderMatchingPage(){
         <h3>${a.ctaH}</h3>
         <p>${a.ctaP}</p>
         <div class="u-match-btns">
-          <a class="line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">LINE · ${CONTACT.line}</a>
+          ${lineBtn("line", "LINE")}
           <a class="call" href="tel:${intl(CONTACT.phones[1].tel)}">☎ ${t("uCall")}</a>
           <a class="test" href="https://www.16personalities.com/" target="_blank" rel="noopener">${a.testBtn} ↗</a>
         </div>
@@ -2416,7 +2437,7 @@ function renderMatches(){
   if (!res.length){ out.innerHTML = `<div class="empty"><b>${M.none}</b></div>`; return; }
   out.innerHTML = `<div class="mx-sum"><b>${M.found(res.length)}</b>${res.length > list.length ? ` · ${M.showing(list.length)}` : ""}
       <span class="mx-acts"><button type="button" class="btn alt" data-mxcopy="1">${M.copy}</button>
-      <a class="btn mx-line" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener">${M.ask}</a></span></div>
+      ${lineBtn("btn mx-line", M.ask)}</span></div>
     <div class="mx-grid">${list.map(({ u, score, why }, i) => `
       <button type="button" class="hcard mx-card" data-mxopen="${u.unit}">
         <div class="shot">${shot(u, HIGHLIGHT_COVERS[u.unit])}<div class="badges">${badges(u)}</div><span class="mx-rank">${i + 1}</span></div>
@@ -2516,15 +2537,15 @@ function applyLang(){
   rows.push(`<p class="c-addr">${CONTACT.address[lang] || CONTACT.address.en}</p>`);
   CONTACT.phones.forEach(ph => rows.push(
     `<a class="c-row" href="tel:${intl(ph.tel)}"><span class="c-ic">☎</span><span class="num">${pretty(ph.tel)}</span><em>${ph.name}</em></a>`));
-  if (CONTACT.line) rows.push(
-    `<a class="c-row" href="https://line.me/ti/p/~${CONTACT.line}" target="_blank" rel="noopener"><span class="c-ic">LINE</span><span class="num">${CONTACT.line}</span></a>`);
+  rows.push(`<a class="c-row" href="${lineUrl(CONTACT.lines[0].id)}" data-line="1" target="_blank" rel="noopener"><span class="c-ic">LINE</span><span class="num">${CONTACT.lines.map(l => l.name).join(" · ")}</span><em>QR</em></a>`);
   if (CONTACT.email) rows.push(
     `<a class="c-row" href="mailto:${CONTACT.email}"><span class="c-ic">✉</span><span class="c-mail">${CONTACT.email}</span></a>`);
   $("#contactBlock").innerHTML = rows.join("");
   $("#printContact").innerHTML = [
     "Clare Pattaya Property",
     CONTACT.phones.map(ph => `${pretty(ph.tel)} (${ph.name})`).join(" · "),
-    `LINE ${CONTACT.line} · ${CONTACT.email}`
+    `LINE ${CONTACT.lines.map(l => `${l.id} (${l.name})`).join(" · ")}`,
+    CONTACT.email
   ].join("<br>");
   render();
 }
@@ -2645,6 +2666,20 @@ $("#dlg").addEventListener("keydown", e => {
   else if (e.key === "ArrowLeft"){ e.preventDefault(); galGo(-1); }
 });
 $("#dClose").addEventListener("click", () => $("#dlg").close());
+function openLineDlg(){
+  $("#lGrid").innerHTML = CONTACT.lines.map(l => `<div class="lcard">
+      <img src="${l.qr}" alt="LINE QR ${l.name}" width="372" height="372">
+      <b>${l.name}</b><span class="lid">LINE ID: ${l.id}</span>
+      <a class="lopen" href="${lineUrl(l.id)}" target="_blank" rel="noopener">${t("lineOpen")}</a></div>`).join("");
+  $("#lineDlg").showModal();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-line]");
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation(); openLineDlg();
+}, true);
+$("#lClose").addEventListener("click", () => $("#lineDlg").close());
+$("#lineDlg").addEventListener("click", e => { if (e.target === $("#lineDlg")) $("#lineDlg").close(); });
 $("#dlg").addEventListener("click", e => { if (e.target === $("#dlg")) $("#dlg").close(); });
 $("#dPrint").addEventListener("click", () => {
   const was = document.title;
