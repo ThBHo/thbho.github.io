@@ -1309,7 +1309,7 @@ const CONTACT = {
     en: "29/1128 Commercial 21CU, Moo 12, Jomtien 2nd Road<br>Nongprue, Banglamung, Chonburi 20150, Thailand"
   },
   phones: [{ name: "Kung", tel: "0661253116" }, { name: "Koy", tel: "0661253117" }],
-  email: "koy24.clarepattayaproperty@gmail.com",
+  emails: [{ name: "Koy", addr: "koy24.clarepattayaproperty@gmail.com" }, { name: "Kung", addr: "kungnuree.clarepattayaproperty@gmail.com" }],
   lines: [{ name: "Koy", id: "koyuni", qr: "riviera-img/line-qr-koy.png" }, { name: "Kung", id: "nureekung", qr: "riviera-img/line-qr-kung.png" }]
 };
 const lineUrl = id => `https://line.me/ti/p/~${id}`;
@@ -2538,14 +2538,14 @@ function applyLang(){
   CONTACT.phones.forEach(ph => rows.push(
     `<a class="c-row" href="tel:${intl(ph.tel)}"><span class="c-ic">☎</span><span class="num">${pretty(ph.tel)}</span><em>${ph.name}</em></a>`));
   rows.push(`<a class="c-row" href="${lineUrl(CONTACT.lines[0].id)}" data-line="1" target="_blank" rel="noopener"><span class="c-ic">LINE</span><span class="num">${CONTACT.lines.map(l => l.name).join(" · ")}</span><em>QR</em></a>`);
-  if (CONTACT.email) rows.push(
-    `<a class="c-row" href="mailto:${CONTACT.email}"><span class="c-ic">✉</span><span class="c-mail">${CONTACT.email}</span></a>`);
+  CONTACT.emails.forEach(m => rows.push(
+    `<a class="c-row" href="mailto:${m.addr}"><span class="c-ic">✉</span><span class="c-mail">${m.addr}</span><em>${m.name}</em></a>`));
   $("#contactBlock").innerHTML = rows.join("");
   $("#printContact").innerHTML = [
     "Clare Pattaya Property",
     CONTACT.phones.map(ph => `${pretty(ph.tel)} (${ph.name})`).join(" · "),
     `LINE ${CONTACT.lines.map(l => `${l.id} (${l.name})`).join(" · ")}`,
-    CONTACT.email
+    ...CONTACT.emails.map(m => m.addr)
   ].join("<br>");
   render();
 }
