@@ -524,19 +524,26 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
 .mx-acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 .mx-acts .btn{text-decoration:none;font-size:12.5px;padding:8px 13px}
 .mx-line{background:#06C755;border-color:#06C755}
-/* ---------- social post dialog ---------- */
-#postDlg{max-width:min(680px,94vw)}
-.pdlg .sheet-hd h2{font-family:var(--f-ui);font-size:20px;letter-spacing:0}
-.p-seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.p-seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
-.p-seg button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
-#postText{width:100%;min-height:230px;border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:13.5px;line-height:1.6;resize:vertical}
-.p-lbl{margin:16px 0 8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.p-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
-.p-thumbs a{display:block;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--surface-2)}
-.p-thumbs a.plan{background:#fff}
-.p-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
-.p-thumbs a.plan img{object-fit:contain;padding:3px}
+/* ---------- social post builder ---------- */
+#socialDlg{max-width:min(760px,95vw)}
+.scdlg .sheet-hd h2{font-family:var(--f-ui);font-size:20px;letter-spacing:0}
+.sc-sec{padding:14px 0;border-top:1px solid var(--line)}
+.sc-sec:first-child{padding-top:0;border-top:0}
+.sc-lbl{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.sc-chips{display:flex;gap:7px;flex-wrap:wrap}
+.sc-shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2);max-width:420px;margin:0 auto 12px}
+#socCap{width:100%;min-height:190px;border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:13.5px;line-height:1.6;resize:vertical}
+.sc-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sc-acts .btn{font-size:13px;padding:9px 14px}
+.sc-switches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px}
+.sc-sw{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-2)}
+.sc-sw input{width:18px;height:18px;accent-color:var(--sea);flex:none}
+.sc-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+.sc-row label{display:grid;gap:5px}
+.sc-row select{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px;min-width:96px}
+.sc-note{margin:12px 0 0;font-size:12.5px;color:var(--muted)}
+.btn.coral{background:var(--coral);border-color:var(--coral);color:#fff}
+@media (max-width:560px){ .sc-switches{grid-template-columns:1fr} #dSocial{order:-1} }
 /* LINE chooser */
 #lineDlg{max-width:min(560px,94vw)}
 .ldlg .sheet-hd h2{font-family:var(--f-ui);font-size:20px;letter-spacing:0}
@@ -758,6 +765,8 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
   <button type="button" class="btn" id="slClear" data-i18n="slClear">ล้าง</button>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
 <dialog id="dlg"><div class="sheet">
   <div class="print-brand">
     <img class="logo-ink" src="riviera-img/logo-bar-ink.png" alt="Clare Pattaya Property">
@@ -771,7 +780,7 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
   <div class="sheet-ft">
     <button type="button" class="btn alt" id="dStar" data-i18n="addShortlist">บันทึกห้องนี้</button>
     <button type="button" class="btn alt" id="dCopy" data-i18n="copyListing">คัดลอกข้อมูลห้อง</button>
-    <button type="button" class="btn alt" id="dPost">สร้างโพสต์โซเชียล</button>
+    <button type="button" class="btn coral" id="dSocial" data-i18n="makeSocialPost">สร้างโพสต์โซเชียล</button>
     <button type="button" class="btn" id="dPrint" data-i18n="printQuote">พิมพ์ใบเสนอราคา</button>
   </div>
 </div></dialog>
@@ -784,18 +793,29 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
   <div class="sheet-body"><div class="lgrid" id="lGrid"></div></div>
 </div></dialog>
 
-<dialog id="postDlg"><div class="sheet pdlg">
+<dialog id="socialDlg"><div class="sheet scdlg">
   <div class="sheet-hd">
-    <div><p class="d-proj">Marketing</p><h2 id="postTitle">—</h2><p id="postHint">—</p></div>
-    <button type="button" class="x" id="postClose" aria-label="Close">✕</button>
+    <div><p class="d-proj">Marketing</p><h2 id="socTitle">—</h2></div>
+    <button type="button" class="x" id="socClose" aria-label="Close">✕</button>
   </div>
   <div class="sheet-body">
-    <div class="p-seg" id="postSeg"></div>
-    <textarea id="postText" spellcheck="false"></textarea>
-    <div id="postImgs"></div>
+    <div class="sc-sec" id="socPlat"></div>
+    <div class="sc-sec" id="socStyle"></div>
+    <div class="sc-sec">
+      <div class="sc-lbl" id="socPrevLbl">Preview</div>
+      <div class="sc-shot" id="socShot"></div>
+      <textarea id="socCap" spellcheck="false"></textarea>
+      <p class="sc-note" id="socDlHint"></p>
+      <div class="sc-acts">
+        <button type="button" class="btn" id="socCopy">Copy</button>
+        <button type="button" class="btn alt" id="socDl">Download</button>
+        <button type="button" class="btn alt" id="socOpen">Open</button>
+      </div>
+    </div>
+    <div class="sc-sec" id="socOptsBox"></div>
   </div>
-  <div class="sheet-ft"><button type="button" class="btn" id="postCopy">Copy</button></div>
 </div></dialog>
+
 
 <script>
 /* =====================================================================
@@ -1444,7 +1464,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
  dSpecs:"รายละเอียดห้อง",dCost:"ประมาณการค่าใช้จ่าย",kFloor:"ชั้น",kView:"วิว",kType:"แบบห้อง",kQuota:"โควตา",kSize:"พื้นที่ใช้สอย",kFurn:"เฟอร์นิเจอร์",kStatus:"สถานะ",kAvail:"ว่าง",
  cList:"ราคาปกติ",cPrice:"ราคาขาย",cBooking:"เงินจอง",cSinking:"กองทุนสำรอง 500/ตร.ม.",cMaint:"ส่วนกลาง 50/ตร.ม. × 12 เดือน",cTransfer:"ค่าโอน 1%",cTotal:"รวมโดยประมาณ",
    noteTitle:"หมายเหตุ",n1:"ราคานี้ยังไม่รวมกองทุนสำรอง ค่าส่วนกลาง และค่าโอนกรรมสิทธิ์",n2:"ทำสัญญาซื้อขายกับโครงการโดยตรง",n3:"ราคาโปรโมชั่นมีจำนวนจำกัดและอาจเปลี่ยนแปลงได้ กรุณาเช็กสถานะห้องก่อนรับจอง",
- addShortlist:"บันทึกห้องนี้",removeShortlist:"เอาออกจากรายการ",copyListing:"คัดลอกข้อมูลห้อง",printQuote:"พิมพ์ใบเสนอราคา",copied:"คัดลอกแล้ว ✓",
+ addShortlist:"บันทึกห้องนี้",removeShortlist:"เอาออกจากรายการ",makeSocialPost:"สร้างโพสต์โซเชียล",copyListing:"คัดลอกข้อมูลห้อง",printQuote:"พิมพ์ใบเสนอราคา",copied:"คัดลอกแล้ว ✓",
  slLabel:"ห้องที่บันทึกไว้",slShow:"ดูเฉพาะที่บันทึก",slShowAll:"ดูทั้งหมด",slCopy:"คัดลอกรายการ",slClear:"ล้าง",
  infoCost1:"กองทุนสำรอง 500/ตร.ม.",infoCost2:"ส่วนกลาง 50/ตร.ม. × 12 เดือน",infoCost3:"ค่าโอน 1%",infoTitle:"ซื้อห้องนี้ต้องรู้อะไรบ้าง",infoCostH:"ค่าใช้จ่ายนอกเหนือราคาห้อง",infoTermH:"เงื่อนไขโครงการ",
  contactH:"ติดต่อทีมขาย",contactP:"นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ", empty:"ไม่พบห้องที่ตรงเงื่อนไข",emptyHint:"ลองล้างตัวกรองแล้วค้นหาใหม่",
@@ -1475,7 +1495,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
  dSpecs:"Unit details",dCost:"Estimated costs",kFloor:"Floor",kView:"View",kType:"Layout",kQuota:"Quota",kSize:"Usable area",kFurn:"Furniture",kStatus:"Status",kAvail:"Available",
  cList:"List price",cPrice:"Selling price",cBooking:"Booking deposit",cSinking:"Sinking fund 500/sqm",cMaint:"Maintenance 50/sqm × 12 months",cTransfer:"Transfer fee 1%",cTotal:"Estimated total",
    noteTitle:"Notes",n1:"Price excludes sinking fund, maintenance fee and transfer fee.",n2:"All units are contracted directly with the developer.",n3:"Promotion prices are limited and may change — always re-confirm the unit before taking a deposit.",
- addShortlist:"Save this unit",removeShortlist:"Remove from list",copyListing:"Copy unit details",printQuote:"Print quotation",copied:"Copied ✓",
+ addShortlist:"Save this unit",removeShortlist:"Remove from list",makeSocialPost:"Create social post",copyListing:"Copy unit details",printQuote:"Print quotation",copied:"Copied ✓",
  slLabel:"units saved",slShow:"Show saved only",slShowAll:"Show all",slCopy:"Copy list",slClear:"Clear",
  infoCost1:"Sinking fund 500/sqm",infoCost2:"Maintenance 50/sqm × 12 months",infoCost3:"Transfer fee 1%",infoTitle:"What a buyer needs to know",infoCostH:"Costs on top of the unit price",infoTermH:"Project terms",
  contactH:"Talk to the sales team",contactP:"Book a viewing, request a floor plan, or get a quotation for your client.", empty:"No units match these filters",emptyHint:"Try clearing the filters and searching again",
@@ -1506,7 +1526,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
  dSpecs:"О квартире",dCost:"Оценка расходов",kFloor:"Этаж",kView:"Вид",kType:"Планировка",kQuota:"Квота",kSize:"Площадь",kFurn:"Мебель",kStatus:"Статус",kAvail:"Свободна",
  cList:"Прайсовая цена",cPrice:"Цена продажи",cBooking:"Депозит за бронь",cSinking:"Фонд 500/м²",cMaint:"Обслуживание 50/м² × 12 мес.",cTransfer:"Сбор за передачу 1%",cTotal:"Итого примерно",
    noteTitle:"Примечания",n1:"Цена не включает фонд, обслуживание и сбор за передачу.",n2:"Договор заключается напрямую с застройщиком.",n3:"Количество акционных квартир ограничено, цены могут измениться — уточняйте перед приёмом депозита.",
- addShortlist:"Сохранить",removeShortlist:"Убрать из списка",copyListing:"Копировать описание",printQuote:"Печать предложения",copied:"Скопировано ✓",
+ addShortlist:"Сохранить",removeShortlist:"Убрать из списка",makeSocialPost:"Пост для соцсетей",copyListing:"Копировать описание",printQuote:"Печать предложения",copied:"Скопировано ✓",
  slLabel:"сохранено",slShow:"Только сохранённые",slShowAll:"Показать все",slCopy:"Копировать список",slClear:"Очистить",
  infoCost1:"Фонд 500/м²",infoCost2:"Обслуживание 50/м² × 12 мес.",infoCost3:"Сбор за передачу 1%",infoTitle:"Что важно знать покупателю",infoCostH:"Расходы сверх цены квартиры",infoTermH:"Условия проекта",
  contactH:"Отдел продаж",contactP:"Запишитесь на просмотр, запросите планировку или предложение для клиента.", empty:"Ничего не найдено",emptyHint:"Попробуйте сбросить фильтры",
@@ -1537,7 +1557,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
  dSpecs:"房源信息",dCost:"费用估算",kFloor:"楼层",kView:"景观",kType:"户型",kQuota:"产权",kSize:"使用面积",kFurn:"家具",kStatus:"状态",kAvail:"在售",
  cList:"原价",cPrice:"售价",cBooking:"订金",cSinking:"维修基金 500/平米",cMaint:"物业费 50/平米 × 12 个月",cTransfer:"过户费 1%",cTotal:"预估合计",
    noteTitle:"备注",n1:"售价不含维修基金、物业费与过户费。",n2:"所有房源均与开发商直接签约。",n3:"优惠房源数量有限且可能调整，收订前请再次确认房态。",
- addShortlist:"收藏此房",removeShortlist:"取消收藏",copyListing:"复制房源信息",printQuote:"打印报价单",copied:"已复制 ✓",
+ addShortlist:"收藏此房",removeShortlist:"取消收藏",makeSocialPost:"生成社交贴文",copyListing:"复制房源信息",printQuote:"打印报价单",copied:"已复制 ✓",
  slLabel:"套已收藏",slShow:"只看收藏",slShowAll:"看全部",slCopy:"复制清单",slClear:"清空",
  infoCost1:"维修基金 500/平米",infoCost2:"物业费 50/平米 × 12 个月",infoCost3:"过户费 1%",infoTitle:"买家须知",infoCostH:"房价之外的费用",infoTermH:"项目条款",
  contactH:"联系销售团队",contactP:"预约看房、索取户型图，或为您的客户索取报价单。", empty:"没有符合条件的房源",emptyHint:"请尝试清除筛选条件",
@@ -2212,7 +2232,7 @@ function renderUnitPage(code){
           <div class="u-ctas">
             ${lineBtn("line", "LINE")}
             <a class="call" href="tel:${intl(CONTACT.phones[1].tel)}">☎ ${t("uCall")}</a>
-            <button type="button" data-post="${u.unit}">${postT().btn}</button>
+            <button type="button" data-social="${u.unit}">${t("makeSocialPost")}</button>
             <button type="button" data-ushare="1">${t("uShare")}</button>
             <button type="button" data-uprint="1">${t("printQuote")}</button>
           </div>
@@ -2526,32 +2546,69 @@ document.addEventListener("change", e => {
   mx.shown = 12; renderMatches();
 });
 
-/* ------------------- social post generator (per unit) ------------------- */
-const POST_T = {
-  th: { proj:"เดอะ ริเวียร่า จอมเทียน คอนโด 46 ชั้น บนถนนจอมเทียนสาย 2 พัทยา โดย The Riviera Group สร้างเสร็จพร้อมโอน", projShort:"คอนโด 46 ชั้น จอมเทียน พัทยา พร้อมโอน", fits:"เหมาะกับ", btn:"สร้างโพสต์โซเชียล", title:"โพสต์โซเชียลของห้องนี้", hint:"เลือกช่องทาง แก้ข้อความได้ตามต้องการ แล้วกดคัดลอก",
-    kinds:{ fb:"Facebook / LINE VOOM", ig:"Instagram / TikTok", dm:"ข้อความหาลูกค้า" },
-    copy:"คัดลอกข้อความ", imgs:"รูปสำหรับโพสต์ (กดเพื่อเปิดแล้วเซฟ)", cta:"ดูรูปทั้งหมดและขอใบเสนอราคา", ask:"สนใจนัดชมห้อง ทักมาได้เลย",
-    promo:"ราคาพิเศษ", from:"จากราคาปกติ", loc:"The Riviera Jomtien · จอมเทียน พัทยา", plan:"ผังห้อง",
-    tags:["#TheRivieraJomtien","#คอนโดพัทยา","#จอมเทียน","#คอนโดติดทะเล","#ขายคอนโดพัทยา","#ClarePattayaProperty"] },
-  en: { proj:"The Riviera Jomtien is a 46-storey condominium on Jomtien 2nd Road, Pattaya by The Riviera Group — completed and ready to transfer.", projShort:"46-storey condo in Jomtien, Pattaya — ready to move in", fits:"Who it suits", btn:"Create social post", title:"Social post for this unit", hint:"Pick a channel, edit the text if you like, then copy.",
-    kinds:{ fb:"Facebook / LINE VOOM", ig:"Instagram / TikTok", dm:"Message to a client" },
-    copy:"Copy text", imgs:"Photos for the post (tap to open and save)", cta:"See all photos and get a quotation", ask:"Message us to arrange a viewing",
-    promo:"Special price", from:"was", loc:"The Riviera Jomtien · Jomtien, Pattaya", plan:"Floor plan",
-    tags:["#TheRivieraJomtien","#PattayaCondo","#Jomtien","#BeachfrontCondo","#CondoForSalePattaya","#ClarePattayaProperty"] },
-  ru: { proj:"The Riviera Jomtien — 46-этажный кондоминиум на Jomtien 2nd Road в Паттайе от The Riviera Group, сдан и готов к передаче.", projShort:"46-этажный кондоминиум в Джомтьене, Паттайя — готов к заселению", fits:"Кому подойдёт", btn:"Пост для соцсетей", title:"Пост об этой квартире", hint:"Выберите канал, при желании отредактируйте текст и скопируйте.",
-    kinds:{ fb:"Facebook / LINE VOOM", ig:"Instagram / TikTok", dm:"Сообщение клиенту" },
-    copy:"Скопировать текст", imgs:"Фото для поста (нажмите, чтобы открыть и сохранить)", cta:"Все фото и коммерческое предложение", ask:"Напишите нам, чтобы записаться на просмотр",
-    promo:"Спеццена", from:"вместо", loc:"The Riviera Jomtien · Джомтьен, Паттайя", plan:"Планировка",
-    tags:["#TheRivieraJomtien","#ПаттайяНедвижимость","#Джомтьен","#КвартираУМоря","#ПаттайяКвартиры","#ClarePattayaProperty"] },
-  zh: { proj:"The Riviera Jomtien 是 The Riviera Group 开发的 46 层公寓，位于芭提雅宗滴恩二路，已竣工可过户。", projShort:"芭提雅宗滴恩 46 层公寓，已竣工可入住", fits:"适合谁", btn:"生成社交贴文", title:"这套房源的社交贴文", hint:"选择渠道，可自行修改文字，然后复制。",
-    kinds:{ fb:"Facebook / LINE VOOM", ig:"Instagram / TikTok", dm:"发给客户的消息" },
-    copy:"复制文字", imgs:"贴文用图（点击打开后保存）", cta:"查看全部照片并索取报价单", ask:"想看房请随时联系我们",
-    promo:"特价", from:"原价", loc:"The Riviera Jomtien · 芭提雅 宗甸", plan:"户型图",
-    tags:["#TheRivieraJomtien","#芭提雅公寓","#宗甸","#海边公寓","#芭提雅房产","#ClarePattayaProperty"] }
+/* ===================================================================
+   SOCIAL POST BUILDER
+   Caption in three styles + a 1:1 / 4:5 post image drawn on canvas.
+   Everything comes from the unit's own data; the QR carries a UTM link.
+   =================================================================== */
+const SOC_T = {
+  th: { title:c => `สร้างโพสต์จากห้อง ${c}`, plat:"เลือกแพลตฟอร์ม", style:"เลือกสไตล์แคปชัน", prev:"ตัวอย่างโพสต์", opts:"ตัวเลือกเสริม",
+    styles:{ a:"ราคาโปรแรง", b:"วิวและไลฟ์สไตล์", c:"จับคู่บุคลิก" },
+    o:{ price:"ใส่ราคา", disc:"ใส่ส่วนลด %", qr:"ใส่ QR ไปหน้ายูนิต", contact:"ใส่เบอร์/LINE ทีมขาย", tags:"ติดแท็ก" },
+    langLbl:"ภาษาของโพสต์", ratioLbl:"สัดส่วนภาพ", pickImg:"ภาพพื้นหลัง",
+    copy:"คัดลอกแคปชัน", dl:"ดาวน์โหลดภาพ", open:"เปิดลิงก์ห้อง", dlHint:"ถ้าปุ่มดาวน์โหลดไม่ทำงาน (เช่น ในหน้าตัวอย่าง) ให้คลิกขวาหรือกดค้างที่ภาพแล้วเซฟรูป",noImg:"ห้องนี้ยังไม่มีรูป ภาพโพสต์จะใช้ผังห้องหรือพื้นสีแทน",
+    ready:"พร้อมโอน", promo:"ราคาโปร", from:"จาก", save:"ประหยัด", promoTag:"โปรโมชั่น",
+    aCta:"ดูรายละเอียดและขอใบเสนอราคาได้ที่ลิงก์ในคอมเมนต์ หรือทัก LINE Clare Pattaya Property ได้เลย",
+    bLead:(v, c) => `ตื่นมาเปิดผ้าม่านเจอ${v}จากห้อง ${c} ที่ ${PROJECT_NAME}`,
+    bBody:"ห้องพร้อมอยู่ ใกล้หาดจอมเทียน สิ่งอำนวยความสะดวกครบในโครงการ เหมาะทั้งอยู่เองและปล่อยเช่า",
+    bCta:"ดูห้องนี้ได้ที่",
+    cLead:(c, ty) => `ห้อง ${c} เหมาะกับคนสาย ${ty}`,
+    cGeneric:"ทีมขายช่วยจับคู่ห้องกับบุคลิกและไลฟ์สไตล์ของคุณได้",
+    cCta:"ถ้ายังไม่แน่ใจว่าห้องไหนเข้ากับตัวเอง ลองเริ่มจากหน้า Personalized Matching แล้วค่อยให้ทีมช่วยจับคู่ให้",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" },
+  en: { title:c => `Create a post for ${c}`, plat:"Platforms", style:"Caption style", prev:"Post preview", opts:"Options",
+    styles:{ a:"Price-led", b:"View & lifestyle", c:"Personality match" },
+    o:{ price:"Show price", disc:"Show discount %", qr:"QR to the unit page", contact:"Phone / LINE", tags:"Hashtags" },
+    langLbl:"Post language", ratioLbl:"Image ratio", pickImg:"Background photo",
+    copy:"Copy caption", dl:"Download image", open:"Open unit link", dlHint:"If the download button does nothing (e.g. in a preview), right-click or long-press the image and save it.",noImg:"No photos for this unit yet — the image will use the floor plan or a plain ground.",
+    ready:"ready to transfer", promo:"Special price", from:"was", save:"save", promoTag:"PROMOTION",
+    aCta:"Full details and a quotation via the link in the comments, or message Clare Pattaya Property on LINE.",
+    bLead:(v, c) => `Open the curtains to a ${v.toLowerCase()} from unit ${c} at ${PROJECT_NAME}`,
+    bBody:"Ready to move in, close to Jomtien beach, with the project's full facilities — good to live in or to rent out.",
+    bCta:"See this unit at",
+    cLead:(c, ty) => `Unit ${c} suits ${ty} types`,
+    cGeneric:"Our team can match a unit to your personality and lifestyle.",
+    cCta:"Not sure which unit fits you? Start with the Personalized Matching page and let the team match you.",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" },
+  ru: { title:c => `Пост по квартире ${c}`, plat:"Платформы", style:"Стиль подписи", prev:"Предпросмотр", opts:"Параметры",
+    styles:{ a:"Акцент на цене", b:"Вид и стиль жизни", c:"Подбор по типу личности" },
+    o:{ price:"Показать цену", disc:"Показать скидку %", qr:"QR на страницу квартиры", contact:"Телефон / LINE", tags:"Хэштеги" },
+    langLbl:"Язык поста", ratioLbl:"Формат", pickImg:"Фон",
+    copy:"Скопировать подпись", dl:"Скачать картинку", open:"Открыть страницу", dlHint:"Если кнопка скачивания не срабатывает (например, в предпросмотре), сохраните картинку через правый клик или долгое нажатие.",noImg:"Фото пока нет — будет использована планировка или однотонный фон.",
+    ready:"готово к передаче", promo:"Спеццена", from:"вместо", save:"экономия", promoTag:"АКЦИЯ",
+    aCta:"Детали и коммерческое предложение — по ссылке в комментариях или напишите Clare Pattaya Property в LINE.",
+    bLead:(v, c) => `Откройте шторы — и ${v.toLowerCase()} из квартиры ${c} в ${PROJECT_NAME}`,
+    bBody:"Готова к заселению, рядом с пляжем Джомтьен, вся инфраструктура проекта — для жизни и для аренды.",
+    bCta:"Смотреть квартиру",
+    cLead:(c, ty) => `Квартира ${c} подойдёт типам ${ty}`,
+    cGeneric:"Наша команда подберёт квартиру под ваш характер и образ жизни.",
+    cCta:"Не знаете, что подойдёт? Начните со страницы Personalized Matching, а дальше поможет команда.",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" },
+  zh: { title:c => `生成 ${c} 的贴文`, plat:"发布平台", style:"文案风格", prev:"贴文预览", opts:"选项",
+    styles:{ a:"主打优惠价", b:"景观与生活", c:"性格匹配" },
+    o:{ price:"显示价格", disc:"显示折扣", qr:"房源页二维码", contact:"电话 / LINE", tags:"话题标签" },
+    langLbl:"贴文语言", ratioLbl:"图片比例", pickImg:"背景图",
+    copy:"复制文案", dl:"下载图片", open:"打开房源页", dlHint:"如果下载按钮无效（例如在预览中），可右键或长按图片另存为。",noImg:"该房源暂无实拍图，图片将使用户型图或纯色底。",
+    ready:"已竣工可过户", promo:"特价", from:"原价", save:"省", promoTag:"特惠",
+    aCta:"详情与报价请点评论区链接，或在 LINE 联系 Clare Pattaya Property。",
+    bLead:(v, c) => `拉开窗帘，${PROJECT_NAME} ${c} 的${v}尽收眼底`,
+    bBody:"可即时入住，靠近宗滴恩海滩，项目设施齐全，自住出租皆合适。",
+    bCta:"查看房源",
+    cLead:(c, ty) => `${c} 适合 ${ty} 型的人`,
+    cGeneric:"我们的团队可依您的性格与生活方式为您配房。",
+    cCta:"还不确定哪套适合自己？先看 Personalized Matching 页面，再由团队帮您配对。",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" }
 };
-const postT = () => POST_T[lang] || POST_T.en;
-const post = { unit: null, kind: "fb" };
-
 /* Units with their own page link straight to it; the rest open on the list page. */
 function unitUrl(code){
   const href = hasPage(code) ? unitHref(code) : (window.SITE_PAGES ? `${PAGE_FILE_STEM}.html#unit-${code}` : `#unit-${code}`);
@@ -2559,72 +2616,203 @@ function unitUrl(code){
 }
 const telPretty = tel => tel.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
 
-function postText(u, kind){
-  const P = postT(), st = storyOf(u.unit), c = { price: sell(u) };
-  const d = u.promoPrice ? Math.round(discount(u) * 100) : 0;
-  const spec = `${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")} · ${t("floorWord")} ${u.floor} · ${t(viewLabel(u))}`;
-  const price = d ? `${P.promo} ${baht(c.price)} (${P.from} ${baht(u.price)}, −${d}%)` : baht(c.price);
-  const url = unitUrl(u.unit);
-  const tel = CONTACT.phones.map(p => `${telPretty(p.tel)} (${p.name})`).join(" · ");
-  const lines = CONTACT.lines.map(l => l.id).join(" · ");
+const SOC_PLAT = { fb:"Facebook", ig:"Instagram", line:"LINE OA", tiktok:"TikTok" };
+const soc = { unit:null, plats:{ fb:true, ig:true, line:false, tiktok:false }, style:"a", ratio:"1:1", lg:"th", img:0,
+  opt:{ price:true, disc:true, qr:true, contact:true, tags:true } };
+const socT = () => SOC_T[soc.lg] || SOC_T.en;
+const tl = (k, lg) => (T[lg] && T[lg][k]) || T.en[k] || k;             // any label in the post's own language
 
-  /* only units with a written story say who the room suits */
+function socPlats(){ return Object.keys(soc.plats).filter(k => soc.plats[k]); }
+function socUrl(u){
+  const base = unitUrl(u.unit), src = socPlats()[0] || "fb";
+  return `${base}${base.includes("?") ? "&" : "?"}utm_source=${src}&utm_campaign=${u.unit}`;
+}
+
+function buildSocialCaption(u, style, lg, opts){
+  const S = SOC_T[lg] || SOC_T.en, st = (UNIT_STORIES[u.unit] || {})[lg] || (UNIT_STORIES[u.unit] || {}).en;
   const types = ((UNIT_STORIES[u.unit] || {}).mbti || []);
-  const fits = st && st.mbtiText ? `${P.fits}: ${st.mbtiText}${types.length ? ` (MBTI : ${types.join(" · ")})` : ""}` : "";
-  if (kind === "ig"){
-    return [`${u.unit} · ${st ? st.name : PROJECT_NAME}`, P.projShort, spec, price,
-      ...(fits ? ["", `👤 ${fits}`] : []), "", `${P.cta} 👉 ${url}`, "", P.tags.join(" ")].join("\n");
+  const d = u.promoPrice ? Math.round(discount(u) * 100) : 0;
+  const spec = `${tl(viewLabel(u), lg)} · ${tl("floorWord", lg)} ${u.floor} · ${sqmFmt(u.sqm)} ${tl("thSqm", lg)}${isFurnished(u) ? ` · ${tl(furnLabel(u), lg)}` : ""}`;
+  const priceLine = !opts.price ? "" :
+    (d ? `${S.promo} ${baht(sell(u))}` + (opts.disc ? ` (${S.from} ${baht(u.price)} · −${d}% · ${S.save} ${baht(u.price - sell(u))})` : ` (${S.from} ${baht(u.price)})`)
+       : baht(sell(u)));
+  const url = socUrl(u);
+  const contact = !opts.contact ? [] : CONTACT.lines.map(l => {
+    const ph = CONTACT.phones.find(p => p.name === l.name);
+    return `📞 ${ph ? telPretty(ph.tel) + " " : ""}(${l.name}) · LINE ${l.id}`;
+  });
+  const tags = opts.tags ? [S.tags] : [];
+  let lines;
+  if (style === "b"){
+    lines = [S.bLead(tl(viewLabel(u), lg), u.unit), "", S.bBody, "", spec, priceLine, "", `${S.bCta} ${url}`];
+  } else if (style === "c"){
+    const who = types.length ? S.cLead(u.unit, types.join(" / ")) : `${u.unit} — ${S.cGeneric}`;
+    lines = [who, st && st.mbtiText ? st.mbtiText : "", "", spec, priceLine, "", S.cCta, url, new URL(matchingHref(), location.href).href];
+  } else {
+    lines = [`${u.unit} · ${PROJECT_NAME} · ${S.ready}`, priceLine, spec, "", S.aCta];
   }
-  if (kind === "dm"){
-    return [`${PROJECT_NAME} · ${u.unit}`, P.projShort, "", spec, price, t(furnLabel(u)),
-      ...(fits ? ["", `👤 ${fits}`] : []), "", `${P.cta}: ${url}`, P.ask].join("\n");
-  }
-  const bullets = [`• ${spec}`, `• ${t(furnLabel(u))}`, `• ${price}`];
-  if (st && st.highlights) st.highlights.slice(0, 2).forEach(h => bullets.push(`• ${h}`));
-  return [
-    `🌊 ${PROJECT_NAME} — ${u.unit}${st ? " · " + st.name : ""}`,
-    ...(st ? [st.tagline] : []),
-    "", `🏙️ ${P.proj}`,
-    "", ...bullets,
-    ...(fits ? ["", `👤 ${fits}`] : []), "",
-    `📍 ${P.loc}`,
-    `🔗 ${P.cta}: ${url}`,
-    `📞 ${tel} · LINE ${lines}`,
-    "", P.tags.join(" ")
-  ].filter(x => x !== null).join("\n");
+  return [...lines, ...(contact.length ? ["", ...contact] : []), ...(tags.length ? ["", ...tags] : [])]
+    .filter((l, i, arr) => l !== "" || (i > 0 && arr[i - 1] !== "")).join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
-function openPostDlg(code){
+/* ---------------- post image ---------------- */
+function socBgList(u){
+  const m = mediaOf(u);
+  const list = m.photos.slice();
+  if (m.planSrc) list.push(m.planSrc);
+  return list;
+}
+function loadImg(src){
+  return new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+}
+function drawQR(ctx, text, x, y, size){
+  if (typeof qrcode !== "function") return false;
+  try {
+    const qr = qrcode(0, "M"); qr.addData(text); qr.make();
+    const n = qr.getModuleCount(), pad = Math.round(size * 0.07), cell = (size - pad * 2) / n;
+    ctx.fillStyle = "#fff"; ctx.fillRect(x, y, size, size);
+    ctx.fillStyle = "#0B1F25";
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+      if (qr.isDark(r, c)) ctx.fillRect(x + pad + c * cell, y + pad + r * cell, Math.ceil(cell), Math.ceil(cell));
+    return true;
+  } catch (e) { return false; }
+}
+async function buildSocialImage(u, opts){
+  const S = SOC_T[soc.lg] || SOC_T.en, lg = soc.lg;
+  const W = 1080, H = soc.ratio === "4:5" ? 1350 : 1080;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const ctx = cv.getContext("2d");
+  const bgs = socBgList(u), bg = bgs.length ? await loadImg(bgs[soc.img % bgs.length]) : null;
+  ctx.fillStyle = "#0B1F25"; ctx.fillRect(0, 0, W, H);
+  if (bg){                                                            // cover-fit the photo
+    const s = Math.max(W / bg.width, H / bg.height), w = bg.width * s, h = bg.height * s;
+    ctx.drawImage(bg, (W - w) / 2, (H - h) / 2, w, h);
+  }
+  let g = ctx.createLinearGradient(0, H * 0.3, 0, H);
+  g.addColorStop(0, "rgba(6,28,34,0)"); g.addColorStop(0.45, "rgba(6,28,34,.62)");
+  g.addColorStop(0.72, "rgba(6,28,34,.9)"); g.addColorStop(1, "rgba(6,28,34,.97)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  g = ctx.createLinearGradient(0, 0, 0, H * 0.28);
+  g.addColorStop(0, "rgba(6,28,34,.66)"); g.addColorStop(1, "rgba(6,28,34,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.28);
+
+  const logo = await loadImg("riviera-img/logo-bar-pale.png");
+  if (logo) ctx.drawImage(logo, 56, 52, 340, 340 * logo.height / logo.width);
+
+  const badge = u.promoPrice ? S.promoTag : tl(viewLabel(u), lg);      // top-right tag
+  ctx.font = "700 30px var(--f-ui, 'IBM Plex Sans Thai'), 'IBM Plex Sans Thai', system-ui, sans-serif";
+  const bw = ctx.measureText(badge).width + 56;
+  ctx.fillStyle = u.promoPrice ? "#C0442B" : "rgba(255,255,255,.18)";
+  ctx.beginPath(); ctx.roundRect(W - 56 - bw, 54, bw, 62, 31); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(badge, W - 56 - bw / 2, 86);
+
+  const qrSize = 190, hasQR = opts.qr && drawQR(ctx, socUrl(u), W - 56 - qrSize, H - 56 - qrSize, qrSize);
+  const rightPad = hasQR ? qrSize + 90 : 56;
+
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  let y = H - 84;
+  if (opts.price){
+    const d = u.promoPrice ? Math.round(discount(u) * 100) : 0;
+    if (d && opts.disc){
+      ctx.font = "500 34px 'IBM Plex Mono', monospace"; ctx.fillStyle = "rgba(255,255,255,.72)";
+      const old = baht(u.price), ow = ctx.measureText(old).width;
+      ctx.fillText(old, 56, y);
+      ctx.strokeStyle = "rgba(255,255,255,.72)"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(56, y - 11); ctx.lineTo(56 + ow, y - 11); ctx.stroke();
+      ctx.font = "600 30px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "#F0866B";
+      ctx.fillText(`−${d}%  ${S.save} ${baht(u.price - sell(u))}`, 56 + ow + 26, y);
+      y -= 18;
+    }
+    ctx.font = `600 ${soc.ratio === "4:5" ? 96 : 88}px 'IBM Plex Mono', monospace`; ctx.fillStyle = "#F0866B";
+    ctx.fillText(baht(sell(u)), 56, y - 12);
+    y -= (soc.ratio === "4:5" ? 116 : 108);
+  }
+  ctx.font = "500 38px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "rgba(255,255,255,.88)";
+  ctx.fillText(`${tl("floorWord", lg)} ${u.floor} · ${sqmFmt(u.sqm)} ${tl("thSqm", lg)} · ${tl(typeLabel(u), lg)}`, 56, y);
+  y -= 66;
+  ctx.font = "600 76px 'IBM Plex Mono', monospace"; ctx.fillStyle = "#fff";
+  ctx.fillText(u.unit, 56, y);
+  y -= 50;
+  ctx.font = "700 27px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "rgba(255,255,255,.75)";
+  ctx.fillText(PROJECT_NAME.toUpperCase(), 56, y);
+  void rightPad;
+  return cv;
+}
+
+/* ---------------- panel ---------------- */
+function openSocialDlg(code){
   const u = UNITS.find(x => x.unit === code); if (!u) return;
-  post.unit = u; post.kind = "fb";
-  renderPostDlg();
-  $("#postDlg").showModal();
+  soc.unit = u; soc.lg = lang; soc.img = 0;
+  renderSocialDlg();
+  $("#socialDlg").showModal();
 }
 
-function renderPostDlg(){
-  const u = post.unit; if (!u) return;
-  const P = postT(), m = mediaOf(u);
-  $("#postTitle").textContent = `${P.title} · ${u.unit}`;
-  $("#postHint").textContent = P.hint;
-  $("#postSeg").innerHTML = Object.entries(P.kinds).map(([k, l]) =>
-    `<button type="button" data-postk="${k}" aria-pressed="${post.kind === k}">${l}</button>`).join("");
-  $("#postText").value = postText(u, post.kind);
-  $("#postCopy").textContent = P.copy;
-  const shots = m.items.filter(i => i.kind === "photo" || i.kind === "plan");
-  $("#postImgs").innerHTML = shots.length
-    ? `<p class="p-lbl">${P.imgs}</p><div class="p-thumbs">${shots.map(i =>
-        `<a href="${i.src}" target="_blank" rel="noopener"${i.kind === "plan" ? ' class="plan"' : ""}><img src="${i.src}" alt="${u.unit}" loading="lazy"></a>`).join("")}</div>`
-    : "";
+function renderSocialDlg(){
+  const u = soc.unit; if (!u) return;
+  const S = socT(), bgs = socBgList(u);
+  $("#socTitle").textContent = S.title(u.unit);
+  $("#socPlat").innerHTML = `<div class="sc-lbl">${S.plat}</div><div class="sc-chips">${Object.entries(SOC_PLAT).map(([k, l]) =>
+    `<button type="button" class="chip" data-socp="${k}" aria-pressed="${!!soc.plats[k]}">${l}</button>`).join("")}</div>`;
+  $("#socStyle").innerHTML = `<div class="sc-lbl">${S.style}</div><div class="sc-chips">${Object.entries(S.styles).map(([k, l]) =>
+    `<button type="button" class="chip ghost" data-socs="${k}" aria-pressed="${soc.style === k}">${l}</button>`).join("")}</div>`;
+  $("#socOptsBox").innerHTML = `<div class="sc-lbl">${S.opts}</div>
+    <div class="sc-switches">${Object.entries(S.o).map(([k, l]) =>
+      `<label class="sc-sw"><input type="checkbox" data-soco="${k}"${soc.opt[k] ? " checked" : ""}><span>${l}</span></label>`).join("")}</div>
+    <div class="sc-row">
+      <label><span class="sc-lbl">${S.langLbl}</span>
+        <select data-socsel="lg">${["th", "en", "ru", "zh"].map(l =>
+          `<option value="${l}"${soc.lg === l ? " selected" : ""}>${l.toUpperCase()}</option>`).join("")}</select></label>
+      <label><span class="sc-lbl">${S.ratioLbl}</span>
+        <select data-socsel="ratio">${["1:1", "4:5"].map(r =>
+          `<option value="${r}"${soc.ratio === r ? " selected" : ""}>${r}</option>`).join("")}</select></label>
+      ${bgs.length > 1 ? `<label><span class="sc-lbl">${S.pickImg}</span>
+        <select data-socsel="img">${bgs.map((b, i) => `<option value="${i}"${soc.img === i ? " selected" : ""}>${i + 1}</option>`).join("")}</select></label>` : ""}
+    </div>
+    ${bgs.length ? "" : `<p class="sc-note">${S.noImg}</p>`}`;
+  $("#socCap").value = buildSocialCaption(u, soc.style, soc.lg, soc.opt);
+  $("#socPrevLbl").textContent = S.prev;
+  $("#socCopy").textContent = S.copy;
+  $("#socDl").textContent = S.dl;
+  $("#socDlHint").textContent = S.dlHint;
+  $("#socOpen").textContent = S.open;
+  socPreview();
+}
+
+let socCanvas = null;
+async function socPreview(){
+  const cv = await buildSocialImage(soc.unit, soc.opt);
+  socCanvas = cv;
+  const box = $("#socShot"); if (!box) return;
+  box.innerHTML = "";
+  cv.style.width = "100%"; cv.style.height = "auto"; cv.style.display = "block";
+  box.appendChild(cv);
 }
 
 document.addEventListener("click", e => {
-  const open = e.target.closest("[data-post]");
-  if (open){ openPostDlg(open.dataset.post); return; }
-  if (!e.target.closest("#postDlg")) return;
-  const k = e.target.closest("[data-postk]");
-  if (k){ post.kind = k.dataset.postk; renderPostDlg(); return; }
-  if (e.target.closest("#postCopy")){ copyText($("#postText").value, $("#postCopy")); return; }
-  if (e.target.closest("#postClose") || e.target === $("#postDlg")) $("#postDlg").close();
+  const open = e.target.closest("[data-social]");
+  if (open){ openSocialDlg(open.dataset.social); return; }
+  if (!e.target.closest("#socialDlg")) return;
+  const p = e.target.closest("[data-socp]");
+  if (p){ soc.plats[p.dataset.socp] = !soc.plats[p.dataset.socp]; renderSocialDlg(); return; }
+  const st = e.target.closest("[data-socs]");
+  if (st){ soc.style = st.dataset.socs; renderSocialDlg(); return; }
+  if (e.target.closest("#socCopy")){ copyText($("#socCap").value, $("#socCopy")); return; }
+  if (e.target.closest("#socOpen")){ window.open(socUrl(soc.unit), "_blank", "noopener"); return; }
+  if (e.target.closest("#socDl")){
+    const name = `${soc.unit.unit}-${soc.ratio.replace(":", "x")}.png`;
+    const go = url => { const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+    if (socCanvas && socCanvas.toBlob) socCanvas.toBlob(b => { const url = URL.createObjectURL(b); go(url); setTimeout(() => URL.revokeObjectURL(url), 4000); }, "image/png");
+    else if (socCanvas) go(socCanvas.toDataURL("image/png"));
+    return;
+  }
+  if (e.target.closest("#socClose") || e.target === $("#socialDlg")) $("#socialDlg").close();
+});
+document.addEventListener("change", e => {
+  const sw = e.target.closest("[data-soco]");
+  if (sw){ soc.opt[sw.dataset.soco] = sw.checked; $("#socCap").value = buildSocialCaption(soc.unit, soc.style, soc.lg, soc.opt); socPreview(); return; }
+  const sel = e.target.closest("[data-socsel]");
+  if (sel){ const k = sel.dataset.socsel; soc[k] = k === "img" ? +sel.value : sel.value; renderSocialDlg(); }
 });
 
 function route(){
@@ -2663,8 +2851,7 @@ function applyProjectName(){
 function applyLang(){
   document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
-  const pb = document.getElementById("dPost"); if (pb) pb.textContent = postT().btn;
-  if (post.unit && $("#postDlg").open) renderPostDlg();
+  if (soc.unit && $("#socialDlg").open) renderSocialDlg();
   document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
   document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   fillSelects();
@@ -2810,7 +2997,7 @@ $("#dlg").addEventListener("keydown", e => {
   if (e.key === "ArrowRight"){ e.preventDefault(); galGo(1); }
   else if (e.key === "ArrowLeft"){ e.preventDefault(); galGo(-1); }
 });
-$("#dPost").addEventListener("click", () => { if (current) openPostDlg(current.unit); });
+$("#dSocial").addEventListener("click", () => { if (current) openSocialDlg(current.unit); });
 $("#dClose").addEventListener("click", () => $("#dlg").close());
 function openLineDlg(){
   $("#lGrid").innerHTML = CONTACT.lines.map(l => `<div class="lcard">
