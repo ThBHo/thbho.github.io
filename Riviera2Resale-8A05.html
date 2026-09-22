@@ -531,7 +531,8 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
 .sc-sec:first-child{padding-top:0;border-top:0}
 .sc-lbl{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .sc-chips{display:flex;gap:7px;flex-wrap:wrap}
-.sc-shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2);max-width:420px;margin:0 auto 12px}
+.sc-shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2);margin:0 auto 12px;display:flex;justify-content:center}
+.sc-shot canvas{display:block;max-width:100%;max-height:46vh;width:auto;height:auto}
 #socCap{width:100%;min-height:190px;border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:13.5px;line-height:1.6;resize:vertical}
 .sc-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .sc-acts .btn{font-size:13px;padding:9px 14px}
@@ -2617,7 +2618,8 @@ function unitUrl(code){
 const telPretty = tel => tel.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
 
 const SOC_PLAT = { fb:"Facebook", ig:"Instagram", line:"LINE OA", tiktok:"TikTok" };
-const soc = { unit:null, plats:{ fb:true, ig:true, line:false, tiktok:false }, style:"a", ratio:"1:1", lg:"th", img:0,
+const SOC_RATIOS = { "4:5":[1080, 1350], "1:1":[1080, 1080], "9:16":[1080, 1920], "16:9":[1920, 1080] };
+const soc = { unit:null, plats:{ fb:true, ig:true, line:false, tiktok:false }, style:"a", ratio:"4:5", lg:"th", img:0,
   opt:{ price:true, disc:true, qr:true, contact:true, tags:true } };
 const socT = () => SOC_T[soc.lg] || SOC_T.en;
 const tl = (k, lg) => (T[lg] && T[lg][k]) || T.en[k] || k;             // any label in the post's own language
@@ -2679,64 +2681,89 @@ function drawQR(ctx, text, x, y, size){
 }
 async function buildSocialImage(u, opts){
   const S = SOC_T[soc.lg] || SOC_T.en, lg = soc.lg;
-  const W = 1080, H = soc.ratio === "4:5" ? 1350 : 1080;
+  const [W, H] = SOC_RATIOS[soc.ratio] || SOC_RATIOS["4:5"];
+  const PAD = 56;
   const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
   const ctx = cv.getContext("2d");
+  try { await document.fonts.ready; } catch (e) {}
+  const F = (w, sz, mono) => `${w} ${sz}px ${mono ? "'IBM Plex Mono', ui-monospace, monospace" : "'IBM Plex Sans Thai', system-ui, sans-serif"}`;
+
+  /* photo, kept bright — only the caption band below is darkened */
   const bgs = socBgList(u), bg = bgs.length ? await loadImg(bgs[soc.img % bgs.length]) : null;
-  ctx.fillStyle = "#0B1F25"; ctx.fillRect(0, 0, W, H);
-  if (bg){                                                            // cover-fit the photo
-    const s = Math.max(W / bg.width, H / bg.height), w = bg.width * s, h = bg.height * s;
+  ctx.fillStyle = "#123038"; ctx.fillRect(0, 0, W, H);
+  if (bg){
+    const s2 = Math.max(W / bg.width, H / bg.height), w = bg.width * s2, h = bg.height * s2;
+    ctx.filter = "brightness(1.06) saturate(1.04)";
     ctx.drawImage(bg, (W - w) / 2, (H - h) / 2, w, h);
+    ctx.filter = "none";
   }
-  let g = ctx.createLinearGradient(0, H * 0.3, 0, H);
-  g.addColorStop(0, "rgba(6,28,34,0)"); g.addColorStop(0.45, "rgba(6,28,34,.62)");
-  g.addColorStop(0.72, "rgba(6,28,34,.9)"); g.addColorStop(1, "rgba(6,28,34,.97)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  g = ctx.createLinearGradient(0, 0, 0, H * 0.28);
-  g.addColorStop(0, "rgba(6,28,34,.66)"); g.addColorStop(1, "rgba(6,28,34,0)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.28);
+  let g = ctx.createLinearGradient(0, 0, 0, H * 0.2);                    // just enough for the logo
+  g.addColorStop(0, "rgba(6,28,34,.55)"); g.addColorStop(1, "rgba(6,28,34,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.2);
 
-  const logo = await loadImg("riviera-img/logo-bar-pale.png");
-  if (logo) ctx.drawImage(logo, 56, 52, 340, 340 * logo.height / logo.width);
-
-  const badge = u.promoPrice ? S.promoTag : tl(viewLabel(u), lg);      // top-right tag
-  ctx.font = "700 30px var(--f-ui, 'IBM Plex Sans Thai'), 'IBM Plex Sans Thai', system-ui, sans-serif";
-  const bw = ctx.measureText(badge).width + 56;
-  ctx.fillStyle = u.promoPrice ? "#C0442B" : "rgba(255,255,255,.18)";
-  ctx.beginPath(); ctx.roundRect(W - 56 - bw, 54, bw, 62, 31); ctx.fill();
-  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText(badge, W - 56 - bw / 2, 86);
-
-  const qrSize = 190, hasQR = opts.qr && drawQR(ctx, socUrl(u), W - 56 - qrSize, H - 56 - qrSize, qrSize);
-  const rightPad = hasQR ? qrSize + 90 : 56;
-
-  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-  let y = H - 84;
+  /* ---- caption band: measure every line first, then lay them out top-down ---- */
+  const d = u.promoPrice ? Math.round(discount(u) * 100) : 0;
+  const rows = [];
+  rows.push({ t: PROJECT_NAME.toUpperCase(), f: F(700, 26), c: "rgba(255,255,255,.72)", h: 30, gap: 10, sp: 2 });
+  rows.push({ t: u.unit, f: F(600, 74, true), c: "#fff", h: 78, gap: 8 });
+  rows.push({ t: `${tl("floorWord", lg)} ${u.floor} · ${sqmFmt(u.sqm)} ${tl("thSqm", lg)} · ${tl(typeLabel(u), lg)}`,
+              f: F(500, 36), c: "rgba(255,255,255,.9)", h: 44, gap: 14 });
   if (opts.price){
-    const d = u.promoPrice ? Math.round(discount(u) * 100) : 0;
-    if (d && opts.disc){
-      ctx.font = "500 34px 'IBM Plex Mono', monospace"; ctx.fillStyle = "rgba(255,255,255,.72)";
-      const old = baht(u.price), ow = ctx.measureText(old).width;
-      ctx.fillText(old, 56, y);
-      ctx.strokeStyle = "rgba(255,255,255,.72)"; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(56, y - 11); ctx.lineTo(56 + ow, y - 11); ctx.stroke();
-      ctx.font = "600 30px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "#F0866B";
-      ctx.fillText(`−${d}%  ${S.save} ${baht(u.price - sell(u))}`, 56 + ow + 26, y);
-      y -= 18;
-    }
-    ctx.font = `600 ${soc.ratio === "4:5" ? 96 : 88}px 'IBM Plex Mono', monospace`; ctx.fillStyle = "#F0866B";
-    ctx.fillText(baht(sell(u)), 56, y - 12);
-    y -= (soc.ratio === "4:5" ? 116 : 108);
+    const big = soc.ratio === "1:1" ? 84 : 92;
+    rows.push({ t: baht(sell(u)), f: F(600, big, true), c: "#F0866B", h: big + 4, gap: 10 });
+    if (d && opts.disc) rows.push({ kind: "old", f: F(500, 32, true), f2: F(600, 30), h: 38, gap: 0 });
   }
-  ctx.font = "500 38px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "rgba(255,255,255,.88)";
-  ctx.fillText(`${tl("floorWord", lg)} ${u.floor} · ${sqmFmt(u.sqm)} ${tl("thSqm", lg)} · ${tl(typeLabel(u), lg)}`, 56, y);
-  y -= 66;
-  ctx.font = "600 76px 'IBM Plex Mono', monospace"; ctx.fillStyle = "#fff";
-  ctx.fillText(u.unit, 56, y);
-  y -= 50;
-  ctx.font = "700 27px 'IBM Plex Sans Thai', system-ui, sans-serif"; ctx.fillStyle = "rgba(255,255,255,.75)";
-  ctx.fillText(PROJECT_NAME.toUpperCase(), 56, y);
-  void rightPad;
+  const bandH = rows.reduce((a, r) => a + r.h + (r.gap || 0), 0) + PAD * 2;
+  const fade = 150;
+  g = ctx.createLinearGradient(0, H - bandH - fade, 0, H - bandH);
+  g.addColorStop(0, "rgba(6,28,34,0)"); g.addColorStop(1, "rgba(6,28,34,.9)");
+  ctx.fillStyle = g; ctx.fillRect(0, H - bandH - fade, W, fade);
+  ctx.fillStyle = "rgba(6,28,34,.9)"; ctx.fillRect(0, H - bandH, W, bandH);
+
+  /* QR sits inside the band, on the right */
+  const qrMax = Math.min(210, bandH - 56);
+  const hasQR = opts.qr && drawQR(ctx, socUrl(u), W - PAD - qrMax, H - bandH + (bandH - qrMax) / 2, qrMax);
+  const textW = W - PAD * 2 - (hasQR ? qrMax + 40 : 0);
+
+  const fit = (text, font, max) => {                                     // shrink a line until it fits
+    let size = parseInt(font.match(/(\d+)px/)[1], 10);
+    ctx.font = font;
+    while (ctx.measureText(text).width > max && size > 18){
+      size -= 2; ctx.font = font.replace(/\d+px/, size + "px");
+    }
+    return ctx.font;
+  };
+  ctx.textAlign = "left"; ctx.textBaseline = "top";
+  let y = H - bandH + PAD;
+  for (const r of rows){
+    if (r.kind === "old"){
+      ctx.font = fit(baht(u.price), r.f, textW * 0.45); ctx.fillStyle = "rgba(255,255,255,.7)";
+      const old = baht(u.price), ow = ctx.measureText(old).width;
+      ctx.fillText(old, PAD, y);
+      ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(PAD, y + r.h * 0.45); ctx.lineTo(PAD + ow, y + r.h * 0.45); ctx.stroke();
+      ctx.font = fit(`−${d}%  ${S.save} ${baht(u.price - sell(u))}`, r.f2, textW - ow - 30); ctx.fillStyle = "#F0866B";
+      ctx.fillText(`−${d}%  ${S.save} ${baht(u.price - sell(u))}`, PAD + ow + 26, y + 2);
+    } else {
+      ctx.font = fit(r.t, r.f, textW); ctx.fillStyle = r.c;
+      if (r.sp){                                                         // letter-spaced eyebrow
+        let x = PAD;
+        for (const ch of r.t){ ctx.fillText(ch, x, y); x += ctx.measureText(ch).width + r.sp; }
+      } else ctx.fillText(r.t, PAD, y);
+    }
+    y += r.h + (r.gap || 0);
+  }
+
+  const logo = await loadImg("riviera-img/logo-bar-pale.png");           // brand, top-left
+  if (logo) ctx.drawImage(logo, PAD, 52, 330, 330 * logo.height / logo.width);
+
+  const badge = u.promoPrice ? S.promoTag : tl(viewLabel(u), lg);        // tag, top-right
+  ctx.textBaseline = "middle"; ctx.textAlign = "center";
+  ctx.font = F(700, 30);
+  const bw = ctx.measureText(badge).width + 56;
+  ctx.fillStyle = u.promoPrice ? "#C0442B" : "rgba(11,31,37,.72)";
+  ctx.beginPath(); ctx.roundRect(W - PAD - bw, 54, bw, 62, 31); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.fillText(badge, W - PAD - bw / 2, 86);
   return cv;
 }
 
@@ -2764,7 +2791,7 @@ function renderSocialDlg(){
         <select data-socsel="lg">${["th", "en", "ru", "zh"].map(l =>
           `<option value="${l}"${soc.lg === l ? " selected" : ""}>${l.toUpperCase()}</option>`).join("")}</select></label>
       <label><span class="sc-lbl">${S.ratioLbl}</span>
-        <select data-socsel="ratio">${["1:1", "4:5"].map(r =>
+        <select data-socsel="ratio">${Object.keys(SOC_RATIOS).map(r =>
           `<option value="${r}"${soc.ratio === r ? " selected" : ""}>${r}</option>`).join("")}</select></label>
       ${bgs.length > 1 ? `<label><span class="sc-lbl">${S.pickImg}</span>
         <select data-socsel="img">${bgs.map((b, i) => `<option value="${i}"${soc.img === i ? " selected" : ""}>${i + 1}</option>`).join("")}</select></label>` : ""}
@@ -2785,7 +2812,6 @@ async function socPreview(){
   socCanvas = cv;
   const box = $("#socShot"); if (!box) return;
   box.innerHTML = "";
-  cv.style.width = "100%"; cv.style.height = "auto"; cv.style.display = "block";
   box.appendChild(cv);
 }
 
