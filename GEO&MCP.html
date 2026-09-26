@@ -3,358 +3,833 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEO Strategy & MCP Readiness for Luxury Real Estate</title>
+    <title>GEO Strategy & MCP Readiness Framework (Luxury Real Estate)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <!-- 
-    Palette: "Royal Tech"
-    Primary Blue: #1E3A8A
-    Vibrant Accent: #3B82F6
-    Luxury Gold: #D97706
-    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-navy: #060d1a;
+            --card-navy: #0e1b2e;
+            --accent-gold: #f59e0b;
+            --accent-coral: #f43f5e;
+            --accent-cyan: #06b6d4;
+        }
+
         body {
-            font-family: 'Lato', 'Sarabun', sans-serif;
-            background-color: #F3F4F6;
-            color: #111827;
+            font-family: 'Plus Jakarta Sans', 'Sarabun', sans-serif;
+            background-color: #060d1a;
+            color: #f1f5f9;
+            scroll-behavior: smooth;
         }
-        h1, h2, h3, h4, .font-serif-bi {
-            font-family: 'Playfair Display', 'Sarabun', serif;
+
+        .font-luxury {
+            font-family: 'Cinzel', 'Sarabun', serif;
         }
-        
-        .chart-container {
+
+        .glass-card {
+            background: rgba(14, 27, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-gold {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(14, 27, 46, 0.8) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .coral-gradient-text {
+            background: linear-gradient(135deg, #fda4af 0%, #fb7185 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chart-box {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 450px;
+            height: 320px;
+            max-height: 380px;
         }
-        
+
         @media (max-width: 768px) {
-            .chart-container {
-                height: 300px;
+            .chart-box {
+                height: 270px;
             }
         }
 
-        .arrow-down {
-            width: 0; height: 0; 
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 15px solid #D97706;
-            margin: 0 auto;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
+        .glow-gold:hover {
+            box-shadow: 0 10px 30px -5px rgba(245, 158, 11, 0.25);
         }
 
-        /* Language Toggle Classes */
+        .glow-cyan:hover {
+            box-shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Language Toggle states */
         .lang-th { display: none; }
-        .lang-en { display: block; }
+        .lang-en { display: inline; }
+        .block.lang-en { display: block; }
+        .block.lang-th { display: none; }
+        body.th-mode .lang-th { display: inline; }
+        body.th-mode .lang-en { display: none; }
+        body.th-mode .block.lang-th { display: block; }
+        body.th-mode .block.lang-en { display: none; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060d1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="antialiased selection:bg-amber-500 selection:text-black">
 
-    <!-- Language Switcher (Fixed) -->
-    <div class="fixed top-4 right-4 z-50">
-        <button onclick="toggleLanguage()" class="bg-white/90 backdrop-blur text-blue-900 border-2 border-blue-900 px-4 py-2 rounded-full font-bold shadow-lg hover:bg-blue-900 hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
-            <span id="lang-btn-text">🇹🇭 THAI</span>
-        </button>
-    </div>
+    <!-- Floating Universal Header -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/10 px-4 lg:px-8 py-3.5 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <span class="text-black font-black text-lg">⚡</span>
+                </div>
+                <div>
+                    <span class="font-luxury font-bold text-white text-base md:text-lg tracking-wider block">AI REALTY INTELLIGENCE</span>
+                    <span class="text-xs text-amber-400 font-mono tracking-tight block">GEO &amp; MCP Strategic Framework 2026</span>
+                </div>
+            </div>
 
-    <!-- Header Section (With Infographic) -->
-    <header class="text-white py-20 px-4 shadow-xl relative overflow-hidden min-h-screen flex flex-col items-center justify-center bg-gray-900">
-        <!-- Background Image: Night City Skyline -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=2064&auto=format&fit=crop" 
-                 alt="Luxury Night City Skyline" 
-                 class="w-full h-full object-cover opacity-80"
-                 onerror="this.src='https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2000&auto=format&fit=crop'">
-            <div class="absolute inset-0 bg-gradient-to-b from-blue-900/60 via-blue-900/40 to-black/80 mix-blend-multiply"></div>
+            <div class="flex items-center gap-3">
+                <!-- Jump to case study link -->
+                <a href="#case-study-copacabana" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-cyan-300 border border-cyan-500/30 transition">
+                    <span>🏢</span>
+                    <span class="lang-en">Case Study: Copacabana Coral Reef</span>
+                    <span class="lang-th">กรณีศึกษา: โคปาคาบานา คอรัลรีฟ</span>
+                </a>
+
+                <!-- Language Toggle Button -->
+                <button onclick="toggleLang()" id="langBtn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/40 transition">
+                    <span id="langFlag">🇹🇭</span>
+                    <span id="langLabel">THAI VERSION</span>
+                </button>
+            </div>
         </div>
-        
-        <div class="container mx-auto max-w-6xl relative z-10 text-center flex flex-col items-center">
-            <h4 class="text-amber-500 tracking-widest uppercase font-bold text-sm mb-4 bg-black/60 inline-block px-4 py-1 rounded-full backdrop-blur-sm border border-amber-500/30">
-                <span class="lang-en">Future of Digital Marketing</span>
-                <span class="lang-th">อนาคตของการตลาดดิจิทัล</span>
-            </h4>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-2xl font-serif-bi text-white">
-                <span class="lang-en">GEO & MCP Readiness</span>
-                <span class="lang-th">กลยุทธ์ GEO & ความพร้อม MCP</span>
+    </nav>
+
+    <!-- Hero Section: Macro Strategic Positioning -->
+    <header class="relative pt-32 pb-24 px-4 overflow-hidden border-b border-white/5">
+        <!-- Hero Ambient Lighting & Background Image -->
+        <div class="absolute inset-0 -z-10 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop" 
+                 alt="Luxury High-Rise Architecture" 
+                 class="w-full h-full object-cover opacity-20 filter brightness-75 scale-105 transition duration-1000">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#060d1a]/80 via-[#060d1a]/95 to-[#060d1a]"></div>
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+            <div class="absolute top-1/3 right-10 w-[400px] h-[300px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <!-- Strategic Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-6 shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span class="lang-en">Executive Strategy Brief • Universal Real Estate Framework</span>
+                <span class="lang-th">สรุปกลยุทธ์ผู้บริหาร • กรอบการทำงานสากลสำหรับอสังหาริมทรัพย์ระดับหรู</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-luxury font-bold text-white tracking-tight leading-tight mb-6">
+                <span class="lang-en">From Search Engines to <span class="gold-gradient-text">Answer Engines</span></span>
+                <span class="lang-th">จากเสิร์ชเอนจิน สู่ <span class="gold-gradient-text">คำตอบอัจฉริยะ (Answer Engines)</span></span>
             </h1>
-            <h2 class="text-xl md:text-3xl font-light text-blue-100 mb-8 tracking-wide drop-shadow-md">
-                <span class="lang-en">Dominating AI Recommendations for Luxury Real Estate</span>
-                <span class="lang-th">ครองความเป็นหนึ่งในการแนะนำโดย AI สำหรับอสังหาฯ ระดับหรู</span>
-            </h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-100 leading-relaxed bg-black/40 p-6 rounded-xl backdrop-blur-sm border border-white/10 shadow-2xl mb-12">
-                <span class="lang-en">The era of "Search" is evolving into the era of "Answers." For high-value assets like Luxury Condos, appearing in AI-generated responses is the new SEO.</span>
-                <span class="lang-th">ยุคแห่ง "การค้นหา" กำลังเปลี่ยนเป็นยุคแห่ง "คำตอบ" สำหรับสินทรัพย์มูลค่าสูงอย่างคอนโดหรู การปรากฏอยู่ในคำตอบของ AI คือ SEO รูปแบบใหม่</span>
+
+            <!-- Subtitle -->
+            <p class="max-w-3xl mx-auto text-base sm:text-xl text-slate-300 font-normal leading-relaxed mb-10">
+                <span class="lang-en">
+                    How high-net-worth property developments dominate AI recommendations through 
+                    <strong class="text-white">Generative Engine Optimization (GEO)</strong> and 
+                    <strong class="text-white">Model Context Protocol (MCP)</strong> readiness.
+                </span>
+                <span class="lang-th">
+                    แนวทางสำหรับโครงการอสังหาริมทรัพย์พรีเมียม ในการครองพื้นที่แนะนำสูงสุดของ AI ผ่านกลยุทธ์ 
+                    <strong class="text-white">Generative Engine Optimization (GEO)</strong> และการเชื่อมต่อด้วย 
+                    <strong class="text-white">Model Context Protocol (MCP)</strong>
+                </span>
             </p>
 
-            <!-- INFOGRAPHIC IMAGE -->
-            <div class="w-full max-w-5xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
-                <img src="https://i.postimg.cc/VNp6B9fC/(EN)-GEO-MCP-info-G.png" 
-                     alt="GEO & MCP Readiness Infographic" 
-                     class="w-full h-auto rounded-xl shadow-2xl border-4 border-white/10">
-                <p class="text-sm text-gray-400 mt-2 italic">
-                    <span class="lang-en">Figure 1: Comprehensive Overview of GEO & MCP Framework</span>
-                    <span class="lang-th">รูปที่ 1: ภาพรวมโครงสร้างกลยุทธ์ GEO และ MCP</span>
-                </p>
+            <!-- Quick Metrics Header Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+                <div class="glass-card p-4 rounded-xl border-l-2 border-amber-400">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 block font-mono">Shift in Behavior</span>
+                    <span class="text-2xl font-bold text-white mt-1 block">78%</span>
+                    <span class="text-xs text-slate-300">
+                        <span class="lang-en">Buyers researching via conversational AI tools</span>
+                        <span class="lang-th">ผู้ซื้อค้นหาข้อมูลผ่าน AI สนทนาก่อนตัดสินใจ</span>
+                    </span>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-2 border-cyan-400">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 block font-mono">Recommendation Target</span>
+                    <span class="text-2xl font-bold text-cyan-400 mt-1 block">Share of Model</span>
+                    <span class="text-xs text-slate-300">
+                        <span class="lang-en">Replaces traditional organic keyword rank</span>
+                        <span class="lang-th">ตัวชี้วัดใหม่แทนที่อันดับคลิก Organic SEO</span>
+                    </span>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-2 border-emerald-400">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 block font-mono">Conversion Impact</span>
+                    <span class="text-2xl font-bold text-emerald-400 mt-1 block">3.5x</span>
+                    <span class="text-xs text-slate-300">
+                        <span class="lang-en">Higher lead intent compared to ad clicks</span>
+                        <span class="lang-th">คุณภาพผู้สนใจซื้อสูงกว่าการยิงโฆษณาทั่วไป</span>
+                    </span>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-2 border-rose-400">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 block font-mono">Next Frontier</span>
+                    <span class="text-2xl font-bold text-rose-400 mt-1 block">MCP Ready</span>
+                    <span class="text-xs text-slate-300">
+                        <span class="lang-en">Direct live agent querying without scrapers</span>
+                        <span class="lang-th">ให้ Agent ดึงสต็อกจริงเรียลไทม์ ปลอดการมั่ว</span>
+                    </span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Section 1: The Shift -->
-    <section class="py-16 px-4 container mx-auto max-w-6xl">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-blue-900 mb-4 font-serif-bi">
-                <span class="lang-en">The Shift: From Clicks to Context</span>
-                <span class="lang-th">จุดเปลี่ยน: จากยอดคลิกสู่บริบท</span>
+    <!-- Section 1: The Core Strategic Shift (SEO vs GEO) -->
+    <section class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs uppercase font-mono tracking-widest text-amber-400 mb-2">Macro Paradigm Shift</h2>
+            <h3 class="text-2xl sm:text-4xl font-luxury font-bold text-white mb-4">
+                <span class="lang-en">Why Traditional SEO Is No Longer Enough</span>
+                <span class="lang-th">ทำไม SEO แบบดั้งเดิมจึงไม่เพียงพออีกต่อไป</span>
             </h3>
-            <p class="text-gray-600 max-w-2xl mx-auto">
-                <span class="lang-en">Traditional SEO chases keywords. GEO chases authority and semantic understanding. A critical pivot for high-net-worth engagement.</span>
-                <span class="lang-th">SEO แบบเดิมไล่ล่าคีย์เวิร์ด แต่ GEO ไล่ล่าความน่าเชื่อถือและความเข้าใจเชิงบริบท นี่คือจุดเปลี่ยนสำคัญในการเข้าถึงลูกค้าระดับ High-Net-Worth</span>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <span class="lang-en">
+                    Search used to be about indexing blue links. In luxury real estate, buyers now ask AI: 
+                    <em>"Which beachfront high-rise offers the best rental yield and high-altitude infinity amenities?"</em> 
+                    AI does not return pages; it produces authoritative synthesized conclusions.
+                </span>
+                <span class="lang-th">
+                    ในอดีต ผู้ซื้อคลิกลิงก์บน Google แต่ปัจจุบันกลุ่มลูกค้ากำลังถาม AI: 
+                    <em>"คอนโดริมทะเลตึกไหนมีสระว่ายน้ำลอยฟ้าที่สูงที่สุดและมีศักยภาพผลตอบแทนคุ้มค่า?"</em> 
+                    AI ไม่ได้แสดงผลเป็นเว็บ 10 ลิงก์ แต่เป็นบทสรุปตัดสินแนะนำโครงการโดยตรง
+                </span>
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <div class="space-y-6">
-                <div class="rounded-xl overflow-hidden shadow-lg h-64 bg-gray-200">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Data Analysis Dashboard" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+        <!-- Comparison Cards + Radar Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left: Strategic Breakdown Cards -->
+            <div class="lg:col-span-6 space-y-4">
+                <!-- Card 1 -->
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-slate-600 transition hover:bg-slate-800/40">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-lg font-bold text-slate-200">
+                            <span class="lang-en">Traditional SEO: Indexing Clicks</span>
+                            <span class="lang-th">SEO ดั้งเดิม: การแข่งขันเพื่อยอดคลิก</span>
+                        </h4>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-700 text-slate-300">2010 - 2023</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-3">
+                        <span class="lang-en">Focused on keyword frequency, backlinks volume, and ranking in the top 10 SERP listings. Fragile to Google algorithm updates and zero-click answer boxes.</span>
+                        <span class="lang-th">เน้นความหนาแน่นคำค้น, ปริมาณ Backlink และแย่งตำแหน่งหน้าแรก แต่ถูกลดทอนประสิทธิภาพด้วย Zero-Click Searches ที่ผู้ใช้ไม่ออกจากหน้าเสิร์ช</span>
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                        <span class="px-2 py-1 bg-white/5 rounded">Keyword Density</span>
+                        <span class="px-2 py-1 bg-white/5 rounded">Meta Tags</span>
+                        <span class="px-2 py-1 bg-white/5 rounded">Raw Traffic</span>
+                    </div>
                 </div>
-                
-                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-amber-500">
-                    <h4 class="text-xl font-bold mb-4 font-serif-bi">
-                        <span class="lang-en">Why Luxury Brands Must Pivot</span>
-                        <span class="lang-th">ทำไมแบรนด์หรูต้องปรับตัว</span>
-                    </h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <span class="text-2xl mr-3">🔍</span>
-                            <div>
-                                <span class="font-bold text-blue-900">
-                                    <span class="lang-en">User Intent:</span>
-                                    <span class="lang-th">เจตนาผู้ใช้:</span>
-                                </span>
-                                <span class="text-gray-600">
-                                    <span class="lang-en">Buyers ask: "Compare investment potential of riverside condos vs. CBD penthouses."</span>
-                                    <span class="lang-th">ผู้ซื้อถามว่า: "เปรียบเทียบศักยภาพการลงทุนระหว่างคอนโดริมน้ำ vs เพนท์เฮาส์ในย่านธุรกิจ"</span>
-                                </span>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-2xl mr-3">🤖</span>
-                            <div>
-                                <span class="font-bold text-blue-900">
-                                    <span class="lang-en">The Metric:</span>
-                                    <span class="lang-th">ตัวชี้วัดใหม่:</span>
-                                </span>
-                                <span class="text-gray-600">
-                                    <span class="lang-en">Share of Model (SoM). How often is your brand cited as the "top recommendation"?</span>
-                                    <span class="lang-th">Share of Model (SoM) แบรนด์ของคุณถูกอ้างอิงเป็น "คำแนะนำอันดับต้นๆ" บ่อยแค่ไหน?</span>
-                                </span>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-2xl mr-3">💎</span>
-                            <div>
-                                <span class="font-bold text-blue-900">
-                                    <span class="lang-en">Trust Factor:</span>
-                                    <span class="lang-th">ปัจจัยความเชื่อถือ:</span>
-                                </span>
-                                <span class="text-gray-600">
-                                    <span class="lang-en">AI models favor structured, authoritative data over marketing fluff.</span>
-                                    <span class="lang-th">AI ให้ความสำคัญกับข้อมูลที่มีโครงสร้างและน่าเชื่อถือ มากกว่าคำโฆษณาชวนเชื่อ</span>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
+
+                <!-- Card 2 -->
+                <div class="glass-card-gold p-6 rounded-2xl border-l-4 border-amber-500 transition hover:shadow-lg hover:shadow-amber-500/10">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-lg font-bold text-amber-300">
+                            <span class="lang-en">GEO (Generative Engine Optimization): Synthesis</span>
+                            <span class="lang-th">GEO (การปรับแต่งเพื่อ AI): การถูกเลือกเป็นคำตอบ</span>
+                        </h4>
+                        <span class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-semibold">2026 Standard</span>
+                    </div>
+                    <p class="text-slate-200 text-sm leading-relaxed mb-3">
+                        <span class="lang-en">Optimizes for Large Language Models (LLMs) like GPT-4, Claude, Gemini, and Perplexity. Ensures the project is recognized as the definitive, trusted benchmark entity.</span>
+                        <span class="lang-th">ปรับแต่งสถาปัตยกรรมข้อมูลเพื่อโมเดลภาษาขนาดใหญ่ (LLMs) ทำให้ AI เข้าใจข้อเท็จจริง สเปควัสดุ และแนะนำชื่อโครงการเป็นคำตอบแรกอย่างแม่นยำ</span>
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-mono text-amber-300/80">
+                        <span class="px-2 py-1 bg-amber-500/20 rounded">Semantic Authority</span>
+                        <span class="px-2 py-1 bg-amber-500/20 rounded">Schema Entity</span>
+                        <span class="px-2 py-1 bg-amber-500/20 rounded">Share of Model (SoM)</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-cyan-500 transition hover:bg-slate-800/40">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-lg font-bold text-cyan-300">
+                            <span class="lang-en">MCP Protocol: Direct Live Data Stream</span>
+                            <span class="lang-th">MCP Protocol: การเชื่อมต่อฐานข้อมูลสดสำหรับ Agent</span>
+                        </h4>
+                        <span class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 font-semibold">Next Gen Automation</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-3">
+                        <span class="lang-en">Model Context Protocol acts as an open, standardized bridge between autonomous AI buyer agents and your CRM/inventory, streaming real availability without hallucinations.</span>
+                        <span class="lang-th">มาตรฐานเปิดที่เปิดโอกาสให้ AI Agents ของผู้ซื้อเข้ามาสอบถามยูนิตว่าง โควต้าต่างชาติ หรือสเปคห้องได้แบบ Real-Time จาก API โครงการโดยตรง</span>
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300/80">
+                        <span class="px-2 py-1 bg-cyan-500/20 rounded">Live Inventory</span>
+                        <span class="px-2 py-1 bg-cyan-500/20 rounded">Zero Hallucination</span>
+                        <span class="px-2 py-1 bg-cyan-500/20 rounded">Agentic Integration</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-lg h-full flex flex-col justify-center">
-                <h4 class="text-lg font-bold text-center mb-4 text-gray-700 font-serif-bi">
-                    <span class="lang-en">SEO vs. GEO: Attribute Comparison</span>
-                    <span class="lang-th">SEO vs. GEO: เปรียบเทียบคุณสมบัติ</span>
-                </h4>
-                <div class="chart-container">
+            <!-- Right: Radar Comparison Chart -->
+            <div class="lg:col-span-6 glass-card p-6 md:p-8 rounded-2xl border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h4 class="text-base font-bold text-white">
+                            <span class="lang-en">Strategic Attribute Radar: SEO vs. GEO</span>
+                            <span class="lang-th">เรดาร์เปรียบเทียบมิติ: SEO vs. GEO</span>
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            <span class="lang-en">Evaluation across key digital authority metrics</span>
+                            <span class="lang-th">การประเมินมิติความสำคัญในการตลาดดิจิทัล</span>
+                        </p>
+                    </div>
+                    <span class="text-xl">📊</span>
+                </div>
+                <div class="chart-box">
                     <canvas id="seoGeoRadar"></canvas>
                 </div>
-                <p class="text-xs text-center text-gray-500 mt-4">
-                    <span class="lang-en">AI optimization requires a balanced strategy across new verticals.</span>
-                    <span class="lang-th">การเพิ่มประสิทธิภาพสำหรับ AI ต้องใช้กลยุทธ์ที่สมดุลในมิติใหม่ๆ</span>
-                </p>
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-around text-xs font-mono text-slate-300">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-slate-500"></span>
+                        <span class="lang-en">Traditional SEO Profile</span>
+                        <span class="lang-th">มิติ SEO ดั้งเดิม</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="lang-en">GEO Profile (AI Ready)</span>
+                        <span class="lang-th">มิติ GEO (พร้อมยุค AI)</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 2: Factors Influencing AI Choice -->
-    <section class="relative py-20 px-4 bg-gray-900">
-        <div class="absolute inset-0 z-0">
-            <!-- Interior Luxury Image -->
-            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" alt="Luxury Living Room" class="w-full h-full object-cover opacity-60">
-            <div class="absolute inset-0 bg-blue-900/90 mix-blend-multiply"></div>
-        </div>
+    <!-- Section 2: How AI Selects Luxury Projects -->
+    <section class="py-20 px-4 bg-slate-900/60 border-y border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono">
+                        <span>🎯</span>
+                        <span class="lang-en">Evaluation Weights</span>
+                        <span class="lang-th">น้ำหนักการตัดสินใจของ AI</span>
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-luxury font-bold text-white leading-tight">
+                        <span class="lang-en">What Makes an AI Recommend Your Development?</span>
+                        <span class="lang-th">AI ใช้เกณฑ์ใดตัดสินใจแนะนำโครงการหรู?</span>
+                    </h3>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        <span class="lang-en">
+                            LLMs evaluate unstructured web data alongside structured machine signals. When a client prompts an AI for recommendations on a multi-million dollar condo, algorithms synthesize four dominant factors:
+                        </span>
+                        <span class="lang-th">
+                            โมเดลภาษาขนาดใหญ่สังเคราะห์ทั้งข้อมูลเนื้อหาเชิงลึกและโครงสร้างเชิงเทคนิค เมื่อผู้ซื้อตั้งคำถามเกี่ยวกับคอนโดหรู AI จะประเมิน 4 ปัจจัยหลักที่มีผลต่อน้ำหนักการตอบ:
+                        </span>
+                    </p>
 
-        <div class="container mx-auto max-w-6xl relative z-10">
-            <div class="mb-12 text-white text-center md:text-left">
-                <h3 class="text-3xl font-bold text-amber-500 mb-4 font-serif-bi">
-                    <span class="lang-en">How AI Selects a "Luxury" Brand</span>
-                    <span class="lang-th">AI เลือกแนะนำแบรนด์ "หรู" อย่างไร</span>
-                </h3>
-                <p class="text-gray-300 max-w-2xl">
-                    <span class="lang-en">To be recommended for a $5M+ asset, your digital footprint must prove authority. AI models synthesize information to determine "reputation."</span>
-                    <span class="lang-th">เพื่อให้ถูกแนะนำสำหรับสินทรัพย์มูลค่าสูง Digital Footprint ของคุณต้องพิสูจน์ความน่าเชื่อถือ AI จะสังเคราะห์ข้อมูลเพื่อตัดสิน "ชื่อเสียง"</span>
-                </p>
-            </div>
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+                            <span class="text-amber-400 font-bold text-lg">01</span>
+                            <div>
+                                <h5 class="text-sm font-bold text-white">
+                                    <span class="lang-en">Neutral Citation Consistency</span>
+                                    <span class="lang-th">การถูกอ้างอิงในสื่ออิสระที่น่าเชื่อถือ</span>
+                                </h5>
+                                <p class="text-xs text-slate-400">
+                                    <span class="lang-en">AI values third-party engineering, architectural reviews, and press over self-published marketing claims.</span>
+                                    <span class="lang-th">AI ให้เครดิตแก่บทวิเคราะห์สถาปัตยกรรม สื่อการเงิน และผลงานวิศวกรรมอิสระมากกว่าข้อความโฆษณา</span>
+                                </p>
+                            </div>
+                        </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white/95 backdrop-blur rounded-xl shadow-2xl p-6 text-gray-900">
-                    <h4 class="text-lg font-bold mb-4 font-serif-bi">
-                        <span class="lang-en">Weight of Influence on Generative Responses</span>
-                        <span class="lang-th">น้ำหนักอิทธิพลต่อคำตอบของ AI</span>
-                    </h4>
-                    <div class="chart-container">
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+                            <span class="text-cyan-400 font-bold text-lg">02</span>
+                            <div>
+                                <h5 class="text-sm font-bold text-white">
+                                    <span class="lang-en">Schema.org Entity Richness</span>
+                                    <span class="lang-th">โครงสร้างข้อมูลมาตรฐาน (Schema Entity)</span>
+                                </h5>
+                                <p class="text-xs text-slate-400">
+                                    <span class="lang-en">Explicit parameters (sqm, ceiling height, pool elevation, EIA status) parsed with 100% confidence.</span>
+                                    <span class="lang-th">การระบุตัวเลขชัดเจน เช่น ความสูงสระว่ายน้ำ, ขนาดห้อง, สถานะ EIA เพื่อให้ AI ไม่ต้องคาดเดา</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+                            <span class="text-emerald-400 font-bold text-lg">03</span>
+                            <div>
+                                <h5 class="text-sm font-bold text-white">
+                                    <span class="lang-en">Verified Technical Attributes</span>
+                                    <span class="lang-th">ความชัดเจนด้านเทคนิคและใบอนุญาต</span>
+                                </h5>
+                                <p class="text-xs text-slate-400">
+                                    <span class="lang-en">Clear legal entity data, title deeds, construction permits, and verifiable milestones.</span>
+                                    <span class="lang-th">หลักฐานการอนุมัติทางกฎหมาย ทุนจดทะเบียน และไทม์ไลน์ก่อสร้างที่ชัดเจนสร้างคะแนนความน่าเชื่อถือสูงสุด</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Bar Chart -->
+                <div class="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl border border-white/10">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="text-base font-bold text-white">
+                                <span class="lang-en">Influence Weight on AI Generated Recommendation</span>
+                                <span class="lang-th">น้ำหนักอิทธิพลต่อการเลือกตอบของ Generative AI</span>
+                            </h4>
+                            <p class="text-xs text-slate-400">
+                                <span class="lang-en">Normalized weighting based on LLM retrieval & citation benchmarks</span>
+                                <span class="lang-th">การคำนวณน้ำหนักการดึงข้อมูลตามมาตรฐาน RAG & Citations</span>
+                            </p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 font-mono text-xs">High Impact</span>
+                    </div>
+                    <div class="chart-box">
                         <canvas id="influenceBarChart"></canvas>
                     </div>
                 </div>
-
-                <div class="flex flex-col gap-6 justify-center">
-                    <div class="bg-blue-800/80 backdrop-blur p-6 rounded-lg border border-blue-600 card-hover text-white shadow-xl">
-                        <div class="text-4xl font-bold text-amber-500 mb-2">9.5/10</div>
-                        <p class="font-bold">
-                            <span class="lang-en">Sentiment Score Required</span>
-                            <span class="lang-th">คะแนนความรู้สึกที่ต้องได้</span>
-                        </p>
-                        <p class="text-sm text-gray-300 mt-2">
-                            <span class="lang-en">AI weights user reviews and forum sentiment heavily.</span>
-                            <span class="lang-th">AI ให้ความสำคัญกับรีวิวผู้ใช้และความเห็นในฟอรั่มสูงมาก</span>
-                        </p>
-                    </div>
-                    <div class="bg-blue-800/80 backdrop-blur p-6 rounded-lg border border-blue-600 card-hover text-white shadow-xl">
-                        <div class="text-4xl font-bold text-green-400 mb-2">+400%</div>
-                        <p class="font-bold">
-                            <span class="lang-en">Citation Importance</span>
-                            <span class="lang-th">ความสำคัญของการอ้างอิง</span>
-                        </p>
-                        <p class="text-sm text-gray-300 mt-2">
-                            <span class="lang-en">Mentions in reputable financial journals boost visibility.</span>
-                            <span class="lang-th">การถูกพูดถึงในสื่อการเงินที่มีชื่อเสียงช่วยเพิ่มการมองเห็น</span>
-                        </p>
-                    </div>
-                    <div class="bg-blue-800/80 backdrop-blur p-6 rounded-lg border border-blue-600 card-hover text-white shadow-xl">
-                        <div class="text-4xl font-bold text-blue-300 mb-2">Schema</div>
-                        <p class="font-bold">
-                            <span class="lang-en">Structured Data</span>
-                            <span class="lang-th">ข้อมูลโครงสร้าง (Structured Data)</span>
-                        </p>
-                        <p class="text-sm text-gray-300 mt-2">
-                            <span class="lang-en">The "Language of AI." Specs must be machine-readable.</span>
-                            <span class="lang-th">คือ "ภาษาของ AI" สเปคต่างๆ ต้องถูกอ่านได้ด้วยเครื่อง</span>
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: MCP Readiness -->
-    <section class="py-16 px-4 container mx-auto max-w-6xl">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-blue-900 mb-4 font-serif-bi">
-                <span class="lang-en">MCP Ready: Connecting Inventory to Agents</span>
-                <span class="lang-th">พร้อมสำหรับ MCP: เชื่อมต่อคลังสินค้ากับ AI Agents</span>
+    <!-- Section 3: The 4-Pillar Pipeline (SEO -> AEO -> GEO -> MCP) -->
+    <section class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs uppercase font-mono tracking-widest text-cyan-400 mb-2">The Integrated Roadmap</h2>
+            <h3 class="text-2xl sm:text-4xl font-luxury font-bold text-white mb-4">
+                <span class="lang-en">The 4-Stage Optimization Pipeline</span>
+                <span class="lang-th">บันได 4 ขั้นสู่การเป็นตัวเลือกลำดับแรกของ AI</span>
             </h3>
-            <p class="text-gray-600 max-w-3xl mx-auto">
-                <span class="lang-en">The <strong>Model Context Protocol (MCP)</strong> allows AI agents to "hook" into your database safely. This is the ultimate competitive advantage for real-time inventory.</span>
-                <span class="lang-th"><strong>Model Context Protocol (MCP)</strong> ช่วยให้ AI Agents "เชื่อมต่อ" กับฐานข้อมูลของคุณได้อย่างปลอดภัย นี่คือความได้เปรียบสูงสุดสำหรับข้อมูลแบบ Real-time</span>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <span class="lang-en">
+                    One cannot leap to AI readiness without a rock-solid data foundation. Like structural engineering in skyscraper design, each stage supports the next.
+                </span>
+                <span class="lang-th">
+                    โครงการไม่สามารถก้าวข้ามไปใช้ AI ได้ทันทีโดยปราศจากฐานราก เปรียบเสมือนการสร้างตึกระฟ้า ทุกระดับชั้นต้องถูกวางโครงสร้างรองรับกันอย่างเป็นระบบ
+                </span>
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500">
-                <h4 class="text-lg font-bold text-center mb-2 font-serif-bi">
-                    <span class="lang-en">Strategic Value of Data Types for MCP</span>
-                    <span class="lang-th">มูลค่าเชิงกลยุทธ์ของข้อมูลสำหรับ MCP</span>
-                </h4>
-                <p class="text-sm text-gray-500 text-center mb-4">
-                    <span class="lang-en">Bubble Size = Data Complexity</span>
-                    <span class="lang-th">ขนาดวงกลม = ความซับซ้อนของข้อมูล</span>
-                </p>
-                <div class="chart-container">
-                    <canvas id="mcpBubbleChart"></canvas>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Tier 1 -->
+            <div class="glass-card p-6 rounded-2xl border-t-4 border-blue-500 flex flex-col justify-between glow-cyan transition">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold font-mono">01</span>
+                        <span class="text-xs font-mono text-slate-400">Foundation</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">
+                        <span class="lang-en">Technical SEO</span>
+                        <span class="lang-th">Technical SEO</span>
+                    </h4>
+                    <p class="text-xs text-amber-400 font-mono uppercase tracking-wide mb-3">
+                        <span class="lang-en">Visibility & Indexing</span>
+                        <span class="lang-th">การมองเห็นและการทำดัชนี</span>
+                    </p>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        <span class="lang-en">Ensures clean site architecture, SSL security, fast CDN mobile rendering, and canonical tags so search web crawlers can read pages effortlessly.</span>
+                        <span class="lang-th">วางรากฐานโครงสร้างเว็บ ความเร็วการโหลด ความปลอดภัย SSL เพื่อให้บอทค้นหาเข้าถึงข้อมูลพื้นฐานได้ครบถ้วน</span>
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
+                    <span class="lang-en">Deliverable: Fast & Indexable Web</span>
+                    <span class="lang-th">ผลลัพธ์: เว็บโหลดเร็วและถูกเก็บข้อมูล</span>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4">
-                <div class="h-40 rounded-xl overflow-hidden shadow-md relative bg-gray-800">
-                    <img src="https://images.unsplash.com/photo-1558494949-efc6251b4ac0?q=80&w=2070&auto=format&fit=crop" alt="Server Data Connection" class="w-full h-full object-cover opacity-80">
-                    <div class="absolute inset-0 bg-blue-900/40 flex items-center justify-center">
-                        <h4 class="text-white font-bold text-xl drop-shadow-md">
-                            <span class="lang-en">Live Data Integration</span>
-                            <span class="lang-th">การเชื่อมต่อข้อมูลสด</span>
+            <!-- Tier 2 -->
+            <div class="glass-card p-6 rounded-2xl border-t-4 border-indigo-500 flex flex-col justify-between glow-cyan transition">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold font-mono">02</span>
+                        <span class="text-xs font-mono text-slate-400">Semantic Bridge</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">
+                        <span class="lang-en">AEO</span>
+                        <span class="lang-th">AEO (Answer Engine)</span>
+                    </h4>
+                    <p class="text-xs text-indigo-300 font-mono uppercase tracking-wide mb-3">
+                        <span class="lang-en">Structuring Questions</span>
+                        <span class="lang-th">จัดระเบียบคำตอบเชิงลึก</span>
+                    </p>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        <span class="lang-en">Converts marketing copy into schema-tagged facts (JSON-LD: <code>RealEstateListing</code>, <code>Residence</code>, <code>FAQPage</code>) answering exact buyer intents.</span>
+                        <span class="lang-th">แปลงโฆษณาเป็นข้อเท็จจริงแบบมีโครงสร้าง Schema Markup สำหรับคำถามเฉพาะทาง เช่น สิ่งอำนวยความสะดวก และกรรมสิทธิ์ถือครอง</span>
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
+                    <span class="lang-en">Deliverable: Machine-readable FAQs</span>
+                    <span class="lang-th">ผลลัพธ์: ข้อมูลมีโครงสร้างให้อัลกอริทึมเข้าใจ</span>
+                </div>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="glass-card-gold p-6 rounded-2xl border-t-4 border-amber-500 flex flex-col justify-between glow-gold transition">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-amber-500/30 text-amber-300 flex items-center justify-center font-bold font-mono">03</span>
+                        <span class="text-xs font-mono text-amber-400 font-semibold">Selection Peak</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">
+                        <span class="lang-en">GEO</span>
+                        <span class="lang-th">GEO (Generative AI)</span>
+                    </h4>
+                    <p class="text-xs text-amber-300 font-mono uppercase tracking-wide mb-3">
+                        <span class="lang-en">Trust & Recommendations</span>
+                        <span class="lang-th">การถูกสังเคราะห์และแนะนำ</span>
+                    </p>
+                    <p class="text-slate-200 text-xs leading-relaxed">
+                        <span class="lang-en">Achieving dominance in generative search models. The AI evaluates the project as the undisputed authority in its category (e.g., luxury seaside high-rises).</span>
+                        <span class="lang-th">สร้างการยอมรับระดับสูงสุดในโมเดล AI เมื่อผู้ใช้ขอคำแนะนำ โครงการจะถูกยกขึ้นมาเป็นตัวเลือกอันดับแรกพร้อมเหตุผลประกอบที่น่าเชื่อถือ</span>
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-amber-300/80">
+                    <span class="lang-en">Deliverable: High Share-of-Model</span>
+                    <span class="lang-th">ผลลัพธ์: ครองสัดส่วนคำตอบอันดับหนึ่ง</span>
+                </div>
+            </div>
+
+            <!-- Tier 4 -->
+            <div class="glass-card p-6 rounded-2xl border-t-4 border-emerald-500 flex flex-col justify-between glow-cyan transition">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold font-mono">04</span>
+                        <span class="text-xs font-mono text-emerald-400 font-semibold">Autonomous API</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">
+                        <span class="lang-en">MCP Server</span>
+                        <span class="lang-th">MCP Server (Agentic Hook)</span>
+                    </h4>
+                    <p class="text-xs text-emerald-300 font-mono uppercase tracking-wide mb-3">
+                        <span class="lang-en">Live Agent Queries</span>
+                        <span class="lang-th">เชื่อมต่อ AI Agent โดยตรง</span>
+                    </p>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        <span class="lang-en">Deploying an open Model Context Protocol server. AI agents act as buyers' personal brokers, querying live inventory and booking private viewings seamlessly.</span>
+                        <span class="lang-th">เปิดพอร์ตเชื่อมต่อมาตรฐาน ให้ AI Agent ของผู้ซื้อทั่วโลกสอบถามสถานะห้องว่าง ราคา และนัดหมายเข้าชมโครงการได้ทันที</span>
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
+                    <span class="lang-en">Deliverable: Real-time inventory hooks</span>
+                    <span class="lang-th">ผลลัพธ์: ระบบเชื่อมต่อข้อมูลสดอัตโนมัติ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Live Case Study - Copacabana Coral Reef Jomtien -->
+    <section id="case-study-copacabana" class="py-24 px-4 bg-gradient-to-b from-[#0a1424] via-[#08101e] to-[#060d1a] border-y border-amber-500/20 relative">
+        <div class="max-w-7xl mx-auto">
+            <!-- Case Study Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-mono mb-3 border border-amber-500/40">
+                        <span>⭐</span>
+                        <span class="lang-en">Live Implementation Case Study</span>
+                        <span class="lang-th">กรณีศึกษาการนำไปใช้จริง</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-luxury font-bold text-white">
+                        <span class="lang-en">Copacabana Coral Reef <span class="gold-gradient-text">Jomtien</span></span>
+                        <span class="lang-th">โคปาคาบานา คอรัลรีฟ <span class="gold-gradient-text">จอมเทียน</span></span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-2xl">
+                        <span class="lang-en">
+                            A real-world luxury high-rise development in Pattaya demonstrating how verified architectural parameters translate into machine-readable GEO entities and live MCP query targets.
+                        </span>
+                        <span class="lang-th">
+                            ตัวอย่างโครงการคอนโดมิเนียมไฮไรส์ระดับซูเปอร์ลักชัวรี ณ หาดจอมเทียน พัทยา แสดงการนำสเปคสถาปัตยกรรมจริงมาแปลงเป็นข้อมูล GEO และเซิร์ฟเวอร์ MCP
+                        </span>
+                    </p>
+                </div>
+
+                <!-- Verified Project Fact Card Badge -->
+                <div class="glass-card-gold px-5 py-3 rounded-xl flex items-center gap-4">
+                    <div class="text-amber-400 text-3xl font-black">55</div>
+                    <div class="text-xs">
+                        <span class="text-white font-bold block uppercase tracking-wider">Storey Tower</span>
+                        <span class="text-slate-300">1,897 Residences • EIA Approved</span>
+                        <span class="text-emerald-400 font-mono block text-[10px]">Construction Underway • Handover 2027</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architectural Imagery & Amenity Data Matrix Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Amenity 1: 51st Floor Lap Pool -->
+                <div class="glass-card rounded-2xl overflow-hidden group hover:border-amber-500/50 transition duration-300">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop" 
+                             alt="45-meter Cantilevered Lap Pool" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e1b2e] via-transparent to-transparent"></div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 backdrop-blur text-amber-400 text-xs font-mono font-bold">51st Floor</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="text-base font-bold text-white mb-1">
+                            <span class="lang-en">45m Cantilevered Lap Pool</span>
+                            <span class="lang-th">สระว่ายน้ำลอยฟ้า 45 เมตร</span>
                         </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                            <span class="lang-en">Dramatic sky pool with panoramic sea views, integrated poolside bar, and heated Jacuzzi zones.</span>
+                            <span class="lang-th">สระว่ายน้ำยื่นพ้นตัวอาคาร วิวทะเลพาโนรามา พร้อมบาร์ริมสระและจากุซซีลอยฟ้า</span>
+                        </p>
+                        <div class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2 rounded border border-cyan-800/40">
+                            <code>entity: SkyLapPool_45m</code>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-lg flex-grow">
-                    <h4 class="text-lg font-bold mb-6 text-center text-blue-900 font-serif-bi">
-                        <span class="lang-en">The MCP Data Flow</span>
-                        <span class="lang-th">กระบวนการไหลของข้อมูล MCP</span>
-                    </h4>
-                    
-                    <div class="flex items-center bg-gray-50 p-4 rounded-lg border-l-4 border-gray-400">
-                        <div class="text-3xl mr-4">👤</div>
-                        <div>
-                            <h5 class="font-bold">
-                                <span class="lang-en">User Query</span>
-                                <span class="lang-th">คำถามผู้ใช้</span>
-                            </h5>
-                            <p class="text-xs text-gray-600">
-                                <span class="lang-en">"Find a 3BR condo with a private pool available in Q4."</span>
-                                <span class="lang-th">"หาคอนโด 3 ห้องนอน มีสระส่วนตัว ว่างพร้อมเข้าอยู่ Q4"</span>
-                            </p>
+                <!-- Amenity 2: 6th Floor Coral Pool & Onsen -->
+                <div class="glass-card rounded-2xl overflow-hidden group hover:border-amber-500/50 transition duration-300">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop" 
+                             alt="Japanese Onsen & Coral Pool" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e1b2e] via-transparent to-transparent"></div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 backdrop-blur text-amber-400 text-xs font-mono font-bold">6th Floor</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="text-base font-bold text-white mb-1">
+                            <span class="lang-en">The Coral Pool &amp; Onsen</span>
+                            <span class="lang-th">สระคอรัลพูล และออนเซ็นสไตล์ญี่ปุ่น</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                            <span class="lang-en">Authentic Japanese onsen baths, dry sauna, aromatic steam suites, and landscaped pool deck.</span>
+                            <span class="lang-th">บ่อแช่ออนเซ็นแท้ ห้องซาวน่า ห้องอบไอน้ำ และสระน้ำดีไซน์ปะการัง</span>
+                        </p>
+                        <div class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2 rounded border border-cyan-800/40">
+                            <code>entity: AuthenticOnsen_Spa</code>
                         </div>
                     </div>
-                    
-                    <div class="arrow-down my-2"></div>
+                </div>
 
-                    <div class="flex items-center bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-                        <div class="text-3xl mr-4">🤖</div>
-                        <div>
-                            <h5 class="font-bold">
-                                <span class="lang-en">AI Agent + MCP Client</span>
-                                <span class="lang-th">AI Agent + MCP Client</span>
-                            </h5>
-                            <p class="text-xs text-gray-600">
-                                <span class="lang-en">Interprets intent and calls your Brand's MCP Server.</span>
-                                <span class="lang-th">ตีความเจตนา และเรียกข้อมูลจาก MCP Server ของแบรนด์คุณ</span>
+                <!-- Amenity 3: Ground Floor Wave Pool & Beach Club -->
+                <div class="glass-card rounded-2xl overflow-hidden group hover:border-amber-500/50 transition duration-300">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800&auto=format&fit=crop" 
+                             alt="Ground Floor Wave Pool" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e1b2e] via-transparent to-transparent"></div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 backdrop-blur text-amber-400 text-xs font-mono font-bold">Ground Floor</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="text-base font-bold text-white mb-1">
+                            <span class="lang-en">Wave Pool &amp; Beach Club</span>
+                            <span class="lang-th">สระคลื่นเทียม &amp; บีชคลับ</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                            <span class="lang-en">Tropical lagoon wave pool, private cabanas, children's club, and multi-purpose lawn.</span>
+                            <span class="lang-th">สระคลื่นเทียมสไตล์ลากูน คาบาน่าส่วนตัว สวนร่มรื่น และคิดส์คลับสำหรับครอบครัว</span>
+                        </p>
+                        <div class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2 rounded border border-cyan-800/40">
+                            <code>entity: LagoonWavePool_Club</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amenity 4: 50th Floor Sky Park & 487 sqm Gym -->
+                <div class="glass-card rounded-2xl overflow-hidden group hover:border-amber-500/50 transition duration-300">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop" 
+                             alt="High Ceiling Panoramic Gym" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e1b2e] via-transparent to-transparent"></div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 backdrop-blur text-amber-400 text-xs font-mono font-bold">3rd &amp; 50th Fl</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="text-base font-bold text-white mb-1">
+                            <span class="lang-en">487 sqm Gym &amp; Sky Park</span>
+                            <span class="lang-th">ฟิตเนส 487 ตร.ม. และสกายพาร์ค</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                            <span class="lang-en">Double-volume panoramic ocean gym, 50th-floor business lounge, games room, and 32 pocket gardens.</span>
+                            <span class="lang-th">ยิมเพดานสูงชมวิวทะเลเต็มตา เลานจ์ธุรกิจ และสวนพักผ่อน 32 จุดทั่วทั้งอาคาร</span>
+                        </p>
+                        <div class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2 rounded border border-cyan-800/40">
+                            <code>entity: SkyPark_PanoramicGym</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Specifications Data Strip -->
+            <div class="glass-card p-6 rounded-2xl mb-12 border border-white/10">
+                <h4 class="text-sm font-luxury text-amber-400 uppercase tracking-widest mb-4">
+                    <span class="lang-en">Verified Technical Schema Data • Copacabana Coral Reef</span>
+                    <span class="lang-th">สเปคทางเทคนิคโครงการที่แปลงเป็น Schema Machine-Readable</span>
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-xs font-mono">
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">TOTAL LAND AREA</span>
+                        <span class="text-white font-bold text-sm">13 Rai 84.5 Sq.w</span>
+                        <span class="text-slate-400 text-[10px] block">~21,138 sq.m.</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">LOCATION</span>
+                        <span class="text-white font-bold text-sm">Jomtien 2nd Rd</span>
+                        <span class="text-slate-400 text-[10px] block">Steps to Jomtien Beach</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">BUILDING SPECS</span>
+                        <span class="text-white font-bold text-sm">55 Floors</span>
+                        <span class="text-slate-400 text-[10px] block">14 High-Speed Elevators</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">1-BED PRIVATE POOL</span>
+                        <span class="text-amber-400 font-bold text-sm">From 71.5 sq.m.</span>
+                        <span class="text-slate-400 text-[10px] block">Exclusive Balcony Pool</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">TIMELINE &amp; STATUS</span>
+                        <span class="text-emerald-400 font-bold text-sm">EIA Approved</span>
+                        <span class="text-slate-400 text-[10px] block">Completion: Late 2027</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-slate-400 block text-[10px]">COMMON FEE</span>
+                        <span class="text-white font-bold text-sm">50 THB/sq.m.</span>
+                        <span class="text-slate-400 text-[10px] block">Sinking Fund: 500 THB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive MCP Protocol Simulator -->
+            <div class="glass-card-gold p-6 sm:p-8 rounded-3xl border border-amber-500/40 shadow-2xl">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4 border-b border-amber-500/20 pb-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-black/40 text-amber-300 font-mono text-xs border border-amber-500/30">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>MCP Server: live.copacabanagroup.com/mcp/v1</span>
+                        </div>
+                        <h3 class="text-2xl font-luxury font-bold text-white mt-2">
+                            <span class="lang-en">Live MCP AI Query Simulator</span>
+                            <span class="lang-th">จำลองการทำงานจริงของ AI Agent ผ่าน MCP Server</span>
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-sm">
+                            <span class="lang-en">Test how conversational AI agents (ChatGPT, Claude, Perplexity) query Copacabana Coral Reef's live database with zero hallucination.</span>
+                            <span class="lang-th">ทดสอบการที่ AI สอบถามฐานข้อมูลของโครงการ เพื่อสร้างคำตอบที่ถูกต้อง แม่นยำ และไม่มีการสร้างข้อมูลเท็จ (Zero Hallucination)</span>
+                        </p>
+                    </div>
+
+                    <!-- Prompt Selector Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="runQuery('pool')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition bg-amber-500 text-black hover:bg-amber-400 shadow-md">
+                            <span class="lang-en">Query A: 1BR Private Pool</span>
+                            <span class="lang-th">คำถาม 1: คอนโดมีสระส่วนตัว</span>
+                        </button>
+                        <button onclick="runQuery('wellness')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition bg-white/10 text-white hover:bg-white/20 border border-white/10">
+                            <span class="lang-en">Query B: Wellness &amp; Onsen</span>
+                            <span class="lang-th">คำถาม 2: สปาและออนเซ็น</span>
+                        </button>
+                        <button onclick="runQuery('investment')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition bg-white/10 text-white hover:bg-white/20 border border-white/10">
+                            <span class="lang-en">Query C: EIA &amp; Handover</span>
+                            <span class="lang-th">คำถาม 3: สถานะ EIA และกำหนดเสร็จ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Output Box -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-mono">
+                    <!-- Left: Natural Language User Prompt & Agent Tool Call -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="bg-black/60 p-4 rounded-xl border border-white/10">
+                            <div class="text-[11px] text-amber-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
+                                <span>👤</span>
+                                <span class="lang-en">Client Natural Language Query:</span>
+                                <span class="lang-th">คำถามของผู้ซื้อผ่าน AI:</span>
+                            </div>
+                            <p id="clientPrompt" class="text-sm text-slate-200 font-sans italic">
+                                "Looking for a luxury condo in Jomtien Pattaya with a private plunge pool on the balcony. Which high-rise project offers this?"
                             </p>
+                        </div>
+
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-cyan-500/30">
+                            <div class="text-[11px] text-cyan-400 font-bold uppercase tracking-wider mb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2">
+                                    <span>⚙️</span>
+                                    <span>MCP Tool Call Execution</span>
+                                </span>
+                                <span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 text-[10px]">Protocol: JSON-RPC 2.0</span>
+                            </div>
+                            <pre id="mcpCall" class="text-xs text-cyan-300 overflow-x-auto whitespace-pre-wrap leading-relaxed">
+{
+  "server": "copacabana_coral_reef",
+  "tool": "filter_units",
+  "params": {
+    "unit_category": "1BR_PRIVATE_POOL",
+    "min_sqm": 71.5,
+    "status": "available",
+    "balcony_amenity": "plunge_pool"
+  }
+}</pre>
                         </div>
                     </div>
 
-                    <div class="arrow-down my-2"></div>
+                    <!-- Right: AI Synthesized Recommendation Result -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-emerald-500/40 relative shadow-xl">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
+                                <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold font-sans">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                    <span class="lang-en">AI Agent Synthesis (Perplexity / Claude)</span>
+                                    <span class="lang-th">คำตอบที่ AI สังเคราะห์ให้ผู้ซื้อ</span>
+                                </div>
+                                <span class="text-[10px] text-slate-400 font-mono">Confidence: 99.4%</span>
+                            </div>
+                            <div id="aiResponse" class="text-xs text-slate-200 font-sans leading-relaxed space-y-2">
+                                <p><strong>Top Recommendation: Copacabana Coral Reef (Jomtien)</strong></p>
+                                <p>For residences featuring a private pool on the balcony, <strong>Copacabana Coral Reef</strong> provides rare 1-Bedroom Private Pool units starting from <strong>71.5 sq.m.</strong> located on prime high-rise floors.</p>
+                                <ul class="list-disc pl-5 space-y-1 text-slate-300">
+                                    <li><strong>Location:</strong> Jomtien Second Road (steps from beach)</li>
+                                    <li><strong>Key Feature:</strong> Private balcony plunge pool with sea breeze</li>
+                                    <li><strong>Tower Amenities:</strong> Access to 51st-floor 45m cantilevered lap pool and 6th-floor onsen</li>
+                                    <li><strong>Delivery:</strong> Late 2027 (EIA Approved &amp; Under Construction)</li>
+                                </ul>
+                            </div>
+                        </div>
 
-                    <div class="flex items-center bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500 shadow-md">
-                        <div class="text-3xl mr-4">🏢</div>
-                        <div>
-                            <h5 class="font-bold">
-                                <span class="lang-en">Your MCP Server (API)</span>
-                                <span class="lang-th">MCP Server ของคุณ (API)</span>
-                            </h5>
-                            <p class="text-xs text-gray-600">
-                                <span class="lang-en">Fetches live data: Unit 401, Price $3.2M, Status: Available.</span>
-                                <span class="lang-th">ดึงข้อมูลสด: ห้อง 401, ราคา 100 ลบ., สถานะ: ว่าง</span>
-                            </p>
+                        <!-- Data Integrity Signal -->
+                        <div class="p-3 bg-white/5 rounded-xl border border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-sans">
+                            <span class="flex items-center gap-2 text-amber-300">
+                                <span>🔒</span>
+                                <span class="lang-en">Zero Hallucination Verified via Schema &amp; MCP</span>
+                                <span class="lang-th">ยืนยันข้อมูลถูกต้อง 100% ผ่านโครงสร้าง MCP</span>
+                            </span>
+                            <span class="font-mono text-cyan-400">Response: 38ms</span>
                         </div>
                     </div>
                 </div>
@@ -362,527 +837,587 @@
         </div>
     </section>
 
-    <!-- NEW SECTION 4: Integrated Framework (Pipeline) - UPDATED -->
-    <section class="bg-gradient-to-br from-blue-900 to-black text-white py-16 px-4">
-        <div class="container mx-auto max-w-6xl">
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-amber-500 mb-4 font-serif-bi">
-                    <span class="lang-en">Integrated Framework: The New Optimization Pipeline</span>
-                    <span class="lang-th">กรอบการทำงานบูรณาการ: ท่อส่งข้อมูลแห่งการตลาดยุคใหม่</span>
+    <!-- Section 5: Budget Allocation & ROI Trajectory -->
+    <section class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs uppercase font-mono tracking-widest text-amber-400 mb-2">Investment & Returns</h2>
+            <h3 class="text-2xl sm:text-4xl font-luxury font-bold text-white mb-4">
+                <span class="lang-en">Resource Allocation &amp; Projected Impact</span>
+                <span class="lang-th">การจัดสรรงบประมาณดิจิทัล และผลตอบแทนที่คาดการณ์</span>
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <span class="lang-en">
+                    Transitioning budget from legacy search ads to Generative Engine Optimization yields higher intent prospects, reduces ad fatigue, and provides compounding authority.
+                </span>
+                <span class="lang-th">
+                    การแบ่งสัดส่วนงบประมาณมาเน้น GEO และความพร้อมของข้อมูล สร้างผลตอบแทนที่คุ้มค่ากว่า ได้กลุ่มลูกค้าคุณภาพสูงที่คัดกรองตนเองมาแล้วจากการสนทนากับ AI
+                </span>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left: Doughnut Chart (Budget Allocation) -->
+            <div class="lg:col-span-5 glass-card p-6 md:p-8 rounded-2xl border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h4 class="text-base font-bold text-white">
+                            <span class="lang-en">Recommended 2026 Budget Mix</span>
+                            <span class="lang-th">สัดส่วนงบประมาณดิจิทัลที่แนะนำ</span>
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            <span class="lang-en">Strategic allocation for luxury developers</span>
+                            <span class="lang-th">สำหรับโครงการอสังหาริมทรัพย์ระดับลักชัวรี</span>
+                        </p>
+                    </div>
+                    <span class="text-xl">💰</span>
+                </div>
+                <div class="chart-box">
+                    <canvas id="strategyDoughnutChart"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10 space-y-2 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-2 text-slate-300">
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span class="lang-en">70% GEO &amp; AEO (Insights &amp; Schema)</span>
+                            <span class="lang-th">70% GEO &amp; AEO (เนื้อหาเชิงลึกและ Schema)</span>
+                        </span>
+                        <span class="font-mono text-amber-400 font-bold">70%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-2 text-slate-300">
+                            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span class="lang-en">20% Technical SEO &amp; Authority</span>
+                            <span class="lang-th">20% Technical SEO &amp; E-E-A-T</span>
+                        </span>
+                        <span class="font-mono text-blue-400 font-bold">20%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-2 text-slate-300">
+                            <span class="w-3 h-3 rounded-full bg-slate-500"></span>
+                            <span class="lang-en">10% MCP &amp; Multimodal AI Media</span>
+                            <span class="lang-th">10% เชื่อมต่อ MCP &amp; สื่อใหม่ AI</span>
+                        </span>
+                        <span class="font-mono text-slate-300 font-bold">10%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Line Chart (Lead Trajectory) -->
+            <div class="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h4 class="text-base font-bold text-white">
+                            <span class="lang-en">High-Intent Lead Trajectory (18-Month Projection)</span>
+                            <span class="lang-th">แนวโน้มการเติบโตของผู้สนใจซื้อคุณภาพสูง (18 เดือน)</span>
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            <span class="lang-en">GEO conversational traffic vs legacy search volume</span>
+                            <span class="lang-th">เปรียบเทียบผู้ซื้อจาก AI กับผู้คลิกค้นหาแบบเดิม</span>
+                        </p>
+                    </div>
+                    <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-mono text-xs">+350% Intent</span>
+                </div>
+                <div class="chart-box">
+                    <canvas id="roiLineChart"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-around text-xs font-mono text-slate-300">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="lang-en">GEO Conversational Leads (High Conversion)</span>
+                        <span class="lang-th">ลูกค้าจาก AI (ปิดการขายง่าย)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-slate-500"></span>
+                        <span class="lang-en">Traditional Ad Clicks (Mixed Quality)</span>
+                        <span class="lang-th">ยอดคลิกโฆษณาทั่วไป (คละกลุ่ม)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Executive Implementation Checklist -->
+    <section class="py-20 px-4 bg-slate-950/70 border-t border-white/10">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <h2 class="text-xs uppercase font-mono tracking-widest text-cyan-400 mb-2">Actionable Takeaways</h2>
+                <h3 class="text-2xl sm:text-4xl font-luxury font-bold text-white mb-3">
+                    <span class="lang-en">Executive 90-Day Implementation Plan</span>
+                    <span class="lang-th">แผนการดำเนินงานสำหรับผู้บริหารใน 90 วัน</span>
                 </h3>
-                <div class="bg-red-500/20 border border-red-500 p-4 rounded-lg inline-block max-w-3xl">
-                    <p class="font-bold text-red-200">
-                        <span class="lang-en">CRITICAL INSIGHT: Why you cannot skip SEO</span>
-                        <span class="lang-th">ข้อควรระวัง: ทำไมคุณถึงข้าม SEO ไม่ได้?</span>
-                    </p>
-                    <p class="text-sm mt-2 text-gray-300">
-                        <span class="lang-en">"Skipping straight to GEO is like trying to build a penthouse on the 38th floor without a foundation." AI doesn't conjure data; it reads the index built by SEO.</span>
-                        <span class="lang-th">"การข้ามไปทำ GEO ทันที เปรียบเสมือนการพยายามสร้างคอนโดชั้นที่ 38 โดยไม่มีฐานราก" AI ไม่ได้เสกข้อมูลขึ้นมาเอง แต่มันอ่านจาก Index ที่ SEO สร้างไว้</span>
-                    </p>
-                </div>
+                <p class="text-slate-400 text-sm">
+                    <span class="lang-en">Clear milestones to prepare any real estate portfolio for the conversational search era.</span>
+                    <span class="lang-th">ขั้นตอนการทำงานที่เป็นรูปธรรมเพื่อยกระดับพอร์ตอสังหาริมทรัพย์สู่ยุคการค้นหาด้วย AI</span>
+                </p>
             </div>
 
-            <!-- The Pipeline Steps -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mb-16 relative">
-                <!-- Connecting Line (Desktop) -->
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-600 -z-0 transform -translate-y-1/2"></div>
-
-                <!-- Step 1: SEO -->
-                <div class="bg-gray-800 p-8 rounded-xl border-2 border-blue-500 relative z-10 transform hover:-translate-y-2 transition duration-300">
-                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
-                    <h4 class="text-2xl font-bold mb-2">SEO</h4>
-                    <p class="text-amber-400 font-bold mb-2 uppercase text-sm tracking-wider">
-                        <span class="lang-en">The Foundation</span>
-                        <span class="lang-th">ฐานราก (Discovery)</span>
-                    </p>
-                    <p class="text-sm text-gray-300">
-                        <span class="lang-en">Makes AI "see" the brand. Without Domain Authority & Indexing, you are invisible to the machine.</span>
-                        <span class="lang-th">ทำให้ AI "มองเห็น" แบรนด์ ถ้าไม่มี Authority และ Indexing แบรนด์ของคุณก็จะไร้ตัวตนในสายตา AI</span>
-                    </p>
-                </div>
-
-                 <!-- Step 2: AEO -->
-                 <div class="bg-gray-800 p-8 rounded-xl border-2 border-blue-400 relative z-10 transform hover:-translate-y-2 transition duration-300">
-                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
-                    <h4 class="text-2xl font-bold mb-2">AEO</h4>
-                    <p class="text-amber-400 font-bold mb-2 uppercase text-sm tracking-wider">
-                        <span class="lang-en">The Bridge</span>
-                        <span class="lang-th">สะพานเชื่อม (Understanding)</span>
-                    </p>
-                    <p class="text-sm text-gray-300">
-                        <span class="lang-en">Organizes data via Schema & FAQ. It packages your "raw ingredients" so AI can digest them easily.</span>
-                        <span class="lang-th">จัดระเบียบข้อมูลด้วย Schema. เปรียบเหมือนการเตรียม "วัตถุดิบ" ให้พร้อมปรุง เพื่อให้ AI เข้าใจและนำไปใช้ได้ทันที</span>
-                    </p>
-                </div>
-
-                 <!-- Step 3: GEO -->
-                 <div class="bg-amber-600 p-8 rounded-xl border-2 border-amber-400 relative z-10 shadow-[0_0_30px_rgba(217,119,6,0.4)] transform scale-105 hover:-translate-y-2 transition duration-300">
-                    <div class="w-12 h-12 bg-white text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
-                    <h4 class="text-2xl font-bold mb-2">GEO</h4>
-                    <p class="text-white font-bold mb-2 uppercase text-sm tracking-wider">
-                        <span class="lang-en">The Penthouse</span>
-                        <span class="lang-th">เป้าหมายสูงสุด (Selection)</span>
-                    </p>
-                    <p class="text-sm text-white">
-                        <span class="lang-en">Makes AI "trust" and "cite" you. The result of a strong foundation and structured data.</span>
-                        <span class="lang-th">ทำให้ AI "เชื่อใจ" และ "อ้างอิง" คุณ นี่คือผลลัพธ์ของการมีฐานรากที่แข็งแกร่งและข้อมูลที่เป็นระเบียบ</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Strategy Allocation Chart -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-gray-800/50 p-8 rounded-2xl border border-gray-700">
-                <div>
-                    <h4 class="text-xl font-bold mb-4 text-white">
-                        <span class="lang-en">Recommended 2026 Strategy Allocation</span>
-                        <span class="lang-th">สัดส่วนกลยุทธ์ที่แนะนำปี 2026</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Month 1 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-amber-400">
+                    <span class="text-amber-400 font-mono text-xs font-bold uppercase tracking-wider block mb-1">Phase 1 (Days 1 - 30)</span>
+                    <h4 class="text-lg font-bold text-white mb-3">
+                        <span class="lang-en">Entity &amp; Schema Audit</span>
+                        <span class="lang-th">ตรวจสอบความสมบูรณ์ของ Schema</span>
                     </h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <span class="w-4 h-4 rounded-full bg-amber-500 mt-1 mr-3"></span>
-                            <div>
-                                <strong class="text-white">70% GEO & AEO</strong>
-                                <p class="text-sm text-gray-400">
-                                    <span class="lang-en">Insightful answers, unique content, bullet points, FAQ, Schema.</span>
-                                    <span class="lang-th">สร้างคำตอบเชิงลึก, เนื้อหาเอกลักษณ์, ใช้ Bullet points, FAQ และ Schema Markup</span>
-                                </p>
-                            </div>
+                    <ul class="text-xs text-slate-300 space-y-2.5">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-400">✓</span>
+                            <span class="lang-en">Map all physical specs (sqm, ceiling height, amenities) into JSON-LD.</span>
+                            <span class="lang-th">แปลงสเปคกายภาพ ขนาดห้อง สิ่งอำนวยความสะดวก เข้าสู่ JSON-LD</span>
                         </li>
-                        <li class="flex items-start">
-                            <span class="w-4 h-4 rounded-full bg-blue-600 mt-1 mr-3"></span>
-                            <div>
-                                <strong class="text-white">20% Modern SEO</strong>
-                                <p class="text-sm text-gray-400">
-                                    <span class="lang-en">Maintain Domain Authority, E-E-A-T, and relevant backlinks.</span>
-                                    <span class="lang-th">รักษาความน่าเชื่อถือของโดเมน (Authority), E-E-A-T และ Backlinks คุณภาพ</span>
-                                </p>
-                            </div>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-400">✓</span>
+                            <span class="lang-en">Audit domain authority, knowledge graphs, and brand entity references.</span>
+                            <span class="lang-th">ตรวจสอบตัวตนของแบรนด์บน Knowledge Graph และสารบบข้อมูล</span>
                         </li>
-                        <li class="flex items-start">
-                            <span class="w-4 h-4 rounded-full bg-gray-500 mt-1 mr-3"></span>
-                            <div>
-                                <strong class="text-white">10% Exploration</strong>
-                                <p class="text-sm text-gray-400">
-                                    <span class="lang-en">AI Video, Multimodal content experiments.</span>
-                                    <span class="lang-th">ทดลองสื่อใหม่ๆ เช่น AI Video เพื่อรองรับ Multimodal AI</span>
-                                </p>
-                            </div>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-400">✓</span>
+                            <span class="lang-en">Embed FAQ schema addressing exact buyer decision queries.</span>
+                            <span class="lang-th">ติดตั้ง FAQ Schema สำหรับคำถามเชิงเปรียบเทียบของผู้ซื้อ</span>
                         </li>
                     </ul>
                 </div>
-                <div class="chart-container h-64">
-                    <canvas id="strategyDoughnutChart"></canvas>
+
+                <!-- Month 2 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-cyan-400">
+                    <span class="text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider block mb-1">Phase 2 (Days 31 - 60)</span>
+                    <h4 class="text-lg font-bold text-white mb-3">
+                        <span class="lang-en">Authority &amp; Citations</span>
+                        <span class="lang-th">สร้างการอ้างอิงระดับสากล</span>
+                    </h4>
+                    <ul class="text-xs text-slate-300 space-y-2.5">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400">✓</span>
+                            <span class="lang-en">Publish technical white papers on design and sustainability.</span>
+                            <span class="lang-th">เผยแพร่บทความเชิงเทคนิค วารสารสถาปัตยกรรม และวิศวกรรม</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400">✓</span>
+                            <span class="lang-en">Secure editorial mentions in recognized real estate and financial media.</span>
+                            <span class="lang-th">สร้างการอ้างอิงในสื่อการเงินและอสังหาริมทรัพย์ที่ AI ใช้เป็นแหล่งอ้างอิง</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400">✓</span>
+                            <span class="lang-en">Optimize digital footprint across high-trust forum sentiment.</span>
+                            <span class="lang-th">ดูแลคะแนนความน่าเชื่อถือและความเห็นผู้บริโภคบนช่องทางออนไลน์</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Month 3 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-emerald-400">
+                    <span class="text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider block mb-1">Phase 3 (Days 61 - 90)</span>
+                    <h4 class="text-lg font-bold text-white mb-3">
+                        <span class="lang-en">MCP Server Deployment</span>
+                        <span class="lang-th">เปิดใช้งานระบบเชื่อมต่อ MCP</span>
+                    </h4>
+                    <ul class="text-xs text-slate-300 space-y-2.5">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-400">✓</span>
+                            <span class="lang-en">Deploy secure, read-only Model Context Protocol API endpoints.</span>
+                            <span class="lang-th">เปิดพอร์ต API แบบ Read-only ตามมาตรฐาน Model Context Protocol</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-400">✓</span>
+                            <span class="lang-en">Expose real-time inventory, pricing, and foreign quota variables.</span>
+                            <span class="lang-th">เชื่อมฐานข้อมูลสถานะห้องว่าง ราคา และโควต้าต่างชาติแบบสด</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-400">✓</span>
+                            <span class="lang-en">Enable autonomous AI agents to book appointments into developer CRM.</span>
+                            <span class="lang-th">เปิดให้ AI Agent ทำการนัดหมายเข้าชมโครงการลงสู่ CRM อัตโนมัติ</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 5: Roadmap -->
-    <section class="bg-gray-100 py-16 px-4">
-        <div class="container mx-auto max-w-6xl">
-            <h3 class="text-3xl font-bold text-center text-blue-900 mb-12 font-serif-bi">
-                <span class="lang-en">Roadmap: From Static to Generative Ready</span>
-                <span class="lang-th">แผนงาน: จากเว็บทั่วไปสู่ความพร้อมยุค Generative</span>
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="hidden md:block h-full min-h-[400px] rounded-xl overflow-hidden shadow-2xl relative bg-gray-800">
-                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1931&auto=format&fit=crop" alt="Architecture Blueprint" class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                        <p class="text-white font-bold text-lg">
-                            <span class="lang-en">Architecting the Digital Foundation</span>
-                            <span class="lang-th">การวางรากฐานทางดิจิทัล</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="relative border-l-4 border-blue-900 ml-4 space-y-12 py-4">
-                    <div class="relative pl-8">
-                        <div class="absolute -left-3.5 top-2 w-6 h-6 bg-amber-500 rounded-full border-4 border-white shadow-sm"></div>
-                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                            <h4 class="text-xl font-bold text-blue-900 font-serif-bi">
-                                <span class="lang-en">Phase 1: Knowledge Graph</span>
-                                <span class="lang-th">เฟส 1: Knowledge Graph</span>
-                            </h4>
-                            <p class="text-sm text-gray-500 mb-2 font-semibold">
-                                <span class="lang-en">Months 1-2</span>
-                                <span class="lang-th">เดือนที่ 1-2</span>
-                            </p>
-                            <p class="text-gray-700">
-                                <span class="lang-en">Audit all brand assets. Implement JSON-LD Schema for `RealEstateListing`. Ensure technical specs (sqm, materials) are machine-readable.</span>
-                                <span class="lang-th">ตรวจสอบสินทรัพย์ดิจิทัลทั้งหมด ติดตั้ง JSON-LD Schema สำหรับ `RealEstateListing` ทำให้สเปคต่างๆ อ่านได้ด้วยระบบอัตโนมัติ</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="relative pl-8">
-                        <div class="absolute -left-3.5 top-2 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-sm"></div>
-                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                            <h4 class="text-xl font-bold text-blue-900 font-serif-bi">
-                                <span class="lang-en">Phase 2: Authority & Citation</span>
-                                <span class="lang-th">เฟส 2: สร้างความน่าเชื่อถือ & อ้างอิง</span>
-                            </h4>
-                            <p class="text-sm text-gray-500 mb-2 font-semibold">
-                                <span class="lang-en">Months 3-5</span>
-                                <span class="lang-th">เดือนที่ 3-5</span>
-                            </p>
-                            <p class="text-gray-700">
-                                <span class="lang-en">Publish "White Papers" on sustainability. Secure citations in authoritative digital architecture journals to train AI weights.</span>
-                                <span class="lang-th">เผยแพร่ "White Papers" เรื่องความยั่งยืน สร้างการอ้างอิงในวารสารสถาปัตยกรรมชั้นนำเพื่อเทรนน้ำหนักความเชื่อถือให้ AI</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="relative pl-8">
-                        <div class="absolute -left-3.5 top-2 w-6 h-6 bg-blue-900 rounded-full border-4 border-white shadow-sm"></div>
-                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                            <h4 class="text-xl font-bold text-blue-900 font-serif-bi">
-                                <span class="lang-en">Phase 3: MCP API Deployment</span>
-                                <span class="lang-th">เฟส 3: ปล่อยระบบ MCP API</span>
-                            </h4>
-                            <p class="text-sm text-gray-500 mb-2 font-semibold">
-                                <span class="lang-en">Month 6+</span>
-                                <span class="lang-th">เดือนที่ 6 เป็นต้นไป</span>
-                            </p>
-                            <p class="text-gray-700">
-                                <span class="lang-en">Launch read-only API endpoint. Allow AI agents to query current price lists and floor plan availability dynamically.</span>
-                                <span class="lang-th">เปิด API แบบ Read-only ให้ AI Agents เข้ามาสอบถามราคาปัจจุบันและแปลนห้องที่ว่างได้แบบ Real-time</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Footer Section -->
+    <footer class="py-12 px-4 border-t border-white/10 text-slate-400 text-xs text-center glass-card">
+        <div class="max-w-6xl mx-auto space-y-4">
+            <div class="flex items-center justify-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <span class="font-luxury font-bold text-white tracking-widest text-sm">AI REALTY INTELLIGENCE</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Section 6: Projected ROI -->
-    <section class="py-16 px-4 container mx-auto max-w-6xl">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="order-2 md:order-1">
-                <div class="mb-6 rounded-xl overflow-hidden shadow-md h-48 w-full bg-gray-200">
-                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop" alt="Business Success" class="w-full h-full object-cover object-center">
-                </div>
-
-                <h3 class="text-3xl font-bold text-blue-900 mb-4 font-serif-bi">
-                    <span class="lang-en">The Result: Qualified Lead Growth</span>
-                    <span class="lang-th">ผลลัพธ์: การเติบโตของลูกค้าคุณภาพ</span>
-                </h3>
-                <p class="text-gray-600 mb-6">
-                    <span class="lang-en">Implementing GEO Strategies results in lower volume but significantly higher intent leads. AI users have already qualified themselves through conversation.</span>
-                    <span class="lang-th">การใช้กลยุทธ์ GEO อาจทำให้จำนวนคนเข้าเว็บน้อยลง แต่ "ความตั้งใจซื้อ" สูงขึ้นมาก เพราะผู้ใช้ AI ได้คัดกรองตัวเองผ่านการสนทนามาแล้ว</span>
-                </p>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-blue-50 p-4 rounded text-center border border-blue-100">
-                        <span class="block text-2xl font-bold text-blue-900">12 mo</span>
-                        <span class="text-sm text-gray-500">
-                            <span class="lang-en">Payback Period</span>
-                            <span class="lang-th">ระยะเวลาคืนทุน</span>
-                        </span>
-                    </div>
-                    <div class="bg-amber-50 p-4 rounded text-center border border-amber-100">
-                        <span class="block text-2xl font-bold text-amber-600">3.5x</span>
-                        <span class="text-sm text-gray-500">
-                            <span class="lang-en">Lead Quality Score</span>
-                            <span class="lang-th">คะแนนคุณภาพลูกค้า</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="order-1 md:order-2 bg-white p-6 rounded-xl shadow-lg">
-                <h4 class="text-lg font-bold text-center mb-4 text-gray-700 font-serif-bi">
-                    <span class="lang-en">Projected Growth Trajectory</span>
-                    <span class="lang-th">แนวโน้มการเติบโตที่คาดการณ์</span>
-                </h4>
-                <div class="chart-container">
-                    <canvas id="roiLineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12 text-center border-t-8 border-amber-500">
-        <div class="container mx-auto">
-            <h2 class="text-2xl font-bold text-white mb-4 font-serif-bi">
-                <span class="lang-en">READY TO DOMINATE AI SEARCH?</span>
-                <span class="lang-th">พร้อมที่จะครองตลาด AI SEARCH หรือยัง?</span>
-            </h2>
-            <p class="mb-8 max-w-md mx-auto">
-                <span class="lang-en">Future-proof your luxury developments today with our GEO & MCP integration services.</span>
-                <span class="lang-th">เตรียมโครงการหรูของคุณให้พร้อมสำหรับอนาคตวันนี้ ด้วยบริการ GEO & MCP ของเรา</span>
+            <p class="max-w-3xl mx-auto text-slate-400 leading-relaxed">
+                <span class="lang-en">
+                    This strategic framework is universally applicable to premium and luxury property developments. 
+                    Project details and renderings for Copacabana Coral Reef Jomtien are included for illustrative demonstration based on public architectural filings.
+                </span>
+                <span class="lang-th">
+                    กรอบกลยุทธ์นี้สามารถนำไปปรับใช้ได้กับทุกโครงการอสังหาริมทรัพย์ระดับพรีเมียมและลักชัวรี 
+                    ข้อมูลประกอบของโครงการ โคปาคาบานา คอรัลรีฟ จอมเทียน ถูกนำมาใช้เป็นตัวอย่างกรณีศึกษาเชิงสถาปัตยกรรมและเทคโนโลยี
+                </span>
             </p>
-            <p class="text-sm">&copy; 2024 Strategic Digital Insights. Prepared for Luxury Real Estate Developers.</p>
+            <p class="text-slate-500 font-mono">
+                &copy; 2026 Strategic Real Estate Intelligence • All Rights Reserved.
+            </p>
         </div>
     </footer>
 
-    <!-- Script Block -->
+    <!-- Interactive Scripts & Chart.js Config -->
     <script>
-        // --- LANGUAGE DATA FOR CHARTS ---
-        const chartData = {
-            radar: {
-                en: { labels: ['Keyword Density', 'Backlink Volume', 'Semantic Authority', 'Structured Data', 'Brand Sentiment', 'User Engagement'], label1: 'Traditional SEO', label2: 'GEO (AI Optimized)' },
-                th: { labels: ['ความหนาแน่นคำค้น', 'ปริมาณ Backlink', 'ความน่าเชื่อถือเนื้อหา', 'ข้อมูลโครงสร้าง', 'ความรู้สึกต่อแบรนด์', 'การมีส่วนร่วมผู้ใช้'], label1: 'SEO แบบดั้งเดิม', label2: 'GEO (ปรับแต่งเพื่อ AI)' }
+        // Language state management
+        let isThai = false;
+        let chartInstances = {};
+
+        const dictionary = {
+            en: {
+                flag: "🇹🇭",
+                btnLabel: "THAI VERSION",
+                radarLabels: ['Semantic Authority', 'Structured Schema', 'Brand Sentiment', 'Direct Citations', 'Keyword Matching', 'Backlink Volume'],
+                radarLegendSeo: 'Traditional SEO',
+                radarLegendGeo: 'GEO (AI Ready)',
+                barLabels: ['Independent Review Sentiment', 'Schema Entity Completeness', 'Domain Authority & E-E-A-T', 'Verified Technical Specs', 'Citations in Respected Journals', 'Exact Keyword Matches'],
+                barTitle: 'Influence on AI Choice',
+                doughnutLabels: ['70% GEO & AEO (Deep Insights)', '20% Technical SEO & Authority', '10% MCP & Multimodal AI'],
+                lineLabels: ['Month 0', 'Month 3', 'Month 6', 'Month 9', 'Month 12', 'Month 15', 'Month 18'],
+                lineGeo: 'GEO Conversational Leads (High Intent)',
+                lineSeo: 'Legacy SEO Ad Leads (Mixed Intent)'
             },
-            bar: {
-                en: { labels: ['Review Sentiment', 'Domain Authority', 'Schema Structure', 'Content Freshness', 'Social Proof', 'Keyword Match'], label: 'Impact on AI Recommendation' },
-                th: { labels: ['ความรู้สึกรีวิว', 'คะแนนเว็บ (DA)', 'โครงสร้าง Schema', 'ความสดใหม่เนื้อหา', 'Social Proof', 'คำค้นตรงกัน'], label: 'ผลกระทบต่อคำแนะนำ AI' }
-            },
-            bubble: {
-                en: { 
-                    label: 'Critical Data Assets',
-                    items: ['Live Inventory', 'Dynamic Pricing', 'Detailed Specs', 'Amenities List', 'Local Guide'],
-                    xTitle: 'Implementation Complexity', yTitle: 'Strategic Value (AI Context)'
-                },
-                th: { 
-                    label: 'สินทรัพย์ข้อมูลสำคัญ',
-                    items: ['คลังสินค้าสด', 'ราคาแบบพลวัต', 'สเปคละเอียด', 'รายการสิ่งอำนวยความสะดวก', 'คู่มือท้องถิ่น'],
-                    xTitle: 'ความยากในการทำ', yTitle: 'มูลค่าเชิงกลยุทธ์ (บริบท AI)'
-                }
-            },
-            line: {
-                en: { labels: ['Month 0', 'Month 3', 'Month 6', 'Month 9', 'Month 12', 'Month 15', 'Month 18'], label1: 'GEO Optimized Leads (High Intent)', label2: 'Traditional SEO Leads (Mixed Intent)', yTitle: 'Lead Volume Index' },
-                th: { labels: ['เดือนที่ 0', 'เดือนที่ 3', 'เดือนที่ 6', 'เดือนที่ 9', 'เดือนที่ 12', 'เดือนที่ 15', 'เดือนที่ 18'], label1: 'ลูกค้าจาก GEO (ตั้งใจซื้อสูง)', label2: 'ลูกค้าจาก SEO เดิม (คละกัน)', yTitle: 'ดัชนีปริมาณลูกค้า' }
-            },
-            doughnut: {
-                en: { labels: ['GEO & AEO (Insight/Schema)', 'Modern SEO (Authority)', 'Exploration (AI Video)'] },
-                th: { labels: ['GEO & AEO (เชิงลึก/Schema)', 'Modern SEO (ความน่าเชื่อถือ)', 'Exploration (ทดลองใหม่)'] }
+            th: {
+                flag: "🇬🇧",
+                btnLabel: "ENGLISH VERSION",
+                radarLabels: ['ความน่าเชื่อถือเนื้อหา', 'โครงสร้าง Schema', 'ความรู้สึกต่อแบรนด์', 'การอ้างอิงตรง', 'การตรงกันของคำค้น', 'ปริมาณ Backlink'],
+                radarLegendSeo: 'SEO แบบดั้งเดิม',
+                radarLegendGeo: 'GEO (พร้อมสำหรับ AI)',
+                barLabels: ['ความรู้สึกรีวิวอิสระ', 'ความสมบูรณ์ของ Schema', 'คะแนนความน่าเชื่อถือเว็บ', 'สเปคเทคนิคที่ยืนยันได้', 'การอ้างอิงในวารสารชั้นนำ', 'คำค้นหาตรงตัวเป๊ะ'],
+                barTitle: 'ผลกระทบต่อการแนะนำของ AI',
+                doughnutLabels: ['70% GEO & AEO (เนื้อหาเชิงลึก/Schema)', '20% Technical SEO (ความน่าเชื่อถือ)', '10% MCP & สื่อใหม่ AI'],
+                lineLabels: ['เดือนที่ 0', 'เดือนที่ 3', 'เดือนที่ 6', 'เดือนที่ 9', 'เดือนที่ 12', 'เดือนที่ 15', 'เดือนที่ 18'],
+                lineGeo: 'ลูกค้าจาก AI สนทนา (ตั้งใจซื้อสูง)',
+                lineSeo: 'ลูกค้าจากโฆษณาเดิม (คละกัน)'
             }
         };
 
-        let currentLang = 'en'; // Default
-        let charts = {}; // Store chart instances
-
-        // --- UTILITY FUNCTIONS ---
-        function wrapLabels(labels) {
-            return labels.map(label => {
-                if (label.length > 16) {
-                    const words = label.split(' ');
-                    const lines = [];
-                    let currentLine = words[0];
-                    for (let i = 1; i < words.length; i++) {
-                        if ((currentLine + " " + words[i]).length <= 16) {
-                            currentLine += " " + words[i];
-                        } else {
-                            lines.push(currentLine);
-                            currentLine = words[i];
-                        }
+        // Live MCP Simulator query database
+        const queries = {
+            pool: {
+                prompt_en: "Looking for a luxury condo in Jomtien Pattaya with a private plunge pool on the balcony. Which high-rise project offers this?",
+                prompt_th: "กำลังมองหาคอนโดหรูในจอมเทียน พัทยา ที่มีสระว่ายน้ำส่วนตัวบนระเบียงห้อง โครงการไหนมีสเปคนี้บ้าง?",
+                mcp_call: JSON.stringify({
+                    "server": "copacabana_coral_reef",
+                    "tool": "filter_units",
+                    "params": {
+                        "unit_category": "1BR_PRIVATE_POOL",
+                        "min_sqm": 71.5,
+                        "status": "available",
+                        "balcony_amenity": "plunge_pool"
                     }
-                    lines.push(currentLine);
-                    return lines;
-                }
-                return label;
-            });
+                }, null, 2),
+                response_en: `<p><strong>Top Recommendation: Copacabana Coral Reef (Jomtien)</strong></p>
+<p>For buyers seeking an exclusive plunge pool on their private balcony, <strong>Copacabana Coral Reef</strong> features unique 1-Bedroom residences starting from <strong>71.5 sq.m.</strong>.</p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>Location:</strong> Jomtien Second Road (steps from beach)</li>
+    <li><strong>Balcony Feature:</strong> Private integrated plunge pool</li>
+    <li><strong>High-Rise Amenities:</strong> 51st-floor 45m cantilevered lap pool and 6th-floor onsen</li>
+    <li><strong>Completion:</strong> Late 2027 (EIA Approved)</li>
+</ul>`,
+                response_th: `<p><strong>คำแนะนำอันดับหนึ่ง: โคปาคาบานา คอรัลรีฟ (หาดจอมเทียน)</strong></p>
+<p>สำหรับผู้ซื้อที่ต้องการสระว่ายน้ำส่วนตัวบนระเบียงห้อง <strong>Copacabana Coral Reef</strong> มีแบบห้อง 1-Bedroom with Private Pool เริ่มต้นขนาด <strong>71.5 ตร.ม.</strong></p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>ทำเล:</strong> ถนนจอมเทียนสาย 2 (เพียงไม่กี่ก้าวถึงหาดจอมเทียน)</li>
+    <li><strong>จุดเด่นในยูนิต:</strong> สระส่วนตัวบนระเบียงชมวิวทะเล</li>
+    <li><strong>ส่วนกลางระดับไอคอนิก:</strong> สระลอยฟ้า 45 เมตร ชั้น 51 และออนเซ็นญี่ปุ่น ชั้น 6</li>
+    <li><strong>กำหนดส่งมอบ:</strong> ปลายปี 2027 (ผ่าน EIA เรียบร้อย)</li>
+</ul>`
+            },
+            wellness: {
+                prompt_en: "Which new high-rise condominiums in Pattaya offer authentic Japanese Onsen and extensive wellness facilities?",
+                prompt_th: "คอนโดสร้างใหม่ตึกสูงโครงการไหนในพัทยาที่มีออนเซ็นญี่ปุ่นแท้และสิ่งอำนวยความสะดวกเพื่อสุขภาพครบวงจร?",
+                mcp_call: JSON.stringify({
+                    "server": "copacabana_coral_reef",
+                    "tool": "get_facilities",
+                    "params": {
+                        "category": "wellness_spa",
+                        "floor_levels": [3, 6, 50, 51],
+                        "facility_types": ["onsen", "sauna", "panoramic_gym", "sky_pool"]
+                    }
+                }, null, 2),
+                response_en: `<p><strong>Top Recommendation: Copacabana Coral Reef (Jomtien)</strong></p>
+<p>Copacabana Coral Reef stands out with dedicated wellness architecture across multiple levels:</p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>6th Floor:</strong> Authentic Japanese Onsen baths, sauna, and herbal steam rooms.</li>
+    <li><strong>3rd Floor:</strong> 487 sq.m. double-volume high-ceiling panoramic ocean gym.</li>
+    <li><strong>51st Floor:</strong> 45-meter rooftop cantilevered lap pool with hydro-massage jacuzzi.</li>
+    <li><strong>Ground Floor:</strong> Tropical wave lagoon pool and 32 landscaped pocket gardens.</li>
+</ul>`,
+                response_th: `<p><strong>คำแนะนำอันดับหนึ่ง: โคปาคาบานา คอรัลรีฟ (หาดจอมเทียน)</strong></p>
+<p>Copacabana Coral Reef โดดเด่นด้วยสถาปัตยกรรมด้านสุขภาวะและการผ่อนคลายระดับไฮเอนด์:</p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>ชั้น 6:</strong> บ่อออนเซ็นสไตล์ญี่ปุ่นแท้ พร้อมห้องซาวน่าและสตีม</li>
+    <li><strong>ชั้น 3:</strong> ฟิตเนสขนาดใหญ่ 487 ตร.ม. เพดานสูงชมวิวพาโนรามา</li>
+    <li><strong>ชั้น 51:</strong> สระว่ายน้ำลอยฟ้ายื่นออกจากอาคารความยาว 45 เมตร พร้อมจากุซซี</li>
+    <li><strong>ชั้นกราวด์:</strong> สระคลื่นเทียมสไตล์บีชคลับ และสวนพักผ่อน 32 สวนทั่วอาคาร</li>
+</ul>`
+            },
+            investment: {
+                prompt_en: "What is the legal status, EIA approval, and handover timeline for Copacabana Coral Reef Condominium?",
+                prompt_th: "สถานะใบอนุญาตทางกฎหมาย การผ่าน EIA และกำหนดการสร้างเสร็จของโครงการ Copacabana Coral Reef เป็นอย่างไร?",
+                mcp_call: JSON.stringify({
+                    "server": "copacabana_coral_reef",
+                    "tool": "get_regulatory_compliance",
+                    "params": {
+                        "developer": "Copacabana Coral Reef Jomtien Co., Ltd.",
+                        "registered_capital_thb": 112000000,
+                        "eia_status": "APPROVED",
+                        "completion_target": "Q4_2027"
+                    }
+                }, null, 2),
+                response_en: `<p><strong>Regulatory & Construction Summary: Verified Fact Sheet</strong></p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>Developer:</strong> Copacabana Coral Reef Jomtien Co., Ltd. (Paid-up capital: 112,000,000 THB).</li>
+    <li><strong>EIA Status:</strong> Approved (Environmental Impact Assessment certified).</li>
+    <li><strong>Building Permit:</strong> Issued (March 2025 timeline compliance).</li>
+    <li><strong>Construction Milestone:</strong> Began October 2023; Scheduled completion end of 2027.</li>
+    <li><strong>Fees:</strong> Common fee 50 THB/sq.m./month; Sinking fund 500 THB/sq.m. (one-time).</li>
+</ul>`,
+                response_th: `<p><strong>สรุปสถานะทางกฎหมายและการก่อสร้าง: ข้อมูลยืนยันอย่างเป็นทางการ</strong></p>
+<ul class="list-disc pl-5 space-y-1 text-slate-300">
+    <li><strong>ผู้พัฒนา:</strong> บริษัท โคปาคาบานา คอรัลรีฟ จอมเทียน จำกัด (ทุนจดทะเบียนชำระเต็ม 112,000,000 บาท)</li>
+    <li><strong>สถานะ EIA:</strong> ได้รับการอนุมัติผ่านรายงานผลกระทบสิ่งแวดล้อมเรียบร้อยแล้ว</li>
+    <li><strong>ใบอนุญาตก่อสร้าง:</strong> ได้รับใบอนุญาตถูกต้อง (ออกในเดือนมีนาคม 2025)</li>
+    <li><strong>ความคืบหน้า:</strong> เริ่มก่อสร้างตั้งแต่ ต.ค. 2023 กำหนดสร้างเสร็จปลายปี 2027</li>
+    <li><strong>ค่าใช้จ่ายส่วนกลาง:</strong> 50 บาท/ตร.ม./เดือน, กองทุนส่วนกลาง 500 บาท/ตร.ม. (ชำระครั้งเดียว)</li>
+</ul>`
+            }
+        };
+
+        let currentActiveQuery = 'pool';
+
+        function runQuery(key) {
+            currentActiveQuery = key;
+            const data = queries[key];
+            const promptEl = document.getElementById('clientPrompt');
+            const mcpEl = document.getElementById('mcpCall');
+            const aiEl = document.getElementById('aiResponse');
+
+            promptEl.innerText = isThai ? data.prompt_th : data.prompt_en;
+            mcpEl.innerText = data.mcp_call;
+            aiEl.innerHTML = isThai ? data.response_th : data.response_en;
         }
 
-        const commonTooltipOptions = {
-            callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    if (Array.isArray(label)) return label.join(' ');
-                    return label;
-                }
-            }
-        };
+        // Toggle Language
+        function toggleLang() {
+            isThai = !isThai;
+            document.body.classList.toggle('th-mode', isThai);
 
-        // --- CHART INITIALIZATION ---
+            const flagEl = document.getElementById('langFlag');
+            const labelEl = document.getElementById('langLabel');
+            const d = isThai ? dictionary.th : dictionary.en;
+
+            flagEl.innerText = d.flag;
+            labelEl.innerText = d.btnLabel;
+
+            // Update current query simulation
+            runQuery(currentActiveQuery);
+
+            // Update charts
+            updateAllCharts();
+        }
+
+        // Initialize Charts
         function initCharts() {
-            // Radar
+            const d = isThai ? dictionary.th : dictionary.en;
+
+            // 1. Radar Chart (SEO vs GEO)
             const radarCtx = document.getElementById('seoGeoRadar').getContext('2d');
-            charts.radar = new Chart(radarCtx, {
+            chartInstances.radar = new Chart(radarCtx, {
                 type: 'radar',
                 data: {
-                    labels: wrapLabels(chartData.radar.en.labels),
-                    datasets: [{
-                        label: chartData.radar.en.label1,
-                        data: [90, 85, 40, 30, 50, 60],
-                        backgroundColor: 'rgba(156, 163, 175, 0.2)', borderColor: 'rgba(156, 163, 175, 1)', borderWidth: 2
-                    }, {
-                        label: chartData.radar.en.label2,
-                        data: [30, 40, 95, 100, 90, 85],
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: '#3B82F6', borderWidth: 3, pointBackgroundColor: '#D97706'
-                    }]
+                    labels: d.radarLabels,
+                    datasets: [
+                        {
+                            label: d.radarLegendSeo,
+                            data: [35, 40, 50, 45, 95, 90],
+                            backgroundColor: 'rgba(100, 116, 139, 0.2)',
+                            borderColor: '#64748b',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#64748b'
+                        },
+                        {
+                            label: d.radarLegendGeo,
+                            data: [95, 98, 90, 92, 30, 40],
+                            backgroundColor: 'rgba(245, 158, 11, 0.25)',
+                            borderColor: '#f59e0b',
+                            borderWidth: 2.5,
+                            pointBackgroundColor: '#f59e0b'
+                        }
+                    ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { r: { angleLines: { color: '#E5E7EB' }, grid: { color: '#E5E7EB' }, pointLabels: { font: { size: 11, family: 'Sarabun' }, color: '#374151' }, suggestedMin: 0, suggestedMax: 100 } },
-                    plugins: { legend: { position: 'top', labels: { font: { family: 'Sarabun' } } }, tooltip: commonTooltipOptions }
-                }
-            });
-
-            // Bar
-            const barCtx = document.getElementById('influenceBarChart').getContext('2d');
-            charts.bar = new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: wrapLabels(chartData.bar.en.labels),
-                    datasets: [{
-                        label: chartData.bar.en.label,
-                        data: [95, 88, 85, 70, 65, 40],
-                        backgroundColor: ['#1E3A8A', '#2563EB', '#3B82F6', '#60A5FA', '#93C5FD', '#D1D5DB'], borderRadius: 5
-                    }]
-                },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, tooltip: commonTooltipOptions },
-                    scales: { x: { grid: { display: false } }, y: { grid: { display: false }, ticks: { font: { family: 'Sarabun' } } } }
-                }
-            });
-
-            // Bubble
-            const bubbleCtx = document.getElementById('mcpBubbleChart').getContext('2d');
-            charts.bubble = new Chart(bubbleCtx, {
-                type: 'bubble',
-                data: {
-                    datasets: [{
-                        label: chartData.bubble.en.label,
-                        data: [
-                            { x: 90, y: 95, r: 25, labelIndex: 0 },
-                            { x: 80, y: 85, r: 20, labelIndex: 1 },
-                            { x: 60, y: 70, r: 15, labelIndex: 2 },
-                            { x: 40, y: 60, r: 12, labelIndex: 3 },
-                            { x: 30, y: 40, r: 10, labelIndex: 4 }
-                        ],
-                        backgroundColor: '#D97706', borderColor: '#92400E'
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
-                        x: { title: { display: true, text: chartData.bubble.en.xTitle, font: { family: 'Sarabun' } }, min: 0, max: 100, grid: { display: true, borderDash: [5, 5] } },
-                        y: { title: { display: true, text: chartData.bubble.en.yTitle, font: { family: 'Sarabun' } }, min: 0, max: 110, grid: { display: true, borderDash: [5, 5] } }
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                            pointLabels: {
+                                font: { size: 10, family: isThai ? 'Sarabun' : 'Plus Jakarta Sans' },
+                                color: '#94a3b8'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false }
+                        }
                     },
                     plugins: {
-                        tooltip: { callbacks: { label: function(context) { return chartData.bubble[currentLang].items[context.raw.labelIndex]; } } },
-                        legend: { display: false }
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cbd5e1',
+                                font: { size: 11, family: isThai ? 'Sarabun' : 'Plus Jakarta Sans' }
+                            }
+                        }
                     }
                 }
             });
 
-            // Doughnut Strategy Chart
+            // 2. Bar Chart (AI Influence Factors)
+            const barCtx = document.getElementById('influenceBarChart').getContext('2d');
+            chartInstances.bar = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: d.barLabels,
+                    datasets: [{
+                        label: d.barTitle,
+                        data: [94, 91, 88, 85, 75, 38],
+                        backgroundColor: [
+                            '#f59e0b',
+                            '#06b6d4',
+                            '#3b82f6',
+                            '#10b981',
+                            '#8b5cf6',
+                            '#475569'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            max: 100
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#e2e8f0',
+                                font: { size: 11, family: isThai ? 'Sarabun' : 'Plus Jakarta Sans' }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 3. Doughnut Chart (Budget Allocation)
             const doughCtx = document.getElementById('strategyDoughnutChart').getContext('2d');
-            charts.doughnut = new Chart(doughCtx, {
+            chartInstances.doughnut = new Chart(doughCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: chartData.doughnut.en.labels,
+                    labels: d.doughnutLabels,
                     datasets: [{
                         data: [70, 20, 10],
-                        backgroundColor: [
-                            '#D97706', // Amber (GEO)
-                            '#2563EB', // Blue (SEO)
-                            '#9CA3AF'  // Gray (Exp)
-                        ],
+                        backgroundColor: ['#f59e0b', '#2563eb', '#64748b'],
                         borderWidth: 0,
-                        hoverOffset: 4
+                        hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '72%',
                     plugins: {
-                        legend: { position: 'right', labels: { color: 'white', font: { family: 'Sarabun' } } }
+                        legend: { display: false }
                     }
                 }
             });
 
-            // Line
+            // 4. Line Chart (Lead Intent Trajectory)
             const lineCtx = document.getElementById('roiLineChart').getContext('2d');
-            charts.line = new Chart(lineCtx, {
+            chartInstances.line = new Chart(lineCtx, {
                 type: 'line',
                 data: {
-                    labels: wrapLabels(chartData.line.en.labels),
-                    datasets: [{
-                        label: chartData.line.en.label1,
-                        data: [5, 12, 25, 45, 80, 110, 150],
-                        borderColor: '#3B82F6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4, borderWidth: 3
-                    }, {
-                        label: chartData.line.en.label2,
-                        data: [50, 55, 58, 60, 62, 65, 68],
-                        borderColor: '#9CA3AF', borderDash: [5, 5], fill: false, tension: 0.4
-                    }]
+                    labels: d.lineLabels,
+                    datasets: [
+                        {
+                            label: d.lineGeo,
+                            data: [8, 22, 48, 85, 125, 160, 195],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 3
+                        },
+                        {
+                            label: d.lineSeo,
+                            data: [50, 53, 56, 58, 60, 62, 64],
+                            borderColor: '#64748b',
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.2,
+                            borderWidth: 2
+                        }
+                    ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Sarabun' } } }, tooltip: commonTooltipOptions },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
                     scales: {
-                        y: { title: { display: true, text: chartData.line.en.yTitle, font: { family: 'Sarabun' } }, grid: { color: '#E5E7EB' } },
-                        x: { grid: { display: false }, ticks: { font: { family: 'Sarabun' } } }
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        }
                     }
                 }
             });
         }
 
-        // --- LANGUAGE TOGGLE LOGIC ---
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'th' : 'en';
-            
-            // 1. Toggle DOM Text
-            const enElements = document.querySelectorAll('.lang-en');
-            const thElements = document.querySelectorAll('.lang-th');
-            const btnText = document.getElementById('lang-btn-text');
+        // Update charts on language switch
+        function updateAllCharts() {
+            const d = isThai ? dictionary.th : dictionary.en;
 
-            if (currentLang === 'en') {
-                enElements.forEach(el => el.style.display = 'block');
-                thElements.forEach(el => el.style.display = 'none'); 
-                btnText.innerText = "🇹🇭 THAI";
-            } else {
-                enElements.forEach(el => el.style.display = 'none');
-                thElements.forEach(el => el.style.display = 'inline'); 
-                
-                enElements.forEach(el => el.style.display = 'none');
-                thElements.forEach(el => el.style.display = 'block');
-                
-                document.querySelectorAll('h4 .lang-th, h1 .lang-th, h2 .lang-th, p .lang-th, span .lang-th').forEach(el => el.style.display = 'inline');
-                document.querySelectorAll('li .lang-th, div .lang-th').forEach(el => el.style.display = 'block');
-                
-                btnText.innerText = "🇬🇧 ENG"; 
-            }
+            // Radar
+            chartInstances.radar.data.labels = d.radarLabels;
+            chartInstances.radar.data.datasets[0].label = d.radarLegendSeo;
+            chartInstances.radar.data.datasets[1].label = d.radarLegendGeo;
+            chartInstances.radar.update();
 
-            // 2. Update Charts
-            updateCharts();
+            // Bar
+            chartInstances.bar.data.labels = d.barLabels;
+            chartInstances.bar.data.datasets[0].label = d.barTitle;
+            chartInstances.bar.update();
+
+            // Doughnut
+            chartInstances.doughnut.data.labels = d.doughnutLabels;
+            chartInstances.doughnut.update();
+
+            // Line
+            chartInstances.line.data.labels = d.lineLabels;
+            chartInstances.line.data.datasets[0].label = d.lineGeo;
+            chartInstances.line.data.datasets[1].label = d.lineSeo;
+            chartInstances.line.update();
         }
 
-        function updateCharts() {
-            const d = chartData;
-            
-            // Radar Update
-            charts.radar.data.labels = wrapLabels(d.radar[currentLang].labels);
-            charts.radar.data.datasets[0].label = d.radar[currentLang].label1;
-            charts.radar.data.datasets[1].label = d.radar[currentLang].label2;
-            charts.radar.update();
-
-            // Bar Update
-            charts.bar.data.labels = wrapLabels(d.bar[currentLang].labels);
-            charts.bar.data.datasets[0].label = d.bar[currentLang].label;
-            charts.bar.update();
-
-            // Bubble Update (Axes titles)
-            charts.bubble.options.scales.x.title.text = d.bubble[currentLang].xTitle;
-            charts.bubble.options.scales.y.title.text = d.bubble[currentLang].yTitle;
-            charts.bubble.data.datasets[0].label = d.bubble[currentLang].label;
-            charts.bubble.update();
-
-            // Doughnut Update
-            charts.doughnut.data.labels = d.doughnut[currentLang].labels;
-            charts.doughnut.update();
-
-            // Line Update
-            charts.line.data.labels = wrapLabels(d.line[currentLang].labels);
-            charts.line.data.datasets[0].label = d.line[currentLang].label1;
-            charts.line.data.datasets[1].label = d.line[currentLang].label2;
-            charts.line.options.scales.y.title.text = d.line[currentLang].yTitle;
-            charts.line.update();
-        }
-
-        // Initialize
-        window.onload = function() {
+        // Window onload
+        window.addEventListener('load', () => {
             initCharts();
-            // Ensure initial state is correct (optional, CSS handles it mostly)
-             document.querySelectorAll('.lang-th').forEach(el => el.style.display = 'none');
-        };
-
+        });
     </script>
 </body>
 </html>
