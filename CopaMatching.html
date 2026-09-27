@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Matching | Copacabana Coral Reef Jomtien</title>
+    <meta property="og:title" content="บ้านที่ใช่ เริ่มจากการรู้จักตัวเอง | Personalized Matching">
+    <meta property="og:description" content="ทำไมบุคลิกภาพถึงสำคัญกับการเลือกที่อยู่อาศัย และบริการ Personalized Matching ช่วยให้คุณได้ห้องที่ตอบโจทย์ชีวิตจริง ทั้งความสุข ความสบาย และโชคลาภ">
+    <meta property="og:image" content="https://i.postimg.cc/5tg0Ny1W/hf-20260824-092308-b02f987c-bc1c-4ac4-a495-39cfde4c405f.png">
+    <meta property="og:url" content="https://thbho.github.io/CopaMatching.html">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Personalized Matching | Copacabana Coral Reef Jomtien">
+    <meta name="twitter:description" content="The right home starts with knowing yourself — an 8-question assessment matched to zones, floors and layouts.">
+    <meta name="twitter:image" content="https://i.postimg.cc/5tg0Ny1W/hf-20260824-092308-b02f987c-bc1c-4ac4-a495-39cfde4c405f.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Kanit:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* OCTOBER 2026 PALETTE — "Reef Teal" */
+        :root { --deep: #2A3C45; --deep-2: #3D555F; --accent: #5C7883; }
+        body { background-color: #F4F7F7; overflow-x: hidden; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Lato', sans-serif; }
+        body.lang-th .lang-specific-font { font-family: 'Kanit', sans-serif; }
+        body.lang-cn .lang-specific-font { font-family: 'Noto Sans SC', sans-serif; }
+        body.lang-ru .lang-specific-font { font-family: 'Montserrat', sans-serif; }
+        body:not(.lang-th):not(.lang-cn):not(.lang-ru) [lang]:not([lang="en"]) { display: none !important; }
+        body.lang-th [lang]:not([lang="th"]) { display: none !important; }
+        body.lang-cn [lang]:not([lang="cn"]) { display: none !important; }
+        body.lang-ru [lang]:not([lang="ru"]) { display: none !important; }
+        .glass-panel { background: rgba(255,255,255,0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+        .glass-dark { background: rgba(42, 60, 69, 0.90); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+        /* quiz option buttons */
+        .opt { transition: all .18s ease; }
+        .opt:hover { border-color: #5C7883; background: #F0F7F5; }
+        .opt.sel { border-color: #2A3C45; background: #2A3C45; color: #fff; }
+        .opt.sel .opt-sub { color: rgba(255,255,255,.7); }
+        /* floor map rows */
+        .floor-row { transition: all .2s ease; cursor: pointer; }
+        .floor-row:hover { background: #F0F7F5; transform: translateX(4px); }
+        .floor-row.active { background: #2A3C45; color: #fff; }
+        .floor-row.active .floor-sub { color: rgba(255,255,255,.75); }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased selection:bg-[#2A3C45] selection:text-amber-400">
+
+    <!-- LANGUAGE SWITCH -->
+    <div class="fixed top-5 right-5 z-50">
+        <div class="glass-panel rounded-full p-1.5 shadow-xl border border-white/60 flex gap-1 items-center">
+            <button onclick="setLanguage('en')" id="btn-en" class="lang-btn w-9 h-9 rounded-full bg-[#2A3C45] text-amber-400 font-bold text-xs transition-all shadow-md">EN</button>
+            <button onclick="setLanguage('th')" id="btn-th" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">TH</button>
+            <button onclick="setLanguage('cn')" id="btn-cn" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">CN</button>
+            <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 font-bold text-xs transition-all">RU</button>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="w-full bg-[#2A3C45] text-white px-4 sm:px-8 pt-16 pb-24 md:pt-20 md:pb-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
+        <div class="absolute -top-24 -left-24 w-80 h-80 bg-[#5C7883] rounded-full blur-3xl opacity-30"></div>
+        <div class="absolute -bottom-32 -right-24 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl"></div>
+        <div class="max-w-4xl mx-auto relative z-10 text-center">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Coral Reef Jomtien" class="h-16 md:h-20 mx-auto mb-8 drop-shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+            <span class="inline-block px-5 py-2 rounded-full border border-amber-400/30 bg-white/5 text-amber-300 text-[11px] font-bold tracking-[0.2em] uppercase mb-7 lang-specific-font">
+                <span lang="en">Personalized Matching</span>
+                <span lang="th">บริการ Personalized Matching</span>
+                <span lang="cn">个性化匹配服务</span>
+                <span lang="ru">Personalized Matching</span>
+            </span>
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 lang-specific-font">
+                <span lang="en">The Right Home Starts with <span class="text-amber-400 italic">Knowing Yourself</span></span>
+                <span lang="th">บ้านที่ใช่ เริ่มจาก<span class="text-amber-400">การรู้จักตัวเอง</span></span>
+                <span lang="cn">对的家，始于<span class="text-amber-400">了解自己</span></span>
+                <span lang="ru">Правильный дом начинается <span class="text-amber-400">со знания себя</span></span>
+            </h1>
+            <p class="text-sky-100/75 text-base md:text-lg leading-relaxed max-w-2xl mx-auto lang-specific-font">
+                <span lang="en">Why personality matters when choosing where to live — and how Personalized Matching finds the residence that fits your real life: your happiness, your comfort, and an orientation that feels right.</span>
+                <span lang="th">ทำไมบุคลิกภาพถึงสำคัญกับการเลือกที่อยู่อาศัย และบริการ Personalized Matching ช่วยให้คุณได้ห้องที่ตอบโจทย์ชีวิตจริงได้อย่างไร ทั้งความสุข ความสบาย และโชคลาภ</span>
+                <span lang="cn">为何性格对选择住所如此重要——以及个性化匹配如何为你找到契合真实生活的居所：幸福感、舒适度，以及合乎心意的朝向与风水。</span>
+                <span lang="ru">Почему характер важен при выборе жилья — и как Personalized Matching подбирает дом под вашу реальную жизнь: радость, комфорт и правильную ориентацию.</span>
+            </p>
+            <div class="mt-9 flex flex-wrap items-center justify-center gap-3 lang-specific-font">
+                <a href="#quiz" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3.5 px-8 rounded-full text-sm uppercase tracking-widest transition-all shadow-lg hover:-translate-y-0.5">
+                    <span lang="en">Start the Assessment</span><span lang="th">เริ่มทำแบบประเมิน</span><span lang="cn">开始评估</span><span lang="ru">Пройти оценку</span> &rarr;
+                </a>
+                <span class="text-sky-100/50 text-xs">
+                    <span lang="en">8 questions &bull; about one minute</span>
+                    <span lang="th">8 คำถาม &bull; ใช้เวลาราว 1 นาที</span>
+                    <span lang="cn">8道问题 &bull; 约一分钟</span>
+                    <span lang="ru">8 вопросов &bull; около минуты</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHY IT MATTERS -->
+    <div class="w-full px-4 sm:px-8 py-16 md:py-20 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-[#3D555F] text-xs font-bold tracking-[0.2em] uppercase block mb-3 lang-specific-font">
+                    <span lang="en">Why It Matters</span><span lang="th">ทำไมเรื่องนี้จึงสำคัญ</span><span lang="cn">为何重要</span><span lang="ru">Почему это важно</span>
+                </span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mb-5 lang-specific-font">
+                    <span lang="en">Square Metres Don't Tell You How You'll Feel</span>
+                    <span lang="th">ตารางเมตรบอกไม่ได้ว่าคุณจะรู้สึกอย่างไร</span>
+                    <span lang="cn">平方米，说明不了你住得舒不舒服</span>
+                    <span lang="ru">Квадратные метры не скажут, как вы будете себя чувствовать</span>
+                </h2>
+                <p class="text-slate-500 text-base md:text-lg leading-relaxed lang-specific-font">
+                    <span lang="en">Two people can buy the same layout on the same floor and have completely different experiences of living there. One finds the corridor sociable; the other finds it noisy. One is energised by the pool deck below; the other needs eleven more floors of quiet. The unit didn't change — the person did.</span>
+                    <span lang="th">คนสองคนอาจซื้อห้องผังเดียวกัน ชั้นเดียวกัน แต่ใช้ชีวิตอยู่ในนั้นต่างกันคนละเรื่อง คนหนึ่งรู้สึกว่าทางเดินหน้าห้องมีชีวิตชีวา อีกคนรู้สึกว่ามันเสียงดัง คนหนึ่งได้พลังจากสระว่ายน้ำที่อยู่ชั้นล่าง อีกคนต้องการความเงียบที่สูงขึ้นไปอีกสิบเอ็ดชั้น ห้องไม่ได้เปลี่ยน — คนต่างหากที่ต่างกัน</span>
+                    <span lang="cn">两个人可以买下同一层、同一户型，居住体验却可能截然不同。一个觉得走廊热闹宜人，另一个觉得吵；一个因楼下泳池而振奋，另一个却需要再往上十一层的安静。房子没有变，变的是住的人。</span>
+                    <span lang="ru">Два человека могут купить одинаковую планировку на одном этаже и жить совершенно по-разному. Одному коридор кажется оживлённым, другому — шумным. Одного бодрит бассейн внизу, другому нужно ещё одиннадцать этажей тишины. Изменилась не квартира — изменился человек.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lang-specific-font">
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <strong class="block text-slate-900 font-serif text-lg mb-2">
+                        <span lang="en">Happiness</span><span lang="th" class="font-sans font-medium">ความสุข</span><span lang="cn" class="font-sans font-medium">幸福感</span><span lang="ru" class="font-sans font-medium">Радость</span>
+                    </strong>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        <span lang="en">Personality decides which zone, which floor, how much privacy — and which facilities you will use rather than merely own.</span>
+                        <span lang="th">บุคลิกภาพของคุณมีผลมากกว่าที่คิด ทั้งกับโซน ชั้น ระดับความเป็นส่วนตัว และสิ่งอำนวยความสะดวกที่คุณจะได้ใช้จริง ไม่ใช่แค่มีไว้เฉยๆ</span>
+                        <span lang="cn">性格决定区域、楼层与私密程度，也决定哪些设施你会真正使用，而不只是「拥有」。</span>
+                        <span lang="ru">Характер определяет зону, этаж и степень приватности — и то, какими удобствами вы будете пользоваться, а не просто владеть.</span>
+                    </p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                    <div class="w-10 h-10 rounded-xl bg-[#DFE7EA] text-[#3D555F] flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <strong class="block text-slate-900 font-serif text-lg mb-2">
+                        <span lang="en">Comfort</span><span lang="th" class="font-sans font-medium">ความสบาย</span><span lang="cn" class="font-sans font-medium">舒适度</span><span lang="ru" class="font-sans font-medium">Комфорт</span>
+                    </strong>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        <span lang="en">Your daily routine decides the layout: where light falls, how far you walk, how quiet the corridor is, where things go.</span>
+                        <span lang="th">กิจวัตรประจำวันคือสิ่งที่บอกว่าผังห้องแบบไหนเข้ากับคุณ: แสงตกตรงไหน เดินไกลแค่ไหน ทางเดินเงียบพอไหม และของจะเก็บไว้ตรงไหน</span>
+                        <span lang="cn">日常作息决定户型：光线落在哪、要走多远、走廊安不安静、东西往哪收。</span>
+                        <span lang="ru">Распорядок дня определяет планировку: куда падает свет, сколько идти, насколько тих коридор, где хранить вещи.</span>
+                    </p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                    <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <strong class="block text-slate-900 font-serif text-lg mb-2">
+                        <span lang="en">Orientation</span><span lang="th" class="font-sans font-medium">ทิศทางและโชคลาภ</span><span lang="cn" class="font-sans font-medium">朝向与风水</span><span lang="ru" class="font-sans font-medium">Ориентация</span>
+                    </strong>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        <span lang="en">Which way the unit faces shapes light through the day, the sea breeze, and how open the outlook feels from the balcony.</span>
+                        <span lang="th">ทิศของห้องกำหนดทั้งแสงตลอดวัน ลมทะเล และความโล่งของมุมมองจากระเบียง รวมถึงเลขชั้นและตำแหน่งประตู-ระเบียงตามหลักฮวงจุ้ยที่หลายท่านให้ความสำคัญ</span>
+                        <span lang="cn">朝向决定全天采光、海风与阳台视野的开阔感；楼层数字与门、阳台方位，也是许多买家依风水考量的重点。</span>
+                        <span lang="ru">Ориентация определяет свет в течение дня, морской бриз и то, насколько открыт вид с балкона.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-10 md:mt-12">
+                <figure class="lg:col-span-3 relative rounded-3xl overflow-hidden shadow-xl border border-slate-100 group bg-slate-100">
+                    <img src="img/lobby-main.jpg" alt="Copacabana Coral Reef double-height arrival lobby" class="w-full h-60 md:h-[21rem] object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+                    <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-900/85 to-transparent px-5 py-4 text-white text-xs md:text-sm lang-specific-font">
+                        <span lang="en">The arrival lobby &mdash; the one space every resident shares, whichever floor they live on.</span>
+                        <span lang="th">ล็อบบี้ต้อนรับ &mdash; พื้นที่เดียวที่ลูกบ้านทุกคนใช้ร่วมกัน ไม่ว่าจะอยู่ชั้นไหน</span>
+                        <span lang="cn">入口大堂 &mdash; 无论住在哪一层，每位住户共享的唯一空间。</span>
+                        <span lang="ru">Лобби &mdash; единственное пространство, общее для всех жильцов, на каком бы этаже они ни жили.</span>
+                    </figcaption>
+                </figure>
+                <figure class="lg:col-span-2 relative rounded-3xl overflow-hidden shadow-xl border border-slate-100 group bg-slate-100">
+                    <img src="img/entrance-gate.jpg" alt="Copacabana Coral Reef entrance gate and landscaping" class="w-full h-60 md:h-[21rem] object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+                    <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-900/85 to-transparent px-5 py-4 text-white text-xs md:text-sm lang-specific-font">
+                        <span lang="en">The grand entrance on Jomtien Second Road &mdash; where the daily commute ends.</span>
+                        <span lang="th">ทางเข้าหลักของโครงการบนถนนจอมเทียนสาย 2 &mdash; จุดที่การเดินทางแต่ละวันสิ้นสุดลง</span>
+                        <span lang="cn">中天二路上的项目正门 &mdash; 每日通勤的终点。</span>
+                        <span lang="ru">Парадный въезд с Джомтьен Секонд-роуд &mdash; там, где заканчивается дорога домой.</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz" class="w-full px-4 sm:px-8 py-16 md:py-20 bg-slate-50/70 border-t border-slate-100">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-[#3D555F] text-xs font-bold tracking-[0.2em] uppercase block mb-3 lang-specific-font">
+                    <span lang="en">The Assessment</span><span lang="th">แบบประเมิน</span><span lang="cn">评估问卷</span><span lang="ru">Оценка</span>
+                </span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mb-4 lang-specific-font">
+                    <span lang="en">Eight Questions</span><span lang="th">8 คำถาม</span><span lang="cn">八道问题</span><span lang="ru">Восемь вопросов</span>
+                </h2>
+                <p class="text-slate-500 text-sm md:text-base lang-specific-font">
+                    <span lang="en">There is no right answer — only the one that sounds more like you.</span>
+                    <span lang="th">ไม่มีคำตอบถูกหรือผิด มีแค่ข้อที่ฟังดูเป็นคุณมากกว่า</span>
+                    <span lang="cn">没有对错，只有哪一个更像你。</span>
+                    <span lang="ru">Правильного ответа нет — есть тот, что больше похож на вас.</span>
+                </p>
+            </div>
+
+            <div id="quiz-card" class="bg-white rounded-3xl border border-slate-100 shadow-xl p-7 md:p-10">
+                <!-- progress -->
+                <div class="flex items-center gap-3 mb-7">
+                    <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div id="q-bar" class="h-full bg-[#2A3C45] rounded-full transition-all duration-300" style="width:12.5%"></div>
+                    </div>
+                    <span id="q-count" class="text-slate-400 text-xs font-bold tabular-nums shrink-0">1 / 8</span>
+                </div>
+
+                <p id="q-text" class="text-slate-900 font-serif text-xl md:text-2xl leading-snug mb-7 lang-specific-font"></p>
+
+                <div class="space-y-3">
+                    <button type="button" onclick="answer(0)" class="opt w-full text-left border-2 border-slate-200 rounded-2xl px-5 py-4 lang-specific-font">
+                        <span id="opt-a" class="block font-bold text-[15px] leading-snug"></span>
+                        <span id="opt-a-sub" class="opt-sub block text-slate-400 text-xs mt-1"></span>
+                    </button>
+                    <button type="button" onclick="answer(1)" class="opt w-full text-left border-2 border-slate-200 rounded-2xl px-5 py-4 lang-specific-font">
+                        <span id="opt-b" class="block font-bold text-[15px] leading-snug"></span>
+                        <span id="opt-b-sub" class="opt-sub block text-slate-400 text-xs mt-1"></span>
+                    </button>
+                </div>
+
+                <div class="mt-7 flex items-center justify-between lang-specific-font">
+                    <button type="button" onclick="goBack()" id="q-back" class="text-slate-400 hover:text-slate-700 text-xs font-bold uppercase tracking-widest transition-colors invisible">
+                        &larr; <span lang="en">Back</span><span lang="th">ย้อนกลับ</span><span lang="cn">上一题</span><span lang="ru">Назад</span>
+                    </button>
+                    <button type="button" onclick="resetQuiz()" class="text-slate-400 hover:text-slate-700 text-xs font-bold uppercase tracking-widest transition-colors">
+                        <span lang="en">Start over</span><span lang="th">เริ่มใหม่</span><span lang="cn">重新开始</span><span lang="ru">Заново</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT -->
+            <div id="result" class="hidden bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
+                <div id="res-head" class="px-7 py-8 md:px-10 md:py-10 text-white">
+                    <span class="block text-[11px] font-bold uppercase tracking-[0.2em] opacity-75 mb-2 lang-specific-font">
+                        <span lang="en">Your Match</span><span lang="th">ผลการจับคู่ของคุณ</span><span lang="cn">你的匹配结果</span><span lang="ru">Ваш результат</span>
+                    </span>
+                    <div class="flex items-center gap-3 mb-3">
+                        <span id="res-code" class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold tracking-widest"></span>
+                        <h3 id="res-name" class="font-serif text-2xl md:text-3xl font-bold lang-specific-font"></h3>
+                    </div>
+                    <p id="res-desc" class="text-white/80 text-sm md:text-base leading-relaxed lang-specific-font"></p>
+                </div>
+                <div class="p-7 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-5 lang-specific-font">
+                    <div class="bg-slate-50 rounded-2xl p-5">
+                        <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                            <span lang="en">Facilities for you</span><span lang="th">สิ่งอำนวยความสะดวกที่เข้ากับคุณ</span><span lang="cn">契合你的设施</span><span lang="ru">Удобства для вас</span>
+                        </span>
+                        <p id="res-fac" class="text-slate-600 text-sm leading-relaxed"></p>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-5">
+                        <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                            <span lang="en">Residence to look at</span><span lang="th">ห้องที่ควรดู</span><span lang="cn">建议关注的户型</span><span lang="ru">Какую резиденцию смотреть</span>
+                        </span>
+                        <p id="res-unit" class="text-slate-600 text-sm leading-relaxed"></p>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-5">
+                        <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                            <span lang="en">Orientation note</span><span lang="th">ข้อแนะนำเรื่องทิศทาง</span><span lang="cn">朝向与风水提示</span><span lang="ru">О ориентации</span>
+                        </span>
+                        <p id="res-orient" class="text-slate-600 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+                <div class="px-7 pb-8 md:px-10 md:pb-10 flex flex-wrap gap-3 lang-specific-font">
+                    <a href="https://lin.ee/vT2STFE" target="_blank" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3.5 px-8 rounded-full text-sm uppercase tracking-widest transition-all shadow-lg hover:-translate-y-0.5">
+                        <span lang="en">Send this to our team</span><span lang="th">ส่งผลนี้ให้ทีมงาน</span><span lang="cn">把结果发给我们</span><span lang="ru">Отправить нашей команде</span> &rarr;
+                    </a>
+                    <button type="button" onclick="resetQuiz()" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-500 text-slate-600 font-bold py-3.5 px-8 rounded-full text-sm uppercase tracking-widest transition-all">
+                        <span lang="en">Take it again</span><span lang="th">ทำประเมินใหม่</span><span lang="cn">再测一次</span><span lang="ru">Пройти снова</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOOR MAP -->
+    <div class="w-full px-4 sm:px-8 py-16 md:py-20 bg-white border-t border-slate-100">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-[#3D555F] text-xs font-bold tracking-[0.2em] uppercase block mb-3 lang-specific-font">
+                    <span lang="en">Interactive Floor Map</span><span lang="th">แผนผังอาคารแบบอินเทอร์แอคทีฟ</span><span lang="cn">互动楼层图</span><span lang="ru">Интерактивная карта этажей</span>
+                </span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mb-4 lang-specific-font">
+                    <span lang="en">55 Storeys, Zoned by Purpose</span>
+                    <span lang="th">55 ชั้น แบ่งโซนตามการใช้งาน</span>
+                    <span lang="cn">55层，依用途分区</span>
+                    <span lang="ru">55 этажей, зонированных по назначению</span>
+                </h2>
+                <p class="text-slate-500 text-sm md:text-base lang-specific-font">
+                    <span lang="en">Topped out on 28 August 2026. Tap a level to see what sits there and who it suits.</span>
+                    <span lang="th">ปิดยอดอาคารเมื่อ 28 สิงหาคม 2569 แตะที่ชั้นเพื่อดูว่ามีอะไรอยู่ตรงนั้น และเหมาะกับใคร</span>
+                    <span lang="cn">已于2026年8月28日封顶。点击楼层，看看那里有什么、适合谁。</span>
+                    <span lang="ru">Topping Out — 28 августа 2026. Нажмите на уровень, чтобы увидеть, что там и кому подходит.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div class="lg:col-span-2 space-y-2 lang-specific-font" id="floor-list"></div>
+                <div class="lg:col-span-3">
+                    <div class="bg-slate-50 rounded-3xl border border-slate-100 p-7 md:p-9 h-full lang-specific-font">
+                        <span id="fd-level" class="inline-block px-3 py-1 bg-[#2A3C45] text-amber-400 rounded-full text-[11px] font-bold tracking-widest mb-4"></span>
+                        <h3 id="fd-name" class="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-4"></h3>
+                        <p id="fd-desc" class="text-slate-600 text-sm md:text-base leading-relaxed mb-6"></p>
+                        <div class="border-t border-slate-200 pt-5">
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                <span lang="en">Suits</span><span lang="th">เหมาะกับ</span><span lang="cn">适合</span><span lang="ru">Подходит</span>
+                            </span>
+                            <p id="fd-suits" class="text-slate-700 text-sm font-bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="w-full px-4 sm:px-8 py-16 md:py-20 bg-[#2A3C45] text-white relative overflow-hidden">
+        <div class="absolute -top-32 -right-24 w-80 h-80 bg-[#5C7883] rounded-full blur-3xl opacity-25"></div>
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <span class="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase block mb-3 lang-specific-font">
+                    <span lang="en">How the Service Works</span><span lang="th">ขั้นตอนการใช้บริการ</span><span lang="cn">服务流程</span><span lang="ru">Как работает сервис</span>
+                </span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 lang-specific-font">
+                    <span lang="en">Four Steps, No Obligation</span>
+                    <span lang="th">4 ขั้นตอน ไม่มีข้อผูกมัด</span>
+                    <span lang="cn">四个步骤，无需任何承诺</span>
+                    <span lang="ru">Четыре шага, без обязательств</span>
+                </h2>
+                <p class="text-sky-100/60 text-sm md:text-base max-w-2xl mx-auto lang-specific-font">
+                    <span lang="en">Because Copacabana Coral Reef is still under construction, matching happens <strong class="text-white">before</strong> a unit is taken — so floor, view, zone and layout are all still yours to choose.</span>
+                    <span lang="th">เนื่องจาก Copacabana Coral Reef ยังอยู่ระหว่างก่อสร้าง การจับคู่จึงเกิดขึ้นตั้งแต่<strong class="text-white">ก่อน</strong>ห้องจะถูกจอง คุณจึงยังเลือกได้เองทั้งชั้น วิว โซน และผังห้อง</span>
+                    <span lang="cn">由于Copacabana Coral Reef仍在建设中，匹配发生在房源被选走<strong class="text-white">之前</strong>——楼层、景观、分区与户型，仍由你来挑。</span>
+                    <span lang="ru">Поскольку Copacabana Coral Reef ещё строится, подбор происходит <strong class="text-white">до</strong> того, как юнит займут — этаж, вид, зона и планировка всё ещё за вами.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lang-specific-font">
+                <div class="glass-dark rounded-2xl border border-white/10 p-6">
+                    <span class="block text-amber-400 font-serif text-3xl font-bold mb-3">01</span>
+                    <strong class="block text-white text-base mb-2">
+                        <span lang="en">Take the assessment</span><span lang="th">ทำแบบประเมิน</span><span lang="cn">完成评估</span><span lang="ru">Пройдите оценку</span>
+                    </strong>
+                    <p class="text-sky-100/55 text-sm leading-relaxed">
+                        <span lang="en">Eight questions, about a minute. You get your temperament and a first shortlist.</span>
+                        <span lang="th">8 คำถาม ใช้เวลาราว 1 นาที คุณจะได้กลุ่มบุคลิกและรายการห้องเบื้องต้น</span>
+                        <span lang="cn">八道问题，约一分钟，即可得到你的性格类型与初步清单。</span>
+                        <span lang="ru">Восемь вопросов, около минуты. Вы получите свой тип и первый шорт-лист.</span>
+                    </p>
+                </div>
+                <div class="glass-dark rounded-2xl border border-white/10 p-6">
+                    <span class="block text-amber-400 font-serif text-3xl font-bold mb-3">02</span>
+                    <strong class="block text-white text-base mb-2">
+                        <span lang="en">Tell us the practical side</span><span lang="th">บอกเราเรื่องการใช้งานจริง</span><span lang="cn">告诉我们实际需求</span><span lang="ru">Расскажите о практике</span>
+                    </strong>
+                    <p class="text-sky-100/55 text-sm leading-relaxed">
+                        <span lang="en">Budget, how often you will be here, who stays with you, and whether you plan to let the unit.</span>
+                        <span lang="th">งบประมาณ ความถี่ที่จะมาพัก ใครจะมาอยู่ด้วย และมีแผนจะปล่อยเช่าหรือไม่</span>
+                        <span lang="cn">预算、入住频率、与谁同住，以及是否打算出租。</span>
+                        <span lang="ru">Бюджет, как часто вы здесь бываете, кто живёт с вами и планируете ли сдавать.</span>
+                    </p>
+                </div>
+                <div class="glass-dark rounded-2xl border border-white/10 p-6">
+                    <span class="block text-amber-400 font-serif text-3xl font-bold mb-3">03</span>
+                    <strong class="block text-white text-base mb-2">
+                        <span lang="en">We match and narrow</span><span lang="th">เราจับคู่และคัดให้แคบลง</span><span lang="cn">我们进行匹配与筛选</span><span lang="ru">Мы подбираем и сужаем</span>
+                    </strong>
+                    <p class="text-sky-100/55 text-sm leading-relaxed">
+                        <span lang="en">Our team cross-checks personality, routine and orientation against what is still available, and returns two or three real options.</span>
+                        <span lang="th">ทีมงานนำบุคลิกภาพ กิจวัตร และทิศทาง มาเทียบกับห้องที่ยังว่างอยู่ แล้วเสนอกลับมา 2–3 ตัวเลือกที่เป็นไปได้จริง</span>
+                        <span lang="cn">团队将性格、作息与朝向，与现有可选房源交叉比对，回覆你两到三个真正可行的选项。</span>
+                        <span lang="ru">Команда сверяет характер, распорядок и ориентацию с тем, что доступно, и возвращает два-три реальных варианта.</span>
+                    </p>
+                </div>
+                <div class="glass-dark rounded-2xl border border-white/10 p-6">
+                    <span class="block text-amber-400 font-serif text-3xl font-bold mb-3">04</span>
+                    <strong class="block text-white text-base mb-2">
+                        <span lang="en">See it for yourself</span><span lang="th">มาดูด้วยตาตัวเอง</span><span lang="cn">亲自来看</span><span lang="ru">Посмотрите сами</span>
+                    </strong>
+                    <p class="text-sky-100/55 text-sm leading-relaxed">
+                        <span lang="en">Visit the Sales Gallery on Jomtien Second Road, open daily 8:30&ndash;17:30, and stand in the layout before you decide.</span>
+                        <span lang="th">เข้าชม Sales Gallery บนถนนจอมเทียนสาย 2 เปิดทุกวัน 08.30–17.30 น. ได้ยืนอยู่ในผังห้องจริงก่อนตัดสินใจ</span>
+                        <span lang="cn">莅临中天二路销售中心，每日08:30–17:30开放，在做决定前先站进真实户型之中。</span>
+                        <span lang="ru">Приходите в Sales Gallery на Jomtien Second Road, ежедневно 8:30–17:30, и постойте в планировке до решения.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="w-full bg-[#1C3A37] text-white px-4 sm:px-8 pt-14 pb-10 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
+        <div class="max-w-5xl mx-auto relative z-10 text-center lang-specific-font">
+            <img src="https://i.postimg.cc/R01ZKZrv/new_logo_copa2.png" alt="Copacabana Coral Reef Jomtien" class="h-14 mx-auto mb-6 opacity-90">
+            <p class="text-sky-100/70 text-sm leading-relaxed mb-6">
+                <strong class="text-white">Copacabana Coral Reef Jomtien</strong><br>
+                385/16 Moo 12, Jomtien Second Road, Nong Prue, Bang Lamung, Chon Buri 20150
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm mb-8">
+                <a href="tel:+66838825115" class="text-amber-400 hover:text-amber-300 transition-colors font-bold">+66 83 882 5115</a>
+                <a href="https://lin.ee/vT2STFE" target="_blank" class="text-amber-400 hover:text-amber-300 transition-colors font-bold">LINE Official</a>
+                <a href="https://copacabanagroup.com" target="_blank" class="text-amber-400 hover:text-amber-300 transition-colors font-bold">copacabanagroup.com</a>
+                <a href="https://maps.app.goo.gl/gJ1QCQ1HvdDLR72i7" target="_blank" class="text-amber-400 hover:text-amber-300 transition-colors font-bold">
+                    <span lang="en">Sales Gallery Map</span><span lang="th">แผนที่ Sales Gallery</span><span lang="cn">销售中心地图</span><span lang="ru">Карта Sales Gallery</span>
+                </a>
+            </div>
+            <a href="https://thbho.github.io/CopaNewsOct26.html" target="_blank" class="inline-flex items-center gap-2 text-sky-100/60 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors mb-6">
+                <span lang="en">Back to CopaNews October 2026</span><span lang="th">กลับไปที่ CopaNews ตุลาคม 2569</span><span lang="cn">返回 CopaNews 2026年10月刊</span><span lang="ru">К выпуску CopaNews Октябрь 2026</span> &rarr;
+            </a>
+            <p class="text-sky-100/35 text-xs leading-relaxed max-w-2xl mx-auto">
+                <span lang="en">This assessment is an editorial guide to help you think about how you live. It is not a psychological diagnosis, and it does not replace a visit to the Sales Gallery. Availability of floors, views and layouts changes over time — please confirm current options with our team.</span>
+                <span lang="th">แบบประเมินนี้เป็นเครื่องมือเชิงบทความ เพื่อช่วยให้คุณทบทวนวิถีการอยู่อาศัยของตัวเอง ไม่ใช่การวินิจฉัยทางจิตวิทยา และไม่ได้ใช้แทนการเข้าชมโครงการจริง ทั้งนี้ชั้น วิว และผังห้องที่ว่างอยู่เปลี่ยนแปลงได้ตลอดเวลา กรุณาตรวจสอบตัวเลือกล่าสุดกับทีมงาน</span>
+                <span lang="cn">本评估为编辑性参考工具，旨在帮助您思考自己的居住方式，并非心理诊断，也不能取代亲临销售中心。可选楼层、景观与户型会随时间变动，请向我们的团队确认最新选项。</span>
+                <span lang="ru">Эта оценка — редакционный инструмент, помогающий задуматься о том, как вы живёте. Это не психологическая диагностика и не замена визиту в Sales Gallery. Доступность этажей, видов и планировок меняется — уточняйте актуальные варианты у нашей команды.</span>
+            </p>
+            <p class="text-sky-100/30 text-xs mt-5">
+                <span lang="en">&copy; 2026 Copacabana Coral Reef Jomtien. All rights reserved.</span>
+                <span lang="th">&copy; 2026 Copacabana Coral Reef Jomtien. สงวนสิทธิ์ทุกประการ</span>
+                <span lang="cn">&copy; 2026 Copacabana Coral Reef Jomtien. 版权所有。</span>
+                <span lang="ru">&copy; 2026 Copacabana Coral Reef Jomtien. Все права защищены.</span>
+            </p>
+        </div>
+    </div>
+
+<script>
+// ---------- language ----------
+function setLanguage(lang){
+    document.body.classList.remove('lang-th','lang-cn','lang-ru');
+    if(lang!=='en') document.body.classList.add('lang-'+lang);
+    ['en','th','cn','ru'].forEach(function(l){
+        var b=document.getElementById('btn-'+l); if(!b) return;
+        if(l===lang){ b.classList.add('bg-[#2A3C45]','text-amber-400','shadow-md'); b.classList.remove('text-slate-500','hover:bg-slate-100'); }
+        else { b.classList.remove('bg-[#2A3C45]','text-amber-400','shadow-md'); b.classList.add('text-slate-500','hover:bg-slate-100'); }
+    });
+    try{ localStorage.setItem('copaLang',lang); }catch(e){}
+    LANG=lang; renderQuestion(); renderFloors(); if(!document.getElementById('result').classList.contains('hidden')) showResult();
+}
+var LANG='en';
+try{ var s=localStorage.getItem('copaLang'); if(s) LANG=s; }catch(e){}
+
+// ---------- quiz data: 8 questions, 2 per MBTI axis ----------
+// each option carries the letter it scores
+var Q=[
+ {ax:'EI',a:'E',b:'I',
+  t:{en:'After a long week, the evening you look forward to is…',th:'หลังจากสัปดาห์ที่ยาวนาน ค่ำคืนที่คุณเฝ้ารอคือ…',cn:'漫长的一周之后，你最期待的夜晚是……',ru:'После долгой недели вы ждёте вечера, который…'},
+  A:{en:'People around, somewhere with a bit of life to it',th:'มีผู้คนรอบตัว ในที่ที่มีชีวิตชีวาสักหน่อย',cn:'身边有人，在一个有点热闹的地方',ru:'С людьми, где есть немного жизни'},
+  As:{en:'A shared table, a pool deck, voices nearby',th:'โต๊ะที่นั่งร่วมกัน ริมสระ เสียงผู้คนใกล้ๆ',cn:'共享的餐桌、泳池平台、近处的人声',ru:'Общий стол, бассейн, голоса рядом'},
+  B:{en:'Your own space, with the door closed',th:'พื้นที่ส่วนตัว ปิดประตู',cn:'属于自己的空间，关上门',ru:'Своё пространство, с закрытой дверью'},
+  Bs:{en:'A balcony, a book, nobody expecting anything',th:'ระเบียง หนังสือ ไม่มีใครคาดหวังอะไร',cn:'一个阳台、一本书、没人对你有期待',ru:'Балкон, книга, никто ничего не ждёт'}},
+
+ {ax:'EI',a:'E',b:'I',
+  t:{en:'The corridor outside your door — ideally it is…',th:'ทางเดินหน้าห้องคุณ — ถ้าเลือกได้ ควรเป็น…',cn:'你家门外的走廊，理想中应该是……',ru:'Коридор у вашей двери — в идеале он…'},
+  A:{en:'Lively enough that you run into neighbours',th:'มีชีวิตชีวาพอที่จะได้เจอเพื่อนบ้านบ้าง',cn:'够热闹，偶尔能碰见邻居',ru:'Достаточно оживлённый, чтобы встречать соседей'},
+  As:{en:'You like knowing who lives around you',th:'คุณชอบที่ได้รู้ว่าใครอยู่รอบตัวคุณ',cn:'你喜欢知道身边住着谁',ru:'Вам нравится знать, кто живёт рядом'},
+  B:{en:'So quiet you forget it is there',th:'เงียบจนลืมไปเลยว่ามีทางเดินอยู่',cn:'安静到几乎忘了它的存在',ru:'Настолько тихий, что вы о нём забываете'},
+  Bs:{en:'Fewer doors, fewer footsteps, higher up',th:'ประตูน้อยลง เสียงฝีเท้าน้อยลง และอยู่สูงขึ้น',cn:'门更少、脚步更少、楼层更高',ru:'Меньше дверей, меньше шагов, выше этаж'}},
+
+ {ax:'SN',a:'S',b:'N',
+  t:{en:'Walking into a show unit, what do you notice first?',th:'เมื่อเดินเข้าห้องตัวอย่าง คุณสังเกตอะไรก่อน',cn:'走进样板房，你第一眼注意到什么？',ru:'Заходя в шоурум, что вы замечаете первым?'},
+  A:{en:'Whether it actually works — storage, sockets, the kitchen',th:'ว่ามันใช้งานได้จริงไหม ที่เก็บของ ปลั๊ก ครัว',cn:'它到底好不好用——收纳、插座、厨房',ru:'Работает ли это — хранение, розетки, кухня'},
+  As:{en:'You measure with your life, not your eyes',th:'คุณวัดด้วยชีวิตจริง ไม่ใช่ด้วยสายตา',cn:'你用生活丈量，而不是用眼睛',ru:'Вы меряете жизнью, а не глазами'},
+  B:{en:'What it could become — the view, the feeling, the future',th:'ว่ามันจะกลายเป็นอะไรได้ วิว ความรู้สึก อนาคต',cn:'它可能成为什么——视野、感觉、未来',ru:'Чем это может стать — вид, ощущение, будущее'},
+  Bs:{en:'You see the room that isn\'t there yet',th:'คุณเห็นห้องที่ยังไม่เกิดขึ้น',cn:'你看见的是那个尚未存在的房间',ru:'Вы видите комнату, которой ещё нет'}},
+
+ {ax:'SN',a:'S',b:'N',
+  t:{en:'Which sentence sounds more like you?',th:'ประโยคไหนฟังดูเป็นคุณมากกว่า',cn:'哪句话更像你？',ru:'Какая фраза больше похожа на вас?'},
+  A:{en:'"Show me what is built and finished."',th:'"ขอดูของที่สร้างเสร็จแล้วจริงๆ"',cn:'「让我看已经建好、完工的东西。」',ru:'«Покажите то, что уже построено и готово.»'},
+  As:{en:'Evidence over promises',th:'หลักฐานสำคัญกว่าคำสัญญา',cn:'证据胜过承诺',ru:'Доказательства важнее обещаний'},
+  B:{en:'"Tell me where this whole area is heading."',th:'"เล่าให้ฟังหน่อยว่าพื้นที่นี้กำลังจะไปทางไหน"',cn:'「告诉我，整片区域将走向何方。」',ru:'«Расскажите, куда движется весь этот район.»'},
+  Bs:{en:'Direction over the current snapshot',th:'ทิศทางสำคัญกว่าภาพ ณ ปัจจุบัน',cn:'方向胜过当下的快照',ru:'Направление важнее текущего снимка'}},
+
+ {ax:'TF',a:'T',b:'F',
+  t:{en:'You are deciding between two units. What settles it?',th:'คุณกำลังเลือกระหว่างสองห้อง อะไรคือตัวตัดสิน',cn:'你在两个户型之间犹豫，最终由什么决定？',ru:'Вы выбираете между двумя юнитами. Что решает?'},
+  A:{en:'The numbers — yield, running cost, resale logic',th:'ตัวเลข — ผลตอบแทน ค่าใช้จ่าย ตรรกะการขายต่อ',cn:'数字——收益率、持有成本、转手逻辑',ru:'Цифры — доходность, расходы, логика перепродажи'},
+  As:{en:'You want the decision to hold up on paper',th:'คุณอยากให้การตัดสินใจนี้อธิบายได้บนกระดาษ',cn:'你希望这个决定在纸面上站得住脚',ru:'Решение должно выдерживать проверку на бумаге'},
+  B:{en:'The feeling — which one you did not want to leave',th:'ความรู้สึก — ห้องไหนที่คุณไม่อยากเดินออกมา',cn:'感觉——哪一间你舍不得走出来',ru:'Ощущение — из какой не хотелось уходить'},
+  Bs:{en:'You trust the room that felt like yours',th:'คุณเชื่อห้องที่ให้ความรู้สึกว่าเป็นของคุณ',cn:'你相信那个让你有归属感的房间',ru:'Вы доверяете комнате, что показалась своей'}},
+
+ {ax:'TF',a:'T',b:'F',
+  t:{en:'A brochure that impresses you leads with…',th:'โบรชัวร์ที่ทำให้คุณประทับใจ จะขึ้นต้นด้วย…',cn:'能打动你的宣传册，开篇会是……',ru:'Буклет, который вас впечатлит, начинается с…'},
+  A:{en:'Structural data, floor efficiency, projected returns',th:'ข้อมูลโครงสร้าง ประสิทธิภาพการใช้พื้นที่ ผลตอบแทนคาดการณ์',cn:'结构数据、得房率、预期回报',ru:'Данные конструкции, эффективность площади, прогноз доходности'},
+  As:{en:'You read the appendix first',th:'คุณอ่านภาคผนวกก่อน',cn:'你会先翻附录',ru:'Вы сначала читаете приложение'},
+  B:{en:'A photograph of the light at seven in the morning',th:'ภาพถ่ายแสงตอนเจ็ดโมงเช้า',cn:'一张清晨七点光线的照片',ru:'Фотография света в семь утра'},
+  Bs:{en:'Atmosphere tells you more than any table',th:'บรรยากาศบอกคุณได้มากกว่าตารางใดๆ',cn:'氛围比任何表格都更能说明问题',ru:'Атмосфера скажет больше любой таблицы'}},
+
+ {ax:'JP',a:'J',b:'P',
+  t:{en:'How do you feel about a fixed handover date?',th:'คุณรู้สึกอย่างไรกับกำหนดส่งมอบที่ตายตัว',cn:'对于一个固定的交付日期，你的感受是？',ru:'Как вы относитесь к фиксированной дате сдачи?'},
+  A:{en:'Reassured — I want the plan locked',th:'อุ่นใจ — อยากให้แผนนิ่งที่สุด',cn:'安心——我希望计划是确定的',ru:'Спокойнее — хочу, чтобы план был зафиксирован'},
+  As:{en:'Certainty is part of the value',th:'ความแน่นอนคือส่วนหนึ่งของคุณค่า',cn:'确定性本身就是价值的一部分',ru:'Определённость — часть ценности'},
+  B:{en:'Fine — but I want options open around it',th:'ก็ดี — แต่ขอให้ยังมีทางเลือกเปิดไว้',cn:'可以——但我希望周边选项保持开放',ru:'Нормально — но хочу сохранить варианты'},
+  Bs:{en:'You like room to change your mind',th:'คุณชอบมีที่ว่างให้เปลี่ยนใจ',cn:'你喜欢留有改变主意的余地',ru:'Вам нужен простор передумать'}},
+
+ {ax:'JP',a:'J',b:'P',
+  t:{en:'In five years, this home is…',th:'ในอีกห้าปีข้างหน้า บ้านหลังนี้จะเป็น…',cn:'五年之后，这个家会是……',ru:'Через пять лет этот дом будет…'},
+  A:{en:'Exactly what I bought it for',th:'ตรงกับเหตุผลที่ซื้อมาตั้งแต่แรก',cn:'正是我当初买下它的用途',ru:'Ровно тем, для чего я его купил'},
+  As:{en:'One clear purpose, held steadily',th:'เป้าหมายเดียวที่ชัดเจน และยึดไว้มั่นคง',cn:'一个清晰的用途，稳稳守住',ru:'Одна ясная цель, удерживаемая твёрдо'},
+  B:{en:'Whatever life needs it to be by then',th:'อะไรก็ได้ที่ชีวิตตอนนั้นต้องการให้มันเป็น',cn:'到那时，生活需要它是什么，它就是什么',ru:'Тем, чем его сделает жизнь к тому моменту'},
+  Bs:{en:'Home, rental, or both by season',th:'อยู่เอง ปล่อยเช่า หรือสลับกันไปตามฤดู',cn:'自住、出租，或随季节两者兼有',ru:'Дом, аренда или и то и другое по сезону'}}
+];
+
+// ---------- results: 4 Keirsey temperaments ----------
+var R={
+ NT:{code:'NT',colour:'#2A5C7A',
+  name:{en:'The Visionary',th:'The Visionary — นักมองการณ์ไกล',cn:'远见者 The Visionary',ru:'The Visionary — Стратег'},
+  desc:{en:'You are drawn to height, perspective and what comes next. A home is judged by its outlook — literally and in terms of potential — and it has to support the way you work and think.',
+        th:'คุณถูกดึงดูดด้วยความสูง มุมมอง และสิ่งที่จะเกิดขึ้นข้างหน้า คุณตัดสินบ้านจาก "วิว" ทั้งความหมายตรงและในแง่ศักยภาพ และมันต้องรองรับวิธีที่คุณทำงานและคิด',
+        cn:'你被高度、视野与「接下来会发生什么」吸引。你以格局评判一个家——既是实景，也是潜力——而它必须支撑你工作与思考的方式。',
+        ru:'Вас притягивают высота, перспектива и то, что будет дальше. Дом вы оцениваете по обзору — буквально и по потенциалу — и он должен поддерживать то, как вы работаете и думаете.'},
+  fac:{en:'The Level 50 Sky Park &mdash; co-working space, meeting room and snooker lounge &mdash; the Level 51 rooftop lap pool, and the high-ceiling panoramic gym.',
+       th:'Sky Park ชั้น 50 &mdash; Co-Working Space, ห้องประชุม และห้องสนุกเกอร์ &mdash; สระ Lap Pool ลอยฟ้าชั้น 51 และฟิตเนสเพดานสูงวิวพาโนรามา',
+       cn:'50层空中花园&mdash;&mdash;共享办公区、会议室与斯诺克室，51层高空泳池，以及高挑全景健身房。',
+       ru:'Sky Park на 50 этаже &mdash; коворкинг, переговорная и снукерная, &mdash; бассейн на 51 этаже и панорамный зал с высокими потолками.'},
+  unit:{en:'High floor with an unobstructed sea view, and a layout with space for a desk or study corner.',
+        th:'ชั้นสูง วิวทะเลเปิดโล่งไม่มีอะไรบัง และผังที่มีมุมทำงานหรือมุมอ่านหนังสือ',
+        cn:'高楼层、无遮挡海景，户型需能安置书桌或工作角落。',
+        ru:'Высокий этаж с открытым видом на море и планировка с местом под рабочий стол.'},
+  orient:{en:'A wide, unbroken outlook matters more to you than any single compass direction — prioritise the line of sight.',
+          th:'มุมมองที่กว้างและไม่ถูกบดบังสำคัญกับคุณมากกว่าทิศใดทิศหนึ่ง ในหลักฮวงจุ้ยเรียกว่ามี "หมิงถัง" หรือพื้นที่โล่งด้านหน้า ซึ่งถือเป็นมงคลอยู่แล้ว',
+          cn:'开阔无遮的「明堂」格局，对你比单一坐向更重要——视野通透，气自然聚。',
+          ru:'Широкий, ничем не прерванный обзор для вас важнее конкретной стороны света — отдайте приоритет линии взгляда.'}},
+
+ SJ:{code:'SJ',colour:'#8A6420',
+  name:{en:'The Guardian',th:'The Guardian — ผู้ดูแล',cn:'守护者 The Guardian',ru:'The Guardian — Хранитель'},
+  desc:{en:'Stability, function and things that work. You want a home that is easy to run day after day — storage that makes sense, costs that behave, nothing you have to fight with.',
+        th:'คุณให้ความสำคัญกับความมั่นคง ฟังก์ชัน และสิ่งที่ใช้งานได้จริง อยากได้บ้านที่ดูแลง่ายในทุกๆ วัน มีที่เก็บของที่สมเหตุสมผล ค่าใช้จ่ายที่คาดเดาได้ และไม่มีอะไรที่ต้องคอยฝืนใช้',
+        cn:'稳定、功能与「真正好用」。你要的是一个日复一日都容易打理的家：收纳合理、开销可控、没有需要将就的地方。',
+        ru:'Стабильность, функциональность и то, что работает. Вам нужен дом, которым легко управлять изо дня в день: продуманное хранение, предсказуемые расходы, ничего, с чем надо бороться.'},
+  fac:{en:'The high-ceiling gym (Fl. 3), the 32 common gardens, the Garden Pool and the multi-purpose lawn.',
+       th:'ฟิตเนสเพดานสูง (ชั้น 3), สวนส่วนกลาง 32 จุด, Garden Pool และสนามหญ้าอเนกประสงค์',
+       cn:'高挑健身房（3层）、32处公共花园、花园泳池与多功能草坪。',
+       ru:'Зал с высокими потолками (3 эт.), 32 общих сада, садовый бассейн и многофункциональная лужайка.'},
+  unit:{en:'Mid floor, a practical two-bedroom layout with real storage, and a short walk to lifts and gardens.',
+        th:'ชั้นกลาง ผัง 2 ห้องนอนที่ใช้งานได้จริง มีที่เก็บของเพียงพอ และเดินถึงลิฟต์กับสวนได้ไม่ไกล',
+        cn:'中楼层、实用的两房户型、充足收纳，步行至电梯与花园距离短。',
+        ru:'Средний этаж, практичная двухкомнатная планировка с хранением, короткий путь до лифтов и садов.'},
+  orient:{en:'East-facing gives you gentle morning light and cooler afternoons — the easiest orientation to live with long term.',
+          th:'ห้องหันทิศตะวันออกจะได้แสงเช้าที่นุ่มนวลและบ่ายที่เย็นกว่า ตามความเชื่อไทย-จีน ทิศตะวันออกหมายถึงการเริ่มต้นใหม่และความเจริญงอกงาม เหมาะกับผู้ที่ต้องการความมั่นคงระยะยาว',
+          cn:'朝东可得柔和晨光、午后较凉爽。依中式传统，东方主生发与新始，最宜长住守成之人。',
+          ru:'Восточная ориентация даёт мягкий утренний свет и более прохладный день — самый комфортный вариант на долгую перспективу.'}},
+
+ NF:{code:'NF',colour:'#9B4A58',
+  name:{en:'The Idealist',th:'The Idealist — ผู้ใฝ่ความงาม',cn:'理想者 The Idealist',ru:'The Idealist — Идеалист'},
+  desc:{en:'Atmosphere over specification. You remember how a room felt at seven in the morning, not how many square metres it was. Quiet, light and nature matter most.',
+        th:'สำหรับคุณ บรรยากาศสำคัญกว่าสเปก คุณจำได้ว่าห้องนั้นให้ความรู้สึกอย่างไรตอนเจ็ดโมงเช้า มากกว่าจำว่ามันกี่ตารางเมตร ความเงียบ แสง และธรรมชาติคือสิ่งที่คุณมองหาก่อน',
+        cn:'氛围重于规格。你记得的是清晨七点那个房间的感觉，而不是它有几平方米。安静、光线与自然，对你最重要。',
+        ru:'Атмосфера важнее спецификаций. Вы помните ощущение комнаты в семь утра, а не её метраж. Тишина, свет и природа — главное.'},
+  fac:{en:'The Coral Pool with Jacuzzi and the onsen (Fl. 6), the sauna and steam room, and 32 relaxing gardens throughout the building.',
+       th:'The Coral Pool พร้อมจากุซซี่และออนเซ็น (ชั้น 6) ห้องซาวน่าและห้องอบไอน้ำ และสวนพักผ่อน 32 จุดทั่วอาคาร',
+       cn:'6层的珊瑚泳池、按摩池与温泉，桑拿与蒸汽房，以及遍布大楼的32处休闲花园。',
+       ru:'The Coral Pool с джакузи и онсэн (6 эт.), сауна и хаммам, а также 32 сада для отдыха по всему зданию.'},
+  unit:{en:'A quiet high-floor zone, a corner unit that catches morning light, sea view, and a balcony worth sitting on.',
+        th:'โซนชั้นสูงที่เงียบ ห้องมุมที่รับแสงเช้า วิวทะเล และระเบียงที่นั่งได้จริง',
+        cn:'安静的高楼层区、能迎晨光的角户、海景，以及一个真正坐得住的阳台。',
+        ru:'Тихая зона на высоком этаже, угловой юнит с утренним светом, вид на море и балкон, где хочется сидеть.'},
+  orient:{en:'South-east is your best fit: soft early light, sea breeze through the afternoon, and no harsh western glare.',
+          th:'ทิศตะวันออกเฉียงใต้เหมาะกับคุณที่สุด ได้แสงเช้าอ่อนๆ ลมทะเลตลอดบ่าย และไม่โดนแดดตะวันตกที่ร้อนจัด ตามหลักฮวงจุ้ยทิศนี้ถือเป็นทิศแห่งความราบรื่นและความสัมพันธ์ที่ดี',
+          cn:'东南向最合你意：晨光柔和、午后海风通透，亦避开西晒。风水上，东南属巽位，主顺遂与人缘。',
+          ru:'Юго-восток подходит вам лучше всего: мягкий ранний свет, морской бриз днём и никакого жёсткого западного солнца.'}},
+
+ SP:{code:'SP',colour:'#1F6B52',
+  name:{en:'The Explorer',th:'The Explorer — นักสำรวจ',cn:'探索者 The Explorer',ru:'The Explorer — Исследователь'},
+  desc:{en:'A base camp, not a nest. You are out more than in — beach, gym, friends, travel — so the home has to be effortless to lock up and leave, and easy to share.',
+        th:'บ้านคือจุดตั้งต้นของวัน ไม่ใช่ที่ที่ใช้เวลาทั้งวัน คุณอยู่ข้างนอกมากกว่าข้างใน ทั้งชายหาด ฟิตเนส เพื่อนฝูง และการเดินทาง ห้องจึงควรล็อกแล้วออกไปได้อย่างสบายใจ และแบ่งให้คนอื่นใช้ต่อได้ง่าย',
+        cn:'家是基地，不是巢穴。你在外的时间多过在内——海滩、健身、朋友、旅行——所以这个家必须锁门即走，也便于分享出租。',
+        ru:'Дом как база, а не гнездо. Вы чаще снаружи — пляж, зал, друзья, поездки — поэтому дом должен легко запираться и легко сдаваться.'},
+  fac:{en:'The Wave Pool and beach club, the Level 50 entertainment room, the rooftop running track, and Jomtien Beach just steps away.',
+       th:'Wave Pool และ Beach Club, ห้องเอนเตอร์เทนเมนต์ชั้น 50, ลู่วิ่งบนดาดฟ้า และหาดจอมเทียนที่อยู่ห่างเพียงไม่กี่ก้าว',
+       cn:'造浪池与海滩俱乐部、50层娱乐室、屋顶跑道，以及仅数步之遥的中天海滩。',
+       ru:'Волновой бассейн и пляжный клуб, комната развлечений на 50 этаже, беговая дорожка на крыше и пляж Джомтьен в нескольких шагах.'},
+  unit:{en:'Lower to mid floor near the facility decks — a compact studio or one-bedroom that works for living and for letting.',
+        th:'ชั้นล่างถึงชั้นกลาง ใกล้โซนสิ่งอำนวยความสะดวก ห้องสตูดิโอหรือ 1 ห้องนอนขนาดกระชับ ที่อยู่เองหรือปล่อยเช่าก็ลงตัว',
+        cn:'中低楼层、靠近设施层——紧凑的开间或一房户型，自住出租两相宜。',
+        ru:'Нижние–средние этажи рядом с зонами удобств — компактная студия или однокомнатная, и для жизни, и для аренды.'},
+  orient:{en:'Face the action rather than the compass: pick the side that looks onto the pool decks and the beach path.',
+          th:'เลือกด้านที่หันเข้าหาความเคลื่อนไหวมากกว่ายึดทิศ คือด้านที่มองเห็นโซนสระและทางลงหาด ส่วนเลขชั้น หากถือเคล็ด เลข 6 และ 8 เป็นที่นิยมของคนไทย-จีน',
+          cn:'比起坐向，更该面向「热闹」——选看得到泳池层与海滩通道的那一侧。若讲究楼层数字，6与8向来为华人所偏好。',
+          ru:'Ориентируйтесь на жизнь, а не на компас: выбирайте сторону с видом на бассейны и тропу к пляжу.'}}
+};
+
+// ---------- floor map ----------
+var FLOORS=[
+ {lv:'51',key:'f51',
+  n:{en:'Rooftop Lap &amp; Cantilever Pool',th:'สระ Lap Pool ลอยฟ้าแบบยื่นออก',cn:'高空悬挑泳池',ru:'Консольный бассейн на крыше'},
+  d:{en:'A 45-metre infinity-edge lap pool, cantilevered out over the Gulf of Thailand. Structurally designed by Beca; its mass of water at height also works as passive damping against sway.',
+     th:'สระ Lap Pool ยาว 45 เมตร ขอบไร้กรอบ ยื่นออกเหนืออ่าวไทย ออกแบบโครงสร้างโดย Beca มวลน้ำบนชั้นสูงยังทำหน้าที่ช่วยลดทอนการแกว่งของอาคารตามหลักกลศาสตร์โครงสร้าง',
+     cn:'45米无边际泳道，悬挑于泰国湾之上。结构由Beca设计；高空水体亦可作为被动阻尼，削减楼体摇摆。',
+     ru:'45-метровый бассейн-инфинити, вынесенный консолью над Сиамским заливом. Конструкция — Beca; масса воды на высоте также работает как пассивный демпфер.'},
+  s:{en:'NT &bull; The Visionary',th:'NT &bull; The Visionary',cn:'NT &bull; 远见者',ru:'NT &bull; The Visionary'}},
+ {lv:'50',key:'f50',
+  n:{en:'Sky Park &mdash; Co-Working, Meeting Room &amp; Snooker',th:'Sky Park &mdash; Co-Working, ห้องประชุม และห้องสนุกเกอร์',cn:'空中花园 &mdash; 共享办公、会议室与斯诺克室',ru:'Sky Park &mdash; коворкинг, переговорная и снукерная'},
+  d:{en:'A whole working floor above the city. Long shared desks and built-in joinery for focused days, a proper meeting room for when something has to be closed, and a snooker table beside the planted terrace for when it does not.',
+     th:'ทั้งชั้นสำหรับการทำงานเหนือเมือง โต๊ะทำงานยาวแบบ built-in สำหรับวันที่ต้องโฟกัส ห้องประชุมจริงจังสำหรับวันที่ต้องปิดดีล และโต๊ะสนุกเกอร์ข้างระเบียงต้นไม้สำหรับวันที่ไม่ต้อง',
+     cn:'一整层位于城市之上的工作空间。长条共享办公桌与嵌入式柜体适合专注的日子，独立会议室应对需要谈成的时刻，而绿植露台旁的斯诺克桌，则留给不需要的时候。',
+     ru:'Целый рабочий этаж над городом. Длинные общие столы и встроенная мебель для дней, требующих сосредоточенности, полноценная переговорная &mdash; когда нужно закрыть вопрос, и снукерный стол у озеленённой террасы &mdash; когда не нужно.'},
+  s:{en:'NT &bull; The Visionary',th:'NT &bull; The Visionary',cn:'NT &bull; 远见者',ru:'NT &bull; The Visionary'}},
+ {lv:'6',key:'f6',
+  n:{en:'The Coral Pool &amp; Onsen',th:'The Coral Pool และออนเซ็น',cn:'珊瑚泳池与温泉',ru:'The Coral Pool и онсэн'},
+  d:{en:'The quiet floor. The Coral Pool with its Jacuzzi, an authentic onsen, sauna and steam room &mdash; the part of the building people come back to in the evening.',
+     th:'ชั้นแห่งความเงียบ The Coral Pool พร้อมจากุซซี่ ออนเซ็นแบบต้นตำรับ ห้องซาวน่าและห้องอบไอน้ำ — เป็นส่วนของอาคารที่ผู้คนมักกลับมาในช่วงเย็น',
+     cn:'安静的一层。珊瑚泳池与按摩池、正宗温泉、桑拿与蒸汽房——这是人们傍晚会回来的地方。',
+     ru:'Тихий этаж. The Coral Pool с джакузи, настоящий онсэн, сауна и хаммам — та часть здания, куда возвращаются вечером.'},
+  s:{en:'NF &bull; The Idealist',th:'NF &bull; The Idealist',cn:'NF &bull; 理想者',ru:'NF &bull; The Idealist'}},
+ {lv:'3',key:'f3',
+  n:{en:'High Ceiling Panoramic Gym',th:'ฟิตเนสเพดานสูงวิวพาโนรามา',cn:'高挑全景健身房',ru:'Панорамный зал с высокими потолками'},
+  d:{en:'487 sqm, double-height, with the sea across the full window line. Close enough to the ground floor that going down for a session never feels like a decision.',
+     th:'พื้นที่ 487 ตร.ม. เพดานสองชั้น พร้อมทะเลเต็มแนวหน้าต่าง อยู่ใกล้ชั้นล่างพอที่การลงมาออกกำลังกายจะไม่รู้สึกเหมือนต้องตัดสินใจ',
+     cn:'487平方米、挑高双层，整面窗线皆是大海。离地面层够近，下楼训练从来不必「下决心」。',
+     ru:'487 м², двойная высота, море по всей линии окон. Достаточно близко к первому этажу, чтобы спуститься на тренировку было не решением, а привычкой.'},
+  s:{en:'SJ &bull; The Guardian',th:'SJ &bull; The Guardian',cn:'SJ &bull; 守护者',ru:'SJ &bull; The Guardian'}},
+ {lv:'G',key:'fg',
+  n:{en:'Wave Pool, Beach Club &amp; Garden Pool',th:'Wave Pool, Beach Club และ Garden Pool',cn:'造浪池、海滩俱乐部与花园泳池',ru:'Волновой бассейн, пляжный клуб и садовый бассейн'},
+  d:{en:'Ground level is a resort in its own right: the wave pool with Jacuzzi, pool bar and beach club at the front; the garden pool, children&rsquo;s pool, lawn and Kids&rsquo; Club at the back &mdash; and Jomtien Beach just steps away.',
+     th:'ชั้นพื้นดินคือรีสอร์ตในตัวเอง ด้านหน้ามี Wave Pool พร้อมจากุซซี่ พูลบาร์ และ Beach Club ด้านหลังมี Garden Pool สระเด็ก สนามหญ้าอเนกประสงค์ และ Kids&rsquo; Club — และหาดจอมเทียนอยู่ห่างออกไปเพียงไม่กี่ก้าว',
+     cn:'地面层本身就是一座度假村：前区有造浪池、按摩池、池畔酒吧与海滩俱乐部；后区有花园泳池、儿童泳池、草坪与儿童俱乐部——中天海滩也仅数步之遥。',
+     ru:'Первый уровень — курорт сам по себе: впереди волновой бассейн с джакузи, пул-бар и пляжный клуб; позади садовый бассейн, детский бассейн, лужайка и детский клуб, — а пляж Джомтьен в нескольких шагах.'},
+  s:{en:'SP &bull; The Explorer',th:'SP &bull; The Explorer',cn:'SP &bull; 探索者',ru:'SP &bull; The Explorer'}}
+];
+
+// ---------- quiz engine ----------
+var qi=0, answers=[];
+
+function renderQuestion(){
+    var card=document.getElementById('quiz-card');
+    if(!card || qi>=Q.length) return;
+    var q=Q[qi];
+    document.getElementById('q-text').textContent   = q.t[LANG] || q.t.en;
+    document.getElementById('opt-a').textContent    = q.A[LANG] || q.A.en;
+    document.getElementById('opt-a-sub').textContent= q.As[LANG]|| q.As.en;
+    document.getElementById('opt-b').textContent    = q.B[LANG] || q.B.en;
+    document.getElementById('opt-b-sub').textContent= q.Bs[LANG]|| q.Bs.en;
+    document.getElementById('q-count').textContent  = (qi+1)+' / '+Q.length;
+    document.getElementById('q-bar').style.width    = (((qi+1)/Q.length)*100)+'%';
+    document.getElementById('q-back').classList.toggle('invisible', qi===0);
+    var opts=card.querySelectorAll('.opt');
+    for(var i=0;i<opts.length;i++) opts[i].classList.remove('sel');
+}
+
+function answer(side){
+    var q=Q[qi];
+    answers[qi]= side===0 ? q.a : q.b;
+    var opts=document.getElementById('quiz-card').querySelectorAll('.opt');
+    opts[side].classList.add('sel');
+    setTimeout(function(){
+        if(qi < Q.length-1){ qi++; renderQuestion(); }
+        else { showResult(); }
+    }, 180);
+}
+
+function goBack(){
+    if(qi>0){ qi--; answers.length=qi; renderQuestion(); }
+}
+
+function resetQuiz(){
+    qi=0; answers=[];
+    document.getElementById('result').classList.add('hidden');
+    document.getElementById('quiz-card').classList.remove('hidden');
+    renderQuestion();
+    document.getElementById('quiz').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// pick a letter for one axis; a 1-1 tie is broken by the first answer given
+// on that axis, so ties split evenly instead of always favouring one side
+function axisPick(axis){
+    var a=null,b=null,ca=0,cb=0,first=null;
+    for(var i=0;i<Q.length;i++){
+        if(Q[i].ax!==axis) continue;
+        if(a===null){ a=Q[i].a; b=Q[i].b; }
+        var v=answers[i];
+        if(!v) continue;
+        if(first===null) first=v;
+        if(v===a) ca++; else if(v===b) cb++;
+    }
+    if(ca>cb) return a;
+    if(cb>ca) return b;
+    return first!==null ? first : a;
+}
+
+function tally(){
+    var sn=axisPick('SN');
+    if(sn==='N') return axisPick('TF')==='T' ? 'NT' : 'NF';
+    return axisPick('JP')==='J' ? 'SJ' : 'SP';
+}
+
+function showResult(){
+    var key = tally();
+    var r = R[key];
+    document.getElementById('quiz-card').classList.add('hidden');
+    var box=document.getElementById('result');
+    box.classList.remove('hidden');
+    document.getElementById('res-head').style.backgroundColor = r.colour;
+    document.getElementById('res-code').textContent = r.code;
+    document.getElementById('res-name').textContent = r.name[LANG] || r.name.en;
+    document.getElementById('res-desc').textContent = r.desc[LANG] || r.desc.en;
+    document.getElementById('res-fac').innerHTML    = r.fac[LANG]  || r.fac.en;
+    document.getElementById('res-unit').innerHTML   = r.unit[LANG] || r.unit.en;
+    document.getElementById('res-orient').innerHTML = r.orient[LANG]|| r.orient.en;
+    box.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// ---------- floor map ----------
+var activeFloor=0;
+
+function renderFloors(){
+    var list=document.getElementById('floor-list');
+    if(!list) return;
+    var html='';
+    for(var i=0;i<FLOORS.length;i++){
+        var f=FLOORS[i];
+        html += '<div class="floor-row flex items-center gap-4 rounded-2xl border border-slate-100 bg-white px-5 py-4'
+             + (i===activeFloor?' active':'') + '" onclick="selectFloor('+i+')">'
+             + '<span class="font-serif font-bold text-lg w-10 shrink-0">'+f.lv+'</span>'
+             + '<span class="flex-1"><span class="block font-bold text-sm leading-snug">'+(f.n[LANG]||f.n.en)+'</span>'
+             + '<span class="floor-sub block text-slate-400 text-xs mt-0.5">'+(f.s[LANG]||f.s.en)+'</span></span></div>';
+    }
+    list.innerHTML=html;
+    var f=FLOORS[activeFloor];
+    document.getElementById('fd-level').innerHTML = (LANG==='th'?'ชั้น ':LANG==='cn'?'楼层 ':LANG==='ru'?'Этаж ':'Level ')+f.lv;
+    document.getElementById('fd-name').innerHTML  = f.n[LANG]||f.n.en;
+    document.getElementById('fd-desc').innerHTML  = f.d[LANG]||f.d.en;
+    document.getElementById('fd-suits').innerHTML = f.s[LANG]||f.s.en;
+}
+
+function selectFloor(i){ activeFloor=i; renderFloors(); }
+
+// ---------- init ----------
+(function init(){
+    if(LANG!=='en') setLanguage(LANG);
+    else { renderQuestion(); renderFloors(); }
+})();
+</script>
+</body>
+</html>
