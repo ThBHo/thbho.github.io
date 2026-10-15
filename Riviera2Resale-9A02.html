@@ -339,6 +339,8 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 /* ---------- unit page ---------- */
 body.unit-mode .phero, body.unit-mode .intro, body.unit-mode .hl, body.unit-mode .hero,
 body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{display:none!important}
+/* featured-unit pages are shared by every salesperson: no team contacts there (main + matching pages keep them) */
+body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 .uv{padding-block:18px 60px}
 .u-crumb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:14px}
 .u-crumb a{color:var(--sea);font-weight:600;text-decoration:none}
@@ -759,7 +761,7 @@ body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{displa
           <li data-i18n="infoCost3">ค่าโอน 1%</li>
         </ul>
       </div>
-      <div>
+      <div class="c-col">
         <div class="c-brand" id="contact">
           <img class="logo-ink" src="riviera-img/logo-stack-ink.png" alt="Clare Pattaya Property" width="480" height="306">
           <img class="logo-pale" src="riviera-img/logo-stack-pale.png" alt="Clare Pattaya Property" width="480" height="306">
@@ -2859,6 +2861,7 @@ function route(){
   const code = sub ? null : unitFromUrl();
   const on = !!(sub || code);
   document.body.classList.toggle("unit-mode", on);
+  document.body.classList.toggle("unit-page", !!code);
   document.getElementById("unitView").hidden = !on;
   if (sub === "matching"){ renderMatchingPage(); window.scrollTo(0, 0); }
   else if (code){ renderUnitPage(code.toUpperCase()); window.scrollTo(0, 0); }
