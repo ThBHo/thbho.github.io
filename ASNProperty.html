@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ASN Exclusive Property</title>
+<meta name="description" content="Pool villas, houses and condos for rent and sale in Pattaya — Lake Mapprachan, Siam Country Club, Khao Talo, Jomtien and Pratumnak. ASN Exclusive Property.">
+<meta property="og:title" content="ASN Exclusive Property — Pattaya Homes for Rent & Sale">
+<meta property="og:description" content="Pool villas, houses and condos in Pattaya. Multilingual service: TH · EN · RU · 中文 · 한국어 · 日本語">
+<meta property="og:image" content="https://thbho.github.io/asn-img/H04-1.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F3A5F'/%3E%3Cpath d='M14 34 32 18l18 16v14H14z' fill='none' stroke='%23E2A957' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --bg:#F6F3EE; --surface:#FFFFFF; --surface-2:#FBF8F3; --surface-3:#EFE9DF;
+  --ink:#17202B; --ink-2:#3A4553; --muted:#6B7380; --line:#E3DCD0; --line-2:#D2C8B8;
+  --brand:#1F3A5F; --brand-deep:#13263F; --brand-soft:#E3EAF3;
+  --accent:#B57A27; --accent-soft:#F7ECDB;
+  --hot:#C2452D; --hot-soft:#FBE6E0;
+  --rent:#2E7D5B; --rent-soft:#E1F1E8;
+  --shadow:0 1px 2px rgba(23,32,43,.06),0 10px 28px -14px rgba(23,32,43,.28);
+  --radius:12px;
+  --f-display:'Fraunces','IBM Plex Sans Thai',Georgia,serif;
+  --f-ui:'IBM Plex Sans Thai','IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Apple SD Gothic Neo','Noto Sans CJK SC',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0E131A; --surface:#151C25; --surface-2:#1B2430; --surface-3:#243040;
+  --ink:#EAEFF5; --ink-2:#C5CFDB; --muted:#8C98A8; --line:#2A3646; --line-2:#3A4A5E;
+  --brand:#8DB4E8; --brand-deep:#BCD3F2; --brand-soft:#1C2D44;
+  --accent:#E2A957; --accent-soft:#3A2D18;
+  --hot:#F08A70; --hot-soft:#3B1E17;
+  --rent:#6FCB9F; --rent-soft:#173327;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --bg:#0E131A; --surface:#151C25; --surface-2:#1B2430; --surface-3:#243040;
+  --ink:#EAEFF5; --ink-2:#C5CFDB; --muted:#8C98A8; --line:#2A3646; --line-2:#3A4A5E;
+  --brand:#8DB4E8; --brand-deep:#BCD3F2; --brand-soft:#1C2D44;
+  --accent:#E2A957; --accent-soft:#3A2D18;
+  --hot:#F08A70; --hot-soft:#3B1E17;
+  --rent:#6FCB9F; --rent-soft:#173327;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.2}
+p{margin:0}
+a{color:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px}
+@media (max-width:600px){ .wrap{padding-inline:16px} }
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.sec{padding-block:56px}
+.sec-hd{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.sec-hd h2{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.01em}
+.sec-hd p{color:var(--muted);max-width:60ch;margin-top:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;text-decoration:none;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:var(--brand)}
+.btn.solid{background:var(--brand);border-color:var(--brand);color:#fff}
+:root[data-theme="dark"] .btn.solid{color:#0E131A}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .btn.solid{color:#0E131A} }
+.btn.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.sm{padding:6px 12px;font-size:13px}
+.chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.sel,.inp{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:8px 11px;font-size:14px;min-width:0}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 7px;background:var(--surface);color:var(--ink)}
+.badge.hot{background:var(--hot);color:#fff}
+.badge.disc{background:var(--accent);color:#fff}
+.badge.rent{background:var(--rent-soft);color:var(--rent)}
+.badge.sale{background:var(--brand-soft);color:var(--brand)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:100;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:18px;min-height:60px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;min-width:0}
+.logo-mark{flex:none;width:38px;height:38px;border-radius:10px;background:var(--brand);display:grid;place-items:center}
+.logo-mark svg{width:24px;height:24px}
+.logo b{display:block;font-family:var(--f-display);font-size:19px;font-weight:700;letter-spacing:.02em;line-height:1}
+.logo small{display:block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-top:3px}
+.nav{display:flex;gap:4px}
+.nav a{font-size:14px;font-weight:500;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:8px}
+.nav a:hover{background:var(--surface-3)}
+.langsel{border:1px solid var(--line-2);background:var(--surface-2);border-radius:999px;padding:6px 10px;font-size:13px;font-weight:600}
+.menu-btn{display:none;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;width:38px;height:38px;font-size:18px}
+@media (max-width:960px){
+  .nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px 14px}
+  .nav.open{display:flex}
+  .nav a{padding:10px 8px}
+  .menu-btn{display:block}
+}
+@media (max-width:420px){ .logo small{display:none} .logo b{font-size:16px} .topbar-in{gap:10px} }
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:clamp(480px,74vh,680px);overflow:hidden;background:var(--brand-deep);isolation:isolate;display:flex}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.04);transition:transform 7s ease}
+.slide.on img{transform:scale(1)}
+.scrim{position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,20,34,.84) 0%,rgba(10,20,34,.6) 45%,rgba(10,20,34,.18) 85%),linear-gradient(0deg,rgba(10,20,34,.6),transparent 40%)}
+.hero-in{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;justify-content:center;padding-block:48px 40px;color:#F4F1EC}
+.hero .eyebrow{color:#E9C27F}
+.hero h1{font-family:var(--f-display);font-weight:600;font-size:clamp(34px,5.6vw,62px);letter-spacing:-.015em;line-height:1.06;max-width:16ch;margin-top:12px}
+.hero-sub{margin-top:14px;max-width:52ch;font-size:17px;color:#DCE3EC}
+.qs{margin-top:28px;display:grid;grid-template-columns:auto 1fr 1fr auto;gap:8px;background:rgba(255,255,255,.96);border-radius:16px;padding:8px;max-width:760px;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);color:#17202B}
+.qs .seg{display:flex;background:#EFE9DF;border-radius:10px;padding:3px}
+.qs .seg button{border:0;background:none;padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600;color:#3A4553}
+.qs .seg button[aria-pressed="true"]{background:#1F3A5F;color:#fff}
+.qs select{border:0;background:#F6F3EE;border-radius:10px;padding:10px 12px;font-size:14px;color:#17202B}
+.qs .go{border:0;background:#B57A27;color:#fff;border-radius:10px;padding:10px 20px;font-weight:700}
+@media (max-width:720px){ .qs{grid-template-columns:1fr 1fr} .qs .seg{grid-column:1/-1} .qs .seg button{flex:1} .qs .go{grid-column:1/-1} }
+.hero-foot{margin-top:26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.scap{font-size:13px;color:#DCE3EC;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.4)}
+.sdots{display:flex;gap:6px}
+.sdots button{width:22px;height:4px;border-radius:2px;border:0;background:rgba(255,255,255,.35);padding:0}
+.sdots button[aria-current="true"]{background:#E9C27F}
+
+/* ---------- stats & services ---------- */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:-34px;position:relative;z-index:3;box-shadow:var(--shadow)}
+.stat{background:var(--surface);padding:16px 18px;min-width:0}
+.stat b{display:block;font-family:var(--f-mono);font-size:clamp(18px,2.2vw,22px);font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+.stat span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+@media (max-width:860px){ .stats{grid-template-columns:repeat(2,1fr)} .stat:last-child{grid-column:1/-1} }
+.svc{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.svc div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.svc i{font-style:normal;font-size:22px;display:block;margin-bottom:8px}
+.svc h3{font-size:15px;font-weight:600}
+.svc p{font-size:13px;color:var(--muted);margin-top:4px}
+@media (max-width:980px){ .svc{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:520px){ .svc{grid-template-columns:1fr} }
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;position:relative}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.card-media{position:relative;aspect-ratio:4/3;background:var(--surface-3);overflow:hidden}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block}
+.card-badges{position:absolute;left:10px;top:10px;display:flex;gap:5px;flex-wrap:wrap}
+.card-count{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px}
+.cnav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#17202B;font-size:20px;line-height:1;display:grid;place-items:center;opacity:.85;transition:opacity .15s}
+.cnav.p{left:10px} .cnav.n{right:10px}
+.card:hover .cnav{opacity:1}
+.star{position:absolute;right:10px;top:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#17202B;font-size:17px;display:grid;place-items:center;z-index:2}
+.star[aria-pressed="true"]{background:var(--accent);color:#fff}
+.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-body h3{font-size:16px;font-weight:600;line-height:1.35}
+.card-body h3 a{color:inherit;text-decoration:none}
+.card-body h3 a::after{content:"";position:absolute;inset:0}
+.where{font-size:13px;color:var(--muted)}
+.specs{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.specs span{white-space:nowrap}
+.prices{margin-top:auto;display:flex;flex-direction:column;gap:3px;border-top:1px solid var(--line);padding-top:10px}
+.price{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted)}
+.price b{font-family:var(--f-mono);font-size:17px;color:var(--ink);font-weight:600}
+.price s{font-size:12px;color:var(--muted);margin-right:6px}
+.price.r b{color:var(--rent)}
+.code{font-family:var(--f-mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+
+/* ---------- filters ---------- */
+.controls{position:sticky;top:60px;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);padding-block:12px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.ctl-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ctl-row .inp{flex:1 1 200px}
+.seg2{display:flex;background:var(--surface-3);border-radius:10px;padding:3px}
+.seg2 button{border:0;background:none;padding:6px 11px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.seg2 button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.meta-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+.linkbtn{border:0;background:none;color:var(--brand);font-weight:600;padding:0;font-size:13px}
+@media (max-width:700px){ .controls{position:static} .ctl-row .sel{flex:1 1 calc(50% - 8px)} }
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+td.n,th.n{text-align:right;font-family:var(--f-mono)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+.empty{padding:40px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--radius)}
+
+/* ---------- map ---------- */
+.map-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:18px}
+#map{height:440px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface-3);z-index:1}
+.zlist{display:flex;flex-direction:column;gap:6px}
+.zlist button{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;text-align:left;font-size:14px}
+.zlist button:hover,.zlist button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.zlist b{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.mapnote{font-size:12px;color:var(--muted);margin-top:8px}
+.zpin{background:var(--brand);color:#fff;border-radius:999px;font:700 12px/1 var(--f-ui);display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+@media (max-width:820px){ .map-grid{grid-template-columns:1fr} #map{height:340px} }
+
+/* ---------- match ---------- */
+.match{background:var(--brand-deep);color:#EEF2F7;border-radius:20px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px}
+:root[data-theme="dark"] .match{background:#16243A}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .match{background:#16243A} }
+.match h2{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.4vw,34px)}
+.match .eyebrow{color:#E9C27F}
+.match p.lead{color:#C9D3E0;margin-top:8px}
+.mq{margin-top:16px}
+.mq p{font-size:14px;font-weight:600;margin-bottom:6px}
+.mq .opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mq .opts button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#EEF2F7;border-radius:10px;padding:9px 11px;font-size:13px;text-align:left}
+.mq .opts button[aria-pressed="true"]{background:#E9C27F;border-color:#E9C27F;color:#17202B;font-weight:600}
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.mrow label{font-size:12px;color:#C9D3E0;display:flex;flex-direction:column;gap:4px}
+.mrow select{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EEF2F7;border-radius:10px;padding:8px}
+.mrow select option{color:#17202B}
+.mres{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px}
+.mtype{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mtype b{font-family:var(--f-mono);font-size:30px;color:#E9C27F;letter-spacing:.08em}
+.mtype span{font-size:14px;color:#C9D3E0}
+.mpick{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;margin-top:12px;background:rgba(255,255,255,.05);border-radius:12px;padding:8px;text-decoration:none;color:inherit}
+.mpick:hover{background:rgba(255,255,255,.1)}
+.mpick img{width:96px;height:72px;object-fit:cover;border-radius:8px;display:block}
+.mpick h4{margin:0;font-size:14px}
+.mpick small{display:block;font-size:12px;color:#C9D3E0}
+.mpick em{font-style:normal;font-size:12px;color:#E9C27F}
+@media (max-width:860px){ .match{grid-template-columns:1fr} .mrow{grid-template-columns:1fr 1fr} }
+
+/* ---------- booking ---------- */
+.book{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:28px;align-items:start}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.book>*{min-width:0}
+.form label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--ink-2);min-width:0}
+.form .inp,.form .sel{width:100%;min-width:0}
+.form .full{grid-column:1/-1}
+.form textarea{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 11px;min-height:70px;resize:vertical}
+.form-out{grid-column:1/-1;display:flex;flex-direction:column;gap:10px}
+.form-out pre{margin:0;white-space:pre-wrap;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;font:13px/1.55 var(--f-ui);max-height:240px;overflow:auto}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--muted)}
+.checks{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:8px}
+.checks li{display:flex;gap:10px;font-size:14px;color:var(--ink-2)}
+.checks li::before{content:"✓";color:var(--rent);font-weight:700}
+@media (max-width:860px){ .book{grid-template-columns:1fr} }
+@media (max-width:520px){ .form{grid-template-columns:1fr} }
+
+/* ---------- about / contact ---------- */
+.about{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.panel h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.panel p{color:var(--ink-2);font-size:14px}
+.panel.wide{grid-column:span 2}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.why div b{display:block;font-family:var(--f-display);font-size:28px;color:var(--accent)}
+.why div span{font-size:13px;color:var(--muted)}
+@media (max-width:900px){ .about{grid-template-columns:1fr} .panel.wide{grid-column:auto} }
+.contact{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,36px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:center}
+.contact h2{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.4vw,34px)}
+.contact p{color:var(--ink-2);margin-top:8px}
+.ch{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ch a{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);background:var(--surface-2)}
+.ch a:hover{border-color:var(--brand)}
+.ch a i{font-style:normal;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff;flex:none}
+.ch a span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.ch a b{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:820px){ .contact{grid-template-columns:1fr} }
+@media (max-width:440px){ .ch{grid-template-columns:1fr} }
+.reviews{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.review .stars{color:var(--accent);letter-spacing:2px}
+.review p{margin-top:8px;color:var(--ink-2);font-size:14px}
+.review small{display:block;margin-top:10px;color:var(--muted);font-size:12px}
+footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top:40px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- detail ---------- */
+.crumb{padding-block:16px;font-size:13px}
+.crumb a{text-decoration:none;font-weight:600}
+.d-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.d-head h1{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em}
+.d-head .where{font-size:15px;margin-top:6px}
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;height:clamp(300px,52vh,520px);border-radius:16px;overflow:hidden}
+.gal button{border:0;padding:0;background:var(--surface-3);position:relative;overflow:hidden}
+.gal button:first-child{grid-row:span 2}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.gal button:hover img{transform:scale(1.03)}
+.gal .more{position:absolute;inset:0;background:rgba(0,0,0,.5);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px}
+@media (max-width:700px){ .gal{grid-template-columns:1fr 1fr;grid-template-rows:2fr 1fr;height:auto} .gal button:first-child{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3} .gal button{aspect-ratio:4/3} .gal button:nth-child(n+4){display:none} }
+.d-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:28px;margin-top:24px;align-items:start}
+.d-side{position:sticky;top:76px;display:flex;flex-direction:column;gap:12px}
+.pbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.pbox .price{font-size:14px}
+.pbox .price b{font-size:22px}
+.pbox .acts{margin-top:14px}
+.pbox .acts .btn{flex:1 1 calc(50% - 8px)}
+.d-sec{padding-block:20px;border-bottom:1px solid var(--line)}
+.d-sec h2{font-size:18px;font-weight:600;margin-bottom:12px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kv div{background:var(--surface);padding:11px 14px}
+.kv span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.kv b{display:block;font-size:15px;font-weight:600}
+.kv b.ask{color:var(--muted);font-weight:500}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:13px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:4px 11px;font-weight:600}
+.cal{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cal-m h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:12px;text-align:center}
+.cal-g span{padding:5px 0;border-radius:6px}
+.cal-g .dow{color:var(--muted);font-size:11px}
+.cal-g .d{background:var(--surface-2);border:1px solid var(--line)}
+.cal-g .past{opacity:.35}
+.cal-g .bk{background:var(--hot-soft);color:var(--hot);border-color:transparent;text-decoration:line-through}
+.cal-g .free{background:var(--rent-soft);color:var(--rent);border-color:transparent}
+.cal-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+.cal-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+@media (max-width:560px){ .cal{grid-template-columns:1fr} }
+#dmap{height:260px;border-radius:12px;border:1px solid var(--line);z-index:1}
+@media (max-width:900px){ .d-grid{grid-template-columns:1fr} .d-side{position:static} }
+
+/* ---------- shortlist bar & dialogs ---------- */
+.slbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 8px 8px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100% - 24px)}
+.slbar span{font-size:14px;white-space:nowrap}
+.slbar .btn{background:transparent;border-color:rgba(255,255,255,.3);color:var(--bg)}
+.slbar .btn.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (max-width:480px){ .slbar{padding-left:12px;gap:5px} .slbar .btn{padding:6px 10px;font-size:12px} }
+dialog{border:0;padding:0;border-radius:18px;background:var(--surface);color:var(--ink);width:min(960px,calc(100% - 24px));max-height:calc(100vh - 32px);box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
+.dlg-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface);z-index:2}
+.dlg-hd h2{font-size:18px;font-weight:600}
+.x{border:0;background:var(--surface-3);width:34px;height:34px;border-radius:50%;font-size:15px}
+.dlg-body{padding:18px 20px 22px}
+.cmp{overflow-x:auto}
+.cmp table td,.cmp table th{white-space:normal;min-width:150px;vertical-align:top}
+.cmp img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block}
+.lb{background:#000;width:min(1200px,calc(100% - 16px))}
+.lb .dlg-hd{background:#000;color:#fff;border-color:#222}
+.lb .x{background:#222;color:#fff}
+.lb-stage{position:relative;display:grid;place-items:center;height:min(76vh,800px)}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.15);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px}
+.lb-nav.p{left:10px} .lb-nav.n{right:10px}
+.soc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.soc canvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--surface-3)}
+.soc textarea{width:100%;min-height:220px;border:1px solid var(--line-2);border-radius:10px;padding:10px;background:var(--surface-2);font:13px/1.55 var(--f-ui)}
+.soc .lbl{font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 6px}
+@media (max-width:720px){ .soc{grid-template-columns:1fr} }
+
+/* ---------- print flyer ---------- */
+.flyer{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff;color:#000}
+  body>*:not(#detailView){display:none!important}
+  #detailView>*:not(.flyer){display:none!important}
+  .flyer{display:block;font-size:11pt}
+  .fl-hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1F3A5F;padding-bottom:6mm;margin-bottom:6mm}
+  .fl-hd b{font-family:var(--f-display);font-size:18pt;color:#1F3A5F}
+  .fl-hd small{display:block;font-size:8pt;letter-spacing:.2em;color:#B57A27;font-weight:700}
+  .fl-hero{width:100%;height:90mm;object-fit:cover;border-radius:3mm}
+  .fl-row{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:3mm}
+  .fl-row img{width:100%;height:42mm;object-fit:cover;border-radius:2mm}
+  .fl-t{font-family:var(--f-display);font-size:20pt;margin-top:6mm}
+  .fl-p{display:flex;gap:10mm;margin-top:3mm;font-size:14pt;font-weight:700;color:#1F3A5F}
+  .fl-kv{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm 6mm;margin-top:5mm;font-size:10pt}
+  .fl-kv span{color:#666;display:block;font-size:8pt;text-transform:uppercase;letter-spacing:.05em}
+  .fl-ft{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ccc;margin-top:8mm;padding-top:5mm;gap:8mm}
+  .fl-ft img{width:32mm;height:32mm}
+  .fl-ft p{font-size:10pt;line-height:1.6}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="logo" href="#/" aria-label="ASN Exclusive Property">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3.5 12.5 12 5l8.5 7.5V20h-17z" stroke="#E2A957" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 20v-5h5v5" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></span>
+      <span><b>ASN</b><small>Exclusive Property</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#/listings" data-i18n="navListings">ทรัพย์ทั้งหมด</a>
+      <a href="#/map" data-i18n="navMap">แผนที่</a>
+      <a href="#/match" data-i18n="navMatch">หาบ้านที่ใช่</a>
+      <a href="#/book" data-i18n="navBook">นัดชม</a>
+      <a href="#/about" data-i18n="navAbout">เกี่ยวกับเรา</a>
+      <a href="#/contact" data-i18n="navContact">ติดต่อ</a>
+    </nav>
+    <select class="langsel" id="lang" aria-label="Language">
+      <option value="th">ไทย</option><option value="en">EN</option><option value="ru">RU</option>
+      <option value="zh">中文</option><option value="ko">한국어</option><option value="ja">日本語</option>
+    </select>
+    <button type="button" class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<div id="detailView" hidden></div>
+
+<div id="homeView">
+  <section class="hero" id="top" aria-roledescription="carousel">
+    <div id="slides"></div>
+    <div class="scrim"></div>
+    <div class="wrap hero-in">
+      <p class="eyebrow" data-i18n="heroEyebrow">พัทยา · จอมเทียน · พระตำหนัก</p>
+      <h1 data-i18n="heroTitle">บ้านพูลวิลล่าและคอนโดในพัทยา</h1>
+      <p class="hero-sub" data-i18n="heroSub"></p>
+      <form class="qs" id="qs">
+        <div class="seg" role="group">
+          <button type="button" data-qdeal="any" aria-pressed="true" data-i18n="any">ทั้งหมด</button>
+          <button type="button" data-qdeal="rent" aria-pressed="false" data-i18n="rent">เช่า</button>
+          <button type="button" data-qdeal="sale" aria-pressed="false" data-i18n="sale">ซื้อ</button>
+        </div>
+        <select id="qsType" aria-label="Type"></select>
+        <select id="qsZone" aria-label="Zone"></select>
+        <button class="go" type="submit" data-i18n="qsGo">ค้นหา</button>
+      </form>
+      <div class="hero-foot">
+        <div class="sdots" id="sdots"></div>
+        <a class="scap" id="scap" href="#/"></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="stats" id="stats"></div></div>
+
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-hd"><div><p class="eyebrow" data-i18n="svcEyebrow">บริการ</p><h2 data-i18n="svcTitle">ครบทั้งเช่า ซื้อ ขาย และดูแลทรัพย์</h2></div></div>
+      <div class="svc" id="svc"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="hot" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-hd"><div><p class="eyebrow" data-i18n="hotEyebrow">คัดมาให้</p><h2 data-i18n="hotTitle">ทรัพย์แนะนำ & ดีลร้อน</h2></div>
+        <a class="btn" href="#/listings" data-i18n="seeAll">ดูทั้งหมด</a></div>
+      <div class="grid" id="hotGrid"></div>
+    </div>
+  </section>
+
+  <section id="listings" style="padding-top:20px">
+    <div class="wrap">
+      <div class="sec-hd" style="margin-bottom:6px"><div><p class="eyebrow" data-i18n="listEyebrow">ทรัพย์ในมือ</p><h2 data-i18n="listTitle">ทรัพย์ทั้งหมด</h2></div></div>
+    </div>
+    <div class="controls">
+      <div class="wrap">
+        <div class="ctl-row">
+          <input type="search" class="inp" id="q" data-i18n-ph="searchPh" placeholder="ค้นหา" autocomplete="off">
+          <div class="seg2" role="group" id="fDeal">
+            <button type="button" data-deal="any" aria-pressed="true" data-i18n="any">ทั้งหมด</button>
+            <button type="button" data-deal="rent" aria-pressed="false" data-i18n="rent">เช่า</button>
+            <button type="button" data-deal="sale" aria-pressed="false" data-i18n="sale">ซื้อ</button>
+          </div>
+          <select class="sel" id="fType" aria-label="Type"></select>
+          <select class="sel" id="fZone" aria-label="Zone"></select>
+          <select class="sel" id="fBudget" aria-label="Budget"></select>
+          <select class="sel" id="fBeds" aria-label="Bedrooms"></select>
+          <button type="button" class="chip" id="fPool" aria-pressed="false" data-i18n="poolOnly">มีสระ</button>
+          <select class="sel" id="fSort" aria-label="Sort"></select>
+          <div class="seg2" role="group">
+            <button type="button" id="vGrid" aria-pressed="true" data-i18n="viewGrid">การ์ด</button>
+            <button type="button" id="vTable" aria-pressed="false" data-i18n="viewTable">ตาราง</button>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div><b id="count" class="num">0</b> <span data-i18n="found">รายการ</span></div>
+          <button type="button" class="linkbtn" id="reset" data-i18n="reset">ล้างตัวกรอง</button>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="grid" id="grid"></div>
+      <div class="tblwrap" id="tblwrap" hidden><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="sec" id="map-sec">
+    <div class="wrap">
+      <div class="sec-hd"><div><p class="eyebrow" data-i18n="mapEyebrow">ทำเล</p><h2 data-i18n="mapTitle">ทรัพย์ตามโซน</h2><p data-i18n="mapHint"></p></div></div>
+      <div class="map-grid">
+        <div><div id="map"></div><p class="mapnote" data-i18n="mapNote"></p></div>
+        <div class="zlist" id="zlist"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="match" style="padding-top:10px">
+    <div class="wrap">
+      <div class="match">
+        <div>
+          <p class="eyebrow" data-i18n="matchEyebrow">Personalized</p>
+          <h2 data-i18n="matchTitle"></h2>
+          <p class="lead" data-i18n="matchSub"></p>
+          <div id="mq"></div>
+          <div class="mrow">
+            <label><span data-i18n="mDeal">ต้องการ</span><select id="mDeal"></select></label>
+            <label><span data-i18n="mBudget">งบสูงสุด</span><select id="mBudget"></select></label>
+            <label><span data-i18n="mBeds">ห้องนอน</span><select id="mBeds"></select></label>
+          </div>
+        </div>
+        <div class="mres" id="mres" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="book">
+    <div class="wrap book">
+      <div>
+        <p class="eyebrow" data-i18n="bookEyebrow">นัดชม</p>
+        <h2 style="font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.4vw,34px);margin-top:6px" data-i18n="bookTitle"></h2>
+        <p style="color:var(--ink-2);margin-top:10px" data-i18n="bookSub"></p>
+        <ul class="checks">
+          <li data-i18n="bookC1"></li><li data-i18n="bookC2"></li><li data-i18n="bookC3"></li>
+        </ul>
+      </div>
+      <form class="form" id="bookForm" autocomplete="on">
+        <label class="full"><span data-i18n="fListing">ทรัพย์ที่สนใจ</span><select class="sel" id="bListing"></select></label>
+        <label><span data-i18n="fName">ชื่อ</span><input class="inp" id="bName" required></label>
+        <label><span data-i18n="fNation">สัญชาติ</span><input class="inp" id="bNation"></label>
+        <label><span data-i18n="fBudget">งบประมาณ</span><input class="inp" id="bBudget" inputmode="numeric"></label>
+        <label><span data-i18n="fMoveIn">วันที่จะเข้าอยู่</span><input class="inp" type="date" id="bMove"></label>
+        <label><span data-i18n="fDuration">ระยะเวลาเช่า</span><select class="sel" id="bDur"></select></label>
+        <label><span data-i18n="fOcc">จำนวนผู้อยู่</span><input class="inp" type="number" min="1" max="20" id="bOcc" value="2"></label>
+        <label><span data-i18n="fPets">สัตว์เลี้ยง</span><select class="sel" id="bPets"></select></label>
+        <label><span data-i18n="fPurpose">จุดประสงค์</span><select class="sel" id="bPurpose"></select></label>
+        <label><span data-i18n="fViewing">รูปแบบการชม</span><select class="sel" id="bView"></select></label>
+        <label><span data-i18n="fDate">วันที่สะดวกชม</span><input class="inp" type="date" id="bDate"></label>
+        <label><span data-i18n="fChannel">ให้ติดต่อกลับทาง</span><select class="sel" id="bCh"></select></label>
+        <label><span data-i18n="fHandle">ID / เบอร์ / อีเมล</span><input class="inp" id="bHandle" required></label>
+        <label class="full"><span data-i18n="fNote">ข้อความเพิ่มเติม</span><textarea id="bNote"></textarea></label>
+        <div class="full acts"><button type="submit" class="btn solid" data-i18n="bookBuild">สร้างข้อความ</button></div>
+        <div class="form-out" id="bOut" hidden>
+          <pre id="bMsg"></pre>
+          <div class="acts">
+            <a class="btn" id="bWa" target="_blank" rel="noopener">WhatsApp</a>
+            <button type="button" class="btn" id="bLine">LINE</button>
+            <a class="btn" id="bMail">Email</a>
+            <button type="button" class="btn" id="bCopy" data-i18n="copyMsg">คัดลอก</button>
+          </div>
+          <p class="note" data-i18n="bookNote"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec" id="reviews-sec" hidden>
+    <div class="wrap">
+      <div class="sec-hd"><div><p class="eyebrow" data-i18n="revEyebrow">รีวิว</p><h2 data-i18n="revTitle">เสียงจากลูกค้า</h2></div></div>
+      <div class="reviews" id="reviews"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="wrap">
+      <div class="sec-hd"><div><p class="eyebrow" data-i18n="aboutEyebrow">เกี่ยวกับเรา</p><h2 data-i18n="aboutTitle"></h2></div></div>
+      <div class="about">
+        <div class="panel wide">
+          <h3>ASN Exclusive Property</h3>
+          <p data-i18n="aboutP"></p>
+          <div class="why" id="why"></div>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="ownersTitle"></h3>
+          <p data-i18n="ownersP"></p>
+          <p style="margin-top:14px"><a class="btn gold sm" href="#/contact" data-i18n="ownersCta"></a></p>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="agentsTitle"></h3>
+          <p data-i18n="agentsP"></p>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="areasTitle"></h3>
+          <p id="areasList"></p>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="langsTitle"></h3>
+          <p>ไทย · English · Русский · 中文 · 한국어 · 日本語</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="contact" style="padding-top:10px">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <p class="eyebrow" data-i18n="contactEyebrow">ติดต่อ</p>
+          <h2 data-i18n="contactTitle"></h2>
+          <p data-i18n="contactP"></p>
+          <p style="margin-top:14px;font-weight:600" id="contactPerson"></p>
+        </div>
+        <div class="ch" id="channels"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap foot">
+    <p id="footNote"></p>
+    <p><button type="button" class="linkbtn" id="csvBtn" data-i18n="csvBtn">ดาวน์โหลดข้อมูลทรัพย์ (CSV)</button></p>
+  </footer>
+</div>
+
+<div class="slbar" id="slbar" hidden>
+  <span><b class="num" id="slCount">0</b> <span data-i18n="slLabel">รายการที่บันทึก</span></span>
+  <button type="button" class="btn sm gold" id="slCompare" data-i18n="slCompare">เปรียบเทียบ</button>
+  <button type="button" class="btn sm" id="slCopy" data-i18n="slCopy">คัดลอก</button>
+  <button type="button" class="btn sm" id="slClear" data-i18n="slClear">ล้าง</button>
+</div>
+
+<dialog id="cmpDlg"><div class="dlg-hd"><h2 data-i18n="cmpTitle">เปรียบเทียบทรัพย์</h2><button type="button" class="x" data-close aria-label="Close">✕</button></div><div class="dlg-body cmp" id="cmpBody"></div></dialog>
+<dialog id="lbDlg" class="lb"><div class="dlg-hd"><h2 id="lbTitle"></h2><button type="button" class="x" data-close aria-label="Close">✕</button></div>
+  <div class="lb-stage"><img id="lbImg" alt=""><button type="button" class="lb-nav p" id="lbPrev" aria-label="Previous">‹</button><button type="button" class="lb-nav n" id="lbNext" aria-label="Next">›</button></div></dialog>
+<dialog id="socDlg"><div class="dlg-hd"><h2 data-i18n="socTitle">สร้างโพสต์โซเชียล</h2><button type="button" class="x" data-close aria-label="Close">✕</button></div>
+  <div class="dlg-body soc">
+    <div><canvas id="socCanvas" width="1080" height="1350"></canvas></div>
+    <div>
+      <p class="lbl" data-i18n="socFormat">ขนาด</p>
+      <div class="seg2" id="socFmt" role="group">
+        <button type="button" data-fmt="post" aria-pressed="true">4:5</button>
+        <button type="button" data-fmt="square" aria-pressed="false">1:1</button>
+        <button type="button" data-fmt="story" aria-pressed="false">9:16</button>
+      </div>
+      <p class="lbl" data-i18n="socCaption">แคปชัน</p>
+      <textarea id="socCap" spellcheck="false"></textarea>
+      <div class="acts" style="margin-top:10px">
+        <button type="button" class="btn solid" id="socDl" data-i18n="socDl">ดาวน์โหลดรูป</button>
+        <button type="button" class="btn" id="socCopy" data-i18n="socCopy">คัดลอกแคปชัน</button>
+      </div>
+    </div>
+  </div></dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+/* =====================================================================
+   HOW TO UPDATE LISTINGS
+   ---------------------------------------------------------------------
+   Option A — edit LISTINGS below (one object per property).
+   Option B — keep listings in a Google Sheet (team edits daily):
+     1. Footer → "Download listing data (CSV)" → import into a Sheet
+     2. Sheet: File → Share → Publish to web → CSV → copy the link
+     3. Paste the link into SHEET_CSV below. The page then loads the
+        sheet on every visit; the LISTINGS below stay as a fallback.
+   photos: file paths ("asn-img/H01-1.jpg") or Google Drive file IDs
+   (shared "anyone with the link") separated by "|".
+   Never put the full address, owner name/phone, commission or the
+   lowest negotiable price here — this page is public.
+   ===================================================================== */
+const SHEET_CSV = "";
+const UPDATED = "2026-10-17";
+
+const CONTACT = {
+  person: "Moshi",
+  phones: ["0805636244", "0817996959"],
+  line: "Moshikungzz",
+  whatsapp: "66805636244",
+  telegram: "+66805636244",
+  wechat: "0805636244",
+  email: "asn.exclusive.property@gmail.com",
+  facebook: "https://www.facebook.com/share/1UgoQ4tJRB/?mibextid=wwXIfr"
+};
+
+// approximate zone centres — never exact property positions
+const ZONES = {
+  mapprachan:  { ll: [12.9205, 100.9545] },
+  siamcc:      { ll: [12.9105, 100.9310] },
+  khaotalo:    { ll: [12.9020, 100.9120] },
+  eastpattaya: { ll: [12.9330, 100.9230] },
+  pattanakarn: { ll: [12.9225, 100.9010] },
+  thappraya:   { ll: [12.9120, 100.8800] },
+  pratumnak:   { ll: [12.9230, 100.8695] },
+  jomtien:     { ll: [12.8960, 100.8710] }
+};
+
+// land and usable area in sqm; null = not yet confirmed (shows "ask")
+const LISTINGS = [
+  { code:"H02", name:"Siam Royal View Luxury Pool Villa", type:"villa", zone:"khaotalo", rent:500000, sale:110000000, beds:7, baths:8, land:2146, usable:null, pool:"private", style:"modern", tags:["maid3","basketball","theater"], photos:12, hot:true },
+  { code:"H01", name:"Modern Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:145000, sale:24950000, beds:5, baths:5, land:480, usable:570, pool:"private", style:"modern", tags:["storey3"], photos:12, hot:true },
+  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:7 },
+  { code:"C01", name:"The Riviera Jomtien · Corner Unit, 32F", type:"condo", zone:"jomtien", rent:null, sale:7200000, beds:null, baths:null, size:81.3, floor:"32", building:"D", pool:"shared", style:"modern", tags:["corner","thaiQuota","seaView"], urgent:true, photos:12, hot:true },
+  { code:"H12", name:"Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:90000, rentWas:100000, sale:null, beds:5, baths:5, land:null, usable:null, pool:"private", style:"classic", tags:[], photos:12, hot:true },
+  { code:"H06", name:"Siam Royal Village", type:"villa", zone:"eastpattaya", rent:90000, rentWas:110000, sale:null, beds:3, baths:3, land:520, usable:null, pool:"private", style:"modern", tags:[], photos:12, hot:true },
+  { code:"H03", name:"Royal Park Village", type:"villa", zone:"thappraya", rent:120000, sale:28000000, beds:6, baths:6, land:380, usable:800, pool:"private", style:"modern", tags:["rooftop"], photos:8 },
+  { code:"H14", name:"Santa Maria · Lake Mapprachan", type:"house", zone:"mapprachan", rent:120000, sale:22500000, beds:4, baths:5, land:1200, usable:450, pool:null, style:"classic", tags:[], photos:4 },
+  { code:"H05", name:"Paradise Villa", type:"villa", zone:"eastpattaya", rent:120000, sale:22000000, beds:4, baths:4, land:1500, usable:500, pool:"private", style:"classic", tags:["basketball"], photos:8 },
+  { code:"H10", name:"Siam Royal View · 2 Bedrooms", type:"villa", zone:"khaotalo", rent:80000, sale:18500000, beds:2, baths:2, land:540, usable:null, pool:"private", style:"tropical", tags:[], photos:8 },
+  { code:"H09", name:"Silk Road Place", type:"villa", zone:"eastpattaya", rent:64000, sale:14800000, beds:3, baths:2, land:452, usable:null, pool:"private", style:"classic", tags:["waterGarden"], photos:8 },
+  { code:"H11", name:"Siam Royal View Village", type:"villa", zone:"khaotalo", rent:110000, sale:null, beds:4, baths:6, land:1040, usable:null, pool:"private", style:"tropical", tags:["outdoorKitchen"], photos:8 },
+  { code:"H07", name:"Pool Villa · Pattanakarn Rd", type:"villa", zone:"pattanakarn", rent:65000, sale:8250000, beds:3, baths:2, land:null, usable:null, pool:"private", style:"modern", tags:["nearSchool"], photos:7 },
+  { code:"H13", name:"Green Field 4 Villa", type:"villa", zone:"siamcc", rent:85000, sale:null, beds:5, baths:4, land:900, usable:256, pool:"yes", style:"modern", tags:[], photos:7 },
+  { code:"H08", name:"SP Village 5", type:"house", zone:"siamcc", rent:85000, sale:null, beds:3, baths:5, land:440, usable:270, pool:null, style:"modern", tags:[], photos:3 },
+  { code:"C02", name:"Duplex · Pratumnak Soi 4", type:"condo", zone:"pratumnak", rent:66000, sale:null, beds:3, baths:2, size:200, floor:"6–7", pool:"shared", style:"modern", tags:["duplex","seaView"], photos:7 }
+];
+// Optional per-listing fields (shown as "ask" until filled):
+//   deposit:"2 months", minContract:"1 year", pets:true|false, furn:"full"|"part"|"none",
+//   parking:2, internet:true, available:"2026-11-01", shortTerm:4500 (per night),
+//   booked:[["2026-11-10","2026-12-20"]]   // calendar — rented / reserved ranges
+
+// real customer reviews only; the section stays hidden while this is empty
+const REVIEWS = [
+  // { name:"Anna, Germany", stars:5, text:"…", date:"2026-10" }
+];
+
+const SLIDES = [["H02",1],["H01",1],["H04",1],["C01",1],["H11",1]];
+const FEATURED = ["H04","H01","H02","C01","H06","H12"];
+
+/* ====================================================================
+   TRANSLATIONS
+   ==================================================================== */
+const T = {
+th:{
+  navListings:"ทรัพย์ทั้งหมด",navMap:"แผนที่",navMatch:"หาบ้านที่ใช่",navBook:"นัดชม",navAbout:"เกี่ยวกับเรา",navContact:"ติดต่อ",
+  heroEyebrow:"พัทยา · จอมเทียน · พระตำหนัก",heroTitle:"พูลวิลล่า บ้าน และคอนโดในพัทยา",
+  heroSub:"ให้เช่าระยะยาว ระยะสั้น ซื้อ ขาย และดูแลทรัพย์ให้เจ้าของ ทีมเดียวจบ คุยได้หลายภาษา",
+  any:"ทั้งหมด",rent:"เช่า",sale:"ซื้อ",qsGo:"ค้นหา",allTypes:"ทุกประเภท",allZones:"ทุกโซน",anyBudget:"ทุกงบ",anyBeds:"ทุกจำนวนห้องนอน",
+  statListings:"ทรัพย์บนเว็บ",statZones:"โซนที่ดูแล",statRent:"เช่าเริ่มต้น / เดือน",statSale:"ขายเริ่มต้น",statLangs:"ภาษาที่ให้บริการ",
+  svcEyebrow:"บริการ",svcTitle:"ครบทั้งเช่า ซื้อ ขาย และดูแลทรัพย์",
+  svc1:"เช่าระยะยาว",svc1p:"บ้าน พูลวิลล่า คอนโด สัญญารายปีหรือรายเดือน",
+  svc2:"เช่าระยะสั้น / รายวัน",svc2p:"บ้านพักสำหรับครอบครัวและกลุ่มเพื่อน",
+  svc3:"ซื้อ – ขาย",svc3p:"บ้านมือหนึ่งและมือสอง พร้อมดูแลเรื่องโอน",
+  svc4:"ขายต่อ (Resale)",svc4p:"คอนโดขายต่อราคาดี ทั้งโควตาไทยและต่างชาติ",
+  svc5:"บริหารทรัพย์ให้เจ้าของ",svc5p:"หาผู้เช่า ตรวจรับ ดูแลซ่อมบำรุง รายงานผล",
+  hotEyebrow:"คัดมาให้",hotTitle:"ทรัพย์แนะนำ & ดีลร้อน",seeAll:"ดูทั้งหมด",
+  listEyebrow:"ทรัพย์ในมือ",listTitle:"ทรัพย์ทั้งหมด",searchPh:"ค้นหาชื่อโครงการ โซน หรือรหัส เช่น H01",
+  poolOnly:"มีสระ",viewGrid:"การ์ด",viewTable:"ตาราง",found:"รายการที่ตรงเงื่อนไข",reset:"ล้างตัวกรอง",noResults:"ไม่พบทรัพย์ที่ตรงเงื่อนไข ลองปรับตัวกรอง หรือทักทีมงานให้หาให้",
+  sortRec:"เรียง: แนะนำ",sortLow:"ราคาต่ำ → สูง",sortHigh:"ราคาสูง → ต่ำ",sortBeds:"ห้องนอนมากสุด",sortSize:"พื้นที่มากสุด",
+  budgetRent:"งบเช่า / เดือน",budgetSale:"งบซื้อ",bedsMin:"ห้องนอน {n}+",
+  villa:"พูลวิลล่า",house:"บ้านเดี่ยว",condo:"คอนโด",
+  beds:"ห้องนอน",baths:"ห้องน้ำ",land:"ที่ดิน",usable:"พื้นที่ใช้สอย",size:"ขนาดห้อง",sqm:"ตร.ม.",sqw:"ตร.วา",perMonth:"/ เดือน",perNight:"/ คืน",
+  forRent:"เช่า",forSale:"ขาย",from:"เริ่มต้น",ask:"สอบถาม",photos:"รูป",
+  pool:"สระว่ายน้ำ",poolPrivate:"สระส่วนตัว",poolShared:"สระส่วนกลาง",poolYes:"มีสระ",
+  floor:"ชั้น",building:"อาคาร",type:"ประเภท",zone:"โซน",code:"รหัส",
+  hot:"แนะนำ",urgent:"ขายด่วน",discount:"ลดราคา",wasPrice:"จาก",
+  tag_maid3:"ห้องแม่บ้าน 3 ห้อง + ห้องน้ำ 3",tag_basketball:"สนามบาสเกตบอล",tag_theater:"ห้องคาราโอเกะ / โฮมเธียเตอร์",tag_storey3:"บ้าน 3 ชั้น",
+  tag_corner:"ห้องมุม",tag_thaiQuota:"โควตาไทย",tag_seaView:"วิวทะเล",tag_rooftop:"ดาดฟ้า + บาร์",tag_waterGarden:"สวนน้ำตก",tag_outdoorKitchen:"ครัวนอกบ้าน",
+  tag_nearSchool:"ใกล้ ร.ร.ธาราพัฒนา",tag_duplex:"ดูเพล็กซ์ 2 ชั้น",
+  mapEyebrow:"ทำเล",mapTitle:"ทรัพย์ตามโซน",mapHint:"เลือกโซนบนแผนที่หรือในรายการ เพื่อกรองทรัพย์",
+  mapNote:"แสดงเฉพาะตำแหน่งโซนโดยประมาณ ไม่ใช่ที่ตั้งจริงของทรัพย์ แจ้งทีมเพื่อนัดชมและรับพิกัด",
+  matchEyebrow:"Personalized · MBTI",matchTitle:"หาบ้านที่เข้ากับไลฟ์สไตล์คุณ",matchSub:"ตอบ 4 ข้อสั้น ๆ ระบบจะจับคู่บุคลิกแบบ MBTI กับทรัพย์ที่เหมาะที่สุด",
+  q1:"วันหยุดในแบบของคุณ",q1a:"ปาร์ตี้ริมสระกับเพื่อน",q1b:"พักผ่อนเงียบ ๆ ในสวน",
+  q2:"เลือกบ้านจากอะไรก่อน",q2a:"ฟังก์ชัน ทำเล ใช้งานจริง",q2b:"ดีไซน์และบรรยากาศ",
+  q3:"อะไรสำคัญที่สุด",q3a:"ความคุ้มค่าต่อพื้นที่",q3b:"ความอบอุ่นสำหรับครอบครัว",
+  q4:"แผนการอยู่",q4a:"อยู่ยาว วางแผนชัด",q4b:"ยืดหยุ่น ไม่ผูกมัด",
+  mDeal:"ต้องการ",mBudget:"งบสูงสุด",mBeds:"ห้องนอนอย่างน้อย",matchRes:"บ้านที่เหมาะกับคุณ",matchNone:"ยังไม่มีทรัพย์ตรงทุกเงื่อนไข ลองขยายงบหรือจำนวนห้อง",
+  dE:"ชอบสังสรรค์",dI:"รักความสงบ",dS:"เน้นใช้งานจริง",dN:"ชอบดีไซน์",dT:"คิดเรื่องความคุ้มค่า",dF:"ใส่ใจครอบครัว",dJ:"วางแผนระยะยาว",dP:"ชอบความยืดหยุ่น",
+  rSocial:"พื้นที่กว้าง รับแขกได้",rQuiet:"บรรยากาศสงบ เป็นส่วนตัว",rDesign:"ดีไซน์โดดเด่น",rValue:"คุ้มค่าเมื่อเทียบพื้นที่",rFamily:"ห้องนอนพอสำหรับครอบครัว",rLong:"เหมาะอยู่ยาว",rFlex:"ดูแลง่าย ยืดหยุ่น",rView:"ใกล้ทะเล",
+  bookEyebrow:"นัดชม / สอบถาม",bookTitle:"นัดชมทรัพย์ ทั้งชมจริงและวิดีโอคอล",bookSub:"กรอกข้อมูลสั้น ๆ ช่วยให้เราคัดทรัพย์และตอบกลับได้ตรงใจและเร็วขึ้น",
+  bookC1:"ชมจริงหรือชมผ่านวิดีโอคอลก็ได้",bookC2:"ตอบกลับทาง LINE, WhatsApp, WeChat, Telegram หรืออีเมล",bookC3:"ทรัพย์ที่ตรงงบและวันเข้าอยู่ของคุณ",
+  fListing:"ทรัพย์ที่สนใจ",fName:"ชื่อ",fNation:"สัญชาติ",fBudget:"งบประมาณ (บาท)",fMoveIn:"วันที่จะเข้าอยู่",fDuration:"ระยะเวลา",fOcc:"จำนวนผู้อยู่",fPets:"สัตว์เลี้ยง",fPurpose:"จุดประสงค์",fViewing:"รูปแบบการชม",fDate:"วันที่สะดวกชม",fChannel:"ให้ติดต่อกลับทาง",fHandle:"ID / เบอร์ / อีเมล",fNote:"ข้อความเพิ่มเติม",
+  anyListing:"ยังไม่เลือก — ช่วยแนะนำ",dur1:"1–3 เดือน",dur2:"6 เดือน",dur3:"1 ปี",dur4:"2 ปีขึ้นไป",dur5:"ต้องการซื้อ",
+  pet0:"ไม่มี",pet1:"แมว",pet2:"สุนัขเล็ก",pet3:"สุนัขใหญ่ / อื่น ๆ",pur1:"อยู่เอง",pur2:"ลงทุน",pur3:"ทำงาน",view1:"ชมจริง",view2:"วิดีโอคอล",
+  bookBuild:"สร้างข้อความ",copyMsg:"คัดลอกข้อความ",bookNote:"ข้อความจะถูกส่งผ่านแอปที่คุณเลือก เว็บไซต์ไม่ได้เก็บข้อมูลของคุณ (สำหรับ LINE: คัดลอกแล้ววางในแชต)",
+  msgHi:"สวัสดีครับ/ค่ะ สนใจนัดชมทรัพย์",
+  revEyebrow:"รีวิว",revTitle:"เสียงจากลูกค้า",
+  aboutEyebrow:"เกี่ยวกับเรา",aboutTitle:"เอเจนต์อสังหาในพัทยา ที่ดูแลคุณเหมือนคนกันเอง",
+  aboutP:"ASN Exclusive Property เป็นนายหน้าอสังหาริมทรัพย์ในพัทยา ดูแลทั้งพูลวิลล่า บ้านเดี่ยว ทาวน์เฮาส์ คอนโด ที่ดิน และอาคารพาณิชย์ ให้บริการเช่าระยะยาว ระยะสั้น ซื้อ ขาย ขายต่อ และบริหารทรัพย์ให้เจ้าของ ลูกค้าของเรามีทั้งคนไทย ยุโรป รัสเซีย จีน เกาหลี ญี่ปุ่น อินเดีย และตะวันออกกลาง",
+  why1:"ทรัพย์ในมือ",why2:"ภาษาที่ให้บริการ",why3:"ตอบโดยผู้ดูแลตัวจริง",
+  ownersTitle:"สำหรับเจ้าของทรัพย์",ownersP:"ฝากเช่าหรือฝากขายกับเรา ได้หน้าประกาศของทรัพย์คุณเอง พร้อมรูป แผนที่โซน และโพสต์โซเชียล 6 ภาษา ส่งถึงลูกค้าต่างชาติโดยตรง",ownersCta:"ฝากทรัพย์กับเรา",
+  agentsTitle:"สำหรับ Co-Agent",agentsP:"ทุกทรัพย์มีลิงก์ของตัวเอง กด “คัดลอกข้อความส่ง LINE” แล้วส่งให้ลูกค้าได้ทันที ยินดีร่วมงานกับเอเจนต์ทุกท่าน",
+  areasTitle:"โซนที่ดูแล",langsTitle:"ภาษาที่ให้บริการ",
+  contactEyebrow:"ติดต่อ",contactTitle:"คุยกับเราได้ทุกช่องทาง",contactP:"ส่งรหัสทรัพย์ งบ และวันที่อยากเข้าอยู่มาได้เลย เราจะคัดทรัพย์ที่ตรงที่สุดให้",contactBy:"ผู้ดูแล",
+  call:"โทร",email:"อีเมล",
+  footNote:"ราคาและสถานะทรัพย์อาจเปลี่ยนแปลง โปรดยืนยันกับทีมงานก่อนตัดสินใจ · อัปเดต {d}",csvBtn:"ดาวน์โหลดข้อมูลทรัพย์ (CSV)",
+  back:"← ทรัพย์ทั้งหมด",details:"รายละเอียด",highlights:"จุดเด่น",calTitle:"ปฏิทินวันว่าง",calBooked:"ติดจอง / มีผู้เช่า",calFree:"ว่าง",calUnknown:"ยังไม่มีข้อมูลการจองในระบบ",calNote:"ปฏิทินอัปเดตโดยทีมงาน โปรดยืนยันวันเข้าอยู่อีกครั้ง",
+  locTitle:"ทำเล",deposit:"เงินมัดจำ",minContract:"สัญญาขั้นต่ำ",pets:"สัตว์เลี้ยง",furn:"เฟอร์นิเจอร์",furnPic:"มีเฟอร์นิเจอร์ตามภาพ",parking:"ที่จอดรถ",internet:"อินเทอร์เน็ต",available:"วันที่ว่าง",shortTerm:"เช่าระยะสั้น",
+  yes:"ได้",no:"ไม่ได้",
+  save:"☆ บันทึก",saved:"★ บันทึกแล้ว",copyLine:"คัดลอกข้อความส่ง LINE",share:"แชร์ลิงก์",social:"สร้างโพสต์โซเชียล",print:"พิมพ์ใบประกาศ PDF",bookThis:"นัดชมทรัพย์นี้",similar:"ทรัพย์ใกล้เคียง",copied:"คัดลอกแล้ว",
+  slLabel:"รายการที่บันทึก",slCompare:"เปรียบเทียบ",slCopy:"คัดลอก",slClear:"ล้าง",cmpTitle:"เปรียบเทียบทรัพย์",
+  socTitle:"สร้างโพสต์โซเชียล",socFormat:"ขนาด",socCaption:"แคปชัน",socDl:"ดาวน์โหลดรูป",socCopy:"คัดลอกแคปชัน",
+  scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
+},
+en:{
+  navListings:"Listings",navMap:"Map",navMatch:"Find your match",navBook:"Book a viewing",navAbout:"About",navContact:"Contact",
+  heroEyebrow:"Pattaya · Jomtien · Pratumnak",heroTitle:"Pool villas, houses & condos in Pattaya",
+  heroSub:"Long-term and short-term rentals, sales, resale and owner management — one team, many languages.",
+  any:"All",rent:"Rent",sale:"Buy",qsGo:"Search",allTypes:"All types",allZones:"All areas",anyBudget:"Any budget",anyBeds:"Any bedrooms",
+  statListings:"Listings online",statZones:"Areas covered",statRent:"Rent from / month",statSale:"Buy from",statLangs:"Languages",
+  svcEyebrow:"Services",svcTitle:"Rent, buy, sell — and we look after it",
+  svc1:"Long-term rental",svc1p:"Houses, pool villas and condos on yearly or monthly leases",
+  svc2:"Short-term / daily",svc2p:"Holiday homes for families and groups",
+  svc3:"Buy & sell",svc3p:"New and pre-owned homes, with transfer handled",
+  svc4:"Resale",svc4p:"Resale condos at good prices, Thai and foreign quota",
+  svc5:"Property management",svc5p:"Tenant search, check-in, maintenance and reporting",
+  hotEyebrow:"Hand-picked",hotTitle:"Featured & hot deals",seeAll:"See all",
+  listEyebrow:"Our portfolio",listTitle:"All listings",searchPh:"Search project, area or code, e.g. H01",
+  poolOnly:"Pool",viewGrid:"Cards",viewTable:"Table",found:"listings match",reset:"Clear filters",noResults:"Nothing matches yet — adjust the filters or message us and we'll search for you.",
+  sortRec:"Sort: recommended",sortLow:"Price low → high",sortHigh:"Price high → low",sortBeds:"Most bedrooms",sortSize:"Largest",
+  budgetRent:"Rent / month",budgetSale:"Purchase budget",bedsMin:"{n}+ bedrooms",
+  villa:"Pool villa",house:"House",condo:"Condo",
+  beds:"Bedrooms",baths:"Bathrooms",land:"Land",usable:"Living area",size:"Unit size",sqm:"sqm",sqw:"sq.wah",perMonth:"/ month",perNight:"/ night",
+  forRent:"Rent",forSale:"Sale",from:"from",ask:"Ask us",photos:"photos",
+  pool:"Pool",poolPrivate:"Private pool",poolShared:"Shared pool",poolYes:"Pool",
+  floor:"Floor",building:"Building",type:"Type",zone:"Area",code:"Code",
+  hot:"Featured",urgent:"Urgent sale",discount:"Price drop",wasPrice:"was",
+  tag_maid3:"3 maid rooms + 3 bathrooms",tag_basketball:"Basketball court",tag_theater:"Karaoke / home theatre",tag_storey3:"3 storeys",
+  tag_corner:"Corner unit",tag_thaiQuota:"Thai quota",tag_seaView:"Sea view",tag_rooftop:"Rooftop terrace + bar",tag_waterGarden:"Waterfall garden",tag_outdoorKitchen:"Outdoor kitchen",
+  tag_nearSchool:"Near Tara Pattana School",tag_duplex:"Two-level duplex",
+  mapEyebrow:"Location",mapTitle:"Listings by area",mapHint:"Pick an area on the map or in the list to filter listings.",
+  mapNote:"Areas are shown approximately — not the actual property location. Exact location is shared when you book a viewing.",
+  matchEyebrow:"Personalized · MBTI",matchTitle:"Find a home that fits your lifestyle",matchSub:"Answer 4 quick questions — we match your MBTI-style profile with the listings that suit you best.",
+  q1:"Your ideal day off",q1a:"Pool party with friends",q1b:"Quiet time in the garden",
+  q2:"What do you look at first?",q2a:"Function, location, practicality",q2b:"Design and atmosphere",
+  q3:"What matters most?",q3a:"Value for the space",q3b:"A warm home for family",
+  q4:"Your plans",q4a:"Staying long, clear plan",q4b:"Flexible, no strings",
+  mDeal:"Looking to",mBudget:"Max budget",mBeds:"Min. bedrooms",matchRes:"Homes that suit you",matchNone:"Nothing fits every condition yet — try a higher budget or fewer bedrooms.",
+  dE:"social",dI:"loves calm",dS:"practical",dN:"design-led",dT:"value-minded",dF:"family-first",dJ:"plans ahead",dP:"keeps it flexible",
+  rSocial:"Space to entertain",rQuiet:"Calm and private",rDesign:"Stand-out design",rValue:"Good value for the space",rFamily:"Enough bedrooms for family",rLong:"Made for a long stay",rFlex:"Easy, flexible living",rView:"Close to the sea",
+  bookEyebrow:"Viewing / enquiry",bookTitle:"Book a viewing — in person or by video call",bookSub:"A few details help us shortlist the right homes and reply faster.",
+  bookC1:"View in person or by video call",bookC2:"Reply via LINE, WhatsApp, WeChat, Telegram or email",bookC3:"Homes that match your budget and move-in date",
+  fListing:"Property of interest",fName:"Name",fNation:"Nationality",fBudget:"Budget (THB)",fMoveIn:"Move-in date",fDuration:"Duration",fOcc:"Occupants",fPets:"Pets",fPurpose:"Purpose",fViewing:"Viewing type",fDate:"Preferred viewing date",fChannel:"Contact me via",fHandle:"ID / phone / email",fNote:"Message",
+  anyListing:"Not sure yet — please suggest",dur1:"1–3 months",dur2:"6 months",dur3:"1 year",dur4:"2 years+",dur5:"I want to buy",
+  pet0:"None",pet1:"Cat",pet2:"Small dog",pet3:"Large dog / other",pur1:"To live",pur2:"Investment",pur3:"Work",view1:"In person",view2:"Video call",
+  bookBuild:"Create message",copyMsg:"Copy message",bookNote:"Your message is sent through the app you choose — this website doesn't store your details. (LINE: copy, then paste into the chat.)",
+  msgHi:"Hello, I'd like to arrange a viewing",
+  revEyebrow:"Reviews",revTitle:"What clients say",
+  aboutEyebrow:"About us",aboutTitle:"A Pattaya agent that treats you like family",
+  aboutP:"ASN Exclusive Property is a real-estate agency in Pattaya covering pool villas, houses, townhouses, condos, land and commercial buildings. We handle long-term and short-term rentals, sales, resale and property management for owners, serving clients from Thailand, Europe, Russia, China, Korea, Japan, India and the Middle East.",
+  why1:"Listings in hand",why2:"Languages",why3:"Replies from the owner-agent",
+  ownersTitle:"For property owners",ownersP:"List your home for rent or sale and get its own listing page — photos, area map and social posts in six languages, delivered straight to international clients.",ownersCta:"List with us",
+  agentsTitle:"For co-agents",agentsP:"Every listing has its own link. Tap “Copy LINE message” and forward it to your client right away. Co-agents are welcome.",
+  areasTitle:"Areas we cover",langsTitle:"Languages",
+  contactEyebrow:"Contact",contactTitle:"Talk to us on any channel",contactP:"Send the listing code, your budget and move-in date — we'll shortlist the best matches.",contactBy:"Your agent",
+  call:"Call",email:"Email",
+  footNote:"Prices and availability may change — please confirm with our team before deciding · Updated {d}",csvBtn:"Download listing data (CSV)",
+  back:"← All listings",details:"Details",highlights:"Highlights",calTitle:"Availability calendar",calBooked:"Booked / let",calFree:"Available",calUnknown:"No bookings recorded yet",calNote:"Calendar is updated by our team — please confirm your move-in date.",
+  locTitle:"Location",deposit:"Deposit",minContract:"Min. contract",pets:"Pets",furn:"Furniture",furnPic:"Furnished as pictured",parking:"Parking",internet:"Internet",available:"Available from",shortTerm:"Short-term",
+  yes:"Allowed",no:"Not allowed",
+  save:"☆ Save",saved:"★ Saved",copyLine:"Copy LINE message",share:"Share link",social:"Create social post",print:"Print flyer / PDF",bookThis:"Book a viewing",similar:"Similar listings",copied:"Copied",
+  slLabel:"saved",slCompare:"Compare",slCopy:"Copy",slClear:"Clear",cmpTitle:"Compare listings",
+  socTitle:"Create social post",socFormat:"Format",socCaption:"Caption",socDl:"Download image",socCopy:"Copy caption",
+  scan:"Scan for all photos and to book a viewing",million:"M"
+},
+ru:{
+  navListings:"Объекты",navMap:"Карта",navMatch:"Подбор",navBook:"Просмотр",navAbout:"О нас",navContact:"Контакты",
+  heroEyebrow:"Паттайя · Джомтьен · Пратамнак",heroTitle:"Виллы с бассейном, дома и кондо в Паттайе",
+  heroSub:"Долгосрочная и краткосрочная аренда, продажа, перепродажа и управление недвижимостью — одна команда, несколько языков.",
+  any:"Все",rent:"Аренда",sale:"Покупка",qsGo:"Найти",allTypes:"Все типы",allZones:"Все районы",anyBudget:"Любой бюджет",anyBeds:"Любое число спален",
+  statListings:"Объектов на сайте",statZones:"Районов",statRent:"Аренда от / мес.",statSale:"Покупка от",statLangs:"Языков",
+  svcEyebrow:"Услуги",svcTitle:"Аренда, покупка, продажа и управление",
+  svc1:"Долгосрочная аренда",svc1p:"Дома, виллы и кондо — помесячно или на год",
+  svc2:"Краткосрочная / посуточно",svc2p:"Дома для отдыха семьёй и компанией",
+  svc3:"Покупка и продажа",svc3p:"Новые и вторичные объекты, сопровождение сделки",
+  svc4:"Перепродажа",svc4p:"Кондо по выгодной цене, тайская и иностранная квота",
+  svc5:"Управление",svc5p:"Поиск арендаторов, заселение, обслуживание, отчёты",
+  hotEyebrow:"Подборка",hotTitle:"Рекомендуем и горячие предложения",seeAll:"Смотреть все",
+  listEyebrow:"Наши объекты",listTitle:"Все объекты",searchPh:"Проект, район или код, напр. H01",
+  poolOnly:"Бассейн",viewGrid:"Карточки",viewTable:"Таблица",found:"объектов найдено",reset:"Сбросить",noResults:"Ничего не найдено — измените фильтры или напишите нам, мы подберём.",
+  sortRec:"Сортировка: рекомендуем",sortLow:"Цена ↑",sortHigh:"Цена ↓",sortBeds:"Больше спален",sortSize:"Больше площадь",
+  budgetRent:"Аренда / мес.",budgetSale:"Бюджет покупки",bedsMin:"{n}+ спален",
+  villa:"Вилла с бассейном",house:"Дом",condo:"Кондо",
+  beds:"Спальни",baths:"Ванные",land:"Участок",usable:"Жилая площадь",size:"Площадь",sqm:"м²",sqw:"кв. ва",perMonth:"/ мес.",perNight:"/ ночь",
+  forRent:"Аренда",forSale:"Продажа",from:"от",ask:"Уточняйте",photos:"фото",
+  pool:"Бассейн",poolPrivate:"Частный бассейн",poolShared:"Общий бассейн",poolYes:"Бассейн",
+  floor:"Этаж",building:"Корпус",type:"Тип",zone:"Район",code:"Код",
+  hot:"Рекомендуем",urgent:"Срочная продажа",discount:"Скидка",wasPrice:"было",
+  tag_maid3:"3 комнаты для персонала + 3 ванные",tag_basketball:"Баскетбольная площадка",tag_theater:"Караоке / домашний кинотеатр",tag_storey3:"3 этажа",
+  tag_corner:"Угловая квартира",tag_thaiQuota:"Тайская квота",tag_seaView:"Вид на море",tag_rooftop:"Терраса на крыше + бар",tag_waterGarden:"Сад с водопадом",tag_outdoorKitchen:"Летняя кухня",
+  tag_nearSchool:"Рядом со школой Tara Pattana",tag_duplex:"Двухуровневый дуплекс",
+  mapEyebrow:"Расположение",mapTitle:"Объекты по районам",mapHint:"Выберите район на карте или в списке.",
+  mapNote:"Районы показаны приблизительно, это не точный адрес объекта. Точное место сообщим при записи на просмотр.",
+  matchEyebrow:"Персональный подбор · MBTI",matchTitle:"Дом под ваш образ жизни",matchSub:"4 коротких вопроса — и мы подберём объекты под ваш MBTI-профиль.",
+  q1:"Идеальный выходной",q1a:"Вечеринка у бассейна",q1b:"Тишина в саду",
+  q2:"На что смотрите сначала?",q2a:"Функциональность и локация",q2b:"Дизайн и атмосфера",
+  q3:"Что важнее всего?",q3a:"Цена за площадь",q3b:"Уют для семьи",
+  q4:"Ваши планы",q4a:"Надолго, всё по плану",q4b:"Гибко, без обязательств",
+  mDeal:"Цель",mBudget:"Макс. бюджет",mBeds:"Мин. спален",matchRes:"Вам подойдут",matchNone:"Пока нет объектов под все условия — увеличьте бюджет или уменьшите число спален.",
+  dE:"общительный",dI:"любит тишину",dS:"практичный",dN:"ценит дизайн",dT:"считает выгоду",dF:"семья прежде всего",dJ:"планирует",dP:"ценит свободу",
+  rSocial:"Место для гостей",rQuiet:"Тихо и уединённо",rDesign:"Яркий дизайн",rValue:"Выгодно за площадь",rFamily:"Достаточно спален для семьи",rLong:"Для долгого проживания",rFlex:"Просто и гибко",rView:"Рядом с морем",
+  bookEyebrow:"Просмотр / запрос",bookTitle:"Запись на просмотр — вживую или по видеосвязи",bookSub:"Несколько деталей помогут нам подобрать варианты и ответить быстрее.",
+  bookC1:"Просмотр вживую или по видео",bookC2:"Ответ в LINE, WhatsApp, WeChat, Telegram или по почте",bookC3:"Объекты под ваш бюджет и дату заезда",
+  fListing:"Интересующий объект",fName:"Имя",fNation:"Гражданство",fBudget:"Бюджет (бат)",fMoveIn:"Дата заезда",fDuration:"Срок",fOcc:"Жильцов",fPets:"Животные",fPurpose:"Цель",fViewing:"Формат просмотра",fDate:"Удобная дата просмотра",fChannel:"Связаться через",fHandle:"ID / телефон / email",fNote:"Сообщение",
+  anyListing:"Пока не выбрал(а) — посоветуйте",dur1:"1–3 месяца",dur2:"6 месяцев",dur3:"1 год",dur4:"2 года и более",dur5:"Хочу купить",
+  pet0:"Нет",pet1:"Кошка",pet2:"Маленькая собака",pet3:"Большая собака / другое",pur1:"Для жизни",pur2:"Инвестиция",pur3:"Работа",view1:"Вживую",view2:"Видеозвонок",
+  bookBuild:"Создать сообщение",copyMsg:"Копировать",bookNote:"Сообщение отправляется через выбранное приложение — сайт не сохраняет ваши данные. (LINE: скопируйте и вставьте в чат.)",
+  msgHi:"Здравствуйте, хочу записаться на просмотр",
+  revEyebrow:"Отзывы",revTitle:"Отзывы клиентов",
+  aboutEyebrow:"О нас",aboutTitle:"Агентство в Паттайе, где к вам относятся как к своим",
+  aboutP:"ASN Exclusive Property — агентство недвижимости в Паттайе: виллы с бассейном, дома, таунхаусы, кондо, земля и коммерческие здания. Долгосрочная и краткосрочная аренда, продажа, перепродажа и управление для владельцев. Наши клиенты — из Таиланда, Европы, России, Китая, Кореи, Японии, Индии и Ближнего Востока.",
+  why1:"Объектов в базе",why2:"Языков",why3:"Отвечает сам агент",
+  ownersTitle:"Владельцам",ownersP:"Сдайте или продайте объект с нами — отдельная страница с фото, картой района и постами для соцсетей на шести языках.",ownersCta:"Разместить объект",
+  agentsTitle:"Для ко-агентов",agentsP:"У каждого объекта своя ссылка. Нажмите «Копировать для LINE» и сразу отправьте клиенту. Рады сотрудничеству.",
+  areasTitle:"Районы",langsTitle:"Языки",
+  contactEyebrow:"Контакты",contactTitle:"Пишите в любой мессенджер",contactP:"Пришлите код объекта, бюджет и дату заезда — подберём лучшие варианты.",contactBy:"Ваш агент",
+  call:"Позвонить",email:"Почта",
+  footNote:"Цены и наличие могут меняться — уточняйте у команды · Обновлено {d}",csvBtn:"Скачать данные (CSV)",
+  back:"← Все объекты",details:"Характеристики",highlights:"Особенности",calTitle:"Календарь занятости",calBooked:"Занято / сдано",calFree:"Свободно",calUnknown:"Бронирований пока нет в системе",calNote:"Календарь обновляет команда — подтвердите дату заезда.",
+  locTitle:"Расположение",deposit:"Депозит",minContract:"Мин. срок",pets:"Животные",furn:"Мебель",furnPic:"С мебелью, как на фото",parking:"Парковка",internet:"Интернет",available:"Свободно с",shortTerm:"Посуточно",
+  yes:"Можно",no:"Нельзя",
+  save:"☆ Сохранить",saved:"★ Сохранено",copyLine:"Копировать для LINE",share:"Поделиться",social:"Пост для соцсетей",print:"Печать / PDF",bookThis:"Записаться на просмотр",similar:"Похожие объекты",copied:"Скопировано",
+  slLabel:"сохранено",slCompare:"Сравнить",slCopy:"Копировать",slClear:"Очистить",cmpTitle:"Сравнение объектов",
+  socTitle:"Пост для соцсетей",socFormat:"Формат",socCaption:"Подпись",socDl:"Скачать картинку",socCopy:"Копировать подпись",
+  scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
+},
+zh:{
+  navListings:"房源",navMap:"地图",navMatch:"智能匹配",navBook:"预约看房",navAbout:"关于我们",navContact:"联系",
+  heroEyebrow:"芭提雅 · 宗甸 · 帕塔纳山",heroTitle:"芭提雅泳池别墅、独栋与公寓",
+  heroSub:"长租、短租、买卖、转售及业主托管 —— 一个团队，多语言服务。",
+  any:"全部",rent:"租",sale:"买",qsGo:"搜索",allTypes:"全部类型",allZones:"全部区域",anyBudget:"不限预算",anyBeds:"不限卧室",
+  statListings:"在线房源",statZones:"服务区域",statRent:"月租起",statSale:"售价起",statLangs:"服务语言",
+  svcEyebrow:"服务",svcTitle:"租、买、卖，一站式托管",
+  svc1:"长期租赁",svc1p:"独栋、泳池别墅、公寓，年租或月租",
+  svc2:"短租 / 日租",svc2p:"适合家庭与朋友度假",
+  svc3:"买卖",svc3p:"新房与二手房，协助过户",
+  svc4:"转售",svc4p:"价格优惠的转售公寓，泰籍及外籍配额",
+  svc5:"物业托管",svc5p:"招租、交房、维修保养、定期报告",
+  hotEyebrow:"精选",hotTitle:"推荐房源与特惠",seeAll:"查看全部",
+  listEyebrow:"我们的房源",listTitle:"全部房源",searchPh:"搜索项目、区域或编号，如 H01",
+  poolOnly:"有泳池",viewGrid:"卡片",viewTable:"表格",found:"套房源符合条件",reset:"清除筛选",noResults:"暂无符合条件的房源 —— 调整筛选或联系我们代为寻找。",
+  sortRec:"排序：推荐",sortLow:"价格从低到高",sortHigh:"价格从高到低",sortBeds:"卧室最多",sortSize:"面积最大",
+  budgetRent:"月租预算",budgetSale:"购房预算",bedsMin:"{n} 间卧室以上",
+  villa:"泳池别墅",house:"独栋别墅",condo:"公寓",
+  beds:"卧室",baths:"浴室",land:"土地",usable:"使用面积",size:"面积",sqm:"平方米",sqw:"平方哇",perMonth:"/ 月",perNight:"/ 晚",
+  forRent:"租",forSale:"售",from:"起",ask:"请咨询",photos:"张照片",
+  pool:"泳池",poolPrivate:"私人泳池",poolShared:"公共泳池",poolYes:"泳池",
+  floor:"楼层",building:"楼栋",type:"类型",zone:"区域",code:"编号",
+  hot:"推荐",urgent:"急售",discount:"降价",wasPrice:"原价",
+  tag_maid3:"3 间佣人房 + 3 浴室",tag_basketball:"篮球场",tag_theater:"卡拉OK / 家庭影院",tag_storey3:"三层",
+  tag_corner:"转角单位",tag_thaiQuota:"泰籍配额",tag_seaView:"海景",tag_rooftop:"屋顶露台 + 吧台",tag_waterGarden:"瀑布花园",tag_outdoorKitchen:"户外厨房",
+  tag_nearSchool:"近 Tara Pattana 学校",tag_duplex:"复式两层",
+  mapEyebrow:"位置",mapTitle:"按区域浏览",mapHint:"在地图或列表中选择区域以筛选房源。",
+  mapNote:"仅显示大致区域，并非房源实际位置。预约看房时提供准确地址。",
+  matchEyebrow:"个性化 · MBTI",matchTitle:"找到适合你生活方式的家",matchSub:"回答 4 个小问题，我们按 MBTI 性格为你匹配最合适的房源。",
+  q1:"理想的假日",q1a:"和朋友泳池派对",q1b:"在花园里安静放松",
+  q2:"选房先看什么？",q2a:"功能、地段、实用",q2b:"设计与氛围",
+  q3:"什么最重要？",q3a:"面积性价比",q3b:"适合家人的温馨",
+  q4:"居住计划",q4a:"长住，计划明确",q4b:"灵活，不受约束",
+  mDeal:"需求",mBudget:"最高预算",mBeds:"最少卧室",matchRes:"适合你的房源",matchNone:"暂无完全符合的房源 —— 试试提高预算或减少卧室数。",
+  dE:"爱社交",dI:"喜欢安静",dS:"注重实用",dN:"重视设计",dT:"看重性价比",dF:"家庭优先",dJ:"长远规划",dP:"喜欢灵活",
+  rSocial:"空间大，适合招待",rQuiet:"安静私密",rDesign:"设计出众",rValue:"面积性价比高",rFamily:"卧室充足适合家庭",rLong:"适合长住",rFlex:"省心灵活",rView:"靠近海边",
+  bookEyebrow:"看房 / 咨询",bookTitle:"预约看房 —— 实地或视频",bookSub:"留下几项信息，我们能更快、更准确地为你筛选。",
+  bookC1:"可实地看房或视频看房",bookC2:"通过 LINE、WhatsApp、微信、Telegram 或邮件回复",bookC3:"符合预算与入住日期的房源",
+  fListing:"感兴趣的房源",fName:"姓名",fNation:"国籍",fBudget:"预算（泰铢）",fMoveIn:"入住日期",fDuration:"租期",fOcc:"入住人数",fPets:"宠物",fPurpose:"用途",fViewing:"看房方式",fDate:"方便看房日期",fChannel:"联系方式",fHandle:"ID / 电话 / 邮箱",fNote:"留言",
+  anyListing:"还没决定 —— 请推荐",dur1:"1–3 个月",dur2:"6 个月",dur3:"1 年",dur4:"2 年以上",dur5:"想购买",
+  pet0:"无",pet1:"猫",pet2:"小型犬",pet3:"大型犬 / 其他",pur1:"自住",pur2:"投资",pur3:"工作",view1:"实地看房",view2:"视频看房",
+  bookBuild:"生成消息",copyMsg:"复制消息",bookNote:"消息通过你选择的应用发送，本网站不保存你的信息。（LINE：复制后粘贴到聊天。）",
+  msgHi:"您好，我想预约看房",
+  revEyebrow:"评价",revTitle:"客户评价",
+  aboutEyebrow:"关于我们",aboutTitle:"像家人一样贴心的芭提雅房产中介",
+  aboutP:"ASN Exclusive Property 是芭提雅的房地产中介，涵盖泳池别墅、独栋、联排别墅、公寓、土地及商业楼宇，提供长租、短租、买卖、转售及业主托管服务。客户来自泰国、欧洲、俄罗斯、中国、韩国、日本、印度及中东。",
+  why1:"手中房源",why2:"服务语言",why3:"由负责人亲自回复",
+  ownersTitle:"业主委托",ownersP:"委托我们出租或出售，你的房产将拥有独立页面，含照片、区域地图及六种语言的社交媒体帖子，直达海外客户。",ownersCta:"委托房源",
+  agentsTitle:"合作中介",agentsP:"每套房源都有独立链接。点击“复制 LINE 消息”即可立即转发给客户。欢迎同行合作。",
+  areasTitle:"服务区域",langsTitle:"服务语言",
+  contactEyebrow:"联系",contactTitle:"任何渠道都能找到我们",contactP:"发送房源编号、预算和入住日期，我们为你挑选最合适的房源。",contactBy:"负责人",
+  call:"电话",email:"邮箱",
+  footNote:"价格及房态可能变动，请与团队确认 · 更新于 {d}",csvBtn:"下载房源数据 (CSV)",
+  back:"← 全部房源",details:"详细信息",highlights:"亮点",calTitle:"空房日历",calBooked:"已订 / 已租",calFree:"可入住",calUnknown:"系统中暂无预订记录",calNote:"日历由团队更新，请再次确认入住日期。",
+  locTitle:"位置",deposit:"押金",minContract:"最短租期",pets:"宠物",furn:"家具",furnPic:"按图配家具",parking:"停车位",internet:"网络",available:"可入住日期",shortTerm:"短租",
+  yes:"可以",no:"不可以",
+  save:"☆ 收藏",saved:"★ 已收藏",copyLine:"复制 LINE 消息",share:"分享链接",social:"生成社交帖子",print:"打印传单 / PDF",bookThis:"预约看此房",similar:"相似房源",copied:"已复制",
+  slLabel:"已收藏",slCompare:"对比",slCopy:"复制",slClear:"清空",cmpTitle:"房源对比",
+  socTitle:"生成社交帖子",socFormat:"尺寸",socCaption:"文案",socDl:"下载图片",socCopy:"复制文案",
+  scan:"扫码查看全部照片并预约看房",million:"M"
+},
+ko:{
+  navListings:"매물",navMap:"지도",navMatch:"맞춤 찾기",navBook:"방문 예약",navAbout:"회사 소개",navContact:"문의",
+  heroEyebrow:"파타야 · 좀티엔 · 프라탐낙",heroTitle:"파타야 풀빌라 · 단독주택 · 콘도",
+  heroSub:"장기·단기 임대, 매매, 재판매, 소유주 관리까지 — 한 팀이 여러 언어로 도와드립니다.",
+  any:"전체",rent:"임대",sale:"매매",qsGo:"검색",allTypes:"전체 유형",allZones:"전체 지역",anyBudget:"예산 무관",anyBeds:"침실 무관",
+  statListings:"온라인 매물",statZones:"담당 지역",statRent:"월세 최저",statSale:"매매 최저",statLangs:"지원 언어",
+  svcEyebrow:"서비스",svcTitle:"임대, 매매, 관리까지 한 번에",
+  svc1:"장기 임대",svc1p:"단독주택·풀빌라·콘도, 연 단위 또는 월 단위",
+  svc2:"단기 / 일일 임대",svc2p:"가족·친구 여행용 숙소",
+  svc3:"매매",svc3p:"신축·기존 주택, 소유권 이전 지원",
+  svc4:"재판매",svc4p:"좋은 가격의 콘도 재판매, 태국·외국인 쿼터",
+  svc5:"부동산 관리",svc5p:"임차인 모집, 입주 점검, 유지보수, 보고",
+  hotEyebrow:"엄선",hotTitle:"추천 매물 & 특가",seeAll:"전체 보기",
+  listEyebrow:"보유 매물",listTitle:"전체 매물",searchPh:"프로젝트, 지역, 코드 검색 (예: H01)",
+  poolOnly:"수영장",viewGrid:"카드",viewTable:"표",found:"개 매물",reset:"필터 초기화",noResults:"조건에 맞는 매물이 없습니다 — 필터를 바꾸거나 문의 주시면 찾아드립니다.",
+  sortRec:"정렬: 추천순",sortLow:"가격 낮은순",sortHigh:"가격 높은순",sortBeds:"침실 많은순",sortSize:"면적 큰순",
+  budgetRent:"월세 예산",budgetSale:"매매 예산",bedsMin:"침실 {n}개 이상",
+  villa:"풀빌라",house:"단독주택",condo:"콘도",
+  beds:"침실",baths:"욕실",land:"대지",usable:"실면적",size:"면적",sqm:"㎡",sqw:"평방와",perMonth:"/ 월",perNight:"/ 박",
+  forRent:"임대",forSale:"매매",from:"부터",ask:"문의",photos:"장",
+  pool:"수영장",poolPrivate:"개인 수영장",poolShared:"공용 수영장",poolYes:"수영장",
+  floor:"층",building:"동",type:"유형",zone:"지역",code:"코드",
+  hot:"추천",urgent:"급매",discount:"가격 인하",wasPrice:"기존",
+  tag_maid3:"가사도우미실 3개 + 욕실 3개",tag_basketball:"농구 코트",tag_theater:"노래방 / 홈시어터",tag_storey3:"3층 주택",
+  tag_corner:"코너 유닛",tag_thaiQuota:"태국인 쿼터",tag_seaView:"오션뷰",tag_rooftop:"루프탑 테라스 + 바",tag_waterGarden:"폭포 정원",tag_outdoorKitchen:"야외 주방",
+  tag_nearSchool:"Tara Pattana 학교 인근",tag_duplex:"복층 듀플렉스",
+  mapEyebrow:"위치",mapTitle:"지역별 매물",mapHint:"지도나 목록에서 지역을 선택해 매물을 걸러 보세요.",
+  mapNote:"지역은 대략적인 위치이며 실제 매물 위치가 아닙니다. 정확한 위치는 방문 예약 시 안내합니다.",
+  matchEyebrow:"맞춤 · MBTI",matchTitle:"내 라이프스타일에 맞는 집 찾기",matchSub:"4가지 질문에 답하면 MBTI 성향에 맞는 매물을 추천해 드립니다.",
+  q1:"이상적인 휴일",q1a:"친구들과 풀파티",q1b:"정원에서 조용히 휴식",
+  q2:"집을 볼 때 먼저 보는 것",q2a:"기능, 위치, 실용성",q2b:"디자인과 분위기",
+  q3:"가장 중요한 것",q3a:"면적 대비 가성비",q3b:"가족을 위한 따뜻함",
+  q4:"거주 계획",q4a:"오래 살 계획",q4b:"유연하게, 부담 없이",
+  mDeal:"목적",mBudget:"최대 예산",mBeds:"최소 침실",matchRes:"당신에게 맞는 집",matchNone:"모든 조건에 맞는 매물이 아직 없습니다 — 예산을 늘리거나 침실 수를 줄여 보세요.",
+  dE:"사교적",dI:"조용함을 선호",dS:"실용적",dN:"디자인 중시",dT:"가성비 중시",dF:"가족 우선",dJ:"계획형",dP:"유연함 선호",
+  rSocial:"손님 초대하기 좋은 공간",rQuiet:"조용하고 프라이빗",rDesign:"돋보이는 디자인",rValue:"면적 대비 가성비",rFamily:"가족에게 충분한 침실",rLong:"장기 거주에 적합",rFlex:"관리 쉽고 유연함",rView:"바다와 가까움",
+  bookEyebrow:"방문 / 문의",bookTitle:"방문 예약 — 직접 또는 영상 통화",bookSub:"간단한 정보를 남겨 주시면 더 빠르고 정확하게 매물을 추려 드립니다.",
+  bookC1:"직접 방문 또는 영상 통화로 확인",bookC2:"LINE, WhatsApp, WeChat, Telegram, 이메일로 회신",bookC3:"예산과 입주일에 맞는 매물",
+  fListing:"관심 매물",fName:"이름",fNation:"국적",fBudget:"예산 (바트)",fMoveIn:"입주 희망일",fDuration:"기간",fOcc:"거주 인원",fPets:"반려동물",fPurpose:"목적",fViewing:"방문 방식",fDate:"방문 희망일",fChannel:"연락 방법",fHandle:"ID / 전화 / 이메일",fNote:"메시지",
+  anyListing:"아직 미정 — 추천해 주세요",dur1:"1–3개월",dur2:"6개월",dur3:"1년",dur4:"2년 이상",dur5:"매매 희망",
+  pet0:"없음",pet1:"고양이",pet2:"소형견",pet3:"대형견 / 기타",pur1:"실거주",pur2:"투자",pur3:"업무",view1:"직접 방문",view2:"영상 통화",
+  bookBuild:"메시지 만들기",copyMsg:"메시지 복사",bookNote:"메시지는 선택한 앱으로 전송되며, 이 웹사이트는 정보를 저장하지 않습니다. (LINE: 복사 후 채팅에 붙여넣기)",
+  msgHi:"안녕하세요, 매물 방문을 예약하고 싶습니다",
+  revEyebrow:"후기",revTitle:"고객 후기",
+  aboutEyebrow:"회사 소개",aboutTitle:"가족처럼 챙기는 파타야 부동산 에이전트",
+  aboutP:"ASN Exclusive Property는 파타야의 부동산 중개사로 풀빌라, 단독주택, 타운하우스, 콘도, 토지, 상업용 건물을 다룹니다. 장기·단기 임대, 매매, 재판매, 소유주 관리 서비스를 제공하며 태국, 유럽, 러시아, 중국, 한국, 일본, 인도, 중동 고객과 함께합니다.",
+  why1:"보유 매물",why2:"지원 언어",why3:"담당자가 직접 답변",
+  ownersTitle:"집주인 분들께",ownersP:"임대·매매를 맡기시면 사진, 지역 지도, 6개 언어 SNS 게시물을 갖춘 전용 매물 페이지로 해외 고객에게 바로 소개합니다.",ownersCta:"매물 맡기기",
+  agentsTitle:"공동 중개",agentsP:"모든 매물에 고유 링크가 있습니다. “LINE 메시지 복사”를 눌러 고객에게 바로 전달하세요. 공동 중개 환영합니다.",
+  areasTitle:"담당 지역",langsTitle:"지원 언어",
+  contactEyebrow:"문의",contactTitle:"편한 채널로 연락 주세요",contactP:"매물 코드, 예산, 입주 희망일을 보내 주시면 가장 잘 맞는 매물을 골라 드립니다.",contactBy:"담당자",
+  call:"전화",email:"이메일",
+  footNote:"가격과 상태는 변동될 수 있으니 결정 전 확인해 주세요 · 업데이트 {d}",csvBtn:"매물 데이터 다운로드 (CSV)",
+  back:"← 전체 매물",details:"상세 정보",highlights:"특징",calTitle:"입주 가능 캘린더",calBooked:"예약 / 임대 중",calFree:"입주 가능",calUnknown:"아직 등록된 예약이 없습니다",calNote:"캘린더는 팀이 업데이트합니다 — 입주일을 다시 확인해 주세요.",
+  locTitle:"위치",deposit:"보증금",minContract:"최소 계약",pets:"반려동물",furn:"가구",furnPic:"사진과 같이 가구 포함",parking:"주차",internet:"인터넷",available:"입주 가능일",shortTerm:"단기 임대",
+  yes:"가능",no:"불가",
+  save:"☆ 저장",saved:"★ 저장됨",copyLine:"LINE 메시지 복사",share:"링크 공유",social:"SNS 게시물 만들기",print:"전단 인쇄 / PDF",bookThis:"이 매물 방문 예약",similar:"비슷한 매물",copied:"복사됨",
+  slLabel:"저장됨",slCompare:"비교",slCopy:"복사",slClear:"비우기",cmpTitle:"매물 비교",
+  socTitle:"SNS 게시물 만들기",socFormat:"크기",socCaption:"캡션",socDl:"이미지 다운로드",socCopy:"캡션 복사",
+  scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
+},
+ja:{
+  navListings:"物件一覧",navMap:"地図",navMatch:"マッチング",navBook:"内見予約",navAbout:"会社概要",navContact:"お問い合わせ",
+  heroEyebrow:"パタヤ · ジョムティエン · プラタムナック",heroTitle:"パタヤのプールヴィラ・一戸建て・コンドミニアム",
+  heroSub:"長期・短期賃貸、売買、リセール、オーナー向け管理まで — ひとつのチームが多言語で対応します。",
+  any:"すべて",rent:"賃貸",sale:"購入",qsGo:"検索",allTypes:"すべての種別",allZones:"すべてのエリア",anyBudget:"予算指定なし",anyBeds:"寝室数指定なし",
+  statListings:"掲載物件",statZones:"対応エリア",statRent:"賃料 / 月〜",statSale:"価格〜",statLangs:"対応言語",
+  svcEyebrow:"サービス",svcTitle:"賃貸・売買・管理をワンストップで",
+  svc1:"長期賃貸",svc1p:"一戸建て・プールヴィラ・コンドミニアム、年契約・月契約",
+  svc2:"短期 / デイリー",svc2p:"家族やグループ向けの休暇用住宅",
+  svc3:"売買",svc3p:"新築・中古物件、名義変更までサポート",
+  svc4:"リセール",svc4p:"お得なリセールコンド、タイ人枠・外国人枠",
+  svc5:"物件管理",svc5p:"入居者募集、入居立会い、メンテナンス、レポート",
+  hotEyebrow:"厳選",hotTitle:"おすすめ物件 & お得な物件",seeAll:"すべて見る",
+  listEyebrow:"取扱物件",listTitle:"物件一覧",searchPh:"物件名・エリア・コードで検索（例：H01）",
+  poolOnly:"プール付き",viewGrid:"カード",viewTable:"表",found:"件の物件",reset:"条件をクリア",noResults:"条件に合う物件がありません — 条件を変更するか、お気軽にご相談ください。",
+  sortRec:"並び順：おすすめ",sortLow:"価格の安い順",sortHigh:"価格の高い順",sortBeds:"寝室の多い順",sortSize:"広い順",
+  budgetRent:"賃料 / 月",budgetSale:"購入予算",bedsMin:"寝室 {n} 以上",
+  villa:"プールヴィラ",house:"一戸建て",condo:"コンドミニアム",
+  beds:"寝室",baths:"浴室",land:"土地",usable:"延床面積",size:"専有面積",sqm:"㎡",sqw:"タランワー",perMonth:"/ 月",perNight:"/ 泊",
+  forRent:"賃貸",forSale:"売買",from:"〜",ask:"お問い合わせ",photos:"枚",
+  pool:"プール",poolPrivate:"専用プール",poolShared:"共用プール",poolYes:"プール",
+  floor:"階",building:"棟",type:"種別",zone:"エリア",code:"コード",
+  hot:"おすすめ",urgent:"急売",discount:"値下げ",wasPrice:"旧価格",
+  tag_maid3:"メイドルーム3室 + 浴室3",tag_basketball:"バスケットコート",tag_theater:"カラオケ / ホームシアター",tag_storey3:"3階建て",
+  tag_corner:"角部屋",tag_thaiQuota:"タイ人枠",tag_seaView:"オーシャンビュー",tag_rooftop:"屋上テラス + バー",tag_waterGarden:"滝のある庭",tag_outdoorKitchen:"屋外キッチン",
+  tag_nearSchool:"Tara Pattana 校近く",tag_duplex:"メゾネット",
+  mapEyebrow:"ロケーション",mapTitle:"エリア別物件",mapHint:"地図または一覧からエリアを選んで絞り込めます。",
+  mapNote:"エリアはおおよその位置で、物件の実際の所在地ではありません。正確な場所は内見予約時にお知らせします。",
+  matchEyebrow:"パーソナライズ · MBTI",matchTitle:"ライフスタイルに合う住まいを探す",matchSub:"4つの質問に答えるだけで、MBTIタイプに合った物件をご提案します。",
+  q1:"理想の休日",q1a:"友人とプールパーティー",q1b:"庭で静かにくつろぐ",
+  q2:"物件選びでまず見るのは",q2a:"機能・立地・実用性",q2b:"デザインと雰囲気",
+  q3:"いちばん大切なこと",q3a:"広さに対するコスパ",q3b:"家族のための温かさ",
+  q4:"住まいの予定",q4a:"長く住む・計画的",q4b:"柔軟に・縛られない",
+  mDeal:"目的",mBudget:"上限予算",mBeds:"寝室数（以上）",matchRes:"あなたに合う住まい",matchNone:"すべての条件に合う物件はまだありません — 予算を上げるか寝室数を減らしてみてください。",
+  dE:"社交的",dI:"静けさを好む",dS:"実用派",dN:"デザイン重視",dT:"コスパ重視",dF:"家族優先",dJ:"計画派",dP:"柔軟派",
+  rSocial:"ゲストを招ける広さ",rQuiet:"静かでプライベート",rDesign:"際立つデザイン",rValue:"広さに対してお得",rFamily:"家族に十分な寝室",rLong:"長期滞在向き",rFlex:"手軽で柔軟",rView:"海に近い",
+  bookEyebrow:"内見 / お問い合わせ",bookTitle:"内見予約 — 現地またはビデオ通話",bookSub:"いくつかの情報をいただければ、より早く的確に物件をご提案できます。",
+  bookC1:"現地内見またはビデオ通話で",bookC2:"LINE・WhatsApp・WeChat・Telegram・メールで返信",bookC3:"ご予算と入居日に合う物件",
+  fListing:"気になる物件",fName:"お名前",fNation:"国籍",fBudget:"予算（バーツ）",fMoveIn:"入居希望日",fDuration:"期間",fOcc:"入居人数",fPets:"ペット",fPurpose:"目的",fViewing:"内見方法",fDate:"内見希望日",fChannel:"連絡方法",fHandle:"ID / 電話 / メール",fNote:"メッセージ",
+  anyListing:"未定 — おすすめを教えてください",dur1:"1〜3か月",dur2:"6か月",dur3:"1年",dur4:"2年以上",dur5:"購入希望",
+  pet0:"なし",pet1:"猫",pet2:"小型犬",pet3:"大型犬 / その他",pur1:"居住",pur2:"投資",pur3:"仕事",view1:"現地内見",view2:"ビデオ通話",
+  bookBuild:"メッセージを作成",copyMsg:"メッセージをコピー",bookNote:"メッセージは選択したアプリから送信されます。本サイトは情報を保存しません。（LINE：コピーしてチャットに貼り付け）",
+  msgHi:"こんにちは、内見を予約したいです",
+  revEyebrow:"レビュー",revTitle:"お客様の声",
+  aboutEyebrow:"会社概要",aboutTitle:"家族のように寄り添うパタヤの不動産エージェント",
+  aboutP:"ASN Exclusive Property はパタヤの不動産エージェントです。プールヴィラ、一戸建て、タウンハウス、コンドミニアム、土地、商業ビルを取り扱い、長期・短期賃貸、売買、リセール、オーナー向け管理を提供。タイ、ヨーロッパ、ロシア、中国、韓国、日本、インド、中東のお客様にご利用いただいています。",
+  why1:"取扱物件",why2:"対応言語",why3:"担当者が直接返信",
+  ownersTitle:"オーナー様へ",ownersP:"賃貸・売却をお任せいただくと、写真・エリア地図・6言語のSNS投稿付きの専用ページで海外のお客様に直接ご紹介します。",ownersCta:"物件を預ける",
+  agentsTitle:"共同仲介の方へ",agentsP:"すべての物件に専用リンクがあります。「LINE用にコピー」でそのままお客様へ転送できます。共同仲介歓迎です。",
+  areasTitle:"対応エリア",langsTitle:"対応言語",
+  contactEyebrow:"お問い合わせ",contactTitle:"お好きな方法でご連絡ください",contactP:"物件コード、ご予算、入居希望日をお送りいただければ、最適な物件を厳選します。",contactBy:"担当",
+  call:"電話",email:"メール",
+  footNote:"価格・空き状況は変更される場合があります。ご判断前にご確認ください · 更新 {d}",csvBtn:"物件データをダウンロード (CSV)",
+  back:"← 物件一覧",details:"物件詳細",highlights:"特長",calTitle:"空室カレンダー",calBooked:"予約済 / 入居中",calFree:"空室",calUnknown:"登録された予約はまだありません",calNote:"カレンダーはスタッフが更新します。入居日は改めてご確認ください。",
+  locTitle:"ロケーション",deposit:"敷金",minContract:"最短契約",pets:"ペット",furn:"家具",furnPic:"写真のとおり家具付き",parking:"駐車場",internet:"インターネット",available:"入居可能日",shortTerm:"短期賃貸",
+  yes:"可",no:"不可",
+  save:"☆ 保存",saved:"★ 保存済み",copyLine:"LINE用にコピー",share:"リンクを共有",social:"SNS投稿を作成",print:"チラシ印刷 / PDF",bookThis:"この物件を内見予約",similar:"似た物件",copied:"コピーしました",
+  slLabel:"件保存",slCompare:"比較",slCopy:"コピー",slClear:"クリア",cmpTitle:"物件比較",
+  socTitle:"SNS投稿を作成",socFormat:"サイズ",socCaption:"キャプション",socDl:"画像をダウンロード",socCopy:"キャプションをコピー",
+  scan:"スキャンして全写真の確認・内見予約",million:"M"
+}};
+const ZONE_NAMES = {
+  mapprachan:{th:"ทะเลสาบมาบประชัน",en:"Lake Mapprachan",ru:"Озеро Мапрачан",zh:"玛普拉占湖",ko:"맙프라찬 호수",ja:"マプラチャン湖"},
+  siamcc:{th:"ซอยสยามคันทรีคลับ",en:"Siam Country Club Rd",ru:"Сиам Кантри Клаб",zh:"暹罗乡村俱乐部路",ko:"시암 컨트리클럽 로드",ja:"サイアム・カントリークラブ通り"},
+  khaotalo:{th:"เขาตาโล",en:"Khao Talo",ru:"Кхао Тало",zh:"考塔罗",ko:"카오탈로",ja:"カオタロー"},
+  eastpattaya:{th:"พัทยาตะวันออก",en:"East Pattaya",ru:"Восточная Паттайя",zh:"东芭提雅",ko:"이스트 파타야",ja:"東パタヤ"},
+  pattanakarn:{th:"ถนนพัฒนาการ",en:"Pattanakarn Rd",ru:"Паттанакан",zh:"帕塔纳甘路",ko:"파타나칸 로드",ja:"パッタナカーン通り"},
+  thappraya:{th:"ถนนทัพพระยา",en:"Thappraya Rd",ru:"Таппрая",zh:"塔帕雅路",ko:"탑프라야 로드",ja:"タッププラヤー通り"},
+  pratumnak:{th:"พระตำหนัก",en:"Pratumnak Hill",ru:"Пратамнак",zh:"帕塔纳山",ko:"프라탐낙",ja:"プラタムナック"},
+  jomtien:{th:"หาดจอมเทียน",en:"Jomtien Beach",ru:"Джомтьен",zh:"宗甸海滩",ko:"좀티엔 비치",ja:"ジョムティエンビーチ"}
+};
+const LANGS = ["th","en","ru","zh","ko","ja"];
+
+/* ====================================================================
+   STATE & HELPERS
+   ==================================================================== */
+let L = LISTINGS;
+let lang = "th";
+const st = { deal:"any", type:"", zone:"", budget:"", beds:0, pool:false, sort:"rec", q:"", view:"grid" };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const t = (k, v) => { let s = (T[lang] && T[lang][k]) ?? T.en[k] ?? T.th[k] ?? k; if (v) for (const n in v) s = s.replace("{" + n + "}", v[n]); return s; };
+const zn = z => (ZONE_NAMES[z] && (ZONE_NAMES[z][lang] || ZONE_NAMES[z].en)) || z;
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+                set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const byCode = c => L.find(l => l.code === c);
+const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return p || `asn-img/${l.code}-${n}.jpg`; };
+const photos = l => l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `asn-img/${l.code}-${i + 1}.jpg`);
+const area = l => l.usable || l.size || null;
+const nf = n => Number(n).toLocaleString("en-US");
+function money(n) {
+  if (n == null) return null;
+  if (n >= 1e6) { const m = +(n / 1e6).toFixed(2); return lang === "th" ? `฿${m} ${t("million")}` : lang === "ru" ? `฿${String(m).replace(".", ",")} ${t("million")}` : `฿${m}M`; }
+  return "฿" + nf(n);
+}
+const landTxt = l => l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")} · ${nf(l.land)} ${t("sqm")}` : null;
+const listingUrl = l => location.href.split("#")[0].split("?")[0] + "#/l/" + l.code;
+const priceOf = l => st.deal === "sale" ? l.sale : st.deal === "rent" ? l.rent : (l.rent ?? l.sale);
+function toast(msg) { const el = $("#toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1600); }
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); }
+  catch (e) { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (_) {} ta.remove(); }
+  toast(t("copied"));
+}
+function opts(sel, list, val) { sel.innerHTML = list.map(([v, txt]) => `<option value="${esc(v)}"${String(v) === String(val) ? " selected" : ""}>${esc(txt)}</option>`).join(""); }
+
+const RENT_B = [[0,70000],[70000,100000],[100000,150000],[150000,1e12]];
+const SALE_B = [[0,10e6],[10e6,25e6],[25e6,50e6],[50e6,1e15]];
+const bLabel = ([a, b]) => b >= 1e11 ? `${money(a)}+` : a === 0 ? `< ${money(b)}` : `${money(a)} – ${money(b)}`;
+
+/* ====================================================================
+   CARDS
+   ==================================================================== */
+function badges(l) {
+  const b = [];
+  if (l.urgent) b.push(`<span class="badge hot">${t("urgent")}</span>`);
+  else if (l.hot) b.push(`<span class="badge hot">${t("hot")}</span>`);
+  if (l.rentWas) b.push(`<span class="badge disc">${t("discount")}</span>`);
+  b.push(`<span class="badge">${t(l.type)}</span>`);
+  return b.join("");
+}
+function specLine(l) {
+  const s = [];
+  if (l.beds) s.push(`<span>🛏 ${l.beds} ${t("beds")}</span>`);
+  if (l.baths) s.push(`<span>🛁 ${l.baths} ${t("baths")}</span>`);
+  if (area(l)) s.push(`<span>📐 ${nf(area(l))}${l.usablePlus ? "+" : ""} ${t("sqm")}</span>`);
+  else if (l.land) s.push(`<span>🌳 ${nf(Math.round(l.land / 4))} ${t("sqw")}</span>`);
+  if (l.pool) s.push(`<span>🏊 ${t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes")}</span>`);
+  return s.join("");
+}
+function priceRows(l) {
+  let h = "";
+  if (l.rent) h += `<div class="price r"><span>${t("forRent")} ${t("from")}</span><span>${l.rentWas ? `<s>${money(l.rentWas)}</s>` : ""}<b>${money(l.rent)}</b> <small>${t("perMonth")}</small></span></div>`;
+  if (l.sale) h += `<div class="price"><span>${t("forSale")} ${t("from")}</span><b>${money(l.sale)}</b></div>`;
+  return h;
+}
+const saved = () => store.get("asn-saved", []);
+function card(l, browse) {
+  const on = saved().includes(l.code), n = photos(l).length;
+  const nav = browse && n > 1 ? `<button type="button" class="cnav p" data-cnav="-1" aria-label="Previous photo">‹</button><button type="button" class="cnav n" data-cnav="1" aria-label="Next photo">›</button>` : "";
+  return `<article class="card"${browse ? ` data-card="${l.code}" data-ix="0"` : ""}>
+    <div class="card-media"><img src="${esc(photo(l, 1))}" alt="${esc(l.name)}" loading="lazy">${nav}
+      <div class="card-badges">${badges(l)}</div>
+      <span class="card-count">📷 <span class="cix">${browse ? `1 / ` : ""}</span>${n}</span></div>
+    <button type="button" class="star" data-star="${l.code}" aria-pressed="${on}" aria-label="Save">${on ? "★" : "☆"}</button>
+    <div class="card-body">
+      <span class="code">ASN-${l.code}</span>
+      <h3><a href="#/l/${l.code}">${esc(l.name)}</a></h3>
+      <p class="where">📍 ${esc(zn(l.zone))}</p>
+      <div class="specs">${specLine(l)}</div>
+      <div class="prices">${priceRows(l)}</div>
+    </div></article>`;
+}
+
+/* ====================================================================
+   HOME
+   ==================================================================== */
+let slideIx = 0, slideTimer;
+function renderHero() {
+  const sl = SLIDES.map(([c, n]) => byCode(c) && [byCode(c), n]).filter(Boolean);
+  $("#slides").innerHTML = sl.map(([l, n], i) => `<div class="slide${i === 0 ? " on" : ""}"><img src="${esc(photo(l, n))}" alt="" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></div>`).join("");
+  $("#sdots").innerHTML = sl.map((_, i) => `<button type="button" data-s="${i}" aria-label="${i + 1}" aria-current="${i === 0}"></button>`).join("");
+  const show = i => {
+    slideIx = (i + sl.length) % sl.length;
+    document.querySelectorAll(".slide").forEach((s, j) => s.classList.toggle("on", j === slideIx));
+    document.querySelectorAll("#sdots button").forEach((b, j) => b.setAttribute("aria-current", j === slideIx));
+    const [l] = sl[slideIx]; const cap = $("#scap"); cap.href = "#/l/" + l.code; cap.textContent = `${l.name} · ${zn(l.zone)} →`;
+  };
+  show(slideIx);
+  $("#sdots").onclick = e => { const b = e.target.closest("button"); if (b) { show(+b.dataset.s); restart(); } };
+  const restart = () => { clearInterval(slideTimer); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) slideTimer = setInterval(() => show(slideIx + 1), 6000); };
+  restart();
+}
+function renderStats() {
+  const rents = L.filter(l => l.rent).map(l => l.rent), sales = L.filter(l => l.sale).map(l => l.sale);
+  const zones = new Set(L.map(l => l.zone));
+  $("#stats").innerHTML = [
+    [L.length, t("statListings")], [zones.size, t("statZones")],
+    [rents.length ? money(Math.min(...rents)) : "—", t("statRent")], [sales.length ? money(Math.min(...sales)) : "—", t("statSale")], ["6", t("statLangs")]
+  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+}
+function renderServices() {
+  const ic = ["🗝️", "🌴", "🤝", "🏙️", "🛠️"];
+  $("#svc").innerHTML = [1, 2, 3, 4, 5].map((n, i) => `<div><i>${ic[i]}</i><h3>${t("svc" + n)}</h3><p>${t("svc" + n + "p")}</p></div>`).join("");
+}
+function renderHot() { $("#hotGrid").innerHTML = FEATURED.map(byCode).filter(Boolean).map(l => card(l, true)).join(""); }
+function cardPhoto(cardEl, step) {
+  const l = byCode(cardEl.dataset.card), ph = photos(l);
+  const ix = (+cardEl.dataset.ix + step + ph.length) % ph.length;
+  cardEl.dataset.ix = ix;
+  cardEl.querySelector(".card-media img").src = ph[ix];
+  cardEl.querySelector(".cix").textContent = `${ix + 1} / `;
+  new Image().src = ph[(ix + step + ph.length) % ph.length];   // warm the next one
+}
+
+function fillFilters() {
+  const types = [...new Set(L.map(l => l.type))];
+  const zones = Object.keys(ZONES).filter(z => L.some(l => l.zone === z));
+  opts($("#fType"), [["", t("allTypes")], ...types.map(x => [x, t(x)])], st.type);
+  opts($("#qsType"), [["", t("allTypes")], ...types.map(x => [x, t(x)])], "");
+  opts($("#fZone"), [["", t("allZones")], ...zones.map(z => [z, zn(z)])], st.zone);
+  opts($("#qsZone"), [["", t("allZones")], ...zones.map(z => [z, zn(z)])], "");
+  const sel = $("#fBudget");
+  let h = `<option value="">${esc(t("anyBudget"))}</option>`;
+  if (st.deal !== "sale") h += `<optgroup label="${esc(t("budgetRent"))}">` + RENT_B.map((b, i) => `<option value="r${i}">${esc(bLabel(b))}</option>`).join("") + "</optgroup>";
+  if (st.deal !== "rent") h += `<optgroup label="${esc(t("budgetSale"))}">` + SALE_B.map((b, i) => `<option value="s${i}">${esc(bLabel(b))}</option>`).join("") + "</optgroup>";
+  sel.innerHTML = h; sel.value = st.budget; if (sel.value !== st.budget) st.budget = "";
+  opts($("#fBeds"), [[0, t("anyBeds")], ...[2, 3, 4, 5].map(n => [n, t("bedsMin", { n })])], st.beds);
+  opts($("#fSort"), [["rec", t("sortRec")], ["low", t("sortLow")], ["high", t("sortHigh")], ["beds", t("sortBeds")], ["size", t("sortSize")]], st.sort);
+  document.querySelectorAll("#fDeal button").forEach(b => b.setAttribute("aria-pressed", b.dataset.deal === st.deal));
+  $("#fPool").setAttribute("aria-pressed", st.pool);
+  $("#q").value = st.q;
+}
+function filtered() {
+  const q = st.q.trim().toLowerCase();
+  let r = L.filter(l => {
+    if (st.deal === "rent" && !l.rent) return false;
+    if (st.deal === "sale" && !l.sale) return false;
+    if (st.type && l.type !== st.type) return false;
+    if (st.zone && l.zone !== st.zone) return false;
+    if (st.beds && !(l.beds >= st.beds)) return false;
+    if (st.pool && !l.pool) return false;
+    if (st.budget) {
+      const [a, b] = (st.budget[0] === "r" ? RENT_B : SALE_B)[+st.budget.slice(1)];
+      const p = st.budget[0] === "r" ? l.rent : l.sale;
+      if (p == null || p < a || p >= b) return false;
+    }
+    if (q) {
+      const hay = [l.code, "asn-" + l.code, l.name, t(l.type), ...LANGS.map(g => ZONE_NAMES[l.zone]?.[g])].join(" ").toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const P = l => priceOf(l) ?? Infinity;
+  if (st.sort === "low") r.sort((a, b) => P(a) - P(b));
+  if (st.sort === "high") r.sort((a, b) => (priceOf(b) ?? -1) - (priceOf(a) ?? -1));
+  if (st.sort === "beds") r.sort((a, b) => (b.beds || 0) - (a.beds || 0));
+  if (st.sort === "size") r.sort((a, b) => (area(b) || b.land || 0) - (area(a) || a.land || 0));
+  return r;
+}
+function renderList() {
+  const r = filtered();
+  $("#count").textContent = r.length;
+  $("#grid").hidden = st.view !== "grid"; $("#tblwrap").hidden = st.view !== "table";
+  $("#vGrid").setAttribute("aria-pressed", st.view === "grid"); $("#vTable").setAttribute("aria-pressed", st.view === "table");
+  if (!r.length) { $("#grid").hidden = false; $("#tblwrap").hidden = true; $("#grid").innerHTML = `<div class="empty" style="grid-column:1/-1">${t("noResults")}</div>`; return; }
+  $("#grid").innerHTML = r.map(card).join("");
+  $("#thead").innerHTML = `<tr><th>${t("code")}</th><th>${t("type")}</th><th>${t("zone")}</th><th class="n">${t("beds")}</th><th class="n">${t("baths")}</th><th class="n">${t("usable")}</th><th class="n">${t("land")}</th><th class="n">${t("forRent")}</th><th class="n">${t("forSale")}</th></tr>`;
+  $("#tbody").innerHTML = r.map(l => `<tr data-go="${l.code}"><td><b>ASN-${l.code}</b><br><small>${esc(l.name)}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
+    <td class="n">${l.beds ?? "—"}</td><td class="n">${l.baths ?? "—"}</td><td class="n">${area(l) ? nf(area(l)) : "—"}</td><td class="n">${l.land ? nf(Math.round(l.land / 4)) + " " + t("sqw") : "—"}</td>
+    <td class="n">${l.rent ? money(l.rent) : "—"}</td><td class="n">${l.sale ? money(l.sale) : "—"}</td></tr>`).join("");
+  renderZoneList();
+}
+
+/* ---------- map ---------- */
+let map, zoneLayer;
+function renderZoneList() {
+  const zones = Object.keys(ZONES).filter(z => L.some(l => l.zone === z));
+  $("#zlist").innerHTML = `<button type="button" data-zone="" aria-pressed="${!st.zone}"><span>${t("allZones")}</span><b>${L.length}</b></button>` +
+    zones.map(z => `<button type="button" data-zone="${z}" aria-pressed="${st.zone === z}"><span>📍 ${esc(zn(z))}</span><b>${L.filter(l => l.zone === z).length}</b></button>`).join("");
+  $("#areasList").textContent = zones.map(zn).join(" · ");
+}
+function initMap() {
+  if (!window.L || !window.L.map || map) return;
+  map = window.L.map("map", { scrollWheelZoom: false, attributionControl: true }).setView([12.912, 100.91], 12);
+  window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 17, attribution: "© OpenStreetMap" }).addTo(map);
+  zoneLayer = window.L.layerGroup().addTo(map);
+  drawZones();
+}
+function drawZones() {
+  if (!map) return;
+  zoneLayer.clearLayers();
+  const col = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim() || "#1F3A5F";
+  for (const z of Object.keys(ZONES)) {
+    const n = L.filter(l => l.zone === z).length; if (!n) continue;
+    const c = window.L.circle(ZONES[z].ll, { radius: 900, color: col, weight: 1.5, fillOpacity: st.zone === z ? .35 : .15 }).addTo(zoneLayer);
+    const m = window.L.marker(ZONES[z].ll, { icon: window.L.divIcon({ className: "", html: `<div class="zpin" style="width:30px;height:30px">${n}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) }).addTo(zoneLayer);
+    const go = () => { st.zone = z; fillFilters(); renderList(); drawZones(); document.getElementById("listings").scrollIntoView(); };
+    c.on("click", go); m.on("click", go); m.bindTooltip(zn(z));
+  }
+}
+
+/* ---------- MBTI match ---------- */
+const mq = store.get("asn-mq", { q1: "E", q2: "S", q3: "F", q4: "J", deal: "any", budget: "", beds: 0 });
+function renderMatchForm() {
+  const Q = [["q1", "E", "I"], ["q2", "S", "N"], ["q3", "T", "F"], ["q4", "J", "P"]];
+  $("#mq").innerHTML = Q.map(([k, a, b]) => `<div class="mq"><p>${t(k)}</p><div class="opts">
+    <button type="button" data-mq="${k}" data-v="${a}" aria-pressed="${mq[k] === a}">${t(k + "a")}</button>
+    <button type="button" data-mq="${k}" data-v="${b}" aria-pressed="${mq[k] === b}">${t(k + "b")}</button></div></div>`).join("");
+  opts($("#mDeal"), [["any", t("any")], ["rent", t("rent")], ["sale", t("sale")]], mq.deal);
+  const bud = mq.deal === "sale" ? [5e6, 10e6, 20e6, 30e6, 70e6] : [70000, 90000, 120000, 150000, 500000];
+  opts($("#mBudget"), [["", t("anyBudget")], ...bud.map(v => [v, "≤ " + money(v)])], mq.budget);
+  if ($("#mBudget").value !== String(mq.budget)) mq.budget = "";
+  opts($("#mBeds"), [[0, t("anyBeds")], ...[2, 3, 4, 5].map(n => [n, n + "+"])], mq.beds);
+  renderMatch();
+}
+function matchScore() {
+  const ppsqm = l => { const a = area(l) || (l.land ? l.land * .6 : null); return a ? { r: l.rent ? l.rent / a : null, s: l.sale ? l.sale / a : null } : { r: null, s: null }; };
+  const med = arr => { const s = arr.filter(x => x != null).sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)] : Infinity; };
+  const mr = med(L.map(l => ppsqm(l).r)), ms = med(L.map(l => ppsqm(l).s));
+  const type = mq.q1 + mq.q2 + mq.q3 + mq.q4;
+  const rows = L.map(l => {
+    if (mq.deal === "rent" && !l.rent) return null;
+    if (mq.deal === "sale" && !l.sale) return null;
+    if (mq.beds && !(l.beds >= mq.beds)) return null;
+    if (mq.budget) { const p = mq.deal === "sale" ? l.sale : (l.rent ?? (mq.deal === "any" ? null : l.sale)); if (p == null || p > +mq.budget) return null; }
+    const pp = ppsqm(l);
+    const f = {
+      social: (l.beds || 0) >= 5 || (area(l) || 0) >= 500 || l.tags.includes("basketball") || l.tags.includes("rooftop") || l.tags.includes("theater"),
+      quiet: l.type !== "condo" && (l.beds || 0) <= 4 && (l.land || 0) >= 450,
+      design: l.style === "modern",
+      value: (pp.r != null && pp.r <= mr) || (pp.s != null && pp.s <= ms),
+      family: (l.beds || 0) >= 3 && ((l.land || 0) >= 400 || l.tags.includes("nearSchool")),
+      long: l.type !== "condo" || !!l.sale,
+      flex: l.type === "condo" || (l.rent && l.rent <= 90000),
+      view: l.tags.includes("seaView")
+    };
+    let s = 0; const why = [];
+    const add = (cond, pts, r) => { if (cond) { s += pts; why.push(r); } };
+    add(mq.q1 === "E" && f.social, 3, "rSocial"); add(mq.q1 === "I" && f.quiet, 3, "rQuiet");
+    add(mq.q2 === "N" && f.design, 2, "rDesign"); add(mq.q2 === "S" && f.value, 2, "rValue");
+    add(mq.q3 === "F" && f.family, 2, "rFamily"); add(mq.q3 === "T" && f.value && mq.q2 !== "S", 2, "rValue");
+    add(mq.q4 === "J" && f.long, 1, "rLong"); add(mq.q4 === "P" && f.flex, 2, "rFlex");
+    add(f.view && (mq.q2 === "N" || mq.q4 === "P"), 1, "rView");
+    if (l.hot) s += .5;
+    return { l, s, why: [...new Set(why)].slice(0, 3) };
+  }).filter(Boolean).sort((a, b) => b.s - a.s);
+  return { type, rows };
+}
+function renderMatch() {
+  const { type, rows } = matchScore();
+  const desc = type.split("").map(c => t("d" + c)).join(" · ");
+  $("#mres").innerHTML = `<div class="mtype"><b>${type}</b><span>${esc(desc)}</span></div>
+    <p style="margin-top:14px;font-weight:600">${t("matchRes")}</p>` +
+    (rows.length ? rows.slice(0, 3).map(({ l, why }) => `<a class="mpick" href="#/l/${l.code}"><img src="${esc(photo(l, 1))}" alt="" loading="lazy">
+      <div><h4>${esc(l.name)}</h4><small>📍 ${esc(zn(l.zone))} · ${l.rent ? money(l.rent) + " " + t("perMonth") : money(l.sale)}</small>
+      <em>${why.map(w => "✓ " + t(w)).join("  ")}</em></div></a>`).join("") : `<p style="margin-top:10px;color:#C9D3E0">${t("matchNone")}</p>`);
+}
+
+/* ---------- booking ---------- */
+function renderBookForm(pre) {
+  const cur = pre || $("#bListing").value || "";
+  opts($("#bListing"), [["", t("anyListing")], ...L.map(l => [l.code, `ASN-${l.code} · ${l.name}`])], cur);
+  const keep = id => $(id).value;
+  const d = keep("#bDur"), p = keep("#bPets"), pu = keep("#bPurpose"), v = keep("#bView"), c = keep("#bCh");
+  opts($("#bDur"), [1, 2, 3, 4, 5].map(n => ["dur" + n, t("dur" + n)]), d || "dur3");
+  opts($("#bPets"), [0, 1, 2, 3].map(n => ["pet" + n, t("pet" + n)]), p || "pet0");
+  opts($("#bPurpose"), [1, 2, 3].map(n => ["pur" + n, t("pur" + n)]), pu || "pur1");
+  opts($("#bView"), [1, 2].map(n => ["view" + n, t("view" + n)]), v || "view1");
+  opts($("#bCh"), ["LINE", "WhatsApp", "WeChat", "Telegram", "Phone", "Email"].map(x => [x, x === "Phone" ? t("call") : x === "Email" ? t("email") : x]), c || "LINE");
+}
+function bookMessage() {
+  const l = byCode($("#bListing").value);
+  const lab = k => t(k) + ": ";
+  const val = id => $(id).value.trim();
+  const lines = [t("msgHi") + (l ? ` — ASN-${l.code} ${l.name}` : ""), ""];
+  if (l) lines.push(listingUrl(l));
+  const add = (k, v) => { if (v) lines.push(lab(k) + v); };
+  add("fName", val("#bName")); add("fNation", val("#bNation"));
+  add("fBudget", val("#bBudget") ? "฿" + val("#bBudget") : ""); add("fMoveIn", val("#bMove"));
+  add("fDuration", t(val("#bDur"))); add("fOcc", val("#bOcc")); add("fPets", t(val("#bPets")));
+  add("fPurpose", t(val("#bPurpose"))); add("fViewing", t(val("#bView"))); add("fDate", val("#bDate"));
+  add("fChannel", `${val("#bCh")} — ${val("#bHandle")}`); add("fNote", val("#bNote"));
+  return lines.join("\n");
+}
+
+/* ---------- reviews / about / contact ---------- */
+function renderReviews() {
+  $("#reviews-sec").hidden = !REVIEWS.length;
+  $("#reviews").innerHTML = REVIEWS.map(r => `<div class="review"><div class="stars">${"★".repeat(r.stars || 5)}</div><p>${esc(r.text)}</p><small>${esc(r.name)} · ${esc(r.date || "")}</small></div>`).join("");
+}
+function renderAbout() {
+  $("#why").innerHTML = [["100+", t("why1")], ["6", t("why2")], ["1:1", t("why3")]].map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
+}
+const fmtPhone = p => p.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
+function renderContact() {
+  $("#contactPerson").textContent = `${t("contactBy")}: ${CONTACT.person}`;
+  const C = CONTACT;
+  const ch = [
+    ["LINE", "#06C755", "L", "https://line.me/ti/p/~" + encodeURIComponent(C.line), C.line],
+    ["WhatsApp", "#25D366", "W", "https://wa.me/" + C.whatsapp, "+" + C.whatsapp],
+    [t("call"), "#1F3A5F", "☎", "tel:" + C.phones[0], C.phones.map(fmtPhone).join(" · ")],
+    ["Telegram", "#229ED9", "T", "https://t.me/" + C.telegram, C.telegram],
+    ["WeChat", "#07C160", "微", "#", "ID: " + C.wechat, true],
+    [t("email"), "#B57A27", "@", "mailto:" + C.email, C.email],
+    ["Facebook", "#1877F2", "f", C.facebook, "ASN Exclusive Property"]
+  ];
+  $("#channels").innerHTML = ch.map(([n, col, ic, href, v, cp]) => `<a href="${esc(href)}" ${cp ? `data-copy="${esc(C.wechat)}"` : href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
+    <i style="background:${col}">${ic}</i><div style="min-width:0"><span>${esc(n)}</span><b>${esc(v)}</b></div></a>`).join("");
+}
+
+/* ====================================================================
+   DETAIL PAGE
+   ==================================================================== */
+let dmap;
+function lineText(l) {
+  const s = [`🏡 ${l.name} (ASN-${l.code})`, `📍 ${zn(l.zone)} · ${t(l.type)}`];
+  const sp = [];
+  if (l.beds) sp.push(`🛏 ${l.beds} ${t("beds")}`); if (l.baths) sp.push(`🛁 ${l.baths} ${t("baths")}`);
+  if (sp.length) s.push(sp.join(" · "));
+  if (area(l)) s.push(`📐 ${t(l.size ? "size" : "usable")} ${nf(area(l))}${l.usablePlus ? "+" : ""} ${t("sqm")}`);
+  if (l.land) s.push(`🌳 ${t("land")} ${landTxt(l)}`);
+  if (l.pool) s.push(`🏊 ${t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes")}`);
+  if (l.tags.length) s.push("✨ " + l.tags.map(x => t("tag_" + x)).join(" · "));
+  if (l.rent) s.push(`💰 ${t("forRent")} ${money(l.rent)} ${t("perMonth")}${l.rentWas ? ` (${t("wasPrice")} ${money(l.rentWas)})` : ""}`);
+  if (l.sale) s.push(`💰 ${t("forSale")} ${money(l.sale)}${l.urgent ? " 🔥 " + t("urgent") : ""}`);
+  s.push("", "🔗 " + listingUrl(l), `📞 ${CONTACT.person} ${fmtPhone(CONTACT.phones[0])} · LINE ${CONTACT.line}`);
+  return s.join("\n");
+}
+function kvItem(label, v) { return `<div><span>${esc(label)}</span>${v == null || v === "" ? `<b class="ask">${t("ask")}</b>` : `<b>${esc(v)}</b>`}</div>`; }
+function calendar(l) {
+  const booked = (l.booked || []).map(([a, b]) => [new Date(a + "T00:00"), new Date(b + "T00:00")]);
+  const avail = l.available ? new Date(l.available + "T00:00") : null;
+  const known = booked.length || avail;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const loc = { th: "th-TH", en: "en-GB", ru: "ru-RU", zh: "zh-CN", ko: "ko-KR", ja: "ja-JP" }[lang];
+  const dow = [...Array(7)].map((_, i) => new Date(2026, 1, i + 2).toLocaleDateString(loc, { weekday: "narrow" }));
+  let h = '<div class="cal">';
+  for (let m = 0; m < 2; m++) {
+    const first = new Date(today.getFullYear(), today.getMonth() + m, 1);
+    const days = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+    const pad = (first.getDay() + 6) % 7;
+    h += `<div class="cal-m"><h3>${first.toLocaleDateString(loc, { month: "long", year: "numeric" })}</h3><div class="cal-g">${dow.map(d => `<span class="dow">${d}</span>`).join("")}${"<span></span>".repeat(pad)}`;
+    for (let d = 1; d <= days; d++) {
+      const dt = new Date(first.getFullYear(), first.getMonth(), d);
+      let c = "d";
+      if (dt < today) c += " past";
+      else if (booked.some(([a, b]) => dt >= a && dt <= b) || (avail && dt < avail)) c += " bk";
+      else if (known) c += " free";
+      h += `<span class="${c}">${d}</span>`;
+    }
+    h += "</div></div>";
+  }
+  h += "</div>";
+  h += known ? `<div class="cal-leg"><span><i style="background:var(--rent-soft);border:1px solid var(--rent)"></i>${t("calFree")}</span><span><i style="background:var(--hot-soft);border:1px solid var(--hot)"></i>${t("calBooked")}</span></div>`
+             : `<p class="note" style="margin-top:10px">${t("calUnknown")}</p>`;
+  return h + `<p class="note">${t("calNote")}</p>`;
+}
+function renderDetail(code) {
+  const l = byCode(code);
+  if (!l) { location.hash = "#/"; return; }
+  const ph = photos(l);
+  const on = saved().includes(l.code);
+  const yn = v => v == null ? null : v ? t("yes") : t("no");
+  const kv = [
+    kvItem(t("code"), "ASN-" + l.code), kvItem(t("type"), t(l.type)), kvItem(t("zone"), zn(l.zone)),
+    kvItem(t("beds"), l.beds), kvItem(t("baths"), l.baths),
+    l.size ? kvItem(t("size"), `${l.size} ${t("sqm")}`) : kvItem(t("usable"), l.usable ? `${nf(l.usable)}${l.usablePlus ? "+" : ""} ${t("sqm")}` : null),
+    l.type === "condo" ? kvItem(t("floor"), l.floor ? l.floor + (l.building ? ` · ${t("building")} ${l.building}` : "") : null) : kvItem(t("land"), landTxt(l)),
+    kvItem(t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null),
+    kvItem(t("furn"), l.furn ? l.furn : t("furnPic")), kvItem(t("pets"), yn(l.pets)), kvItem(t("parking"), l.parking),
+    kvItem(t("internet"), yn(l.internet)), kvItem(t("available"), l.available),
+    ...(l.rent ? [kvItem(t("deposit"), l.deposit), kvItem(t("minContract"), l.minContract)] : []),
+    kvItem(t("shortTerm"), l.shortTerm ? money(l.shortTerm) + " " + t("perNight") : null)
+  ].join("");
+  const similar = L.filter(x => x.code !== l.code).map(x => ({ x, s: (x.zone === l.zone ? 2 : 0) + (x.type === l.type ? 1 : 0) + (Math.abs((x.beds || 0) - (l.beds || 0)) <= 1 ? 1 : 0) }))
+    .sort((a, b) => b.s - a.s).slice(0, 3).map(o => o.x);
+  $("#detailView").innerHTML = `
+  <div class="wrap">
+    <nav class="crumb"><a href="#/listings">${t("back")}</a></nav>
+    <div class="d-head"><div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${badges(l)}<span class="code" style="align-self:center">ASN-${l.code}</span></div>
+      <h1>${esc(l.name)}</h1><p class="where">📍 ${esc(zn(l.zone))}</p></div>
+      <button type="button" class="btn" data-dstar="${l.code}">${on ? t("saved") : t("save")}</button></div>
+    <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(l.name)} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
+    <div class="d-grid">
+      <div>
+        ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
+        <div class="d-sec"><h2>${t("details")}</h2><div class="kv">${kv}</div></div>
+        ${l.type !== "condo" || l.rent ? `<div class="d-sec"><h2>${t("calTitle")}</h2>${calendar(l)}</div>` : ""}
+        <div class="d-sec" style="border:0"><h2>${t("locTitle")}</h2><div id="dmap"></div><p class="mapnote">${t("mapNote")}</p></div>
+      </div>
+      <aside class="d-side">
+        <div class="pbox">
+          ${priceRows(l)}
+          <div class="acts">
+            <a class="btn solid" href="#/book/${l.code}" style="flex-basis:100%">📅 ${t("bookThis")}</a>
+            <button type="button" class="btn" data-act="line">💬 ${t("copyLine")}</button>
+            <button type="button" class="btn" data-act="share">🔗 ${t("share")}</button>
+            <button type="button" class="btn" data-act="social">📣 ${t("social")}</button>
+            <button type="button" class="btn" data-act="print">🖨️ ${t("print")}</button>
+          </div>
+        </div>
+        <div class="ch" style="grid-template-columns:1fr 1fr">
+          <a href="https://line.me/ti/p/~${encodeURIComponent(CONTACT.line)}" target="_blank" rel="noopener"><i style="background:#06C755">L</i><div><span>LINE</span><b>${esc(CONTACT.line)}</b></div></a>
+          <a href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(lineText(l))}" target="_blank" rel="noopener"><i style="background:#25D366">W</i><div><span>WhatsApp</span><b>+${CONTACT.whatsapp}</b></div></a>
+        </div>
+      </aside>
+    </div>
+    <section class="sec" style="padding-top:30px"><div class="sec-hd"><h2 style="font-size:24px">${t("similar")}</h2></div><div class="grid">${similar.map(card).join("")}</div></section>
+  </div>
+  <div class="flyer">
+    <div class="fl-hd"><div><b>ASN</b><small>EXCLUSIVE PROPERTY</small></div><div style="text-align:right;font-size:9pt">ASN-${l.code}<br>${esc(zn(l.zone))}</div></div>
+    <img class="fl-hero" src="${esc(ph[0])}" alt="">
+    <div class="fl-row">${ph.slice(1, 3).map(p => `<img src="${esc(p)}" alt="">`).join("")}</div>
+    <h1 class="fl-t">${esc(l.name)}</h1>
+    <div class="fl-p">${l.rent ? `<span>${t("forRent")} ${money(l.rent)} ${t("perMonth")}</span>` : ""}${l.sale ? `<span>${t("forSale")} ${money(l.sale)}</span>` : ""}</div>
+    <div class="fl-kv">${[[t("type"), t(l.type)], [t("beds"), l.beds], [t("baths"), l.baths], [t(l.size ? "size" : "usable"), area(l) ? nf(area(l)) + " " + t("sqm") : null], [t("land"), landTxt(l)], [t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null]]
+      .filter(([, v]) => v != null).map(([k, v]) => `<div><span>${esc(k)}</span>${esc(v)}</div>`).join("")}</div>
+    ${l.tags.length ? `<p style="margin-top:4mm">✨ ${l.tags.map(x => esc(t("tag_" + x))).join(" · ")}</p>` : ""}
+    <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ASN Exclusive Property</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}</p>
+      <div style="text-align:center"><img id="flQr" alt="QR"><p style="font-size:8pt;max-width:40mm">${t("scan")}</p></div></div>
+  </div>`;
+  $("#detailView").dataset.code = l.code;
+  try { const q = qrcode(0, "M"); q.addData(listingUrl(l)); q.make(); $("#flQr").src = q.createDataURL(6, 2); } catch (e) {}
+  if (window.L && window.L.map) {
+    if (dmap) { dmap.remove(); dmap = null; }
+    const z = ZONES[l.zone];
+    dmap = window.L.map("dmap", { scrollWheelZoom: false }).setView(z.ll, 13);
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 17, attribution: "© OpenStreetMap" }).addTo(dmap);
+    window.L.circle(z.ll, { radius: 900, color: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(), weight: 1.5, fillOpacity: .2 }).addTo(dmap).bindTooltip(zn(l.zone), { permanent: true, direction: "center" });
+  }
+  document.title = `${l.name} · ASN Exclusive Property`;
+}
+
+/* ---------- lightbox ---------- */
+let lbList = [], lbIx = 0;
+function lb(i) { lbIx = (i + lbList.length) % lbList.length; $("#lbImg").src = lbList[lbIx]; $("#lbTitle").textContent = `${lbIx + 1} / ${lbList.length}`; }
+
+/* ---------- shortlist & compare ---------- */
+function renderSl() {
+  const s = saved().filter(byCode);
+  $("#slbar").hidden = !s.length; $("#slCount").textContent = s.length;
+}
+function toggleSave(code) {
+  let s = saved(); s = s.includes(code) ? s.filter(c => c !== code) : [...s, code];
+  store.set("asn-saved", s); renderSl();
+  document.querySelectorAll(`[data-star="${code}"]`).forEach(b => { const on = s.includes(code); b.setAttribute("aria-pressed", on); b.textContent = on ? "★" : "☆"; });
+  const d = document.querySelector(`[data-dstar="${code}"]`); if (d) d.textContent = s.includes(code) ? t("saved") : t("save");
+}
+function renderCompare() {
+  const ls = saved().map(byCode).filter(Boolean);
+  const row = (label, f) => `<tr><th>${esc(label)}</th>${ls.map(l => `<td>${f(l) ?? "—"}</td>`).join("")}</tr>`;
+  $("#cmpBody").innerHTML = `<table><tbody>
+    <tr><th></th>${ls.map(l => `<td><a href="#/l/${l.code}" data-close><img src="${esc(photo(l, 1))}" alt=""></a><b style="display:block;margin-top:6px">${esc(l.name)}</b><span class="code">ASN-${l.code}</span></td>`).join("")}</tr>
+    ${row(t("type"), l => t(l.type))}${row(t("zone"), l => esc(zn(l.zone)))}
+    ${row(t("forRent"), l => l.rent ? money(l.rent) + " " + t("perMonth") : null)}${row(t("forSale"), l => money(l.sale))}
+    ${row(t("beds"), l => l.beds)}${row(t("baths"), l => l.baths)}
+    ${row(t("usable"), l => area(l) ? nf(area(l)) + " " + t("sqm") : null)}${row(t("land"), l => landTxt(l))}
+    ${row(t("pool"), l => l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null)}
+    ${row(t("highlights"), l => l.tags.map(x => esc(t("tag_" + x))).join("<br>") || null)}
+    <tr><th></th>${ls.map(l => `<td><button type="button" class="btn sm" data-unsave="${l.code}">✕</button></td>`).join("")}</tr>
+  </tbody></table>`;
+}
+
+/* ---------- social post ---------- */
+let socFmt = "post", socCode = null;
+const SOC = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920] };
+function loadImg(src) { return new Promise((res, rej) => { const i = new Image(); i.crossOrigin = "anonymous"; i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+async function drawSocial() {
+  const l = byCode(socCode); if (!l) return;
+  const [W, H] = SOC[socFmt]; const cv = $("#socCanvas"); cv.width = W; cv.height = H; const g = cv.getContext("2d");
+  try { await document.fonts.ready; } catch (e) {}
+  g.fillStyle = "#13263F"; g.fillRect(0, 0, W, H);
+  try {
+    const im = await loadImg(photo(l, 1));
+    const s = Math.max(W / im.width, H / im.height), w = im.width * s, h = im.height * s;
+    g.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
+  } catch (e) {}
+  const gr = g.createLinearGradient(0, H * .35, 0, H); gr.addColorStop(0, "rgba(10,20,34,0)"); gr.addColorStop(1, "rgba(10,20,34,.92)");
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  const tg = g.createLinearGradient(0, 0, 0, 200); tg.addColorStop(0, "rgba(10,20,34,.6)"); tg.addColorStop(1, "rgba(10,20,34,0)"); g.fillStyle = tg; g.fillRect(0, 0, W, 200);
+  const F = "'IBM Plex Sans Thai','PingFang SC','Hiragino Sans','Apple SD Gothic Neo',sans-serif";
+  g.fillStyle = "#fff"; g.font = `700 44px Fraunces, Georgia, serif`; g.fillText("ASN", 60, 96);
+  g.fillStyle = "#E9C27F"; g.font = `700 20px ${F}`; g.fillText("EXCLUSIVE PROPERTY", 60, 126);
+  let badge = l.urgent ? t("urgent") : l.rentWas ? t("discount") : l.hot ? t("hot") : t(l.type);
+  g.font = `700 28px ${F}`; const bw = g.measureText(badge).width + 40;
+  g.fillStyle = l.urgent || l.hot ? "#C2452D" : "#B57A27"; roundRect(g, W - 60 - bw, 62, bw, 54, 12); g.fill();
+  g.fillStyle = "#fff"; g.fillText(badge, W - 60 - bw + 20, 99);
+  let y = H - 90;
+  g.fillStyle = "rgba(255,255,255,.85)"; g.font = `500 28px ${F}`;
+  g.fillText(`LINE ${CONTACT.line}  ·  ☎ ${fmtPhone(CONTACT.phones[0])}`, 60, y);
+  y -= 70;
+  const pr = [];
+  if (l.rent) pr.push(`${t("forRent")} ${money(l.rent)}${t("perMonth")}`);
+  if (l.sale) pr.push(`${t("forSale")} ${money(l.sale)}`);
+  g.fillStyle = "#E9C27F"; g.font = `700 ${pr.length > 1 ? 44 : 54}px ${F}`;
+  for (const p of pr.reverse()) { g.fillText(p, 60, y); y -= pr.length > 1 ? 58 : 66; }
+  const sp = []; if (l.beds) sp.push(`${l.beds} ${t("beds")}`); if (l.baths) sp.push(`${l.baths} ${t("baths")}`); if (area(l)) sp.push(`${nf(area(l))} ${t("sqm")}`); else if (l.land) sp.push(`${nf(Math.round(l.land / 4))} ${t("sqw")}`);
+  g.fillStyle = "#fff"; g.font = `500 32px ${F}`; g.fillText(sp.join("  ·  "), 60, y); y -= 56;
+  g.font = `500 30px ${F}`; g.fillStyle = "rgba(255,255,255,.85)"; g.fillText("📍 " + zn(l.zone), 60, y); y -= 24;
+  g.fillStyle = "#fff"; g.font = `700 64px ${F}`;
+  const lines = wrap(g, l.name, W - 120).slice(0, 2).reverse();
+  for (const ln of lines) { y -= 76; g.fillText(ln, 60, y + 52); }
+  $("#socCap").value = lineText(l) + "\n\n#Pattaya #PattayaRealEstate #PoolVilla #" + (l.type === "condo" ? "PattayaCondo" : "PattayaHouse") + " #ASNExclusiveProperty";
+}
+function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
+
+/* ---------- CSV (export + Google Sheet import) ---------- */
+const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked"];
+function exportCSV() {
+  const cell = v => { const s = Array.isArray(v) ? v.join("|") : v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  const rows = L.map(l => CSV_COLS.map(c => c === "photos" ? cell(photos(l)) : c === "booked" ? cell((l.booked || []).map(r => r.join(">"))) : cell(l[c])).join(","));
+  const blob = new Blob(["﻿" + [CSV_COLS.join(","), ...rows].join("\n")], { type: "text/csv" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "asn-listings.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function parseCSV(txt) {
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < txt.length; i++) {
+    const c = txt[i];
+    if (q) { if (c === '"' && txt[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+    else if (c === '"') q = true; else if (c === ",") { row.push(cur); cur = ""; } else if (c === "\n" || c === "\r") { if (c === "\r" && txt[i + 1] === "\n") i++; row.push(cur); rows.push(row); row = []; cur = ""; } else cur += c;
+  }
+  if (cur || row.length) { row.push(cur); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim()));
+}
+async function loadSheet() {
+  if (!SHEET_CSV) return false;
+  try {
+    const res = await fetch(SHEET_CSV, { cache: "no-store" }); if (!res.ok) return false;
+    const [hd, ...rows] = parseCSV((await res.text()).replace(/^﻿/, ""));
+    const num = v => v === "" ? null : +String(v).replace(/[^\d.]/g, "");
+    const bool = v => v === "" ? null : /^(1|true|yes|y|ใช่|ได้)$/i.test(v);
+    const out = rows.map(r => { const o = {}; hd.forEach((h, i) => o[h.trim()] = (r[i] ?? "").trim()); return o; }).filter(o => o.code).map(o => ({
+      code: o.code, name: o.name, type: o.type || "house", zone: ZONES[o.zone] ? o.zone : "eastpattaya",
+      rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
+      size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
+      urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm),
+      booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
+      photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
+    }));
+    if (out.length) { L = out; return true; }
+  } catch (e) {}
+  return false;
+}
+
+/* ====================================================================
+   I18N, ROUTER, EVENTS
+   ==================================================================== */
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  $("#lang").value = lang;
+  $("#footNote").textContent = t("footNote", { d: UPDATED });
+}
+function renderAll() {
+  applyI18n(); renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
+  renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones();
+  if (!$("#detailView").hidden && $("#detailView").dataset.code) renderDetail($("#detailView").dataset.code);
+}
+const SECTIONS = { listings: "listings", map: "map-sec", match: "match", book: "book", about: "about", contact: "contact" };
+function route() {
+  const h = location.hash.replace(/^#\/?/, "");
+  const [a, b] = h.split("/");
+  $("#nav").classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded", "false");
+  if (a === "l" && b) {
+    $("#homeView").hidden = true; $("#detailView").hidden = false;
+    renderDetail(b); window.scrollTo(0, 0); return;
+  }
+  document.title = "ASN Exclusive Property";
+  const wasDetail = !$("#detailView").hidden;
+  $("#detailView").hidden = true; $("#homeView").hidden = false;
+  if (wasDetail) initMap(), map && map.invalidateSize();
+  if (a === "book" && b) { renderBookForm(b); }
+  const id = SECTIONS[a];
+  requestAnimationFrame(() => { if (id) document.getElementById(id).scrollIntoView(); else if (!a || a === "") window.scrollTo(0, wasDetail ? 0 : window.scrollY); });
+}
+
+document.addEventListener("click", e => {
+  const cn = e.target.closest("[data-cnav]");
+  if (cn) { e.preventDefault(); cardPhoto(cn.closest("[data-card]"), +cn.dataset.cnav); return; }
+  const el = e.target.closest("[data-star],[data-dstar],[data-go],[data-zone],[data-mq],[data-lb],[data-act],[data-close],[data-unsave],[data-copy],[data-deal],[data-qdeal],[data-fmt]");
+  if (!el) return;
+  const d = el.dataset;
+  if (d.star || d.dstar) { e.preventDefault(); toggleSave(d.star || d.dstar); }
+  else if (d.go) location.hash = "#/l/" + d.go;
+  else if (d.zone !== undefined) { st.zone = d.zone; fillFilters(); renderList(); drawZones(); if (map && d.zone) map.setView(ZONES[d.zone].ll, 13); }
+  else if (d.mq) { mq[d.mq] = d.v; store.set("asn-mq", mq); renderMatchForm(); }
+  else if (d.lb) { lbList = photos(byCode($("#detailView").dataset.code)); lb(+d.lb); $("#lbDlg").showModal(); }
+  else if (d.act) {
+    const l = byCode($("#detailView").dataset.code);
+    if (d.act === "line") copy(lineText(l));
+    if (d.act === "share") { if (navigator.share) navigator.share({ title: l.name, text: `${l.name} · ASN Exclusive Property`, url: listingUrl(l) }).catch(() => {}); else copy(listingUrl(l)); }
+    if (d.act === "social") { socCode = l.code; $("#socDlg").showModal(); drawSocial(); }
+    if (d.act === "print") window.print();
+  }
+  else if (d.close !== undefined) el.closest("dialog").close();
+  else if (d.unsave) { toggleSave(d.unsave); if (!saved().length) $("#cmpDlg").close(); else renderCompare(); }
+  else if (d.copy) { e.preventDefault(); copy(d.copy); }
+  else if (d.deal) { st.deal = d.deal; st.budget = ""; fillFilters(); renderList(); }
+  else if (d.qdeal) { document.querySelectorAll("[data-qdeal]").forEach(b => b.setAttribute("aria-pressed", b === el)); }
+  else if (d.fmt) { socFmt = d.fmt; document.querySelectorAll("[data-fmt]").forEach(b => b.setAttribute("aria-pressed", b === el)); drawSocial(); }
+});
+$("#qs").addEventListener("submit", e => {
+  e.preventDefault();
+  st.deal = document.querySelector("[data-qdeal][aria-pressed='true']").dataset.qdeal;
+  st.type = $("#qsType").value; st.zone = $("#qsZone").value; st.budget = "";
+  fillFilters(); renderList(); drawZones(); document.getElementById("listings").scrollIntoView();
+});
+$("#q").addEventListener("input", e => { st.q = e.target.value; renderList(); });
+for (const [id, k] of [["#fType", "type"], ["#fZone", "zone"], ["#fBudget", "budget"], ["#fSort", "sort"]]) $(id).addEventListener("change", e => { st[k] = e.target.value; renderList(); if (k === "zone") drawZones(); });
+$("#fBeds").addEventListener("change", e => { st.beds = +e.target.value; renderList(); });
+$("#fPool").addEventListener("click", () => { st.pool = !st.pool; $("#fPool").setAttribute("aria-pressed", st.pool); renderList(); });
+$("#vGrid").addEventListener("click", () => { st.view = "grid"; renderList(); });
+$("#vTable").addEventListener("click", () => { st.view = "table"; renderList(); });
+$("#reset").addEventListener("click", () => { Object.assign(st, { deal: "any", type: "", zone: "", budget: "", beds: 0, pool: false, sort: "rec", q: "" }); fillFilters(); renderList(); drawZones(); });
+$("#mDeal").addEventListener("change", e => { mq.deal = e.target.value; mq.budget = ""; store.set("asn-mq", mq); renderMatchForm(); });
+$("#mBudget").addEventListener("change", e => { mq.budget = e.target.value; store.set("asn-mq", mq); renderMatch(); });
+$("#mBeds").addEventListener("change", e => { mq.beds = +e.target.value; store.set("asn-mq", mq); renderMatch(); });
+$("#bookForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const msg = bookMessage();
+  $("#bMsg").textContent = msg; $("#bOut").hidden = false;
+  $("#bWa").href = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(msg)}`;
+  $("#bMail").href = `mailto:${CONTACT.email}?subject=${encodeURIComponent("Viewing request — ASN Exclusive Property")}&body=${encodeURIComponent(msg)}`;
+});
+$("#bCopy").addEventListener("click", () => copy($("#bMsg").textContent));
+$("#bLine").addEventListener("click", () => { copy($("#bMsg").textContent); window.open("https://line.me/ti/p/~" + encodeURIComponent(CONTACT.line), "_blank", "noopener"); });
+$("#slCompare").addEventListener("click", () => { renderCompare(); $("#cmpDlg").showModal(); });
+$("#slCopy").addEventListener("click", () => copy(saved().map(byCode).filter(Boolean).map(lineText).join("\n\n———\n\n")));
+$("#slClear").addEventListener("click", () => { store.set("asn-saved", []); renderSl(); document.querySelectorAll("[data-star]").forEach(b => { b.setAttribute("aria-pressed", false); b.textContent = "☆"; }); });
+$("#lbPrev").addEventListener("click", () => lb(lbIx - 1));
+$("#lbNext").addEventListener("click", () => lb(lbIx + 1));
+$("#lbDlg").addEventListener("keydown", e => { if (e.key === "ArrowLeft") lb(lbIx - 1); if (e.key === "ArrowRight") lb(lbIx + 1); });
+$("#socDl").addEventListener("click", () => { const a = document.createElement("a"); a.download = `ASN-${socCode}-${socFmt}.png`; a.href = $("#socCanvas").toDataURL("image/png"); a.click(); });
+$("#socCopy").addEventListener("click", () => copy($("#socCap").value));
+$("#csvBtn").addEventListener("click", exportCSV);
+$("#menuBtn").addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); $("#menuBtn").setAttribute("aria-expanded", o); });
+$("#lang").addEventListener("change", e => { lang = e.target.value; store.set("asn-lang", lang); renderAll(); });
+document.querySelectorAll("dialog").forEach(dl => dl.addEventListener("click", e => { if (e.target === dl) dl.close(); }));
+window.addEventListener("hashchange", route);
+
+(async function init() {
+  const qp = new URLSearchParams(location.search).get("lang");
+  const nav = (navigator.language || "th").slice(0, 2);
+  lang = LANGS.includes(qp) ? qp : store.get("asn-lang", null) || (LANGS.includes(nav) ? nav : "th");
+  if (!LANGS.includes(lang)) lang = "th";
+  // legacy share links: ?l=H01
+  const ql = new URLSearchParams(location.search).get("l");
+  if (ql && !location.hash) location.hash = "#/l/" + ql;
+  renderAll(); initMap(); route();
+  if (await loadSheet()) renderAll();
+})();
+</script>
+</body>
+</html>
