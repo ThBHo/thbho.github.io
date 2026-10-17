@@ -283,6 +283,9 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .gal button:first-child{grid-row:span 2}
 .gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
 .gal button:hover img{transform:scale(1.03)}
+.phmeta{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.phmeta b{color:var(--ink-2);font-weight:600}
+.phnote{margin-top:6px;font-size:12px;line-height:1.5;color:var(--muted);border-left:3px solid var(--accent);padding:6px 10px;background:var(--accent-soft);border-radius:0 8px 8px 0}
 .gal .more{position:absolute;inset:0;background:rgba(0,0,0,.5);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px}
 @media (max-width:700px){ .gal{grid-template-columns:1fr 1fr;grid-template-rows:2fr 1fr;height:auto} .gal button:first-child{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3} .gal button{aspect-ratio:4/3} .gal button:nth-child(n+4){display:none} }
 .d-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:28px;margin-top:24px;align-items:start}
@@ -631,6 +634,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 /* =====================================================================
    HOW TO UPDATE LISTINGS
@@ -648,6 +652,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
    ===================================================================== */
 const SHEET_CSV = "";
 const UPDATED = "2026-10-17";
+const PHOTO_DATE = "2026-10-17";   // default photo upload date; override per listing with photoDate
 
 const CONTACT = {
   person: "Moshi",
@@ -692,6 +697,7 @@ const LISTINGS = [
   { code:"C02", name:"Duplex · Pratumnak Soi 4", type:"condo", zone:"pratumnak", rent:66000, sale:null, beds:3, baths:2, size:200, floor:"6–7", pool:"shared", style:"modern", tags:["duplex","seaView"], photos:7 }
 ];
 // Optional per-listing fields (shown as "ask" until filled):
+//   photoDate:"2026-10-17"   // date this listing's photos were uploaded
 //   deposit:"2 months", minContract:"1 year", pets:true|false, furn:"full"|"part"|"none",
 //   parking:2, internet:true, available:"2026-11-01", shortTerm:4500 (per night),
 //   booked:[["2026-11-10","2026-12-20"]]   // calendar — rented / reserved ranges
@@ -767,6 +773,7 @@ th:{
   save:"☆ บันทึก",saved:"★ บันทึกแล้ว",copyLine:"คัดลอกข้อความส่ง LINE",share:"แชร์ลิงก์",social:"สร้างโพสต์โซเชียล",print:"พิมพ์ใบประกาศ PDF",bookThis:"นัดชมทรัพย์นี้",similar:"ทรัพย์ใกล้เคียง",copied:"คัดลอกแล้ว",
   slLabel:"รายการที่บันทึก",slCompare:"เปรียบเทียบ",slCopy:"คัดลอก",slClear:"ล้าง",cmpTitle:"เปรียบเทียบทรัพย์",
   socTitle:"สร้างโพสต์โซเชียล",socFormat:"ขนาด",socCaption:"แคปชัน",socDl:"ดาวน์โหลดรูป",socCopy:"คัดลอกแคปชัน",
+  phDate:"อัปโหลดรูป",phNote:"ภาพถ่ายจากสถานที่จริง เฟอร์นิเจอร์จริง ไม่ดัดแปลงโครงสร้างใดๆ (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",dlAll:"ดาวน์โหลดรูปทั้งหมด",dlPrep:"กำลังเตรียมไฟล์…",
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
@@ -828,6 +835,7 @@ en:{
   save:"☆ Save",saved:"★ Saved",copyLine:"Copy LINE message",share:"Share link",social:"Create social post",print:"Print flyer / PDF",bookThis:"Book a viewing",similar:"Similar listings",copied:"Copied",
   slLabel:"saved",slCompare:"Compare",slCopy:"Copy",slClear:"Clear",cmpTitle:"Compare listings",
   socTitle:"Create social post",socFormat:"Format",socCaption:"Caption",socDl:"Download image",socCopy:"Copy caption",
+  phDate:"Photos uploaded",phNote:"Photographed on site with the actual furniture; no structural changes. (Lighting, colour and staging props adjusted with AI for advertising.)",dlAll:"Download all photos",dlPrep:"Preparing…",
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
@@ -889,6 +897,7 @@ ru:{
   save:"☆ Сохранить",saved:"★ Сохранено",copyLine:"Копировать для LINE",share:"Поделиться",social:"Пост для соцсетей",print:"Печать / PDF",bookThis:"Записаться на просмотр",similar:"Похожие объекты",copied:"Скопировано",
   slLabel:"сохранено",slCompare:"Сравнить",slCopy:"Копировать",slClear:"Очистить",cmpTitle:"Сравнение объектов",
   socTitle:"Пост для соцсетей",socFormat:"Формат",socCaption:"Подпись",socDl:"Скачать картинку",socCopy:"Копировать подпись",
+  phDate:"Фото загружены",phNote:"Фото сделаны на объекте, мебель настоящая, конструкция не изменена. (Свет, цвет и декор доработаны с помощью ИИ для рекламы.)",dlAll:"Скачать все фото",dlPrep:"Подготовка…",
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
@@ -950,6 +959,7 @@ zh:{
   save:"☆ 收藏",saved:"★ 已收藏",copyLine:"复制 LINE 消息",share:"分享链接",social:"生成社交帖子",print:"打印传单 / PDF",bookThis:"预约看此房",similar:"相似房源",copied:"已复制",
   slLabel:"已收藏",slCompare:"对比",slCopy:"复制",slClear:"清空",cmpTitle:"房源对比",
   socTitle:"生成社交帖子",socFormat:"尺寸",socCaption:"文案",socDl:"下载图片",socCopy:"复制文案",
+  phDate:"照片上传于",phNote:"实地拍摄，真实家具，未改动任何结构。（为广告用途，使用 AI 调整光线、色彩并添加模拟道具。）",dlAll:"下载全部照片",dlPrep:"正在准备…",
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
@@ -1011,6 +1021,7 @@ ko:{
   save:"☆ 저장",saved:"★ 저장됨",copyLine:"LINE 메시지 복사",share:"링크 공유",social:"SNS 게시물 만들기",print:"전단 인쇄 / PDF",bookThis:"이 매물 방문 예약",similar:"비슷한 매물",copied:"복사됨",
   slLabel:"저장됨",slCompare:"비교",slCopy:"복사",slClear:"비우기",cmpTitle:"매물 비교",
   socTitle:"SNS 게시물 만들기",socFormat:"크기",socCaption:"캡션",socDl:"이미지 다운로드",socCopy:"캡션 복사",
+  phDate:"사진 업로드",phNote:"현장에서 실제 가구 그대로 촬영했으며 구조는 일절 변경하지 않았습니다. (광고용으로 AI를 사용해 조명·색감을 보정하고 소품을 연출했습니다.)",dlAll:"사진 전체 다운로드",dlPrep:"준비 중…",
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
@@ -1072,6 +1083,7 @@ ja:{
   save:"☆ 保存",saved:"★ 保存済み",copyLine:"LINE用にコピー",share:"リンクを共有",social:"SNS投稿を作成",print:"チラシ印刷 / PDF",bookThis:"この物件を内見予約",similar:"似た物件",copied:"コピーしました",
   slLabel:"件保存",slCompare:"比較",slCopy:"コピー",slClear:"クリア",cmpTitle:"物件比較",
   socTitle:"SNS投稿を作成",socFormat:"サイズ",socCaption:"キャプション",socDl:"画像をダウンロード",socCopy:"キャプションをコピー",
+  phDate:"写真掲載日",phNote:"現地で実際の家具のまま撮影し、構造の改変は一切ありません。（広告用にAIで光・色味を調整し、小物を演出しています）",dlAll:"写真を一括ダウンロード",dlPrep:"準備中…",
   scan:"スキャンして全写真の確認・内見予約",million:"M"
 }};
 const ZONE_NAMES = {
@@ -1478,6 +1490,9 @@ function renderDetail(code) {
       <h1>${esc(l.name)}</h1><p class="where">📍 ${esc(zn(l.zone))}</p></div>
       <button type="button" class="btn" data-dstar="${l.code}">${on ? t("saved") : t("save")}</button></div>
     <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(l.name)} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
+    <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
+      <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button></div>
+    <p class="phnote">${t("phNote")}</p>
     <div class="d-grid">
       <div>
         ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
@@ -1494,6 +1509,7 @@ function renderDetail(code) {
             <button type="button" class="btn" data-act="share">🔗 ${t("share")}</button>
             <button type="button" class="btn" data-act="social">📣 ${t("social")}</button>
             <button type="button" class="btn" data-act="print">🖨️ ${t("print")}</button>
+            <button type="button" class="btn" data-act="dlall" style="flex-basis:100%">⬇️ ${t("dlAll")} (${ph.length})</button>
           </div>
         </div>
         <div class="ch" style="grid-template-columns:1fr 1fr">
@@ -1513,6 +1529,7 @@ function renderDetail(code) {
     <div class="fl-kv">${[[t("type"), t(l.type)], [t("beds"), l.beds], [t("baths"), l.baths], [t(l.size ? "size" : "usable"), area(l) ? nf(area(l)) + " " + t("sqm") : null], [t("land"), landTxt(l)], [t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null]]
       .filter(([, v]) => v != null).map(([k, v]) => `<div><span>${esc(k)}</span>${esc(v)}</div>`).join("")}</div>
     ${l.tags.length ? `<p style="margin-top:4mm">✨ ${l.tags.map(x => esc(t("tag_" + x))).join(" · ")}</p>` : ""}
+    <p style="margin-top:4mm;font-size:8pt;color:#666">📷 ${t("phDate")} ${fmtDate(l.photoDate || PHOTO_DATE)} · ${t("phNote")}</p>
     <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ASN Exclusive Property</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}</p>
       <div style="text-align:center"><img id="flQr" alt="QR"><p style="font-size:8pt;max-width:40mm">${t("scan")}</p></div></div>
   </div>`;
@@ -1526,6 +1543,30 @@ function renderDetail(code) {
     window.L.circle(z.ll, { radius: 900, color: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(), weight: 1.5, fillOpacity: .2 }).addTo(dmap).bindTooltip(zn(l.zone), { permanent: true, direction: "center" });
   }
   document.title = `${l.name} · ASN Exclusive Property`;
+}
+
+/* ---------- photo date & download all ---------- */
+const LOCALES = { th: "th-TH", en: "en-GB", ru: "ru-RU", zh: "zh-CN", ko: "ko-KR", ja: "ja-JP" };
+function fmtDate(iso) { try { return new Date(iso + "T00:00").toLocaleDateString(LOCALES[lang], { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return iso; } }
+function saveBlob(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+async function downloadAll(l) {
+  const ph = photos(l), btns = [...document.querySelectorAll('[data-act="dlall"]')], labels = btns.map(b => b.innerHTML);
+  btns.forEach(b => { b.disabled = true; b.textContent = "⏳ " + t("dlPrep"); });
+  const name = i => `ASN-${l.code}-${String(i + 1).padStart(2, "0")}.jpg`;
+  try {
+    const blobs = await Promise.all(ph.map(p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.blob(); })));
+    if (window.JSZip) {
+      const zip = new JSZip();
+      blobs.forEach((b, i) => zip.file(name(i), b));
+      saveBlob(await zip.generateAsync({ type: "blob" }), `ASN-${l.code}-photos.zip`);
+    } else {
+      for (const [i, b] of blobs.entries()) { saveBlob(b, name(i)); await new Promise(r => setTimeout(r, 300)); }
+    }
+  } catch (e) {
+    for (const p of ph) window.open(p, "_blank", "noopener");   // photos on another host (e.g. Drive): open them instead
+  } finally {
+    btns.forEach((b, i) => { b.disabled = false; b.innerHTML = labels[i]; });
+  }
 }
 
 /* ---------- lightbox ---------- */
@@ -1603,7 +1644,7 @@ function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcT
 function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
 
 /* ---------- CSV (export + Google Sheet import) ---------- */
-const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked"];
+const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate"];
 function exportCSV() {
   const cell = v => { const s = Array.isArray(v) ? v.join("|") : v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const rows = L.map(l => CSV_COLS.map(c => c === "photos" ? cell(photos(l)) : c === "booked" ? cell((l.booked || []).map(r => r.join(">"))) : cell(l[c])).join(","));
@@ -1632,7 +1673,7 @@ async function loadSheet() {
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
-      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm),
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
@@ -1691,6 +1732,7 @@ document.addEventListener("click", e => {
     if (d.act === "share") { if (navigator.share) navigator.share({ title: l.name, text: `${l.name} · ASN Exclusive Property`, url: listingUrl(l) }).catch(() => {}); else copy(listingUrl(l)); }
     if (d.act === "social") { socCode = l.code; $("#socDlg").showModal(); drawSocial(); }
     if (d.act === "print") window.print();
+    if (d.act === "dlall") downloadAll(l);
   }
   else if (d.close !== undefined) el.closest("dialog").close();
   else if (d.unsave) { toggleSave(d.unsave); if (!saved().length) $("#cmpDlg").close(); else renderCompare(); }
