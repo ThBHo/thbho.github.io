@@ -690,9 +690,9 @@ const ZONES = {
 
 // land and usable area in sqm; null = not yet confirmed (shows "ask")
 const LISTINGS = [
-  { code:"H02", name:"Siam Royal View Luxury Pool Villa", type:"villa", zone:"khaotalo", rent:500000, sale:110000000, beds:7, baths:8, land:2146, usable:null, pool:"private", style:"modern", tags:["maid3","basketball","theater"], photos:12, hot:true },
+  { code:"H02", name:"Siam Royal View Luxury Pool Villa", type:"villa", zone:"khaotalo", rent:500000, sale:110000000, beds:7, baths:8, land:2146, usable:null, pool:"private", style:"modern", tags:["maid3","basketball","theater"], photos:17, hot:true },
   { code:"H01", name:"Modern Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:145000, sale:24950000, beds:5, baths:5, land:480, usable:570, pool:"private", style:"modern", tags:["storey3"], photos:12, hot:true },
-  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:12, video:"asn-img/H04.mp4", poster:"asn-img/H04-video.jpg" },
+  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:20, video:"asn-img/H04.mp4", poster:"asn-img/H04-video.jpg" },
   { code:"C01", name:"The Riviera Jomtien · Corner Unit, 32F", type:"condo", zone:"jomtien", rent:null, sale:7200000, beds:null, baths:null, size:81.3, floor:"32", building:"D", pool:"shared", style:"modern", tags:["corner","thaiQuota","seaView"], urgent:true, photos:11, hot:true },
   { code:"H12", name:"Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:90000, rentWas:100000, sale:null, beds:5, baths:5, land:null, usable:null, pool:"private", style:"classic", tags:[], photos:11, hot:true },
   { code:"H06", name:"Siam Royal Village", type:"villa", zone:"eastpattaya", rent:90000, rentWas:110000, sale:null, beds:3, baths:3, land:520, usable:null, pool:"private", style:"modern", tags:[], photos:12, hot:true },
@@ -718,7 +718,7 @@ const REVIEWS = [
   // { name:"Anna, Germany", stars:5, text:"…", date:"2026-10" }
 ];
 
-const SLIDES = [["H04",1],["H02",1],["H12",1],["H04",3],["H02",3],["H06",3],["H06",4],["H02",8],["C01",5]];
+const SLIDES = [["H04",1],["H02",1],["H12",1],["H04",3],["H02",3],["H06",3],["H06",4],["H02",11],["C01",5]];
 const FEATURED = ["H04","H01","H02","C01","H06","H12"];
 
 /* ====================================================================
@@ -1129,7 +1129,8 @@ const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ==
                 set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
 const byCode = c => L.find(l => l.code === c);
 const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return p || `asn-img/${l.code}-${n}.jpg`; };
-const photos = l => l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `asn-img/${l.code}-${i + 1}.jpg`);
+const MAX_PHOTOS = 20;   // per listing: gallery, card arrows, download-all
+const photos = l => (l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `asn-img/${l.code}-${i + 1}.jpg`)).slice(0, MAX_PHOTOS);
 const area = l => l.usable || l.size || null;
 const nf = n => Number(n).toLocaleString("en-US");
 function money(n) {
