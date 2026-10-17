@@ -283,6 +283,10 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .gal button:first-child{grid-row:span 2}
 .gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
 .gal button:hover img{transform:scale(1.03)}
+.vsec{margin-top:22px}
+.vsec h2{font-size:18px;font-weight:600;margin-bottom:10px}
+.vsec video{width:100%;aspect-ratio:16/9;display:block;border-radius:14px;background:#000}
+.card-vid{position:absolute;left:10px;bottom:10px;background:rgba(194,69,45,.92);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;letter-spacing:.04em}
 .phmeta{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
 .phmeta b{color:var(--ink-2);font-weight:600}
 .phnote{margin-top:6px;font-size:12px;line-height:1.5;color:var(--muted);border-left:3px solid var(--accent);padding:6px 10px;background:var(--accent-soft);border-radius:0 8px 8px 0}
@@ -350,24 +354,31 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 /* ---------- print flyer ---------- */
 .flyer{display:none}
 @media print{
-  @page{size:A4;margin:12mm}
-  body{background:#fff;color:#000}
+  /* one A4 portrait sheet: fixed-height column, the hero photo absorbs whatever space is left */
+  @page{size:A4 portrait;margin:10mm}
+  html,body{margin:0;padding:0;background:#fff!important;color:#000}
   body>*:not(#detailView){display:none!important}
   #detailView>*:not(.flyer){display:none!important}
-  .flyer{display:block;font-size:11pt}
-  .fl-hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1F3A5F;padding-bottom:6mm;margin-bottom:6mm}
-  .fl-hd b{font-family:var(--f-display);font-size:18pt;color:#1F3A5F}
-  .fl-hd small{display:block;font-size:8pt;letter-spacing:.2em;color:#B57A27;font-weight:700}
-  .fl-hero{width:100%;height:90mm;object-fit:cover;border-radius:3mm}
-  .fl-row{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:3mm}
-  .fl-row img{width:100%;height:42mm;object-fit:cover;border-radius:2mm}
-  .fl-t{font-family:var(--f-display);font-size:20pt;margin-top:6mm}
-  .fl-p{display:flex;gap:10mm;margin-top:3mm;font-size:14pt;font-weight:700;color:#1F3A5F}
-  .fl-kv{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm 6mm;margin-top:5mm;font-size:10pt}
-  .fl-kv span{color:#666;display:block;font-size:8pt;text-transform:uppercase;letter-spacing:.05em}
-  .fl-ft{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ccc;margin-top:8mm;padding-top:5mm;gap:8mm}
-  .fl-ft img{width:32mm;height:32mm}
-  .fl-ft p{font-size:10pt;line-height:1.6}
+  .flyer{display:flex;flex-direction:column;height:276mm;overflow:hidden;font-size:10pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;page-break-after:avoid}
+  .fl-hd{flex:none;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1F3A5F;padding-bottom:3mm;margin-bottom:4mm}
+  .fl-hd b{font-family:var(--f-display);font-size:17pt;color:#1F3A5F;line-height:1}
+  .fl-hd small{display:block;font-size:7pt;letter-spacing:.2em;color:#B57A27;font-weight:700}
+  .fl-hero{flex:1 1 0;min-height:0;width:100%;object-fit:cover;border-radius:3mm;display:block}
+  .fl-row{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:2.5mm;margin-top:2.5mm}
+  .fl-row img{width:100%;height:34mm;object-fit:cover;border-radius:2mm;display:block}
+  .fl-t{flex:none;font-family:var(--f-display);font-size:18pt;line-height:1.15;margin-top:4mm}
+  .fl-where{flex:none;font-size:9.5pt;color:#555;margin-top:1mm}
+  .fl-p{flex:none;display:flex;gap:8mm;flex-wrap:wrap;margin-top:2.5mm;font-size:13pt;font-weight:700;color:#1F3A5F}
+  .fl-kv{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:2mm 5mm;margin-top:3.5mm;font-size:9.5pt}
+  .fl-kv span{color:#666;display:block;font-size:7pt;text-transform:uppercase;letter-spacing:.05em}
+  .fl-tags{flex:none;margin-top:2.5mm;font-size:9pt}
+  .fl-note{flex:none;margin-top:2mm;font-size:7.5pt;color:#666;line-height:1.4}
+  .fl-ft{flex:none;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ccc;margin-top:3mm;padding-top:3mm;gap:6mm}
+  .fl-ft img{width:26mm;height:26mm;display:block}
+  .fl-ft p{font-size:9pt;line-height:1.5;margin:0}
+  .fl-qr{flex:none;width:40mm;text-align:center}
+  .fl-qr img{margin:0 auto}
+  .fl-qr p{font-size:7pt;line-height:1.3;margin-top:1mm}
 }
 </style>
 </head>
@@ -681,7 +692,7 @@ const ZONES = {
 const LISTINGS = [
   { code:"H02", name:"Siam Royal View Luxury Pool Villa", type:"villa", zone:"khaotalo", rent:500000, sale:110000000, beds:7, baths:8, land:2146, usable:null, pool:"private", style:"modern", tags:["maid3","basketball","theater"], photos:12, hot:true },
   { code:"H01", name:"Modern Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:145000, sale:24950000, beds:5, baths:5, land:480, usable:570, pool:"private", style:"modern", tags:["storey3"], photos:12, hot:true },
-  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:9 },
+  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:12, video:"asn-img/H04.mp4", poster:"asn-img/H04-video.jpg" },
   { code:"C01", name:"The Riviera Jomtien · Corner Unit, 32F", type:"condo", zone:"jomtien", rent:null, sale:7200000, beds:null, baths:null, size:81.3, floor:"32", building:"D", pool:"shared", style:"modern", tags:["corner","thaiQuota","seaView"], urgent:true, photos:11, hot:true },
   { code:"H12", name:"Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:90000, rentWas:100000, sale:null, beds:5, baths:5, land:null, usable:null, pool:"private", style:"classic", tags:[], photos:11, hot:true },
   { code:"H06", name:"Siam Royal Village", type:"villa", zone:"eastpattaya", rent:90000, rentWas:110000, sale:null, beds:3, baths:3, land:520, usable:null, pool:"private", style:"modern", tags:[], photos:12, hot:true },
@@ -774,6 +785,7 @@ th:{
   slLabel:"รายการที่บันทึก",slCompare:"เปรียบเทียบ",slCopy:"คัดลอก",slClear:"ล้าง",cmpTitle:"เปรียบเทียบทรัพย์",
   socTitle:"สร้างโพสต์โซเชียล",socFormat:"ขนาด",socCaption:"แคปชัน",socDl:"ดาวน์โหลดรูป",socCopy:"คัดลอกแคปชัน",
   phDate:"อัปโหลดรูป",phNote:"ภาพถ่ายจากสถานที่จริง เฟอร์นิเจอร์จริง ไม่ดัดแปลงโครงสร้างใดๆ (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",dlAll:"ดาวน์โหลดรูปทั้งหมด",dlPrep:"กำลังเตรียมไฟล์…",
+  video:"วิดีโอ",videoTitle:"วิดีโอพาชมทรัพย์",
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
@@ -836,6 +848,7 @@ en:{
   slLabel:"saved",slCompare:"Compare",slCopy:"Copy",slClear:"Clear",cmpTitle:"Compare listings",
   socTitle:"Create social post",socFormat:"Format",socCaption:"Caption",socDl:"Download image",socCopy:"Copy caption",
   phDate:"Photos uploaded",phNote:"Photographed on site with the actual furniture; no structural changes. (Lighting, colour and staging props adjusted with AI for advertising.)",dlAll:"Download all photos",dlPrep:"Preparing…",
+  video:"Video",videoTitle:"Video tour",
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
@@ -898,6 +911,7 @@ ru:{
   slLabel:"сохранено",slCompare:"Сравнить",slCopy:"Копировать",slClear:"Очистить",cmpTitle:"Сравнение объектов",
   socTitle:"Пост для соцсетей",socFormat:"Формат",socCaption:"Подпись",socDl:"Скачать картинку",socCopy:"Копировать подпись",
   phDate:"Фото загружены",phNote:"Фото сделаны на объекте, мебель настоящая, конструкция не изменена. (Свет, цвет и декор доработаны с помощью ИИ для рекламы.)",dlAll:"Скачать все фото",dlPrep:"Подготовка…",
+  video:"Видео",videoTitle:"Видеообзор",
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
@@ -960,6 +974,7 @@ zh:{
   slLabel:"已收藏",slCompare:"对比",slCopy:"复制",slClear:"清空",cmpTitle:"房源对比",
   socTitle:"生成社交帖子",socFormat:"尺寸",socCaption:"文案",socDl:"下载图片",socCopy:"复制文案",
   phDate:"照片上传于",phNote:"实地拍摄，真实家具，未改动任何结构。（为广告用途，使用 AI 调整光线、色彩并添加模拟道具。）",dlAll:"下载全部照片",dlPrep:"正在准备…",
+  video:"视频",videoTitle:"视频看房",
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
@@ -1022,6 +1037,7 @@ ko:{
   slLabel:"저장됨",slCompare:"비교",slCopy:"복사",slClear:"비우기",cmpTitle:"매물 비교",
   socTitle:"SNS 게시물 만들기",socFormat:"크기",socCaption:"캡션",socDl:"이미지 다운로드",socCopy:"캡션 복사",
   phDate:"사진 업로드",phNote:"현장에서 실제 가구 그대로 촬영했으며 구조는 일절 변경하지 않았습니다. (광고용으로 AI를 사용해 조명·색감을 보정하고 소품을 연출했습니다.)",dlAll:"사진 전체 다운로드",dlPrep:"준비 중…",
+  video:"영상",videoTitle:"영상 투어",
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
@@ -1084,6 +1100,7 @@ ja:{
   slLabel:"件保存",slCompare:"比較",slCopy:"コピー",slClear:"クリア",cmpTitle:"物件比較",
   socTitle:"SNS投稿を作成",socFormat:"サイズ",socCaption:"キャプション",socDl:"画像をダウンロード",socCopy:"キャプションをコピー",
   phDate:"写真掲載日",phNote:"現地で実際の家具のまま撮影し、構造の改変は一切ありません。（広告用にAIで光・色味を調整し、小物を演出しています）",dlAll:"写真を一括ダウンロード",dlPrep:"準備中…",
+  video:"動画",videoTitle:"動画ツアー",
   scan:"スキャンして全写真の確認・内見予約",million:"M"
 }};
 const ZONE_NAMES = {
@@ -1168,6 +1185,7 @@ function card(l, browse) {
   return `<article class="card"${browse ? ` data-card="${l.code}" data-ix="0"` : ""}>
     <div class="card-media"><img src="${esc(photo(l, 1))}" alt="${esc(l.name)}" loading="lazy">${nav}
       <div class="card-badges">${badges(l)}</div>
+      ${l.video ? `<span class="card-vid">▶ ${t("video")}</span>` : ""}
       <span class="card-count">📷 <span class="cix">${browse ? `1 / ` : ""}</span>${n}</span></div>
     <button type="button" class="star" data-star="${l.code}" aria-pressed="${on}" aria-label="Save">${on ? "★" : "☆"}</button>
     <div class="card-body">
@@ -1493,6 +1511,7 @@ function renderDetail(code) {
     <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
       <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button></div>
     <p class="phnote">${t("phNote")}</p>
+    ${l.video ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><video src="${esc(l.video)}" ${l.poster ? `poster="${esc(l.poster)}"` : ""} controls playsinline preload="none"></video></section>` : ""}
     <div class="d-grid">
       <div>
         ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
@@ -1521,17 +1540,18 @@ function renderDetail(code) {
     <section class="sec" style="padding-top:30px"><div class="sec-hd"><h2 style="font-size:24px">${t("similar")}</h2></div><div class="grid">${similar.map(card).join("")}</div></section>
   </div>
   <div class="flyer">
-    <div class="fl-hd"><div><b>ASN</b><small>EXCLUSIVE PROPERTY</small></div><div style="text-align:right;font-size:9pt">ASN-${l.code}<br>${esc(zn(l.zone))}</div></div>
+    <div class="fl-hd"><div><b>ASN</b><small>EXCLUSIVE PROPERTY</small></div><div style="text-align:right;font-size:8.5pt">ASN-${l.code}<br>${esc(zn(l.zone))}</div></div>
     <img class="fl-hero" src="${esc(ph[0])}" alt="">
-    <div class="fl-row">${ph.slice(1, 3).map(p => `<img src="${esc(p)}" alt="">`).join("")}</div>
+    <div class="fl-row">${ph.slice(1, 4).map(p => `<img src="${esc(p)}" alt="">`).join("")}</div>
     <h1 class="fl-t">${esc(l.name)}</h1>
+    <p class="fl-where">📍 ${esc(zn(l.zone))} · ${t(l.type)}</p>
     <div class="fl-p">${l.rent ? `<span>${t("forRent")} ${money(l.rent)} ${t("perMonth")}</span>` : ""}${l.sale ? `<span>${t("forSale")} ${money(l.sale)}</span>` : ""}</div>
-    <div class="fl-kv">${[[t("type"), t(l.type)], [t("beds"), l.beds], [t("baths"), l.baths], [t(l.size ? "size" : "usable"), area(l) ? nf(area(l)) + " " + t("sqm") : null], [t("land"), landTxt(l)], [t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null]]
+    <div class="fl-kv">${[[t("beds"), l.beds], [t("baths"), l.baths], [t(l.size ? "size" : "usable"), area(l) ? nf(area(l)) + (l.usablePlus ? "+" : "") + " " + t("sqm") : null], [t("land"), l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")}` : null], [t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null], [t("floor"), l.type === "condo" ? l.floor : null]]
       .filter(([, v]) => v != null).map(([k, v]) => `<div><span>${esc(k)}</span>${esc(v)}</div>`).join("")}</div>
-    ${l.tags.length ? `<p style="margin-top:4mm">✨ ${l.tags.map(x => esc(t("tag_" + x))).join(" · ")}</p>` : ""}
-    <p style="margin-top:4mm;font-size:8pt;color:#666">📷 ${t("phDate")} ${fmtDate(l.photoDate || PHOTO_DATE)} · ${t("phNote")}</p>
+    ${l.tags.length ? `<p class="fl-tags">✨ ${l.tags.map(x => esc(t("tag_" + x))).join(" · ")}</p>` : ""}
+    <p class="fl-note">📷 ${t("phDate")} ${fmtDate(l.photoDate || PHOTO_DATE)} · ${t("phNote")}</p>
     <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ASN Exclusive Property</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}</p>
-      <div style="text-align:center"><img id="flQr" alt="QR"><p style="font-size:8pt;max-width:40mm">${t("scan")}</p></div></div>
+      <div class="fl-qr"><img id="flQr" alt="QR"><p>${t("scan")}</p></div></div>
   </div>`;
   $("#detailView").dataset.code = l.code;
   try { const q = qrcode(0, "M"); q.addData(listingUrl(l)); q.make(); $("#flQr").src = q.createDataURL(6, 2); } catch (e) {}
@@ -1644,7 +1664,7 @@ function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcT
 function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
 
 /* ---------- CSV (export + Google Sheet import) ---------- */
-const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate"];
+const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate","video","poster"];
 function exportCSV() {
   const cell = v => { const s = Array.isArray(v) ? v.join("|") : v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const rows = L.map(l => CSV_COLS.map(c => c === "photos" ? cell(photos(l)) : c === "booked" ? cell((l.booked || []).map(r => r.join(">"))) : cell(l[c])).join(","));
@@ -1673,7 +1693,7 @@ async function loadSheet() {
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
-      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null,
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, poster: o.poster || null,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
