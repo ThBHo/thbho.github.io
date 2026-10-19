@@ -77,6 +77,7 @@ button{cursor:pointer}
 .sel,.inp{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:8px 11px;font-size:14px;min-width:0}
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 7px;background:var(--surface);color:var(--ink)}
 .badge.hot{background:var(--hot);color:#fff}
+.badge.new{background:var(--rent);color:#fff}
 .badge.disc{background:var(--accent);color:#fff}
 .badge.rent{background:var(--rent-soft);color:var(--rent)}
 .badge.sale{background:var(--brand-soft);color:var(--brand)}
@@ -722,7 +723,10 @@ const LISTINGS = [
   { code:"H07", name:"Pool Villa · Pattanakarn Rd", type:"villa", zone:"pattanakarn", rent:65000, sale:8250000, beds:3, baths:2, land:null, usable:null, pool:"private", style:"modern", tags:["nearSchool"], photos:7 },
   { code:"H13", name:"Green Field 4 Villa", type:"villa", zone:"siamcc", rent:85000, sale:null, beds:5, baths:4, land:900, usable:256, pool:"yes", style:"modern", tags:[], photos:7 },
   { code:"H08", name:"SP Village 5", type:"house", zone:"siamcc", rent:85000, sale:null, beds:3, baths:5, land:440, usable:270, pool:null, style:"modern", tags:[], photos:3 },
-  { code:"C02", name:"Duplex · Pratumnak Soi 4", type:"condo", zone:"pratumnak", rent:66000, sale:null, beds:3, baths:2, size:200, floor:"6–7", pool:"shared", style:"modern", tags:["duplex","seaView"], photos:7 }
+  { code:"C02", name:"Duplex · Pratumnak Soi 4", type:"condo", zone:"pratumnak", rent:66000, sale:null, beds:3, baths:2, size:200, floor:"6–7", pool:"shared", style:"modern", tags:["duplex","seaView"], photos:7 },
+  { code:"C03", name:"The Riviera Jomtien · 8A05 The Host Suite", type:"condo", zone:"jomtien", rent:null, sale:4019000, saleWas:6193440, beds:1, baths:null, size:46.92, floor:"8", building:"A", pool:"shared", style:"modern", tags:["seaView","thaiQuota"], furn:"full", isNew:true, photos:8, video:"asn-img/C03.mp4", poster:"asn-img/C03-1.jpg", photoDate:"2026-09-22" },
+  { code:"C04", name:"The Riviera Jomtien · 9A02 The Quiet Retreat", type:"condo", zone:"jomtien", rent:null, sale:2867522, saleWas:4341120, beds:1, baths:null, size:32.64, floor:"9", building:"A", pool:"shared", style:"modern", tags:["seaView","thaiQuota"], furn:"full", isNew:true, photos:6, photoDate:"2026-09-22" },
+  { code:"C05", name:"The Riviera Jomtien · 19E02", type:"condo", zone:"jomtien", rent:null, sale:3296660, saleWas:4107880, beds:1, baths:null, size:34.52, floor:"19", building:"E", pool:"shared", style:"modern", tags:["cityView","thaiQuota"], furn:"full", isNew:true, photos:8, photoDate:"2026-09-21" }
 ];
 // Optional per-listing fields (shown as "ask" until filled):
 //   photoDate:"2026-10-17"   // date this listing's photos were uploaded
@@ -804,6 +808,8 @@ th:{
   phDate:"อัปโหลดรูป",phNote:"ภาพถ่ายจากสถานที่จริง เฟอร์นิเจอร์จริง ไม่ดัดแปลงโครงสร้างใดๆ (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",dlAll:"ดาวน์โหลดรูปทั้งหมด",dlPrep:"กำลังเตรียมไฟล์…",
   video:"วิดีโอ",videoTitle:"วิดีโอพาชมทรัพย์",
   wechatAdd:"เพิ่มเพื่อนด้วย QR",wechatScan:"สแกน QR ด้วยแอป WeChat เพื่อเพิ่มเพื่อน (บนมือถือ: บันทึกรูปแล้วสแกนจากอัลบั้ม)",wechatSave:"บันทึกรูป QR",
+  newBadge:"ใหม่",furnFull:"เฟอร์นิเจอร์ครบ พร้อมเข้าอยู่",
+  tag_cityView:"วิวเมือง",
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
@@ -868,6 +874,8 @@ en:{
   phDate:"Photos uploaded",phNote:"Photographed on site with the actual furniture; no structural changes. (Lighting, colour and staging props adjusted with AI for advertising.)",dlAll:"Download all photos",dlPrep:"Preparing…",
   video:"Video",videoTitle:"Video tour",
   wechatAdd:"Add via QR code",wechatScan:"Scan with the WeChat app to add Moshi. On a phone, save the image and scan it from your photos.",wechatSave:"Save QR image",
+  newBadge:"New",furnFull:"Fully furnished",
+  tag_cityView:"City view",
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
@@ -932,6 +940,8 @@ ru:{
   phDate:"Фото загружены",phNote:"Фото сделаны на объекте, мебель настоящая, конструкция не изменена. (Свет, цвет и декор доработаны с помощью ИИ для рекламы.)",dlAll:"Скачать все фото",dlPrep:"Подготовка…",
   video:"Видео",videoTitle:"Видеообзор",
   wechatAdd:"Добавить по QR",wechatScan:"Отсканируйте в WeChat, чтобы добавить Moshi. На телефоне сохраните картинку и отсканируйте из галереи.",wechatSave:"Сохранить QR",
+  newBadge:"Новое",furnFull:"Полностью меблирована",
+  tag_cityView:"Вид на город",
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
@@ -996,6 +1006,8 @@ zh:{
   phDate:"照片上传于",phNote:"实地拍摄，真实家具，未改动任何结构。（为广告用途，使用 AI 调整光线、色彩并添加模拟道具。）",dlAll:"下载全部照片",dlPrep:"正在准备…",
   video:"视频",videoTitle:"视频看房",
   wechatAdd:"扫码加好友",wechatScan:"用微信扫一扫添加 Moshi。手机上可保存图片后从相册识别。",wechatSave:"保存二维码",
+  newBadge:"新上架",furnFull:"家具齐全，拎包入住",
+  tag_cityView:"城市景观",
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
@@ -1060,6 +1072,8 @@ ko:{
   phDate:"사진 업로드",phNote:"현장에서 실제 가구 그대로 촬영했으며 구조는 일절 변경하지 않았습니다. (광고용으로 AI를 사용해 조명·색감을 보정하고 소품을 연출했습니다.)",dlAll:"사진 전체 다운로드",dlPrep:"준비 중…",
   video:"영상",videoTitle:"영상 투어",
   wechatAdd:"QR로 친구 추가",wechatScan:"WeChat 앱으로 스캔해 Moshi를 친구로 추가하세요. 휴대폰에서는 이미지를 저장한 뒤 앨범에서 스캔하세요.",wechatSave:"QR 이미지 저장",
+  newBadge:"신규",furnFull:"풀옵션",
+  tag_cityView:"시티뷰",
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
@@ -1124,6 +1138,8 @@ ja:{
   phDate:"写真掲載日",phNote:"現地で実際の家具のまま撮影し、構造の改変は一切ありません。（広告用にAIで光・色味を調整し、小物を演出しています）",dlAll:"写真を一括ダウンロード",dlPrep:"準備中…",
   video:"動画",videoTitle:"動画ツアー",
   wechatAdd:"QRで友だち追加",wechatScan:"WeChatでスキャンしてMoshiを追加。スマホでは画像を保存し、アルバムから読み取ってください。",wechatSave:"QR画像を保存",
+  newBadge:"新着",furnFull:"家具完備",
+  tag_cityView:"シティビュー",
   scan:"スキャンして全写真の確認・内見予約",million:"M"
 }};
 const ZONE_NAMES = {
@@ -1183,7 +1199,8 @@ function badges(l) {
   const b = [];
   if (l.urgent) b.push(`<span class="badge hot">${t("urgent")}</span>`);
   else if (l.hot) b.push(`<span class="badge hot">${t("hot")}</span>`);
-  if (l.rentWas) b.push(`<span class="badge disc">${t("discount")}</span>`);
+  if (l.isNew) b.push(`<span class="badge new">${t("newBadge")}</span>`);
+  if (l.rentWas || l.saleWas) b.push(`<span class="badge disc">${t("discount")}</span>`);
   b.push(`<span class="badge">${t(l.type)}</span>`);
   return b.join("");
 }
@@ -1199,7 +1216,7 @@ function specLine(l) {
 function priceRows(l) {
   let h = "";
   if (l.rent) h += `<div class="price r"><span>${t("forRent")} ${t("from")}</span><span>${l.rentWas ? `<s>${money(l.rentWas)}</s>` : ""}<b>${money(l.rent)}</b> <small>${t("perMonth")}</small></span></div>`;
-  if (l.sale) h += `<div class="price"><span>${t("forSale")} ${t("from")}</span><b>${money(l.sale)}</b></div>`;
+  if (l.sale) h += `<div class="price"><span>${t("forSale")} ${t("from")}</span><span>${l.saleWas ? `<s>${money(l.saleWas)}</s>` : ""}<b>${money(l.sale)}</b></span></div>`;
   return h;
 }
 const saved = () => store.get("asn-saved", []);
@@ -1473,7 +1490,7 @@ function lineText(l) {
   if (l.pool) s.push(`🏊 ${t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes")}`);
   if (l.tags.length) s.push("✨ " + l.tags.map(x => t("tag_" + x)).join(" · "));
   if (l.rent) s.push(`💰 ${t("forRent")} ${money(l.rent)} ${t("perMonth")}${l.rentWas ? ` (${t("wasPrice")} ${money(l.rentWas)})` : ""}`);
-  if (l.sale) s.push(`💰 ${t("forSale")} ${money(l.sale)}${l.urgent ? " 🔥 " + t("urgent") : ""}`);
+  if (l.sale) s.push(`💰 ${t("forSale")} ${money(l.sale)}${l.saleWas ? ` (${t("wasPrice")} ${money(l.saleWas)})` : ""}${l.urgent ? " 🔥 " + t("urgent") : ""}`);
   s.push("", "🔗 " + listingUrl(l), `📞 ${CONTACT.person} ${fmtPhone(CONTACT.phones[0])} · LINE ${CONTACT.line}`);
   return s.join("\n");
 }
@@ -1518,7 +1535,7 @@ function renderDetail(code) {
     l.size ? kvItem(t("size"), `${l.size} ${t("sqm")}`) : kvItem(t("usable"), l.usable ? `${nf(l.usable)}${l.usablePlus ? "+" : ""} ${t("sqm")}` : null),
     l.type === "condo" ? kvItem(t("floor"), l.floor ? l.floor + (l.building ? ` · ${t("building")} ${l.building}` : "") : null) : kvItem(t("land"), landTxt(l)),
     kvItem(t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null),
-    kvItem(t("furn"), l.furn ? l.furn : t("furnPic")), kvItem(t("pets"), yn(l.pets)), kvItem(t("parking"), l.parking),
+    kvItem(t("furn"), l.furn === "full" ? t("furnFull") : l.furn ? l.furn : t("furnPic")), kvItem(t("pets"), yn(l.pets)), kvItem(t("parking"), l.parking),
     kvItem(t("internet"), yn(l.internet)), kvItem(t("available"), l.available),
     ...(l.rent ? [kvItem(t("deposit"), l.deposit), kvItem(t("minContract"), l.minContract)] : []),
     kvItem(t("shortTerm"), l.shortTerm ? money(l.shortTerm) + " " + t("perNight") : null)
@@ -1693,7 +1710,7 @@ function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcT
 function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
 
 /* ---------- CSV (export + Google Sheet import) ---------- */
-const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate","video","poster"];
+const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","saleWas","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","isNew","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate","video","poster"];
 function exportCSV() {
   const cell = v => { const s = Array.isArray(v) ? v.join("|") : v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const rows = L.map(l => CSV_COLS.map(c => c === "photos" ? cell(photos(l)) : c === "booked" ? cell((l.booked || []).map(r => r.join(">"))) : cell(l[c])).join(","));
@@ -1719,7 +1736,7 @@ async function loadSheet() {
     const bool = v => v === "" ? null : /^(1|true|yes|y|ใช่|ได้)$/i.test(v);
     const out = rows.map(r => { const o = {}; hd.forEach((h, i) => o[h.trim()] = (r[i] ?? "").trim()); return o; }).filter(o => o.code).map(o => ({
       code: o.code, name: o.name, type: o.type || "house", zone: ZONES[o.zone] ? o.zone : "eastpattaya",
-      rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
+      rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
       parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, poster: o.poster || null,
