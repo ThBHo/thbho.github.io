@@ -622,6 +622,10 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 <dialog id="cmpDlg"><div class="dlg-hd"><h2 data-i18n="cmpTitle">เปรียบเทียบทรัพย์</h2><button type="button" class="x" data-close aria-label="Close">✕</button></div><div class="dlg-body cmp" id="cmpBody"></div></dialog>
 <dialog id="lbDlg" class="lb"><div class="dlg-hd"><h2 id="lbTitle"></h2><button type="button" class="x" data-close aria-label="Close">✕</button></div>
   <div class="lb-stage"><img id="lbImg" alt=""><button type="button" class="lb-nav p" id="lbPrev" aria-label="Previous">‹</button><button type="button" class="lb-nav n" id="lbNext" aria-label="Next">›</button></div></dialog>
+<dialog id="wcDlg" style="width:min(400px,calc(100% - 24px))"><div class="dlg-hd"><h2>WeChat · Moshi</h2><button type="button" class="x" data-close aria-label="Close">✕</button></div>
+  <div class="dlg-body" style="text-align:center"><img src="asn-img/wechat-qr.jpg" alt="WeChat QR" width="700" height="939" style="width:100%;max-width:300px;height:auto;border-radius:12px;border:1px solid var(--line)">
+    <p class="note" style="margin-top:10px" data-i18n="wechatScan"></p>
+    <p style="margin-top:12px"><a class="btn sm" href="asn-img/wechat-qr.jpg" download="ASN-Moshi-WeChat-QR.jpg" data-i18n="wechatSave"></a></p></div></dialog>
 <dialog id="socDlg"><div class="dlg-hd"><h2 data-i18n="socTitle">สร้างโพสต์โซเชียล</h2><button type="button" class="x" data-close aria-label="Close">✕</button></div>
   <div class="dlg-body soc">
     <div><canvas id="socCanvas" width="1080" height="1350"></canvas></div>
@@ -671,9 +675,10 @@ const CONTACT = {
   line: "Moshikungzz",
   whatsapp: "66805636244",
   telegram: "+66805636244",
-  wechat: "0805636244",
+  wechatQr: "asn-img/wechat-qr.jpg",
   email: "asn.exclusive.property@gmail.com",
-  facebook: "https://www.facebook.com/share/1UgoQ4tJRB/?mibextid=wwXIfr"
+  facebook: "https://www.facebook.com/share/1E3951oUMg/?mibextid=wwXIfr",        // page: ASN Sale Rent Property
+  facebookAgent: "https://www.facebook.com/share/1UgoQ4tJRB/?mibextid=wwXIfr"    // Moshi
 };
 
 // approximate zone centres — never exact property positions
@@ -786,6 +791,7 @@ th:{
   socTitle:"สร้างโพสต์โซเชียล",socFormat:"ขนาด",socCaption:"แคปชัน",socDl:"ดาวน์โหลดรูป",socCopy:"คัดลอกแคปชัน",
   phDate:"อัปโหลดรูป",phNote:"ภาพถ่ายจากสถานที่จริง เฟอร์นิเจอร์จริง ไม่ดัดแปลงโครงสร้างใดๆ (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",dlAll:"ดาวน์โหลดรูปทั้งหมด",dlPrep:"กำลังเตรียมไฟล์…",
   video:"วิดีโอ",videoTitle:"วิดีโอพาชมทรัพย์",
+  wechatAdd:"เพิ่มเพื่อนด้วย QR",wechatScan:"สแกน QR ด้วยแอป WeChat เพื่อเพิ่มเพื่อน (บนมือถือ: บันทึกรูปแล้วสแกนจากอัลบั้ม)",wechatSave:"บันทึกรูป QR",
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
@@ -849,6 +855,7 @@ en:{
   socTitle:"Create social post",socFormat:"Format",socCaption:"Caption",socDl:"Download image",socCopy:"Copy caption",
   phDate:"Photos uploaded",phNote:"Photographed on site with the actual furniture; no structural changes. (Lighting, colour and staging props adjusted with AI for advertising.)",dlAll:"Download all photos",dlPrep:"Preparing…",
   video:"Video",videoTitle:"Video tour",
+  wechatAdd:"Add via QR code",wechatScan:"Scan with the WeChat app to add Moshi. On a phone, save the image and scan it from your photos.",wechatSave:"Save QR image",
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
@@ -912,6 +919,7 @@ ru:{
   socTitle:"Пост для соцсетей",socFormat:"Формат",socCaption:"Подпись",socDl:"Скачать картинку",socCopy:"Копировать подпись",
   phDate:"Фото загружены",phNote:"Фото сделаны на объекте, мебель настоящая, конструкция не изменена. (Свет, цвет и декор доработаны с помощью ИИ для рекламы.)",dlAll:"Скачать все фото",dlPrep:"Подготовка…",
   video:"Видео",videoTitle:"Видеообзор",
+  wechatAdd:"Добавить по QR",wechatScan:"Отсканируйте в WeChat, чтобы добавить Moshi. На телефоне сохраните картинку и отсканируйте из галереи.",wechatSave:"Сохранить QR",
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
@@ -975,6 +983,7 @@ zh:{
   socTitle:"生成社交帖子",socFormat:"尺寸",socCaption:"文案",socDl:"下载图片",socCopy:"复制文案",
   phDate:"照片上传于",phNote:"实地拍摄，真实家具，未改动任何结构。（为广告用途，使用 AI 调整光线、色彩并添加模拟道具。）",dlAll:"下载全部照片",dlPrep:"正在准备…",
   video:"视频",videoTitle:"视频看房",
+  wechatAdd:"扫码加好友",wechatScan:"用微信扫一扫添加 Moshi。手机上可保存图片后从相册识别。",wechatSave:"保存二维码",
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
@@ -1038,6 +1047,7 @@ ko:{
   socTitle:"SNS 게시물 만들기",socFormat:"크기",socCaption:"캡션",socDl:"이미지 다운로드",socCopy:"캡션 복사",
   phDate:"사진 업로드",phNote:"현장에서 실제 가구 그대로 촬영했으며 구조는 일절 변경하지 않았습니다. (광고용으로 AI를 사용해 조명·색감을 보정하고 소품을 연출했습니다.)",dlAll:"사진 전체 다운로드",dlPrep:"준비 중…",
   video:"영상",videoTitle:"영상 투어",
+  wechatAdd:"QR로 친구 추가",wechatScan:"WeChat 앱으로 스캔해 Moshi를 친구로 추가하세요. 휴대폰에서는 이미지를 저장한 뒤 앨범에서 스캔하세요.",wechatSave:"QR 이미지 저장",
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
@@ -1101,6 +1111,7 @@ ja:{
   socTitle:"SNS投稿を作成",socFormat:"サイズ",socCaption:"キャプション",socDl:"画像をダウンロード",socCopy:"キャプションをコピー",
   phDate:"写真掲載日",phNote:"現地で実際の家具のまま撮影し、構造の改変は一切ありません。（広告用にAIで光・色味を調整し、小物を演出しています）",dlAll:"写真を一括ダウンロード",dlPrep:"準備中…",
   video:"動画",videoTitle:"動画ツアー",
+  wechatAdd:"QRで友だち追加",wechatScan:"WeChatでスキャンしてMoshiを追加。スマホでは画像を保存し、アルバムから読み取ってください。",wechatSave:"QR画像を保存",
   scan:"スキャンして全写真の確認・内見予約",million:"M"
 }};
 const ZONE_NAMES = {
@@ -1427,11 +1438,12 @@ function renderContact() {
     ["WhatsApp", "#25D366", "W", "https://wa.me/" + C.whatsapp, "+" + C.whatsapp],
     [t("call"), "#1F3A5F", "☎", "tel:" + C.phones[0], C.phones.map(fmtPhone).join(" · ")],
     ["Telegram", "#229ED9", "T", "https://t.me/" + C.telegram, C.telegram],
-    ["WeChat", "#07C160", "微", "#", "ID: " + C.wechat, true],
+    ["WeChat", "#07C160", "微", "#", t("wechatAdd"), "wechat"],
     [t("email"), "#B57A27", "@", "mailto:" + C.email, C.email],
-    ["Facebook", "#1877F2", "f", C.facebook, "ASN Exclusive Property"]
+    ["Facebook Page", "#1877F2", "f", C.facebook, "ASN Sale Rent Property"],
+    ["Facebook", "#1877F2", "f", C.facebookAgent, C.person]
   ];
-  $("#channels").innerHTML = ch.map(([n, col, ic, href, v, cp]) => `<a href="${esc(href)}" ${cp ? `data-copy="${esc(C.wechat)}"` : href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
+  $("#channels").innerHTML = ch.map(([n, col, ic, href, v, cp]) => `<a href="${esc(href)}" ${cp === "wechat" ? "data-wechat" : href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
     <i style="background:${col}">${ic}</i><div style="min-width:0"><span>${esc(n)}</span><b>${esc(v)}</b></div></a>`).join("");
 }
 
@@ -1737,6 +1749,7 @@ function route() {
 }
 
 document.addEventListener("click", e => {
+  if (e.target.closest("[data-wechat]")) { e.preventDefault(); $("#wcDlg").showModal(); return; }
   const cn = e.target.closest("[data-cnav]");
   if (cn) { e.preventDefault(); cardPhoto(cn.closest("[data-card]"), +cn.dataset.cnav); return; }
   const el = e.target.closest("[data-star],[data-dstar],[data-go],[data-zone],[data-mq],[data-lb],[data-act],[data-close],[data-unsave],[data-copy],[data-deal],[data-qdeal],[data-fmt]");
