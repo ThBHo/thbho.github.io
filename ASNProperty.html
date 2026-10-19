@@ -291,6 +291,12 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .gal button:hover img{transform:scale(1.03)}
 .vsec{margin-top:22px}
 .vsec h2{font-size:18px;font-weight:600;margin-bottom:10px}
+.yt{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:14px;overflow:hidden;background:#000;cursor:pointer}
+.yt img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92;transition:opacity .2s}
+.yt:hover img{opacity:1}
+.yt-play{position:absolute;left:50%;top:50%;width:76px;height:54px;transform:translate(-50%,-50%);background:#FF0033;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.yt-play::after{content:"";position:absolute;left:31px;top:16px;border-style:solid;border-width:11px 0 11px 19px;border-color:transparent transparent transparent #fff}
+.vsec iframe{width:100%;aspect-ratio:16/9;display:block;border:0;border-radius:14px;background:#000}
 .vsec video{width:100%;aspect-ratio:16/9;display:block;border-radius:14px;background:#000}
 .card-vid{position:absolute;left:10px;bottom:10px;background:rgba(194,69,45,.92);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;letter-spacing:.04em}
 .phmeta{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
@@ -710,7 +716,7 @@ const ZONES = {
 const LISTINGS = [
   { code:"H02", name:"Siam Royal View Luxury Pool Villa", type:"villa", zone:"khaotalo", rent:500000, sale:110000000, beds:7, baths:8, land:2146, usable:null, pool:"private", style:"modern", tags:["maid3","basketball","theater"], photos:17, hot:true },
   { code:"H01", name:"Modern Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:145000, sale:24950000, beds:5, baths:5, land:480, usable:570, pool:"private", style:"modern", tags:["storey3"], photos:12, hot:true },
-  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:20, video:"asn-img/H04.mp4", poster:"asn-img/H04-video.jpg" },
+  { code:"H04", name:"Luxury Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:null, sale:68900000, beds:5, baths:10, land:1632, usable:1200, usablePlus:true, pool:"private", style:"modern", tags:[], photos:20, youtube:"YOhHKV7BHo0", video:"asn-img/H04.mp4", poster:"asn-img/H04-video.jpg" },
   { code:"C01", name:"The Riviera Jomtien · Corner Unit, 32F", type:"condo", zone:"jomtien", rent:null, sale:7200000, beds:null, baths:null, size:81.3, floor:"32", building:"D", pool:"shared", style:"modern", tags:["corner","thaiQuota","seaView"], urgent:true, photos:11, hot:true },
   { code:"H12", name:"Pool Villa · Lake Mapprachan", type:"villa", zone:"mapprachan", rent:90000, rentWas:100000, sale:null, beds:5, baths:5, land:null, usable:null, pool:"private", style:"classic", tags:[], photos:11, hot:true },
   { code:"H06", name:"Siam Royal Village", type:"villa", zone:"eastpattaya", rent:90000, rentWas:110000, sale:null, beds:3, baths:3, land:520, usable:null, pool:"private", style:"modern", tags:[], photos:12, hot:true },
@@ -1226,7 +1232,7 @@ function card(l, browse) {
   return `<article class="card"${browse ? ` data-card="${l.code}" data-ix="0"` : ""}>
     <div class="card-media"><img src="${esc(photo(l, 1))}" alt="${esc(l.name)}" loading="lazy">${nav}
       <div class="card-badges">${badges(l)}</div>
-      ${l.video ? `<span class="card-vid">▶ ${t("video")}</span>` : ""}
+      ${l.video || l.youtube ? `<span class="card-vid">▶ ${t("video")}</span>` : ""}
       <span class="card-count">📷 <span class="cix">${browse ? `1 / ` : ""}</span>${n}</span></div>
     <button type="button" class="star" data-star="${l.code}" aria-pressed="${on}" aria-label="Save">${on ? "★" : "☆"}</button>
     <div class="card-body">
@@ -1553,7 +1559,8 @@ function renderDetail(code) {
     <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
       <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button></div>
     <p class="phnote">${t("phNote")}</p>
-    ${l.video ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><video src="${esc(l.video)}" ${l.poster ? `poster="${esc(l.poster)}"` : ""} controls playsinline preload="none"></video></section>` : ""}
+    ${l.youtube ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><button type="button" class="yt" data-yt="${esc(l.youtube)}" aria-label="Play video"><img src="${esc(l.poster || `https://i.ytimg.com/vi/${l.youtube}/hqdefault.jpg`)}" alt="" loading="lazy"><span class="yt-play"></span></button></section>`
+      : l.video ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><video src="${esc(l.video)}" ${l.poster ? `poster="${esc(l.poster)}"` : ""} controls playsinline preload="none"></video></section>` : ""}
     <div class="d-grid">
       <div>
         ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
@@ -1710,7 +1717,7 @@ function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcT
 function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
 
 /* ---------- CSV (export + Google Sheet import) ---------- */
-const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","saleWas","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","isNew","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate","video","poster"];
+const CSV_COLS = ["code","name","type","zone","rent","rentWas","sale","saleWas","beds","baths","land","usable","usablePlus","size","floor","building","pool","style","tags","urgent","hot","isNew","photos","deposit","minContract","pets","furn","parking","internet","available","shortTerm","booked","photoDate","video","youtube","poster"];
 function exportCSV() {
   const cell = v => { const s = Array.isArray(v) ? v.join("|") : v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const rows = L.map(l => CSV_COLS.map(c => c === "photos" ? cell(photos(l)) : c === "booked" ? cell((l.booked || []).map(r => r.join(">"))) : cell(l[c])).join(","));
@@ -1739,7 +1746,7 @@ async function loadSheet() {
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
-      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, poster: o.poster || null,
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
@@ -1783,6 +1790,8 @@ function route() {
 }
 
 document.addEventListener("click", e => {
+  const yt = e.target.closest("[data-yt]");
+  if (yt) { const f = document.createElement("iframe"); f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(yt.dataset.yt)}?autoplay=1&rel=0&playsinline=1`; f.title = "YouTube video"; f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true; yt.replaceWith(f); return; }
   if (e.target.closest("[data-wechat]")) { e.preventDefault(); $("#wcDlg").showModal(); return; }
   const cn = e.target.closest("[data-cnav]");
   if (cn) { e.preventDefault(); cardPhoto(cn.closest("[data-card]"), +cn.dataset.cnav); return; }
