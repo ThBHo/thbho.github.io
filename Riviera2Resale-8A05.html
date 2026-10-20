@@ -800,6 +800,7 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
   <div class="sheet-ft">
     <button type="button" class="btn alt" id="dStar" data-i18n="addShortlist">บันทึกห้องนี้</button>
     <button type="button" class="btn alt" id="dCopy" data-i18n="copyListing">คัดลอกข้อมูลห้อง</button>
+    <button type="button" class="btn alt" id="dDl" hidden></button>
     <button type="button" class="btn coral" id="dSocial" data-i18n="makeSocialPost">สร้างโพสต์โซเชียล</button>
     <button type="button" class="btn" id="dPrint" data-i18n="printQuote">พิมพ์ใบเสนอราคา</button>
   </div>
@@ -1003,7 +1004,7 @@ const HIGHLIGHT_COVERS = { "8A03": 2 };
    Written out in th, en, ru and zh.
    ===================================================================== */
 /* Palette colour names; English is the key. */
-const COLOR_NAMES = {"Charcoal": {"th": "ถ่าน", "ru": "Уголь", "zh": "炭灰"}, "Walnut": {"th": "วอลนัต", "ru": "Орех", "zh": "胡桃木"}, "Honey brass": {"th": "ทองเหลืองน้ำผึ้ง", "ru": "Медовая латунь", "zh": "蜜色黄铜"}, "Stone": {"th": "หิน", "ru": "Камень", "zh": "石色"}, "Ivory": {"th": "งาช้าง", "ru": "Слоновая кость", "zh": "象牙白"}, "Espresso": {"th": "เอสเปรสโซ", "ru": "Эспрессо", "zh": "浓缩咖啡色"}, "Teak": {"th": "สัก", "ru": "Тик", "zh": "柚木"}, "Amber": {"th": "อำพัน", "ru": "Янтарь", "zh": "琥珀"}, "Sand": {"th": "ทราย", "ru": "Песок", "zh": "沙色"}, "Champagne": {"th": "แชมเปญ", "ru": "Шампань", "zh": "香槟色"}, "Caramel": {"th": "คาราเมล", "ru": "Карамель", "zh": "焦糖"}, "Linen": {"th": "ลินิน", "ru": "Лён", "zh": "亚麻色"}, "Pearl": {"th": "ไข่มุก", "ru": "Жемчуг", "zh": "珍珠白"}, "Salt white": {"th": "ขาวเกลือ", "ru": "Морская соль", "zh": "盐白"}, "Sea glass": {"th": "แก้วทะเล", "ru": "Морское стекло", "zh": "海玻璃"}, "Lagoon": {"th": "ลากูน", "ru": "Лагуна", "zh": "泻湖蓝"}, "Deep sea": {"th": "ทะเลลึก", "ru": "Глубокое море", "zh": "深海蓝"}, "Oat": {"th": "ข้าวโอ๊ต", "ru": "Овсяный", "zh": "燕麦色"}, "Ash wood": {"th": "ไม้แอช", "ru": "Ясень", "zh": "白蜡木"}, "Sage": {"th": "เสจ", "ru": "Шалфей", "zh": "鼠尾草绿"}, "Ink": {"th": "หมึก", "ru": "Чернила", "zh": "墨色"}, "Shell": {"th": "เปลือกหอย", "ru": "Ракушка", "zh": "贝壳色"}, "Apricot": {"th": "แอปริคอต", "ru": "Абрикос", "zh": "杏色"}, "Sunset clay": {"th": "ดินเผายามเย็น", "ru": "Закатная глина", "zh": "落日陶土"}, "Harbour blue": {"th": "น้ำเงินท่าเรือ", "ru": "Синева гавани", "zh": "港湾蓝"}, "Night": {"th": "ราตรี", "ru": "Ночь", "zh": "夜色"}, "Taupe": {"th": "เทาอมน้ำตาล", "ru": "Тауп", "zh": "灰褐色"}, "Moss": {"th": "มอส", "ru": "Мох", "zh": "苔绿"}, "Fern": {"th": "เฟิร์น", "ru": "Папоротник", "zh": "蕨绿"}};
+const COLOR_NAMES = {"Charcoal": {"th": "ถ่าน", "ru": "Уголь", "zh": "炭灰"}, "Walnut": {"th": "วอลนัต", "ru": "Орех", "zh": "胡桃木"}, "Honey brass": {"th": "ทองเหลืองน้ำผึ้ง", "ru": "Медовая латунь", "zh": "蜜色黄铜"}, "Stone": {"th": "หิน", "ru": "Камень", "zh": "石色"}, "Ivory": {"th": "งาช้าง", "ru": "Слоновая кость", "zh": "象牙白"}, "Espresso": {"th": "เอสเปรสโซ", "ru": "Эспрессо", "zh": "浓缩咖啡色"}, "Teak": {"th": "สัก", "ru": "Тик", "zh": "柚木"}, "Amber": {"th": "อำพัน", "ru": "Янтарь", "zh": "琥珀"}, "Sand": {"th": "ทราย", "ru": "Песок", "zh": "沙色"}, "Champagne": {"th": "แชมเปญ", "ru": "Шампань", "zh": "香槟色"}, "Caramel": {"th": "คาราเมล", "ru": "Карамель", "zh": "焦糖"}, "Linen": {"th": "ลินิน", "ru": "Лён", "zh": "亚麻色"}, "Pearl": {"th": "ไข่มุก", "ru": "Жемчуг", "zh": "珍珠白"}, "Salt white": {"th": "ขาวเกลือ", "ru": "Морская соль", "zh": "盐白"}, "Sea glass": {"th": "แก้วทะเล", "ru": "Морское стекло", "zh": "海玻璃"}, "Lagoon": {"th": "ลากูน", "ru": "Лагуна", "zh": "泻湖蓝"}, "Deep sea": {"th": "ทะเลลึก", "ru": "Глубокое море", "zh": "深海蓝"}, "Oat": {"th": "ข้าวโอ๊ต", "ru": "Овсяный", "zh": "燕麦色"}, "Ash wood": {"th": "ไม้แอช", "ru": "Ясень", "zh": "白蜡木"}, "Sage": {"th": "เสจ", "ru": "Шалфей", "zh": "鼠尾草绿"}, "Ink": {"th": "หมึก", "ru": "Чернила", "zh": "墨色"}, "Shell": {"th": "เปลือกหอย", "ru": "Ракушка", "zh": "贝壳色"}, "Apricot": {"th": "แอปริคอต", "ru": "Абрикос", "zh": "杏色"}, "Sunset clay": {"th": "ดินเผายามเย็น", "ru": "Закатная глина", "zh": "落日陶土"}, "Harbour blue": {"th": "น้ำเงินท่าเรือ", "ru": "Синева гавани", "zh": "港湾蓝"}, "Night": {"th": "ราตรี", "ru": "Ночь", "zh": "夜色"}, "Taupe": {"th": "เทาอมน้ำตาล", "ru": "Тауп", "zh": "灰褐色"}, "Moss": {"th": "มอส", "ru": "Мох", "zh": "苔绿"}, "Fern": {"th": "เฟิร์น", "ru": "Папоротник", "zh": "蕨绿"}, "Mauve": {"th": "ม่วงหม่น", "ru": "Лилово-серый", "zh": "灰紫"}, "Sea mist": {"th": "หมอกทะเล", "ru": "Морской туман", "zh": "海雾"}, "Silver grey": {"th": "เทาเงิน", "ru": "Серебристо-серый", "zh": "银灰"}};
 const colorName = n => (COLOR_NAMES[n] && COLOR_NAMES[n][lang]) || n;
 
 const UNIT_STORIES = {
@@ -1226,6 +1227,191 @@ const UNIT_STORIES = {
       fengshui: ["睡眠与起居同在一室；可用窗帘或轻薄屏风划出休息区", "床靠实墙摆放，脚尖不要正对大门", "厨房与卫生间靠近入口，与床铺分开", "西侧属金；房间的奶油色与米色与之相宜，绿植墙补充木元素，达到平衡"],
       concept: { actual: true, title: "Golden Hour Garden", text: "床头后的绿植墙是整个房间的亮点：奶油色墙面与米色床品在转角窗的晨光中显得温暖明亮，窗边设木质书桌与藤编靠背椅，玻璃球吊灯和波普艺术人像增添趣味。浴室镜子以绿植与灯环装饰，阳台摆放双人小桌，俯瞰棕榈树。" },
       mbtiText: "旅行者与冒险家：把家当作回来歇脚的基地，想要一个好打理、放心锁门离开的地方。"
+    }
+  },
+
+  "14E05": {
+    mbti: ["INFJ", "ENFP", "ISFP"],
+    palette: [["#DFD7C2", "Linen"], ["#B5A792", "Oat"], ["#A1825E", "Caramel"], ["#817466", "Mauve"], ["#443627", "Espresso"]],
+    th: {
+      name: "The Sunrise Suite",
+      tagline: "1 ห้องนอนฝั่งเมืองชั้น 14 รับแสงเช้าเต็มห้อง ห้องนอนโทนม่วงหม่นนุ่มนวล",
+      highlights: ["อาคาร E ฝั่งตะวันออก ชั้น 14 แสงเช้าส่องเข้าห้องทุกวัน เห็นวิวเมืองและพระอาทิตย์ขึ้น", "ผัง 1BR-H ห้องนอนแยก พื้นที่ 35.14 ตร.ม. พร้อมระเบียง", "ห้องนอนผนังโทนม่วงหม่นกับเตียงผ้าครีม บรรยากาศสงบแบบห้องพักโรงแรม", "ขายพร้อมแพ็กเฟอร์นิเจอร์ของโครงการ"],
+      fengshui: ["ห้องหันทิศตะวันออก รับพลังหยางจากแสงเช้า เหมาะกับการเริ่มต้นวันใหม่", "ทิศตะวันออกเป็นธาตุไม้ วางต้นไม้ใบเขียวในโซนนั่งเล่นช่วยเสริมพลังการเติบโต", "ห้องนอนแยกเป็นสัดส่วน วางหัวเตียงชิดผนังทึบและไม่หันตรงประตู", "โทนม่วงหม่นกับครีมช่วยให้ผ่อนคลาย ใช้ม่านทึบแสงในห้องนอนเพื่อการพักผ่อนช่วงเช้า"],
+      concept: { actual: true, title: "Mauve Morning", text: "ผนังห้องนอนโทนม่วงหม่นตัดกับเตียงผ้าลินินสีครีมและหมอนหลายชั้น โคมไฟข้างเตียงฐานกระจก ม่านม่วงอ่อนคู่กับม่านโปร่ง โซนนั่งเล่นปูกระเบื้องเงาสีครีม เปิดรับแสงเช้าเต็มที่ผ่านประตูกระจกบานใหญ่ออกระเบียง" },
+      mbtiText: "คนที่ชอบเริ่มวันด้วยแสงแดดและความสงบ มีจินตนาการ ใส่ใจบรรยากาศ อยากได้ห้องนอนที่นุ่มนวลเหมือนพักโรงแรม"
+    },
+    en: {
+      name: "The Sunrise Suite",
+      tagline: "A city-side one-bedroom on the 14th floor, full of morning light, with a soft mauve bedroom",
+      highlights: ["Tower E, east side, 14th floor — morning sun every day over the city and the sunrise", "The 1BR-H layout: a separate bedroom and a balcony in 35.14 sqm", "A mauve-walled bedroom with cream bedding, calm as a hotel room", "Sold with the project's furniture package"],
+      fengshui: ["The unit faces east and takes in yang energy from the morning light — a good start to every day", "East belongs to Wood; leafy plants in the living area support growth", "The bedroom is its own room: set the headboard against a solid wall, not facing the door", "Mauve and cream are restful; blackout curtains help the bedroom stay calm in the morning"],
+      concept: { actual: true, title: "Mauve Morning", text: "Mauve bedroom walls meet cream linen and layered pillows, with a glass-based bedside lamp and lilac curtains over sheers. The living area has glossy cream tiles and opens to the morning light through a full-height glass door to the balcony." },
+      mbtiText: "Early risers who like to start the day with sunlight and quiet, imaginative and sensitive to mood, who want a bedroom as soft as a hotel stay."
+    },
+    ru: {
+      name: "The Sunrise Suite",
+      tagline: "Квартира с одной спальней на 14 этаже с видом на город, полная утреннего света, с мягкой лилово-серой спальней",
+      highlights: ["Башня E, восточная сторона, 14 этаж — каждый день утреннее солнце, вид на город и рассвет", "Планировка 1BR-H: отдельная спальня и балкон на 35,14 м²", "Спальня с лилово-серыми стенами и кремовым бельём — спокойно, как в отеле", "Продаётся с мебельным пакетом застройщика"],
+      fengshui: ["Квартира обращена на восток и получает энергию ян от утреннего света — хорошее начало каждого дня", "Восток — стихия Дерева; зелёные растения в гостиной поддерживают рост", "Спальня отдельная: поставьте изголовье к глухой стене, не напротив двери", "Лилово-серый и кремовый успокаивают; плотные шторы помогут отдыхать по утрам"],
+      concept: { actual: true, title: "Mauve Morning", text: "Лилово-серые стены спальни сочетаются с кремовым льняным бельём и множеством подушек, прикроватной лампой на стеклянном основании и сиреневыми шторами поверх тюля. Гостиная с глянцевой кремовой плиткой наполнена утренним светом через стеклянную дверь на балкон." },
+      mbtiText: "Жаворонки, которые любят начинать день с солнца и тишины, творческие и чуткие к атмосфере, мечтающие о спальне, мягкой, как номер в отеле."
+    },
+    zh: {
+      name: "The Sunrise Suite",
+      tagline: "14 楼城市景一房——满室晨光，卧室以柔和灰紫色调装饰",
+      highlights: ["E 栋东侧 14 楼，每天迎接晨光，可看城市景与日出", "1BR-H 户型：35.14 平米内含独立卧室与阳台", "灰紫色墙面配奶油色床品，宁静如酒店客房", "附开发商家具包出售"],
+      fengshui: ["房屋朝东，接纳晨光阳气，有利于每天的好开始", "东方属木；在客厅摆放绿植可助长生机", "卧室独立：床头靠实墙，不要正对房门", "灰紫与奶油色令人放松；卧室使用遮光窗帘有助于早晨休息"],
+      concept: { actual: true, title: "Mauve Morning", text: "灰紫色卧室墙面搭配奶油色亚麻床品与层叠靠枕，玻璃底座床头灯与淡紫色窗帘叠配纱帘。客厅铺奶油色亮面地砖，通过落地玻璃门迎接阳台的晨光。" },
+      mbtiText: "喜欢以阳光和宁静开始一天的早起者，富有想象力、重视氛围，希望卧室像酒店一样柔软舒适。"
+    }
+  },
+
+  "17A06": {
+    mbti: ["ESFP", "ISFP", "ESTP"],
+    palette: [["#D2D2CD", "Pearl"], ["#AE947C", "Sand"], ["#8A6A52", "Teak"], ["#81898A", "Sea mist"], ["#566261", "Deep sea"]],
+    th: {
+      name: "The Sea Breeze Studio",
+      tagline: "สตูดิโอฝั่งทะเลชั้น 17 ระเบียงยาว มองเห็นทะเลจอมเทียนจากในห้อง",
+      highlights: ["ชั้น 17 ฝั่งทะเลของอาคาร วิวเมืองพัทยาและทะเลจอมเทียน", "ผัง STU-B3 พื้นที่ 31.86 ตร.ม. แบ่งโซนนอน นั่งเล่น และครัวชัดเจน", "ระเบียงยาวราวกระจก นั่งรับลมทะเลได้ยามเย็น", "ขายพร้อมแพ็กเฟอร์นิเจอร์ของโครงการ เหมาะทั้งอยู่เองและปล่อยเช่า"],
+      fengshui: ["ฝั่งทะเลหันทิศตะวันตก เป็นธาตุทอง โทนขาว ครีม และเทาเงินในห้องเข้ากันดี", "ตามหลักฮวงจุ้ย การเห็นน้ำอยู่ด้านหน้าถือว่าดีต่อการเงิน", "ผังยาวจากประตูถึงระเบียง วางพรมหรือต้นไม้กลางห้องช่วยชะลอพลัง", "แดดบ่ายฝั่งตะวันตกค่อนข้างแรง ใช้ม่านสองชั้นช่วยให้ห้องเย็นและนอนหลับสบาย"],
+      concept: { actual: true, title: "Lavender Coast", text: "เตียงหัวบุนวมสีครีมกับผ้าห่มโทนเบจ ม่านม่วงอ่อนคู่กับม่านโปร่ง โต๊ะข้างเตียงสีขาวกับโคมไฟ ครัวและตู้โทนไม้อ่อน ห้องน้ำอ่างทรงสี่เหลี่ยมกับกระจกไฟซ่อน ระเบียงพื้นลายไม้ยาวตลอดแนวห้อง" },
+      mbtiText: "คนรักทะเลและความผ่อนคลาย ใช้ชีวิตตามจังหวะตัวเอง อยากได้ห้องที่เปิดระเบียงแล้วได้ลมทะเลทันที"
+    },
+    en: {
+      name: "The Sea Breeze Studio",
+      tagline: "A sea-side studio on the 17th floor with a long balcony and the sea in view",
+      highlights: ["17th floor on the sea side of the building — Pattaya city and Jomtien Bay in view", "The STU-B3 layout zones sleeping, lounge and kitchen clearly within 31.86 sqm", "A long glass-railed balcony for the evening sea breeze", "Sold with the project's furniture package — to live in or to let"],
+      fengshui: ["The sea side faces west, the Metal direction; the room's white, cream and silver tones suit it", "In feng shui, a view of water in front is considered good for wealth", "The unit runs straight from door to balcony; a rug or plant mid-room slows the energy", "Afternoon sun from the west is strong; double curtains keep the room cool and restful"],
+      concept: { actual: true, title: "Lavender Coast", text: "A cream upholstered bed with beige throws, lilac curtains over sheers, a white bedside table and lamp, light-wood kitchen and wardrobes, a square vessel basin under a backlit mirror, and a wood-look balcony running the width of the room." },
+      mbtiText: "Sea lovers who like to take life at their own pace and want to open the balcony door to a sea breeze."
+    },
+    ru: {
+      name: "The Sea Breeze Studio",
+      tagline: "Студия с морской стороны на 17 этаже с длинным балконом и видом на море",
+      highlights: ["17 этаж, морская сторона здания — вид на Паттайю и залив Джомтьен", "Планировка STU-B3 чётко разделяет зоны сна, отдыха и кухни на 31,86 м²", "Длинный балкон со стеклянным ограждением — для вечернего морского бриза", "Продаётся с мебельным пакетом застройщика — чтобы жить или сдавать"],
+      fengshui: ["Морская сторона обращена на запад — направление Металла; белый, кремовый и серебристый тона подходят", "В фэншуй вид на воду перед домом считается благоприятным для достатка", "Квартира тянется от двери к балкону; ковёр или растение посередине замедлят поток энергии", "Послеобеденное солнце с запада сильное; двойные шторы сохранят прохладу и спокойный сон"],
+      concept: { actual: true, title: "Lavender Coast", text: "Кремовая кровать с мягким изголовьем и бежевыми пледами, сиреневые шторы поверх тюля, белая прикроватная тумба с лампой, кухня и шкафы из светлого дерева, квадратная накладная раковина под зеркалом с подсветкой и балкон с напольным покрытием под дерево во всю ширину комнаты." },
+      mbtiText: "Любители моря, которые живут в своём ритме и хотят, открыв дверь балкона, сразу почувствовать морской бриз."
+    },
+    zh: {
+      name: "The Sea Breeze Studio",
+      tagline: "17 楼海景面开间——长阳台，室内可望海",
+      highlights: ["楼栋海景面 17 楼，可望芭提雅城市与宗滴恩海湾", "STU-B3 户型在 31.86 平米内清晰划分睡眠、起居与厨房区", "玻璃栏杆长阳台，傍晚可享海风", "附开发商家具包出售——自住或出租皆宜"],
+      fengshui: ["海景面朝西，属金；房间的白色、奶油色与银灰色调与之相宜", "风水上，门前见水被视为利于财运", "户型从大门直通阳台；在房间中部放地毯或绿植可减缓气流", "西晒较强；双层窗帘有助于保持凉爽、睡得安稳"],
+      concept: { actual: true, title: "Lavender Coast", text: "奶油色软包床配米色毯子，淡紫色窗帘叠配纱帘，白色床头柜与台灯，浅木色厨房与衣柜，方形台上盆配背光镜，木纹地面阳台贯穿整个房间宽度。" },
+      mbtiText: "热爱大海与放松生活、按自己节奏过日子的人，希望一推开阳台门就能吹到海风。"
+    }
+  },
+
+  "19E02": {
+    mbti: ["ESFJ", "ISFJ", "ESTJ"],
+    palette: [["#E1DBC8", "Ivory"], ["#CEBDA1", "Oat"], ["#C3A37B", "Honey brass"], ["#9E815E", "Caramel"], ["#71593B", "Walnut"]],
+    th: {
+      name: "The Ready Home",
+      tagline: "1 ห้องนอนชั้น 19 เฟอร์นิเจอร์ครบ แต่งโทนอบอุ่น พร้อมเข้าอยู่ วิวเมืองกว้าง",
+      highlights: ["เฟอร์นิเจอร์และเครื่องใช้ไฟฟ้าครบ ตู้เย็นบานคู่ ทีวีทั้งในห้องนั่งเล่นและห้องนอน", "ผัง 1BR-D ห้องนอนแยก พื้นที่ 34.52 ตร.ม. พร้อมระเบียงวิวเมือง", "อาคาร E ฝั่งตะวันออก ชั้น 19 แสงเช้าเข้าห้อง", "ย้ายเข้าได้ทันที เหมาะทั้งอยู่เองและปล่อยเช่าระยะยาว"],
+      fengshui: ["ทิศตะวันออกเป็นธาตุไม้ ต้นไม้ใบใหญ่ในห้องช่วยเสริมพลังได้ดี", "โทนไม้ เบจ และครีมทั้งห้องให้ความรู้สึกมั่นคงและอบอุ่น", "โต๊ะทานข้าวอยู่ใกล้ครัว ช่วยให้คนในบ้านได้นั่งทานข้าวด้วยกัน", "ห้องนอนแยกเป็นสัดส่วน ควรวางหัวเตียงชิดผนังทึบและไม่หันตรงประตู"],
+      concept: { actual: true, title: "Warm Neutral", text: "โทนเบจ ไม้ และครีมทั้งห้อง เตียงผ้าลินินกับหมอนสีเขียวเข้ม โต๊ะทานข้าวกระจกขาทองกับเก้าอี้สีขาว ครัวบิวท์อินสีขาวเงากับตู้เย็นสเตนเลส ต้นไม้ใบใหญ่และม่านโปร่งเติมความสดชื่นให้ห้อง" },
+      mbtiText: "คนที่ใส่ใจคนรอบตัว ชอบบ้านที่อบอุ่นและเป็นระเบียบ อยากย้ายเข้าได้ทันทีโดยไม่ต้องจัดการอะไรเพิ่ม"
+    },
+    en: {
+      name: "The Ready Home",
+      tagline: "A fully furnished one-bedroom on the 19th floor — warm, ready to move in, with a wide city view",
+      highlights: ["Fully furnished and equipped: a double-door fridge and TVs in both living room and bedroom", "The 1BR-D layout: a separate bedroom and a city-view balcony in 34.52 sqm", "Tower E, east side, 19th floor — morning light", "Move in straight away — to live in or let long-term"],
+      fengshui: ["East belongs to Wood; large leafy plants in the room support it well", "Wood, beige and cream throughout give a settled, warm feeling", "The dining table sits by the kitchen, bringing the household to the table together", "The bedroom is its own room: set the headboard against a solid wall, not facing the door"],
+      concept: { actual: true, title: "Warm Neutral", text: "Beige, wood and cream throughout: linen bedding with deep green cushions, a gold-legged glass dining table with white chairs, a glossy white built-in kitchen with a stainless fridge, and large plants with sheer curtains to keep it fresh." },
+      mbtiText: "People who look after those around them, like a warm and orderly home, and want to move in without having to sort anything out first."
+    },
+    ru: {
+      name: "The Ready Home",
+      tagline: "Полностью меблированная квартира с одной спальней на 19 этаже — тёплая, готовая к заселению, с широким видом на город",
+      highlights: ["Полностью меблирована и оснащена: двухдверный холодильник, телевизоры в гостиной и спальне", "Планировка 1BR-D: отдельная спальня и балкон с видом на город на 34,52 м²", "Башня E, восточная сторона, 19 этаж — утренний свет", "Можно заселиться сразу — жить самим или сдавать надолго"],
+      fengshui: ["Восток — стихия Дерева; крупные зелёные растения хорошо её поддерживают", "Дерево, бежевый и кремовый по всей квартире создают ощущение устойчивости и тепла", "Обеденный стол у кухни собирает семью за общим столом", "Спальня отдельная: поставьте изголовье к глухой стене, не напротив двери"],
+      concept: { actual: true, title: "Warm Neutral", text: "Бежевый, дерево и кремовый по всей квартире: льняное бельё с тёмно-зелёными подушками, стеклянный обеденный стол на золотых ножках с белыми стульями, глянцевая белая встроенная кухня со стальным холодильником, крупные растения и лёгкий тюль для свежести." },
+      mbtiText: "Люди, которые заботятся об окружающих, любят тёплый и упорядоченный дом и хотят заселиться, ничего не доделывая."
+    },
+    zh: {
+      name: "The Ready Home",
+      tagline: "19 楼全屋家具一房——温馨、可即时入住，城市景开阔",
+      highlights: ["家具家电齐全：双门冰箱，客厅与卧室均配电视", "1BR-D 户型：34.52 平米内含独立卧室与城市景阳台", "E 栋东侧 19 楼，晨光入室", "可即时入住——自住或长租皆宜"],
+      fengshui: ["东方属木；室内的大叶绿植能很好地助旺", "全屋木色、米色与奶油色带来安稳温暖之感", "餐桌靠近厨房，便于家人围坐用餐", "卧室独立：床头靠实墙，不要正对房门"],
+      concept: { actual: true, title: "Warm Neutral", text: "全屋米色、木色与奶油色：亚麻床品配深绿色靠枕，金色桌腿玻璃餐桌配白色餐椅，亮白色嵌入式厨房与不锈钢冰箱，大型绿植与纱帘让空间保持清新。" },
+      mbtiText: "关心身边人、喜欢温馨有序的家，希望无需再做任何安排即可入住的人。"
+    }
+  },
+
+  "29E10": {
+    mbti: ["ENTJ", "INTJ", "ESTJ"],
+    palette: [["#E2E0D5", "Salt white"], ["#D1C0A7", "Champagne"], ["#B9BAB8", "Silver grey"], ["#A2876A", "Taupe"], ["#352D20", "Espresso"]],
+    th: {
+      name: "The Skyline Suite",
+      tagline: "1 ห้องนอนชั้น 29 วิวเมืองเปิดกว้างถึงขอบฟ้า ห้องนอนแยกพร้อมระเบียง",
+      highlights: ["อาคาร E ฝั่งตะวันออก ชั้น 29 วิวเมืองเปิดโล่งถึงขอบฟ้า", "ผัง 1BR-D ห้องนอนแยก พื้นที่ 35.81 ตร.ม. พร้อมระเบียง", "ครัวบิวท์อินพร้อมไมโครเวฟและเตา ห้องน้ำอ่างวางบนเคาน์เตอร์กับกระจกไฟซ่อน", "ราคาขายไม่รวมเฟอร์นิเจอร์ รูปที่เห็นคือการตกแต่งปัจจุบัน ผู้ซื้อแต่งใหม่ตามสไตล์ตัวเองได้"],
+      fengshui: ["ชั้นสูงรับแสงและลมได้เต็มที่ เหมาะกับการวางแผนและมองภาพใหญ่", "ทิศตะวันออกเป็นธาตุไม้ เสริมการเติบโตด้านการงาน", "วางโต๊ะทำงานให้หลังชนผนังทึบและมองเห็นประตู เสริมความมั่นคงในการงาน", "วางต้นไม้ที่ระเบียงช่วยกรองลมแรงของชั้นสูง"],
+      concept: { actual: true, title: "Soft Classic", text: "การตกแต่งปัจจุบัน: โซฟาบุนวมสีขาวสไตล์คลาสสิกกับผ้าขนนุ่ม โต๊ะกลางและเก้าอี้ทานข้าวลายฉลุสีครีม เตียงผ้าขาวกับผ้าคลุมลายแถบดำทอง ม่านสองชั้นโทนแชมเปญ (ราคาขายไม่รวมเฟอร์นิเจอร์)" },
+      mbtiText: "คนมีเป้าหมาย ชอบมองภาพกว้างและวางแผนระยะยาว อยากได้ห้องชั้นสูงที่เงียบ เห็นวิวไกลไว้คิดงาน"
+    },
+    en: {
+      name: "The Skyline Suite",
+      tagline: "A one-bedroom on the 29th floor with an open city view to the horizon, a separate bedroom and a balcony",
+      highlights: ["Tower E, east side, 29th floor — an open city view to the horizon", "The 1BR-D layout: a separate bedroom and a balcony in 35.81 sqm", "A built-in kitchen with microwave and hob; a vessel-basin bathroom with a backlit mirror", "The price excludes furniture — the photos show the current styling, and buyers can furnish to their own taste"],
+      fengshui: ["A high floor takes in plenty of light and air — good for planning and seeing the big picture", "East belongs to Wood, supporting career growth", "Place a desk with its back to a solid wall and a view of the door for a steady career", "Plants on the balcony soften the stronger wind of a high floor"],
+      concept: { actual: true, title: "Soft Classic", text: "As styled today: a white tufted classic sofa with a faux-fur throw, a cream fretwork coffee table and dining chairs, white bedding with a black-and-gold striped runner, and double champagne curtains (furniture is not included in the price)." },
+      mbtiText: "Goal-driven planners who like to see the big picture and think long-term, and want a quiet high-floor room with a far view to think in."
+    },
+    ru: {
+      name: "The Skyline Suite",
+      tagline: "Квартира с одной спальней на 29 этаже с открытым видом на город до горизонта, отдельной спальней и балконом",
+      highlights: ["Башня E, восточная сторона, 29 этаж — открытый вид на город до горизонта", "Планировка 1BR-D: отдельная спальня и балкон на 35,81 м²", "Встроенная кухня с микроволновкой и плитой; ванная с накладной раковиной и зеркалом с подсветкой", "Цена без мебели — на фото текущая обстановка, покупатель может обставить квартиру на свой вкус"],
+      fengshui: ["Высокий этаж получает много света и воздуха — хорошо для планирования и взгляда на картину в целом", "Восток — стихия Дерева, она поддерживает рост карьеры", "Поставьте рабочий стол спинкой к глухой стене и с видом на дверь — для стабильности в делах", "Растения на балконе смягчат сильный ветер высокого этажа"],
+      concept: { actual: true, title: "Soft Classic", text: "Текущая обстановка: белый классический диван с каретной стяжкой и меховым пледом, кремовые резные журнальный столик и обеденные стулья, белое постельное бельё с чёрно-золотой полосатой дорожкой и двойные шторы цвета шампанского (мебель в цену не входит)." },
+      mbtiText: "Целеустремлённые стратеги, которые видят картину целиком и мыслят на перспективу и хотят тихую квартиру на высоком этаже с далёким видом для размышлений."
+    },
+    zh: {
+      name: "The Skyline Suite",
+      tagline: "29 楼一房——城市景开阔直达天际，独立卧室带阳台",
+      highlights: ["E 栋东侧 29 楼，城市景开阔直达天际线", "1BR-D 户型：35.81 平米内含独立卧室与阳台", "嵌入式厨房配微波炉与灶台；浴室为台上盆配背光镜", "售价不含家具——照片为目前的布置，买家可按自己的风格重新布置"],
+      fengshui: ["高楼层采光通风充足，利于规划与纵观全局", "东方属木，有助于事业发展", "书桌背靠实墙、面向可见房门的位置，有助事业稳定", "在阳台摆放绿植，可缓和高楼层的强风"],
+      concept: { actual: true, title: "Soft Classic", text: "目前的布置：白色拉扣古典沙发配仿皮草毯，奶油色镂空茶几与餐椅，白色床品配黑金条纹床旗，香槟色双层窗帘（售价不含家具）。" },
+      mbtiText: "目标明确、善于纵观全局并长远规划的人，希望拥有安静的高楼层房间，远眺风景、专心思考。"
+    }
+  },
+
+  "COMMERCIAL-1": {
+    mbti: ["ESTP", "ENTJ", "ESTJ"],
+    palette: [["#E5D8C7", "Linen"], ["#C4B297", "Sand"], ["#A28E72", "Ash wood"], ["#A4A699", "Sage"], ["#3C3725", "Charcoal"]],
+    th: {
+      name: "The Jomtien Storefront",
+      tagline: "อาคารพาณิชย์ชั้น G ติดถนน หน้าร้านกระจกเต็มแนว โถงเพดานสูง พื้นที่รวม 182.75 ตร.ม.",
+      highlights: ["หน้าร้านกระจกบานเลื่อนเต็มความกว้าง ติดถนน มองเห็นชัดจากด้านหน้า", "โถงชั้นล่างเพดานสูงพร้อมชั้นลอย เปิดโล่ง จัดเป็นโชว์รูมหรือร้านค้าได้", "ห้องชั้นบนหน้าต่างกว้างรับแสง เหมาะเป็นออฟฟิศ ห้องประชุม หรือห้องรับรองลูกค้า", "มีห้องน้ำและพื้นที่ซักล้างด้านหลัง อยู่ในแถวอาคารพาณิชย์ของโครงการร่วมกับร้านค้าและสำนักงานอื่น"],
+      fengshui: ["หน้าร้านเปิดกว้างออกสู่ถนน เป็นปากรับพลังที่ดีสำหรับธุรกิจ ควรรักษาหน้าร้านให้สว่างและโล่งเสมอ", "บันไดอยู่ด้านในสุด ห่างจากประตูหน้า พลังที่เข้ามาจึงหมุนเวียนในชั้นล่างก่อน", "ห้องน้ำอยู่ด้านหลังห่างจากทางเข้า ควรปิดประตูไว้และวางต้นไม้ช่วยปรับสมดุล", "วางเคาน์เตอร์หรือโต๊ะเจ้าของให้หลังชนผนังทึบและมองเห็นประตูหน้า เสริมความมั่นคงทางการค้า"],
+      concept: { actual: false, title: "Bright Showroom", text: "แนวทางการตกแต่ง: ชั้นล่างเป็นโชว์รูมโทนไม้อ่อน มีเคาน์เตอร์ต้อนรับ โต๊ะจัดแสดงสินค้า และต้นไม้ใหญ่ ใช้เพดานสูงให้เป็นจุดเด่นด้วยโคมไฟแขวน ชั้นบนจัดเป็นออฟฟิศ ห้องประชุม และห้องรับรองลูกค้าในโทนครีม ไม้ และเขียว (ห้องจริงส่งมอบเป็นพื้นที่ว่าง)" },
+      mbtiText: "นักธุรกิจสายลงมือทำ ชอบพบปะลูกค้า มองหาหน้าร้านติดถนนย่านจอมเทียนพร้อมพื้นที่ออฟฟิศในที่เดียว"
+    },
+    en: {
+      name: "The Jomtien Storefront",
+      tagline: "A ground-floor commercial unit on the road — a full-width glass shopfront, a high-ceilinged hall and 182.75 sqm in total",
+      highlights: ["A full-width sliding glass shopfront on the road, clearly visible from the front", "A high-ceilinged ground-floor hall with a mezzanine, open plan, ready to become a showroom or shop", "Upper rooms with wide windows suit an office, meeting room or client lounge", "A toilet and a rear wash area, in the project's commercial row alongside other shops and offices"],
+      fengshui: ["The shopfront opens wide to the road — a good mouth of energy for business; keep it bright and clear", "The stairs sit at the far end, away from the front door, so incoming energy circulates on the ground floor first", "The toilet is at the back, away from the entrance; keep its door closed and add a plant for balance", "Set the counter or owner's desk with its back to a solid wall and a view of the front door for steady trade"],
+      concept: { actual: false, title: "Bright Showroom", text: "A suggested direction: a light-wood showroom on the ground floor with a reception counter, display tables and large plants, the high ceiling made a feature with pendant lights; upstairs, an office, meeting room and client lounge in cream, wood and green (the unit is handed over as an empty shell)." },
+      mbtiText: "Hands-on entrepreneurs who enjoy meeting customers and want a roadside shopfront in Jomtien with office space in one place."
+    },
+    ru: {
+      name: "The Jomtien Storefront",
+      tagline: "Коммерческое помещение на первом этаже у дороги — витрина во всю ширину, зал с высоким потолком и 182,75 м² общей площади",
+      highlights: ["Раздвижная стеклянная витрина во всю ширину у дороги, хорошо видна спереди", "Зал на первом этаже с высоким потолком и антресолью, открытая планировка — под шоурум или магазин", "Верхние помещения с широкими окнами подойдут под офис, переговорную или зону для клиентов", "Туалет и хозяйственная зона сзади; помещение в коммерческом ряду проекта рядом с другими магазинами и офисами"],
+      fengshui: ["Витрина широко открыта на дорогу — хорошие «врата» энергии для бизнеса; держите её светлой и свободной", "Лестница в глубине, далеко от входа, поэтому входящая энергия сначала циркулирует на первом этаже", "Туалет сзади, далеко от входа; держите дверь закрытой и поставьте растение для баланса", "Поставьте стойку или стол владельца спиной к глухой стене и с видом на вход — для стабильной торговли"],
+      concept: { actual: false, title: "Bright Showroom", text: "Предлагаемое решение: на первом этаже — шоурум в светлом дереве со стойкой ресепшн, демонстрационными столами и крупными растениями, высокий потолок подчёркнут подвесными светильниками; наверху — офис, переговорная и зона для клиентов в кремовых, древесных и зелёных тонах (помещение передаётся пустым, без мебели и отделки)." },
+      mbtiText: "Предприниматели-практики, которые любят общаться с клиентами и ищут витрину у дороги в Джомтьене вместе с офисом в одном месте."
+    },
+    zh: {
+      name: "The Jomtien Storefront",
+      tagline: "临路底层商铺——全宽玻璃门面、挑高大厅，总面积 182.75 平米",
+      highlights: ["全宽玻璃推拉门面临路，从正面一目了然", "底层挑高大厅带夹层，开敞布局，可作展厅或店铺", "楼上房间窗户宽大、采光好，适合作办公室、会议室或客户接待室", "设卫生间与后部清洗区，位于项目商业街，与其他商铺和办公室相邻"],
+      fengshui: ["门面向道路敞开，是利于生意的纳气口；请保持门面明亮通畅", "楼梯位于最里侧、远离正门，进入的气先在一楼回旋", "卫生间在后部、远离入口；请保持门关闭，并摆放绿植平衡气场", "收银台或老板桌背靠实墙、面向正门，有助生意稳定"],
+      concept: { actual: false, title: "Bright Showroom", text: "建议方案：一楼为浅木色展厅，设接待台、展示桌与大型绿植，以吊灯突出挑高空间；楼上布置为办公室、会议室与客户接待室，采用奶油色、木色与绿色（实际交付为空置毛坯空间）。" },
+      mbtiText: "注重行动、喜欢与客户打交道的创业者，寻找宗滴恩临路门面并兼具办公空间。"
     }
   }
 };
@@ -1898,6 +2084,9 @@ function openUnit(code){
   if (!u) return;
   current = u;
   const c = costs(u);
+  const dl = $("#dDl"), nDl = dlItems(u).length;
+  delete dl.dataset.lbl; dl.disabled = false;
+  dl.hidden = !nDl; dl.innerHTML = `⤓ ${t("uDl")} (${nDl})`;
 
   $("#dTitle").textContent = u.unit;
   $("#dSub").textContent = `${t(viewLabel(u))} · ${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}`;
@@ -2100,7 +2289,7 @@ const PAGE_FILE_STEM = "Riviera2Resale";                  // live file names: Ri
 const hasPage = code => !!UNIT_STORIES[code] || HIGHLIGHTS.units.includes(code);
 const unitHref = code => window.SITE_PAGES ? `${PAGE_FILE_STEM}-${code}.html` : `#unit-${code}`;
 const listHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}.html` : "#";
-const unitFromUrl = () => window.UNIT_PAGE || (location.hash.match(/^#unit-([0-9A-Z]+)$/i) || [])[1] || null;   // "#matching" is handled by subPageFromUrl
+const unitFromUrl = () => window.UNIT_PAGE || (location.hash.match(/^#unit-([0-9A-Z-]+)$/i) || [])[1] || null;   // "#matching" is handled by subPageFromUrl
 const storyOf = code => { const s = UNIT_STORIES[code]; return s ? (s[lang] || s.en) : null; };
 
 /* Typical floor plate, from the sales kit's "Typical Room Number Layout":
@@ -2236,14 +2425,14 @@ function renderUnitPage(code){
       <div>
         ${st ? `<section class="u-sec"><h2>${t("uHighlights")}</h2><ul class="u-list">${st.highlights.map(h => `<li>${h}</li>`).join("")}</ul></section>` : ""}
 
-        <section class="u-sec">
+        ${u.type === "Commercial" ? "" : `<section class="u-sec">
           <h2>${t("uLocation")}</h2>
           <div class="u-loc">
             <div class="u-plate">${plateSVG(u)}</div>
             ${floorBar(u)}
           </div>
           <p class="note">${t("uLocNote")}</p>
-        </section>
+        </section>`}
 
         ${lay ? `<section class="u-sec"><h2>${t("uPlan")}</h2>
           <button type="button" class="u-plan" data-uplan="1" aria-label="${t("uPlan")}"><img src="${lay.src}" alt="${t("uPlan")} ${u.unit}" loading="lazy"></button>
@@ -3088,6 +3277,7 @@ $("#dlg").addEventListener("keydown", e => {
   else if (e.key === "ArrowLeft"){ e.preventDefault(); galGo(-1); }
 });
 $("#dSocial").addEventListener("click", () => { if (current) openSocialDlg(current.unit); });
+$("#dDl").addEventListener("click", e => { if (current) downloadAllPhotos(current, e.currentTarget); });
 $("#dClose").addEventListener("click", () => $("#dlg").close());
 function openLineDlg(){
   $("#lGrid").innerHTML = CONTACT.lines.map(l => `<div class="lcard">
