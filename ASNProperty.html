@@ -319,6 +319,33 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .kv b{display:block;font-size:15px;font-weight:600}
 .kv b.ask{color:var(--muted);font-weight:500}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
+.szbs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.szb{font-size:12.5px;font-weight:600;border-radius:999px;padding:4px 11px;white-space:nowrap}
+.szb-low,.szb-vlow{background:var(--rent-soft);color:var(--rent)}
+.szb-med{background:var(--accent-soft);color:var(--accent)}
+.szb-high{background:var(--hot-soft);color:var(--hot)}
+.szh3{font-size:14px;font-weight:600;margin:4px 0 8px}
+.szqa{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:6px}
+.szqa li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.szqa li span{color:var(--ink-2)}
+.szqa b{font-weight:600;text-align:right}
+.szqa .szpend{color:var(--muted);font-weight:500;font-style:italic}
+.szpage h1{font-family:var(--f-display);font-size:clamp(28px,5vw,40px);line-height:1.15;margin:4px 0 6px}
+.szcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;margin-top:18px}
+.szc{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--rent);border-radius:var(--radius);padding:16px}
+.szc-med{border-left-color:var(--accent)} .szc-high{border-left-color:var(--hot)}
+.szc-hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.szc-hd h2{font-size:17px;font-weight:600}
+.szc p{font-size:14px;line-height:1.65;color:var(--ink-2)}
+.szev{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.szev li{display:grid;grid-template-columns:96px 1fr;gap:10px;font-size:14px}
+.szev time{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.szsrc{font-size:13px;line-height:1.7;padding-left:20px;color:var(--ink-2)}
+.szsrc a{word-break:break-word}
+.szpage sup a{text-decoration:none;font-size:11px}
+.szpage .btn{white-space:normal;max-width:100%;height:auto;text-align:left}
+.szlinks{margin-top:16px;font-size:14px;line-height:1.9}
+.szlinks a{font-weight:600}
 .tag{font-size:13px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:4px 11px;font-weight:600}
 .cal{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .cal-m h3{font-size:14px;font-weight:600;margin-bottom:6px}
@@ -333,7 +360,7 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .cal-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 @media (max-width:560px){ .cal{grid-template-columns:1fr} }
 #dmap{height:260px;border-radius:12px;border:1px solid var(--line);z-index:1}
-@media (max-width:900px){ .d-grid{grid-template-columns:1fr} .d-side{position:static} }
+@media (max-width:900px){ .d-grid{grid-template-columns:minmax(0,1fr)} .d-side{position:static} }
 
 /* ---------- shortlist bar & dialogs ---------- */
 .slbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 8px 8px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100% - 24px)}
@@ -508,6 +535,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
         <div><div id="map"></div><p class="mapnote" data-i18n="mapNote"></p></div>
         <div class="zlist" id="zlist"></div>
       </div>
+      <p class="szlinks" id="szLinks"></p>
     </div>
   </section>
 
@@ -818,6 +846,7 @@ th:{
   newBadge:"ใหม่",furnFull:"เฟอร์นิเจอร์ครบ พร้อมเข้าอยู่",
   tag_cityView:"วิวเมือง",
   commercial:"อาคารพาณิชย์",tag_roadFront:"ติดถนน",furnNone:"ไม่มีเฟอร์นิเจอร์",
+  szTitle:"ความปลอดภัยของทำเล",szSub:"รายงานรายโซนจากแหล่งข้อมูลที่ตรวจสอบได้ ใช้กับทุกทรัพย์ในโซนนี้",szFlood:"น้ำท่วม",szQuake:"แผ่นดินไหว",szWind:"พายุและลม",szCoast:"ชายฝั่ง",lvl_low:"ต่ำ",lvl_med:"ปานกลาง",lvl_high:"สูง",lvl_vlow:"ต่ำมาก",szRead:"อ่านรายงานโซนฉบับเต็ม",szHouse:"ข้อมูลเฉพาะหลังนี้",szQ1:"พื้นบ้านหรือชั้นล่างสูงกว่าถนนเท่าไร",szQ2:"ตู้ไฟหรือห้องไฟฟ้าอยู่ระดับไหน",szQ3:"มีไฟสำรอง ปั๊มน้ำ และถังเก็บน้ำหรือไม่",szQ4:"น้ำฝนในบ้านหรือโครงการระบายออกทางไหน",szPending:"รอข้อมูลจาก ASN",szUpdated:"อัปเดตล่าสุด",szEvents:"เหตุการณ์ที่บันทึกไว้",szSources:"แหล่งข้อมูล",szProv:"ภาพรวมอำเภอบางละมุง (ThinkHazard · ธนาคารโลก)",szProps:"ทรัพย์ ASN ในโซนนี้",szRule:"รายงานนี้สรุปตามข้อมูลที่มีจริง ทุกข้อมีแหล่งที่มาและวันที่ ไม่ได้รับรองว่าปลอดภัย 100% ระดับความเสี่ยงของแต่ละหลังขึ้นกับระดับพื้น ซอย และการระบายน้ำของโครงการ ดูคำตอบ 4 ข้อในหน้าทรัพย์ และอัปเดตหลังเหตุการณ์ใหญ่ทุกครั้ง",szLangNote:"",szAllZones:"รายงานความปลอดภัยรายโซน",szDeep:"รายงานเชิงลึก",hz_cyclone:"พายุไซโคลน/ลมแรง",hz_wildfire:"ไฟป่า",hz_heat:"อากาศร้อนจัด",hz_river:"น้ำท่วมจากแม่น้ำ",hz_urban:"น้ำท่วมในเมือง",hz_quake:"แผ่นดินไหว",hz_tsunami:"สึนามิ",hz_water:"ขาดแคลนน้ำ",hz_coastal:"น้ำท่วมชายฝั่ง",hz_landslide:"ดินถล่ม",
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
@@ -885,6 +914,7 @@ en:{
   newBadge:"New",furnFull:"Fully furnished",
   tag_cityView:"City view",
   commercial:"Commercial",tag_roadFront:"Road frontage",furnNone:"Unfurnished",
+  szTitle:"Location safety",szSub:"One sourced report per zone, shared by every property in it",szFlood:"Flooding",szQuake:"Earthquake",szWind:"Storms & wind",szCoast:"Coast",lvl_low:"Low",lvl_med:"Medium",lvl_high:"High",lvl_vlow:"Very low",szRead:"Read the full zone report",szHouse:"This property",szQ1:"How high is the ground floor above the road?",szQ2:"Where is the electrical panel or room?",szQ3:"Backup power, water pump and water tank?",szQ4:"Where does rainwater drain from the house or project?",szPending:"Awaiting details from ASN",szUpdated:"Last updated",szEvents:"Recorded events",szSources:"Sources",szProv:"Bang Lamung district overview (ThinkHazard · World Bank)",szProps:"ASN properties in this zone",szRule:"This report sums up what the records show. Every point has a source and a date. It is not a guarantee of safety: each property also depends on its floor level, its street and its project drainage, so see the four answers on each listing. We update it after every major event.",szLangNote:"",szAllZones:"Location safety by zone",szDeep:"In-depth report",hz_cyclone:"Cyclone / strong wind",hz_wildfire:"Wildfire",hz_heat:"Extreme heat",hz_river:"River flood",hz_urban:"Urban flood",hz_quake:"Earthquake",hz_tsunami:"Tsunami",hz_water:"Water scarcity",hz_coastal:"Coastal flood",hz_landslide:"Landslide",
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
@@ -952,6 +982,7 @@ ru:{
   newBadge:"Новое",furnFull:"Полностью меблирована",
   tag_cityView:"Вид на город",
   commercial:"Коммерческое помещение",tag_roadFront:"Выход на дорогу",furnNone:"Без мебели",
+  szTitle:"Безопасность района",szSub:"Отчёт по району с проверяемыми источниками — для всех объектов района",szFlood:"Наводнения",szQuake:"Землетрясения",szWind:"Шторма и ветер",szCoast:"Побережье",lvl_low:"Низкий",lvl_med:"Средний",lvl_high:"Высокий",lvl_vlow:"Очень низкий",szRead:"Полный отчёт по району",szHouse:"Этот объект",szQ1:"Насколько пол первого этажа выше дороги?",szQ2:"Где электрощит или электрощитовая?",szQ3:"Есть ли резервное питание, насос и бак для воды?",szQ4:"Куда отводится дождевая вода с участка или проекта?",szPending:"Ждём данные от ASN",szUpdated:"Обновлено",szEvents:"Зафиксированные события",szSources:"Источники",szProv:"Район Бангламунг (ThinkHazard · Всемирный банк)",szProps:"Объекты ASN в этом районе",szRule:"Отчёт основан на фактических данных, у каждого пункта есть источник и дата. Это не гарантия безопасности: многое зависит от уровня пола, улицы и дренажа проекта — смотрите 4 ответа на странице объекта.",szLangNote:"Подробности отчёта показаны на английском.",szAllZones:"Безопасность по районам",szDeep:"Подробный отчёт",hz_cyclone:"Циклон / сильный ветер",hz_wildfire:"Лесные пожары",hz_heat:"Сильная жара",hz_river:"Речное наводнение",hz_urban:"Городское подтопление",hz_quake:"Землетрясение",hz_tsunami:"Цунами",hz_water:"Нехватка воды",hz_coastal:"Прибрежное наводнение",hz_landslide:"Оползни",
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
@@ -1019,6 +1050,7 @@ zh:{
   newBadge:"新上架",furnFull:"家具齐全，拎包入住",
   tag_cityView:"城市景观",
   commercial:"商铺",tag_roadFront:"临街",furnNone:"无家具",
+  szTitle:"地段安全",szSub:"按区域整理、来源可查的报告，适用于该区域所有房源",szFlood:"水浸",szQuake:"地震",szWind:"风暴与强风",szCoast:"海岸",lvl_low:"低",lvl_med:"中",lvl_high:"高",lvl_vlow:"极低",szRead:"查看完整区域报告",szHouse:"本房源",szQ1:"首层地面比道路高多少？",szQ2:"电箱或配电房在哪一层？",szQ3:"是否有备用电源、水泵和储水箱？",szQ4:"房屋或项目的雨水从哪里排出？",szPending:"等待 ASN 提供资料",szUpdated:"最近更新",szEvents:"已记录事件",szSources:"资料来源",szProv:"邦拉蒙县概况（ThinkHazard · 世界银行）",szProps:"本区域的 ASN 房源",szRule:"本报告依据实际记录整理，每项均附来源与日期，并非安全保证。每套房屋还取决于地面高度、所在街道和项目排水，请参看房源页的 4 个答案。",szLangNote:"报告详情以英文显示。",szAllZones:"各区域地段安全报告",szDeep:"深度报告",hz_cyclone:"气旋/强风",hz_wildfire:"野火",hz_heat:"极端高温",hz_river:"河流洪水",hz_urban:"城市内涝",hz_quake:"地震",hz_tsunami:"海啸",hz_water:"缺水",hz_coastal:"沿海洪水",hz_landslide:"山体滑坡",
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
@@ -1086,6 +1118,7 @@ ko:{
   newBadge:"신규",furnFull:"풀옵션",
   tag_cityView:"시티뷰",
   commercial:"상업 공간",tag_roadFront:"도로변",furnNone:"가구 없음",
+  szTitle:"입지 안전",szSub:"출처를 확인할 수 있는 구역별 보고서 — 구역 내 모든 매물에 적용",szFlood:"침수",szQuake:"지진",szWind:"폭풍·강풍",szCoast:"해안",lvl_low:"낮음",lvl_med:"보통",lvl_high:"높음",lvl_vlow:"매우 낮음",szRead:"구역 보고서 전체 보기",szHouse:"이 매물",szQ1:"1층 바닥이 도로보다 얼마나 높습니까?",szQ2:"분전반이나 전기실은 어느 층에 있습니까?",szQ3:"비상 전원, 펌프, 물탱크가 있습니까?",szQ4:"집이나 단지의 빗물은 어디로 빠집니까?",szPending:"ASN 정보 대기 중",szUpdated:"최종 업데이트",szEvents:"기록된 사건",szSources:"출처",szProv:"방라뭉 군 개요 (ThinkHazard · 세계은행)",szProps:"이 구역의 ASN 매물",szRule:"이 보고서는 실제 기록을 바탕으로 하며 모든 항목에 출처와 날짜가 있습니다. 안전을 보장하지 않으며, 각 매물은 바닥 높이·도로·단지 배수에 따라 다르므로 매물 페이지의 4가지 답변을 확인하세요.",szLangNote:"보고서 세부 내용은 영어로 표시됩니다.",szAllZones:"구역별 입지 안전 보고서",szDeep:"심층 보고서",hz_cyclone:"사이클론/강풍",hz_wildfire:"산불",hz_heat:"폭염",hz_river:"하천 범람",hz_urban:"도시 침수",hz_quake:"지진",hz_tsunami:"쓰나미",hz_water:"물 부족",hz_coastal:"해안 침수",hz_landslide:"산사태",
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
@@ -1153,6 +1186,7 @@ ja:{
   newBadge:"新着",furnFull:"家具完備",
   tag_cityView:"シティビュー",
   commercial:"店舗・商業区画",tag_roadFront:"道路沿い",furnNone:"家具なし",
+  szTitle:"立地の安全性",szSub:"出典付きのエリア別レポート — エリア内の全物件に共通",szFlood:"浸水",szQuake:"地震",szWind:"嵐・強風",szCoast:"海岸",lvl_low:"低",lvl_med:"中",lvl_high:"高",lvl_vlow:"非常に低",szRead:"エリアレポート全文を見る",szHouse:"この物件",szQ1:"1階の床は道路よりどのくらい高いか",szQ2:"分電盤・電気室はどの階にあるか",szQ3:"非常用電源・ポンプ・貯水タンクはあるか",szQ4:"敷地やプロジェクトの雨水はどこへ流れるか",szPending:"ASN からの情報待ち",szUpdated:"最終更新",szEvents:"記録された出来事",szSources:"出典",szProv:"バンラムン郡の概要（ThinkHazard・世界銀行）",szProps:"このエリアの ASN 物件",szRule:"本レポートは実際の記録に基づき、各項目に出典と日付を付けています。安全を保証するものではなく、物件ごとに床の高さ・道路・排水が異なるため、物件ページの4つの回答もご確認ください。",szLangNote:"レポートの詳細は英語で表示されます。",szAllZones:"エリア別 立地安全レポート",szDeep:"詳細レポート",hz_cyclone:"サイクロン・強風",hz_wildfire:"山火事",hz_heat:"猛暑",hz_river:"河川洪水",hz_urban:"都市型浸水",hz_quake:"地震",hz_tsunami:"津波",hz_water:"水不足",hz_coastal:"高潮・沿岸洪水",hz_landslide:"土砂災害",
   scan:"スキャンして全写真の確認・内見予約",million:"M"
 }};
 const ZONE_NAMES = {
@@ -1165,6 +1199,91 @@ const ZONE_NAMES = {
   pratumnak:{th:"พระตำหนัก",en:"Pratumnak Hill",ru:"Пратамнак",zh:"帕塔纳山",ko:"프라탐낙",ja:"プラタムナック"},
   jomtien:{th:"หาดจอมเทียน",en:"Jomtien Beach",ru:"Джомтьен",zh:"宗甸海滩",ko:"좀티엔 비치",ja:"ジョムティエンビーチ"}
 };
+/* ---------- Safe Zone: one sourced report per zone, linked from every listing in it ----------
+   lvl: low | med | high. Text in th + en (other languages fall back to en).
+   Update `updated` and add an event after every major storm or quake. */
+const SZ_UPDATED = "2026-10-21";
+const SZ_SRC = {
+  thinkhazard: { n: "ThinkHazard (World Bank GFDRR) · Bang Lamung, Chonburi", u: "https://thinkhazard.org/en/report/26532-thailand-chonburi-bang-lamung", d: "2026-10-21" },
+  dmrFaults: { n: "Thai PBS · 16 active fault groups (Department of Mineral Resources)", u: "https://www.thaipbs.or.th/news/content/503961", d: "2026-03-29" },
+  quake2025: { n: "Pattaya Mail · Mayor: no building damage from 28 Mar 2025 tremors", u: "https://www.pattayamail.com/news/pattaya-mayor-denies-reports-of-building-damage-from-earthquake-tremors-495692", d: "2025-03-28" },
+  floodMap: { n: "Siamglow · Pattaya flood map, 25 storms May 2024 – Sep 2026 (compiled from city and news reports)", u: "https://siamglow.com/pattaya-real-estate-blog/pattaya-flood-map/", d: "2026-09-26" },
+  nineSpots: { n: "Pattaya Mail · Nine flood hotspots on 24-hour watch", u: "https://www.pattayamail.com/news/pattaya-puts-nine-critical-flood-hotspots-on-24-hour-alert-566050", d: "2026-09-24" },
+  khaoTalo: { n: "Pattaya Mail · Rail-side road raised at the Khao Talo flood spot", u: "https://www.pattayamail.com/news/pattaya-mayor-leads-rail-side-road-upgrade-to-fix-khao-talo-flood-hotspot-vows-lasting-improvement-537198", d: "2026-02-26" },
+  siamCC2022: { n: "Pattaya Mail · Heavy downpour floods homes off Siam Country Club Road", u: "https://www.pattayamail.com/news/heavy-downpour-floods-pattaya-homes-on-siam-country-club-road-405101", d: "2022-07-29" },
+  canal2026: { n: "The Pattaya News · Flooded canal, Moo 6 Nongprue near Soi Siam Country Club", u: "https://thepattayanews.com/2026/09/28/body-believed-to-be-missing-south-korean-man-recovered-from-flooded-canal-near-pattaya-golf-course/", d: "2026-09-28" },
+  reservoir: { n: "Pattaya Mail · Mabprachan reservoir full, controlled release", u: "https://www.pattayamail.com/news/startlingly-full-pattayas-mabprachan-reservoir-starts-discharging-water-375622", d: "2021-10-15" },
+  jomtienSand: { n: "Pattaya Mail · Jomtien Beach sand replenishment, phase 2", u: "https://www.pattayamail.com/news/jomtien-beach-sand-replenishment-phase-2-underway-with-318-million-baht-budget-to-transform-pattayas-coastline-526721", d: "2026-08-05" }
+};
+// Bang Lamung district levels as published by ThinkHazard (checked 21 Oct 2026)
+const SZ_PROVINCE = [["cyclone","high"],["wildfire","high"],["heat","med"],["river","low"],["urban","low"],["quake","low"],["tsunami","low"],["water","low"],["coastal","vlow"],["landslide","vlow"]];
+const SZ_COMMON = {
+  quake: { lvl: "low", src: ["dmrFaults","quake2025","thinkhazard"],
+    th: "ชลบุรีไม่อยู่ในแนวรอยเลื่อนมีพลัง 16 กลุ่มของกรมทรัพยากรธรณี กลุ่มที่ใกล้ที่สุดอยู่ภาคตะวันตก (กาญจนบุรี) ห่างพัทยาหลายร้อยกิโลเมตร แผ่นดินไหวเมียนมา 28 มี.ค. 2025 รู้สึกได้ในพัทยา มีการอพยพออกจากอาคารสูงและหยุดงานก่อสร้างชั่วคราว นายกเมืองพัทยายืนยันว่าไม่มีความเสียหายต่ออาคารที่มีนัยสำคัญ (โรงพยาบาลบางแห่งพบรอยร้าวเล็กน้อยและรอการตรวจโครงสร้าง) ThinkHazard จัดระดับ: ต่ำ",
+    en: "Chonburi is not crossed by any of Thailand's 16 active fault groups mapped by the Department of Mineral Resources; the nearest groups are in the west (Kanchanaburi), several hundred kilometres away. The 28 Mar 2025 Myanmar earthquake was felt in Pattaya: high-rises were evacuated and construction paused as a precaution, and the mayor reported no significant building damage (some hospital buildings showed minor cracks pending checks). ThinkHazard rating: Low." },
+  wind: { lvl: "med", src: ["thinkhazard"],
+    th: "ThinkHazard จัดอำเภอบางละมุงเป็นระดับ \"สูง\" สำหรับพายุไซโคลน ซึ่งหมายถึงโอกาสเจอลมแรงระดับสร้างความเสียหายในระยะยาว ในทางปฏิบัติที่พบบ่อยคือพายุฝนฟ้าคะนองลมแรงช่วงฤดูฝน ส่วนพายุโซนร้อนที่เข้าอ่าวไทยมักอ่อนกำลังลงก่อนถึงพัทยา เราจึงแสดงเป็น \"ปานกลาง\" และแนะนำให้ตรวจหลังคา ต้นไม้ใหญ่ และของบนระเบียงก่อนฤดูฝน",
+    en: "ThinkHazard rates Bang Lamung \"High\" for cyclones, meaning damaging winds are possible over the long term. In practice the common events are strong thunderstorm winds in the rainy season, while tropical storms entering the Gulf usually weaken before Pattaya. We show this as Medium and suggest checking roofs, large trees and balcony items before the rainy season." }
+};
+const SAFE_ZONES = {
+  jomtien: {
+    flood: { lvl: "low", src: ["floodMap","nineSpots"],
+      th: "จอมเทียนไม่อยู่ในจุดเฝ้าระวังน้ำท่วม 24 ชั่วโมงที่เมืองพัทยาประกาศช่วงพายุ 24–27 ก.ย. 2026 แต่มีน้ำขังเป็นจุดๆ ได้เมื่อท่อระบายอุดตัน เช่น ต้นเดือน ก.ค. 2026 ริมหาดจอมเทียนหลายจุด (เมืองลอกตะกอนในท่อออกราว 90 ซม.) และแยกกุ้งเต้น ซอยเทพประสิทธิ์ 7",
+      en: "Jomtien was not among the flood spots Pattaya City put on 24-hour watch for the 24–27 Sep 2026 storms, but short-lived flooding can happen when drains clog, as along Jomtien beach in early July 2026 (the city cleared about 90 cm of silt from the pipes) and at the Kung Ten junction on Thepprasit Soi 7." },
+    coast: { lvl: "med", src: ["jomtienSand","thinkhazard"],
+      th: "หาดจอมเทียนเคยถูกกัดเซาะ กรมเจ้าท่าเติมทรายระยะที่ 1 (เริ่ม 2020) ยาว 3.5 กม. หาดกว้างเฉลี่ยราว 50 ม. ระยะที่ 2 ยาว 2.85 กม. กำลังก่อสร้าง ความคืบหน้าราว 30–40% (ส.ค. 2026) กำหนดเสร็จ 2027 ThinkHazard จัดน้ำท่วมชายฝั่ง: ต่ำมาก สึนามิ: ต่ำ (อ่าวไทยตื้นและไม่มีแนวมุดตัวของเปลือกโลก)",
+      en: "Jomtien beach has suffered erosion. The Marine Department's phase 1 nourishment (from 2020) restored 3.5 km to an average width of about 50 m; phase 2 (2.85 km) was about 30–40% complete in Aug 2026 and is due in 2027. ThinkHazard: coastal flood Very low, tsunami Low (the Gulf is shallow, with no subduction zone)." },
+    events: [
+      ["2026-07", "ริมหาดจอมเทียนน้ำขังหลายจุด เมืองลอกตะกอนในท่อออกราว 90 ซม.", "Several flooded spots along Jomtien beach; the city cleared about 90 cm of silt from the drains.", "floodMap"],
+      ["2025-12", "วางท่อระบายน้ำเลียบหาดจอมเทียนยาวราว 3.5 กม. แล้วเสร็จ", "About 3.5 km of new beachfront drainage completed.", "floodMap"],
+      ["2025-05-21", "ถนนดงตาลมีน้ำขัง ผู้สื่อข่าวระบุว่าไม่ปกติสำหรับถนนนี้", "Flooding on Dongtan Road, described by the reporter as unusual for that road.", "floodMap"]
+    ],
+    deep: { th: "รายงานธรณีและการระบายน้ำของจอมเทียน", en: "Jomtien geology and drainage report", u: "https://thbho.github.io/SafeZone.html" } },
+  pratumnak: {
+    flood: { lvl: "low", src: ["floodMap"],
+      th: "พระตำหนักเป็นเนินเขา ไม่พบรายงานน้ำท่วมถนนตั้งแต่ พ.ค. 2024 ถึง ก.ย. 2026 วันที่ 24 ก.ย. 2026 สถานีวัดฝนราชวรุณวัดได้ 132 มม. โดยไม่มีการบันทึกน้ำท่วม ที่ต้องระวังคือถนนเชิงเขาฝั่งพัทยาใต้และวอล์กกิ้งสตรีทซึ่งท่วมเป็นครั้งคราว",
+      en: "Pratumnak is a hill. No street flooding was reported from May 2024 to Sep 2026; on 24 Sep 2026 the Rajavarun station logged 132 mm with no flooding recorded. The roads at the foot of the hill (South Pattaya Road, Walking Street) do flood at times." },
+    coast: { lvl: "low", src: ["thinkhazard"],
+      th: "ชายฝั่งเป็นหินและหน้าผา ตัวอาคารอยู่สูงกว่าระดับทะเล ThinkHazard จัดน้ำท่วมชายฝั่ง: ต่ำมาก สึนามิ: ต่ำ",
+      en: "Rocky, cliff-lined shore with buildings well above sea level. ThinkHazard: coastal flood Very low, tsunami Low." },
+    events: [["2026-09-24", "ฝน 132 มม. ที่สถานีราชวรุณ ไม่มีบันทึกน้ำท่วมบนเขา", "132 mm at Rajavarun station, no flooding recorded on the hill.", "floodMap"]] },
+  thappraya: {
+    flood: { lvl: "low", src: ["floodMap","nineSpots"],
+      th: "ถนนทัพพระยาอยู่บนแนวลาดระหว่างเขาพระตำหนักกับจอมเทียน ไม่พบในรายชื่อจุดเสี่ยงของเมืองพัทยาและไม่พบรายงานน้ำท่วมถนนในบันทึกพายุ 25 ครั้ง (พ.ค. 2024 – ก.ย. 2026) ซอยย่อยที่ต่ำอาจมีน้ำขังชั่วคราวช่วงฝนหนัก",
+      en: "Thappraya Road runs along the slope between Pratumnak Hill and Jomtien. It is not on Pattaya's flood-spot lists and does not appear in the 25-storm record (May 2024 – Sep 2026). Low side streets can hold water briefly in heavy rain." },
+    coast: null, events: [] },
+  pattanakarn: {
+    flood: { lvl: "med", src: ["floodMap","nineSpots"],
+      th: "ถนนพัฒนาการเองไม่อยู่ในรายชื่อจุดเสี่ยง แต่ซอยเขาน้อยที่อยู่ใกล้เป็นจุดท่วมซ้ำ (8 ใน 25 พายุ ลึก 30–100 ซม.) และถนนเลียบทางรถไฟช่วงเขาน้อยท่วมบ่อยที่สุดในเมือง เส้นทางเข้าออกจึงอาจติดขัดช่วงฝนหนัก ตัวบ้านขึ้นกับระดับพื้นและซอย",
+      en: "Pattanakarn Road itself is not on the flood lists, but nearby Soi Khao Noi floods repeatedly (8 of 25 storms, 30–100 cm) and the rail-side road at Khao Noi is the city's most frequently flooded stretch, so access can be disrupted in heavy rain. Each house depends on its floor level and street." },
+    coast: null,
+    events: [["2025-10-13", "ซอยเขาน้อยน้ำสูง 50–60 ซม.", "Soi Khao Noi under 50–60 cm of water.", "floodMap"], ["2025-09-07", "ซอยเขาน้อยน้ำสูง 50–80 ซม.", "Soi Khao Noi under 50–80 cm of water.", "floodMap"]] },
+  khaotalo: {
+    flood: { lvl: "high", scope: { th: "ถนนเข้าออก", en: "access roads" }, src: ["khaoTalo","floodMap","nineSpots"],
+      th: "แยกเขาตาโลบนถนนเลียบทางรถไฟเป็นจุดน้ำท่วมบ่อยที่สุดของพัทยา เพราะเป็นแอ่งต่ำ วันที่ 24 ก.ย. 2026 เมืองวัดได้ลึก 100 ซม. ยาว 500 ม. นาน 5 ชม. 11 นาที ระดับ \"สูง\" นี้คือถนนเข้าออก ส่วนบ้านบนเนินหรือในโครงการที่ถมสูงอาจไม่ท่วม ดูคำตอบ 4 ข้อของแต่ละหลัง เมืองยกถนนช่วงนี้ 275 ม. (ก.พ.–มี.ค. 2026) และมีแผนท่อและสถานีสูบน้ำระยะที่ 2 เสร็จปี 2027",
+      en: "The Khao Talo junction on the rail-side road is Pattaya's most frequently flooded spot because it sits in a bowl. On 24 Sep 2026 the city measured 100 cm over 500 m for 5 h 11 min. This High rating is about access roads: hillside homes and well-raised projects may stay dry, so check each listing's four answers. The city raised 275 m of the road (Feb–Mar 2026), and new pipes and pump stations are planned for 2027." },
+    coast: null,
+    events: [["2026-09-24", "แยกเขาตาโล น้ำลึก 100 ซม. ยาว 500 ม. นาน 5 ชม. 11 นาที (เมืองวัด)", "Khao Talo junction: 100 cm over 500 m for 5 h 11 min (city measurement).", "floodMap"], ["2026-03", "ยกระดับถนนเลียบทางรถไฟช่วงเขาตาโล 275 ม.", "275 m of the rail-side road raised at Khao Talo.", "khaoTalo"], ["2024-09-18", "ถนนเลียบทางรถไฟ น้ำลึกกว่า 90 ซม. ณ จุดต่ำสุด", "Rail-side road: over 90 cm at the lowest point.", "floodMap"]] },
+  eastpattaya: {
+    flood: { lvl: "med", src: ["floodMap","reservoir"],
+      th: "เป็นพื้นที่กว้าง ความเสี่ยงต่างกันมากตามซอย จุดที่มีบันทึก: 24 ก.ย. 2026 น้ำเข้าบ้านในหมู่บ้านแปซิฟิก ถนนเพชรตระกูล และซอยวัดหนองใหญ่ 2 น้ำลึก 50 ซม. ยาว 150 ม. แยกไชยพฤกษ์บนสุขุมวิทอยู่ในรายชื่อเฝ้าระวังของเมือง เมื่ออ่างมาบประชันเต็มและปล่อยน้ำ (ต.ค. 2021) ทางการระบุว่ากระทบพื้นที่ต่ำเพียงเล็กน้อย",
+      en: "A large area where risk varies street by street. On record: on 24 Sep 2026 water entered homes in Pacific Village on Phetchtrakul Road, and Soi Wat Nong Yai 2 had 50 cm over 150 m. The Chaiyapruek junction on Sukhumvit is on the city's watch list. When the Mabprachan reservoir was full and released water (Oct 2021), officials said low-lying areas would see only minor effects." },
+    coast: null,
+    events: [["2026-09-24", "หมู่บ้านแปซิฟิก ถ.เพชรตระกูล น้ำเข้าบ้าน · ซอยวัดหนองใหญ่ 2 ลึก 50 ซม.", "Water entered homes in Pacific Village, Phetchtrakul Rd · Soi Wat Nong Yai 2 at 50 cm.", "floodMap"], ["2021-10", "อ่างมาบประชันเต็ม ปล่อยน้ำวันละ 120,000 ลบ.ม.", "Mabprachan reservoir full, releasing 120,000 m³ a day.", "reservoir"]] },
+  siamcc: {
+    flood: { lvl: "med", src: ["siamCC2022","canal2026"],
+      th: "ไม่อยู่ในรายชื่อจุดเสี่ยงหลักของเมือง แต่มีบันทึกน้ำท่วมซอยย่อย: ก.ค. 2022 ซอยไชยพรวิถี 21 (ซอยปิโปโปนี่คลับ) น้ำไหลบ่าจากถนนทางหลวง 7 สูงราว 50 ซม. และช่วงพายุ ก.ย. 2026 คลองในหมู่ 6 หนองปรือใกล้ซอยสยามคันทรีคลับมีน้ำเอ่อล้น",
+      en: "Not on the city's main flood lists, but side streets have flooded: in Jul 2022 runoff from Highway 7 left about 50 cm of water on Soi Chaiyaphonvitee 21 (Pipo Pony Club), and during the Sep 2026 storms a canal in Moo 6 Nongprue near Soi Siam Country Club ran very high." },
+    coast: null,
+    events: [["2026-09", "คลองหมู่ 6 หนองปรือ ใกล้ซอยสยามคันทรีคลับ น้ำเอ่อสูง", "Canal in Moo 6 Nongprue near Soi Siam Country Club ran very high.", "canal2026"], ["2022-07-26", "ซอยไชยพรวิถี 21 น้ำไหลบ่าจากทางหลวง 7 สูงราว 50 ซม.", "Soi Chaiyaphonvitee 21: about 50 cm of runoff from Highway 7.", "siamCC2022"]] },
+  mapprachan: {
+    flood: { lvl: "low", src: ["floodMap","reservoir"],
+      th: "ไม่พบรายงานน้ำท่วมบริเวณทะเลสาบมาบประชันในข่าวและรายชื่อจุดเสี่ยงของเมือง (พ.ค. 2024 – ก.ย. 2026) พื้นที่เป็นเนินลอนลาด เมื่ออ่างเต็มและปล่อยน้ำ (ต.ค. 2021) ทางการระบุว่าไม่กระทบบ้านเรือน เส้นทางลงเมืองผ่านจุดเสี่ยงอย่างแยกเขาตาโลได้ในบางเส้น",
+      en: "No flooding around Lake Mapprachan appears in news reports or the city's flood-spot lists (May 2024 – Sep 2026). The area is rolling and higher ground; when the reservoir was full and released water (Oct 2021), officials said homes would not be affected. Some routes into town pass flood spots such as the Khao Talo junction." },
+    coast: null,
+    events: [["2021-10-15", "อ่างมาบประชันเต็ม ปล่อยน้ำ ทางการระบุไม่กระทบบ้านเรือน", "Reservoir full and released; officials said homes would not be affected.", "reservoir"]] }
+};
+
 const LANGS = ["th","en","ru","zh","ko","ja"];
 
 /* ====================================================================
@@ -1573,6 +1692,7 @@ function renderDetail(code) {
         ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
         <div class="d-sec"><h2>${t("details")}</h2><div class="kv">${kv}</div></div>
         ${(l.type === "villa" || l.type === "house") || l.rent ? `<div class="d-sec"><h2>${t("calTitle")}</h2>${calendar(l)}</div>` : ""}
+        ${safeStrip(l)}
         <div class="d-sec" style="border:0"><h2>${t("locTitle")}</h2><div id="dmap"></div><p class="mapnote">${t("mapNote")}</p></div>
       </div>
       <aside class="d-side">
@@ -1587,7 +1707,7 @@ function renderDetail(code) {
             <button type="button" class="btn" data-act="dlall" style="flex-basis:100%">⬇️ ${t("dlAll")} (${ph.length})</button>
           </div>
         </div>
-        <div class="ch" style="grid-template-columns:1fr 1fr">
+        <div class="ch" style="grid-template-columns:repeat(2,minmax(0,1fr))">
           <a href="https://line.me/ti/p/~${encodeURIComponent(CONTACT.line)}" target="_blank" rel="noopener"><i style="background:#06C755">L</i><div><span>LINE</span><b>${esc(CONTACT.line)}</b></div></a>
           <a href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(lineText(l))}" target="_blank" rel="noopener"><i style="background:#25D366">W</i><div><span>WhatsApp</span><b>+${CONTACT.whatsapp}</b></div></a>
           ${CONTACT.phones.map(p => `<a href="tel:${p}"><i style="background:#1F3A5F">☎</i><div><span>${t("call")}</span><b>${fmtPhone(p)}</b></div></a>`).join("")}
@@ -1611,7 +1731,7 @@ function renderDetail(code) {
     <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ${esc(CONTACT.company)}</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}<br><small style="color:#666">${esc(CONTACT.companyTh)} · ${esc(CONTACT.address)}</small></p>
       <div class="fl-qr"><img id="flQr" alt="QR"><p>${t("scan")}</p></div></div>
   </div>`;
-  $("#detailView").dataset.code = l.code;
+  $("#detailView").dataset.code = l.code; $("#detailView").dataset.zone = "";
   try { const q = qrcode(0, "M"); q.addData(listingUrl(l)); q.make(); $("#flQr").src = q.createDataURL(6, 2); } catch (e) {}
   if (window.L && window.L.map) {
     if (dmap) { dmap.remove(); dmap = null; }
@@ -1621,6 +1741,52 @@ function renderDetail(code) {
     window.L.circle(z.ll, { radius: 900, color: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(), weight: 1.5, fillOpacity: .2 }).addTo(dmap).bindTooltip(zn(l.zone), { permanent: true, direction: "center" });
   }
   document.title = `${l.name} · ASN Exclusive Property`;
+}
+
+/* ---------- Safe Zone ---------- */
+const szTx = o => o ? (lang === "th" ? o.th : o.en) : "";
+const szBadge = (label, lvl) => `<span class="szb szb-${lvl}">${esc(label)} · ${t("lvl_" + lvl)}</span>`;
+function szRows(z) {
+  const S = SAFE_ZONES[z]; if (!S) return [];
+  return [["szFlood", S.flood], ["szQuake", SZ_COMMON.quake], ["szWind", SZ_COMMON.wind], ...(S.coast ? [["szCoast", S.coast]] : [])];
+}
+const szLabel = (k, h) => t(k) + (h.scope ? ` (${szTx(h.scope)})` : "");
+function safeStrip(l) {
+  if (!SAFE_ZONES[l.zone]) return "";
+  const s = l.safe || {};
+  const qa = ["floor", "elec", "backup", "drain"].map((k, i) => `<li><span>${t("szQ" + (i + 1))}</span><b class="${s[k] ? "" : "szpend"}">${esc(s[k] || t("szPending"))}</b></li>`).join("");
+  return `<div class="d-sec" id="safe"><h2>🛡️ ${t("szTitle")} · ${esc(zn(l.zone))}</h2>
+    <div class="szbs">${szRows(l.zone).map(([k, h]) => szBadge(szLabel(k, h), h.lvl)).join("")}</div>
+    <h3 class="szh3">${t("szHouse")}</h3><ul class="szqa">${qa}</ul>
+    <a class="btn sm" href="#/zone/${l.zone}">${t("szRead")} →</a></div>`;
+}
+function renderZone(z) {
+  const S = SAFE_ZONES[z];
+  if (!S) { location.hash = "#/"; return; }
+  const ls = L.filter(l => l.zone === z);
+  const srcIds = [...new Set([...szRows(z).flatMap(([, h]) => h.src), ...S.events.map(e => e[3]), "thinkhazard"])];
+  const src = id => { const i = srcIds.indexOf(id); return i < 0 ? "" : `<sup><a href="#szs-${id}">[${i + 1}]</a></sup>`; };
+  $("#detailView").innerHTML = `
+  <div class="wrap szpage">
+    <nav class="crumb"><a href="#/map">${t("back")}</a></nav>
+    <p class="eyebrow">🛡️ ${t("szTitle")}</p>
+    <h1>${esc(zn(z))}</h1>
+    <p class="where">${t("szSub")} · ${t("szUpdated")} <b>${fmtDate(SZ_UPDATED)}</b></p>
+    ${t("szLangNote") ? `<p class="phnote">${t("szLangNote")}</p>` : ""}
+    <div class="szcards">${szRows(z).map(([k, h]) => `<div class="szc szc-${h.lvl}"><div class="szc-hd"><h2>${esc(szLabel(k, h))}</h2><span class="szb szb-${h.lvl}">${t("lvl_" + h.lvl)}</span></div><p>${esc(szTx(h))} ${h.src.map(src).join("")}</p></div>`).join("")}</div>
+    ${S.events.length ? `<div class="d-sec"><h2>${t("szEvents")}</h2><ul class="szev">${S.events.map(e => `<li><time>${esc(e[0].length === 10 ? fmtDate(e[0]) : e[0])}</time><span>${esc(lang === "th" ? e[1] : e[2])} ${src(e[3])}</span></li>`).join("")}</ul></div>` : ""}
+    <div class="d-sec"><h2>${t("szProv")}</h2><div class="szbs">${SZ_PROVINCE.map(([k, v]) => szBadge(t("hz_" + k), v)).join("")}</div></div>
+    ${S.deep ? `<p style="margin-top:14px"><a class="btn sm" href="${esc(S.deep.u)}" target="_blank" rel="noopener">📄 ${t("szDeep")}: ${esc(szTx(S.deep))} ↗</a></p>` : ""}
+    <p class="phnote" style="margin-top:18px">${t("szRule")}</p>
+    ${ls.length ? `<section class="sec" style="padding-top:26px"><div class="sec-hd"><h2 style="font-size:22px">${t("szProps")} (${ls.length})</h2></div><div class="grid">${ls.map(card).join("")}</div></section>` : ""}
+    <div class="d-sec" style="border:0"><h2>${t("szSources")}</h2><ol class="szsrc">${srcIds.map(id => { const s = SZ_SRC[id]; return `<li id="szs-${id}"><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a> · ${fmtDate(s.d)}</li>`; }).join("")}</ol></div>
+  </div>`;
+  $("#detailView").dataset.code = ""; $("#detailView").dataset.zone = z;
+  document.title = `${t("szTitle")} · ${zn(z)} · ASN Exclusive Property`;
+}
+function renderSzLinks() {
+  const el = $("#szLinks"); if (!el) return;
+  el.innerHTML = `<b>🛡️ ${t("szAllZones")}:</b> ` + Object.keys(SAFE_ZONES).map(z => `<a href="#/zone/${z}">${esc(zn(z))}</a>`).join(" · ");
 }
 
 /* ---------- photo date & download all ---------- */
@@ -1776,7 +1942,9 @@ function applyI18n() {
 function renderAll() {
   applyI18n(); renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
   renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones();
+  renderSzLinks();
   if (!$("#detailView").hidden && $("#detailView").dataset.code) renderDetail($("#detailView").dataset.code);
+  else if (!$("#detailView").hidden && $("#detailView").dataset.zone) renderZone($("#detailView").dataset.zone);
 }
 const SECTIONS = { listings: "listings", map: "map-sec", match: "match", book: "book", about: "about", contact: "contact" };
 function route() {
@@ -1786,6 +1954,10 @@ function route() {
   if (a === "l" && b) {
     $("#homeView").hidden = true; $("#detailView").hidden = false;
     renderDetail(b); window.scrollTo(0, 0); return;
+  }
+  if (a === "zone" && b) {
+    $("#homeView").hidden = true; $("#detailView").hidden = false;
+    renderZone(b); window.scrollTo(0, 0); return;
   }
   document.title = "ASN Exclusive Property";
   const wasDetail = !$("#detailView").hidden;
