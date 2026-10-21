@@ -1004,9 +1004,13 @@ function layoutFor(u){
 
 const HIGHLIGHTS = { month: "2026-09", units: ["7D02", "8A03", "9A06", "8A05", "8A06", "9A02"] };
 
-/* Cover photo on the main page — featured cards and the full list — as the
-   photo number in the unit's gallery. Unit pages and share previews keep photo 1. */
-const HIGHLIGHT_COVERS = { "8A03": 2 };
+/* Cover photo on cards (featured, full list, matching results, "other units"):
+   one of the unit's first three photos, picked at random on each visit so the page
+   doesn't open on the same angle card after card. A unit keeps its pick while the
+   visitor stays (filters, language). Photos tagged as the room today are never the
+   cover. Unit pages and share previews keep photo 1.
+   COVER_POOL narrows the choice where photo 2 or 3 isn't a good room shot. */
+const COVER_POOL = { "8A03": [1, 2], "9A02": [1, 2], "17A06": [1, 3] };
 
 /* =====================================================================
    UNIT PAGES — story content for featured units
@@ -2589,9 +2593,22 @@ function photoDateLine(u){
   return `<p class="galdate">${t("photoUpd")} ${txt}<br>${t("photoNote")}</p>`;
 }
 
-function shot(u, coverNo){
+const coverPick = {};
+let lastCover = 0;
+function coverOf(u){
+  if (coverPick[u.unit]) return coverPick[u.unit];
+  const n = mediaOf(u).photos.length;
+  const asis = (UNIT_MEDIA[u.unit] || {}).asis || [];
+  let pool = (COVER_POOL[u.unit] || [1, 2, 3]).filter(i => i <= n && !asis.includes(i));
+  if (!pool.length) pool = [1];
+  const fresh = pool.filter(i => i !== lastCover);      // the next card leads with a different photo number
+  const from = fresh.length ? fresh : pool;
+  return lastCover = coverPick[u.unit] = from[Math.floor(Math.random() * from.length)];
+}
+
+function shot(u){
   const { photos, hasVideo, hasPlan, planSrc } = mediaOf(u);
-  const cover = (coverNo && photos[coverNo - 1]) || photos[0];
+  const cover = photos[coverOf(u) - 1] || photos[0];
   if (!photos.length && !hasVideo && !hasPlan)
     return `<div class="ph${u.view === "Sea View" ? " sea" : ""}">${camIcon}<span>${t("noPhoto")}</span></div>`;
   const tally = [];
@@ -2619,7 +2636,7 @@ function renderGrid(list){
   }
   $("#grid").innerHTML = list.map(u => `
     <div class="card${u.status === "SOLD" ? " is-sold" : ""}" data-unit="${u.unit}" role="button" tabindex="0" aria-label="${u.unit}">
-      <div class="shot">${shot(u, HIGHLIGHT_COVERS[u.unit])}<div class="badges">${badges(u)}</div>
+      <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div>
         <button type="button" class="star" aria-pressed="${saved.has(u.unit)}" aria-label="${t("addShortlist")} ${u.unit}" data-star="${u.unit}">${starIcon(saved.has(u.unit))}</button>
       </div>
       <div class="cbody">
@@ -2881,7 +2898,7 @@ function renderHighlights(){
   document.getElementById("hlGrid").dataset.n = picks.length;
   document.getElementById("hlGrid").innerHTML = picks.map(u => `
     ${hasPage(u.unit) ? `<a class="hcard" href="${unitHref(u.unit)}" aria-label="${u.unit}">` : `<div class="hcard" data-unit="${u.unit}" role="button" tabindex="0" aria-label="${u.unit}">`}
-      <div class="shot">${shot(u, HIGHLIGHT_COVERS[u.unit])}<div class="badges">${badges(u)}</div></div>
+      <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
       <div class="hbody">
         <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
         ${mbtiStrip(u.unit)}
@@ -3389,7 +3406,7 @@ function renderMatches(){
       <span class="mx-acts"><button type="button" class="btn" data-mxcopy="1">${M.copy}</button></span></div>
     <div class="mx-grid">${list.map(({ u, score, why }, i) => `
       <button type="button" class="hcard mx-card" data-mxopen="${u.unit}">
-        <div class="shot">${shot(u, HIGHLIGHT_COVERS[u.unit])}<div class="badges">${badges(u)}</div><span class="mx-rank">${i + 1}</span></div>
+        <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div><span class="mx-rank">${i + 1}</span></div>
         <div class="hbody">
           <div class="utop"><span class="ucode">${u.unit}</span><span class="mx-pct"><b>${score}%</b> ${M.match}</span></div>
           <div class="mx-bar"><i style="width:${score}%"></i></div>
