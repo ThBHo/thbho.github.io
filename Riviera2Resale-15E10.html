@@ -276,6 +276,8 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .navb{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;background:rgba(6,28,34,.55);color:#fff;display:grid;place-items:center;font-size:19px;line-height:1;padding:0 0 3px}
 .navb:hover{background:rgba(6,28,34,.78)}
 .navb.prev{left:10px}.navb.next{right:10px}
+.ideatag{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 96px);z-index:2;background:rgba(6,28,34,.62);color:#fff;font-size:11px;line-height:1.4;padding:5px 9px;border-radius:8px;pointer-events:none}
+@media (max-width:560px){.ideatag{font-size:10px;padding:4px 7px;max-width:calc(100% - 80px)}}
 .stagetag.asis{background:rgba(31,107,74,.86);text-transform:none;letter-spacing:.02em;font-size:11.5px}
 .stagetag{position:absolute;left:10px;top:10px;background:rgba(6,28,34,.62);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
 .stage.isplan{background:#fff}
@@ -871,6 +873,11 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
    backdrop in the gallery.
    ===================================================================== */
 const MAX_PHOTOS = 13;
+/* Units whose staged photos show a styling idea (story concept "actual: false" and an
+   as-is set beside them) carry a small remark on each staged room photo. Not on the
+   as-is photos, nor on these view shots and door signs (photo numbers). */
+const IDEA_SKIP = { "22E12": [10], "30E06": [10], "30E11": [10], "30E12": [10], "31E10": [10],
+  "35E06": [9, 10], "35E08": [9, 10], "36E04": [9, 10], "36E06": [9, 10], "36E09": [9, 10] };
 
 const UNIT_MEDIA = {
   "14E05": { photos: ["riviera-img/14E05-1.jpg", "riviera-img/14E05-2.jpg", "riviera-img/14E05-3.jpg", "riviera-img/14E05-4.jpg", "riviera-img/14E05-5.jpg", "riviera-img/14E05-6.jpg", "riviera-img/14E05-7.jpg"], updated: "2026-09-21" },
@@ -1122,7 +1129,7 @@ const UNIT_STORIES = {
   },
 
   "8A03": {
-    mbti: ["ESFP", "ENFP", "ISFJ"],
+    mbti: ["ESFP", "ENFP", "ESFJ"],
     palette: [["#2D200F", "Espresso"], ["#54442D", "Walnut"], ["#926F50", "Caramel"], ["#BD9C7E", "Sand"], ["#F1E4D0", "Ivory"]],
     th: {
       name: "The Boutique Suite",
@@ -1167,7 +1174,7 @@ const UNIT_STORIES = {
   },
 
   "9A06": {
-    mbti: ["INTP", "ISTP", "INTJ"],
+    mbti: ["ISFJ", "ISFP", "ESFJ"],
     palette: [["#EEE9E0", "Pearl"], ["#D8C3A5", "Champagne"], ["#A9794F", "Caramel"], ["#4F6B35", "Fern"], ["#33302C", "Charcoal"]],
     th: {
       name: "The Smart Start",
@@ -1175,7 +1182,7 @@ const UNIT_STORIES = {
       highlights: ["ห้องฝั่งทะเลของอาคาร ชั้น 9 เฟอร์นิเจอร์ครบจากโครงการ", "ผัง STU-B3 แบ่งโซนนอน นั่งเล่น และครัวชัดเจนในพื้นที่ 31.86 ตร.ม.", "ขนาดกะทัดรัด ดูแลง่าย ค่าส่วนกลางคิดตามพื้นที่จึงไม่สูง", "ห้องแรกที่ดี ทั้งสำหรับอยู่เองหรือเก็บไว้เป็นทรัพย์สิน"],
       fengshui: ["ผังห้องยาวจากประตูถึงระเบียง ควรวางพรมหรือต้นไม้กลางห้องช่วยชะลอพลัง", "วางเตียงด้านในติดหน้าต่าง ให้หัวเตียงชิดผนังทึบ", "ครัวกับห้องน้ำอยู่ใกล้ทางเข้า แยกจากโซนนอนชัดเจน", "ฝั่งตะวันตกเป็นธาตุทอง โทนแชมเปญ สีขาว และคริสตัลของห้องเข้ากันดี ผนังต้นไม้ช่วยเติมธาตุไม้ให้สมดุล"],
       concept: { actual: true, title: "Crystal Garden", text: "ห้องนอนแยกด้วยผนังกระจกบานเลื่อน หัวเตียงเป็นผนังต้นไม้พร้อมไฟซ่อน โคมคริสตัลทรงน้ำตกเพิ่มความหรูหรา ผ้าปูโทนแชมเปญ พรมขนยาวสีเข้ม และตู้ลิ้นชักสีขาวสไตล์ฝรั่งเศส มุมนั่งเล่นมีโซฟาครีมกับโต๊ะกระจก ห้องน้ำอ่างคู่มีกระจกล้อมด้วยใบไม้ ระเบียงมีโต๊ะกับเก้าอี้ไว้นั่งรับลม" },
-      mbtiText: "คนคิดเป็นระบบ ชอบของที่ใช้งานได้จริงและไม่ต้องดูแลมาก อยากได้ห้องเรียบๆ ที่ปรับแต่งเองได้ตามใจ"
+      mbtiText: "คนอ่อนโยน ใส่ใจรายละเอียดความสวยงาม ชอบห้องที่อบอุ่นน่ารัก ดูแลง่าย และพร้อมเข้าอยู่เป็นบ้านหลังแรก"
     },
     en: {
       name: "The Smart Start",
@@ -1183,7 +1190,7 @@ const UNIT_STORIES = {
       highlights: ["On the sea side of the building, 9th floor, with the project's furniture package", "The STU-B3 layout zones sleeping, lounge and kitchen clearly within 31.86 sqm", "Compact and easy to look after; the maintenance fee scales with the area", "A sound first home — to live in or to hold"],
       fengshui: ["The unit runs straight from door to balcony; a rug or plant mid-room slows the energy", "Place the bed inside by the window, headboard against a solid wall", "Kitchen and bathroom sit by the entrance, apart from the sleeping zone", "The west side is Metal; the room's champagne, white and crystal suit it, and the living walls add Wood for balance"],
       concept: { actual: true, title: "Crystal Garden", text: "The bedroom sits behind sliding glass, with a backlit living wall at the headboard and cascading crystal chandeliers overhead. Champagne linen, a deep shag rug and a white French-style dresser keep it soft; a cream sofa and glass coffee table make the lounge corner. The double-basin bathroom mirror is wrapped in greenery, and the balcony has a bistro table for the breeze." },
-      mbtiText: "Systematic thinkers who like things that work and need little upkeep, and want a clean base to adapt their own way."
+      mbtiText: "Gentle people with an eye for pretty details, who want a warm, charming home that's easy to keep and ready to move into as a first home."
     },
     ru: {
       name: "The Smart Start",
@@ -1191,7 +1198,7 @@ const UNIT_STORIES = {
       highlights: ["Морская сторона здания, 9 этаж, мебельный пакет от застройщика", "Планировка STU-B3 чётко разделяет зоны сна, отдыха и кухни на 31,86 м²", "Компактная и простая в обслуживании; плата за содержание зависит от площади", "Хороший первый дом — чтобы жить или как актив"],
       fengshui: ["Квартира тянется от двери к балкону; ковёр или растение посередине замедлят поток энергии", "Поставьте кровать в глубине у окна, изголовьем к глухой стене", "Кухня и ванная у входа, отдельно от зоны сна", "Западная сторона — стихия Металла; тона шампанского, белый цвет и хрусталь ей подходят, а зелёные стены добавляют стихию Дерева для баланса"],
       concept: { actual: true, title: "Crystal Garden", text: "Спальня отделена раздвижным стеклом: у изголовья — живая стена с подсветкой, над кроватью — каскадные хрустальные люстры. Бельё цвета шампанского, густой ворсистый ковёр и белый комод во французском стиле создают мягкость; кремовый диван и стеклянный столик образуют зону отдыха. Зеркало над двойной раковиной обрамлено зеленью, а на балконе — столик, чтобы отдохнуть на ветерке." },
-      mbtiText: "Системные мыслители, которые ценят практичные вещи и минимум хлопот и хотят чистую основу, чтобы обустроить всё по-своему."
+      mbtiText: "Мягкие люди с вниманием к красивым деталям, которым нужен тёплый, очаровательный дом — простой в уходе и готовый к заселению как первое жильё."
     },
     zh: {
       name: "The Smart Start",
@@ -1199,7 +1206,7 @@ const UNIT_STORIES = {
       highlights: ["位于楼栋海景面 9 楼，配开发商家具包", "STU-B3 户型在 31.86 平米内清晰划分睡眠、起居与厨房区", "面积紧凑、打理省心；物业费按面积计算", "理想的第一套房——自住或持有皆宜"],
       fengshui: ["户型从大门直通阳台；在房间中部放地毯或绿植可减缓气流", "床放在内侧靠窗，床头靠实墙", "厨房与卫生间靠近入口，与睡眠区分开", "西侧属金；房间的香槟色、白色与水晶与之相宜，绿植墙补充木元素，达到平衡"],
       concept: { actual: true, title: "Crystal Garden", text: "卧室以玻璃推拉门分隔，床头是带暗藏灯光的绿植墙，上方悬挂瀑布式水晶吊灯。香槟色床品、深色长毛地毯与白色法式斗柜营造柔和氛围；奶油色沙发与玻璃茶几组成休闲角。双台盆浴室的镜子以绿植环绕，阳台设小圆桌，可吹风小憩。" },
-      mbtiText: "条理清晰的思考者：喜欢实用、省心的东西，想要一个干净的基础空间，按自己的方式改造。"
+      mbtiText: "温柔细腻、讲究美感的人，想要一个温馨可爱、好打理、可直接入住的第一个家。"
     },
     ko: {
       name: "The Smart Start",
@@ -1207,7 +1214,7 @@ const UNIT_STORIES = {
       highlights: ["건물 바다 쪽 9층, 프로젝트 가구 패키지 포함", "STU-B3 평면: 31.86㎡ 안에 침실, 거실, 주방이 분명하게 나뉩니다", "컴팩트하고 관리가 쉬우며, 관리비는 면적에 비례합니다", "첫 집으로 든든한 선택 — 실거주 또는 보유용"],
       fengshui: ["현관에서 발코니까지 일직선 구조이니 방 가운데 러그나 식물로 기를 늦추세요", "침대는 창가 안쪽에, 헤드보드는 단단한 벽에 붙이세요", "주방과 욕실은 현관 쪽에 있어 침실 공간과 떨어져 있습니다", "서쪽은 금(金)의 기운입니다. 샴페인, 화이트, 크리스털이 어울리고, 그린 월이 목(木)의 기운으로 균형을 잡습니다"],
       concept: { actual: true, title: "Crystal Garden", text: "침실은 슬라이딩 유리 뒤에 있고, 헤드보드 쪽에는 백라이트 그린 월, 머리 위에는 캐스케이드 크리스털 샹들리에가 있습니다. 샴페인 리넨, 두툼한 셰그 러그, 흰색 프렌치 스타일 화장대가 부드러움을 더하고, 크림색 소파와 유리 커피 테이블이 거실 코너를 이룹니다. 더블 세면대 욕실 거울은 초록으로 감싸여 있고, 발코니에는 바람을 즐길 비스트로 테이블이 있습니다." },
-      mbtiText: "잘 작동하고 손이 덜 가는 것을 좋아하며, 자기 방식대로 바꿔 갈 깔끔한 베이스를 원하는 체계적인 분."
+      mbtiText: "예쁜 디테일을 알아보는 다정한 분, 관리가 쉽고 바로 입주할 수 있는 따뜻하고 사랑스러운 첫 집을 원하는 분."
     }
   },
 
@@ -1527,7 +1534,7 @@ const UNIT_STORIES = {
   },
 
   "35E06": {
-    mbti: ["INFP", "ISTJ", "ISFJ"],
+    mbti: ["INFP", "INFJ", "ISFJ"],
     palette: [["#F1EEE7", "Salt white"], ["#E3D6C2", "Linen"], ["#C8A97E", "Oak"], ["#9CAF94", "Sage"], ["#5E6B57", "Moss"]],
     th: {
       name: "The Nordic Calm",
@@ -1535,7 +1542,7 @@ const UNIT_STORIES = {
       highlights: ["อาคาร E ชั้น 35 ฝั่งตะวันออก วิวเมืองเปิดโล่งถึงขอบฟ้า รับแสงเช้า", "ผัง 1BR-D ห้องนอนแยก พื้นที่ 34.43 ตร.ม. ครัวบิวท์อินพร้อมไมโครเวฟและเตา", "ราคาขายไม่รวมเฟอร์นิเจอร์ รูปที่จัดแต่งเป็นแนวทางการตกแต่ง ส่วนรูปที่ 6–8 คือสภาพห้องจริงปัจจุบัน", "ห้องใหม่สภาพดี เริ่มแต่งตามสไตล์ตัวเองได้ทันที"],
       fengshui: ["ทิศตะวันออกเป็นธาตุไม้ รับแสงเช้า เหมาะกับการเริ่มต้นใหม่", "ต้นไม้ใบเขียวและโทนไม้โอ๊กช่วยเสริมธาตุไม้ให้ห้อง", "ห้องนอนแยกเป็นสัดส่วน วางหัวเตียงชิดผนังทึบ ไม่หันตรงประตู", "ชั้นสูงลมแรง วางต้นไม้หรือม่านโปร่งช่วยให้พลังนิ่งขึ้น"],
       concept: { actual: false, title: "Nordic Calm", text: "แนวทางการตกแต่ง: โทนไม้โอ๊กอ่อน ขาว และเขียวเสจ โซฟาผ้าลินินสีอ่อนกับโต๊ะกลางไม้กลม พรมนุ่ม ต้นไม้ใบใหญ่ เตียงผ้าลินินขาว-เขียวเสจกับผ้าห่มถัก เรียบ อบอุ่น และสว่าง (ห้องจริงส่งมอบโดยไม่รวมเฟอร์นิเจอร์)" },
-      mbtiText: "คนรักความสงบ เป็นระเบียบ ชอบบ้านที่เรียบง่ายแต่อบอุ่น อยากได้ห้องสว่างไว้พักใจหลังวันยาวๆ"
+      mbtiText: "คนอ่อนโยน ชอบความเรียบง่ายที่อบอุ่น อยากได้ห้องสว่างสงบไว้พักใจหลังวันยาวๆ"
     },
     en: {
       name: "The Nordic Calm",
@@ -1543,7 +1550,7 @@ const UNIT_STORIES = {
       highlights: ["Tower E, 35th floor, east side — an open city view to the horizon and morning light", "The 1BR-D layout: a separate bedroom in 34.43 sqm, with a built-in kitchen, microwave and hob", "The price excludes furniture — staged photos show a styling idea; photos 6–8 show the room as it is today", "A fresh unit, ready to furnish your own way"],
       fengshui: ["East belongs to Wood and takes the morning sun — good for new beginnings", "Leafy plants and light oak strengthen the Wood element", "The bedroom is its own room: headboard against a solid wall, not facing the door", "High floors are windy; plants or sheer curtains help settle the energy"],
       concept: { actual: false, title: "Nordic Calm", text: "A suggested direction: light oak, white and sage green — a pale linen sofa with a round oak coffee table, a soft rug, a large leafy plant, and white-and-sage linen bedding with a knitted throw. Simple, warm and bright (the unit is sold without furniture)." },
-      mbtiText: "Calm, orderly people who like a simple yet warm home and want a bright room to unwind in after a long day."
+      mbtiText: "Gentle, reflective people who like simple warmth and want a bright, calm room to unwind in after a long day."
     },
     ru: {
       name: "The Nordic Calm",
@@ -1551,7 +1558,7 @@ const UNIT_STORIES = {
       highlights: ["Башня E, 35 этаж, восточная сторона — открытый вид на город и утренний свет", "Планировка 1BR-D: отдельная спальня на 34,43 м², встроенная кухня с микроволновкой и плитой", "Цена без мебели — оформленные фото показывают идею интерьера, фото 6–8 — квартира в нынешнем виде", "Новая квартира, готовая к обустройству на ваш вкус"],
       fengshui: ["Восток — стихия Дерева и утреннее солнце, благоприятно для новых начинаний", "Зелёные растения и светлый дуб усиливают стихию Дерева", "Спальня отдельная: изголовье к глухой стене, не напротив двери", "На высоком этаже ветрено; растения или лёгкий тюль помогут успокоить энергию"],
       concept: { actual: false, title: "Nordic Calm", text: "Предлагаемое решение: светлый дуб, белый и шалфейно-зелёный — светлый льняной диван с круглым дубовым столиком, мягкий ковёр, крупное растение, бельё бело-шалфейных тонов и вязаный плед. Просто, тепло и светло (квартира продаётся без мебели)." },
-      mbtiText: "Спокойные и организованные люди, которые любят простой, но тёплый дом и хотят светлое пространство для отдыха после долгого дня."
+      mbtiText: "Мягкие, вдумчивые люди, которые любят простое тепло и хотят светлую спокойную комнату, чтобы отдохнуть после долгого дня."
     },
     zh: {
       name: "The Nordic Calm",
@@ -1559,7 +1566,7 @@ const UNIT_STORIES = {
       highlights: ["E 栋东侧 35 楼，城市景开阔，晨光入室", "1BR-D 户型：34.43 平米独立卧室，嵌入式厨房配微波炉与灶台", "售价不含家具——布置图为装修构想，第 6–8 张为房屋现状实拍", "新房状态良好，可按自己的风格布置"],
       fengshui: ["东方属木，迎接晨光，利于新的开始", "绿植与浅橡木色可增强木元素", "卧室独立：床头靠实墙，不要正对房门", "高楼层风大，摆放绿植或纱帘有助于稳定气场"],
       concept: { actual: false, title: "Nordic Calm", text: "建议方案：浅橡木、白色与鼠尾草绿——浅色亚麻沙发配圆形橡木茶几、柔软地毯、大型绿植，白绿亚麻床品配针织毯。简约、温暖、明亮（房屋不含家具出售）。" },
-      mbtiText: "喜欢安静有序、偏爱简约温暖之家的人，希望有一间明亮的房间在漫长一天后放松身心。"
+      mbtiText: "温柔、爱思考的人，喜欢简单的温暖，想要一个明亮安静的房间，在漫长的一天后放松身心。"
     },
     ko: {
       name: "The Nordic Calm",
@@ -1567,7 +1574,7 @@ const UNIT_STORIES = {
       highlights: ["E동 35층 동쪽 — 지평선까지 트인 시티 전망과 아침 햇살", "1BR-D 평면: 34.43㎡에 독립 침실, 전자레인지와 쿡탑이 있는 빌트인 주방", "가격에 가구는 포함되지 않습니다 — 스테이징 사진은 인테리어 제안이며, 6–8번 사진이 현재 실제 모습입니다", "새것 같은 유닛, 원하는 대로 꾸미기 좋습니다"],
       fengshui: ["동쪽은 목(木)의 기운으로 아침 해를 받아 새로운 시작에 좋습니다", "잎이 많은 식물과 밝은 오크가 목(木)의 기운을 강화합니다", "침실이 독립되어 있으니 헤드보드는 단단한 벽에, 문을 마주하지 않게 두세요", "고층은 바람이 강하니 식물이나 시어 커튼으로 기를 안정시키세요"],
       concept: { actual: false, title: "Nordic Calm", text: "제안 인테리어: 밝은 오크, 화이트, 세이지 그린 — 연한 리넨 소파와 둥근 오크 커피 테이블, 부드러운 러그, 큰 잎 식물, 니트 스로우를 얹은 화이트와 세이지 리넨 침구. 단순하고 따뜻하며 밝게 (가구 미포함 판매)." },
-      mbtiText: "단순하면서도 따뜻한 집을 좋아하고, 긴 하루 끝에 쉴 밝은 방을 원하는 차분하고 정돈된 분."
+      mbtiText: "단순한 따뜻함을 좋아하고, 긴 하루 끝에 쉴 밝고 고요한 방을 원하는 다정하고 사색적인 분."
     }
   },
 
@@ -1707,7 +1714,7 @@ const UNIT_STORIES = {
   },
 
   "36E09": {
-    mbti: ["ESTP", "ENTP", "ESFJ"],
+    mbti: ["ESTP", "ENTP", "ESFP"],
     palette: [["#EEE7DC", "Linen"], ["#C4733F", "Terracotta"], ["#9A5B34", "Cognac"], ["#6E4A33", "Walnut"], ["#B48A4E", "Honey brass"]],
     th: {
       name: "The Urban Ember",
@@ -2103,7 +2110,7 @@ const UNIT_STORIES = {
     }
   },
   "31E10": {
-    mbti: ["ESTP", "ISTP", "ENTP"],
+    mbti: ["ISTP", "ESTP", "ENTP"],
     palette: [["#9A5B34", "Cognac"], ["#5A3A2A", "Chocolate"], ["#D8CBB3", "Sand"], ["#3A3D42", "Charcoal"], ["#EEE7DC", "Linen"]],
     th: {
       name: "The Adventure Base",
@@ -2147,7 +2154,7 @@ const UNIT_STORIES = {
     }
   },
   "15E10": {
-    mbti: ["ENTJ", "ESTJ", "INTJ"],
+    mbti: ["ESTJ", "ENTJ", "ISTJ"],
     palette: [["#1F2E4D", "Navy"], ["#C9A24A", "Gold"], ["#6E4A33", "Walnut"], ["#F3F1EC", "Salt white"], ["#CFC8BD", "Stone"]],
     th: {
       name: "The Executive Suite",
@@ -2601,7 +2608,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
   photoNote:"ภาพถ่ายจากห้องจริง ไม่ดัดแปลงโครงสร้าง (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",photoNoteLong:"ภาพถ่ายทั้งหมดถ่ายจากห้องจริงโดยไม่มีการดัดแปลงโครงสร้างหรือผังห้อง มีเพียงการปรับแสง สี และจัดวางของตกแต่งจำลองด้วยเทคโนโลยี AI เพื่อการนำเสนอเท่านั้น แนะนำให้นัดชมสถานที่จริงก่อนตัดสินใจ",photoUpd:"อัปเดตรูปเมื่อ",mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
  hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
   planStd:"ผังห้องมาตรฐาน",
- lineH:"เลือกเซลล์ที่ต้องการคุย",lineP:"สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน",lineOpen:"เปิดใน LINE",vidH:"วิดีโอแนะนำโครงการ 30 วินาที",vidP:"ภาพรวมของ The Riviera Jomtien สิ่งอำนวยความสะดวก และห้องแนะนำประจำเดือน",backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uDl:"ดาวน์โหลดรูปทั้งหมด",asisTag:"รูปจริงปัจจุบัน ยังไม่ได้แต่งเพิ่ม",uDlBusy:"กำลังเตรียมรูป…",uDlAgain:"แตะอีกครั้งเพื่อบันทึกรูป",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
+ lineH:"เลือกเซลล์ที่ต้องการคุย",lineP:"สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน",lineOpen:"เปิดใน LINE",vidH:"วิดีโอแนะนำโครงการ 30 วินาที",vidP:"ภาพรวมของ The Riviera Jomtien สิ่งอำนวยความสะดวก และห้องแนะนำประจำเดือน",backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uDl:"ดาวน์โหลดรูปทั้งหมด",asisTag:"รูปจริงปัจจุบัน ยังไม่ได้แต่งเพิ่ม",ideaTag:"ภาพไอเดียการแต่งห้องตาม MBTI ของผู้อยู่อาศัย — ห้องมีบุคลิกของตัวเองจากการตกแต่งและการจัดวางเฟอร์นิเจอร์ที่ใช้ทุกวัน ให้เข้ากับ MBTI และฮวงจุ้ยของผู้อยู่อาศัย",uDlBusy:"กำลังเตรียมรูป…",uDlAgain:"แตะอีกครั้งเพื่อบันทึกรูป",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
  uOwnPlan:"ผังเฉพาะห้อง",
  mbtiRef:"ยังไม่รู้ว่าตัวเองเป็นแบบไหน? ทำแบบทดสอบบุคลิกภาพได้ที่",pmTitle:"ให้เราช่วยหาห้องที่ใช่สำหรับคุณ",pmBody:"บริการ Personalized Matching จับคู่บุคลิกภาพ ไลฟ์สไตล์ และความต้องการของคุณ เข้ากับห้องแต่ละยูนิตในโครงการ ช่วยให้เลือกห้องได้ง่ายขึ้น และได้บ้านที่ตอบโจทย์การอยู่อาศัยของคุณจริงๆ ทั้งความสุข ความสบาย และโชคลาภ",pmCta:"ปรึกษาทีมขายได้โดยตรง",
  mLink:"ทำไม MBTI ถึงสำคัญกับการเลือกบ้าน",mWhat:"ทำไมต้อง MBTI",
@@ -2632,7 +2639,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
   photoNote:"Photographed in the actual unit, with no structural changes (lighting, colour and virtual props adjusted with AI for advertising).",photoNoteLong:"All photos are taken in the actual units, with no changes to the structure or layout. Only the lighting, colour and virtual props have been adjusted with AI for presentation. We recommend viewing the unit in person before deciding.",photoUpd:"Photos updated",mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
  hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
   planStd:"Standard layout",
- lineH:"Choose who to chat with",lineP:"Scan the QR code in the LINE app, or tap the button to add as a friend.",lineOpen:"Open in LINE",vidH:"30-second project film",vidP:"The Riviera Jomtien at a glance — its facilities and this month's featured units.",backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uDl:"Download all photos",asisTag:"Actual current photo · not staged",uDlBusy:"Preparing photos…",uDlAgain:"Tap again to save",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
+ lineH:"Choose who to chat with",lineP:"Scan the QR code in the LINE app, or tap the button to add as a friend.",lineOpen:"Open in LINE",vidH:"30-second project film",vidP:"The Riviera Jomtien at a glance — its facilities and this month's featured units.",backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uDl:"Download all photos",asisTag:"Actual current photo · not staged",ideaTag:"Styling idea based on the resident's MBTI — a room takes on its own personality through its decor and where everyday furniture is placed, matched to the resident's MBTI and feng shui.",uDlBusy:"Preparing photos…",uDlAgain:"Tap again to save",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
  uOwnPlan:"Unit-specific",
  mbtiRef:"Not sure of your type? Take the free personality test at",pmTitle:"Let us find the unit that fits you",pmBody:"Our Personalized Matching service pairs your personality, lifestyle and needs with the right unit in the project — so choosing is easier and you end up in a home that truly suits the way you live, for comfort, happiness and good fortune.",pmCta:"Talk to our sales team directly.",
  mLink:"Why MBTI matters when choosing a home",mWhat:"Why MBTI?",
@@ -2663,7 +2670,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
   photoNote:"Снято в реальной квартире, без изменения конструкции (освещение, цвет и виртуальный декор — с помощью ИИ, для рекламы).",photoNoteLong:"Все фотографии сделаны в реальных квартирах без изменения конструкции и планировки. С помощью ИИ скорректированы только освещение, цвет и виртуальный декор — для презентации. Рекомендуем осмотреть квартиру лично перед решением.",photoUpd:"Фото обновлены",mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
  hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
   planStd:"Типовая планировка",
- lineH:"Выберите менеджера",lineP:"Отсканируйте QR-код в приложении LINE или нажмите кнопку, чтобы добавить в друзья.",lineOpen:"Открыть в LINE",vidH:"Видео о проекте, 30 секунд",vidP:"The Riviera Jomtien коротко: инфраструктура и рекомендуемые квартиры месяца.",backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uDl:"Скачать все фото",asisTag:"Реальное фото сейчас · без обстановки",uDlBusy:"Готовим фото…",uDlAgain:"Нажмите ещё раз, чтобы сохранить",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
+ lineH:"Выберите менеджера",lineP:"Отсканируйте QR-код в приложении LINE или нажмите кнопку, чтобы добавить в друзья.",lineOpen:"Открыть в LINE",vidH:"Видео о проекте, 30 секунд",vidP:"The Riviera Jomtien коротко: инфраструктура и рекомендуемые квартиры месяца.",backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uDl:"Скачать все фото",asisTag:"Реальное фото сейчас · без обстановки",ideaTag:"Идея оформления по типу MBTI жильца — у комнаты свой характер, который создают декор и расстановка повседневной мебели, подобранные под MBTI и фэн-шуй жильца.",uDlBusy:"Готовим фото…",uDlAgain:"Нажмите ещё раз, чтобы сохранить",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
  uOwnPlan:"Индивидуальная",
  mbtiRef:"Не знаете свой тип? Пройдите бесплатный тест личности на",pmTitle:"Подберём квартиру именно для вас",pmBody:"Сервис Personalized Matching сопоставляет ваш тип личности, образ жизни и пожелания с подходящей квартирой в проекте — выбор становится проще, а дом действительно отвечает тому, как вы живёте: для комфорта, счастья и удачи.",pmCta:"Свяжитесь с отделом продаж напрямую.",
  mLink:"Почему MBTI важен при выборе жилья",mWhat:"Зачем MBTI?",
@@ -2694,7 +2701,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
   photoNote:"实景拍摄，未改动结构（光线、色彩与虚拟软装由 AI 处理，用于广告展示）。",photoNoteLong:"所有照片均拍摄自实际房源，未改动结构与户型。仅以 AI 调整光线、色彩并添加虚拟软装，用于展示。建议实地看房后再做决定。",photoUpd:"照片更新于",mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
  hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
   planStd:"标准户型",
- lineH:"选择要联系的销售顾问",lineP:"用 LINE 扫描二维码，或点击按钮添加好友。",lineOpen:"在 LINE 中打开",vidH:"30 秒项目短片",vidP:"快速了解 The Riviera Jomtien：项目设施与本月推荐房源。",backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uDl:"下载全部照片",asisTag:"当前实拍 · 未做虚拟布置",uDlBusy:"正在准备照片…",uDlAgain:"再点一次以保存",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
+ lineH:"选择要联系的销售顾问",lineP:"用 LINE 扫描二维码，或点击按钮添加好友。",lineOpen:"在 LINE 中打开",vidH:"30 秒项目短片",vidP:"快速了解 The Riviera Jomtien：项目设施与本月推荐房源。",backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uDl:"下载全部照片",asisTag:"当前实拍 · 未做虚拟布置",ideaTag:"按居住者 MBTI 打造的装修构想——房间的个性来自装饰与日常家具的摆放，与居住者的 MBTI 和风水相契合。",uDlBusy:"正在准备照片…",uDlAgain:"再点一次以保存",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
  uOwnPlan:"专属户型",
  mbtiRef:"还不清楚自己的类型？可在此免费进行性格测试：",pmTitle:"为您找到真正合适的房源",pmBody:"Personalized Matching 服务将您的性格、生活方式与需求，与项目内合适的房源进行匹配，让选房更轻松，住得真正称心——舒适、幸福，也添好运。",pmCta:"欢迎直接咨询销售团队。",
  mLink:"为什么选房要看 MBTI",mWhat:"为什么看 MBTI？",
@@ -2724,7 +2731,7 @@ ko:{markSub:"리세일 매물",eyebrow:"좀티엔 · 파타야 · 촌부리",
   photoNote:"실제 유닛에서 촬영했으며 구조는 변경하지 않았습니다 (광고용으로 조명, 색감, 가상 소품을 AI로 조정).",photoNoteLong:"모든 사진은 실제 유닛에서 촬영했으며 구조나 평면은 변경하지 않았습니다. 조명, 색감, 가상 소품만 AI로 조정했습니다. 결정하시기 전에 직접 방문해 보시기를 권합니다.",photoUpd:"사진 업데이트",mediaSoon:"사진과 영상 준비 중",prev:"이전",next:"다음", planLabel:"평면도",
  hlTitle:"추천 유닛",slidesTodo:"프로젝트 사진과 영상 준비 중", facH:"프로젝트 시설",
   planStd:"표준 평면",
- lineH:"상담할 담당자를 선택하세요",lineP:"LINE 앱으로 QR 코드를 스캔하거나 버튼을 눌러 친구로 추가하세요.",lineOpen:"LINE에서 열기",vidH:"30초 프로젝트 영상",vidP:"The Riviera Jomtien 한눈에 보기 — 시설과 이달의 추천 유닛.",backAll:"전체 유닛",uLocation:"건물 내 위치",uSeaSide:"바다 쪽",uCitySide:"시티 쪽",uFloorOf:"/",uLocNote:"프로젝트의 표준 호수 배치를 바탕으로 한 개략도이며, 방향은 대략적입니다.",uPlan:"평면도",uPlanNote:"이 평면 유형의 표준 도면이며, 실제 면적은 약간 다를 수 있습니다.",uHighlights:"이 유닛의 매력",uFeng:"풍수",uFengNote:"유닛의 평면과 방향을 바탕으로 한 일반적인 참고 사항입니다.",uConcept:"디자인 콘셉트와 컬러",uConceptActual:"현재 인테리어",uConceptSuggest:"제안 인테리어",uPaletteNote:"이 유닛 사진에서 추출한 색상입니다.",uMbti:"MBTI 매칭",uMbtiNote:"재미로 보는 참고 — 이곳에서의 생활을 그려 보세요.",uOther:"다른 추천 유닛",uShare:"이 유닛 공유하기",uDl:"사진 전체 다운로드",asisTag:"현재 실제 사진 · 스테이징 없음",uDlBusy:"사진 준비 중…",uDlAgain:"한 번 더 눌러 저장",uCall:"영업팀에 전화하기",uLayoutCode:"평면",uBadgeLowest:"프로젝트 최저가",uBadgeLargest:"프로모션 중 최대 면적",
+ lineH:"상담할 담당자를 선택하세요",lineP:"LINE 앱으로 QR 코드를 스캔하거나 버튼을 눌러 친구로 추가하세요.",lineOpen:"LINE에서 열기",vidH:"30초 프로젝트 영상",vidP:"The Riviera Jomtien 한눈에 보기 — 시설과 이달의 추천 유닛.",backAll:"전체 유닛",uLocation:"건물 내 위치",uSeaSide:"바다 쪽",uCitySide:"시티 쪽",uFloorOf:"/",uLocNote:"프로젝트의 표준 호수 배치를 바탕으로 한 개략도이며, 방향은 대략적입니다.",uPlan:"평면도",uPlanNote:"이 평면 유형의 표준 도면이며, 실제 면적은 약간 다를 수 있습니다.",uHighlights:"이 유닛의 매력",uFeng:"풍수",uFengNote:"유닛의 평면과 방향을 바탕으로 한 일반적인 참고 사항입니다.",uConcept:"디자인 콘셉트와 컬러",uConceptActual:"현재 인테리어",uConceptSuggest:"제안 인테리어",uPaletteNote:"이 유닛 사진에서 추출한 색상입니다.",uMbti:"MBTI 매칭",uMbtiNote:"재미로 보는 참고 — 이곳에서의 생활을 그려 보세요.",uOther:"다른 추천 유닛",uShare:"이 유닛 공유하기",uDl:"사진 전체 다운로드",asisTag:"현재 실제 사진 · 스테이징 없음",ideaTag:"거주자의 MBTI에 맞춘 인테리어 아이디어 — 방은 인테리어와 매일 쓰는 가구의 배치를 통해 거주자의 MBTI와 풍수에 어울리는 자신만의 개성을 갖습니다.",uDlBusy:"사진 준비 중…",uDlAgain:"한 번 더 눌러 저장",uCall:"영업팀에 전화하기",uLayoutCode:"평면",uBadgeLowest:"프로젝트 최저가",uBadgeLargest:"프로모션 중 최대 면적",
  uOwnPlan:"유닛 전용 도면",
  mbtiRef:"내 유형을 모르시나요? 무료 성격 테스트:",pmTitle:"나에게 맞는 유닛을 찾아 드립니다",pmBody:"Personalized Matching 서비스는 고객님의 성격, 라이프스타일, 필요에 맞춰 프로젝트 안에서 꼭 맞는 유닛을 연결해 드립니다. 선택은 더 쉬워지고, 편안함과 행복, 행운까지 생활 방식에 진짜 어울리는 집을 만나실 수 있습니다.",pmCta:"영업팀과 직접 상담하세요.",
  mLink:"집을 고를 때 MBTI가 중요한 이유",mWhat:"왜 MBTI인가요?",
@@ -2838,7 +2845,11 @@ function mediaOf(u){
   void u;
   const photos = (m.photos || []).slice(0, MAX_PHOTOS);
   const asis = m.asis || [];   // 1-based numbers of photos shown as the room is today (no virtual staging)
-  const items = photos.map((src, i) => ({ kind: "photo", src, asis: asis.includes(i + 1) }));
+  const st = UNIT_STORIES[u.unit];
+  const staged = asis.length > 0 && !!st && st.en.concept.actual === false;
+  const skip = IDEA_SKIP[u.unit] || [];
+  const items = photos.map((src, i) => ({ kind: "photo", src, asis: asis.includes(i + 1),
+    idea: staged && !asis.includes(i + 1) && !skip.includes(i + 1) }));
   const poster = m.poster || photos[0] || "";
   if (m.video) items.push({ kind: "video", src: m.video, poster });
   else if (m.youtube) items.push({ kind: "yt", src: m.youtube, poster });
@@ -3011,7 +3022,7 @@ function renderGallery(){
   const it = items[gal.i];
   const stage = items.length
     ? `${stageNode(it, u)}
-       ${it.kind === "plan" ? `<span class="stagetag">${it.code ? t("planStd") + " " + it.code : t("planLabel")}</span>` : it.asis ? `<span class="stagetag asis">${t("asisTag")}</span>` : ""}
+       ${it.kind === "plan" ? `<span class="stagetag">${it.code ? t("planStd") + " " + it.code : t("planLabel")}</span>` : it.asis ? `<span class="stagetag asis">${t("asisTag")}</span>` : it.idea ? `<span class="ideatag">${t("ideaTag")}</span>` : ""}
        ${items.length > 1 ? `<button type="button" class="navb prev" data-nav="-1" aria-label="${t("prev")}">‹</button>
          <button type="button" class="navb next" data-nav="1" aria-label="${t("next")}">›</button>` : ""}
        <span class="counter">${gal.i + 1} / ${items.length}</span>`
@@ -3329,7 +3340,7 @@ function renderUGal(){
   const it = items[ug.i];
   const kind = it ? it.kind : "";
   const stage = it
-    ? `${stageNode(it, u)}${it.kind === "plan" ? `<span class="stagetag">${it.code ? t("planStd") + " " + it.code : t("planLabel")}</span>` : it.asis ? `<span class="stagetag asis">${t("asisTag")}</span>` : ""}
+    ? `${stageNode(it, u)}${it.kind === "plan" ? `<span class="stagetag">${it.code ? t("planStd") + " " + it.code : t("planLabel")}</span>` : it.asis ? `<span class="stagetag asis">${t("asisTag")}</span>` : it.idea ? `<span class="ideatag">${t("ideaTag")}</span>` : ""}
        ${items.length > 1 ? `<button type="button" class="navb prev" data-unav="-1" aria-label="${t("prev")}">‹</button><button type="button" class="navb next" data-unav="1" aria-label="${t("next")}">›</button>` : ""}
        <span class="counter">${ug.i + 1} / ${items.length}</span>`
     : `<div class="ph">${camIcon}<span>${t("mediaSoon")}</span></div>`;
