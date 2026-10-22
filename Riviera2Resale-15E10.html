@@ -914,9 +914,9 @@ const UNIT_MEDIA = {
   "36E09": { photos: ["riviera-img/36E09-1.jpg", "riviera-img/36E09-2.jpg", "riviera-img/36E09-3.jpg", "riviera-img/36E09-4.jpg", "riviera-img/36E09-5.jpg", "riviera-img/36E09-6.jpg", "riviera-img/36E09-7.jpg", "riviera-img/36E09-8.jpg", "riviera-img/36E09-9.jpg", "riviera-img/36E09-10.jpg"], asis: [6, 7, 8], updated: "2026-10-21" },
   "7D02": { photos: ["riviera-img/7D02-1.jpg", "riviera-img/7D02-2.jpg", "riviera-img/7D02-3.jpg", "riviera-img/7D02-4.jpg", "riviera-img/7D02-5.jpg", "riviera-img/7D02-6.jpg", "riviera-img/7D02-7.jpg", "riviera-img/7D02-8.jpg", "riviera-img/7D02-9.jpg"], updated: "2026-09-19" },
   "8A03": { photos: ["riviera-img/8A03-1.jpg", "riviera-img/8A03-2.jpg", "riviera-img/8A03-3.jpg", "riviera-img/8A03-4.jpg", "riviera-img/8A03-5.jpg", "riviera-img/8A03-6.jpg"], updated: "2026-09-18" },
-  "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg", "riviera-img/8A05-6.jpg", "riviera-img/8A05-7.jpg", "riviera-img/8A05-8.jpg", "riviera-img/8A05-9.jpg", "riviera-img/8A05-10.jpg", "riviera-img/8A05-11.jpg", "riviera-img/8A05-12.jpg", "riviera-img/8A05-13.jpg"], video: "riviera-img/8A05.mp4", plan: "riviera-img/8A05-plan.jpg", idea: [1, 2, 3, 4, 5], updated: "2026-10-22" },
+  "8A05": { photos: ["riviera-img/8A05-1.jpg", "riviera-img/8A05-2.jpg", "riviera-img/8A05-3.jpg", "riviera-img/8A05-4.jpg", "riviera-img/8A05-5.jpg", "riviera-img/8A05-6.jpg", "riviera-img/8A05-7.jpg", "riviera-img/8A05-8.jpg", "riviera-img/8A05-9.jpg", "riviera-img/8A05-10.jpg", "riviera-img/8A05-11.jpg", "riviera-img/8A05-12.jpg", "riviera-img/8A05-13.jpg"], video: "riviera-img/8A05.mp4", plan: "riviera-img/8A05-plan.jpg", updated: "2026-10-22" },
   "8A06": { photos: ["riviera-img/8A06-1.jpg", "riviera-img/8A06-2.jpg", "riviera-img/8A06-3.jpg", "riviera-img/8A06-4.jpg", "riviera-img/8A06-5.jpg", "riviera-img/8A06-6.jpg", "riviera-img/8A06-7.jpg"], video: "riviera-img/8A06.mp4", updated: "2026-09-22" },
-  "9A02": { photos: ["riviera-img/9A02-1.jpg", "riviera-img/9A02-2.jpg", "riviera-img/9A02-3.jpg", "riviera-img/9A02-4.jpg", "riviera-img/9A02-5.jpg", "riviera-img/9A02-6.jpg", "riviera-img/9A02-7.jpg", "riviera-img/9A02-8.jpg", "riviera-img/9A02-9.jpg", "riviera-img/9A02-10.jpg", "riviera-img/9A02-11.jpg", "riviera-img/9A02-12.jpg"], idea: [1, 2, 3, 4, 5, 6], updated: "2026-10-22" },
+  "9A02": { photos: ["riviera-img/9A02-1.jpg", "riviera-img/9A02-2.jpg", "riviera-img/9A02-3.jpg", "riviera-img/9A02-4.jpg", "riviera-img/9A02-5.jpg", "riviera-img/9A02-6.jpg", "riviera-img/9A02-7.jpg", "riviera-img/9A02-8.jpg", "riviera-img/9A02-9.jpg", "riviera-img/9A02-10.jpg", "riviera-img/9A02-11.jpg", "riviera-img/9A02-12.jpg"], updated: "2026-10-22" },
   "9A06": { photos: ["riviera-img/9A06-1.jpg", "riviera-img/9A06-2.jpg", "riviera-img/9A06-3.jpg", "riviera-img/9A06-4.jpg", "riviera-img/9A06-5.jpg", "riviera-img/9A06-6.jpg", "riviera-img/9A06-7.jpg", "riviera-img/9A06-8.jpg"], updated: "2026-09-22" },
   "COMMERCIAL-1": { photos: ["riviera-img/COMMERCIAL-1-1.jpg", "riviera-img/COMMERCIAL-1-2.jpg", "riviera-img/COMMERCIAL-1-3.jpg", "riviera-img/COMMERCIAL-1-4.jpg", "riviera-img/COMMERCIAL-1-5.jpg", "riviera-img/COMMERCIAL-1-6.jpg", "riviera-img/COMMERCIAL-1-7.jpg", "riviera-img/COMMERCIAL-1-8.jpg", "riviera-img/COMMERCIAL-1-9.jpg", "riviera-img/COMMERCIAL-1-10.jpg"], plan: "riviera-img/COMMERCIAL-1-plan.jpg", updated: "2026-10-20" }
 };
@@ -2858,8 +2858,9 @@ function mediaOf(u){
   const st = UNIT_STORIES[u.unit];
   const staged = asis.length > 0 && !!st && st.en.concept.actual === false;
   const skip = IDEA_SKIP[u.unit] || [];
+  const furnished = u.furniture === "Fully Furnished";    // sold with every piece in the photos: no styling remark
   const items = photos.map((src, i) => ({ kind: "photo", src, asis: asis.includes(i + 1),
-    idea: m.idea ? m.idea.includes(i + 1) : staged && !asis.includes(i + 1) && !skip.includes(i + 1) }));
+    idea: !furnished && (m.idea ? m.idea.includes(i + 1) : staged && !asis.includes(i + 1) && !skip.includes(i + 1)) }));
   const poster = m.poster || photos[0] || "";
   if (m.video) items.push({ kind: "video", src: m.video, poster });
   else if (m.youtube) items.push({ kind: "yt", src: m.youtube, poster });
