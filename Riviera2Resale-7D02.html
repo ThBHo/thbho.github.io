@@ -230,6 +230,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .star[aria-pressed="true"]{color:var(--gold)}
 .cbody{padding:13px 14px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
 .utop{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+#matcher{scroll-margin-top:72px}
+.uname{font-family:var(--f-display);font-size:17px;font-weight:600;line-height:1.2;color:var(--ink);margin-top:-2px}
 .ucode{font-family:var(--f-mono);font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
 .usub{font-size:11.5px;color:var(--muted);white-space:nowrap}
 .specs{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);border-block:1px solid var(--line);padding-block:8px}
@@ -301,7 +303,11 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .kv.total{border-top:2px solid var(--ink);border-bottom:0;margin-top:5px;padding-top:9px;font-weight:600}
 .kv.total b,.kv.hi b{font-size:17px}
 .kv.hi b{color:var(--coral)}
-.notebox{margin-top:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6}
+.notebox{margin-top:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.q-meta{display:flex;flex-wrap:wrap;gap:2px 16px;margin:6px 0 0;font-size:12px;color:var(--muted)}
+.q-meta:empty{display:none}
+.q-meta b{color:var(--ink);font-weight:600}
+.kv.disc b{color:var(--coral)}
 .notebox ul{margin:6px 0 0;padding-left:17px}
 .sheet-ft{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:var(--surface-2)}
 .btn{border:1px solid var(--sea);background:var(--sea);color:#fff;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600}
@@ -409,7 +415,9 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 .g-an{background:#88619A}.g-di{background:#33A474}.g-se{background:#4298B4}.g-ex{background:#D9A032}
 .mbti-legend{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted)}
 .mbti-legend .lbl{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em;color:var(--ink-2)}
-.mbti-legend span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.mbti-legend span,.mbti-legend a{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.mbti-legend a{color:inherit;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:2px 9px 2px 7px;transition:border-color .15s,color .15s}
+.mbti-legend a:hover{border-color:var(--sea);color:var(--ink)}
 .mbti-legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .mbti-legend-wrap{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:flex-end}
 .u-head .mbti-strip{margin-top:10px}
@@ -442,6 +450,10 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 .u-ctas a,.u-ctas button{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:11px 14px;font-size:14px;font-weight:600;text-decoration:none;border:1px solid var(--sea);background:var(--surface);color:var(--sea)}
 .u-ctas .line{background:#06C755;border-color:#06C755;color:#fff}
 .u-ctas .call{background:var(--sea);color:#fff}
+.u-ctas [data-ushare]{background:#E07B2E;border-color:#E07B2E;color:#fff}
+.u-ctas [data-ushare]:hover{background:#C9681F;border-color:#C9681F}
+.u-ctas [data-uprint]{background:#2F8A5B;border-color:#2F8A5B;color:#fff}
+.u-ctas [data-uprint]:hover{background:#25714A;border-color:#25714A}
 .u-others{margin-top:44px}
 .u-others h2{font-family:var(--f-display);font-size:24px;font-weight:600;margin-bottom:14px}
 .u-others .hl-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
@@ -621,30 +633,46 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 @media (max-width:560px){ .ar-why,.ar-groups,.ar-steps{grid-template-columns:1fr} }
 
 /* ---------- print ---------- */
+/* Zero page margin keeps Chrome from adding its own date/URL header and footer;
+   the sheet carries the margin instead, and the quotation is sized to one A4 page. */
+@page{size:A4;margin:0}
 @media print{
+  html,body{width:210mm;height:297mm;overflow:hidden}
+  dialog#dlg{margin:0;padding:0;border:0;width:210mm;max-width:210mm;max-height:297mm;overflow:hidden}
+  #dlg .sheet{padding:10mm 12mm 8mm;width:210mm;height:297mm;overflow:hidden;font-size:11.5px}
+  #dlg .sheet-hd{padding:0 0 3mm}
+  #dlg .sheet-hd h2{font-size:22px}
+  #dlg .q-meta{font-size:10.5px;color:#333}
+  #dlg .q-meta b{color:#000}
+  #dlg .d-grid{gap:5mm;grid-template-columns:1fr 1fr}
+  #dlg .panel{padding:3mm 4mm}
+  #dlg .panel h3{margin:0 0 1mm;font-size:13px}
+  #dlg .kv{padding:1.3mm 0;font-size:11.5px}
+  #dlg .kv.total b,#dlg .kv.hi b{font-size:14px}
+  #dlg .notebox{margin-top:4mm;padding:3mm 4mm;font-size:11px;line-height:1.5;color:#222}
+  #dlg .notebox ul{margin:1mm 0 0;padding-left:5mm}
   body{background:#fff;color:#000}
   .topbar,.hero,.phero,.intro,.hl,.controls,.meta-row,.grid,.tblwrap,.slbar,.info,.foot,.sheet-ft,.x,.star,.navb,.thumbs,.counter{display:none!important}
   dialog{max-width:100%;display:block!important;position:static}
   dialog::backdrop{display:none}
   .sheet{box-shadow:none;max-height:none;border-radius:0}
   .sheet-body{overflow:visible;padding:0}
-  .print-brand{display:flex!important;align-items:center;justify-content:space-between;gap:20px;padding:0 0 14px;margin-bottom:14px;border-bottom:2px solid #000}
-  .print-brand img{height:52px;width:auto}
+  .print-brand{display:flex!important;align-items:center;justify-content:space-between;gap:20px;padding:0 0 3mm;margin-bottom:3mm;border-bottom:2px solid #000}
+  .print-brand img{height:44px;width:auto}
   .print-brand .logo-pale{display:none!important}
   .print-brand .logo-ink{display:block!important}
   .print-brand p{margin:0;font-size:10.5px;line-height:1.55;text-align:right;color:#000}
-  @page{size:A4;margin:11mm 12mm}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .sheet-body .gal{display:none!important}
   .q-media{display:grid!important;grid-template-columns:2fr 1fr;gap:4mm;margin:0 0 6mm;break-inside:avoid}
   .q-media.no-side{grid-template-columns:1fr}
   .q-media.no-plan{grid-template-columns:1fr 1fr}
-  .q-plan{height:84mm;border:1px solid #cfd6d6;border-radius:3mm;background:#fff;padding:2mm;display:flex;align-items:center;justify-content:center}
+  .q-plan{height:72mm;border:1px solid #cfd6d6;border-radius:3mm;background:#fff;padding:2mm;display:flex;align-items:center;justify-content:center}
   .q-plan img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-  .q-side{display:grid;grid-template-rows:1fr 1fr;gap:4mm;height:84mm}
+  .q-side{display:grid;grid-template-rows:1fr 1fr;gap:4mm;height:72mm}
   .q-side.one{grid-template-rows:1fr}
   .q-side img,.q-media.no-plan img{width:100%;height:100%;object-fit:cover;border-radius:3mm;display:block}
-  .q-media.no-plan img{height:60mm}
+  .q-media.no-plan img{height:56mm}
   .d-grid,.notebox{break-inside:avoid}
 }
 </style>
@@ -832,7 +860,7 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
     <p id="printContact"></p>
   </div>
   <div class="sheet-hd">
-    <div><p class="d-proj pname">The Riviera Jomtien</p><h2 id="dTitle">—</h2><p id="dSub">—</p></div>
+    <div><p class="d-proj pname">The Riviera Jomtien</p><h2 id="dTitle">—</h2><p id="dSub">—</p><p class="q-meta" id="dMeta"></p></div>
     <button type="button" class="x" id="dClose" aria-label="Close">✕</button>
   </div>
   <div class="sheet-body" id="dBody"></div>
@@ -1047,7 +1075,7 @@ function layoutFor(u){
   return null;
 }
 
-const HIGHLIGHTS = { month: "2026-10", units: ["36E09", "19E02", "9A06", "8A05", "8A06", "9A02"] };
+const HIGHLIGHTS = { month: "2026-10", units: ["36E09", "19E02", "18E10", "8A05", "8A06", "9A02"] };
 
 /* Cover photo on cards (featured, full list, matching results, "other units"):
    one of the unit's first three photos, picked at random on each visit so the page
@@ -2633,6 +2661,7 @@ const PROJECT_NAME = "The Riviera Jomtien";
 
 const PRICE_LIST_DATE = "9 Jul 2026";
 const PROMO_LIST_DATE = "1 Sep 2026";
+const QUOTE_VALID_DAYS = 14;               // a printed quotation holds its price this long
 
 /* ------------------------------ i18n ------------------------------ */
 const T = {
@@ -2661,7 +2690,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
   photoNote:"ภาพถ่ายจากห้องจริง ไม่ดัดแปลงโครงสร้าง (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",photoNoteLong:"ภาพถ่ายทั้งหมดถ่ายจากห้องจริงโดยไม่มีการดัดแปลงโครงสร้างหรือผังห้อง มีเพียงการปรับแสง สี และจัดวางของตกแต่งจำลองด้วยเทคโนโลยี AI เพื่อการนำเสนอเท่านั้น แนะนำให้นัดชมสถานที่จริงก่อนตัดสินใจ",photoUpd:"อัปเดตรูปเมื่อ",mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
  hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
   planStd:"ผังห้องมาตรฐาน",
- lineH:"เลือกเซลล์ที่ต้องการคุย",lineP:"สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน",lineOpen:"เปิดใน LINE",vidH:"วิดีโอแนะนำโครงการ 30 วินาที",vidP:"ภาพรวมของ The Riviera Jomtien สิ่งอำนวยความสะดวก และห้องแนะนำประจำเดือน",backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uDl:"ดาวน์โหลดรูปทั้งหมด",asisTag:"รูปจริงปัจจุบัน ยังไม่ได้แต่งเพิ่ม",ideaTag:"ภาพไอเดียการแต่งห้องตาม MBTI ของผู้อยู่อาศัย — ห้องมีบุคลิกของตัวเองจากการตกแต่งและการจัดวางเฟอร์นิเจอร์ที่ใช้ทุกวัน ให้เข้ากับ MBTI และฮวงจุ้ยของผู้อยู่อาศัย",creditBy:"พัฒนาเว็บไซต์และแนวคิดโดย",uWr:"แต่งห้องนี้ให้เป็นแบบของคุณ — <b>Personalized Interior & Smart Home</b> โดย WIDEROOMS →",uDlBusy:"กำลังเตรียมรูป…",uDlAgain:"แตะอีกครั้งเพื่อบันทึกรูป",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
+ lineH:"เลือกเซลล์ที่ต้องการคุย",lineP:"สแกน QR ด้วยแอป LINE หรือกดปุ่มเพื่อเพิ่มเพื่อน",lineOpen:"เปิดใน LINE",vidH:"วิดีโอแนะนำโครงการ 30 วินาที",vidP:"ภาพรวมของ The Riviera Jomtien สิ่งอำนวยความสะดวก และห้องแนะนำประจำเดือน",backAll:"ห้องทั้งหมด",uLocation:"ตำแหน่งห้องในอาคาร",uSeaSide:"ฝั่งทะเล",uCitySide:"ฝั่งเมือง",uFloorOf:"จาก",uLocNote:"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องมาตรฐานของโครงการ ทิศทางเป็นค่าประมาณ",uPlan:"ผังห้อง",uPlanNote:"ผังมาตรฐานของแบบห้องนี้ พื้นที่จริงของห้องอาจต่างเล็กน้อย",uHighlights:"จุดเด่นของห้อง",uFeng:"ฮวงจุ้ย",uFengNote:"แนวทางทั่วไปตามผังและทิศของห้อง ใช้ประกอบการตัดสินใจ",uConcept:"แนวคิดการตกแต่งและโทนสี",uConceptActual:"การตกแต่งปัจจุบัน",uConceptSuggest:"แนวทางที่แนะนำ",uPaletteNote:"โทนสีดึงจากรูปถ่ายของห้องนี้",uMbti:"เหมาะกับบุคลิก MBTI",uMbtiNote:"แนวคิดสนุกๆ ช่วยนึกภาพการใช้ชีวิตในห้องนี้",uOther:"ยูนิตแนะนำอื่น",uShare:"แชร์ลิงก์ห้องนี้",uDl:"ดาวน์โหลดรูปทั้งหมด",asisTag:"รูปจริงปัจจุบัน ยังไม่ได้แต่งเพิ่ม",ideaTag:"ภาพไอเดียการแต่งห้องตาม MBTI ของผู้อยู่อาศัย — ห้องมีบุคลิกของตัวเองจากการตกแต่งและการจัดวางเฟอร์นิเจอร์ที่ใช้ทุกวัน ให้เข้ากับ MBTI และฮวงจุ้ยของผู้อยู่อาศัย",cDiscount:"ส่วนลด",cPerSqm:"ราคาต่อ ตร.ม.",qIssued:"วันที่ออกใบเสนอราคา",qValid:"ราคามีผลถึง",qValidNote:"(14 วัน หรือจนกว่าห้องจะขายออก)",qBasis:"อ้างอิงไพรซ์ลิสต์โครงการ {a} และไพรซ์ลิสต์โปรโมชั่น {b}",creditBy:"พัฒนาเว็บไซต์และแนวคิดโดย",uWr:"แต่งห้องนี้ให้เป็นแบบของคุณ — <b>Personalized Interior & Smart Home</b> โดย WIDEROOMS →",uDlBusy:"กำลังเตรียมรูป…",uDlAgain:"แตะอีกครั้งเพื่อบันทึกรูป",uCall:"โทรหาทีมขาย",uLayoutCode:"แบบห้อง",uBadgeLowest:"ราคาต่ำสุดในโครงการ",uBadgeLargest:"ใหญ่ที่สุดในกลุ่มโปรฯ",
  uOwnPlan:"ผังเฉพาะห้อง",
  mbtiRef:"ยังไม่รู้ว่าตัวเองเป็นแบบไหน? ทำแบบทดสอบบุคลิกภาพได้ที่",pmTitle:"ให้เราช่วยหาห้องที่ใช่สำหรับคุณ",pmBody:"บริการ Personalized Matching จับคู่บุคลิกภาพ ไลฟ์สไตล์ และความต้องการของคุณ เข้ากับห้องแต่ละยูนิตในโครงการ ช่วยให้เลือกห้องได้ง่ายขึ้น และได้บ้านที่ตอบโจทย์การอยู่อาศัยของคุณจริงๆ ทั้งความสุข ความสบาย และโชคลาภ",pmCta:"ปรึกษาทีมขายได้โดยตรง",
  mLink:"ทำไม MBTI ถึงสำคัญกับการเลือกบ้าน",mWhat:"ทำไมต้อง MBTI",
@@ -2692,7 +2721,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
   photoNote:"Photographed in the actual unit, with no structural changes (lighting, colour and virtual props adjusted with AI for advertising).",photoNoteLong:"All photos are taken in the actual units, with no changes to the structure or layout. Only the lighting, colour and virtual props have been adjusted with AI for presentation. We recommend viewing the unit in person before deciding.",photoUpd:"Photos updated",mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
  hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
   planStd:"Standard layout",
- lineH:"Choose who to chat with",lineP:"Scan the QR code in the LINE app, or tap the button to add as a friend.",lineOpen:"Open in LINE",vidH:"30-second project film",vidP:"The Riviera Jomtien at a glance — its facilities and this month's featured units.",backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uDl:"Download all photos",asisTag:"Actual current photo · not staged",ideaTag:"Styling idea based on the resident's MBTI — a room takes on its own personality through its decor and where everyday furniture is placed, matched to the resident's MBTI and feng shui.",creditBy:"Website and concept by",uWr:"Make this room yours — <b>Personalized Interior & Smart Home</b> by WIDEROOMS →",uDlBusy:"Preparing photos…",uDlAgain:"Tap again to save",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
+ lineH:"Choose who to chat with",lineP:"Scan the QR code in the LINE app, or tap the button to add as a friend.",lineOpen:"Open in LINE",vidH:"30-second project film",vidP:"The Riviera Jomtien at a glance — its facilities and this month's featured units.",backAll:"All units",uLocation:"Where it sits in the building",uSeaSide:"Sea side",uCitySide:"City side",uFloorOf:"of",uLocNote:"A schematic from the project's typical room-number layout; orientation is approximate.",uPlan:"Floor plan",uPlanNote:"The standard plan for this layout; the unit's exact area may differ slightly.",uHighlights:"What makes it stand out",uFeng:"Feng shui",uFengNote:"General guidance from the unit's layout and orientation, to help you decide.",uConcept:"Design concept and colours",uConceptActual:"As decorated today",uConceptSuggest:"Suggested direction",uPaletteNote:"Colours sampled from this unit's photos.",uMbti:"MBTI match",uMbtiNote:"Just for fun — a way to picture living here.",uOther:"More featured units",uShare:"Share this unit",uDl:"Download all photos",asisTag:"Actual current photo · not staged",ideaTag:"Styling idea based on the resident's MBTI — a room takes on its own personality through its decor and where everyday furniture is placed, matched to the resident's MBTI and feng shui.",cDiscount:"Discount",cPerSqm:"Price per sqm",qIssued:"Quotation date",qValid:"Price valid until",qValidNote:"(14 days, or until the unit is sold)",qBasis:"Based on the project price list of {a} and the promotion price list of {b}",creditBy:"Website and concept by",uWr:"Make this room yours — <b>Personalized Interior & Smart Home</b> by WIDEROOMS →",uDlBusy:"Preparing photos…",uDlAgain:"Tap again to save",uCall:"Call the sales team",uLayoutCode:"Layout",uBadgeLowest:"Lowest price in the project",uBadgeLargest:"Largest on promotion",
  uOwnPlan:"Unit-specific",
  mbtiRef:"Not sure of your type? Take the free personality test at",pmTitle:"Let us find the unit that fits you",pmBody:"Our Personalized Matching service pairs your personality, lifestyle and needs with the right unit in the project — so choosing is easier and you end up in a home that truly suits the way you live, for comfort, happiness and good fortune.",pmCta:"Talk to our sales team directly.",
  mLink:"Why MBTI matters when choosing a home",mWhat:"Why MBTI?",
@@ -2723,7 +2752,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
   photoNote:"Снято в реальной квартире, без изменения конструкции (освещение, цвет и виртуальный декор — с помощью ИИ, для рекламы).",photoNoteLong:"Все фотографии сделаны в реальных квартирах без изменения конструкции и планировки. С помощью ИИ скорректированы только освещение, цвет и виртуальный декор — для презентации. Рекомендуем осмотреть квартиру лично перед решением.",photoUpd:"Фото обновлены",mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
  hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
   planStd:"Типовая планировка",
- lineH:"Выберите менеджера",lineP:"Отсканируйте QR-код в приложении LINE или нажмите кнопку, чтобы добавить в друзья.",lineOpen:"Открыть в LINE",vidH:"Видео о проекте, 30 секунд",vidP:"The Riviera Jomtien коротко: инфраструктура и рекомендуемые квартиры месяца.",backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uDl:"Скачать все фото",asisTag:"Реальное фото сейчас · без обстановки",ideaTag:"Идея оформления по типу MBTI жильца — у комнаты свой характер, который создают декор и расстановка повседневной мебели, подобранные под MBTI и фэн-шуй жильца.",creditBy:"Сайт и концепция:",uWr:"Сделайте квартиру своей — <b>Personalized Interior & Smart Home</b> от WIDEROOMS →",uDlBusy:"Готовим фото…",uDlAgain:"Нажмите ещё раз, чтобы сохранить",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
+ lineH:"Выберите менеджера",lineP:"Отсканируйте QR-код в приложении LINE или нажмите кнопку, чтобы добавить в друзья.",lineOpen:"Открыть в LINE",vidH:"Видео о проекте, 30 секунд",vidP:"The Riviera Jomtien коротко: инфраструктура и рекомендуемые квартиры месяца.",backAll:"Все квартиры",uLocation:"Расположение в здании",uSeaSide:"Сторона моря",uCitySide:"Сторона города",uFloorOf:"из",uLocNote:"Схема по типовой нумерации квартир проекта; ориентация приблизительная.",uPlan:"Планировка",uPlanNote:"Типовая планировка; точная площадь квартиры может немного отличаться.",uHighlights:"Чем хороша эта квартира",uFeng:"Фэн-шуй",uFengNote:"Общие рекомендации по планировке и ориентации квартиры.",uConcept:"Концепция интерьера и цвета",uConceptActual:"Текущий интерьер",uConceptSuggest:"Рекомендуемое направление",uPaletteNote:"Цвета взяты с фотографий этой квартиры.",uMbti:"Тип личности MBTI",uMbtiNote:"Для удовольствия — чтобы представить жизнь здесь.",uOther:"Другие рекомендуемые квартиры",uShare:"Поделиться",uDl:"Скачать все фото",asisTag:"Реальное фото сейчас · без обстановки",ideaTag:"Идея оформления по типу MBTI жильца — у комнаты свой характер, который создают декор и расстановка повседневной мебели, подобранные под MBTI и фэн-шуй жильца.",cDiscount:"Скидка",cPerSqm:"Цена за м²",qIssued:"Дата предложения",qValid:"Цена действительна до",qValidNote:"(14 дней или до продажи квартиры)",qBasis:"По прайс-листу проекта от {a} и акционному прайс-листу от {b}",creditBy:"Сайт и концепция:",uWr:"Сделайте квартиру своей — <b>Personalized Interior & Smart Home</b> от WIDEROOMS →",uDlBusy:"Готовим фото…",uDlAgain:"Нажмите ещё раз, чтобы сохранить",uCall:"Позвонить в отдел продаж",uLayoutCode:"Планировка",uBadgeLowest:"Самая низкая цена в проекте",uBadgeLargest:"Самая большая по акции",
  uOwnPlan:"Индивидуальная",
  mbtiRef:"Не знаете свой тип? Пройдите бесплатный тест личности на",pmTitle:"Подберём квартиру именно для вас",pmBody:"Сервис Personalized Matching сопоставляет ваш тип личности, образ жизни и пожелания с подходящей квартирой в проекте — выбор становится проще, а дом действительно отвечает тому, как вы живёте: для комфорта, счастья и удачи.",pmCta:"Свяжитесь с отделом продаж напрямую.",
  mLink:"Почему MBTI важен при выборе жилья",mWhat:"Зачем MBTI?",
@@ -2754,7 +2783,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
   photoNote:"实景拍摄，未改动结构（光线、色彩与虚拟软装由 AI 处理，用于广告展示）。",photoNoteLong:"所有照片均拍摄自实际房源，未改动结构与户型。仅以 AI 调整光线、色彩并添加虚拟软装，用于展示。建议实地看房后再做决定。",photoUpd:"照片更新于",mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
  hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
   planStd:"标准户型",
- lineH:"选择要联系的销售顾问",lineP:"用 LINE 扫描二维码，或点击按钮添加好友。",lineOpen:"在 LINE 中打开",vidH:"30 秒项目短片",vidP:"快速了解 The Riviera Jomtien：项目设施与本月推荐房源。",backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uDl:"下载全部照片",asisTag:"当前实拍 · 未做虚拟布置",ideaTag:"按居住者 MBTI 打造的装修构想——房间的个性来自装饰与日常家具的摆放，与居住者的 MBTI 和风水相契合。",creditBy:"网站与概念开发：",uWr:"打造属于你的房间 — WIDEROOMS <b>个性化室内设计与智能家居</b> →",uDlBusy:"正在准备照片…",uDlAgain:"再点一次以保存",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
+ lineH:"选择要联系的销售顾问",lineP:"用 LINE 扫描二维码，或点击按钮添加好友。",lineOpen:"在 LINE 中打开",vidH:"30 秒项目短片",vidP:"快速了解 The Riviera Jomtien：项目设施与本月推荐房源。",backAll:"全部房源",uLocation:"在楼内的位置",uSeaSide:"海景面",uCitySide:"城景面",uFloorOf:"/ 共",uLocNote:"依项目标准房号图绘制的示意图，朝向为大致方向。",uPlan:"户型图",uPlanNote:"此户型的标准平面图，实际面积可能略有差异。",uHighlights:"房源亮点",uFeng:"风水",uFengNote:"依户型与朝向提供的一般建议，供您参考。",uConcept:"装修理念与配色",uConceptActual:"现有装修",uConceptSuggest:"建议方向",uPaletteNote:"颜色取自本房源实拍照片。",uMbti:"适合的 MBTI 性格",uMbtiNote:"轻松参考，帮您想象住在这里的样子。",uOther:"其他推荐房源",uShare:"分享此房源",uDl:"下载全部照片",asisTag:"当前实拍 · 未做虚拟布置",ideaTag:"按居住者 MBTI 打造的装修构想——房间的个性来自装饰与日常家具的摆放，与居住者的 MBTI 和风水相契合。",cDiscount:"优惠",cPerSqm:"每平米价格",qIssued:"报价日期",qValid:"价格有效期至",qValidNote:"（14 天，或至房源售出为止）",qBasis:"依据 {a} 项目价目表与 {b} 优惠价目表",creditBy:"网站与概念开发：",uWr:"打造属于你的房间 — WIDEROOMS <b>个性化室内设计与智能家居</b> →",uDlBusy:"正在准备照片…",uDlAgain:"再点一次以保存",uCall:"致电销售团队",uLayoutCode:"户型",uBadgeLowest:"项目最低价",uBadgeLargest:"优惠房源中面积最大",
  uOwnPlan:"专属户型",
  mbtiRef:"还不清楚自己的类型？可在此免费进行性格测试：",pmTitle:"为您找到真正合适的房源",pmBody:"Personalized Matching 服务将您的性格、生活方式与需求，与项目内合适的房源进行匹配，让选房更轻松，住得真正称心——舒适、幸福，也添好运。",pmCta:"欢迎直接咨询销售团队。",
  mLink:"为什么选房要看 MBTI",mWhat:"为什么看 MBTI？",
@@ -2784,7 +2813,7 @@ ko:{markSub:"리세일 매물",eyebrow:"좀티엔 · 파타야 · 촌부리",
   photoNote:"실제 유닛에서 촬영했으며 구조는 변경하지 않았습니다 (광고용으로 조명, 색감, 가상 소품을 AI로 조정).",photoNoteLong:"모든 사진은 실제 유닛에서 촬영했으며 구조나 평면은 변경하지 않았습니다. 조명, 색감, 가상 소품만 AI로 조정했습니다. 결정하시기 전에 직접 방문해 보시기를 권합니다.",photoUpd:"사진 업데이트",mediaSoon:"사진과 영상 준비 중",prev:"이전",next:"다음", planLabel:"평면도",
  hlTitle:"추천 유닛",slidesTodo:"프로젝트 사진과 영상 준비 중", facH:"프로젝트 시설",
   planStd:"표준 평면",
- lineH:"상담할 담당자를 선택하세요",lineP:"LINE 앱으로 QR 코드를 스캔하거나 버튼을 눌러 친구로 추가하세요.",lineOpen:"LINE에서 열기",vidH:"30초 프로젝트 영상",vidP:"The Riviera Jomtien 한눈에 보기 — 시설과 이달의 추천 유닛.",backAll:"전체 유닛",uLocation:"건물 내 위치",uSeaSide:"바다 쪽",uCitySide:"시티 쪽",uFloorOf:"/",uLocNote:"프로젝트의 표준 호수 배치를 바탕으로 한 개략도이며, 방향은 대략적입니다.",uPlan:"평면도",uPlanNote:"이 평면 유형의 표준 도면이며, 실제 면적은 약간 다를 수 있습니다.",uHighlights:"이 유닛의 매력",uFeng:"풍수",uFengNote:"유닛의 평면과 방향을 바탕으로 한 일반적인 참고 사항입니다.",uConcept:"디자인 콘셉트와 컬러",uConceptActual:"현재 인테리어",uConceptSuggest:"제안 인테리어",uPaletteNote:"이 유닛 사진에서 추출한 색상입니다.",uMbti:"MBTI 매칭",uMbtiNote:"재미로 보는 참고 — 이곳에서의 생활을 그려 보세요.",uOther:"다른 추천 유닛",uShare:"이 유닛 공유하기",uDl:"사진 전체 다운로드",asisTag:"현재 실제 사진 · 스테이징 없음",ideaTag:"거주자의 MBTI에 맞춘 인테리어 아이디어 — 방은 인테리어와 매일 쓰는 가구의 배치를 통해 거주자의 MBTI와 풍수에 어울리는 자신만의 개성을 갖습니다.",creditBy:"웹사이트 및 콘셉트 개발",uWr:"나만의 방으로 — WIDEROOMS <b>맞춤 인테리어 & 스마트 홈</b> →",uDlBusy:"사진 준비 중…",uDlAgain:"한 번 더 눌러 저장",uCall:"영업팀에 전화하기",uLayoutCode:"평면",uBadgeLowest:"프로젝트 최저가",uBadgeLargest:"프로모션 중 최대 면적",
+ lineH:"상담할 담당자를 선택하세요",lineP:"LINE 앱으로 QR 코드를 스캔하거나 버튼을 눌러 친구로 추가하세요.",lineOpen:"LINE에서 열기",vidH:"30초 프로젝트 영상",vidP:"The Riviera Jomtien 한눈에 보기 — 시설과 이달의 추천 유닛.",backAll:"전체 유닛",uLocation:"건물 내 위치",uSeaSide:"바다 쪽",uCitySide:"시티 쪽",uFloorOf:"/",uLocNote:"프로젝트의 표준 호수 배치를 바탕으로 한 개략도이며, 방향은 대략적입니다.",uPlan:"평면도",uPlanNote:"이 평면 유형의 표준 도면이며, 실제 면적은 약간 다를 수 있습니다.",uHighlights:"이 유닛의 매력",uFeng:"풍수",uFengNote:"유닛의 평면과 방향을 바탕으로 한 일반적인 참고 사항입니다.",uConcept:"디자인 콘셉트와 컬러",uConceptActual:"현재 인테리어",uConceptSuggest:"제안 인테리어",uPaletteNote:"이 유닛 사진에서 추출한 색상입니다.",uMbti:"MBTI 매칭",uMbtiNote:"재미로 보는 참고 — 이곳에서의 생활을 그려 보세요.",uOther:"다른 추천 유닛",uShare:"이 유닛 공유하기",uDl:"사진 전체 다운로드",asisTag:"현재 실제 사진 · 스테이징 없음",ideaTag:"거주자의 MBTI에 맞춘 인테리어 아이디어 — 방은 인테리어와 매일 쓰는 가구의 배치를 통해 거주자의 MBTI와 풍수에 어울리는 자신만의 개성을 갖습니다.",cDiscount:"할인",cPerSqm:"㎡당 가격",qIssued:"견적일",qValid:"가격 유효 기한",qValidNote:"(14일 또는 유닛 판매 시까지)",qBasis:"{a} 프로젝트 가격표와 {b} 프로모션 가격표 기준",creditBy:"웹사이트 및 콘셉트 개발",uWr:"나만의 방으로 — WIDEROOMS <b>맞춤 인테리어 & 스마트 홈</b> →",uDlBusy:"사진 준비 중…",uDlAgain:"한 번 더 눌러 저장",uCall:"영업팀에 전화하기",uLayoutCode:"평면",uBadgeLowest:"프로젝트 최저가",uBadgeLargest:"프로모션 중 최대 면적",
  uOwnPlan:"유닛 전용 도면",
  mbtiRef:"내 유형을 모르시나요? 무료 성격 테스트:",pmTitle:"나에게 맞는 유닛을 찾아 드립니다",pmBody:"Personalized Matching 서비스는 고객님의 성격, 라이프스타일, 필요에 맞춰 프로젝트 안에서 꼭 맞는 유닛을 연결해 드립니다. 선택은 더 쉬워지고, 편안함과 행복, 행운까지 생활 방식에 진짜 어울리는 집을 만나실 수 있습니다.",pmCta:"영업팀과 직접 상담하세요.",
  mLink:"집을 고를 때 MBTI가 중요한 이유",mWhat:"왜 MBTI인가요?",
@@ -3016,6 +3045,7 @@ function renderGrid(list){
       </div>
       <div class="cbody">
         <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+        ${storyOf(u.unit) ? `<div class="uname">${storyOf(u.unit).name}</div>` : ""}
         <div class="specs">
           <span><b>${sqmFmt(u.sqm)}</b> ${t("thSqm")}</span>
           <span>${t(typeLabel(u))}</span>
@@ -3118,6 +3148,11 @@ function openUnit(code){
 
   $("#dTitle").textContent = u.unit;
   $("#dSub").textContent = `${t(viewLabel(u))} · ${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}`;
+  // quotation date, how long the price holds, and the price lists it comes from
+  const qd = new Date(), qv = new Date(qd.getTime() + QUOTE_VALID_DAYS * 864e5);
+  const qf = d => new Intl.DateTimeFormat((lang === "zh" ? "zh-CN" : lang) + "-u-ca-gregory", { day: "numeric", month: "short", year: "numeric" }).format(d);
+  $("#dMeta").innerHTML = `<span>${t("qIssued")} <b>${qf(qd)}</b></span><span>${t("qValid")} <b>${qf(qv)}</b> ${t("qValidNote")}</span>`
+    + `<span>${t("qBasis").replace("{a}", PRICE_LIST_DATE).replace("{b}", PROMO_LIST_DATE)}</span>`;
 
   $("#dBody").innerHTML = `
     <div class="gal" id="gal"></div>
@@ -3137,6 +3172,8 @@ function openUnit(code){
         <h3>${t("dCost")}</h3>
         ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
         <div class="kv hi"><span>${t("cPrice")}</span><b>${baht(c.price)}</b></div>
+        ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${baht(u.price - u.promoPrice)}</b></div>` : ""}
+        <div class="kv"><span>${t("cPerSqm")}</span><b>${baht(perSqm(u))}</b></div>
         <div class="kv"><span>${t("cSinking")}</span><b>${baht(c.sinking)}</b></div>
         <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
         <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
@@ -3276,6 +3313,7 @@ function renderHighlights(){
       <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
       <div class="hbody">
         <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+        ${storyOf(u.unit) ? `<div class="uname">${storyOf(u.unit).name}</div>` : ""}
         ${mbtiStrip(u.unit)}
         <div class="specs">
           <span><b>${sqmFmt(u.sqm)}</b> ${t("thSqm")}</span>
@@ -3307,9 +3345,12 @@ function mbtiStrip(code){
   return `<div class="mbti-strip" aria-label="MBTI">${types.map(x => { const g = mbtiGroup(x);
     return `<span class="g-${g}" title="${MBTI_ROLE[x]} · ${groupName(g)}">${x}</span>`; }).join("")}</div>`;
 }
+/* Each group in the legend opens the Room Matcher with that group's two letters set. */
+const matcherGroupHref = g => window.SITE_PAGES ? `${PAGE_FILE_STEM}-matching.html#mx-${g}` : `#matching-mx-${g}`;
+const MX_GROUP_LETTERS = { an: ["", "N", "T", ""], di: ["", "N", "F", ""], se: ["", "S", "", "J"], ex: ["", "S", "", "P"] };
 function mbtiLegend(){
   return `<div class="mbti-legend"><span class="lbl">MBTI</span>${Object.keys(MBTI_GROUPS).map(g =>
-    `<span><i class="g-${g}"></i>${groupName(g)}</span>`).join("")}</div>`;
+    `<a href="${matcherGroupHref(g)}" title="Room Matcher · ${groupName(g)}"><i class="g-${g}"></i>${groupName(g)}</a>`).join("")}</div>`;
 }
 
 /* ---------------------------- unit pages -------------------------- */
@@ -3499,6 +3540,8 @@ function renderUnitPage(code){
           <h2>${t("dCost")}</h2>
           ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
           <div class="kv hi"><span>${t("cPrice")}</span><b>${baht(c.price)}</b></div>
+          ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${baht(u.price - u.promoPrice)}</b></div>` : ""}
+          <div class="kv"><span>${t("cPerSqm")}</span><b>${baht(perSqm(u))}</b></div>
           <div class="kv"><span>${t("cSinking")}</span><b>${baht(c.sinking)}</b></div>
           <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
           <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
@@ -3545,7 +3588,7 @@ function renderUnitPage(code){
 
 /* ------------------------- matching article ------------------------ */
 const matchingHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}-matching.html` : "#matching";
-const subPageFromUrl = () => window.SUB_PAGE || (location.hash === "#matching" ? "matching" : null);
+const subPageFromUrl = () => window.SUB_PAGE || (/^#matching/.test(location.hash) ? "matching" : null);
 
 function renderMatchingPage(){
   const a = MATCHING[lang] || MATCHING.en;
@@ -4175,7 +4218,13 @@ function route(){
   document.body.classList.toggle("unit-mode", on);
   document.body.classList.toggle("unit-page", !!code);
   document.getElementById("unitView").hidden = !on;
-  if (sub === "matching"){ renderMatchingPage(); window.scrollTo(0, 0); }
+  if (sub === "matching"){
+    const g = (location.hash.match(/mx-(an|di|se|ex)\b/) || [])[1];      // arrived from a legend chip
+    if (g){ mx.l = MX_GROUP_LETTERS[g].slice(); mx.shown = 12; }
+    renderMatchingPage();
+    const m = g && document.getElementById("matcher");
+    if (m) m.scrollIntoView(); else window.scrollTo(0, 0);
+  }
   else if (code){ renderUnitPage(code.toUpperCase()); window.scrollTo(0, 0); }
   else { document.title = window.PAGE_TITLE || document.title; }
 }
