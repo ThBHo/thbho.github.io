@@ -359,6 +359,14 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .pbox .acts .btn{flex:1 1 calc(50% - 8px)}
 .d-sec{padding-block:20px;border-bottom:1px solid var(--line)}
 .d-sec h2{font-size:18px;font-weight:600;margin-bottom:12px}
+.d-more{border-bottom:1px solid var(--line)}
+.d-more>summary{cursor:pointer;list-style:none;padding:18px 32px 18px 0;display:flex;flex-direction:column;gap:2px;position:relative}
+.d-more>summary::-webkit-details-marker{display:none}
+.d-more>summary::after{content:"+";position:absolute;right:6px;top:14px;font-size:24px;color:var(--brand)}
+.d-more[open]>summary::after{content:"−"}
+.d-more>summary b{font-size:18px;font-weight:600}
+.d-more>summary small{font-size:13px;color:var(--muted);line-height:1.5}
+.d-more .d-sec:last-child{border-bottom:0}
 .kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .kv div{background:var(--surface);padding:11px 14px}
 .kv span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
@@ -675,6 +683,8 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
     </div>
   </section>
 
+  <section class="sec" style="padding-top:0" id="lkStripSec" hidden><div class="wrap" id="lkStrip"></div></section>
+
   <section id="listings" style="padding-top:20px">
     <div class="wrap">
       <div class="sec-hd" style="margin-bottom:6px"><div><p class="eyebrow" data-i18n="listEyebrow">ทรัพย์ในมือ</p><h2 data-i18n="listTitle">ทรัพย์ทั้งหมด</h2></div></div>
@@ -914,6 +924,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="insight/kit.js?v=20261027d"></script>
 <script>
 /* =====================================================================
    HOW TO UPDATE LISTINGS
@@ -1067,7 +1078,7 @@ th:{
   contactEyebrow:"ติดต่อ",contactTitle:"คุยกับเราได้ทุกช่องทาง",contactP:"ส่งรหัสทรัพย์ งบ และวันที่อยากเข้าอยู่มาได้เลย เราจะคัดทรัพย์ที่ตรงที่สุดให้",contactBy:"ผู้ดูแล",
   call:"โทร",email:"อีเมล",
   footNote:"ราคาและสถานะทรัพย์อาจเปลี่ยนแปลง โปรดยืนยันกับทีมงานก่อนตัดสินใจ · อัปเดต {d}",csvBtn:"ดาวน์โหลดข้อมูลทรัพย์ (CSV)",
-  back:"← ทรัพย์ทั้งหมด",details:"รายละเอียด",highlights:"จุดเด่น",calTitle:"ปฏิทินวันว่าง",calBooked:"ติดจอง / มีผู้เช่า",calFree:"ว่าง",calUnknown:"ยังไม่มีข้อมูลการจองในระบบ",calNote:"ปฏิทินอัปเดตโดยทีมงาน โปรดยืนยันวันเข้าอยู่อีกครั้ง",
+  back:"← ทรัพย์ทั้งหมด",details:"รายละเอียด",highlights:"จุดเด่น",calTitle:"ปฏิทินวันว่าง",moreInfo:"ข้อมูลเพิ่มเติม",calBooked:"ติดจอง / มีผู้เช่า",calFree:"ว่าง",calUnknown:"ยังไม่มีข้อมูลการจองในระบบ",calNote:"ปฏิทินอัปเดตโดยทีมงาน โปรดยืนยันวันเข้าอยู่อีกครั้ง",
   locTitle:"ทำเล",deposit:"เงินมัดจำ",minContract:"สัญญาขั้นต่ำ",pets:"สัตว์เลี้ยง",furn:"เฟอร์นิเจอร์",furnPic:"มีเฟอร์นิเจอร์ตามภาพ",parking:"ที่จอดรถ",internet:"อินเทอร์เน็ต",available:"วันที่ว่าง",shortTerm:"เช่าระยะสั้น",
   yes:"ได้",no:"ไม่ได้",
   save:"☆ บันทึก",saved:"★ บันทึกแล้ว",copyLine:"คัดลอกข้อความส่ง LINE",share:"แชร์ลิงก์",social:"สร้างโพสต์โซเชียล",print:"พิมพ์ใบประกาศ PDF",bookThis:"นัดชมทรัพย์นี้",similar:"ทรัพย์ใกล้เคียง",copied:"คัดลอกแล้ว",
@@ -1139,7 +1150,7 @@ en:{
   contactEyebrow:"Contact",contactTitle:"Talk to us on any channel",contactP:"Send the listing code, your budget and move-in date — we'll shortlist the best matches.",contactBy:"Your agent",
   call:"Call",email:"Email",
   footNote:"Prices and availability may change — please confirm with our team before deciding · Updated {d}",csvBtn:"Download listing data (CSV)",
-  back:"← All listings",details:"Details",highlights:"Highlights",calTitle:"Availability calendar",calBooked:"Booked / let",calFree:"Available",calUnknown:"No bookings recorded yet",calNote:"Calendar is updated by our team — please confirm your move-in date.",
+  back:"← All listings",details:"Details",highlights:"Highlights",calTitle:"Availability calendar",moreInfo:"More information",calBooked:"Booked / let",calFree:"Available",calUnknown:"No bookings recorded yet",calNote:"Calendar is updated by our team — please confirm your move-in date.",
   locTitle:"Location",deposit:"Deposit",minContract:"Min. contract",pets:"Pets",furn:"Furniture",furnPic:"Furnished as pictured",parking:"Parking",internet:"Internet",available:"Available from",shortTerm:"Short-term",
   yes:"Allowed",no:"Not allowed",
   save:"☆ Save",saved:"★ Saved",copyLine:"Copy LINE message",share:"Share link",social:"Create social post",print:"Print flyer / PDF",bookThis:"Book a viewing",similar:"Similar listings",copied:"Copied",
@@ -1211,7 +1222,7 @@ ru:{
   contactEyebrow:"Контакты",contactTitle:"Пишите в любой мессенджер",contactP:"Пришлите код объекта, бюджет и дату заезда — подберём лучшие варианты.",contactBy:"Ваш агент",
   call:"Позвонить",email:"Почта",
   footNote:"Цены и наличие могут меняться — уточняйте у команды · Обновлено {d}",csvBtn:"Скачать данные (CSV)",
-  back:"← Все объекты",details:"Характеристики",highlights:"Особенности",calTitle:"Календарь занятости",calBooked:"Занято / сдано",calFree:"Свободно",calUnknown:"Бронирований пока нет в системе",calNote:"Календарь обновляет команда — подтвердите дату заезда.",
+  back:"← Все объекты",details:"Характеристики",highlights:"Особенности",calTitle:"Календарь занятости",moreInfo:"Дополнительно",calBooked:"Занято / сдано",calFree:"Свободно",calUnknown:"Бронирований пока нет в системе",calNote:"Календарь обновляет команда — подтвердите дату заезда.",
   locTitle:"Расположение",deposit:"Депозит",minContract:"Мин. срок",pets:"Животные",furn:"Мебель",furnPic:"С мебелью, как на фото",parking:"Парковка",internet:"Интернет",available:"Свободно с",shortTerm:"Посуточно",
   yes:"Можно",no:"Нельзя",
   save:"☆ Сохранить",saved:"★ Сохранено",copyLine:"Копировать для LINE",share:"Поделиться",social:"Пост для соцсетей",print:"Печать / PDF",bookThis:"Записаться на просмотр",similar:"Похожие объекты",copied:"Скопировано",
@@ -1283,7 +1294,7 @@ zh:{
   contactEyebrow:"联系",contactTitle:"任何渠道都能找到我们",contactP:"发送房源编号、预算和入住日期，我们为你挑选最合适的房源。",contactBy:"负责人",
   call:"电话",email:"邮箱",
   footNote:"价格及房态可能变动，请与团队确认 · 更新于 {d}",csvBtn:"下载房源数据 (CSV)",
-  back:"← 全部房源",details:"详细信息",highlights:"亮点",calTitle:"空房日历",calBooked:"已订 / 已租",calFree:"可入住",calUnknown:"系统中暂无预订记录",calNote:"日历由团队更新，请再次确认入住日期。",
+  back:"← 全部房源",details:"详细信息",highlights:"亮点",calTitle:"空房日历",moreInfo:"更多信息",calBooked:"已订 / 已租",calFree:"可入住",calUnknown:"系统中暂无预订记录",calNote:"日历由团队更新，请再次确认入住日期。",
   locTitle:"位置",deposit:"押金",minContract:"最短租期",pets:"宠物",furn:"家具",furnPic:"按图配家具",parking:"停车位",internet:"网络",available:"可入住日期",shortTerm:"短租",
   yes:"可以",no:"不可以",
   save:"☆ 收藏",saved:"★ 已收藏",copyLine:"复制 LINE 消息",share:"分享链接",social:"生成社交帖子",print:"打印传单 / PDF",bookThis:"预约看此房",similar:"相似房源",copied:"已复制",
@@ -1355,7 +1366,7 @@ ko:{
   contactEyebrow:"문의",contactTitle:"편한 채널로 연락 주세요",contactP:"매물 코드, 예산, 입주 희망일을 보내 주시면 가장 잘 맞는 매물을 골라 드립니다.",contactBy:"담당자",
   call:"전화",email:"이메일",
   footNote:"가격과 상태는 변동될 수 있으니 결정 전 확인해 주세요 · 업데이트 {d}",csvBtn:"매물 데이터 다운로드 (CSV)",
-  back:"← 전체 매물",details:"상세 정보",highlights:"특징",calTitle:"입주 가능 캘린더",calBooked:"예약 / 임대 중",calFree:"입주 가능",calUnknown:"아직 등록된 예약이 없습니다",calNote:"캘린더는 팀이 업데이트합니다 — 입주일을 다시 확인해 주세요.",
+  back:"← 전체 매물",details:"상세 정보",highlights:"특징",calTitle:"입주 가능 캘린더",moreInfo:"추가 정보",calBooked:"예약 / 임대 중",calFree:"입주 가능",calUnknown:"아직 등록된 예약이 없습니다",calNote:"캘린더는 팀이 업데이트합니다 — 입주일을 다시 확인해 주세요.",
   locTitle:"위치",deposit:"보증금",minContract:"최소 계약",pets:"반려동물",furn:"가구",furnPic:"사진과 같이 가구 포함",parking:"주차",internet:"인터넷",available:"입주 가능일",shortTerm:"단기 임대",
   yes:"가능",no:"불가",
   save:"☆ 저장",saved:"★ 저장됨",copyLine:"LINE 메시지 복사",share:"링크 공유",social:"SNS 게시물 만들기",print:"전단 인쇄 / PDF",bookThis:"이 매물 방문 예약",similar:"비슷한 매물",copied:"복사됨",
@@ -1427,7 +1438,7 @@ ja:{
   contactEyebrow:"お問い合わせ",contactTitle:"お好きな方法でご連絡ください",contactP:"物件コード、ご予算、入居希望日をお送りいただければ、最適な物件を厳選します。",contactBy:"担当",
   call:"電話",email:"メール",
   footNote:"価格・空き状況は変更される場合があります。ご判断前にご確認ください · 更新 {d}",csvBtn:"物件データをダウンロード (CSV)",
-  back:"← 物件一覧",details:"物件詳細",highlights:"特長",calTitle:"空室カレンダー",calBooked:"予約済 / 入居中",calFree:"空室",calUnknown:"登録された予約はまだありません",calNote:"カレンダーはスタッフが更新します。入居日は改めてご確認ください。",
+  back:"← 物件一覧",details:"物件詳細",highlights:"特長",calTitle:"空室カレンダー",moreInfo:"その他の情報",calBooked:"予約済 / 入居中",calFree:"空室",calUnknown:"登録された予約はまだありません",calNote:"カレンダーはスタッフが更新します。入居日は改めてご確認ください。",
   locTitle:"ロケーション",deposit:"敷金",minContract:"最短契約",pets:"ペット",furn:"家具",furnPic:"写真のとおり家具付き",parking:"駐車場",internet:"インターネット",available:"入居可能日",shortTerm:"短期賃貸",
   yes:"可",no:"不可",
   save:"☆ 保存",saved:"★ 保存済み",copyLine:"LINE用にコピー",share:"リンクを共有",social:"SNS投稿を作成",print:"チラシ印刷 / PDF",bookThis:"この物件を内見予約",similar:"似た物件",copied:"コピーしました",
@@ -1998,8 +2009,11 @@ function renderDetail(code) {
     ...(l.rent ? [kvItem(t("deposit"), l.deposit), kvItem(t("minContract"), l.minContract)] : []),
     ...(l.type === "commercial" ? [] : [kvItem(t("shortTerm"), l.shortTerm ? money(l.shortTerm) + " " + t("perNight") : null)])
   ].join("");
+  const lkOn = LK_DETAIL && window.LIKit && l.type !== "land" && l.type !== "commercial";
   const similar = L.filter(x => x.code !== l.code).map(x => ({ x, s: (x.zone === l.zone ? 2 : 0) + (x.type === l.type ? 1 : 0) + (Math.abs((x.beds || 0) - (l.beds || 0)) <= 1 ? 1 : 0) }))
     .sort((a, b) => b.s - a.s).slice(0, 3).map(o => o.x);
+  // decor, feng shui, MBTI, safety, styling and the Living Insight kit fold into one closed "More information" box
+  const extras = homeStyleSecs(l) + landFengSec(l) + safeStrip(l) + styleSec(l) + (lkOn ? `<div class="d-sec" id="lkHome"></div><div class="d-sec" id="lkBuy"></div>` : "");
   $("#detailView").innerHTML = `
   <div class="wrap">
     <nav class="crumb"><a href="#/listings">${t("back")}</a></nav>
@@ -2017,11 +2031,8 @@ function renderDetail(code) {
       <div>
         ${l.tags.length ? `<div class="d-sec"><h2>${t("highlights")}</h2><div class="tags">${l.tags.map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("")}</div></div>` : ""}
         <div class="d-sec"><h2>${t("details")}</h2><div class="kv">${kv}</div></div>
-        ${homeStyleSecs(l)}
-        ${landFengSec(l)}
         ${(l.type === "villa" || l.type === "house") || l.rent ? `<div class="d-sec"><h2>${t("calTitle")}</h2>${calendar(l)}</div>` : ""}
-        ${safeStrip(l)}
-        ${styleSec(l)}
+        ${extras ? `<details class="d-more"><summary><b>${t("moreInfo")}</b><small></small></summary>${extras}</details>` : ""}
         <div class="d-sec" style="border:0"><h2>${t("locTitle")}</h2><div id="dmap"></div><p class="mapnote">${l.ll ? `<a class="btn sm" href="https://www.google.com/maps?q=${l.ll.join(",")}" target="_blank" rel="noopener">📍 ${t("gmOpen")} ↗</a> ${t("mapExact")}` : t("mapNote")}</p></div>
       </div>
       <aside class="d-side">
@@ -2061,6 +2072,15 @@ function renderDetail(code) {
     <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ${esc(CONTACT.company)}</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}<br><small style="color:#666">${esc(CONTACT.companyTh)} · ${esc(CONTACT.address)}</small></p>
       <div class="fl-qr"><img id="flQr" alt="QR"><p>${t("scan")}</p></div></div>
   </div>`;
+  if (lkOn) {                          // Thailand Living Insight kit (insight/kit.js)
+    const tags = l.tags || [], hs = HOME_STYLE[l.code], condo = l.type === "condo";
+    const lk = { ...lkBase(), wr: false, kind: condo ? "condo" : "house", sea: tags.includes("seaView"), floor: condo ? parseInt(l.floor, 10) || null : null,
+      beds: l.beds || 0, furnished: l.furn !== "none", mbti: hs ? hs.mbti : [], concept: hs ? hs.title : "",
+      quota: condo && tags.includes("thaiQuota") ? "TH" : null, price: l.sale, rental: !l.sale };
+    LIKit.home($("#lkHome"), lk); LIKit.buy($("#lkBuy"), lk);
+  }
+  const more = $(".d-more small");
+  if (more) more.textContent = [...document.querySelectorAll(".d-more .d-sec > h2")].map(h => h.textContent.replace(/^[^\p{L}\p{N}]+/u, "").split(" · ")[0].trim()).filter(Boolean).join(" · ");
   $("#detailView").dataset.code = l.code; $("#detailView").dataset.zone = "";
   try { const q = qrcode(0, "M"); q.addData(listingUrl(l)); q.make(); $("#flQr").src = q.createDataURL(6, 2); } catch (e) {}
   if (window.L && window.L.map) {
@@ -2107,6 +2127,10 @@ function homeStyleSecs(l) {
         <div class="pm-btns"><a class="btn sm" href="https://line.me/ti/p/~${encodeURIComponent(CONTACT.line)}" target="_blank" rel="noopener">💬 LINE</a><a class="btn sm" href="tel:${CONTACT.phones[0]}">☎ ${t("call")}</a><a class="btn sm" href="https://www.16personalities.com/" target="_blank" rel="noopener">MBTI test ↗</a></div>
         <a class="pm-quiz" href="#/match">${t("pmQuiz")}</a><br><a class="pm-quiz" href="#/matching">${t("mgLink")}</a></div></div>`;
 }
+
+/* ---------- Thailand Living Insight kit (insight/kit.js) ---------- */
+const LK_DETAIL = false; // THOR 27 Oct 2026: kit blocks (smart home for your personality, Living Insight buying cards) hidden on listing pages, too busy; true brings them back
+const lkBase = () => ({ lang, from: "asn", accent: "var(--brand)", wrLogo: "asn-img/logo-widerooms.jpg", groupName: g => t("g_" + g) });
 
 /* ---------- Persona Styling (WIDEROOMS) ---------- */
 const WR_URL = "https://thbho.github.io/EngWiderooms.html";
@@ -2249,6 +2273,8 @@ function renderGuide() {
         <p>${esc(r.p)} ${sup(r.ref)}</p><em>${esc(r.tag)}</em>
         <div class="mg-rex"><small>${esc(a.rulesSeen)}:</small> ${MG_RULE_HOMES[r.k].filter(byCode).map(c => `<a href="#/l/${c}">${c}</a>`).join(" · ")}</div></div>`).join("")}</div></section>
 
+    ${window.LIKit ? `<section class="mg-sec" id="lkTypes"></section>` : ""}
+
     <section class="mg-sec"><h2>${esc(a.pillarsH)}</h2>
       <div class="mg-pillars">${a.pillars.map(p => `<div><h3>${esc(p.h)}</h3><p>${esc(p.p)} ${sup(p.ref)}${sup(p.ref2)}</p></div>`).join("")}</div></section>
 
@@ -2265,6 +2291,7 @@ function renderGuide() {
       <ol class="mg-refs">${MG_REFS.map(r => `<li id="mgref-${r.id}">${esc(r.cite)} <a href="${r.url}" target="_blank" rel="noopener">${esc(a.readMore)} ↗</a></li>`).join("")}</ol></section>
     <p class="d-copy">${t("copyIp")}</p>
   </div>`;
+  if (window.LIKit) LIKit.types($("#lkTypes"), lkBase());
   $("#detailView").dataset.code = ""; $("#detailView").dataset.zone = ""; $("#detailView").dataset.page = "matching";
   document.title = `${a.crumb} · Personalized Matching · ASN Exclusive Property`;
 }
@@ -2987,6 +3014,7 @@ function renderAll() {
   renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
   renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones(); renderLand();
   renderSzLinks();
+  if (window.LIKit) { $("#lkStripSec").hidden = false; LIKit.strip($("#lkStrip"), lkBase()); }
   if (!$("#detailView").hidden && $("#detailView").dataset.code) renderDetail($("#detailView").dataset.code);
   else if (!$("#detailView").hidden && $("#detailView").dataset.zone) renderZone($("#detailView").dataset.zone);
   else if (!$("#detailView").hidden && $("#detailView").dataset.page === "matching") renderGuide();
