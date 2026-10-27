@@ -619,6 +619,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
       <a href="#/land" data-i18n="navLand">ที่ดิน</a>
       <a href="#/match" data-i18n="navMatch">หาบ้านที่ใช่</a>
       <a href="#/book" data-i18n="navBook">นัดชม</a>
+      <a href="LivingInsight.html?from=asn" id="navGuide" data-i18n="navGuide">คู่มือผู้ซื้อ</a>
       <a href="#/about" data-i18n="navAbout">เกี่ยวกับเรา</a>
       <a href="#/contact" data-i18n="navContact">ติดต่อ</a>
     </nav>
@@ -983,7 +984,7 @@ const LISTINGS = [
   { code:"C04", name:"The Riviera Jomtien · 9A02 The Quiet Retreat", type:"condo", zone:"jomtien", rent:null, sale:2867522, saleWas:4341120, beds:1, baths:null, size:32.64, floor:"9", building:"A", pool:"shared", style:"modern", tags:["seaView","thaiQuota"], furn:"full", isNew:true, photos:6, photoDate:"2026-09-22" },
   { code:"C05", name:"The Riviera Jomtien · 19E02", type:"condo", zone:"jomtien", rent:null, sale:3296660, saleWas:4107880, beds:1, baths:null, size:34.52, floor:"19", building:"E", pool:"shared", style:"modern", tags:["cityView","thaiQuota"], furn:"full", isNew:true, photos:8, photoDate:"2026-09-21" },
   { code:"B01", name:"The Riviera Jomtien · Commercial Unit G Floor", type:"commercial", zone:"jomtien", rent:null, sale:14542361, beds:null, baths:null, size:182.75, floor:"G", pool:null, style:"modern", tags:["roadFront","thaiQuota"], furn:"none", isNew:true, photos:11, photoDate:"2026-10-20" },
-  { code:"L01", name:"Sattahip (Sukhumvit–Sattahip Soi 105)", names:{"th": "สัตหีบ (สุขุมวิท-สัตหีบ ซอย 105)", "en": "Sattahip (Sukhumvit–Sattahip Soi 105)", "ru": "Саттахип (Сукхумвит–Саттахип, Сой 105)", "zh": "梭桃邑（素坤逸–梭桃邑路105巷）", "ko": "사타힙 (수쿰윗–사타힙 105번 골목)", "ja": "サッタヒープ（スクンビット–サッタヒープ ソイ105）"}, type:"land", zone:"sattahip", rent:null, sale:2000000, beds:null, baths:null, land:828, deed:"chanote", road:"concrete", elec:true, near:"sukhumvit105", ll:[12.669636, 100.934927], szHide:["szFlood","szCoast"], style:"land", tags:["cleared","residential","twoDeeds"], photos:11, photoDate:"2026-10-25" },
+  { code:"L01", name:"Sattahip (Sukhumvit–Sattahip Soi 105)", names:{"th": "สัตหีบ (สุขุมวิท-สัตหีบ ซอย 105)", "en": "Sattahip (Sukhumvit–Sattahip Soi 105)", "ru": "Саттахип (Сукхумвит–Саттахип, Сой 105)", "zh": "梭桃邑（素坤逸–梭桃邑路105巷）", "ko": "사타힙 (수쿰윗–사타힙 105번 골목)", "ja": "サッタヒープ（スクンビット–サッタヒープ ソイ105）"}, type:"land", zone:"sattahip", rent:null, sale:3105000, beds:null, baths:null, land:828, deed:"chanote", road:"concrete", elec:true, near:"sukhumvit105", ll:[12.669636, 100.934927], szHide:["szFlood","szCoast"], style:"land", tags:["cleared","residential","twoDeeds"], photos:11, photoDate:"2026-10-25" },
   { code:"L02", name:"Treed Land Plot · Sattahip", names:{"th": "ที่ดินมีต้นไม้ใหญ่ · สัตหีบ", "en": "Treed Land Plot · Sattahip", "ru": "Участок с деревьями · Саттахип", "zh": "带大树的土地 · 梭桃邑", "ko": "큰 나무가 있는 토지 · 사타힙", "ja": "大きな木のある土地 · サッタヒープ"}, type:"land", zone:"sattahip", rent:null, sale:null, saleAsk:true, beds:null, baths:null, land:null, deed:"chanote", road:"dirt", style:"land", tags:["trees"], photos:8, photoDate:"2026-10-25" }
 ].filter(l => !l.hidden); // hidden:true = booked / off the page for now
 // Optional per-listing fields (shown as "ask" until filled):
@@ -1005,7 +1006,7 @@ const FEATURED = ["H04","H01","H02","C01","H06","H14"];
    ==================================================================== */
 const T = {
 th:{
-  navListings:"ทรัพย์ทั้งหมด",navMap:"แผนที่",navMatch:"หาบ้านที่ใช่",navBook:"นัดชม",navAbout:"เกี่ยวกับเรา",navContact:"ติดต่อ",
+  navGuide:"คู่มือผู้ซื้อ",navListings:"ทรัพย์ทั้งหมด",navMap:"แผนที่",navMatch:"หาบ้านที่ใช่",navBook:"นัดชม",navAbout:"เกี่ยวกับเรา",navContact:"ติดต่อ",
   heroEyebrow:"พัทยา · จอมเทียน · พระตำหนัก",heroTitle:"พูลวิลล่า บ้าน และคอนโดในพัทยา",
   heroSub:"ให้เช่าระยะยาว ระยะสั้น ซื้อ ขาย และดูแลทรัพย์ให้เจ้าของ ทีมเดียวจบ คุยได้หลายภาษา",
   any:"ทั้งหมด",rent:"เช่า",sale:"ซื้อ",qsGo:"ค้นหา",allTypes:"ทุกประเภท",allZones:"ทุกโซน",anyBudget:"ทุกงบ",anyBeds:"ทุกจำนวนห้องนอน",
@@ -1077,7 +1078,7 @@ th:{
   scan:"สแกนเพื่อดูรูปทั้งหมดและนัดชม",million:"ล้าน"
 },
 en:{
-  navListings:"Listings",navMap:"Map",navMatch:"Find your match",navBook:"Book a viewing",navAbout:"About",navContact:"Contact",
+  navGuide:"Buyer guide",navListings:"Listings",navMap:"Map",navMatch:"Find your match",navBook:"Book a viewing",navAbout:"About",navContact:"Contact",
   heroEyebrow:"Pattaya · Jomtien · Pratumnak",heroTitle:"Pool villas, houses & condos in Pattaya",
   heroSub:"Long-term and short-term rentals, sales, resale and owner management — one team, many languages.",
   any:"All",rent:"Rent",sale:"Buy",qsGo:"Search",allTypes:"All types",allZones:"All areas",anyBudget:"Any budget",anyBeds:"Any bedrooms",
@@ -1149,7 +1150,7 @@ en:{
   scan:"Scan for all photos and to book a viewing",million:"M"
 },
 ru:{
-  navListings:"Объекты",navMap:"Карта",navMatch:"Подбор",navBook:"Просмотр",navAbout:"О нас",navContact:"Контакты",
+  navGuide:"Гид покупателя",navListings:"Объекты",navMap:"Карта",navMatch:"Подбор",navBook:"Просмотр",navAbout:"О нас",navContact:"Контакты",
   heroEyebrow:"Паттайя · Джомтьен · Пратамнак",heroTitle:"Виллы с бассейном, дома и кондо в Паттайе",
   heroSub:"Долгосрочная и краткосрочная аренда, продажа, перепродажа и управление недвижимостью — одна команда, несколько языков.",
   any:"Все",rent:"Аренда",sale:"Покупка",qsGo:"Найти",allTypes:"Все типы",allZones:"Все районы",anyBudget:"Любой бюджет",anyBeds:"Любое число спален",
@@ -1221,7 +1222,7 @@ ru:{
   scan:"Сканируйте — все фото и запись на просмотр",million:"млн"
 },
 zh:{
-  navListings:"房源",navMap:"地图",navMatch:"智能匹配",navBook:"预约看房",navAbout:"关于我们",navContact:"联系",
+  navGuide:"购房指南",navListings:"房源",navMap:"地图",navMatch:"智能匹配",navBook:"预约看房",navAbout:"关于我们",navContact:"联系",
   heroEyebrow:"芭提雅 · 宗甸 · 帕塔纳山",heroTitle:"芭提雅泳池别墅、独栋与公寓",
   heroSub:"长租、短租、买卖、转售及业主托管 —— 一个团队，多语言服务。",
   any:"全部",rent:"租",sale:"买",qsGo:"搜索",allTypes:"全部类型",allZones:"全部区域",anyBudget:"不限预算",anyBeds:"不限卧室",
@@ -1293,7 +1294,7 @@ zh:{
   scan:"扫码查看全部照片并预约看房",million:"M"
 },
 ko:{
-  navListings:"매물",navMap:"지도",navMatch:"맞춤 찾기",navBook:"방문 예약",navAbout:"회사 소개",navContact:"문의",
+  navGuide:"구매 가이드",navListings:"매물",navMap:"지도",navMatch:"맞춤 찾기",navBook:"방문 예약",navAbout:"회사 소개",navContact:"문의",
   heroEyebrow:"파타야 · 좀티엔 · 프라탐낙",heroTitle:"파타야 풀빌라 · 단독주택 · 콘도",
   heroSub:"장기·단기 임대, 매매, 재판매, 소유주 관리까지 — 한 팀이 여러 언어로 도와드립니다.",
   any:"전체",rent:"임대",sale:"매매",qsGo:"검색",allTypes:"전체 유형",allZones:"전체 지역",anyBudget:"예산 무관",anyBeds:"침실 무관",
@@ -1365,7 +1366,7 @@ ko:{
   scan:"스캔하여 전체 사진 보기 및 방문 예약",million:"M"
 },
 ja:{
-  navListings:"物件一覧",navMap:"地図",navMatch:"マッチング",navBook:"内見予約",navAbout:"会社概要",navContact:"お問い合わせ",
+  navGuide:"購入ガイド",navListings:"物件一覧",navMap:"地図",navMatch:"マッチング",navBook:"内見予約",navAbout:"会社概要",navContact:"お問い合わせ",
   heroEyebrow:"パタヤ · ジョムティエン · プラタムナック",heroTitle:"パタヤのプールヴィラ・一戸建て・コンドミニアム",
   heroSub:"長期・短期賃貸、売買、リセール、オーナー向け管理まで — ひとつのチームが多言語で対応します。",
   any:"すべて",rent:"賃貸",sale:"購入",qsGo:"検索",allTypes:"すべての種別",allZones:"すべてのエリア",anyBudget:"予算指定なし",anyBeds:"寝室数指定なし",
@@ -1606,7 +1607,7 @@ const area = l => l.usable || l.size || null;
 const nf = n => Number(n).toLocaleString("en-US");
 function money(n) {
   if (n == null) return null;
-  if (n >= 1e6) { const m = +(n / 1e6).toFixed(2); return lang === "th" ? `฿${m} ${t("million")}` : lang === "ru" ? `฿${String(m).replace(".", ",")} ${t("million")}` : `฿${m}M`; }
+  if (n >= 1e6) { const m = +(n / 1e6).toFixed(n % 1000 ? 2 : 3); return lang === "th" ? `฿${m} ${t("million")}` : lang === "ru" ? `฿${String(m).replace(".", ",")} ${t("million")}` : `฿${m}M`; }
   return "฿" + nf(n);
 }
 const landTxt = l => l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")} · ${nf(l.land)} ${t("sqm")}` : null;
@@ -2961,7 +2962,8 @@ function applyI18n() {
   $("#footCo").textContent = CONTACT.company; $("#footCoTh").textContent = CONTACT.companyTh; $("#footAddr").textContent = CONTACT.address;
 }
 function renderAll() {
-  applyI18n(); renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
+  applyI18n();
+  $("#navGuide").href = "LivingInsight.html?from=asn&lang=" + lang; // Thailand Living Insight buyer guide renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
   renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones(); renderLand();
   renderSzLinks();
   if (!$("#detailView").hidden && $("#detailView").dataset.code) renderDetail($("#detailView").dataset.code);
