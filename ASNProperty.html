@@ -1020,6 +1020,10 @@ const REVIEWS = [
 
 const SLIDES = [["H04",1],["H02",1],["H12",1],["H14",4],["H04",3],["H02",3],["H06",3],["H06",4],["H02",11],["C01",5]];
 const FEATURED = ["H04","H01","H02","C01","H06","H14"];
+// TOP_PICKS: the 30 standout listings (not counting FEATURED), in the order they lead the list.
+// Only TOP_PICKS + FEATURED are shown in the list, map, stats and matching; every other listing is hidden
+// but still opens by its own link (#/l/CODE, asn/CODE.html). Set TOP_PICKS = [] to show everything again.
+const TOP_PICKS = ["H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","H85","H83","H34","H05","H73","H55","B01","H68","H49","H72","H12","H10","H79","H09","L01","H61","H07"];
 
 /* ====================================================================
    TRANSLATIONS
@@ -1627,6 +1631,8 @@ const zn = z => (ZONE_NAMES[z] && (ZONE_NAMES[z][lang] || ZONE_NAMES[z].en)) || 
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
                 set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
 const byCode = c => L.find(l => l.code === c);
+// listings shown on the page (TOP_PICKS first, then FEATURED); hidden ones stay reachable through byCode
+const SHOWN = () => { if (!TOP_PICKS.length) return L; const order = [...TOP_PICKS, ...FEATURED.filter(c => !TOP_PICKS.includes(c))]; return order.map(byCode).filter(Boolean); };
 // listing name in the current language when a listing has `names` (land plots); otherwise its single name
 const nm = l => (l.names && (l.names[lang] || l.names.en)) || l.name;
 const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return p || `asn-img/${l.code}-${n}.jpg`; };
@@ -1723,10 +1729,10 @@ function renderHero() {
   restart();
 }
 function renderStats() {
-  const rents = L.filter(l => l.rent).map(l => l.rent), sales = L.filter(l => l.sale).map(l => l.sale);
-  const zones = new Set(L.map(l => l.zone));
+  const V = SHOWN(), rents = V.filter(l => l.rent).map(l => l.rent), sales = V.filter(l => l.sale).map(l => l.sale);
+  const zones = new Set(V.map(l => l.zone));
   $("#stats").innerHTML = [
-    [L.length, t("statListings")], [zones.size, t("statZones")],
+    [V.length, t("statListings")], [zones.size, t("statZones")],
     [rents.length ? money(Math.min(...rents)) : "—", t("statRent")], [sales.length ? money(Math.min(...sales)) : "—", t("statSale")], ["6", t("statLangs")]
   ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
 }
@@ -1746,8 +1752,8 @@ function cardPhoto(cardEl, step) {
 }
 
 function fillFilters() {
-  const types = [...new Set([...L.map(l => l.type), "land"])];
-  const zones = Object.keys(ZONES).filter(z => L.some(l => l.zone === z) || ZONES[z].land);
+  const types = [...new Set([...SHOWN().map(l => l.type), "land"])];
+  const zones = Object.keys(ZONES).filter(z => SHOWN().some(l => l.zone === z) || ZONES[z].land);
   opts($("#fType"), [["", t("allTypes")], ...types.map(x => [x, t(x)])], st.type);
   opts($("#qsType"), [["", t("allTypes")], ...types.map(x => [x, t(x)])], "");
   opts($("#fZone"), [["", t("allZones")], ...zones.map(z => [z, zn(z)])], st.zone);
@@ -1765,7 +1771,7 @@ function fillFilters() {
 }
 function filtered() {
   const q = st.q.trim().toLowerCase();
-  let r = L.filter(l => {
+  let r = SHOWN().filter(l => {
     if (st.deal === "rent" && !l.rent) return false;
     if (st.deal === "sale" && !l.sale && !l.saleAsk) return false;
     if (st.type && l.type !== st.type) return false;
@@ -1807,9 +1813,9 @@ function renderList() {
 /* ---------- map ---------- */
 let map, zoneLayer;
 function renderZoneList() {
-  const zones = Object.keys(ZONES).filter(z => L.some(l => l.zone === z));
-  $("#zlist").innerHTML = `<button type="button" data-zone="" aria-pressed="${!st.zone}"><span>${t("allZones")}</span><b>${L.length}</b></button>` +
-    zones.map(z => `<button type="button" data-zone="${z}" aria-pressed="${st.zone === z}"><span>📍 ${esc(zn(z))}</span><b>${L.filter(l => l.zone === z).length}</b></button>`).join("");
+  const V = SHOWN(), zones = Object.keys(ZONES).filter(z => V.some(l => l.zone === z));
+  $("#zlist").innerHTML = `<button type="button" data-zone="" aria-pressed="${!st.zone}"><span>${t("allZones")}</span><b>${V.length}</b></button>` +
+    zones.map(z => `<button type="button" data-zone="${z}" aria-pressed="${st.zone === z}"><span>📍 ${esc(zn(z))}</span><b>${V.filter(l => l.zone === z).length}</b></button>`).join("");
   $("#areasList").textContent = zones.map(zn).join(" · ");
 }
 function initMap() {
@@ -1824,7 +1830,7 @@ function drawZones() {
   zoneLayer.clearLayers();
   const col = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim() || "#1F3A5F";
   for (const z of Object.keys(ZONES)) {
-    const n = L.filter(l => l.zone === z).length, land = ZONES[z].land; if (!n && !land) continue;
+    const n = SHOWN().filter(l => l.zone === z).length, land = ZONES[z].land; if (!n && !land) continue;
     const c = window.L.circle(ZONES[z].ll, { radius: land ? 2200 : 900, color: land ? "#B57A27" : col, weight: 1.5, dashArray: land ? "6 5" : null, fillOpacity: st.zone === z ? .35 : .12 }).addTo(zoneLayer);
     const m = window.L.marker(ZONES[z].ll, { icon: window.L.divIcon({ className: "", html: `<div class="zpin" style="width:30px;height:30px${land ? ";background:#B57A27" : ""}">${n}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) }).addTo(zoneLayer);
     const go = () => { if (land) { location.hash = "#/zone/" + z; return; } st.zone = z; fillFilters(); renderList(); drawZones(); document.getElementById("listings").scrollIntoView(); };
@@ -1849,9 +1855,9 @@ function renderMatchForm() {
 function matchScore() {
   const ppsqm = l => { const a = area(l) || (l.land ? l.land * .6 : null); return a ? { r: l.rent ? l.rent / a : null, s: l.sale ? l.sale / a : null } : { r: null, s: null }; };
   const med = arr => { const s = arr.filter(x => x != null).sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)] : Infinity; };
-  const mr = med(L.map(l => ppsqm(l).r)), ms = med(L.map(l => ppsqm(l).s));
+  const V = SHOWN(), mr = med(V.map(l => ppsqm(l).r)), ms = med(V.map(l => ppsqm(l).s));
   const type = mq.q1 + mq.q2 + mq.q3 + mq.q4;
-  const rows = L.map(l => {
+  const rows = V.map(l => {
     if (mq.deal === "rent" && !l.rent) return null;
     if (mq.deal === "sale" && !l.sale) return null;
     if (mq.beds && !(l.beds >= mq.beds)) return null;
@@ -2010,7 +2016,7 @@ function renderDetail(code) {
     ...(l.type === "commercial" ? [] : [kvItem(t("shortTerm"), l.shortTerm ? money(l.shortTerm) + " " + t("perNight") : null)])
   ].join("");
   const lkOn = LK_DETAIL && window.LIKit && l.type !== "land" && l.type !== "commercial";
-  const similar = L.filter(x => x.code !== l.code).map(x => ({ x, s: (x.zone === l.zone ? 2 : 0) + (x.type === l.type ? 1 : 0) + (Math.abs((x.beds || 0) - (l.beds || 0)) <= 1 ? 1 : 0) }))
+  const similar = SHOWN().filter(x => x.code !== l.code).map(x => ({ x, s: (x.zone === l.zone ? 2 : 0) + (x.type === l.type ? 1 : 0) + (Math.abs((x.beds || 0) - (l.beds || 0)) <= 1 ? 1 : 0) }))
     .sort((a, b) => b.s - a.s).slice(0, 3).map(o => o.x);
   // decor, feng shui, MBTI, safety, styling and the Living Insight kit fold into one closed "More information" box
   const extras = homeStyleSecs(l) + landFengSec(l) + safeStrip(l) + styleSec(l) + (lkOn ? `<div class="d-sec" id="lkHome"></div><div class="d-sec" id="lkBuy"></div>` : "");
@@ -2166,7 +2172,7 @@ function safeStrip(l) {
 function renderZone(z) {
   const S = SAFE_ZONES[z];
   if (!S) { location.hash = "#/"; return; }
-  const ls = L.filter(l => l.zone === z);
+  const ls = SHOWN().filter(l => l.zone === z);
   const srcIds = [...new Set([...szRows(z).flatMap(([, h]) => h.src), ...S.events.map(e => e[3]), S.district === "sattahip" ? "thSattahip" : "thinkhazard",
     ...(LAND_ZONES[z] ? [...LAND_ZONES[z].en[1].map(p => p[1]).filter(Boolean), "landRules"] : [])])];
   const src = id => { const i = srcIds.indexOf(id); return i < 0 ? "" : `<sup><a href="#" data-szs="${id}" title="${esc(SZ_SRC[id].n)}">[${i + 1}]</a></sup>`; };
