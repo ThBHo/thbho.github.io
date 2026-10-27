@@ -367,6 +367,16 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .d-more>summary b{font-size:18px;font-weight:600}
 .d-more>summary small{font-size:13px;color:var(--muted);line-height:1.5}
 .d-more .d-sec:last-child{border-bottom:0}
+.gd-card{display:block;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--surface-3);margin-top:8px}
+.gd-card>a{color:var(--ink);text-decoration:none;font-weight:600;font-size:16px}
+.gd-card>a:hover{color:var(--brand)}
+.gd-card>small{display:block;color:var(--muted);font-size:13px;margin:2px 0 10px}
+.gd-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gd-chips a{font-size:13px;color:var(--brand);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--surface)}
+.gd-chips a:hover{border-color:var(--brand)}
+.foot-guide{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.foot-guide a{color:var(--brand);text-decoration:none}
+.foot-guide b{color:var(--ink);font-weight:600}
 .kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .kv div{background:var(--surface);padding:11px 14px}
 .kv span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
@@ -855,6 +865,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
   <footer class="wrap foot">
     <div class="foot-brand"><img src="asn-img/logo-emblem-96.png" alt="" width="43" height="48"><p><b id="footCo"></b><br><span id="footCoTh"></span><br><span id="footAddr"></span></p></div>
     <p id="footNote" style="flex-basis:100%"></p>
+    <p class="foot-guide" id="footGuide"></p>
     <p><button type="button" class="linkbtn" id="csvBtn" data-i18n="csvBtn">ดาวน์โหลดข้อมูลทรัพย์ (CSV)</button></p>
     <div class="credit"><span data-i18n="creditBy">พัฒนาเว็บไซต์และแนวคิดโดย</span><a href="https://thbho.github.io/EngWiderooms.html" target="_blank" rel="noopener"><img src="asn-img/logo-widerooms.jpg" alt="WIDEROOMS"></a><a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="asn-img/logo-thho.jpg" alt="Th.Ho · AI GymMateX Factory"></a></div>
     <p class="copy" data-i18n="copyIp" style="flex-basis:100%;font-size:12px"></p>
@@ -2045,6 +2056,7 @@ function renderDetail(code) {
         ${(l.type === "villa" || l.type === "house") || l.rent ? `<div class="d-sec"><h2>${t("calTitle")}</h2>${calendar(l)}</div>` : ""}
         ${extras ? `<details class="d-more"><summary><b>${t("moreInfo")}</b><small></small></summary>${extras}</details>` : ""}
         <div class="d-sec" style="border:0"><h2>${t("locTitle")}</h2><div id="dmap"></div><p class="mapnote">${l.ll ? `<a class="btn sm" href="https://www.google.com/maps?q=${l.ll.join(",")}" target="_blank" rel="noopener">📍 ${t("gmOpen")} ↗</a> ${t("mapExact")}` : t("mapNote")}</p></div>
+        <div class="d-sec" style="border:0">${guideCard(l)}</div>
       </div>
       <aside class="d-side">
         <div class="pbox">
@@ -3019,9 +3031,32 @@ function applyI18n() {
   $("#footNote").textContent = t("footNote", { d: UPDATED });
   $("#footCo").textContent = CONTACT.company; $("#footCoTh").textContent = CONTACT.companyTh; $("#footAddr").textContent = CONTACT.address;
 }
+// Thailand Living Insight buyer guide (LivingInsight*.html). ?from=asn makes the guide link back to this page.
+const GUIDE_TX = {
+  th:{hub:"คู่มือผู้ซื้อ · Thailand Living Insight",sub:"ข้อมูลที่ควรรู้ก่อนซื้อหรือเช่าบ้านในไทย พร้อมแหล่งอ้างอิง",Buying:"ซื้ออสังหาฯ สำหรับชาวต่างชาติ",Relocate:"วีซ่า ภาษี และการย้ายมาอยู่",Wellness:"บ้านที่ดีต่อสุขภาพ",SmartHome:"Smart Home",EEC:"EEC และอนาคตภาคตะวันออก"},
+  en:{hub:"Buyer guide · Thailand Living Insight",sub:"What to know before you buy or rent in Thailand, with sources",Buying:"Buying as a foreigner",Relocate:"Visas, tax and moving here",Wellness:"A home that keeps you well",SmartHome:"Smart home",EEC:"EEC and the Eastern Seaboard"},
+  ru:{hub:"Гид покупателя · Thailand Living Insight",sub:"Что важно знать перед покупкой или арендой в Таиланде",Buying:"Покупка для иностранцев",Relocate:"Визы, налоги и переезд",Wellness:"Дом для здоровья",SmartHome:"Умный дом",EEC:"EEC и Восточное побережье"},
+  zh:{hub:"购房指南 · Thailand Living Insight",sub:"在泰国购房或租房前需要了解的信息",Buying:"外国人购房",Relocate:"签证、税务与移居",Wellness:"有益健康的住宅",SmartHome:"智能家居",EEC:"EEC 与东部经济走廊"},
+  ko:{hub:"구매 가이드 · Thailand Living Insight",sub:"태국에서 집을 사거나 임대하기 전에 알아야 할 정보",Buying:"외국인 부동산 구매",Relocate:"비자, 세금, 이주",Wellness:"건강에 좋은 집",SmartHome:"스마트 홈",EEC:"EEC와 동부 경제회랑"},
+  ja:{hub:"購入ガイド · Thailand Living Insight",sub:"タイで購入・賃貸する前に知っておきたい情報",Buying:"外国人の不動産購入",Relocate:"ビザ・税金・移住",Wellness:"健康に良い住まい",SmartHome:"スマートホーム",EEC:"EECと東部経済回廊"}
+};
+const guideUrl = (pg = "") => `LivingInsight${pg ? "-" + pg : ""}.html?from=asn&lang=${lang}`;
+const guideTx = k => (GUIDE_TX[lang] || GUIDE_TX.en)[k];
+function guideCard(l) {
+  // rentals lead with the move/visa page, sales and land with the buying page
+  const order = l.type === "land" ? ["Buying", "EEC", "Relocate"]
+    : l.rent && !l.sale ? ["Relocate", "Wellness", "SmartHome", "Buying"]
+    : ["Buying", "Relocate", "Wellness", "SmartHome", "EEC"];
+  return `<div class="gd-card"><a href="${guideUrl()}">📘 ${guideTx("hub")} →</a><small>${guideTx("sub")}</small>
+    <div class="gd-chips">${order.map(k => `<a href="${guideUrl(k)}">${guideTx(k)}</a>`).join("")}</div></div>`;
+}
+function renderFootGuide() {
+  $("#footGuide").innerHTML = `<b>📘 <a href="${guideUrl()}">${guideTx("hub")}</a></b>` +
+    ["Buying", "Relocate", "Wellness", "SmartHome", "EEC"].map(k => `<a href="${guideUrl(k)}">${guideTx(k)}</a>`).join("");
+}
 function renderAll() {
   applyI18n();
-  $("#navGuide").href = "LivingInsight.html?from=asn&lang=" + lang; // Thailand Living Insight buyer guide
+  $("#navGuide").href = guideUrl(); renderFootGuide();
   renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
   renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones(); renderLand();
   renderSzLinks();
