@@ -3157,7 +3157,10 @@ window.addEventListener("hashchange", route);
   const ql = new URLSearchParams(location.search).get("l");
   if (ql && !location.hash) location.hash = "#/l/" + ql;
   renderAll(); initMap(); route();
-  if (await loadSheet()) renderAll();
+  // decor / feng shui / MBTI for listings not in HOME_STYLE (the Facebook/Sheet listings) live in asn-style.json
+  const styles = fetch("asn-style.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { for (const k in o) if (!HOME_STYLE[k]) HOME_STYLE[k] = o[k]; return true; }).catch(() => false);
+  const [sheetOk, styleOk] = await Promise.all([loadSheet(), styles]);
+  if (sheetOk || styleOk) renderAll();
 })();
 </script>
 </body>
