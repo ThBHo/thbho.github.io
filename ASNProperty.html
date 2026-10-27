@@ -929,7 +929,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
    Never put the full address, owner name/phone, commission or the
    lowest negotiable price here — this page is public.
    ===================================================================== */
-const SHEET_CSV = "";
+const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1aZHJMhDyUNDx3tTj1-pxecKUcEP3bWoW7V_2VT8YA7k/gviz/tq?tqx=out:csv&sheet=Listings"; // live listings from the ASN Google Sheet (tab Listings)
 const UPDATED = "2026-10-17";
 const PHOTO_DATE = "2026-10-17";   // default photo upload date; override per listing with photoDate
 
@@ -959,7 +959,16 @@ const ZONES = {
   pratumnak:   { ll: [12.9230, 100.8695] },
   jomtien:     { ll: [12.8960, 100.8710] },
   sattahip:    { ll: [12.72, 100.925], land: true },
-  huaiyai:     { ll: [12.835, 100.96], land: true }
+  huaiyai:     { ll: [12.835, 100.96], land: true },
+  thungklom:   { ll: [12.9075, 100.9195] },
+  chaiyapruk:  { ll: [12.8885, 100.8940] },
+  nongprue:    { ll: [12.9335, 100.9030] },
+  najomtien:   { ll: [12.8010, 100.9140] },
+  southpattaya:{ ll: [12.9180, 100.8820] },
+  northpattaya:{ ll: [12.9530, 100.8890] },
+  nongplalai:  { ll: [12.9300, 100.9720] },
+  khaonoi:     { ll: [12.9205, 100.8960] },
+  pattaya:     { ll: [12.9276, 100.8771] }
 };
 
 // land and usable area in sqm; null = not yet confirmed (shows "ask")
@@ -1447,7 +1456,16 @@ const ZONE_NAMES = {
   pratumnak:{th:"พระตำหนัก",en:"Pratumnak Hill",ru:"Пратамнак",zh:"帕塔纳山",ko:"프라탐낙",ja:"プラタムナック"},
   jomtien:{th:"หาดจอมเทียน",en:"Jomtien Beach",ru:"Джомтьен",zh:"宗甸海滩",ko:"좀티엔 비치",ja:"ジョムティエンビーチ"},
   sattahip:{"th": "สัตหีบ", "en": "Sattahip", "ru": "Саттахип", "zh": "梭桃邑", "ko": "사타힙", "ja": "サッタヒープ"},
-  huaiyai:{"th": "ห้วยใหญ่", "en": "Huai Yai", "ru": "Хуай Яй", "zh": "怀艾（Huai Yai）", "ko": "후아이야이", "ja": "フアイヤイ"}
+  huaiyai:{"th": "ห้วยใหญ่", "en": "Huai Yai", "ru": "Хуай Яй", "zh": "怀艾（Huai Yai）", "ko": "후아이야이", "ja": "フアイヤイ"},
+  thungklom:{th:"ทุ่งกลม-ตาลหมัน",en:"Thung Klom–Tan Man",ru:"Тхунг Клом – Тан Ман",zh:"通隆-丹曼",ko:"통끌롬-딴만",ja:"トゥンクロム・タンマン"},
+  chaiyapruk:{th:"ชัยพฤกษ์",en:"Chaiyapruk",ru:"Чайяприк",zh:"猜亚普鲁",ko:"차이야프룩",ja:"チャイヤプルック"},
+  nongprue:{th:"หนองปรือ",en:"Nong Prue",ru:"Нонг Прю",zh:"侬普鲁",ko:"농프루",ja:"ノンプルー"},
+  najomtien:{th:"นาจอมเทียน",en:"Na Jomtien",ru:"На Джомтьен",zh:"纳宗甸",ko:"나좀티엔",ja:"ナジョムティエン"},
+  southpattaya:{th:"พัทยาใต้",en:"South Pattaya",ru:"Южная Паттайя",zh:"南芭提雅",ko:"사우스 파타야",ja:"南パタヤ"},
+  northpattaya:{th:"พัทยาเหนือ",en:"North Pattaya",ru:"Северная Паттайя",zh:"北芭提雅",ko:"노스 파타야",ja:"北パタヤ"},
+  nongplalai:{th:"หนองปลาไหล",en:"Nong Pla Lai",ru:"Нонг Пла Лай",zh:"侬帕莱",ko:"농쁠라라이",ja:"ノンプラーライ"},
+  khaonoi:{th:"เขาน้อย",en:"Khao Noi",ru:"Кхао Ной",zh:"考诺伊",ko:"카오노이",ja:"カオノーイ"},
+  pattaya:{th:"พัทยา",en:"Pattaya",ru:"Паттайя",zh:"芭提雅",ko:"파타야",ja:"パタヤ"}
 };
 /* ---------- Safe Zone: one sourced report per zone, linked from every listing in it ----------
    lvl: low | med | high. Text in th + en; zh/ko/ja/ru come from SZ_I18N below.
@@ -1989,7 +2007,7 @@ function renderDetail(code) {
       <button type="button" class="btn" data-dstar="${l.code}">${on ? t("saved") : t("save")}</button></div>
     <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(nm(l))} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
     <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
-      <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button></div>
+      <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button>${l.fb ? ` <a class="btn sm" href="${esc(l.fb)}" target="_blank" rel="noopener">Facebook ↗</a>` : ""}</div>
     <p class="phnote">${t("phNote")}</p>
     ${l.youtube ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><button type="button" class="yt" data-yt="${esc(l.youtube)}" aria-label="Play video"><img src="${esc(l.poster || `https://i.ytimg.com/vi/${l.youtube}/hqdefault.jpg`)}" alt="" loading="lazy"><span class="yt-play"></span></button></section>`
       : l.video ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><video src="${esc(l.video)}" ${l.poster ? `poster="${esc(l.poster)}"` : ""} controls playsinline preload="none"></video></section>` : ""}
@@ -2941,11 +2959,11 @@ async function loadSheet() {
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
-      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null,
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null, fb: o.fb || null,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
-    if (out.length) { L = out; return true; }
+    if (out.length) { const fromSheet = new Set(out.map(o => o.code)); L = [...LISTINGS.filter(l => !fromSheet.has(l.code)), ...out]; return true; } // sheet rows are added after the built-in listings (a sheet row with the same code replaces it)
   } catch (e) {}
   return false;
 }
