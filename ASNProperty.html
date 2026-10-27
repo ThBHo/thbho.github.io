@@ -1610,7 +1610,8 @@ function money(n) {
   return "฿" + nf(n);
 }
 const landTxt = l => l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")} · ${nf(l.land)} ${t("sqm")}` : null;
-const listingUrl = l => location.href.split("#")[0].split("?")[0] + "#/l/" + l.code;
+// asn/<CODE>.html carries the listing's own og: preview for LINE/Facebook (share-build/build.py)
+const listingUrl = l => new URL("asn/" + l.code + ".html", location.href.split("#")[0].split("?")[0]).href;
 const priceOf = l => st.deal === "sale" ? l.sale : st.deal === "rent" ? l.rent : (l.rent ?? l.sale);
 function toast(msg) { const el = $("#toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1600); }
 async function copy(text) {
