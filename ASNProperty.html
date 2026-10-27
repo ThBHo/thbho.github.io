@@ -1979,6 +1979,8 @@ function calendar(l) {
              : `<p class="note" style="margin-top:10px">${t("calUnknown")}</p>`;
   return h + `<p class="note">${t("calNote")}</p>`;
 }
+// photo note: listings whose photos are not AI-retouched yet (aiEdited:false, the default for Google Sheet rows) drop the "(… AI …)" part
+const phNote = l => l.aiEdited === false ? t("phNote").replace(/\s*[(（][^()（）]*[)）]\s*$/, "") : t("phNote");
 function renderDetail(code) {
   const l = byCode(code);
   if (!l) { location.hash = "#/"; return; }
@@ -2008,7 +2010,7 @@ function renderDetail(code) {
     <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(nm(l))} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
     <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
       <button type="button" class="btn sm" data-act="dlall">⬇️ ${t("dlAll")}</button>${l.fb ? ` <a class="btn sm" href="${esc(l.fb)}" target="_blank" rel="noopener">Facebook ↗</a>` : ""}</div>
-    <p class="phnote">${t("phNote")}</p>
+    <p class="phnote">${phNote(l)}</p>
     ${l.youtube ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><button type="button" class="yt" data-yt="${esc(l.youtube)}" aria-label="Play video"><img src="${esc(l.poster || `https://i.ytimg.com/vi/${l.youtube}/hqdefault.jpg`)}" alt="" loading="lazy"><span class="yt-play"></span></button></section>`
       : l.video ? `<section class="vsec"><h2>🎬 ${t("videoTitle")}</h2><video src="${esc(l.video)}" ${l.poster ? `poster="${esc(l.poster)}"` : ""} controls playsinline preload="none"></video></section>` : ""}
     <div class="d-grid">
@@ -2055,7 +2057,7 @@ function renderDetail(code) {
     <div class="fl-kv">${[[t("beds"), l.beds], [t("baths"), l.baths], [t(l.size ? "size" : "usable"), area(l) ? nf(area(l)) + (l.usablePlus ? "+" : "") + " " + t("sqm") : null], [t("land"), l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")}` : null], [t("pool"), l.pool ? t(l.pool === "private" ? "poolPrivate" : l.pool === "shared" ? "poolShared" : "poolYes") : null], [t("floor"), l.type === "condo" || l.type === "commercial" ? l.floor : null]]
       .filter(([, v]) => v != null).map(([k, v]) => `<div><span>${esc(k)}</span>${esc(v)}</div>`).join("")}</div>
     ${l.tags.length ? `<p class="fl-tags">✨ ${l.tags.map(x => esc(t("tag_" + x))).join(" · ")}</p>` : ""}
-    <p class="fl-note">📷 ${t("phDate")} ${fmtDate(l.photoDate || PHOTO_DATE)} · ${t("phNote")}</p>
+    <p class="fl-note">📷 ${t("phDate")} ${fmtDate(l.photoDate || PHOTO_DATE)} · ${phNote(l)}</p>
     <div class="fl-ft"><p><b>${esc(CONTACT.person)} · ${esc(CONTACT.company)}</b><br>☎ ${CONTACT.phones.map(fmtPhone).join(" · ")}<br>LINE ${esc(CONTACT.line)} · WhatsApp +${CONTACT.whatsapp}<br>${esc(CONTACT.email)}<br><small style="color:#666">${esc(CONTACT.companyTh)} · ${esc(CONTACT.address)}</small></p>
       <div class="fl-qr"><img id="flQr" alt="QR"><p>${t("scan")}</p></div></div>
   </div>`;
@@ -2959,7 +2961,7 @@ async function loadSheet() {
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
       urgent: bool(o.urgent), hot: bool(o.hot), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
-      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null, fb: o.fb || null,
+      parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null, fb: o.fb || null, aiEdited: bool(o.aiEdited) === true,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
