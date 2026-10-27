@@ -329,6 +329,11 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .info h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--sea);margin-bottom:9px}
 .info p,.info li{font-size:13.5px;color:var(--ink-2);line-height:1.65}
 .info ul{margin:0;padding-left:18px}
+.guide{margin-top:22px}
+.guide p{margin-bottom:10px}
+.guide-links{display:flex;flex-wrap:wrap;gap:8px}
+.guide-links a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:13px}
+.guide-links a:hover{border-color:var(--sea);color:var(--sea)}
 .c-addr{margin:12px 0 14px;font-size:13px;line-height:1.7;color:var(--ink-2)}
 .c-row{display:flex;align-items:baseline;gap:9px;padding:7px 0;border-bottom:1px dashed var(--line);color:var(--ink);text-decoration:none;font-size:14px}
 .c-row:last-child{border-bottom:0}
@@ -825,6 +830,11 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
           <li data-i18n="infoCost2">ส่วนกลาง 50/ตร.ม. × 12 เดือน</li>
           <li data-i18n="infoCost3">ค่าโอน 1%</li>
         </ul>
+        <div class="guide">
+          <h3 data-i18n="guideH">ข้อมูลประกอบการตัดสินใจ</h3>
+          <p data-i18n="guideP">คู่มือสั้น ๆ พร้อมแหล่งอ้างอิง ช่วยตัดสินใจก่อนซื้อ</p>
+          <div class="guide-links" id="guideLinks"></div>
+        </div>
       </div>
       <div class="c-col">
         <div class="c-brand" id="contact">
@@ -3007,7 +3017,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
    noteTitle:"หมายเหตุ",n1:"ราคานี้ยังไม่รวมกองทุนสำรอง ค่าส่วนกลาง และค่าโอนกรรมสิทธิ์",n2:"ทำสัญญาซื้อขายกับโครงการโดยตรง",n3:"ราคาโปรโมชั่นมีจำนวนจำกัดและอาจเปลี่ยนแปลงได้ กรุณาเช็กสถานะห้องก่อนรับจอง",
  addShortlist:"บันทึกห้องนี้",removeShortlist:"เอาออกจากรายการ",makeSocialPost:"สร้างโพสต์โซเชียล",copyListing:"คัดลอกข้อมูลห้อง",printQuote:"พิมพ์ใบเสนอราคา",copied:"คัดลอกแล้ว ✓",
  slLabel:"ห้องที่บันทึกไว้",slShow:"ดูเฉพาะที่บันทึก",slShowAll:"ดูทั้งหมด",slCopy:"คัดลอกรายการ",slClear:"ล้าง",
- infoCost1:"กองทุนสำรอง 500/ตร.ม.",infoCost2:"ส่วนกลาง 50/ตร.ม. × 12 เดือน",infoCost3:"ค่าโอน 1%",infoTitle:"ซื้อห้องนี้ต้องรู้อะไรบ้าง",infoCostH:"ค่าใช้จ่ายนอกเหนือราคาห้อง",infoTermH:"เงื่อนไขโครงการ",
+ guideH:"ข้อมูลประกอบการตัดสินใจ",guideP:"คู่มือสั้น ๆ พร้อมแหล่งอ้างอิง ช่วยตัดสินใจก่อนซื้อ",gWell:"Wellness Living",gSmart:"Smart Home",gMove:"วีซ่าและการย้ายมาไทย",gEEC:"EEC และเศรษฐกิจภาคตะวันออก",gBuy:"กฎและค่าใช้จ่ายสำหรับชาวต่างชาติ", infoCost1:"กองทุนสำรอง 500/ตร.ม.",infoCost2:"ส่วนกลาง 50/ตร.ม. × 12 เดือน",infoCost3:"ค่าโอน 1%",infoTitle:"ซื้อห้องนี้ต้องรู้อะไรบ้าง",infoCostH:"ค่าใช้จ่ายนอกเหนือราคาห้อง",infoTermH:"เงื่อนไขโครงการ",
  contactH:"ติดต่อทีมขาย",contactP:"นัดชมห้องจริง ขอผังห้อง หรือขอใบเสนอราคาสำหรับลูกค้าของคุณ", empty:"ไม่พบห้องที่ตรงเงื่อนไข",emptyHint:"ลองล้างตัวกรองแล้วค้นหาใหม่",
   photoNote:"ภาพถ่ายจากห้องจริง ไม่ดัดแปลงโครงสร้าง (ปรับแสง สี และพร็อพจำลองด้วย AI เพื่อการโฆษณา)",photoNoteLong:"ภาพถ่ายทั้งหมดถ่ายจากห้องจริงโดยไม่มีการดัดแปลงโครงสร้างหรือผังห้อง มีเพียงการปรับแสง สี และจัดวางของตกแต่งจำลองด้วยเทคโนโลยี AI เพื่อการนำเสนอเท่านั้น แนะนำให้นัดชมสถานที่จริงก่อนตัดสินใจ",photoUpd:"อัปเดตรูปเมื่อ",mediaSoon:"รูปและคลิปห้องนี้กำลังจะอัปเดต",prev:"ก่อนหน้า",next:"ถัดไป", planLabel:"ผังห้อง",
  hlTitle:"ยูนิตแนะนำ",slidesTodo:"รอรูปและคลิปแนะนำโครงการ", facH:"สิ่งอำนวยความสะดวกในโครงการ",
@@ -3038,7 +3048,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
    noteTitle:"Notes",n1:"Price excludes sinking fund, maintenance fee and transfer fee.",n2:"All units are contracted directly with the developer.",n3:"Promotion prices are limited and may change — always re-confirm the unit before taking a deposit.",
  addShortlist:"Save this unit",removeShortlist:"Remove from list",makeSocialPost:"Create social post",copyListing:"Copy unit details",printQuote:"Print quotation",copied:"Copied ✓",
  slLabel:"units saved",slShow:"Show saved only",slShowAll:"Show all",slCopy:"Copy list",slClear:"Clear",
- infoCost1:"Sinking fund 500/sqm",infoCost2:"Maintenance 50/sqm × 12 months",infoCost3:"Transfer fee 1%",infoTitle:"What a buyer needs to know",infoCostH:"Costs on top of the unit price",infoTermH:"Project terms",
+ guideH:"Before you buy",guideP:"Short guides with sources to help you decide",gWell:"Wellness living",gSmart:"Smart home",gMove:"Visas & moving to Thailand",gEEC:"The EEC & the Eastern Seaboard",gBuy:"Rules & costs for foreign buyers", infoCost1:"Sinking fund 500/sqm",infoCost2:"Maintenance 50/sqm × 12 months",infoCost3:"Transfer fee 1%",infoTitle:"What a buyer needs to know",infoCostH:"Costs on top of the unit price",infoTermH:"Project terms",
  contactH:"Talk to the sales team",contactP:"Book a viewing, request a floor plan, or get a quotation for your client.", empty:"No units match these filters",emptyHint:"Try clearing the filters and searching again",
   photoNote:"Photographed in the actual unit, with no structural changes (lighting, colour and virtual props adjusted with AI for advertising).",photoNoteLong:"All photos are taken in the actual units, with no changes to the structure or layout. Only the lighting, colour and virtual props have been adjusted with AI for presentation. We recommend viewing the unit in person before deciding.",photoUpd:"Photos updated",mediaSoon:"Photos and clip coming soon",prev:"Previous",next:"Next", planLabel:"Floor plan",
  hlTitle:"Featured units",slidesTodo:"Project photos and clip coming soon", facH:"Project facilities",
@@ -3069,7 +3079,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
    noteTitle:"Примечания",n1:"Цена не включает фонд, обслуживание и сбор за передачу.",n2:"Договор заключается напрямую с застройщиком.",n3:"Количество акционных квартир ограничено, цены могут измениться — уточняйте перед приёмом депозита.",
  addShortlist:"Сохранить",removeShortlist:"Убрать из списка",makeSocialPost:"Пост для соцсетей",copyListing:"Копировать описание",printQuote:"Печать предложения",copied:"Скопировано ✓",
  slLabel:"сохранено",slShow:"Только сохранённые",slShowAll:"Показать все",slCopy:"Копировать список",slClear:"Очистить",
- infoCost1:"Фонд 500/м²",infoCost2:"Обслуживание 50/м² × 12 мес.",infoCost3:"Сбор за передачу 1%",infoTitle:"Что важно знать покупателю",infoCostH:"Расходы сверх цены квартиры",infoTermH:"Условия проекта",
+ guideH:"Перед покупкой",guideP:"Короткие гиды с источниками, чтобы принять решение",gWell:"Здоровый образ жизни",gSmart:"Умный дом",gMove:"Визы и переезд в Таиланд",gEEC:"EEC и Восточное побережье",gBuy:"Правила и расходы для иностранцев", infoCost1:"Фонд 500/м²",infoCost2:"Обслуживание 50/м² × 12 мес.",infoCost3:"Сбор за передачу 1%",infoTitle:"Что важно знать покупателю",infoCostH:"Расходы сверх цены квартиры",infoTermH:"Условия проекта",
  contactH:"Отдел продаж",contactP:"Запишитесь на просмотр, запросите планировку или предложение для клиента.", empty:"Ничего не найдено",emptyHint:"Попробуйте сбросить фильтры",
   photoNote:"Снято в реальной квартире, без изменения конструкции (освещение, цвет и виртуальный декор — с помощью ИИ, для рекламы).",photoNoteLong:"Все фотографии сделаны в реальных квартирах без изменения конструкции и планировки. С помощью ИИ скорректированы только освещение, цвет и виртуальный декор — для презентации. Рекомендуем осмотреть квартиру лично перед решением.",photoUpd:"Фото обновлены",mediaSoon:"Фото и видео скоро появятся",prev:"Назад",next:"Вперёд", planLabel:"Планировка",
  hlTitle:"Рекомендуем",slidesTodo:"Фото и видео проекта скоро появятся", facH:"Инфраструктура проекта",
@@ -3100,7 +3110,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
    noteTitle:"备注",n1:"售价不含维修基金、物业费与过户费。",n2:"所有房源均与开发商直接签约。",n3:"优惠房源数量有限且可能调整，收订前请再次确认房态。",
  addShortlist:"收藏此房",removeShortlist:"取消收藏",makeSocialPost:"生成社交贴文",copyListing:"复制房源信息",printQuote:"打印报价单",copied:"已复制 ✓",
  slLabel:"套已收藏",slShow:"只看收藏",slShowAll:"看全部",slCopy:"复制清单",slClear:"清空",
- infoCost1:"维修基金 500/平米",infoCost2:"物业费 50/平米 × 12 个月",infoCost3:"过户费 1%",infoTitle:"买家须知",infoCostH:"房价之外的费用",infoTermH:"项目条款",
+ guideH:"购房前须知",guideP:"附资料来源的简明指南，助您做决定",gWell:"健康生活",gSmart:"智能家居",gMove:"签证与移居泰国",gEEC:"东部经济走廊（EEC）",gBuy:"外国买家的规定与费用", infoCost1:"维修基金 500/平米",infoCost2:"物业费 50/平米 × 12 个月",infoCost3:"过户费 1%",infoTitle:"买家须知",infoCostH:"房价之外的费用",infoTermH:"项目条款",
  contactH:"联系销售团队",contactP:"预约看房、索取户型图，或为您的客户索取报价单。", empty:"没有符合条件的房源",emptyHint:"请尝试清除筛选条件",
   photoNote:"实景拍摄，未改动结构（光线、色彩与虚拟软装由 AI 处理，用于广告展示）。",photoNoteLong:"所有照片均拍摄自实际房源，未改动结构与户型。仅以 AI 调整光线、色彩并添加虚拟软装，用于展示。建议实地看房后再做决定。",photoUpd:"照片更新于",mediaSoon:"实拍图与短片即将上传",prev:"上一张",next:"下一张", planLabel:"户型图",
  hlTitle:"本月推荐",slidesTodo:"项目图片与短片即将上传", facH:"项目配套",
@@ -3130,7 +3140,7 @@ ko:{markSub:"리세일 매물",eyebrow:"좀티엔 · 파타야 · 촌부리",
    noteTitle:"참고 사항",n1:"가격에는 적립 기금, 관리비, 이전 수수료가 포함되어 있지 않습니다.",n2:"모든 유닛은 개발사와 직접 계약합니다.",n3:"프로모션 가격은 한정적이며 변경될 수 있습니다. 예약금을 받기 전에 반드시 유닛을 다시 확인하세요.",
  addShortlist:"이 유닛 저장",removeShortlist:"목록에서 삭제",makeSocialPost:"SNS 게시물 만들기",copyListing:"유닛 정보 복사",printQuote:"견적서 인쇄",copied:"복사됨 ✓",
  slLabel:"저장한 유닛",slShow:"저장한 유닛만 보기",slShowAll:"전체 보기",slCopy:"목록 복사",slClear:"지우기",
- infoCost1:"적립 기금 ㎡당 500",infoCost2:"관리비 ㎡당 50 × 12개월",infoCost3:"이전 수수료 1%",infoTitle:"구매 전 알아둘 점",infoCostH:"유닛 가격 외 추가 비용",infoTermH:"프로젝트 조건",
+ guideH:"구매 전 알아둘 것",guideP:"출처가 있는 짧은 가이드로 결정을 도와드립니다",gWell:"웰니스 리빙",gSmart:"스마트 홈",gMove:"비자와 태국 이주",gEEC:"EEC와 동부 경제회랑",gBuy:"외국인 구매자 규정과 비용", infoCost1:"적립 기금 ㎡당 500",infoCost2:"관리비 ㎡당 50 × 12개월",infoCost3:"이전 수수료 1%",infoTitle:"구매 전 알아둘 점",infoCostH:"유닛 가격 외 추가 비용",infoTermH:"프로젝트 조건",
  contactH:"영업팀과 상담하기",contactP:"방문 예약, 평면도 요청, 고객용 견적서를 받아보세요.", empty:"조건에 맞는 유닛이 없습니다",emptyHint:"필터를 지우고 다시 검색해 보세요",
   photoNote:"실제 유닛에서 촬영했으며 구조는 변경하지 않았습니다 (광고용으로 조명, 색감, 가상 소품을 AI로 조정).",photoNoteLong:"모든 사진은 실제 유닛에서 촬영했으며 구조나 평면은 변경하지 않았습니다. 조명, 색감, 가상 소품만 AI로 조정했습니다. 결정하시기 전에 직접 방문해 보시기를 권합니다.",photoUpd:"사진 업데이트",mediaSoon:"사진과 영상 준비 중",prev:"이전",next:"다음", planLabel:"평면도",
  hlTitle:"추천 유닛",slidesTodo:"프로젝트 사진과 영상 준비 중", facH:"프로젝트 시설",
@@ -4588,6 +4598,9 @@ function applyLang(){
     else if (unitFromUrl()) renderUnitPage(unitFromUrl().toUpperCase());
   }
   $("#footNote").innerHTML = `${t("foot")}<br>${t("photoNoteLong")}`;
+  // buyer guide (Thailand Living Insight) — links carry from=r2 so the guide links back here
+  $("#guideLinks").innerHTML = [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
+    .map(([f, k]) => `<a href="LivingInsight-${f}.html?from=r2&lang=${lang}">${t(k)} →</a>`).join("");
   const intl = t => "+66" + t.replace(/\D/g, "").replace(/^0/, "");
   const pretty = t => t.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
   const rows = [];
@@ -4770,6 +4783,7 @@ $("#slCopy").addEventListener("click", e => {
 });
 
 window.PAGE_TITLE = document.title;
+{ const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko"].includes(ql)) lang = ql; }
 applyProjectName();
 applyLang();
 route();
