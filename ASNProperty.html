@@ -1632,6 +1632,7 @@ const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ==
                 set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
 const byCode = c => L.find(l => l.code === c);
 // listings shown on the page (TOP_PICKS first, then FEATURED); hidden ones stay reachable through byCode
+let DATA_READY = false; // true once the Google Sheet listings and asn-style.json have loaded (or failed)
 const SHOWN = () => { if (!TOP_PICKS.length) return L; const order = [...TOP_PICKS, ...FEATURED.filter(c => !TOP_PICKS.includes(c))]; return order.map(byCode).filter(Boolean); };
 // listing name in the current language when a listing has `names` (land plots); otherwise its single name
 const nm = l => (l.names && (l.names[lang] || l.names.en)) || l.name;
@@ -2000,6 +2001,10 @@ function calendar(l) {
 const phNote = l => l.aiEdited === false ? t("phNote").replace(/\s*[(（][^()（）]*[)）]\s*$/, "") : t("phNote");
 function renderDetail(code) {
   const l = byCode(code);
+  if (!l && !DATA_READY) { // Sheet listings arrive a moment after first paint: hold the link until they do
+    const dv = $("#detailView"); dv.dataset.code = code; dv.dataset.zone = ""; dv.dataset.page = "";
+    dv.innerHTML = `<div class="empty" style="padding:80px 16px;text-align:center">ASN-${esc(code)} …</div>`; return;
+  }
   if (!l) { location.hash = "#/"; return; }
   const ph = photos(l);
   const on = saved().includes(l.code);
@@ -3160,7 +3165,8 @@ window.addEventListener("hashchange", route);
   // decor / feng shui / MBTI for listings not in HOME_STYLE (the Facebook/Sheet listings) live in asn-style.json
   const styles = fetch("asn-style.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { for (const k in o) if (!HOME_STYLE[k]) HOME_STYLE[k] = o[k]; return true; }).catch(() => false);
   const [sheetOk, styleOk] = await Promise.all([loadSheet(), styles]);
-  if (sheetOk || styleOk) renderAll();
+  DATA_READY = true;
+  if (sheetOk || styleOk || !$("#detailView").hidden) renderAll();
 })();
 </script>
 </body>
