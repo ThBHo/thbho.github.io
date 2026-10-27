@@ -1082,7 +1082,11 @@ function layoutFor(u){
   return null;
 }
 
-const HIGHLIGHTS = { month: "2026-10", units: ["36E09", "19E02", "18E10", "8A05", "8A06", "9A02"] };
+const HIGHLIGHTS = { month: "2026-10", units: ["36E09", "19E02", "18E10", "14E10", "8A06", "9A02"] };
+
+/* Units taken off the page for now (booked, Oct 27 2026). Their data stays in this file;
+   delete a code here to put the unit back everywhere. */
+const HIDDEN_UNITS = ["8A05"];
 
 /* Cover photo on cards (featured, full list, matching results, "other units"):
    one of the unit's first three photos, picked at random on each visit so the page
@@ -2969,6 +2973,10 @@ const UNITS = [
   {"unit":"36E09","floor":"36","view":"City View","type":"1 BED","quota":"TH","sqm":34.43,"pricePerSqm":136000,"price":4682480,"booking":50000,"furniture":"Exclude","status":"AVAILABLE","promoPerSqm":97000,"promoPrice":3339710},
   {"unit":"COMMERCIAL-1","floor":"G","view":"Front of Road","type":"Commercial","quota":"TH","sqm":182.75,"pricePerSqm":79575,"price":14542361,"booking":200000,"furniture":"Exclude","status":"AVAILABLE","tower":""}
 ];
+for (let i = UNITS.length - 1; i >= 0; i--) if (HIDDEN_UNITS.includes(UNITS[i].unit)) UNITS.splice(i, 1);
+HIGHLIGHTS.units = HIGHLIGHTS.units.filter(c => !HIDDEN_UNITS.includes(c));
+for (const el of Object.values(FS_EL)) el.units = el.units.filter(c => !HIDDEN_UNITS.includes(c));
+for (const k of Object.keys(FS_RULE_UNITS)) FS_RULE_UNITS[k] = FS_RULE_UNITS[k].filter(c => !HIDDEN_UNITS.includes(c));
 
 /* The project's full name — top bar, hero, quotations, copied listings.
    Change it here when this page is cloned for another project. */
@@ -3670,7 +3678,7 @@ function mbtiLegend(){
 
 /* ---------------------------- unit pages -------------------------- */
 const PAGE_FILE_STEM = "Riviera2Resale";                  // live file names: Riviera2Resale-8A05.html
-const hasPage = code => !!UNIT_STORIES[code] || HIGHLIGHTS.units.includes(code);
+const hasPage = code => !HIDDEN_UNITS.includes(code) && (!!UNIT_STORIES[code] || HIGHLIGHTS.units.includes(code));
 const unitHref = code => window.SITE_PAGES ? `${PAGE_FILE_STEM}-${code}.html` : `#unit-${code}`;
 const listHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}.html` : "#";
 const unitFromUrl = () => window.UNIT_PAGE || (location.hash.match(/^#unit-([0-9A-Z-]+)$/i) || [])[1] || null;   // "#matching" is handled by subPageFromUrl
