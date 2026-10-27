@@ -1802,7 +1802,7 @@ function renderList() {
   $("#grid").hidden = st.view !== "grid"; $("#tblwrap").hidden = st.view !== "table";
   $("#vGrid").setAttribute("aria-pressed", st.view === "grid"); $("#vTable").setAttribute("aria-pressed", st.view === "table");
   if (!r.length) { $("#grid").hidden = false; $("#tblwrap").hidden = true; $("#grid").innerHTML = `<div class="empty" style="grid-column:1/-1">${st.type === "land" || ZONES[st.zone]?.land ? `${t("ldSoon")} · <a href="#/land">${t("navLand")} →</a>` : t("noResults")}</div>`; return; }
-  $("#grid").innerHTML = r.map(card).join("");
+  $("#grid").innerHTML = r.map(l => card(l, true)).join(""); // explicit flag: map() would pass the index, leaving the first card without photo arrows
   $("#thead").innerHTML = `<tr><th>${t("code")}</th><th>${t("type")}</th><th>${t("zone")}</th><th class="n">${t("beds")}</th><th class="n">${t("baths")}</th><th class="n">${t("usable")}</th><th class="n">${t("land")}</th><th class="n">${t("forRent")}</th><th class="n">${t("forSale")}</th></tr>`;
   $("#tbody").innerHTML = r.map(l => `<tr data-go="${l.code}"><td><b>ASN-${l.code}</b><br><small>${esc(nm(l))}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
     <td class="n">${l.beds ?? "—"}</td><td class="n">${l.baths ?? "—"}</td><td class="n">${area(l) ? nf(area(l)) : "—"}</td><td class="n">${l.land ? nf(Math.round(l.land / 4)) + " " + t("sqw") : "—"}</td>
