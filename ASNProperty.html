@@ -940,14 +940,18 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 /* =====================================================================
    HOW TO UPDATE LISTINGS
    ---------------------------------------------------------------------
-   Option A — edit LISTINGS below (one object per property).
-   Option B — keep listings in a Google Sheet (team edits daily):
-     1. Footer → "Download listing data (CSV)" → import into a Sheet
-     2. Sheet: File → Share → Publish to web → CSV → copy the link
-     3. Paste the link into SHEET_CSV below. The page then loads the
-        sheet on every visit; the LISTINGS below stay as a fallback.
-   photos: file paths ("asn-img/H01-1.jpg") or Google Drive file IDs
-   (shared "anyone with the link") separated by "|".
+   The Google Sheet is the single source of every listing (both the first
+   lot H01–H14/C01–C05/B01/L01–L02 and the Facebook lot H15+), since
+   28 Oct 2026. Edit tab "ตรวจสอบจาก Facebook" (one row per property);
+   tab Listings (FILTER formula) publishes the rows with column A = "Y"
+   and at least one photo. Column A = "N" takes a listing off the page
+   (e.g. rented out) while its row stays as back-office data.
+   Column X (photos) is an ARRAYFORMULA built from column Y (photo count).
+   LISTINGS below is only a snapshot: it paints the page for the moment
+   before the Sheet arrives (or if the Sheet cannot be reached) and keeps
+   the few extras the Sheet has no column for (translated land names,
+   land deed/road/coordinates, saleAsk). A listing missing from the Sheet
+   is not shown, even if it is in LISTINGS.
    Never put the full address, owner name/phone, commission or the
    lowest negotiable price here — this page is public.
    ===================================================================== */
@@ -1017,7 +1021,7 @@ const LISTINGS = [
   { code:"B01", name:"The Riviera Jomtien · Commercial Unit G Floor", type:"commercial", zone:"jomtien", rent:null, sale:14542361, beds:null, baths:null, size:182.75, floor:"G", pool:null, style:"modern", tags:["roadFront","thaiQuota"], furn:"none", isNew:true, photos:11, photoDate:"2026-10-20" },
   { code:"L01", name:"Sattahip (Sukhumvit–Sattahip Soi 105)", names:{"th": "สัตหีบ (สุขุมวิท-สัตหีบ ซอย 105)", "en": "Sattahip (Sukhumvit–Sattahip Soi 105)", "ru": "Саттахип (Сукхумвит–Саттахип, Сой 105)", "zh": "梭桃邑（素坤逸–梭桃邑路105巷）", "ko": "사타힙 (수쿰윗–사타힙 105번 골목)", "ja": "サッタヒープ（スクンビット–サッタヒープ ソイ105）"}, type:"land", zone:"sattahip", rent:null, sale:3105000, beds:null, baths:null, land:828, deed:"chanote", road:"concrete", elec:true, near:"sukhumvit105", ll:[12.669636, 100.934927], szHide:["szFlood","szCoast"], style:"land", tags:["cleared","residential","twoDeeds"], photos:11, photoDate:"2026-10-25" },
   { code:"L02", name:"Treed Land Plot · Sattahip", names:{"th": "ที่ดินมีต้นไม้ใหญ่ · สัตหีบ", "en": "Treed Land Plot · Sattahip", "ru": "Участок с деревьями · Саттахип", "zh": "带大树的土地 · 梭桃邑", "ko": "큰 나무가 있는 토지 · 사타힙", "ja": "大きな木のある土地 · サッタヒープ"}, type:"land", zone:"sattahip", rent:null, sale:null, saleAsk:true, beds:null, baths:null, land:null, deed:"chanote", road:"dirt", style:"land", tags:["trees"], photos:8, photoDate:"2026-10-25" }
-].filter(l => !l.hidden); // hidden:true = booked / off the page for now
+].filter(l => !l.hidden); // snapshot only (see HOW TO UPDATE LISTINGS); the Sheet column A decides what is shown
 // Optional per-listing fields (shown as "ask" until filled):
 //   photoDate:"2026-10-17"   // date this listing's photos were uploaded
 //   deposit:"2 months", minContract:"1 year", pets:true|false, furn:"full"|"part"|"none",
@@ -3016,7 +3020,13 @@ async function loadSheet() {
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
     }));
-    if (out.length) { const fromSheet = new Set(out.map(o => o.code)); L = [...LISTINGS.filter(l => !fromSheet.has(l.code)), ...out]; return true; } // sheet rows are added after the built-in listings (a sheet row with the same code replaces it)
+    if (out.length) {
+      // the Sheet decides which listings exist and every field it has a column for; the LISTINGS snapshot only adds
+      // fields the Sheet has no column for (land details, translated names). Listings not in the Sheet are not shown.
+      const has = new Set(hd.map(h => h.trim())), src = { photoList: "photos" }, snap = Object.fromEntries(LISTINGS.map(l => [l.code, l]));
+      L = out.map(o => { const b = snap[o.code]; if (!b) return o; const m = { ...b }; for (const k in o) if (has.has(src[k] || k) || m[k] === undefined) m[k] = o[k]; return m; });
+      return true;
+    }
   } catch (e) {}
   return false;
 }
