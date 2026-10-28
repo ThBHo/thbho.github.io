@@ -3019,7 +3019,7 @@ async function loadSheet() {
       code: o.code, name: o.name, type: o.type || "house", zone: ZONES[o.zone] ? o.zone : "eastpattaya",
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
-      urgent: bool(o.urgent), hot: bool(o.hot), latest: bool(o.latest), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
+      urgent: bool(o.urgent), hot: bool(o.hot), latest: bool(o.latest), gallery: (o.gallery || "").split(/[|,\s]+/).map(Number).filter(n => n > 0), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
       parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null, fb: o.fb || null, aiEdited: bool(o.aiEdited) === true,
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
@@ -3029,6 +3029,10 @@ async function loadSheet() {
       // fields the Sheet has no column for (land details, translated names). Listings not in the Sheet are not shown.
       const has = new Set(hd.map(h => h.trim())), src = { photoList: "photos" }, snap = Object.fromEntries(LISTINGS.map(l => [l.code, l]));
       L = out.map(o => { const b = snap[o.code]; if (!b) return o; const m = { ...b }; for (const k in o) if (has.has(src[k] || k) || m[k] === undefined) m[k] = o[k]; return m; });
+      // column "gallery" (e.g. 1|9|12|15|20): the photos that lead the page — big front shot, then pool/view, living,
+      // dining/kitchen, bedroom (Thor 28 Oct 2026). They move to the front of the photo list; the rest keep their order.
+      L.forEach(l => { const pl = l.photoList; if (!l.gallery || !l.gallery.length || !pl || !pl.length) return;
+        const pick = [...new Set(l.gallery)].filter(n => n <= pl.length).map(n => pl[n - 1]); l.photoList = [...pick, ...pl.filter(p => !pick.includes(p))]; });
       return true;
     }
   } catch (e) {}
