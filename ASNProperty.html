@@ -1891,6 +1891,7 @@ function matchScore() {
   const V = SHOWN(), mr = med(V.map(l => ppsqm(l).r)), ms = med(V.map(l => ppsqm(l).s));
   const type = mq.q1 + mq.q2 + mq.q3 + mq.q4;
   const rows = V.map(l => {
+    if (l.type === "land" || l.type === "commercial") return null; // lifestyle match is for homes only
     if (mq.deal === "rent" && !l.rent) return null;
     if (mq.deal === "sale" && !l.sale) return null;
     if (mq.beds && !(l.beds >= mq.beds)) return null;
@@ -1913,19 +1914,28 @@ function matchScore() {
     add(mq.q3 === "F" && f.family, 2, "rFamily"); add(mq.q3 === "T" && f.value && mq.q2 !== "S", 2, "rValue");
     add(mq.q4 === "J" && f.long, 1, "rLong"); add(mq.q4 === "P" && f.flex, 2, "rFlex");
     add(f.view && (mq.q2 === "N" || mq.q4 === "P"), 1, "rView");
-    if (l.hot) s += .5;
+    // the house's own personality (HOME_STYLE / asn-style.json): exact type > same temperament group > shared letters
+    const hm = (HOME_STYLE[l.code] && HOME_STYLE[l.code].mbti) || [];
+    const letters = hm.length ? Math.max(...hm.map(x => [...x].filter((c, i) => c === type[i]).length)) : 0;
+    const exact = hm.includes(type), grp = !exact && hm.some(x => mbtiGroup(x) === mbtiGroup(type));
+    if (exact) { s += 5; why.unshift("rMbti"); } else if (grp) { s += 2.5; why.unshift("rMbtiG"); }
+    s += letters * .5;
+    if (l.hot) s += .25;
     return { l, s, why: [...new Set(why)].slice(0, 3) };
   }).filter(Boolean).sort((a, b) => b.s - a.s);
   return { type, rows };
 }
+const MB_WHY = {
+  rMbti: { th:"บุคลิกบ้านตรงกับ {t}", en:"House personality matches {t}", ru:"Характер дома совпадает с {t}", zh:"房屋性格与 {t} 相符", ko:"집의 성격이 {t}와 일치", ja:"家の性格が {t} と一致" },
+  rMbtiG: { th:"บุคลิกบ้านอยู่กลุ่มเดียวกับ {t}", en:"House personality in the same group as {t}", ru:"Характер дома из той же группы, что {t}", zh:"房屋性格与 {t} 同组", ko:"집의 성격이 {t}와 같은 그룹", ja:"家の性格が {t} と同じグループ" } };
 function renderMatch() {
   const { type, rows } = matchScore();
   const desc = type.split("").map(c => t("d" + c)).join(" · ");
   $("#mres").innerHTML = `<div class="mtype"><b>${type}</b><span>${esc(desc)}</span></div>
     <p style="margin-top:14px;font-weight:600">${t("matchRes")}</p>` +
     (rows.length ? rows.slice(0, 3).map(({ l, why }) => `<a class="mpick" href="#/l/${l.code}"><img src="${esc(photo(l, 1))}" alt="" loading="lazy">
-      <div><h4>${esc(nm(l))}</h4><small>📍 ${esc(zn(l.zone))} · ${l.rent ? money(l.rent) + " " + t("perMonth") : money(l.sale)}</small>
-      <em>${why.map(w => "✓ " + t(w)).join("  ")}</em></div></a>`).join("") : `<p style="margin-top:10px;color:#C9D3E0">${t("matchNone")}</p>`);
+      <div><h4>${esc(nm(l))}</h4><small>📍 ${esc(zn(l.zone))} · ${(mq.deal === "sale" || !l.rent) && l.sale ? money(l.sale) : l.rent ? money(l.rent) + " " + t("perMonth") : "—"}</small>
+      <em>${why.map(w => "✓ " + (MB_WHY[w] ? (MB_WHY[w][lang] || MB_WHY[w].en).replace("{t}", type) : t(w))).join("  ")}</em></div></a>`).join("") : `<p style="margin-top:10px;color:#C9D3E0">${t("matchNone")}</p>`);
 }
 
 /* ---------- booking ---------- */
