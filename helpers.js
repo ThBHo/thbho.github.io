@@ -22,3 +22,5 @@ window.__uploadAll = async (code) => { const a = await __getP(code); for (const 
 window.__plan = async (code) => { const a = await __getP(code); const n = a.length; const per = Math.ceil(20 / n); const out = []; for (let k=0;k<per;k++) for (const o of a) out.push([o.n,k]); return out.slice(0,20); };
 window.__clearAtt = () => { const ed = document.querySelector('.ProseMirror[contenteditable=true]'); let p = ed; for (let i=0;i<6;i++) p = p.parentElement; const x=[...p.querySelectorAll('button')].find(b=>/close|clear|remove/i.test((b.getAttribute('aria-label')||'')+b.innerText)); if (x) { x.click(); return 'cleared'; } return 'no-x'; };
 'helpers ok';
+window.__status = () => { const leaves = [...document.querySelectorAll('*')].filter(e=>e.childElementCount===0); const failed = leaves.filter(e=>/^Failed$/.test(e.textContent.trim())).length; const pct = leaves.filter(e=>/^\d{1,2}%$/.test(e.textContent.trim())).length; return 'failed='+failed+' running='+pct; };
+window.__tiles = () => [...document.querySelectorAll('img')].filter(i=>i.getBoundingClientRect().width>80).length;
