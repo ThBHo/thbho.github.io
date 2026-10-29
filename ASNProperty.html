@@ -233,6 +233,10 @@ th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute
 td.n,th.n{text-align:right;font-family:var(--f-mono)}
 tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--surface-2)}
+.more-wrap{grid-column:1/-1;display:flex;justify-content:center;padding:6px 0 4px}
+.more-btn{min-height:44px;padding:11px 22px;border-color:var(--accent);color:var(--accent);font-weight:700}
+.more-btn small{font-weight:500;color:var(--muted);margin-left:4px}
+.more-tr td{text-align:center;padding:14px}
 .empty{padding:40px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--radius)}
 
 /* ---------- map ---------- */
@@ -1038,11 +1042,11 @@ const REVIEWS = [
 
 const SLIDES = [["H04",1],["H02",1],["H12",1],["H14",4],["H04",3],["H02",3],["H06",3],["H06",4],["H02",11],["C01",5]];
 const FEATURED = ["H04","H01","H02","C01","H06","H14"];
-// TOP_PICKS: the 44 standout listings (not counting FEATURED; 50 shown in all), in the order they lead the list.
+// TOP_PICKS: the 54 standout listings (not counting FEATURED; 60 shown in all; the grid shows 12 at a time with a "+ more" button), in the order they lead the list.
 // Listings whose photos are fully AI-retouched go first; ones still on original photos go last.
 // Only TOP_PICKS + FEATURED are shown in the list, map, stats and matching; every other listing is hidden
 // but still opens by its own link (#/l/CODE, asn/CODE.html). Set TOP_PICKS = [] to show everything again.
-const TOP_PICKS = ["H91","H90","H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","B02","H63","H23","C06","H85","H83","H20","H15","H05","H28","H55","B01","H68","H65","H33","H49","H72","H37","H12","H10","H40","H36","H09","H27","L01","H61","H18","H07","H34"];
+const TOP_PICKS = ["H91","H90","H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","B02","H63","H23","C06","H85","H83","H20","H15","H05","H28","H55","B01","H68","H65","H33","H49","H72","H37","H12","H10","H40","H36","H09","H27","L01","H61","H18","H07","H34","H73","H75","H77","H78","H44","H35","H47","H25","H41","H64"];
 
 /* ====================================================================
    TRANSLATIONS
@@ -1817,17 +1821,25 @@ function filtered() {
   if (st.sort === "size") r.sort((a, b) => (area(b) || b.land || 0) - (area(a) || a.land || 0));
   return r;
 }
+const PAGE_N = 12; let listShow = PAGE_N, listSig = "";
+const MORE_TXT = { th:"ดูทรัพย์เพิ่มเติม", en:"Show more listings", ru:"Показать ещё", zh:"查看更多房源", ko:"매물 더 보기", ja:"物件をもっと見る" };
+document.addEventListener("click", e => { if (e.target.closest("#moreList, .more-btn")) { listShow += PAGE_N; renderList(); } });
 function renderList() {
   const r = filtered();
   $("#count").textContent = r.length;
   $("#grid").hidden = st.view !== "grid"; $("#tblwrap").hidden = st.view !== "table";
   $("#vGrid").setAttribute("aria-pressed", st.view === "grid"); $("#vTable").setAttribute("aria-pressed", st.view === "table");
   if (!r.length) { $("#grid").hidden = false; $("#tblwrap").hidden = true; $("#grid").innerHTML = `<div class="empty" style="grid-column:1/-1">${st.type === "land" || ZONES[st.zone]?.land ? `${t("ldSoon")} · <a href="#/land">${t("navLand")} →</a>` : t("noResults")}</div>`; return; }
-  $("#grid").innerHTML = r.map(l => card(l, true)).join(""); // explicit flag: map() would pass the index, leaving the first card without photo arrows
+  const sig = JSON.stringify([st.deal, st.type, st.zone, st.budget, st.beds, st.pool, st.sort, st.q]);
+  if (sig !== listSig) { listSig = sig; listShow = PAGE_N; }
+  const vis = r.slice(0, listShow), left = r.length - vis.length;
+  $("#grid").innerHTML = vis.map(l => card(l, true)).join("") // explicit flag: map() would pass the index, leaving the first card without photo arrows
+    + (left > 0 ? `<div class="more-wrap"><button type="button" class="btn more-btn" id="moreList">+ ${esc(MORE_TXT[lang] || MORE_TXT.en)} <small>(${left})</small></button></div>` : "");
   $("#thead").innerHTML = `<tr><th>${t("code")}</th><th>${t("type")}</th><th>${t("zone")}</th><th class="n">${t("beds")}</th><th class="n">${t("baths")}</th><th class="n">${t("usable")}</th><th class="n">${t("land")}</th><th class="n">${t("forRent")}</th><th class="n">${t("forSale")}</th></tr>`;
-  $("#tbody").innerHTML = r.map(l => `<tr data-go="${l.code}"><td><b>ASN-${l.code}</b><br><small>${esc(nm(l))}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
+  $("#tbody").innerHTML = vis.map(l => `<tr data-go="${l.code}"><td><b>ASN-${l.code}</b><br><small>${esc(nm(l))}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
     <td class="n">${l.beds ?? "—"}</td><td class="n">${l.baths ?? "—"}</td><td class="n">${area(l) ? nf(area(l)) : "—"}</td><td class="n">${l.land ? nf(Math.round(l.land / 4)) + " " + t("sqw") : "—"}</td>
-    <td class="n">${l.rent ? money(l.rent) : "—"}</td><td class="n">${l.sale ? money(l.sale) : "—"}</td></tr>`).join("");
+    <td class="n">${l.rent ? money(l.rent) : "—"}</td><td class="n">${l.sale ? money(l.sale) : "—"}</td></tr>`).join("")
+    + (left > 0 ? `<tr class="more-tr"><td colspan="9"><button type="button" class="btn more-btn" data-more="1">+ ${esc(MORE_TXT[lang] || MORE_TXT.en)} <small>(${left})</small></button></td></tr>` : "");
   renderZoneList();
 }
 
