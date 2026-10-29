@@ -21,8 +21,8 @@
   --ink:#17202B; --ink-2:#3A4553; --muted:#6B7380; --line:#E3DCD0; --line-2:#D2C8B8;
   --brand:#1F3A5F; --brand-deep:#13263F; --brand-soft:#E3EAF3;
   --accent:#B57A27; --accent-soft:#F7ECDB;
-  --hot:#C2452D; --hot-soft:#FBE6E0;
-  --rent:#2E7D5B; --rent-soft:#E1F1E8;
+  --hot:#8E5714; --hot-soft:#F7ECDB;
+  --rent:#1F3A5F; --rent-soft:#E3EAF3;
   --shadow:0 1px 2px rgba(23,32,43,.06),0 10px 28px -14px rgba(23,32,43,.28);
   --radius:12px;
   --f-display:'Fraunces','IBM Plex Sans Thai',Georgia,serif;
@@ -34,8 +34,8 @@
   --ink:#EAEFF5; --ink-2:#C5CFDB; --muted:#8C98A8; --line:#2A3646; --line-2:#3A4A5E;
   --brand:#8DB4E8; --brand-deep:#BCD3F2; --brand-soft:#1C2D44;
   --accent:#E2A957; --accent-soft:#3A2D18;
-  --hot:#F08A70; --hot-soft:#3B1E17;
-  --rent:#6FCB9F; --rent-soft:#173327;
+  --hot:#F0C27A; --hot-soft:#3A2D18;
+  --rent:#8DB4E8; --rent-soft:#1C2D44;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
 }}
 :root[data-theme="dark"]{
@@ -43,8 +43,8 @@
   --ink:#EAEFF5; --ink-2:#C5CFDB; --muted:#8C98A8; --line:#2A3646; --line-2:#3A4A5E;
   --brand:#8DB4E8; --brand-deep:#BCD3F2; --brand-soft:#1C2D44;
   --accent:#E2A957; --accent-soft:#3A2D18;
-  --hot:#F08A70; --hot-soft:#3B1E17;
-  --rent:#6FCB9F; --rent-soft:#173327;
+  --hot:#F0C27A; --hot-soft:#3A2D18;
+  --rent:#8DB4E8; --rent-soft:#1C2D44;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
@@ -142,7 +142,7 @@ button{cursor:pointer}
 @media (max-width:860px){ .stats{grid-template-columns:repeat(2,1fr)} .stat:last-child{grid-column:1/-1} }
 .svc{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .svc div,.svc a{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
-.svc i{font-style:normal;font-size:22px;display:block;margin-bottom:8px}
+.svc i{font-style:normal;font-size:22px;display:block;margin-bottom:8px;filter:grayscale(1) sepia(1) saturate(2.4) hue-rotate(-8deg) brightness(.92)}
 .svc h3{font-size:15px;font-weight:600}
 .svc p{font-size:13px;color:var(--muted);margin-top:4px}
 .svc a{color:inherit;text-decoration:none;border-color:var(--accent);background:var(--accent-soft);position:relative}
@@ -390,7 +390,7 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .szb{font-size:12.5px;font-weight:600;border-radius:999px;padding:4px 11px;white-space:nowrap}
 .szb-low,.szb-vlow{background:var(--rent-soft);color:var(--rent)}
 .szb-med{background:var(--accent-soft);color:var(--accent)}
-.szb-high{background:var(--hot-soft);color:var(--hot)}
+.szb-high{background:var(--hot);color:#fff}
 .szh3{font-size:14px;font-weight:600;margin:4px 0 8px}
 .szqa{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:6px}
 .szqa li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;border-bottom:1px dashed var(--line);padding-bottom:6px}
@@ -400,7 +400,7 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .szpage h1{font-family:var(--f-display);font-size:clamp(28px,5vw,40px);line-height:1.15;margin:4px 0 6px}
 .szcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;margin-top:18px}
 .szc{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--rent);border-radius:var(--radius);padding:16px}
-.szc-med{border-left-color:var(--accent)} .szc-high{border-left-color:var(--hot)}
+.szc-med{border-left-color:var(--accent)} .szc-high{border-left-color:var(--hot);border-left-width:7px}
 .szc-hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
 .szc-hd h2{font-size:17px;font-weight:600}
 .szc p{font-size:14px;line-height:1.65;color:var(--ink-2)}
@@ -2968,7 +2968,7 @@ async function drawSocial() {
   g.fillStyle = "#E9C27F"; g.font = `700 20px ${F}`; g.fillText("EXCLUSIVE PROPERTY", lx, 126);
   let badge = l.urgent ? t("urgent") : l.rentWas ? t("discount") : l.hot ? t("hot") : t(l.type);
   g.font = `700 28px ${F}`; const bw = g.measureText(badge).width + 40;
-  g.fillStyle = l.urgent || l.hot ? "#C2452D" : "#B57A27"; roundRect(g, W - 60 - bw, 62, bw, 54, 12); g.fill();
+  g.fillStyle = l.urgent || l.hot ? "#8E5714" : "#B57A27"; roundRect(g, W - 60 - bw, 62, bw, 54, 12); g.fill();
   g.fillStyle = "#fff"; g.fillText(badge, W - 60 - bw + 20, 99);
   let y = H - 90;
   g.fillStyle = "rgba(255,255,255,.85)"; g.font = `500 28px ${F}`;
