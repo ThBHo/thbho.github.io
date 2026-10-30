@@ -420,6 +420,7 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 .szpage .btn{white-space:normal;max-width:100%;height:auto;text-align:left}
 .szlinks{margin-top:16px;font-size:14px;line-height:1.9}
 .szlinks a{font-weight:600}
+.szbtns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
 .tag{font-size:13px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:4px 11px;font-weight:600}
 .cal{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .cal-m h3{font-size:14px;font-weight:600;margin-bottom:6px}
@@ -645,6 +646,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
       <a href="#/match" data-i18n="navMatch">หาบ้านที่ใช่</a>
       <a href="#/book" data-i18n="navBook">นัดชม</a>
       <a href="LivingInsight.html?from=asn" id="navGuide" data-i18n="navGuide">คู่มือผู้ซื้อ</a>
+      <a href="ASNSafeLiving.html" id="navSafe">อยู่ปลอดภัย</a>
       <a href="#/about" data-i18n="navAbout">เกี่ยวกับเรา</a>
       <a href="#/contact" data-i18n="navContact">ติดต่อ</a>
     </nav>
@@ -2087,7 +2089,7 @@ function renderDetail(code) {
         ${(l.type === "villa" || l.type === "house") || l.rent ? `<div class="d-sec"><h2>${t("calTitle")}</h2>${calendar(l)}</div>` : ""}
         ${extras ? `<details class="d-more"><summary><b>${t("moreInfo")}</b><small></small></summary>${extras}</details>` : ""}
         <div class="d-sec" style="border:0"><h2>${t("locTitle")}</h2><div id="dmap"></div><p class="mapnote">${l.ll ? `<a class="btn sm" href="https://www.google.com/maps?q=${l.ll.join(",")}" target="_blank" rel="noopener">📍 ${t("gmOpen")} ↗</a> ${t("mapExact")}` : t("mapNote")}</p></div>
-        <div class="d-sec" style="border:0">${guideCard(l)}</div>
+        <div class="d-sec" style="border:0">${guideCard(l)}${slCard()}</div>
       </div>
       <aside class="d-side">
         <div class="pbox">
@@ -2215,7 +2217,7 @@ function safeStrip(l) {
   return `<div class="d-sec" id="safe"><h2>🛡️ ${t("szTitle")} · ${esc(zn(l.zone))}</h2>
     <div class="szbs">${szRows(l.zone).filter(([k]) => !(l.szHide || []).includes(k)).map(([k, h]) => szBadge(szLabel(k, h), h.lvl)).join("")}</div>
     ${l.type === "land" ? "" : `<h3 class="szh3">${t("szHouse")}</h3><ul class="szqa">${qa}</ul>`}
-    <a class="btn sm" href="#/zone/${l.zone}">${t("szRead")} →</a></div>`;
+    <p class="szbtns"><a class="btn sm" href="#/zone/${l.zone}">${t("szRead")} →</a> ${slBtn()}</p></div>`;
 }
 function renderZone(z) {
   const S = SAFE_ZONES[z];
@@ -2235,7 +2237,7 @@ function renderZone(z) {
     <div class="szcards">${szRows(z).map(([k, h]) => `<div class="szc szc-${h.lvl}"><div class="szc-hd"><h2>${esc(szLabel(k, h))}</h2><span class="szb szb-${h.lvl}">${t("lvl_" + h.lvl)}</span></div><p>${esc(szTx(h))} ${h.src.map(src).join("")}</p></div>`).join("")}</div>
     ${S.events.length ? `<div class="d-sec"><h2>${t("szEvents")}</h2><ul class="szev">${S.events.map(e => `<li><time>${esc(e[0].length === 10 ? fmtDate(e[0]) : e[0])}</time><span>${esc(lang === "th" ? e[1] : (e[4] && e[4][lang]) || e[2])} ${src(e[3])}</span></li>`).join("")}</ul></div>` : ""}
     <div class="d-sec"><h2>${t(S.district === "sattahip" ? "szProvSat" : "szProv")}</h2><div class="szbs">${(SZ_DISTRICT[S.district] || SZ_PROVINCE).map(([k, v]) => szBadge(t("hz_" + k), v)).join("")}</div></div>
-    ${S.deep ? `<p style="margin-top:14px"><a class="btn sm" href="${esc(S.deep.u)}" target="_blank" rel="noopener">📄 ${t("szDeep")}: ${esc(szTx(S.deep))} ↗</a></p>` : ""}
+    <p class="szbtns" style="margin-top:14px">${S.deep ? `<a class="btn sm" href="${esc(S.deep.u)}" target="_blank" rel="noopener">📄 ${t("szDeep")}: ${esc(szTx(S.deep))} ↗</a> ` : ""}${slBtn()}</p>
     <p class="phnote" style="margin-top:18px">${t("szRule")}</p>
     ${ls.length ? `<section class="sec" style="padding-top:26px"><div class="sec-hd"><h2 style="font-size:22px">${t(LAND_ZONES[z] ? "ldPlots" : "szProps")} (${ls.length})</h2></div><div class="grid">${ls.map(l => card(l)).join("")}</div></section>` : LAND_ZONES[z] ? `<p class="phnote" style="margin-top:18px">${t("ldSoon")}</p>` : ""}
     <div class="d-sec" style="border:0"><h2>${t("szSources")}</h2><ol class="szsrc">${srcIds.map(id => { const s = SZ_SRC[id]; return `<li id="szs-${id}"><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a> · ${fmtDate(s.d)}</li>`; }).join("")}</ol></div>
@@ -2246,7 +2248,8 @@ function renderZone(z) {
 }
 function renderSzLinks() {
   const el = $("#szLinks"); if (!el) return;
-  el.innerHTML = `<b>🛡️ ${t("szAllZones")}:</b> ` + Object.keys(SAFE_ZONES).map(z => `<a href="#/zone/${z}">${esc(zn(z))}</a>`).join(" · ");
+  el.innerHTML = `<b>🛡️ ${t("szAllZones")}:</b> ` + Object.keys(SAFE_ZONES).map(z => `<a href="#/zone/${z}">${esc(zn(z))}</a>`).join(" · ") +
+    `<br><b>🗺️</b> <a href="${slUrl()}">${slTx("link")} →</a>`;
 }
 
 /* ---------- MBTI & feng shui guide (#/matching) ----------
@@ -3083,6 +3086,20 @@ const GUIDE_TX = {
 };
 const guideUrl = (pg = "") => `LivingInsight${pg ? "-" + pg : ""}.html?from=asn&lang=${lang}`;
 const guideTx = k => (GUIDE_TX[lang] || GUIDE_TX.en)[k];
+// ASN Safe Living: natural-hazard comparison page (Thai/English only)
+const SL_TX = {
+  th:{nav:"อยู่ปลอดภัย",link:"เทียบภัยธรรมชาติ พัทยา–EEC กับทั่วไทย"},
+  en:{nav:"Safe living",link:"Natural hazards: Pattaya–EEC vs the rest of Thailand"},
+  ru:{nav:"Безопасность",link:"Природные риски: Паттайя–EEC и другие регионы (EN)"},
+  zh:{nav:"安全居住",link:"自然灾害对比：芭提雅–EEC 与泰国其他地区（英文）"},
+  ko:{nav:"안전한 거주",link:"자연재해 비교: 파타야–EEC vs 태국 다른 지역 (영문)"},
+  ja:{nav:"安全な暮らし",link:"自然災害比較：パタヤ–EEC とタイ各地（英語）"}
+};
+const slTx = k => (SL_TX[lang] || SL_TX.en)[k];
+const slUrl = () => `ASNSafeLiving.html?from=asn&lang=${lang === "th" ? "th" : "en"}`;
+const SL_SUB = {th:"น้ำท่วม แผ่นดินไหว สึนามิ พายุ ฝุ่น — ข้อมูลจริงพร้อมแหล่งอ้างอิง",en:"Floods, earthquakes, tsunami, storms, haze — real records with sources"};
+const slCard = () => `<div class="gd-card"><a href="${slUrl()}">🗺️ ${slTx("link")} →</a><small>${SL_SUB[lang === "th" ? "th" : "en"]}</small></div>`;
+const slBtn = () => `<a class="btn sm" href="${slUrl()}">🗺️ ${slTx("link")} →</a>`;
 function guideCard(l) {
   // rentals lead with the move/visa page, sales and land with the buying page
   const order = l.type === "land" ? ["Buying", "EEC", "Relocate"]
@@ -3093,11 +3110,12 @@ function guideCard(l) {
 }
 function renderFootGuide() {
   $("#footGuide").innerHTML = `<b>📘 <a href="${guideUrl()}">${guideTx("hub")}</a></b>` +
-    ["Buying", "Relocate", "Wellness", "SmartHome", "EEC"].map(k => `<a href="${guideUrl(k)}">${guideTx(k)}</a>`).join("");
+    ["Buying", "Relocate", "Wellness", "SmartHome", "EEC"].map(k => `<a href="${guideUrl(k)}">${guideTx(k)}</a>`).join("") +
+    `<a href="${slUrl()}">🗺️ ${slTx("link")}</a>`;
 }
 function renderAll() {
   applyI18n();
-  $("#navGuide").href = guideUrl(); renderFootGuide();
+  $("#navGuide").href = guideUrl(); $("#navSafe").href = slUrl(); $("#navSafe").textContent = slTx("nav"); renderFootGuide();
   renderHero(); renderStats(); renderServices(); renderHot(); fillFilters(); renderList();
   renderMatchForm(); renderBookForm(); renderReviews(); renderAbout(); renderContact(); renderSl(); drawZones(); renderLand();
   renderSzLinks();
