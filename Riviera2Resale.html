@@ -389,6 +389,13 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 .u-sec:first-child{border-top:0;padding-top:0}
 .u-sec h2{font-family:var(--f-display);font-size:clamp(20px,2.6vw,26px);font-weight:600;margin-bottom:14px}
 .u-sec .note{margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.6}
+.u-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;list-style:none}
+.u-fold>summary::-webkit-details-marker{display:none}
+.u-fold>summary h2{margin:0}
+.u-fold>summary::after{content:"+";flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--line);border-radius:50%;font-size:18px;line-height:1;color:var(--muted)}
+.u-fold[open]>summary::after{content:"\2212"}
+.u-fold[open]>summary{margin-bottom:14px}
+.u-fold>summary:focus-visible{outline:2px solid var(--sea);outline-offset:4px;border-radius:6px}
 .u-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .u-list li{position:relative;padding-left:22px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
 .u-list li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--sea);transform:rotate(45deg)}
@@ -869,7 +876,7 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="insight/kit.js?v=20261027d"></script>
+<script src="insight/kit.js?v=20261031a"></script>
 
 <dialog id="dlg"><div class="sheet">
   <div class="print-brand">
@@ -3883,10 +3890,10 @@ function renderUnitPage(code){
           <button type="button" class="u-plan" data-uplan="1" aria-label="${t("uPlan")}"><img src="${lay.src}" alt="${t("uPlan")} ${u.unit}" loading="lazy"></button>
           ${lay.code ? `<p class="note">${t("uPlanNote")}</p>` : ""}</section>` : ""}
 
-        ${st ? `<section class="u-sec"><h2>${t("uFeng")}</h2><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p></section>
+        ${st ? `<details class="u-sec u-fold"><summary><h2>${t("uFeng")}</h2></summary><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p></details>
 
-        <section class="u-sec">
-          <h2>${t("uConcept")}</h2>
+        <details class="u-sec u-fold">
+          <summary><h2>${t("uConcept")}</h2></summary>
           <div class="u-concept">
             <div><div class="kicker">${st.concept.actual ? t("uConceptActual") : t("uConceptSuggest")}</div><h3>${st.concept.title}</h3></div>
             <p>${st.concept.text}</p>
@@ -3894,7 +3901,7 @@ function renderUnitPage(code){
             ${st.concept.actual ? `<p class="note">${t("uPaletteNote")}</p>` : ""}
             <a class="u-wr" href="https://thbho.github.io/EngWiderooms.html" target="_blank" rel="noopener"><img src="riviera-img/logo-widerooms.jpg" alt="WIDEROOMS"><span>${t("uWr")}</span></a>
           </div>
-        </section>
+        </details>
 
         <section class="u-sec">
           <h2>${t("uMbti")}</h2>
@@ -3912,7 +3919,7 @@ function renderUnitPage(code){
           </div>
         </section>` : ""}
 
-        ${u.type === "Commercial" ? "" : `<section class="u-sec" id="lkHome" hidden></section>`}
+        ${u.type === "Commercial" ? "" : `<details class="u-sec u-fold" hidden><summary><h2></h2></summary><div id="lkHome"></div></details>`}
 
         <section class="u-sec">
           <h2>${t("dCost")}</h2>
@@ -3927,7 +3934,7 @@ function renderUnitPage(code){
           <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
         </section>
 
-        ${u.type === "Commercial" ? "" : `<section class="u-sec" id="lkBuy" hidden></section>`}
+        ${u.type === "Commercial" ? "" : `<details class="u-sec u-fold" hidden><summary><h2></h2></summary><div id="lkBuy"></div></details>`}
       </div>
 
       <aside class="u-aside">
@@ -3967,10 +3974,15 @@ function renderUnitPage(code){
   if (window.LIKit && u.type !== "Commercial"){
     const lk = { ...lkBase(), kind: "condo", facing: u.view === "Sea View" ? "W" : "E", sea: u.view === "Sea View", floor: +u.floor,
       beds: u.type === "1 BED" ? 1 : 0, furnished: u.furniture !== "Exclude", mbti: full.mbti, concept: st ? st.concept.title : "",
-      quota: u.quota, price: sell(u), rentRule: true };
-    ["lkHome", "lkBuy"].forEach(id => { document.getElementById(id).hidden = false; });
+      quota: u.quota, price: sell(u), rentRule: true, kit: false }; // THOR 31 Oct 2026: smart home by personality off on unit pages for now
     LIKit.home(document.getElementById("lkHome"), lk);
     LIKit.buy(document.getElementById("lkBuy"), lk);
+    // secondary content folds away behind +/-: the kit's own heading becomes the fold title
+    ["lkHome", "lkBuy"].forEach(id => {
+      const el = document.getElementById(id), box = el.closest(".u-fold"), h = el.querySelector("h2");
+      if (h){ box.querySelector("summary h2").textContent = h.textContent; h.remove(); }
+      box.hidden = false;
+    });
   }
   document.title = `${PROJECT_NAME} ${u.unit}${st ? " — " + st.name : ""}`;
 }
