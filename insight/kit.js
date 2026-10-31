@@ -6,7 +6,8 @@
      LIKit.types(el, o)  the four MBTI groups and their smart-home style, for a matching page
    Common options: lang (th en ru zh ko ja), from (guide key, e.g. "r2"), accent (CSS colour),
    wrLogo (path to the WIDEROOMS logo on the host), groupName(g) (host's own MBTI group names),
-   wr: false (home: leave out the WIDEROOMS row when the host page already has one nearby).
+   wr: false (home: leave out the WIDEROOMS row when the host page already has one nearby),
+   kit: false (home: wellness tips only, without the smart-home kit by MBTI group).
    The host supplies the section wrapper and its own <h2> styling; the kit writes the inside.
    Facts match content.js (checked 27 Oct 2026); update both together. */
 (function () {
@@ -51,6 +52,7 @@ const S = {
 th: {
   thisC: "ห้องนี้", thisH: "บ้านนี้",
   homeH: "อยู่แล้วสุขภาพดี: Wellness & Smart Home",
+  homeHW: "อยู่แล้วสุขภาพดี: Wellness",
   homeP: "สรุปจากคู่มือ Thailand Living Insight ให้ตรงกับลักษณะของที่นี่และบุคลิกที่เข้ากัน ทุกข้อทำได้โดยไม่ต้องรีโนเวตใหญ่",
   lightW: ["แดดบ่ายและพระอาทิตย์ตก", "ฝั่งทะเลหันทิศตะวันตก ได้วิวพระอาทิตย์ตก แต่แดดบ่ายแรง ม่านสองชั้นหรือม่านไฟฟ้าที่ปิดเองตอนบ่าย ช่วยให้ห้องเย็นและลดค่าแอร์"],
   lightE: ["แสงเช้าช่วยตั้งนาฬิกาชีวิต", "ห้องหันทิศตะวันออก รับแดดเช้าซึ่งช่วยให้ตื่นตัวและหลับง่ายขึ้นตอนกลางคืน ถ้าชอบนอนสาย ใช้ม่านทึบแสงในห้องนอน"],
@@ -123,6 +125,7 @@ th: {
 en: {
   thisC: "This unit", thisH: "This home",
   homeH: "Live well here: wellness & smart home",
+  homeHW: "Live well here: wellness",
   homeP: "Drawn from the Thailand Living Insight guide and matched to this home and the personality it suits. None of it needs a major renovation.",
   lightW: ["Afternoon sun and sunsets", "The sea side faces west: sunset views, but strong afternoon sun. Double curtains or a motorised track that closes in the afternoon keep the room cool and cut the air-con bill."],
   lightE: ["Morning light sets your body clock", "Facing east, the room catches the morning sun, which helps you wake up and sleep better at night. Use blackout curtains in the bedroom if you like a lie-in."],
@@ -195,6 +198,7 @@ en: {
 ru: {
   thisC: "Эта квартира", thisH: "Этот дом",
   homeH: "Жить здесь здоровее: wellness и умный дом",
+  homeHW: "Жить здесь здоровее: wellness",
   homeP: "По материалам гида Thailand Living Insight, с учётом особенностей жилья и подходящего типа личности. Всё это не требует большого ремонта.",
   lightW: ["Вечернее солнце и закаты", "Сторона моря смотрит на запад: закаты, но сильное послеобеденное солнце. Двойные шторы или моторизованный карниз, закрывающийся днём, держат прохладу и снижают счёт за кондиционер."],
   lightE: ["Утренний свет настраивает биоритм", "Окна на восток ловят утреннее солнце — легче просыпаться и лучше спать ночью. Если любите поспать подольше, повесьте в спальне блэкаут-шторы."],
@@ -267,6 +271,7 @@ ru: {
 zh: {
   thisC: "本房", thisH: "本屋",
   homeH: "住得更健康：Wellness 与智能家居",
+  homeHW: "住得更健康：Wellness",
   homeP: "根据 Thailand Living Insight 指南整理，并结合本物业特点与适合的性格类型。全部无需大规模装修。",
   lightW: ["午后阳光与日落", "海景面朝西，可看日落，但午后日晒强。双层窗帘或午后自动关闭的电动窗帘让房间更凉爽，也省空调电费。"],
   lightE: ["晨光帮助调节生物钟", "朝东的房间迎来晨光，让人醒得更轻松、夜里睡得更好。想睡懒觉的话，卧室用遮光窗帘。"],
@@ -339,6 +344,7 @@ zh: {
 ko: {
   thisC: "이 호실", thisH: "이 집",
   homeH: "건강하게 사는 집: 웰니스 & 스마트홈",
+  homeHW: "건강하게 사는 집: 웰니스",
   homeP: "Thailand Living Insight 가이드를 바탕으로 이 집의 특징과 어울리는 성격 유형에 맞췄습니다. 모두 큰 리모델링 없이 가능합니다.",
   lightW: ["오후 햇살과 노을", "바다 쪽이 서향이라 노을이 보이지만 오후 햇살이 강합니다. 이중 커튼이나 오후에 자동으로 닫히는 전동 커튼이 방을 시원하게 하고 에어컨 요금을 줄여 줍니다."],
   lightE: ["아침 햇살이 생체 시계를 맞춰 줍니다", "동향이라 아침 해가 들어와 개운하게 일어나고 밤에 잠도 잘 옵니다. 늦잠을 좋아한다면 침실에 암막 커튼을 다세요."],
@@ -411,6 +417,7 @@ ko: {
 ja: {
   thisC: "この部屋", thisH: "この家",
   homeH: "健やかに暮らす：ウェルネス＆スマートホーム",
+  homeHW: "健やかに暮らす：ウェルネス",
   homeP: "Thailand Living Insight ガイドをもとに、この物件の特徴と相性のよい性格タイプに合わせて整理しました。どれも大がかりなリフォームは不要です。",
   lightW: ["西日と夕景", "海側は西向きで夕日が見えますが、午後の日差しが強めです。二重カーテンや午後に自動で閉まる電動カーテンで室内を涼しく保ち、エアコン代も抑えられます。"],
   lightE: ["朝日が体内時計を整える", "東向きで朝日が入り、目覚めがよく夜もよく眠れます。朝寝坊したい方は寝室に遮光カーテンを。"],
@@ -542,19 +549,21 @@ function home(el, o) {
   const thisW = isHouse ? s.thisH : s.thisC;
   const wrText = o.rental ? s.wrRent : o.furnished === false ? (o.concept ? fill(s.wrNone, { this: thisW, concept: o.concept }) : fill(s.wrNoneX, { this: thisW }))
     : fill(s.wrHas, { this: thisW });
-  el.innerHTML = `<div class="lk-kick">Wellness &amp; Smart Home · WIDEROOMS</div>
-    <h2>${esc(s.homeH)}</h2>
+  const kit = o.kit !== false;
+  el.innerHTML = `<div class="lk-kick">${kit ? "Wellness &amp; Smart Home" : "Wellness"} · WIDEROOMS</div>
+    <h2>${esc(kit ? s.homeH : s.homeHW)}</h2>
     <p class="lk-lede">${esc(s.homeP)}</p>
     <div class="lk-cards three">${card("sun", light)}${card("wind", air)}${card("moon", sleep)}</div>
     ${o.fengshui === false ? "" : `<p class="lk-bridge">☯ ${esc(s.bridge)}</p>`}
-    <h3 class="lk-h3">${esc(s.kitH)}</h3>
+    ${kit ? `<h3 class="lk-h3">${esc(s.kitH)}</h3>
     <p class="lk-sub">${lead ? esc(fill(s.kitFor, { type: lead })) : esc(s.kitPick)}</p>
     <div class="lk-tabs" role="group" aria-label="${esc(s.kitPick)}">${Object.keys(KIT).map(x =>
       `<button type="button" class="lk-tab" data-lkg="${x}" style="--g:${GROUP_COLOR[x]}" aria-pressed="${x === g}"><i></i>${esc(gName(o, x))}</button>`).join("")}</div>
     <div class="lk-kitbox">${kitHTML(o, g)}</div>
-    <p class="lk-note">${SHOW_PRICES ? esc(s.kitNote) + " " : ""}${esc(s.honest)}</p>
+    <p class="lk-note">${SHOW_PRICES ? esc(s.kitNote) + " " : ""}${esc(s.honest)}</p>` : ""}
     ${o.wr === false ? "" : wrRow(o, wrText)}
-    <div class="lk-links"><a href="${guide(o, "smarthome")}">${esc(s.lkKit)} →</a><a href="${guide(o, "wellness")}">${esc(s.lkScore)} →</a></div>`;
+    <div class="lk-links">${kit ? `<a href="${guide(o, "smarthome")}">${esc(s.lkKit)} →</a>` : ""}<a href="${guide(o, "wellness")}">${esc(s.lkScore)} →</a></div>`;
+  if (!kit) { el.onclick = null; return; }
   el.onclick = e => {
     const b = e.target.closest("[data-lkg]"); if (!b) return;
     g = b.dataset.lkg;
