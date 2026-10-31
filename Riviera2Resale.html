@@ -205,6 +205,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .linkbtn{border:0;background:none;padding:0;color:var(--sea);font-size:12.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- cards ---------- */
+.pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;margin:-16px 0 40px;font-size:13px;color:var(--muted)}
+.pager span{flex-basis:100%;text-align:center}
+.pager .btn.alt{background:var(--surface);color:var(--sea)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;padding-bottom:40px}
 .card{cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .16s ease,box-shadow .16s ease;text-align:left;padding:0;border-width:1px}
 .card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(15,33,41,.08),0 16px 32px -16px rgba(15,33,41,.35)}
@@ -328,6 +331,8 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .info h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--sea);margin-bottom:9px}
 .info p,.info li{font-size:13.5px;color:var(--ink-2);line-height:1.65}
 .info ul{margin:0;padding-left:18px}
+.lk-strip-host{padding-block:34px 30px}
+body.unit-mode .lk-strip-host{display:none}
 .guide{margin-top:22px}
 .guide p{margin-bottom:10px}
 .guide-links{display:flex;flex-wrap:wrap;gap:8px}
@@ -802,6 +807,7 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 
 <main class="wrap">
   <div class="grid" id="grid"></div>
+  <div class="pager" id="pager" hidden></div>
   <div class="tblwrap" id="tblwrap" hidden>
     <table>
       <thead><tr>
@@ -817,6 +823,8 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
     </table>
   </div>
 </main>
+
+<section class="wrap lk-strip-host" id="lkStrip" hidden></section>
 
 <section class="info">
   <div class="wrap">
@@ -861,6 +869,7 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="insight/kit.js?v=20261027d"></script>
 
 <dialog id="dlg"><div class="sheet">
   <div class="print-brand">
@@ -3005,7 +3014,7 @@ th:{markSub:"รายการห้องขาย",eyebrow:"จอมเท�
  allViews:"ทุกวิว",seaView:"วิวทะเล",cityView:"วิวเมือง",shopView:"อาคารพาณิชย์",
  allTypes:"ทุกแบบห้อง",studio:"สตูดิโอ",oneBed:"1 ห้องนอน",shopType:"อาคารพาณิชย์",
  allQuota:"ทุกโควตา",quotaTH:"โควตาไทย",quotaFR:"โควตาต่างชาติ",
- sortPriceAsc:"ราคา ต่ำ → สูง",sortPriceDesc:"ราคา สูง → ต่ำ",sortPerSqm:"฿/ตร.ม. ต่ำสุด",sortSqm:"ขนาดใหญ่สุด",sortFloor:"ชั้นสูงสุด",sortSave:"ส่วนลดมากสุด",
+ sortRec:"แนะนำ",pgShown:"แสดง {n} จาก {t} ห้อง",pgMore:"+ ดูเพิ่มอีก {k} ห้อง",pgLess:"− ย่อลง",sortPriceAsc:"ราคา ต่ำ → สูง",sortPriceDesc:"ราคา สูง → ต่ำ",sortPerSqm:"฿/ตร.ม. ต่ำสุด",sortSqm:"ขนาดใหญ่สุด",sortFloor:"ชั้นสูงสุด",sortSave:"ส่วนลดมากสุด",
  promoOnly:"เฉพาะโปรโมชั่น",furnOnly:"มีเฟอร์ฯ",viewGrid:"การ์ด",viewTable:"ตาราง",
  unitsFound:"ห้องที่ตรงเงื่อนไข",fromLabel:"เริ่มต้น",reset:"ล้างตัวกรองทั้งหมด",
  thUnit:"ห้อง",thFloor:"ชั้น",thView:"วิว",thType:"แบบ",thQuota:"โควตา",thSqm:"ตร.ม.",thList:"ราคาปกติ",thNow:"ราคาขาย",thPerSqm:"฿/ตร.ม.",thFurn:"เฟอร์นิเจอร์", bSea:"วิวทะเล",bCity:"วิวเมือง",bShop:"ติดถนน",bPromo:"โปรโมชั่น",bSold:"ขายแล้ว",bFr:"โควตาต่างชาติ",bSeaSite:"ฝั่งทะเล",
@@ -3036,7 +3045,7 @@ en:{markSub:"Resale Inventory",eyebrow:"Jomtien · Pattaya · Chonburi",
  allViews:"All views",seaView:"Sea view",cityView:"City view",shopView:"Shophouse",
  allTypes:"All layouts",studio:"Studio",oneBed:"1 Bedroom",shopType:"Commercial unit",
  allQuota:"All quota",quotaTH:"Thai quota",quotaFR:"Foreign quota",
- sortPriceAsc:"Price low → high",sortPriceDesc:"Price high → low",sortPerSqm:"Lowest ฿/sqm",sortSqm:"Largest first",sortFloor:"Highest floor",sortSave:"Biggest discount",
+ sortRec:"Recommended",pgShown:"Showing {n} of {t} units",pgMore:"+ Show {k} more",pgLess:"− Show fewer",sortPriceAsc:"Price low → high",sortPriceDesc:"Price high → low",sortPerSqm:"Lowest ฿/sqm",sortSqm:"Largest first",sortFloor:"Highest floor",sortSave:"Biggest discount",
  promoOnly:"Promotion only",furnOnly:"Furnished",viewGrid:"Cards",viewTable:"Table",
  unitsFound:"units match",fromLabel:"from",reset:"Clear all filters",
  thUnit:"Unit",thFloor:"Floor",thView:"View",thType:"Layout",thQuota:"Quota",thSqm:"Sqm",thList:"List price",thNow:"Selling price",thPerSqm:"฿/sqm",thFurn:"Furniture", bSea:"Sea view",bCity:"City view",bShop:"Roadside",bPromo:"Promotion",bSold:"Sold",bFr:"Foreign quota",bSeaSite:"Sea side",
@@ -3067,7 +3076,7 @@ ru:{markSub:"Квартиры на продажу",eyebrow:"Джомтьен · 
  allViews:"Все виды",seaView:"Вид на море",cityView:"Вид на город",shopView:"Коммерция",
  allTypes:"Все планировки",studio:"Студия",oneBed:"1 спальня",shopType:"Коммерческое помещение",
  allQuota:"Все квоты",quotaTH:"Тайская квота",quotaFR:"Иностранная квота",
- sortPriceAsc:"Цена по возрастанию",sortPriceDesc:"Цена по убыванию",sortPerSqm:"Дешевле за м²",sortSqm:"Сначала большие",sortFloor:"Выше этаж",sortSave:"Больше скидка",
+ sortRec:"Рекомендуемые",pgShown:"Показано {n} из {t}",pgMore:"+ Показать ещё {k}",pgLess:"− Свернуть",sortPriceAsc:"Цена по возрастанию",sortPriceDesc:"Цена по убыванию",sortPerSqm:"Дешевле за м²",sortSqm:"Сначала большие",sortFloor:"Выше этаж",sortSave:"Больше скидка",
  promoOnly:"Только акции",furnOnly:"С мебелью",viewGrid:"Карточки",viewTable:"Таблица",
  unitsFound:"квартир найдено",fromLabel:"от",reset:"Сбросить фильтры",
  thUnit:"Квартира",thFloor:"Этаж",thView:"Вид",thType:"Планировка",thQuota:"Квота",thSqm:"м²",thList:"Прайс",thNow:"Цена продажи",thPerSqm:"฿/м²",thFurn:"Мебель", bSea:"Вид на море",bCity:"Вид на город",bShop:"У дороги",bPromo:"Акция",bSold:"Продано",bFr:"Иностр. квота",bSeaSite:"Морская сторона",
@@ -3098,7 +3107,7 @@ zh:{markSub:"在售房源",eyebrow:"宗滴恩 · 芭提雅 · 春武里",
  allViews:"全部景观",seaView:"海景",cityView:"城景",shopView:"临街商铺",
  allTypes:"全部户型",studio:"开间",oneBed:"一房",shopType:"商铺",
  allQuota:"全部产权",quotaTH:"泰籍产权",quotaFR:"外籍产权",
- sortPriceAsc:"价格由低到高",sortPriceDesc:"价格由高到低",sortPerSqm:"每平米最低",sortSqm:"面积最大",sortFloor:"楼层最高",sortSave:"折扣最多",
+ sortRec:"推荐",pgShown:"显示 {n} / {t} 套",pgMore:"+ 再显示 {k} 套",pgLess:"− 收起",sortPriceAsc:"价格由低到高",sortPriceDesc:"价格由高到低",sortPerSqm:"每平米最低",sortSqm:"面积最大",sortFloor:"楼层最高",sortSave:"折扣最多",
  promoOnly:"仅看优惠",furnOnly:"含家具",viewGrid:"卡片",viewTable:"表格",
  unitsFound:"套符合条件",fromLabel:"起价",reset:"清除全部筛选",
  thUnit:"房号",thFloor:"楼层",thView:"景观",thType:"户型",thQuota:"产权",thSqm:"平米",thList:"原价",thNow:"售价",thPerSqm:"฿/平米",thFurn:"家具", bSea:"海景",bCity:"城景",bShop:"临街",bPromo:"优惠",bSold:"已售",bFr:"外籍产权",bSeaSite:"临海侧",
@@ -3128,7 +3137,7 @@ ko:{markSub:"리세일 매물",eyebrow:"좀티엔 · 파타야 · 촌부리",
  allViews:"전체 전망",seaView:"바다 전망",cityView:"시티 전망",shopView:"상가",
  allTypes:"전체 평면",studio:"스튜디오",oneBed:"원베드룸",shopType:"상업용 유닛",
  allQuota:"전체 쿼터",quotaTH:"태국인 쿼터",quotaFR:"외국인 쿼터",
- sortPriceAsc:"가격 낮은 순",sortPriceDesc:"가격 높은 순",sortPerSqm:"㎡당 가격 낮은 순",sortSqm:"면적 넓은 순",sortFloor:"높은 층 순",sortSave:"할인 큰 순",
+ sortRec:"추천순",pgShown:"{t}개 중 {n}개 표시",pgMore:"+ {k}개 더 보기",pgLess:"− 접기",sortPriceAsc:"가격 낮은 순",sortPriceDesc:"가격 높은 순",sortPerSqm:"㎡당 가격 낮은 순",sortSqm:"면적 넓은 순",sortFloor:"높은 층 순",sortSave:"할인 큰 순",
  promoOnly:"프로모션만",furnOnly:"가구 포함",viewGrid:"카드",viewTable:"표",
  unitsFound:"개 유닛 일치",fromLabel:"최저",reset:"필터 모두 지우기",
  thUnit:"유닛",thFloor:"층",thView:"전망",thType:"평면",thQuota:"쿼터",thSqm:"㎡",thList:"정가",thNow:"판매가",thPerSqm:"฿/㎡",thFurn:"가구", bSea:"바다 전망",bCity:"시티 전망",bShop:"도로변",bPromo:"프로모션",bSold:"판매 완료",bFr:"외국인 쿼터",bSeaSite:"바다 쪽",
@@ -3174,7 +3183,7 @@ try { saved = new Set(JSON.parse(localStorage.getItem("rv-saved") || "[]")); } c
 const persist = () => { try { localStorage.setItem("rv-saved", JSON.stringify([...saved])); } catch (e) {} };
 
 /* state ----------------------------------------------------------- */
-const state = { q:"", view:"", type:"", quota:"", sort:"priceAsc", promo:false, furn:false, floor:"", savedOnly:false, table:false };
+const state = { q:"", view:"", type:"", quota:"", sort:"rec", promo:false, furn:false, floor:"", savedOnly:false, table:false, shown:12 };
 
 /* ------------------------- option rendering ---------------------- */
 function fillSelects(){
@@ -3185,7 +3194,7 @@ function fillSelects(){
   mk($("#fView"), [["","allViews"],["Sea View","seaView"],["City View","cityView"],["Front of Road","shopView"]], state.view);
   mk($("#fType"), [["","allTypes"],["Studio","studio"],["1 BED","oneBed"],["Commercial","shopType"]], state.type);
   mk($("#fQuota"), [["","allQuota"],["TH","quotaTH"],["FR","quotaFR"]], state.quota);
-  mk($("#fSort"), [["priceAsc","sortPriceAsc"],["priceDesc","sortPriceDesc"],["perSqm","sortPerSqm"],["sqm","sortSqm"],["floor","sortFloor"],["save","sortSave"]], state.sort);
+  mk($("#fSort"), [["rec","sortRec"],["priceAsc","sortPriceAsc"],["priceDesc","sortPriceDesc"],["perSqm","sortPerSqm"],["sqm","sortSqm"],["floor","sortFloor"],["save","sortSave"]], state.sort);
 }
 
 /* ------------------------------ filter --------------------------- */
@@ -3210,8 +3219,44 @@ function filtered(){
     floor: (a,b) => floorKey(b.floor) - floorKey(a.floor),
     save: (a,b) => discount(b) - discount(a)
   }[state.sort];
+  if (!cmp) return recommended(list.filter(u => u.status !== "SOLD")).concat(list.filter(u => u.status === "SOLD"));
   list.sort((a,b) => (a.status === "SOLD") - (b.status === "SOLD") || cmp(a,b));
   return list;
+}
+
+/* "Recommended" (the default order): the most complete units first — photos, a story
+   (MBTI, feng shui, concept), a floor plan, a video, furniture — picked so each block of
+   PAGE_SIZE mixes room type, view, floor band, tower and MBTI group. The first block
+   leaves out the featured units (they already have their own row above). The grid
+   shows PAGE_SIZE cards at a time, with + / − to show more or fewer. */
+const PAGE_SIZE = 12;
+function unitScore(u){
+  const m = mediaOf(u);
+  return Math.min(m.photos.length, 8) * 2 + (UNIT_STORIES[u.unit] ? 12 : 0) + (m.hasPlan ? 3 : 0) + (m.hasVideo ? 2 : 0)
+    + (u.furniture !== "Exclude" ? 2 : 0) + (u.promoPrice ? 2 : 0);
+}
+function diversityKeys(u){
+  const st = UNIT_STORIES[u.unit], g = st && st.mbti ? mbtiGroup(st.mbti[0]) : "", f = parseInt(u.floor, 10) || 0;
+  return ["t" + u.type, "v" + u.view, "f" + (f < 12 ? 0 : f < 25 ? 1 : 2), "w" + u.unit.replace(/^\d+/, "").charAt(0), ...(g ? ["g" + g] : [])];
+}
+function recommended(list){
+  const left = list.map(u => ({ u, s: unitScore(u), k: diversityKeys(u), hl: HIGHLIGHTS.units.includes(u.unit) }));
+  const out = [];
+  let seen = {};
+  while (left.length){
+    if (out.length % PAGE_SIZE === 0) seen = {};
+    const first = out.length < PAGE_SIZE && left.some(x => !x.hl);
+    let bi = -1, bv = -Infinity;
+    left.forEach((x, i) => {
+      if (first && x.hl) return;
+      const v = x.s - x.k.reduce((p, k) => p + (seen[k] || 0) * 2.5, 0);
+      if (v > bv){ bv = v; bi = i; }
+    });
+    const [x] = left.splice(bi, 1);
+    x.k.forEach(k => { seen[k] = (seen[k] || 0) + 1; });
+    out.push(x.u);
+  }
+  return out;
 }
 
 /* ------------------------------ stats ---------------------------- */
@@ -3867,6 +3912,8 @@ function renderUnitPage(code){
           </div>
         </section>` : ""}
 
+        ${u.type === "Commercial" ? "" : `<section class="u-sec" id="lkHome" hidden></section>`}
+
         <section class="u-sec">
           <h2>${t("dCost")}</h2>
           ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
@@ -3879,6 +3926,8 @@ function renderUnitPage(code){
           <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
           <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
         </section>
+
+        ${u.type === "Commercial" ? "" : `<section class="u-sec" id="lkBuy" hidden></section>`}
       </div>
 
       <aside class="u-aside">
@@ -3914,8 +3963,19 @@ function renderUnitPage(code){
 
   if (ug.unit !== u){ ug = { items: m.items, i: 0, unit: u }; } else { ug.items = m.items; }
   renderUGal();
+  // Thailand Living Insight kit (insight/kit.js): wellness + smart home by MBTI group, and buyer-confidence notes
+  if (window.LIKit && u.type !== "Commercial"){
+    const lk = { ...lkBase(), kind: "condo", facing: u.view === "Sea View" ? "W" : "E", sea: u.view === "Sea View", floor: +u.floor,
+      beds: u.type === "1 BED" ? 1 : 0, furnished: u.furniture !== "Exclude", mbti: full.mbti, concept: st ? st.concept.title : "",
+      quota: u.quota, price: sell(u), rentRule: true };
+    ["lkHome", "lkBuy"].forEach(id => { document.getElementById(id).hidden = false; });
+    LIKit.home(document.getElementById("lkHome"), lk);
+    LIKit.buy(document.getElementById("lkBuy"), lk);
+  }
   document.title = `${PROJECT_NAME} ${u.unit}${st ? " — " + st.name : ""}`;
 }
+
+const lkBase = () => ({ lang, from: "r2", accent: "var(--sea)", wrLogo: "riviera-img/logo-widerooms.jpg", groupName });
 
 /* ------------------------- matching article ------------------------ */
 const matchingHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}-matching.html` : "#matching";
@@ -3991,6 +4051,8 @@ function renderMatchingPage(){
         <div class="ar-rex"><small>${F.rulesSeen}:</small> ${FS_RULE_UNITS[r.k].filter(hasPage).map(c => `<a href="${unitHref(c)}">${c}</a>`).join(" · ")}</div></div>`).join("")}</div>
     </section>
 
+    ${window.LIKit ? `<section class="ar-sec" id="lkTypes"></section>` : ""}
+
     <section class="ar-sec">
       <h2>${a.pillarsH}</h2>
       <div class="ar-pillars">${a.pillars.map(p => `<div><h3>${p.h}</h3><p>${p.p} ${sup(p.ref)}</p></div>`).join("")}</div>
@@ -4023,6 +4085,7 @@ function renderMatchingPage(){
     </section>
   </div>`;
   renderMatches();
+  if (window.LIKit) LIKit.types(document.getElementById("lkTypes"), lkBase());
   document.title = `Personalized Matching — ${a.title}`;
 }
 
@@ -4562,19 +4625,38 @@ function route(){
 
 
 /* ------------------------------ render --------------------------- */
+let lastFilterKey = "";
 function render(){
   const list = filtered();
+  const fk = JSON.stringify({ ...state, shown: 0, table: 0 });
+  if (fk !== lastFilterKey){ state.shown = PAGE_SIZE; lastFilterKey = fk; }   // new filters or sort: back to the first 12
   $("#count").textContent = list.length;
   const live = list.filter(u => u.status !== "SOLD");
   $("#cheapest").textContent = live.length ? baht(Math.min(...live.map(sell))) : "—";
   if (state.table){ renderTable(list); $("#grid").hidden = true; $("#tblwrap").hidden = false; }
-  else { renderGrid(list); $("#grid").hidden = false; $("#tblwrap").hidden = true; }
+  else { renderGrid(list.slice(0, state.shown)); $("#grid").hidden = false; $("#tblwrap").hidden = true; }
+  renderPager(state.table ? 0 : list.length);
   renderTower();
   const n = saved.size;
   $("#slbar").hidden = n === 0;
   $("#slCount").textContent = n;
   $("#slShow").textContent = state.savedOnly ? t("slShowAll") : t("slShow");
 }
+
+function renderPager(total){
+  const n = Math.min(state.shown, total), pg = $("#pager");
+  pg.hidden = total <= PAGE_SIZE;
+  if (pg.hidden) return;
+  pg.innerHTML = `<span>${t("pgShown").replace("{n}", n).replace("{t}", total)}</span>`
+    + (n < total ? `<button type="button" class="btn" data-pg="1">${t("pgMore").replace("{k}", Math.min(PAGE_SIZE, total - n))}</button>` : "")
+    + (n > PAGE_SIZE ? `<button type="button" class="btn alt" data-pg="-1">${t("pgLess")}</button>` : "");
+}
+$("#pager").addEventListener("click", e => {
+  const b = e.target.closest("[data-pg]"); if (!b) return;
+  state.shown = Math.max(PAGE_SIZE, state.shown + PAGE_SIZE * +b.dataset.pg);
+  render();
+  if (b.dataset.pg === "-1") $("#pager").scrollIntoView({ block: "end" });
+});
 
 function applyProjectName(){
   document.querySelectorAll(".pname").forEach(el => { el.textContent = PROJECT_NAME; });
@@ -4597,6 +4679,7 @@ function applyLang(){
     else if (unitFromUrl()) renderUnitPage(unitFromUrl().toUpperCase());
   }
   $("#footNote").innerHTML = `${t("foot")}<br>${t("photoNoteLong")}`;
+  if (window.LIKit){ $("#lkStrip").hidden = false; LIKit.strip($("#lkStrip"), lkBase()); }
   // buyer guide (Thailand Living Insight) — links carry from=r2 so the guide links back here
   $("#guideLinks").innerHTML = [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
     .map(([f, k]) => `<a href="LivingInsight-${f}.html?from=r2&lang=${lang}">${t(k)} →</a>`).join("");
@@ -4636,7 +4719,7 @@ $("#vGrid").addEventListener("click", () => { state.table = false; $("#vGrid").s
 $("#vTable").addEventListener("click", () => { state.table = true; $("#vTable").setAttribute("aria-pressed","true"); $("#vGrid").setAttribute("aria-pressed","false"); render(); });
 
 $("#reset").addEventListener("click", () => {
-  Object.assign(state, { q:"", view:"", type:"", quota:"", promo:false, furn:false, floor:"", savedOnly:false, sort:"priceAsc" });
+  Object.assign(state, { q:"", view:"", type:"", quota:"", promo:false, furn:false, floor:"", savedOnly:false, sort:"rec" });
   $("#q").value = "";
   $("#cPromo").setAttribute("aria-pressed","false");
   $("#cFurn").setAttribute("aria-pressed","false");
