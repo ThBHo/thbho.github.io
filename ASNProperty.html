@@ -359,6 +359,16 @@ footer.foot{padding-block:30px 110px;border-top:1px solid var(--line);margin-top
 @media (max-width:700px){ .gal{grid-template-columns:1fr 1fr;grid-template-rows:2fr 1fr;height:auto} .gal button:first-child{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3} .gal button{aspect-ratio:4/3} .gal button:nth-child(n+4){display:none} }
 .d-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:28px;margin-top:24px;align-items:start}
 .d-side{position:sticky;top:76px;display:flex;flex-direction:column;gap:12px}
+.m-price{display:none}
+@media (max-width:900px){
+  .m-price{display:block;margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}
+  .m-price .price{font-size:14px}
+  .m-price .price b{font-size:21px}
+  .m-price .price + .price{margin-top:6px}
+  .m-price .btn{margin-top:10px;width:100%;justify-content:center}
+  .pbox > .price{display:none}
+  .pbox .acts{margin-top:0}
+}
 .pbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
 .pbox .price{font-size:14px}
 .pbox .price b{font-size:22px}
@@ -2080,7 +2090,7 @@ function renderDetail(code) {
     <nav class="crumb"><a href="#/listings">${t("back")}</a></nav>
     <div class="d-head"><div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${badges(l)}<span class="code" style="align-self:center">ASN-${l.code}</span></div>
-      <h1>${esc(nm(l))}</h1><p class="where">📍 ${esc(zn(l.zone))}</p></div>
+      <h1>${esc(nm(l))}</h1><p class="where">📍 ${esc(zn(l.zone))}</p>${priceRows(l) ? `<div class="m-price">${priceRows(l)}<a class="btn solid sm" href="#/book/${l.code}">📅 ${t("bookThis")}</a></div>` : ""}</div>
       <button type="button" class="btn" data-dstar="${l.code}">${on ? t("saved") : t("save")}</button></div>
     <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(nm(l))} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
     <div class="phmeta"><span>📷 ${ph.length} ${t("photos")} · ${t("phDate")} <b>${fmtDate(l.photoDate || PHOTO_DATE)}</b></span>
@@ -2162,7 +2172,7 @@ function renderDetail(code) {
 const HL = {};
 function hlSec(l) {
   const h = HL[l.code], list = (h && (h[lang] || h.en || h.th)) || [];
-  const tags = (l.tags || []).map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("");
+  const tags = (l.tags || []).filter(x => t("tag_" + x) !== "tag_" + x).map(x => `<span class="tag">${t("tag_" + x)}</span>`).join("");
   if (!list.length && !tags) return "";
   return `<div class="d-sec hl-sec"><h2>${t(list.length ? "hlTitle" : "highlights")}</h2>${list.length ? `<ul class="hl-list">${list.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}${tags ? `<div class="tags"${list.length ? ' style="margin-top:14px"' : ""}>${tags}</div>` : ""}</div>`;
 }
