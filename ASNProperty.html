@@ -1693,6 +1693,7 @@ function stdName(l) {
     ja: { home: () => `${b ? b + "ベッドルームの" : ""}${t(l.type)}`, condo: () => `${b ? b + "ベッドルームの" : ""}コンドミニアム${area ? ` ${n(area)}㎡` : ""}`, land: () => `土地${l.land ? ` ${nf(l.land)}㎡` : ""}`, com: () => `商業スペース${area ? ` ${n(area)}㎡` : ""}` }
   }[lang] || null;
   if (!L) return l.name;
+  if (l.type === "commercial" && /โกดัง|warehouse/i.test(l.name || "")) return `${{ th: "บ้านพร้อมโกดัง", en: "House with Warehouse", ru: "Дом со складом", zh: "住宅带仓库", ko: "창고 딸린 주택", ja: "倉庫付き住宅" }[lang]}${area ? ` ${n(area)} ${lang === "th" ? "ตร.ม." : lang === "en" ? "sqm" : lang === "ru" ? "м²" : "㎡"}` : ""} · ${where}`;
   const k = l.type === "condo" ? "condo" : l.type === "land" ? "land" : l.type === "commercial" ? "com" : "home";
   return `${L[k]()} · ${where}`;
 }
