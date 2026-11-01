@@ -579,6 +579,15 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 .plot img{width:84px;height:62px;object-fit:cover;border-radius:8px;flex:none}
 .plot b{display:block;font-size:14px}.plot span{display:block;font-size:12.5px;color:var(--ink-2)}.plot .pp{color:var(--brand);font-weight:700}.plot small{font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
 .plot-of p{margin:0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px}
+.ckids{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+.ckids summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--brand)}
+.ckids summary::-webkit-details-marker{display:none}
+.ckids summary::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--brand);color:#fff;font-size:14px;line-height:1}
+.ckids[open] summary::before{content:"−"}
+.ckids .mg-cl,.ckids[open] .mg-op{display:none}.ckids[open] .mg-cl{display:inline}
+.ckids-l{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ckids-l a{font-size:12.5px;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.ckids-l a:hover{border-color:var(--accent)}
 .mg-fold{margin-top:10px}
 .mg-fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--brand);border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:8px 12px}
 .mg-fold summary::-webkit-details-marker{display:none}
@@ -1098,7 +1107,7 @@ const FEATURED = ["H04","H01","H02","C01","H06","H14"];
 // Listings whose photos are fully AI-retouched go first; ones still on original photos go last.
 // Only TOP_PICKS + FEATURED are shown in the list, map, stats and matching; every other listing is hidden
 // but still opens by its own link (#/l/CODE, asn/CODE.html). Set TOP_PICKS = [] to show everything again.
-const TOP_PICKS = ["H95","H94","H93","H92","H91","H90","H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","B02","H63","H23","C06","H85","H83","H20","H15","H05","H28","H55","B01","H68","H65","H33","H49","H72","H37","H12","H10","H40","H36","H09","H27","H61","H18","H07","H34","H73","H75","H77","H78","H44","H35","L01","L03","L03A","L03B","L03C","L03D","L03E","L03F"];
+const TOP_PICKS = ["H95","H94","H93","H92","H91","H90","H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","B02","H63","H23","C06","H85","H83","H20","H15","H05","H28","H55","B01","H68","H65","H33","H49","H72","H37","H12","H10","H40","H36","H09","H27","H61","H18","H07","H34","H73","H75","H77","H78","H44","H35","L01","L03"];
 
 /* ====================================================================
    TRANSLATIONS
@@ -1159,7 +1168,7 @@ th:{
   footNote:"ราคาและสถานะทรัพย์อาจเปลี่ยนแปลง โปรดยืนยันกับทีมงานก่อนตัดสินใจ · อัปเดต {d}",csvBtn:"ดาวน์โหลดข้อมูลทรัพย์ (CSV)",
   back:"← ทรัพย์ทั้งหมด",details:"รายละเอียด",highlights:"จุดเด่น",hlTitle:"จุดเด่นของทรัพย์",calTitle:"ปฏิทินวันว่าง",moreInfo:"ข้อมูลเพิ่มเติม",calBooked:"ติดจอง / มีผู้เช่า",calFree:"ว่าง",calUnknown:"ยังไม่มีข้อมูลการจองในระบบ",calNote:"ปฏิทินอัปเดตโดยทีมงาน โปรดยืนยันวันเข้าอยู่อีกครั้ง",
   locTitle:"ทำเล",deposit:"เงินมัดจำ",minContract:"สัญญาขั้นต่ำ",pets:"สัตว์เลี้ยง",furn:"เฟอร์นิเจอร์",furnPic:"มีเฟอร์นิเจอร์ตามภาพ",parking:"ที่จอดรถ",internet:"อินเทอร์เน็ต",available:"วันที่ว่าง",shortTerm:"เช่าระยะสั้น",
-  yes:"ได้",no:"ไม่ได้",plotName:"ที่ดิน {w} ตร.ว. · แปลง {n} · {z}",plotN:"แปลงที่ {n}",plotsH:"ซื้อแยกแปลงได้ ({n} แปลงตามโฉนด)",plotsP:"ที่ดินผืนนี้มีโฉนดแยก ซื้อรวมทั้งผืนหรือเลือกเฉพาะแปลงที่ต้องการก็ได้ กดที่แปลงเพื่อดูรายละเอียด",plotOf:"แปลงที่ {n} จาก {all} แปลงติดกัน ซื้อเฉพาะแปลงนี้หรือรวมหลายแปลงก็ได้",plotWhole:"ดูที่ดินทั้งผืน",tag_plotSplit:"ซื้อแยกแปลงได้",tag_sixDeeds:"6 โฉนดติดกัน ขายรวม",mgShow:"ดูบ้านในกลุ่มนี้ ({n} หลัง)",mgHide:"ซ่อนรายการบ้าน",tag_mountainView:"วิวเขา",tag_cornerPlot:"ที่ดินหัวมุม",near_phluTaLuang:"ตำบลพลูตาหลวง อำเภอสัตหีบ ติดถนนลาดยางสองเลน ฉากหลังเป็นทิวเขา",near_phluTaLuang1077:"ตำบลพลูตาหลวง อำเภอสัตหีบ ที่ดินหัวมุมติดถนนลาดยาง ชบ.1077 ใกล้โรงเรียนพลูตาหลวงวิทยา",netY:"มี",netN:"ไม่มี (ติดเพิ่มเองได้)",
+  yes:"ได้",no:"ไม่ได้",plotsFold:"ดูแปลงย่อย ({n} แปลง)",plotsFoldHide:"ซ่อนแปลงย่อย",plotName:"ที่ดิน {w} ตร.ว. · แปลง {n} · {z}",plotN:"แปลงที่ {n}",plotsH:"ซื้อแยกแปลงได้ ({n} แปลงตามโฉนด)",plotsP:"ที่ดินผืนนี้มีโฉนดแยก ซื้อรวมทั้งผืนหรือเลือกเฉพาะแปลงที่ต้องการก็ได้ กดที่แปลงเพื่อดูรายละเอียด",plotOf:"แปลงที่ {n} จาก {all} แปลงติดกัน ซื้อเฉพาะแปลงนี้หรือรวมหลายแปลงก็ได้",plotWhole:"ดูที่ดินทั้งผืน",tag_plotSplit:"ซื้อแยกแปลงได้",tag_sixDeeds:"6 โฉนดติดกัน ขายรวม",mgShow:"ดูบ้านในกลุ่มนี้ ({n} หลัง)",mgHide:"ซ่อนรายการบ้าน",tag_mountainView:"วิวเขา",tag_cornerPlot:"ที่ดินหัวมุม",near_phluTaLuang:"ตำบลพลูตาหลวง อำเภอสัตหีบ ติดถนนลาดยางสองเลน ฉากหลังเป็นทิวเขา",near_phluTaLuang1077:"ตำบลพลูตาหลวง อำเภอสัตหีบ ที่ดินหัวมุมติดถนนลาดยาง ชบ.1077 ใกล้โรงเรียนพลูตาหลวงวิทยา",netY:"มี",netN:"ไม่มี (ติดเพิ่มเองได้)",
   save:"☆ บันทึก",saved:"★ บันทึกแล้ว",copyLine:"คัดลอกข้อความส่ง LINE",share:"แชร์ลิงก์",social:"สร้างโพสต์โซเชียล",print:"พิมพ์ใบประกาศ PDF",bookThis:"นัดชมทรัพย์นี้",similar:"ทรัพย์ใกล้เคียง",copied:"คัดลอกแล้ว",
   slLabel:"รายการที่บันทึก",slCompare:"เปรียบเทียบ",slCopy:"คัดลอก",slClear:"ล้าง",cmpTitle:"เปรียบเทียบทรัพย์",
   socTitle:"สร้างโพสต์โซเชียล",socFormat:"ขนาด",socCaption:"แคปชัน",socDl:"ดาวน์โหลดรูป",socCopy:"คัดลอกแคปชัน",
@@ -1231,7 +1240,7 @@ en:{
   footNote:"Prices and availability may change — please confirm with our team before deciding · Updated {d}",csvBtn:"Download listing data (CSV)",
   back:"← All listings",details:"Details",highlights:"Highlights",hlTitle:"What makes it stand out",calTitle:"Availability calendar",moreInfo:"More information",calBooked:"Booked / let",calFree:"Available",calUnknown:"No bookings recorded yet",calNote:"Calendar is updated by our team — please confirm your move-in date.",
   locTitle:"Location",deposit:"Deposit",minContract:"Min. contract",pets:"Pets",furn:"Furniture",furnPic:"Furnished as pictured",parking:"Parking",internet:"Internet",available:"Available from",shortTerm:"Short-term",
-  yes:"Allowed",no:"Not allowed",plotName:"Land Plot {n} · {m} sqm · {z}",plotN:"Plot {n}",plotsH:"Buy plot by plot ({n} titled plots)",plotsP:"Each plot has its own title deed: buy the whole piece or just the plots you need. Tap a plot for details.",plotOf:"Plot {n} of {all} adjoining plots: buy this plot alone or together with others.",plotWhole:"See the whole piece",tag_plotSplit:"Plots sold separately",tag_sixDeeds:"Six adjoining title deeds, sold together",mgShow:"Show homes in this group ({n})",mgHide:"Hide homes",tag_mountainView:"Mountain view",tag_cornerPlot:"Corner plot",near_phluTaLuang:"Phlu Ta Luang, Sattahip, on a two-lane asphalt road with hills behind",near_phluTaLuang1077:"Phlu Ta Luang, Sattahip: a corner plot on asphalt road Chor Bor 1077, near Phlu Ta Luang Wittaya School",netY:"Available",netN:"Not available (can be installed)",
+  yes:"Allowed",no:"Not allowed",plotsFold:"Show the {n} plots",plotsFoldHide:"Hide plots",plotName:"Land Plot {n} · {m} sqm · {z}",plotN:"Plot {n}",plotsH:"Buy plot by plot ({n} titled plots)",plotsP:"Each plot has its own title deed: buy the whole piece or just the plots you need. Tap a plot for details.",plotOf:"Plot {n} of {all} adjoining plots: buy this plot alone or together with others.",plotWhole:"See the whole piece",tag_plotSplit:"Plots sold separately",tag_sixDeeds:"Six adjoining title deeds, sold together",mgShow:"Show homes in this group ({n})",mgHide:"Hide homes",tag_mountainView:"Mountain view",tag_cornerPlot:"Corner plot",near_phluTaLuang:"Phlu Ta Luang, Sattahip, on a two-lane asphalt road with hills behind",near_phluTaLuang1077:"Phlu Ta Luang, Sattahip: a corner plot on asphalt road Chor Bor 1077, near Phlu Ta Luang Wittaya School",netY:"Available",netN:"Not available (can be installed)",
   save:"☆ Save",saved:"★ Saved",copyLine:"Copy LINE message",share:"Share link",social:"Create social post",print:"Print flyer / PDF",bookThis:"Book a viewing",similar:"Similar listings",copied:"Copied",
   slLabel:"saved",slCompare:"Compare",slCopy:"Copy",slClear:"Clear",cmpTitle:"Compare listings",
   socTitle:"Create social post",socFormat:"Format",socCaption:"Caption",socDl:"Download image",socCopy:"Copy caption",
@@ -1303,7 +1312,7 @@ ru:{
   footNote:"Цены и наличие могут меняться — уточняйте у команды · Обновлено {d}",csvBtn:"Скачать данные (CSV)",
   back:"← Все объекты",details:"Характеристики",highlights:"Особенности",hlTitle:"Чем хорош этот объект",calTitle:"Календарь занятости",moreInfo:"Дополнительно",calBooked:"Занято / сдано",calFree:"Свободно",calUnknown:"Бронирований пока нет в системе",calNote:"Календарь обновляет команда — подтвердите дату заезда.",
   locTitle:"Расположение",deposit:"Депозит",minContract:"Мин. срок",pets:"Животные",furn:"Мебель",furnPic:"С мебелью, как на фото",parking:"Парковка",internet:"Интернет",available:"Свободно с",shortTerm:"Посуточно",
-  yes:"Можно",no:"Нельзя",plotName:"Участок {n} · {m} м² · {z}",plotN:"Участок {n}",plotsH:"Можно купить по участкам ({n} с отдельными чанотами)",plotsP:"У каждого участка свой чанот: можно купить всё целиком или только нужные участки. Нажмите на участок, чтобы открыть детали.",plotOf:"Участок {n} из {all} смежных: можно купить отдельно или вместе с соседними.",plotWhole:"Весь участок целиком",tag_plotSplit:"Продаются по отдельности",tag_sixDeeds:"Шесть смежных чанотов, продаются вместе",mgShow:"Показать дома этой группы ({n})",mgHide:"Скрыть дома",tag_mountainView:"Вид на горы",tag_cornerPlot:"Угловой участок",near_phluTaLuang:"Пхлу Та Луанг, Саттахип: у двухполосной асфальтовой дороги, позади холмы",near_phluTaLuang1077:"Пхлу Та Луанг, Саттахип: угловой участок у асфальтовой дороги Чор Бор 1077, рядом школа Пхлу Та Луанг Виттхая",netY:"Есть",netN:"Нет (можно подключить)",
+  yes:"Можно",no:"Нельзя",plotsFold:"Показать участки ({n})",plotsFoldHide:"Скрыть участки",plotName:"Участок {n} · {m} м² · {z}",plotN:"Участок {n}",plotsH:"Можно купить по участкам ({n} с отдельными чанотами)",plotsP:"У каждого участка свой чанот: можно купить всё целиком или только нужные участки. Нажмите на участок, чтобы открыть детали.",plotOf:"Участок {n} из {all} смежных: можно купить отдельно или вместе с соседними.",plotWhole:"Весь участок целиком",tag_plotSplit:"Продаются по отдельности",tag_sixDeeds:"Шесть смежных чанотов, продаются вместе",mgShow:"Показать дома этой группы ({n})",mgHide:"Скрыть дома",tag_mountainView:"Вид на горы",tag_cornerPlot:"Угловой участок",near_phluTaLuang:"Пхлу Та Луанг, Саттахип: у двухполосной асфальтовой дороги, позади холмы",near_phluTaLuang1077:"Пхлу Та Луанг, Саттахип: угловой участок у асфальтовой дороги Чор Бор 1077, рядом школа Пхлу Та Луанг Виттхая",netY:"Есть",netN:"Нет (можно подключить)",
   save:"☆ Сохранить",saved:"★ Сохранено",copyLine:"Копировать для LINE",share:"Поделиться",social:"Пост для соцсетей",print:"Печать / PDF",bookThis:"Записаться на просмотр",similar:"Похожие объекты",copied:"Скопировано",
   slLabel:"сохранено",slCompare:"Сравнить",slCopy:"Копировать",slClear:"Очистить",cmpTitle:"Сравнение объектов",
   socTitle:"Пост для соцсетей",socFormat:"Формат",socCaption:"Подпись",socDl:"Скачать картинку",socCopy:"Копировать подпись",
@@ -1375,7 +1384,7 @@ zh:{
   footNote:"价格及房态可能变动，请与团队确认 · 更新于 {d}",csvBtn:"下载房源数据 (CSV)",
   back:"← 全部房源",details:"详细信息",highlights:"亮点",hlTitle:"房源亮点",calTitle:"空房日历",moreInfo:"更多信息",calBooked:"已订 / 已租",calFree:"可入住",calUnknown:"系统中暂无预订记录",calNote:"日历由团队更新，请再次确认入住日期。",
   locTitle:"位置",deposit:"押金",minContract:"最短租期",pets:"宠物",furn:"家具",furnPic:"按图配家具",parking:"停车位",internet:"网络",available:"可入住日期",shortTerm:"短租",
-  yes:"可以",no:"不可以",plotName:"土地 {m}㎡ · 第{n}块 · {z}",plotN:"第{n}块",plotsH:"可分块购买（{n}块独立地契）",plotsP:"每块地都有独立地契，可整片购买，也可只选需要的地块。点击地块查看详情。",plotOf:"第{n}块（共{all}块相邻），可单独购买或与其他地块一起购买。",plotWhole:"查看整片土地",tag_plotSplit:"可分块出售",tag_sixDeeds:"6张相邻地契，整体出售",mgShow:"查看该组房源（{n} 套）",mgHide:"收起房源",tag_mountainView:"山景",tag_cornerPlot:"转角地块",near_phluTaLuang:"梭桃邑 Phlu Ta Luang，临双车道柏油路，背靠山峦",near_phluTaLuang1077:"梭桃邑 Phlu Ta Luang，转角地块临1077号柏油路，靠近 Phlu Ta Luang Wittaya 学校",netY:"有",netN:"暂无（可自行安装）",
+  yes:"可以",no:"不可以",plotsFold:"查看分块（{n}块）",plotsFoldHide:"收起分块",plotName:"土地 {m}㎡ · 第{n}块 · {z}",plotN:"第{n}块",plotsH:"可分块购买（{n}块独立地契）",plotsP:"每块地都有独立地契，可整片购买，也可只选需要的地块。点击地块查看详情。",plotOf:"第{n}块（共{all}块相邻），可单独购买或与其他地块一起购买。",plotWhole:"查看整片土地",tag_plotSplit:"可分块出售",tag_sixDeeds:"6张相邻地契，整体出售",mgShow:"查看该组房源（{n} 套）",mgHide:"收起房源",tag_mountainView:"山景",tag_cornerPlot:"转角地块",near_phluTaLuang:"梭桃邑 Phlu Ta Luang，临双车道柏油路，背靠山峦",near_phluTaLuang1077:"梭桃邑 Phlu Ta Luang，转角地块临1077号柏油路，靠近 Phlu Ta Luang Wittaya 学校",netY:"有",netN:"暂无（可自行安装）",
   save:"☆ 收藏",saved:"★ 已收藏",copyLine:"复制 LINE 消息",share:"分享链接",social:"生成社交帖子",print:"打印传单 / PDF",bookThis:"预约看此房",similar:"相似房源",copied:"已复制",
   slLabel:"已收藏",slCompare:"对比",slCopy:"复制",slClear:"清空",cmpTitle:"房源对比",
   socTitle:"生成社交帖子",socFormat:"尺寸",socCaption:"文案",socDl:"下载图片",socCopy:"复制文案",
@@ -1447,7 +1456,7 @@ ko:{
   footNote:"가격과 상태는 변동될 수 있으니 결정 전 확인해 주세요 · 업데이트 {d}",csvBtn:"매물 데이터 다운로드 (CSV)",
   back:"← 전체 매물",details:"상세 정보",highlights:"특징",hlTitle:"이 집의 매력",calTitle:"입주 가능 캘린더",moreInfo:"추가 정보",calBooked:"예약 / 임대 중",calFree:"입주 가능",calUnknown:"아직 등록된 예약이 없습니다",calNote:"캘린더는 팀이 업데이트합니다 — 입주일을 다시 확인해 주세요.",
   locTitle:"위치",deposit:"보증금",minContract:"최소 계약",pets:"반려동물",furn:"가구",furnPic:"사진과 같이 가구 포함",parking:"주차",internet:"인터넷",available:"입주 가능일",shortTerm:"단기 임대",
-  yes:"가능",no:"불가",plotName:"토지 {m}㎡ · {n}번 필지 · {z}",plotN:"{n}번 필지",plotsH:"필지별 구매 가능 ({n}개 필지, 개별 등기)",plotsP:"필지마다 등기가 따로 있어 전체 또는 원하는 필지만 살 수 있습니다. 필지를 누르면 상세 정보를 볼 수 있습니다.",plotOf:"인접한 {all}개 필지 중 {n}번 필지로, 단독 또는 다른 필지와 함께 살 수 있습니다.",plotWhole:"전체 토지 보기",tag_plotSplit:"필지별 매매 가능",tag_sixDeeds:"인접 등기 6필지 일괄 매매",mgShow:"이 그룹의 집 보기 ({n}채)",mgHide:"집 목록 숨기기",tag_mountainView:"산 전망",tag_cornerPlot:"코너 토지",near_phluTaLuang:"사타힙 플루타루앙, 2차선 아스팔트 도로변, 뒤로 산줄기",near_phluTaLuang1077:"사타힙 플루타루앙, 1077번 아스팔트 도로에 접한 코너 토지, 플루타루앙 위타야 학교 인근",netY:"있음",netN:"없음 (설치 가능)",
+  yes:"가능",no:"불가",plotsFold:"필지 보기 ({n}개)",plotsFoldHide:"필지 숨기기",plotName:"토지 {m}㎡ · {n}번 필지 · {z}",plotN:"{n}번 필지",plotsH:"필지별 구매 가능 ({n}개 필지, 개별 등기)",plotsP:"필지마다 등기가 따로 있어 전체 또는 원하는 필지만 살 수 있습니다. 필지를 누르면 상세 정보를 볼 수 있습니다.",plotOf:"인접한 {all}개 필지 중 {n}번 필지로, 단독 또는 다른 필지와 함께 살 수 있습니다.",plotWhole:"전체 토지 보기",tag_plotSplit:"필지별 매매 가능",tag_sixDeeds:"인접 등기 6필지 일괄 매매",mgShow:"이 그룹의 집 보기 ({n}채)",mgHide:"집 목록 숨기기",tag_mountainView:"산 전망",tag_cornerPlot:"코너 토지",near_phluTaLuang:"사타힙 플루타루앙, 2차선 아스팔트 도로변, 뒤로 산줄기",near_phluTaLuang1077:"사타힙 플루타루앙, 1077번 아스팔트 도로에 접한 코너 토지, 플루타루앙 위타야 학교 인근",netY:"있음",netN:"없음 (설치 가능)",
   save:"☆ 저장",saved:"★ 저장됨",copyLine:"LINE 메시지 복사",share:"링크 공유",social:"SNS 게시물 만들기",print:"전단 인쇄 / PDF",bookThis:"이 매물 방문 예약",similar:"비슷한 매물",copied:"복사됨",
   slLabel:"저장됨",slCompare:"비교",slCopy:"복사",slClear:"비우기",cmpTitle:"매물 비교",
   socTitle:"SNS 게시물 만들기",socFormat:"크기",socCaption:"캡션",socDl:"이미지 다운로드",socCopy:"캡션 복사",
@@ -1519,7 +1528,7 @@ ja:{
   footNote:"価格・空き状況は変更される場合があります。ご判断前にご確認ください · 更新 {d}",csvBtn:"物件データをダウンロード (CSV)",
   back:"← 物件一覧",details:"物件詳細",highlights:"特長",hlTitle:"この物件の魅力",calTitle:"空室カレンダー",moreInfo:"その他の情報",calBooked:"予約済 / 入居中",calFree:"空室",calUnknown:"登録された予約はまだありません",calNote:"カレンダーはスタッフが更新します。入居日は改めてご確認ください。",
   locTitle:"ロケーション",deposit:"敷金",minContract:"最短契約",pets:"ペット",furn:"家具",furnPic:"写真のとおり家具付き",parking:"駐車場",internet:"インターネット",available:"入居可能日",shortTerm:"短期賃貸",
-  yes:"可",no:"不可",plotName:"土地 {m}㎡ · 区画{n} · {z}",plotN:"区画{n}",plotsH:"区画ごとに購入可（権利証{n}筆）",plotsP:"区画ごとに権利証があり、全体でも必要な区画だけでも購入できます。区画をタップすると詳細を表示します。",plotOf:"隣接する{all}区画のうち区画{n}。単独でもほかの区画と一緒でも購入できます。",plotWhole:"土地全体を見る",tag_plotSplit:"区画ごとに販売",tag_sixDeeds:"隣接する権利証6筆を一括売却",mgShow:"このグループの物件を見る（{n}件）",mgHide:"物件を隠す",tag_mountainView:"山の眺め",tag_cornerPlot:"角地",near_phluTaLuang:"サッタヒープ・プルータールアン。2車線の舗装道路沿いで背後に山並み",near_phluTaLuang1077:"サッタヒープ・プルータールアン。舗装道路チョンブリー1077号線に面した角地、プルータールアン・ウィタヤー学校の近く",netY:"あり",netN:"なし（後から設置可）",
+  yes:"可",no:"不可",plotsFold:"区画を見る（{n}区画）",plotsFoldHide:"区画を隠す",plotName:"土地 {m}㎡ · 区画{n} · {z}",plotN:"区画{n}",plotsH:"区画ごとに購入可（権利証{n}筆）",plotsP:"区画ごとに権利証があり、全体でも必要な区画だけでも購入できます。区画をタップすると詳細を表示します。",plotOf:"隣接する{all}区画のうち区画{n}。単独でもほかの区画と一緒でも購入できます。",plotWhole:"土地全体を見る",tag_plotSplit:"区画ごとに販売",tag_sixDeeds:"隣接する権利証6筆を一括売却",mgShow:"このグループの物件を見る（{n}件）",mgHide:"物件を隠す",tag_mountainView:"山の眺め",tag_cornerPlot:"角地",near_phluTaLuang:"サッタヒープ・プルータールアン。2車線の舗装道路沿いで背後に山並み",near_phluTaLuang1077:"サッタヒープ・プルータールアン。舗装道路チョンブリー1077号線に面した角地、プルータールアン・ウィタヤー学校の近く",netY:"あり",netN:"なし（後から設置可）",
   save:"☆ 保存",saved:"★ 保存済み",copyLine:"LINE用にコピー",share:"リンクを共有",social:"SNS投稿を作成",print:"チラシ印刷 / PDF",bookThis:"この物件を内見予約",similar:"似た物件",copied:"コピーしました",
   slLabel:"件保存",slCompare:"比較",slCopy:"コピー",slClear:"クリア",cmpTitle:"物件比較",
   socTitle:"SNS投稿を作成",socFormat:"サイズ",socCaption:"キャプション",socDl:"画像をダウンロード",socCopy:"キャプションをコピー",
@@ -1792,6 +1801,12 @@ function priceRows(l) {
   return h;
 }
 const saved = () => store.get("asn-saved", []);
+// sub-plots stay off the lists; the parent card folds them out with +/- (Thor 1 Nov 2026)
+function kidsFold(l) {
+  const kids = L.filter(x => x.parent === l.code).sort((a, b) => a.plotNo - b.plotNo);
+  if (!kids.length) return "";
+  return `<details class="ckids"><summary><span class="mg-op">${t("plotsFold", { n: kids.length })}</span><span class="mg-cl">${t("plotsFoldHide")}</span></summary><div class="ckids-l">${kids.map(k => `<a href="#/l/${k.code}"><b>${t("plotN", { n: k.plotNo })}</b> ${nf(Math.round(k.land / 4))} ${t("sqw")}</a>`).join("")}</div></details>`;
+}
 function card(l, browse) {
   const on = saved().includes(l.code), n = photos(l).length;
   const nav = browse && n > 1 ? `<button type="button" class="cnav p" data-cnav="-1" aria-label="Previous photo">‹</button><button type="button" class="cnav n" data-cnav="1" aria-label="Next photo">›</button>` : "";
@@ -1806,7 +1821,7 @@ function card(l, browse) {
       <h3><a href="#/l/${l.code}">${esc(nm(l))}</a></h3>
       <p class="where">📍 ${esc(zn(l.zone))}</p>
       <div class="specs">${specLine(l)}</div>
-      <div class="prices">${priceRows(l)}</div>
+      <div class="prices">${priceRows(l)}</div>${kidsFold(l)}
     </div></article>`;
 }
 
@@ -2954,7 +2969,7 @@ function landKv(l) {
 }
 const landCta = z => ["sell", "find"].map(m => `<button type="button" class="ld-big ld-${m}" data-land="${m}"${z ? ` data-lzone="${z}"` : ""}><b>${m === "sell" ? "🏷️" : "🔎"} ${t(m === "sell" ? "ldSell" : "ldFind")}</b><span>${t(m === "sell" ? "ldSellP" : "ldFindP")}</span></button>`).join("");
 function renderLand() {
-  const plots = L.filter(l => l.type === "land");
+  const plots = L.filter(l => l.type === "land" && !l.parent);
   $("#ldZones").innerHTML = LAND_ZONE_IDS.map(z => {
     const LZ = lzTx(z), mine = plots.filter(l => l.zone === z), cover = mine[0] && photos(mine[0])[0];
     return `<article class="ld-zone">${cover ? `<a class="ld-cover" href="#/zone/${z}"><img src="${esc(cover)}" alt="" loading="lazy"></a>` : ""}
