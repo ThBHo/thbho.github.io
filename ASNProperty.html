@@ -1676,7 +1676,27 @@ const byCode = c => L.find(l => l.code === c);
 let DATA_READY = false; // true once the Google Sheet listings and asn-style.json have loaded (or failed)
 const SHOWN = () => { if (!TOP_PICKS.length) return L; const order = [...TOP_PICKS, ...FEATURED.filter(c => !TOP_PICKS.includes(c))]; return order.map(byCode).filter(Boolean); };
 // listing name in the current language when a listing has `names` (land plots); otherwise its single name
-const nm = l => (l.names && (l.names[lang] || l.names.en)) || l.name;
+// Standard listing title (Thor 1 Nov 2026): built from the listing's own data in every language, not the Facebook post title.
+// villa/house: "<type> <beds> bedrooms · <zone>", condo: "<condo> <beds> <size> · <project|zone>", land: "<land> <size> · <zone>"
+const PROJECT_OF = l => /riviera/i.test(l.name || "") ? "The Riviera Jomtien" : /prime habitat/i.test(l.name || "") ? "Prime Habitat" : "";
+function stdName(l) {
+  const z = zn(l.zone), pj = PROJECT_OF(l), b = l.beds, n = x => nf(Math.round(x * 100) / 100);
+  const area = l.size || l.usable, wah = l.land ? Math.round(l.land / 4) : null;
+  const ruBeds = k => k + " " + (k % 10 === 1 && k % 100 !== 11 ? "спальня" : [2, 3, 4].includes(k % 10) && ![12, 13, 14].includes(k % 100) ? "спальни" : "спален");
+  const where = pj || z;
+  const L = {
+    th: { home: () => `${t(l.type)}${b ? ` ${b} ห้องนอน` : ""}`, condo: () => `คอนโด${b ? ` ${b} ห้องนอน` : ""}${area ? ` ${n(area)} ตร.ม.` : ""}`, land: () => `ที่ดิน${wah ? ` ${nf(wah)} ตร.ว.` : ""}`, com: () => `${t("commercial")}${area ? ` ${n(area)} ตร.ม.` : ""}` },
+    en: { home: () => `${b ? b + "-Bedroom " : ""}${l.type === "villa" ? "Pool Villa" : "House"}`, condo: () => `${b ? b + "-Bedroom " : ""}Condo${area ? ` ${n(area)} sqm` : ""}`, land: () => `Land Plot${l.land ? ` ${nf(l.land)} sqm` : ""}`, com: () => `Commercial Space${area ? ` ${n(area)} sqm` : ""}` },
+    ru: { home: () => `${l.type === "villa" ? "Вилла с бассейном" : "Дом"}${b ? ", " + ruBeds(b) : ""}`, condo: () => `Кондо${b ? ", " + ruBeds(b) : ""}${area ? `, ${n(area)} м²` : ""}`, land: () => `Участок${l.land ? ` ${nf(l.land)} м²` : ""}`, com: () => `Коммерческое помещение${area ? ` ${n(area)} м²` : ""}` },
+    zh: { home: () => `${b ? b + "卧" : ""}${t(l.type)}`, condo: () => `${b ? b + "卧" : ""}公寓${area ? ` ${n(area)}㎡` : ""}`, land: () => `土地${l.land ? ` ${nf(l.land)}㎡` : ""}`, com: () => `商铺${area ? ` ${n(area)}㎡` : ""}` },
+    ko: { home: () => `${b ? `침실 ${b}개 ` : ""}${t(l.type)}`, condo: () => `${b ? `침실 ${b}개 ` : ""}콘도${area ? ` ${n(area)}㎡` : ""}`, land: () => `토지${l.land ? ` ${nf(l.land)}㎡` : ""}`, com: () => `상업 공간${area ? ` ${n(area)}㎡` : ""}` },
+    ja: { home: () => `${b ? b + "ベッドルームの" : ""}${t(l.type)}`, condo: () => `${b ? b + "ベッドルームの" : ""}コンドミニアム${area ? ` ${n(area)}㎡` : ""}`, land: () => `土地${l.land ? ` ${nf(l.land)}㎡` : ""}`, com: () => `商業スペース${area ? ` ${n(area)}㎡` : ""}` }
+  }[lang] || null;
+  if (!L) return l.name;
+  const k = l.type === "condo" ? "condo" : l.type === "land" ? "land" : l.type === "commercial" ? "com" : "home";
+  return `${L[k]()} · ${where}`;
+}
+const nm = l => l.type ? stdName(l) : ((l.names && (l.names[lang] || l.names.en)) || l.name);
 const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return p || `asn-img/${l.code}-${n}.jpg`; };
 const MAX_PHOTOS = 30;   // per listing (Thor 28 Oct 2026: up to 30): gallery, card arrows, download-all
 const photos = l => (l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `asn-img/${l.code}-${i + 1}.jpg`)).slice(0, MAX_PHOTOS);
