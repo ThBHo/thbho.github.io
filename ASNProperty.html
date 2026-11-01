@@ -562,6 +562,17 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 .mg-homes.sm .mg-home img{width:34px;height:26px}
 .mg-homes.sm .mg-home span{font-size:0}
 .mg-homes.sm .mg-home b{font-size:11.5px;margin:0}
+.mg-shots{display:grid;gap:3px;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;aspect-ratio:16/10}
+.mg-shots.n1{grid-template-columns:1fr;grid-template-rows:1fr;aspect-ratio:16/9;border-radius:10px;overflow:hidden;margin:10px 0 4px}
+.mg-shots.n2{grid-template-columns:1fr 1fr;grid-template-rows:1fr}
+.mg-shots.n3 .mg-shot:first-child{grid-row:1/3}
+.mg-shot{position:relative;display:block;overflow:hidden;min-height:0;color:#fff;text-decoration:none}
+.mg-shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.mg-shot:hover img{transform:scale(1.05)}
+.mg-shot span{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 6px;font-size:11.5px;font-weight:600;line-height:1.25;background:linear-gradient(0deg,rgba(10,20,34,.78),transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mg-shot span b{font-family:var(--f-mono);font-size:10.5px;margin-right:5px;color:#F1D79A}
+.mg-shots.n3 .mg-shot:not(:first-child) span{font-size:0;padding:12px 6px 4px}
+.mg-shots.n3 .mg-shot:not(:first-child) span b{font-size:10px;margin:0}
 .mg-fold{margin-top:10px}
 .mg-fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--brand);border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:8px 12px}
 .mg-fold summary::-webkit-details-marker{display:none}
@@ -2339,6 +2350,11 @@ function renderGuide() {
   const sup = id => id ? `<sup><a href="#" class="mg-sup" data-mgref="${id}">[${refNo(id)}]</a></sup>` : "";
   const chip = c => { const l = byCode(c), h = HOME_STYLE[c]; if (!l) return "";
     return `<a class="mg-home" href="#/l/${c}"><img src="${photos(l)[0]}" alt="" loading="lazy"><span><b>${c}</b>${esc(h ? h.title : nm(l))}</span></a>`; };
+  // showcase photos: the strongest homes of each list first (TOP_PICKS order), Sattahip/land left out
+  const showPick = (list, n) => list.filter(c => { const l = byCode(c); return l && l.zone !== "sattahip" && l.type !== "land"; })
+    .map(c => [c, TOP_PICKS.indexOf(c)]).sort((a, b) => (a[1] < 0 ? 999 : a[1]) - (b[1] < 0 ? 999 : b[1])).slice(0, n).map(x => x[0]);
+  const shot = c => { const l = byCode(c), h = HOME_STYLE[c]; return `<a class="mg-shot" href="#/l/${c}"><img src="${photos(l)[0]}" alt="${esc(h ? h.title : nm(l))}" loading="lazy"><span><b>${c}</b>${esc(h ? h.title : nm(l))}</span></a>`; };
+  const shots = (list, n) => { const p = showPick(list, n); return p.length ? `<div class="mg-shots n${p.length}">${p.map(shot).join("")}</div>` : ""; };
   // each home is listed under the group of its first MBTI type; other fits are shown as plain links
   const inGroup = g => Object.keys(HOME_STYLE).filter(c => byCode(c) && mbtiGroup(HOME_STYLE[c].mbti[0]) === g);
   const alsoIn = g => Object.keys(HOME_STYLE).filter(c => byCode(c) && mbtiGroup(HOME_STYLE[c].mbti[0]) !== g && HOME_STYLE[c].mbti.some(x => mbtiGroup(x) === g));
@@ -2368,7 +2384,7 @@ function renderGuide() {
 
     <section class="mg-sec" id="mg-groups"><h2>${esc(a.groupsH)}</h2>
       <div class="mg-groups">${Object.keys(MBTI_GROUPS).map(g => { const G = a.groups[g], list = inGroup(g);
-        return `<div class="mg-group"><div class="mg-gtop" style="background:${MBTI_GROUPS[g].color}"><b>${t("g_" + g)}</b><span>${MBTI_GROUPS[g].types.join(" · ")}</span></div>
+        return `<div class="mg-group"><div class="mg-gtop" style="background:${MBTI_GROUPS[g].color}"><b>${t("g_" + g)}</b><span>${MBTI_GROUPS[g].types.join(" · ")}</span></div>${shots(list, 3)}
           <div class="mg-gbody"><h3>${esc(G.h)}</h3><p>${esc(G.p)}</p>
             <dl class="mg-bal"><div><dt>${esc(a.elFit)}</dt><dd>${elTag(G.el)}</dd></div><div><dt>${esc(a.elAdd)}</dt><dd>${elTag(G.add)}</dd></div></dl>
             <p class="mg-addp">${esc(G.addP)}</p>
@@ -2379,7 +2395,7 @@ function renderGuide() {
     <section class="mg-sec" id="mg-five"><h2>${esc(a.fsH)}</h2><p class="mg-p">${esc(a.fsLede)}</p>
       <div class="mg-five">${Object.keys(MG_EL).map(k => { const E = a.elements[k];
         return `<div class="mg-elc" style="--el:${MG_EL[k].color}"><div class="mg-elhd"><span>${MG_EL[k].icon}</span><b>${esc(E.n)}</b></div>
-          <p class="mg-elc-c">${esc(E.c)}</p><p><b>${esc(E.f)}</b></p><p>${esc(E.who)}</p>
+          ${shots(MG_EL[k].homes, 1)}<p class="mg-elc-c">${esc(E.c)}</p><p><b>${esc(E.f)}</b></p><p>${esc(E.who)}</p>
           <details class="mg-fold"><summary><span class="mg-op">${esc(a.elSeen)} (${MG_EL[k].homes.length})</span><span class="mg-cl">${t("mgHide")}</span></summary><div class="mg-homes sm">${MG_EL[k].homes.map(chip).join("")}</div></details></div>`; }).join("")}</div></section>
 
     <section class="mg-sec" id="mg-rules"><h2>${esc(a.rulesH)}</h2><p class="mg-p">${esc(a.rulesLede)}</p>
