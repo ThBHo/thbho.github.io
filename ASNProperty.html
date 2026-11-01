@@ -1823,7 +1823,7 @@ function card(l, browse) {
   const on = saved().includes(l.code), n = photos(l).length;
   const nav = browse && n > 1 ? `<button type="button" class="cnav p" data-cnav="-1" aria-label="Previous photo">‹</button><button type="button" class="cnav n" data-cnav="1" aria-label="Next photo">›</button>` : "";
   return `<article class="card"${browse ? ` data-card="${l.code}" data-ix="0"` : ""}>
-    <div class="card-media${l.latest ? " is-latest" : ""}"><img src="${esc(photo(l, 1))}" alt="${esc(nm(l))}" loading="lazy">${nav}${l.latest ? `<div class="latest-strip">✨ ${t("latestBadge")}</div>` : ""}
+    <div class="card-media${l.latest ? " is-latest" : ""}"><img src="${esc(photo(l, 1))}" alt="${esc(nm(l))}" loading="lazy"${l.type === "land" ? ' style="object-position:top"' : ""}>${nav}${l.latest ? `<div class="latest-strip">✨ ${t("latestBadge")}</div>` : ""}
       <div class="card-badges">${badges(l)}</div>
       ${l.video || l.youtube ? `<span class="card-vid">▶ ${t("video")}</span>` : ""}
       <span class="card-count">📷 <span class="cix">${browse ? `1 / ` : ""}</span>${n}</span></div>
