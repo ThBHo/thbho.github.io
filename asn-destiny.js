@@ -251,25 +251,25 @@ function timing(C, inp) {
 /* ---------------- UI ---------------- */
 const css = `
 .ds{padding-bottom:60px}.ds-hero{display:grid;gap:10px;margin:18px 0 22px}.ds-hero h1{font-family:var(--f-display);font-size:clamp(28px,4vw,42px);line-height:1.15}
-.ds-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;background:var(--card,#fff);border:1px solid var(--line,#e5ded3);border-radius:16px;padding:18px}
-.ds-form label{display:grid;gap:5px;font-size:13px;color:var(--ink-2,#555)}.ds-form input,.ds-form select{font:inherit;padding:10px 12px;border:1px solid var(--line,#d8d0c4);border-radius:10px;background:#fff;color:var(--ink,#1f2a37);min-width:0}
+.ds-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.ds-form label{display:grid;gap:5px;font-size:13px;color:var(--ink-2)}.ds-form input,.ds-form select{font:inherit;padding:10px 12px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface-2);color:var(--ink);min-width:0;color-scheme:light dark}
 .ds-form .chk{display:flex;align-items:center;gap:8px;font-size:13px}.ds-form .chk input{width:auto}.ds-form .full{grid-column:1/-1}
-.ds-priv{font-size:12.5px;color:var(--ink-2,#666)}.ds-go{grid-column:1/-1;justify-self:start}
+.ds-priv{font-size:12.5px;color:var(--muted)}.ds-go{grid-column:1/-1;justify-self:start}
 .ds-sec{margin-top:34px}.ds-sec h2{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);margin-bottom:12px}
 .ds-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
-.ds-c{background:var(--card,#fff);border:1px solid var(--line,#e5ded3);border-radius:14px;padding:14px}.ds-c small{display:block;color:var(--ink-2,#666);font-size:12px}.ds-c b{display:block;font-size:19px;margin-top:4px}.ds-c em{display:block;font-style:normal;color:var(--ink-2,#666);font-size:13px;margin-top:3px}
+.ds-c{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.ds-c small{display:block;color:var(--muted);font-size:12px}.ds-c b{display:block;font-size:19px;margin-top:4px}.ds-c em{display:block;font-style:normal;color:var(--muted);font-size:13px;margin-top:3px}
 .ds-el{display:inline-block;padding:2px 9px;border-radius:99px;color:#fff;font-size:12px;margin-top:6px}
-.ds-dirs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ds-dirs span{background:#F6F3EE;border-radius:8px;padding:4px 8px;font-size:12.5px}
+.ds-dirs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ds-dirs span{background:var(--surface-3);color:var(--ink);border-radius:8px;padding:4px 8px;font-size:12.5px}
 .ds-prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-prof ul{margin:6px 0 0 18px}.ds-prof li{margin:3px 0}
 .ds-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}.ds-m{border-radius:12px;padding:10px;text-align:center;font-size:13px}.ds-m b{display:block;font-size:12px;opacity:.85}
-.g3{background:#1F3A5F;color:#fff}.g2{background:#cfdcea;color:#1F3A5F}.g1{background:#F6F3EE;color:#555}.g0{background:#f3d9cf;color:#8a3b22}
+.g3{background:#1F3A5F;color:#fff}.g2{background:var(--brand-soft);color:var(--ink)}.g1{background:var(--surface-3);color:var(--ink-2)}.g0{background:#f3d9cf;color:#8a3b22}:root[data-theme="dark"] .g3{background:#E2A957;color:#0E131A}:root[data-theme="dark"] .g2{background:#2f5d8f;color:#fff}:root[data-theme="dark"] .g0{background:#4a2a20;color:#f3c9b8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g3{background:#E2A957;color:#0E131A}:root:not([data-theme="light"]) .g2{background:#2f5d8f;color:#fff}:root:not([data-theme="light"]) .g0{background:#4a2a20;color:#f3c9b8}}
 .ds-leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12.5px;margin:10px 0}.ds-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
-.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:#B57A27;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
-.ds-note{font-size:12.5px;color:var(--ink-2,#666);margin-top:8px}.ds-warn{background:#fff6e8;border:1px solid #edd3a6;border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13.5px}
+.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:var(--accent);color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
+.ds-ok{background:var(--brand-soft)!important}.ds-c b,.ds-c,.ds-prof li,.ds-why li,.ds-score{color:var(--ink)}.ds-form .chk{color:var(--ink-2)}.ds-note{font-size:12.5px;color:var(--muted);margin-top:8px}.ds-warn{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13.5px}
 .ds-match{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}.ds-mi{display:grid;gap:8px}.ds-score{display:flex;align-items:center;gap:10px;font-weight:600}
-.ds-bar{flex:1;height:8px;border-radius:99px;background:#eee;overflow:hidden}.ds-bar i{display:block;height:100%;background:linear-gradient(90deg,#B57A27,#1F3A5F)}
+.ds-bar{flex:1;height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden}.ds-bar i{display:block;height:100%;background:linear-gradient(90deg,#B57A27,#1F3A5F)}
 .ds-why{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:3px}.ds-why li::before{content:attr(data-k);display:inline-block;width:16px;font-weight:700}.ds-why li[data-k="+"]::before{color:#2e7d4f}.ds-why li[data-k="!"]::before{color:#b45309}.ds-why li[data-k="~"]::before{color:#888}
-.ds-focus{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:18px;align-items:start;background:#F6F3EE;border-radius:16px;padding:16px}@media(max-width:720px){.ds-focus{grid-template-columns:1fr}}
+.ds-focus{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:18px;align-items:start;background:var(--surface-2);border-radius:16px;padding:16px}@media(max-width:720px){.ds-focus{grid-template-columns:1fr}}
 .ds-banner{margin:0 0 20px;position:relative;border-radius:18px;overflow:hidden;background:#0d1a2b}.ds-banner>img{display:block;width:100%;height:auto;aspect-ratio:1376/560;object-fit:cover;object-position:center 30%}
 .ds-banner figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;justify-content:center;padding:14px;background:linear-gradient(0deg,rgba(10,20,36,.75),rgba(10,20,36,0))}
 .ds-banner figcaption span{display:grid;justify-items:center;gap:4px}.ds-banner figcaption img{width:clamp(48px,9vw,84px);height:clamp(48px,9vw,84px);object-fit:cover;border-radius:50%;border:2px solid #d9b77a;box-shadow:0 4px 14px rgba(0,0,0,.35)}
@@ -355,7 +355,7 @@ function results(inp, focus) {
     </div></section>
   <section class="ds-sec"><h2>${T.secTiming}</h2>
     <p class="ds-note" style="margin-top:0">${inp.purpose === "rent" ? (T.tmRent || TX.en.tmRent) : (T.tmBuy || TX.en.tmBuy)}</p>
-    ${tm.yrs.map(y => y.clash ? `<div class="ds-warn">⚠️ ${(T.yearClash || TX.en.yearClash).replace("{y}", y.y)}</div>` : y.good ? `<div class="ds-warn" style="background:#eef5ec;border-color:#bcd8b5">✨ ${(T.yearGood || TX.en.yearGood).replace("{y}", y.y)}</div>` : "").join("")}
+    ${tm.yrs.map(y => y.clash ? `<div class="ds-warn">⚠️ ${(T.yearClash || TX.en.yearClash).replace("{y}", y.y)}</div>` : y.good ? `<div class="ds-warn ds-ok">✨ ${(T.yearGood || TX.en.yearGood).replace("{y}", y.y)}</div>` : "").join("")}
     <div class="ds-months">${tm.months.map(x => { const k = grade(x.s); return `<div class="ds-m g${k}"><b>${mName(x.y, x.m)}</b>${T[g[k]]}</div>`; }).join("")}</div>
     <div class="ds-leg">${[3, 2, 1, 0].map(k => `<span><i class="g${k}"></i>${T[g[k]]}</span>`).join("")}</div>
     ${tm.days.length ? `<p><b>${(T.bestDays || TX.en.bestDays).replace("{act}", inp.purpose === "rent" ? (T.actRent || TX.en.actRent) : (T.actBuy || TX.en.actBuy))}</b></p><div class="ds-days">${tm.days.map(d => `<span>${dName(d.t)}</span>`).join("")}</div>` : ""}
