@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<script>document.head.prepend(Object.assign(document.createElement("base"),{href:location.href.split(/[?#]/)[0]}))</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="copyright" content="© 2026 THOR · WIDEROOMS · AI GymMateX Factory">
 <title>ASN Exclusive Property</title>
@@ -1757,7 +1758,7 @@ function money(n) {
 }
 const landTxt = l => l.land ? `${nf(Math.round(l.land / 4))} ${t("sqw")} · ${nf(l.land)} ${t("sqm")}` : null;
 // asn/<CODE>.html carries the listing's own og: preview for LINE/Facebook (share-build/build.py)
-const listingUrl = l => new URL("asn/" + l.code + ".html", location.href.split("#")[0].split("?")[0]).href;
+const listingUrl = l => new URL("asn/" + l.code + ".html", document.baseURI).href;
 const priceOf = l => st.deal === "sale" ? l.sale : st.deal === "rent" ? l.rent : (l.rent ?? l.sale);
 function toast(msg) { const el = $("#toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1600); }
 async function copy(text) {
@@ -3369,7 +3370,23 @@ $("#csvBtn").addEventListener("click", exportCSV);
 $("#menuBtn").addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); $("#menuBtn").setAttribute("aria-expanded", o); });
 $("#lang").addEventListener("change", e => { lang = e.target.value; store.set("asn-lang", lang); renderAll(); });
 document.querySelectorAll("dialog").forEach(dl => dl.addEventListener("click", e => { if (e.target === dl) dl.close(); }));
-window.addEventListener("hashchange", route);
+// Address bar: a listing shows as asn/CODE.html#/l/CODE so a link copied from the bar opens that listing's share page
+// (LINE/Facebook read its own og:image); everything else shows ASNProperty.html#/... (Thor 2 Nov 2026).
+const APP_URL = document.baseURI;
+function syncPath() {
+  const [a, b] = location.hash.replace(/^#\/?/, "").split("/");
+  const path = a === "l" && b && byCode(b) ? new URL("asn/" + b + ".html", APP_URL).pathname : new URL(APP_URL).pathname;
+  if (location.pathname !== path) history.replaceState(history.state, "", path + location.search + location.hash);
+}
+let lastRouted = null;
+const onNav = () => { if (location.hash !== lastRouted) { lastRouted = location.hash; route(); } syncPath(); };
+// in-page links (#/...) change only the hash of whatever path is showing, so they never reload the page
+document.addEventListener("click", e => {
+  const a = e.target.closest && e.target.closest('a[href^="#/"]'); if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+  e.preventDefault(); const h = a.getAttribute("href"); if (location.hash !== h) location.hash = h; else onNav();
+});
+window.addEventListener("hashchange", onNav);
+window.addEventListener("popstate", onNav);
 
 (async function init() {
   const qp = new URLSearchParams(location.search).get("lang");
@@ -3379,7 +3396,7 @@ window.addEventListener("hashchange", route);
   // legacy share links: ?l=H01
   const ql = new URLSearchParams(location.search).get("l");
   if (ql && !location.hash) location.hash = "#/l/" + ql;
-  renderAll(); initMap(); route();
+  renderAll(); initMap(); lastRouted = location.hash; route(); syncPath();
   // decor / feng shui / MBTI for listings not in HOME_STYLE (the Facebook/Sheet listings) live in asn-style.json
   const styles = fetch("asn-style.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { for (const k in o) if (!HOME_STYLE[k]) HOME_STYLE[k] = o[k]; return true; }).catch(() => false);
   const hls = fetch("asn-hl.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { Object.assign(HL, o); return true; }).catch(() => false);
