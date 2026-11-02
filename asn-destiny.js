@@ -264,7 +264,7 @@ const css = `
 .ds-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}.ds-m{border-radius:12px;padding:10px;text-align:center;font-size:13px}.ds-m b{display:block;font-size:12px;opacity:.85}
 .g3{background:#1F3A5F;color:#fff}.g2{background:var(--brand-soft);color:var(--ink)}.g1{background:var(--surface-3);color:var(--ink-2)}.g0{background:#f3d9cf;color:#8a3b22}:root[data-theme="dark"] .g3{background:#E2A957;color:#0E131A}:root[data-theme="dark"] .g2{background:#2f5d8f;color:#fff}:root[data-theme="dark"] .g0{background:#4a2a20;color:#f3c9b8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g3{background:#E2A957;color:#0E131A}:root:not([data-theme="light"]) .g2{background:#2f5d8f;color:#fff}:root:not([data-theme="light"]) .g0{background:#4a2a20;color:#f3c9b8}}
 .ds-leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12.5px;margin:10px 0}.ds-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
-.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:var(--accent);color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
+.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:#8E5714;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
 .ds-ok{background:var(--brand-soft)!important}.ds-c b,.ds-c,.ds-prof li,.ds-why li,.ds-score{color:var(--ink)}.ds-form .chk{color:var(--ink-2)}.ds-note{font-size:12.5px;color:var(--muted);margin-top:8px}.ds-warn{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13.5px}
 .ds-match{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}.ds-mi{display:grid;gap:8px}.ds-score{display:flex;align-items:center;gap:10px;font-weight:600}
 .ds-bar{flex:1;height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden}.ds-bar i{display:block;height:100%;background:linear-gradient(90deg,#B57A27,#1F3A5F)}
@@ -278,11 +278,11 @@ const css = `
 .ds-elc img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:10px}
 .dsd-box{background-image:linear-gradient(135deg,rgba(31,58,95,.92),rgba(31,58,95,.78)),url(asn-img/destiny-hero.jpg)!important;background-size:cover!important;background-position:center 30%!important}
 .ds-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.dsd-box{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#1F3A5F,#2b4f7d);color:#fff;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.dsd-box p{margin:0;font-size:13.5px;opacity:.9}.dsd-box a{background:#B57A27;color:#fff;border-radius:99px;padding:9px 16px;text-decoration:none;font-weight:600;white-space:nowrap}
+.dsd-box{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#1F3A5F,#2b4f7d);color:#fff;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.dsd-box p{margin:0;font-size:13.5px;opacity:.9}.dsd-box a{background:#8E5714;color:#fff;border-radius:99px;padding:9px 16px;text-decoration:none;font-weight:600;white-space:nowrap}
 `;
 let styled = false; const addCss = () => { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s); };
 let last = null;   // last input (memory only, never stored)
-const ELC = { water: "#2F6A9A", fire: "#C8553D", earth: "#B08A4E", metal: "#8A919B", wood: "#4E8A5B", air: "#6aa5c9" };
+const ELC = { water: "#2F6A9A", fire: "#B5442F", earth: "#7E5F2C", metal: "#5E6670", wood: "#3E7049", air: "#2F6F95" };
 const sg = (T, x) => `${T.signs[Math.floor(x / 30)]} ${Math.floor(x % 30)}°`;
 
 function form(T, focus) {
