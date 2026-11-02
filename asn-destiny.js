@@ -270,6 +270,13 @@ const css = `
 .ds-bar{flex:1;height:8px;border-radius:99px;background:#eee;overflow:hidden}.ds-bar i{display:block;height:100%;background:linear-gradient(90deg,#B57A27,#1F3A5F)}
 .ds-why{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:3px}.ds-why li::before{content:attr(data-k);display:inline-block;width:16px;font-weight:700}.ds-why li[data-k="+"]::before{color:#2e7d4f}.ds-why li[data-k="!"]::before{color:#b45309}.ds-why li[data-k="~"]::before{color:#888}
 .ds-focus{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:18px;align-items:start;background:#F6F3EE;border-radius:16px;padding:16px}@media(max-width:720px){.ds-focus{grid-template-columns:1fr}}
+.ds-banner{margin:0 0 20px;position:relative;border-radius:18px;overflow:hidden;background:#0d1a2b}.ds-banner>img{display:block;width:100%;height:auto;aspect-ratio:1376/560;object-fit:cover;object-position:center 30%}
+.ds-banner figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;justify-content:center;padding:14px;background:linear-gradient(0deg,rgba(10,20,36,.75),rgba(10,20,36,0))}
+.ds-banner figcaption span{display:grid;justify-items:center;gap:4px}.ds-banner figcaption img{width:clamp(48px,9vw,84px);height:clamp(48px,9vw,84px);object-fit:cover;border-radius:50%;border:2px solid #d9b77a;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.ds-banner figcaption b{font-size:12px;color:#fff;background:var(--c);border-radius:99px;padding:1px 9px}
+@media(max-width:600px){.ds-banner>img{aspect-ratio:4/3;object-position:30% 40%}.ds-banner figcaption{gap:6px;padding:8px}.ds-banner figcaption img{width:44px;height:44px}}
+.ds-elc img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:10px}
+.dsd-box{background-image:linear-gradient(135deg,rgba(31,58,95,.92),rgba(31,58,95,.78)),url(asn-img/destiny-hero.jpg)!important;background-size:cover!important;background-position:center 30%!important}
 .ds-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 .dsd-box{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#1F3A5F,#2b4f7d);color:#fff;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.dsd-box p{margin:0;font-size:13.5px;opacity:.9}.dsd-box a{background:#B57A27;color:#fff;border-radius:99px;padding:9px 16px;text-decoration:none;font-weight:600;white-space:nowrap}
 `;
@@ -341,7 +348,7 @@ function results(inp, focus) {
     <div class="ds-cards">${cards.map(([a, b, c]) => `<div class="ds-c"><small>${a}</small><b>${b}</b>${c || ""}</div>`).join("")}</div></section>
   <section class="ds-sec"><h2>${T.secProfile}</h2>
     <div class="ds-prof">
-      <div class="ds-c"><small>${PT.pElem}</small><b>${P.core}</b>${elBadge(C.thEl)}<ul>${P.strong.map(x => `<li>${x}</li>`).join("")}</ul></div>
+      <div class="ds-c ds-elc"><img src="asn-img/destiny-${C.thEl}.jpg" alt="" loading="lazy"><small>${PT.pElem}</small><b>${P.core}</b>${elBadge(C.thEl)}<ul>${P.strong.map(x => `<li>${x}</li>`).join("")}</ul></div>
       <div class="ds-c"><small>${PT.pColor}</small><b style="font-size:16px">${P.color}</b><small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>
         <small style="margin-top:8px">${PT.pDir}</small><em>${P.dir}${C.kua ? "<br>" + (T.kuaLine || TX.en.kuaLine).replace("{dirs}", C.dirs.map(d => T.dir[d]).join(", ")) : ""}</em></div>
       <div class="ds-c"><small>${PT.pAvoid}</small><ul>${P.avoid.map(x => `<li>${x}</li>`).join("")}</ul><small style="margin-top:8px">${PT.pTypes}</small><ul>${Object.values(P.types).map(x => `<li>${x}</li>`).join("")}</ul></div>
@@ -367,6 +374,8 @@ function render(focus) {
   document.title = T.title + " · ASN Exclusive Property";
   dv.innerHTML = `<div class="wrap ds"><nav class="crumb"><a href="#/">${T.back}</a>${fo ? ` · <a href="#/l/${fo.code}">${fo.code}</a>` : ""}</nav>
     <header class="ds-hero"><p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="lead">${T.sub}</p></header>
+    <figure class="ds-banner"><img src="asn-img/destiny-hero.jpg" alt="" width="1376" height="768" fetchpriority="high">
+      <figcaption>${["water","fire","earth","air"].map(e => `<span><img src="asn-img/destiny-${e}.jpg" alt="" loading="lazy" width="120" height="120"><b style="--c:${ELC[e]}">${T.el[e]}</b></span>`).join("")}</figcaption></figure>
     ${form(T, focus)}<div id="dsOut" aria-live="polite"></div></div>`;
   const fm = document.getElementById("dsForm"); sync(fm);
   fm.addEventListener("change", () => sync(fm));
