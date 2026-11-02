@@ -695,6 +695,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
       <a href="#/map" data-i18n="navMap">แผนที่</a>
       <a href="#/land" data-i18n="navLand">ที่ดิน</a>
       <a href="#/match" data-i18n="navMatch">หาบ้านที่ใช่</a>
+      <a href="#/destiny" data-i18n="navDestiny">ดวง & ฮวงจุ้ย</a>
       <a href="#/book" data-i18n="navBook">นัดชม</a>
       <a href="LivingInsight.html?from=asn" id="navGuide" data-i18n="navGuide">คู่มือผู้ซื้อ</a>
       <a href="ASNSafeLiving.html" id="navSafe">อยู่ปลอดภัย</a>
@@ -819,6 +820,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
           <h2 data-i18n="matchTitle"></h2>
           <p class="lead" data-i18n="matchSub"></p>
           <a class="mg-link" href="#/matching" data-i18n="mgLink"></a>
+          <a class="mg-link" href="#/destiny" data-i18n="dsHomeCta" style="margin-left:14px"></a>
           <div id="mq"></div>
           <div class="mrow">
             <label><span data-i18n="mDeal">ต้องการ</span><select id="mDeal"></select></label>
@@ -996,6 +998,7 @@ dialog::backdrop{background:rgba(8,14,22,.6);backdrop-filter:blur(3px)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="insight/kit.js?v=20261031b"></script>
+<script src="asn-destiny.js?v=20261102a"></script>
 <script>
 /* =====================================================================
    HOW TO UPDATE LISTINGS
@@ -1713,6 +1716,7 @@ let lang = "th";
 const st = { deal:"any", type:"", zone:"", budget:"", beds:0, pool:false, sort:"rec", q:"", view:"grid" };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+if (window.ASND) for (const k in ASND.T) Object.assign(T[k] || (T[k] = {}), ASND.T[k]);   // Destiny Match (asn-destiny.js) nav strings
 const t = (k, v) => { let s = (T[lang] && T[lang][k]) ?? T.en[k] ?? T.th[k] ?? k; if (v) for (const n in v) s = s.replace("{" + n + "}", v[n]); return s; };
 const zn = z => (ZONE_NAMES[z] && (ZONE_NAMES[z][lang] || ZONE_NAMES[z].en)) || z;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
@@ -2292,7 +2296,7 @@ function homeStyleSecs(l) {
       ${wrLink(l.type === "condo" ? "psCtaRoom" : "psCta")}</div>
     <div class="d-sec" id="fengshui"><h2>${t("fsTitle")}</h2>
       <ul class="hs-feng">${hsTx(h, "feng").map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-      <p class="mapnote">${t("fsNote")}</p></div>
+      <p class="mapnote">${t("fsNote")}</p>${window.ASND ? ASND.detailCta(l.code) : ""}</div>
     <div class="d-sec" id="mbti"><h2>${t("mbTitle")}</h2>
       <div class="hs-mb">${h.mbti.map(x => { const g = mbtiGroup(x); return `<div style="background:${MBTI_GROUPS[g].color}"><b>${x}</b><small>${(MBTI_ROLE_L[lang] || MBTI_ROLE)[x]}</small><em>${t("g_" + g)}</em></div>`; }).join("")}</div>
       ${legend}
@@ -3248,6 +3252,7 @@ function renderAll() {
   if (!$("#detailView").hidden && $("#detailView").dataset.code) renderDetail($("#detailView").dataset.code);
   else if (!$("#detailView").hidden && $("#detailView").dataset.zone) renderZone($("#detailView").dataset.zone);
   else if (!$("#detailView").hidden && $("#detailView").dataset.page === "matching") renderGuide();
+  else if (!$("#detailView").hidden && $("#detailView").dataset.page === "destiny" && window.ASND) ASND.render($("#detailView").dataset.focus || "");
 }
 const SECTIONS = { listings: "listings", map: "map-sec", land: "land", match: "match", book: "book", about: "about", contact: "contact" };
 function route() {
@@ -3261,6 +3266,10 @@ function route() {
   if (a === "zone" && b) {
     $("#homeView").hidden = true; $("#detailView").hidden = false;
     renderZone(b); window.scrollTo(0, 0); return;
+  }
+  if (a === "destiny" && window.ASND) {
+    $("#homeView").hidden = true; $("#detailView").hidden = false;
+    ASND.render(b || ""); window.scrollTo(0, 0); return;
   }
   if (a === "matching") {
     $("#homeView").hidden = true; $("#detailView").hidden = false;
