@@ -254,6 +254,7 @@ const css = `
 .ds-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
 .ds-form label{display:grid;gap:5px;font-size:13px;color:var(--ink-2)}.ds-form input,.ds-form select{font:inherit;padding:10px 12px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface-2);color:var(--ink);min-width:0;color-scheme:light dark}
 .ds-form .chk{display:flex;align-items:center;gap:8px;font-size:13px}.ds-form .chk input{width:auto}.ds-form .full{grid-column:1/-1}
+@media(min-width:601px){.ds-wide{grid-column:span 2}}.ds-dp{display:grid;grid-template-columns:.8fr 1.6fr 1.1fr;gap:6px}.ds-dp select{padding:10px 8px}
 .ds-priv{font-size:12.5px;color:var(--muted)}.ds-go{grid-column:1/-1;justify-self:start}
 .ds-sec{margin-top:34px}.ds-sec h2{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);margin-bottom:12px}
 .ds-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
@@ -290,21 +291,40 @@ function form(T, focus) {
   const plus = n => { const d = new Date(); d.setMonth(d.getMonth() + n); return d.toISOString().slice(0, 10); };
   return `<form class="ds-form" id="dsForm" autocomplete="off">
     <label>${T.fName}<input name="name" maxlength="40" value="${G("esc")(v.name || "")}"></label>
-    <label>${T.fDate}<input name="date" type="date" required min="1920-01-01" max="${today}" value="${v.date || ""}"></label>
+    <label class="ds-wide">${T.fDate}${dp("date", v.date || "", 1920, new Date().getFullYear(), true)}</label>
     <label>${T.fTime}<input name="time" type="time" value="${v.time || ""}"></label>
     <label class="chk"><input type="checkbox" name="unk" ${v.unk ? "checked" : ""}>${T.fTimeUnk}</label>
     <label>${T.fGender}<select name="gender"><option value="m" ${v.gender === "m" ? "selected" : ""}>${T.gM}</option><option value="f" ${v.gender === "f" ? "selected" : ""}>${T.gF}</option><option value="n" ${v.gender === "n" ? "selected" : ""}>${T.gN}</option></select></label>
     <label>${T.fPlace}<select name="city">${CITIES.map(c => `<option value="${c[0]}" ${(v.city || "bkk") === c[0] ? "selected" : ""}>${c[1]} (UTC${c[4] >= 0 ? "+" : ""}${c[4]})</option>`).join("")}</select></label>
     <label>${T.fPurpose}<select name="purpose"><option value="buy" ${v.purpose !== "rent" ? "selected" : ""}>${T.pBuy}</option><option value="rent" ${v.purpose === "rent" ? "selected" : ""}>${T.pRent}</option></select></label>
-    <label data-p="buy">${T.fBuyDate}<input name="buy" type="date" value="${v.buy || plus(1)}"></label>
-    <label data-p="rent">${T.fRentFrom}<input name="from" type="date" value="${v.from || plus(1)}"></label>
-    <label data-p="rent">${T.fRentTo}<input name="to" type="date" value="${v.to || plus(13)}"></label>
+    <label class="ds-wide" data-p="buy">${T.fBuyDate}${dp("buy", v.buy || plus(1), Y0, Y0 + 4)}</label>
+    <label class="ds-wide" data-p="rent">${T.fRentFrom}${dp("from", v.from || plus(1), Y0, Y0 + 4)}</label>
+    <label class="ds-wide" data-p="rent">${T.fRentTo}${dp("to", v.to || plus(13), Y0, Y0 + 6)}</label>
     <label>${T.fType}<select name="type">${[["", T.tAny], ["villa", T.tVilla], ["house", T.tHouse], ["condo", T.tCondo], ["land", T.tLand]].map(([k, n]) => `<option value="${k}" ${(v.type || "") === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
     <p class="ds-priv full">🔒 ${T.privacy}</p>
     <button class="btn ds-go" type="submit">${T.go}</button>
   </form>`;
 }
-function sync(fm) { const p = fm.purpose.value; fm.querySelectorAll("[data-p]").forEach(el => el.hidden = el.dataset.p !== p); fm.time.disabled = fm.unk.checked; }
+/* date picker: day / month / year selects; Thai shows Buddhist Era years (CE + 543), other languages CE. Value stays ISO (CE). */
+const yLabel = y => (G("lang", "th") === "th" ? y + 543 : y);
+const LOCS = { th: "th-TH", en: "en-GB", zh: "zh-CN", ko: "ko-KR", ja: "ja-JP", ru: "ru-RU" };
+const PH = { th: ["วัน", "เดือน", "ปี พ.ศ."], en: ["Day", "Month", "Year"], zh: ["日", "月", "年"], ko: ["일", "월", "년"], ja: ["日", "月", "年"], ru: ["День", "Месяц", "Год"] };
+const Y0 = new Date().getFullYear();
+function dp(name, iso, y0, y1, req) {
+  const lg = G("lang", "th"), ph = PH[lg] || PH.en, [y, m, d] = (iso || "").split("-").map(Number);
+  const mn = i => new Intl.DateTimeFormat(LOCS[lg] || "en-GB", { month: lg === "th" || lg === "en" || lg === "ru" ? "long" : "short" }).format(new Date(2000, i, 1));
+  const opt = (v, t, sel) => `<option value="${v}" ${sel ? "selected" : ""}>${t}</option>`;
+  const years = []; for (let k = y1; k >= y0; k--) years.push(k); if (req) years.sort((a, b) => b - a);
+  return `<span class="ds-dp" data-dp="${name}"><select data-k="d" aria-label="${ph[0]}" ${req ? "required" : ""}>${opt("", ph[0], !d)}${Array.from({ length: 31 }, (_, i) => opt(i + 1, i + 1, d === i + 1)).join("")}</select>`
+    + `<select data-k="m" aria-label="${ph[1]}" ${req ? "required" : ""}>${opt("", ph[1], !m)}${Array.from({ length: 12 }, (_, i) => opt(i + 1, mn(i), m === i + 1)).join("")}</select>`
+    + `<select data-k="y" aria-label="${ph[2]}" ${req ? "required" : ""}>${opt("", ph[2], !y)}${years.map(k => opt(k, yLabel(k), y === k)).join("")}</select>`
+    + `<input type="hidden" name="${name}" value="${iso || ""}"></span>`;
+}
+function readDp(fm) { fm.querySelectorAll(".ds-dp").forEach(w => { const g = k => +w.querySelector(`[data-k="${k}"]`).value; let d = g("d"), m = g("m"), y = g("y");
+  const h = w.querySelector("input[type=hidden]"); if (!d || !m || !y) { h.value = ""; return; }
+  const last = new Date(y, m, 0).getDate(); if (d > last) { d = last; w.querySelector('[data-k="d"]').value = d; }
+  h.value = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`; }); }
+function sync(fm) { readDp(fm); const p = fm.purpose.value; fm.querySelectorAll("[data-p]").forEach(el => el.hidden = el.dataset.p !== p); fm.time.disabled = fm.unk.checked; }
 
 function results(inp, focus) {
   const T = L(), C = chart(inp), lg = G("lang","th"), loc = { th: "th-TH", en: "en-GB", zh: "zh-CN", ko: "ko-KR", ja: "ja-JP", ru: "ru-RU" }[lg] || "en-GB";
@@ -315,7 +335,7 @@ function results(inp, focus) {
     [T.sunWest, sg(T, C.sunT), ""],
     [T.moon, `${T.thai}: ${sg(T, C.moonS)}<br>${T.west}: ${sg(T, C.moonT)}`, C.known ? "" : `<em>${T.unknownTime || TX.en.unknownTime}</em>`],
     C.known ? [T.lagna, `${T.thai}: ${sg(T, C.asc)}`, elBadge(THAI_EL[Math.floor(C.asc / 30) % 4])] : null,
-    [T.cnYear, `${T.animals[C.yb]} · ${T.el[STEM_EL[C.ys]]}`, `<em>${C.cy}</em>`],
+    [T.cnYear, `${T.animals[C.yb]} · ${T.el[STEM_EL[C.ys]]}`, `<em>${lg === "th" ? "พ.ศ. " + (C.cy + 543) : C.cy}</em>`],
     [T.dayMaster, `${T.el[C.dm]} (${yinyang(C.ds)})`, `<em>${(T.bzLine || TX.en.bzLine).replace("{dm}", T.el[C.dm]).replace("{sup}", C.sup.map(e => T.el[e]).join(" · "))}</em>`],
     [T.kua, C.kua ? `${C.kua} · ${(T.group || TX.en.group)[[1, 3, 4, 9].includes(C.kua) ? "E" : "W"]}` : "—",
       C.kua ? `<div class="ds-dirs">${C.dirs.map((d, i) => `<span>${(T.dirRole || TX.en.dirRole)[i]}: ${T.dir[d]}</span>`).join("")}</div>` : `<em>${T.kuaNeedG}</em>`]
@@ -355,7 +375,7 @@ function results(inp, focus) {
     </div></section>
   <section class="ds-sec"><h2>${T.secTiming}</h2>
     <p class="ds-note" style="margin-top:0">${inp.purpose === "rent" ? (T.tmRent || TX.en.tmRent) : (T.tmBuy || TX.en.tmBuy)}</p>
-    ${tm.yrs.map(y => y.clash ? `<div class="ds-warn">⚠️ ${(T.yearClash || TX.en.yearClash).replace("{y}", y.y)}</div>` : y.good ? `<div class="ds-warn ds-ok">✨ ${(T.yearGood || TX.en.yearGood).replace("{y}", y.y)}</div>` : "").join("")}
+    ${tm.yrs.map(y => y.clash ? `<div class="ds-warn">⚠️ ${(T.yearClash || TX.en.yearClash).replace("{y}", lg === "th" ? y.y + 543 : y.y)}</div>` : y.good ? `<div class="ds-warn ds-ok">✨ ${(T.yearGood || TX.en.yearGood).replace("{y}", lg === "th" ? y.y + 543 : y.y)}</div>` : "").join("")}
     <div class="ds-months">${tm.months.map(x => { const k = grade(x.s); return `<div class="ds-m g${k}"><b>${mName(x.y, x.m)}</b>${T[g[k]]}</div>`; }).join("")}</div>
     <div class="ds-leg">${[3, 2, 1, 0].map(k => `<span><i class="g${k}"></i>${T[g[k]]}</span>`).join("")}</div>
     ${tm.days.length ? `<p><b>${(T.bestDays || TX.en.bestDays).replace("{act}", inp.purpose === "rent" ? (T.actRent || TX.en.actRent) : (T.actBuy || TX.en.actBuy))}</b></p><div class="ds-days">${tm.days.map(d => `<span>${dName(d.t)}</span>`).join("")}</div>` : ""}
@@ -381,8 +401,8 @@ function render(focus) {
   fm.addEventListener("change", () => sync(fm));
   let summary = "";
   const run = () => {
-    const v = Object.fromEntries(new FormData(fm).entries()); v.unk = fm.unk.checked; if (v.unk) v.time = "";
-    if (!v.date) { fm.date.reportValidity && fm.date.reportValidity(); return; }
+    readDp(fm); const v = Object.fromEntries(new FormData(fm).entries()); v.unk = fm.unk.checked; if (v.unk) v.time = "";
+    if (!v.date) { const s = fm.querySelector('.ds-dp[data-dp="date"] select:invalid') || fm.querySelector('.ds-dp[data-dp="date"] select'); s.reportValidity ? s.reportValidity() : s.focus(); return; }
     last = v; const r = results(v, focus); summary = r.summary;
     const out = document.getElementById("dsOut"); out.innerHTML = r.html;
     out.querySelector("#dsCopy").onclick = () => { const done = () => { out.querySelector("#dsCopied").hidden = false; };
