@@ -6,6 +6,35 @@ let lang = "th";
 const t = k => (T[lang] && T[lang][k]) || T.en[k] || k;
 const nf = new Intl.NumberFormat("en-US");
 const baht = n => "฿" + nf.format(Math.round(n));
+/* US dollar display. Prices are set in baht (price list); the US$ figure uses the day's reference rate from
+   Frankfurter (https://frankfurter.dev, daily rates), loaded once a day and kept for that day in this browser.
+   Until it loads, or if it can't, FX_FALLBACK in data.js is used and the note says so.
+   Quotations, copied listings and social posts stay in baht; US$ is added beside them as a guide. */
+let cur = "THB"; try { if (localStorage.getItem("rv-cur") === "USD") cur = "USD"; } catch (e) {}
+const fx = { rate: FX_FALLBACK.rate, date: FX_FALLBACK.date, live: false };
+const usd = n => "US$" + nf.format(Math.round(n / fx.rate));
+const money = n => cur === "USD" ? usd(n) : baht(n);
+const fxDate = () => new Intl.DateTimeFormat((lang === "zh" ? "zh-CN" : lang) + "-u-ca-gregory", { day: "numeric", month: "short", year: "numeric" }).format(new Date(fx.date + "T12:00:00"));
+const fxRateTxt = () => fx.rate.toFixed(2);
+const fxNote = () => cur !== "USD" ? "" : t(fx.live ? "fxNote" : "fxOff").replace("{r}", fxRateTxt()).replace("{d}", fxDate());
+const curSeg = () => `<div class="seg cur-seg" role="group" aria-label="${t("curLbl")}">${[["THB", "฿ THB"], ["USD", "US$"]].map(([k, l]) =>
+  `<button type="button" data-cur="${k}" aria-pressed="${cur === k}">${l}</button>`).join("")}</div>`;
+const fxOk = r => r > 20 && r < 60;
+{ // today's rate already loaded on an earlier page: use it from the first render
+  try { const c = JSON.parse(localStorage.getItem("rv-fx") || "null");
+    if (c && c.day === new Date().toISOString().slice(0, 10) && fxOk(c.rate)) Object.assign(fx, { rate: c.rate, date: c.date, live: true }); } catch (e) {} }
+function loadFx(){
+  const today = new Date().toISOString().slice(0, 10), ok = fxOk;
+  if (fx.live) return Promise.resolve(false);
+  const pick = j => +((j && j.rates && (j.rates.THB || j.rates.thb)) || (j && j.rate) || (Array.isArray(j) && j[0] && j[0].rate) || 0);
+  const get = url => fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(j => {
+    const rate = pick(j); if (!ok(rate)) throw new Error("rate");
+    return { rate, date: String((j && j.date) || (Array.isArray(j) && j[0] && j[0].date) || today).slice(0, 10) }; });
+  return get("https://api.frankfurter.dev/v1/latest?base=USD&symbols=THB")
+    .catch(() => get("https://api.frankfurter.app/latest?from=USD&to=THB"))
+    .then(x => { Object.assign(fx, x, { live: true }); try { localStorage.setItem("rv-fx", JSON.stringify({ ...x, day: today })); } catch (e) {} return true; })
+    .catch(() => false);
+}
 const sqmFmt = n => n.toFixed(2);
 const floorKey = f => f === "G" ? 0 : (f === "12A" ? 12.5 : parseFloat(f) || 0);
 const sell = u => u.promoPrice || u.price;
@@ -105,7 +134,7 @@ function renderStats(){
   const live = UNITS.filter(u => u.status !== "SOLD");
   const cells = [
     [live.length, "stAvail", false],
-    [baht(Math.min(...live.map(sell))), "stFrom", true],
+    [money(Math.min(...live.map(sell))), "stFrom", true],
     [live.filter(u => u.view === "Sea View").length, "stSea", false],
     [live.filter(u => u.view === "City View").length, "stCity", false],
     [live.filter(u => u.promoPrice).length, "stPromo", true]
@@ -269,16 +298,19 @@ function renderGrid(list){
           <span>${t(furnLabel(u))}</span>
         </div>
         <div class="price">
-          ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-          <div class="now${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
-          <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
-          ${u.promoPrice ? `<span class="save">${t("saveWord")} ${baht(u.price - u.promoPrice)}</span>` : ""}
+          ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+          <div class="now${u.promoPrice ? " promo" : ""}">${money(sell(u))}</div>
+          <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
+          ${u.promoPrice ? `<span class="save">${t("saveWord")} ${money(u.price - u.promoPrice)}</span>` : ""}
         </div>
       </div>
     </div>`).join("");
 }
 
+const num = n => nf.format(Math.round(cur === "USD" ? n / fx.rate : n));
 function renderTable(list){
+  const ps = document.querySelector('th[data-i18n="thPerSqm"]'); if (ps) ps.textContent = cur === "USD" ? t("thPerSqm").replace("฿", "US$") : t("thPerSqm");
+  ["thList", "thNow"].forEach(k => { const h = document.querySelector(`th[data-i18n="${k}"]`); if (h) h.textContent = t(k) + (cur === "USD" ? " (US$)" : ""); });
   $("#tbody").innerHTML = list.map(u => `
     <tr data-unit="${u.unit}" class="${u.status === "SOLD" ? "is-sold" : ""}">
       <td><b class="num">${u.unit}</b> ${u.status === "SOLD" ? `<span class="tag sold">${t("bSold")}</span>` : u.promoPrice ? `<span class="tag promo">−${Math.round(discount(u)*100)}%</span>` : ""}</td>
@@ -287,9 +319,9 @@ function renderTable(list){
       <td>${t(typeLabel(u))}</td>
       <td>${u.quota === "FR" ? t("quotaFR") : t("quotaTH")}</td>
       <td class="n">${sqmFmt(u.sqm)}</td>
-      <td class="n" style="color:var(--muted)">${u.promoPrice ? nf.format(u.price) : "—"}</td>
-      <td class="n" style="font-weight:600${u.promoPrice ? ";color:var(--coral)" : ""}">${nf.format(sell(u))}</td>
-      <td class="n">${nf.format(Math.round(perSqm(u)))}</td>
+      <td class="n" style="color:var(--muted)">${u.promoPrice ? num(u.price) : "—"}</td>
+      <td class="n" style="font-weight:600${u.promoPrice ? ";color:var(--coral)" : ""}">${num(sell(u))}</td>
+      <td class="n">${num(perSqm(u))}</td>
       <td>${t(furnLabel(u))}</td>
     </tr>`).join("");
 }
@@ -395,6 +427,7 @@ function openUnit(code){
         <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
         <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
         <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
+        ${cur === "USD" ? `<div class="kv fx"><span>≈ US$</span><b>${usd(c.total)}</b></div><p class="fx-note">${fxNote()}</p>` : ""}
         <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
       </div>
     </div>
@@ -435,7 +468,8 @@ function listingText(u){
     `${t("cMaint")}: ${baht(c.maint)}`,
     `${t("cTransfer")}: ${baht(c.transfer)}`,
     `${t("cTotal")}: ${baht(c.total)}`,
-    `${t("cBooking")}: ${baht(u.booking)}`
+    `${t("cBooking")}: ${baht(u.booking)}`,
+    cur === "USD" ? `≈ ${usd(c.total)} (1 US$ = ฿${fxRateTxt()}, ${fx.date})` : null
   ].filter(Boolean);
   return lines.join("\n");
 }
@@ -502,7 +536,7 @@ function renderHero(){
   const live = UNITS.filter(u => u.status !== "SOLD");
   document.getElementById("facts").innerHTML = [
     `<b>${live.length}</b> ${t("stAvail")}`,
-    `${t("stFrom")} <b>${baht(Math.min(...live.map(sell)))}</b>`,
+    `${t("stFrom")} <b>${money(Math.min(...live.map(sell)))}</b>`,
     `<b>${live.filter(u => u.view === "Sea View").length}</b> ${t("stSea")}`,
     `<b>${live.filter(u => u.promoPrice).length}</b> ${t("stPromo")}`
   ].map(x => `<span>${x}</span>`).join("");
@@ -537,19 +571,19 @@ function renderHighlights(){
           <span>${t(typeLabel(u))}</span>
           <span>${t(furnLabel(u))}</span>
         </div>
-        ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-        <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
-        <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+        ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+        <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
+        <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
       </div>
     ${hasPage(u.unit) ? "</a>" : "</div>"}`).join("");
 }
 
 /* ------------------------------ MBTI ------------------------------ */
 const MBTI_GROUPS = {
-  an: { color: "#88619A", types: ["INTJ", "INTP", "ENTJ", "ENTP"], name: { th: "นักวิเคราะห์", en: "Analysts", ru: "Аналитики", zh: "分析家", ko: "분석가형" } },
-  di: { color: "#33A474", types: ["INFJ", "INFP", "ENFJ", "ENFP"], name: { th: "นักการทูต", en: "Diplomats", ru: "Дипломаты", zh: "外交家", ko: "외교관형" } },
-  se: { color: "#4298B4", types: ["ISTJ", "ISFJ", "ESTJ", "ESFJ"], name: { th: "ผู้พิทักษ์", en: "Sentinels", ru: "Хранители", zh: "守护者", ko: "관리자형" } },
-  ex: { color: "#D9A032", types: ["ISTP", "ISFP", "ESTP", "ESFP"], name: { th: "นักสำรวจ", en: "Explorers", ru: "Искатели", zh: "探险家", ko: "탐험가형" } }
+  an: { color: "#88619A", types: ["INTJ", "INTP", "ENTJ", "ENTP"], name: { th: "นักวิเคราะห์", en: "Analysts", ru: "Аналитики", zh: "分析家", ko: "분석가형", ja: "分析家" } },
+  di: { color: "#33A474", types: ["INFJ", "INFP", "ENFJ", "ENFP"], name: { th: "นักการทูต", en: "Diplomats", ru: "Дипломаты", zh: "外交家", ko: "외교관형", ja: "外交官" } },
+  se: { color: "#4298B4", types: ["ISTJ", "ISFJ", "ESTJ", "ESFJ"], name: { th: "ผู้พิทักษ์", en: "Sentinels", ru: "Хранители", zh: "守护者", ko: "관리자형", ja: "番人" } },
+  ex: { color: "#D9A032", types: ["ISTP", "ISFP", "ESTP", "ESFP"], name: { th: "นักสำรวจ", en: "Explorers", ru: "Искатели", zh: "探险家", ko: "탐험가형", ja: "探検家" } }
 };
 const MBTI_ROLE = { INTJ: "Architect", INTP: "Logician", ENTJ: "Commander", ENTP: "Debater", INFJ: "Advocate", INFP: "Mediator",
   ENFJ: "Protagonist", ENFP: "Campaigner", ISTJ: "Logistician", ISFJ: "Defender", ESTJ: "Executive", ESFJ: "Consul",
@@ -718,13 +752,14 @@ function renderUnitPage(code){
             ${floorBar(u)}
           </div>
           <p class="note">${t("uLocNote")}</p>
+          <a class="u-sl" href="${safeLivingHref()}">🛡️ ${t("slLink")} →</a>
         </section>`}
 
         ${lay ? `<section class="u-sec"><h2>${t("uPlan")}</h2>
           <button type="button" class="u-plan" data-uplan="1" aria-label="${t("uPlan")}"><img src="${lay.src}" alt="${t("uPlan")} ${u.unit}" loading="lazy"></button>
           ${lay.code ? `<p class="note">${t("uPlanNote")}</p>` : ""}</section>` : ""}
 
-        ${st ? `<section class="u-sec"><h2>${t("uFeng")}</h2><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p></section>
+        ${st ? `<section class="u-sec"><h2>${t("uFeng")}</h2><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p>${window.ASND && u.type !== "Commercial" && u.status === "AVAILABLE" ? ASND.detailCta(u.unit) : ""}</section>
 
         <details class="u-sec u-fold">
           <summary><h2>${t("uConcept")}</h2></summary>
@@ -757,15 +792,15 @@ function renderUnitPage(code){
 
         <section class="u-sec">
           <h2>${t("dCost")}</h2>
-          ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
-          <div class="kv hi"><span>${t("cPrice")}</span><b>${baht(c.price)}</b></div>
-          ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${baht(u.price - u.promoPrice)}</b></div>` : ""}
-          <div class="kv"><span>${t("cPerSqm")}</span><b>${baht(perSqm(u))}</b></div>
-          <div class="kv"><span>${t("cSinking")}</span><b>${baht(c.sinking)}</b></div>
-          <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
-          <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
-          <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
-          <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
+          ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${money(u.price)}</b></div>` : ""}
+          <div class="kv hi"><span>${t("cPrice")}</span><b>${money(c.price)}</b></div>
+          ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${money(u.price - u.promoPrice)}</b></div>` : ""}
+          <div class="kv"><span>${t("cPerSqm")}</span><b>${money(perSqm(u))}</b></div>
+          <div class="kv"><span>${t("cSinking")}</span><b>${money(c.sinking)}</b></div>
+          <div class="kv"><span>${t("cMaint")}</span><b>${money(c.maint)}</b></div>
+          <div class="kv"><span>${t("cTransfer")}</span><b>${money(c.transfer)}</b></div>
+          <div class="kv total"><span>${t("cTotal")}</span><b>${money(c.total)}</b></div>
+          <div class="kv"><span>${t("cBooking")}</span><b>${money(u.booking)}</b></div>
         </section>
 
         ${u.type === "Commercial" ? "" : `<details class="u-sec u-fold" hidden><summary><h2></h2></summary><div id="lkBuy"></div></details>`}
@@ -773,9 +808,11 @@ function renderUnitPage(code){
 
       <aside class="u-aside">
         <div class="u-price">
-          ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-          <div class="big${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
-          <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+          ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+          <div class="big${u.promoPrice ? " promo" : ""}">${money(sell(u))}</div>
+          <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
+          ${cur === "USD" ? `<div class="u-thb">${baht(sell(u))}</div>` : ""}
+          <div class="u-cur">${curSeg()}${cur === "USD" ? `<p class="fx-note">${fxNote()}</p>` : ""}</div>
           <div class="u-ctas">
             <button type="button" data-social="${u.unit}">${t("makeSocialPost")}</button>
             <button type="button" data-ushare="1">${t("uShare")}</button>
@@ -793,12 +830,12 @@ function renderUnitPage(code){
           <div class="utop"><span class="ucode">${o.unit}</span><span class="usub">${t("floorWord")} ${o.floor}</span></div>
           ${mbtiStrip(o.unit)}
           ${storyOf(o.unit) ? `<div class="usub" style="white-space:normal">${storyOf(o.unit).name}</div>` : ""}
-          <div class="hnow${o.promoPrice ? "" : " plain"}">${baht(sell(o))}</div>
+          <div class="hnow${o.promoPrice ? "" : " plain"}">${money(sell(o))}</div>
         </div>
       </a>`).join("")}</div></section>` : ""}
   </div>
   <div class="u-mbar">
-    <div class="p">${baht(sell(u))}<small>${u.unit} · ${sqmFmt(u.sqm)} ${t("thSqm")}</small></div>
+    <div class="p">${money(sell(u))}<small>${u.unit} · ${sqmFmt(u.sqm)} ${t("thSqm")}</small></div>
     <button type="button" class="share" data-ushare="1">${t("uShare")}</button>
   </div>`;
 
@@ -825,7 +862,76 @@ const lkBase = () => ({ lang, from: "r2", accent: "var(--sea)", wrLogo: "riviera
 
 /* ------------------------- matching article ------------------------ */
 const matchingHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}-matching.html` : "#matching";
-const subPageFromUrl = () => window.SUB_PAGE || (/^#matching/.test(location.hash) ? "matching" : null);
+const subPageFromUrl = () => window.SUB_PAGE || (/^#matching/.test(location.hash) ? "matching" : /^#destiny/.test(location.hash) ? "destiny" : null);
+
+/* ------------------------- Destiny Match (shared hai/destiny.js) ------------------------ */
+/* The network's birth-chart + feng shui matcher, fed with R2's units through window.HAI_HOST (hai/README.md
+   "Destiny Match on any site"). Everything is computed in the browser; no birth data is sent or stored.
+   Page: Riviera2Resale-destiny.html (?u=CODE puts one unit in focus) or #destiny / #destiny-CODE on a local copy. */
+const destinyHref = code => window.SITE_PAGES
+  ? `${PAGE_FILE_STEM}-destiny.html${code ? "?u=" + encodeURIComponent(code) : ""}`
+  : `#destiny${code ? "-" + code : ""}`;
+const destinyFocus = () => {
+  const c = window.SUB_PAGE ? new URLSearchParams(location.search).get("u") : (location.hash.match(/^#destiny-([0-9A-Z-]+)$/i) || [])[1];
+  return c && UNITS.some(u => u.unit === c.toUpperCase()) ? c.toUpperCase() : null;
+};
+const safeLivingHref = () => `SafeLiving.html?from=r2&lang=${lang}`;   // shared network page, branded by ?from=r2
+const escHtml = s => String(s == null ? "" : s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);
+const DS_ZONE = { th: "จอมเทียน", en: "Jomtien", ru: "Джомтьен", zh: "宗滴恩", ko: "좀티엔", ja: "ジョムティエン" };
+// R2 unit → the home shape the engine scores. Sea-view units face the sea (west), city-view units the city (east),
+// the same rule the Living Insight kit uses on unit pages.
+const dsHome = u => ({
+  code: u.unit, name: storyOf(u.unit) ? storyOf(u.unit).name : u.unit, type: "condo", zone: "jomtien",
+  sale: sell(u), rent: 0, beds: u.type === "1 BED" ? 1 : 0, size: u.sqm, floor: u.floor, pool: "shared",
+  tags: [u.view === "Sea View" ? "seaView" : "cityView"], facing: u.view === "Sea View" ? "W" : "E"
+});
+const dsUnits = () => UNITS.filter(u => u.status === "AVAILABLE" && u.type !== "Commercial");
+const dsCard = h => { const u = UNITS.find(x => x.unit === h.code); if (!u) return "";
+  return `<a class="hcard" href="${unitHref(u.unit)}">
+    <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
+    <div class="hbody">
+      <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+      ${storyOf(u.unit) ? `<div class="usub" style="white-space:normal">${storyOf(u.unit).name}</div>` : ""}
+      <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
+    </div></a>`; };
+// text the scorer reads (sea, light, wood…): the English tagline + highlights, feng shui notes and the room palette
+const DS_STYLE = {};
+for (const c of Object.keys(UNIT_STORIES)){ const s = UNIT_STORIES[c], en = s.en; if (!en) continue;
+  DS_STYLE[c] = { en: { concept: [en.tagline, ...(en.highlights || [])].join(" "), feng: en.fengshui || [] }, palette: s.palette || [] }; }
+const DS_EL = {}; for (const e of Object.keys(FS_EL)) DS_EL[e] = { homes: FS_EL[e].units };
+window.HAI_HOST = {
+  lang: () => lang, esc: escHtml,
+  SHOWN: () => dsUnits().map(dsHome),
+  byCode: c => { const u = dsUnits().find(x => x.unit === c); return u ? dsHome(u) : null; },
+  card: dsCard,
+  zn: z => z === "jomtien" ? (DS_ZONE[lang] || DS_ZONE.en) : z,
+  ZONES: {},   // one building, one location: no "recommended areas" section (Thor 4 Nov 2026)
+  HOME_STYLE: DS_STYLE, MG_EL: DS_EL,
+  FACING: Object.fromEntries(UNITS.map(u => [u.unit, u.view === "Sea View" ? "W" : "E"])),
+  CONTACT: { line: CONTACT.lines[0].id },
+  SITE: { short: "R2", name: "R2 by Clare" },
+  links: { home: () => listHref(), listing: c => unitHref(c), destiny: c => destinyHref(c) },
+  mount: () => document.getElementById("unitView")
+};
+function renderDestinyPage(){
+  if (!window.ASND){ document.getElementById("unitView").innerHTML = `<div class="wrap uv"><div class="empty"><a href="${listHref()}">← ${t("backAll")}</a></div></div>`; return; }
+  ASND.render(destinyFocus());
+}
+// home page: the two network tools (Destiny Match, Safe Living) side by side
+function renderNetTools(){
+  const box = document.getElementById("netTools"); if (!box) return;
+  const nav = window.ASND && ASND.T ? (ASND.T[lang] || ASND.T.en) : null;
+  box.innerHTML = `<div class="wrap nt-grid">
+    ${window.ASND ? `<a class="nt-card nt-ds" href="${destinyHref()}">
+      <span class="nt-k">Destiny Match · Hybrid AI Agent Network</span>
+      <b>🔮 ${t("dsH")}</b><span class="nt-p">${t("dsP")}</span>
+      <span class="nt-go">${nav ? nav.dsHomeCta : t("dsGo") + " →"}</span></a>` : ""}
+    <a class="nt-card nt-sl" href="${safeLivingHref()}">
+      <span class="nt-k">Safe Living · Hybrid AI Agent Network</span>
+      <b>🛡️ ${t("slH")}</b><span class="nt-p">${t("slP")}</span>
+      <span class="nt-go">${t("slGo")} →</span></a>
+  </div>`;
+}
 
 function renderMatchingPage(){
   const a = MATCHING[lang] || MATCHING.en;
@@ -996,7 +1102,19 @@ const MX_T = {
     copy:"고객용 목록 복사", copied:"복사됨", ask:"", copyHead:"고객님을 위해 고른 유닛",
     r:{ exact:x=>`${x}을(를) 위해 디자인`, group:g=>`${g}에게 적합`, sea:"바다 전망", seaSite:"바다 쪽", high:"고층", furn:"바로 입주", full:"풀옵션",
       studio:"관리 쉬운 스튜디오", onebed:"원베드룸, 명확한 공간 구분", big:"넓은 면적", promo:d=>`${d}% 할인`, value:"㎡당 가격 좋음", design:"실제 인테리어 완료", budget:"예산 내" },
-    note:"매칭 결과는 유닛 데이터와 성격을 바탕으로 한 상담 참고용이며, 과학적 판정이 아닙니다. 제안은 무엇보다 고객의 실제 필요를 기준으로 하세요." }
+    note:"매칭 결과는 유닛 데이터와 성격을 바탕으로 한 상담 참고용이며, 과학적 판정이 아닙니다. 제안은 무엇보다 고객의 실제 필요를 기준으로 하세요." },
+  ja: { kicker:"Room Matcher · 営業・エージェント向け", h:"検討中のお客様に合う物件をマッチング", p:"お客様としばらくお話ししたものの、まだ決めかねているときにご利用ください。会話から把握したお客様の性格とご要望を入力すると、販売中のすべての物件が理由付きでランキングされ、ご提案に最適な物件を選べます。",
+    mbti:"お客様のMBTIタイプ", mbtiHint:"お客様について分かっていることから各ペアの一方を選択してください — 分からないものは空欄のままで構いません", unknown:"不明", typeIs:"お客様のタイプ", partial:"4つのペアをすべて選ぶとタイプが表示されます",
+    pairs:[["E","外向的","I","内向的"],["N","全体像","S","細部"],["T","論理","F","感情"],["J","計画的","P","柔軟"]],
+    goal:"購入目的", goals:{ live:"居住用", invest:"投資・賃貸用", holiday:"別荘" },
+    budget:"予算上限", any:"指定なし", type:"物件タイプ", view:"眺望", sea:"オーシャンビュー", city:"シティビュー",
+    must:"必須条件", mFurn:"すぐ住める家具付き", mPromo:"プロモーション価格", mFr:"外国人枠", mPhoto:"実際の写真あり",
+    found:n => `${n}件が該当`, showing:n => `上位${n}件を表示`, more:"さらに表示", reset:"リセット",
+    none:"すべての条件を満たす物件はありません — 予算を上げるか、必須条件を減らしてください。", match:"マッチ", view2:"物件を見る",
+    copy:"お客様用にリストをコピー", copied:"コピーしました", ask:"", copyHead:"お客様におすすめの物件",
+    r:{ exact:x=>`${x}向けにデザイン`, group:g=>`${g}に最適`, sea:"オーシャンビュー", seaSite:"海側", high:"高層階", furn:"すぐ入居可能", full:"家具付き（フル装備）",
+      studio:"手入れが簡単なスタジオ", onebed:"1ベッドルーム、空間が明確に分かれた間取り", big:"ゆとりある広さ", promo:d=>`${d}%オフ`, value:"お得な㎡単価", design:"実際にインテリア済み", budget:"予算内" },
+    note:"マッチ結果は、物件データと性格に基づく会話の参考であり、科学的な判定ではありません。ご提案はまずお客様の実際のご要望を基準にしてください。" }
 };
 const MX_BUDGETS = [0, 3000000, 3500000, 4000000, 4500000, 5000000, 7000000];
 const mx = { l:["","","",""], goal:"", budget:0, type:"", view:"", furn:false, promo:false, fr:false, photo:false, shown:12 };
@@ -1106,7 +1224,7 @@ function renderMatches(){
           <div class="usub">${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}</div>
           ${storyOf(u.unit) ? `<div class="mx-name">${storyOf(u.unit).name}</div>` : ""}
           <div class="mx-why">${why.map(w => `<span>${w}</span>`).join("")}</div>
-          <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+          <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
         </div>
       </button>`).join("")}</div>
     ${res.length > list.length ? `<div class="mx-morewrap"><button type="button" class="btn alt" data-mxmore="1">${M.more}</button></div>` : ""}`;
@@ -1218,7 +1336,21 @@ const SOC_T = {
     cLead:(c, ty) => `${c} 유닛은 ${ty} 유형에게 어울립니다`,
     cGeneric:"저희 팀이 고객님의 성격과 라이프스타일에 맞는 유닛을 찾아 드립니다.",
     cCta:"어떤 유닛이 맞을지 모르겠다면 Personalized Matching 페이지부터 시작해 보세요. 팀이 매칭을 도와 드립니다.",
-    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya #파타야콘도" }
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya #파타야콘도" },
+  ja: { title:c => `${c}の投稿を作成`, plat:"プラットフォーム", style:"キャプションのスタイル", prev:"投稿プレビュー", opts:"オプション",
+    styles:{ a:"価格重視", b:"眺望とライフスタイル", c:"性格マッチ" },
+    o:{ price:"価格を表示", disc:"割引率を表示", qr:"物件ページへのQR", contact:"電話 / LINE", tags:"ハッシュタグ" },
+    langLbl:"投稿の言語", ratioLbl:"画像の比率", pickImg:"背景写真",
+    copy:"キャプションをコピー", dl:"画像をダウンロード", open:"物件リンクを開く", dlHint:"ダウンロードボタンが反応しない場合（プレビュー表示時など）は、画像を右クリックまたは長押しして保存してください。",noImg:"この物件の写真はまだありません — 画像には間取り図または無地の背景を使用します。",
+    ready:"即名義変更可能", promo:"特別価格", from:"通常", save:"お得額", promoTag:"PROMOTION",
+    aCta:"詳細と見積書はコメント欄のリンクから、またはLINEでClare Pattaya Propertyにメッセージをお送りください。",
+    bLead:(v, c) => `${PROJECT_NAME}の${c}号室、カーテンを開ければ${v.toLowerCase()}が広がります`,
+    bBody:"すぐに入居可能、ジョムティエンビーチの近くで、プロジェクトの充実した共用施設付き — 居住にも賃貸にも最適です。",
+    bCta:"この物件の詳細はこちら：",
+    cLead:(c, ty) => `${c}号室は${ty}タイプにぴったりです`,
+    cGeneric:"私たちのチームが、あなたの性格とライフスタイルに合う物件をお探しします。",
+    cCta:"どの物件が合うか迷ったら、まずはPersonalized Matchingページから。チームがぴったりの物件をご提案します。",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" }
 };
 /* Units with their own page link straight to it; the rest open on the list page. */
 function unitUrl(code){
@@ -1398,7 +1530,7 @@ function renderSocialDlg(){
       `<label class="sc-sw"><input type="checkbox" data-soco="${k}"${soc.opt[k] ? " checked" : ""}><span>${l}</span></label>`).join("")}</div>
     <div class="sc-row">
       <label><span class="sc-lbl">${S.langLbl}</span>
-        <select data-socsel="lg">${["th", "en", "ru", "zh", "ko"].map(l =>
+        <select data-socsel="lg">${["th", "en", "ru", "zh", "ko", "ja"].map(l =>
           `<option value="${l}"${soc.lg === l ? " selected" : ""}>${l.toUpperCase()}</option>`).join("")}</select></label>
       <label><span class="sc-lbl">${S.ratioLbl}</span>
         <select data-socsel="ratio">${Object.keys(SOC_RATIOS).map(r =>
@@ -1465,6 +1597,7 @@ function route(){
     const m = g && document.getElementById("matcher");
     if (m) m.scrollIntoView(); else window.scrollTo(0, 0);
   }
+  else if (sub === "destiny"){ renderDestinyPage(); window.scrollTo(0, 0); }
   else if (code){ renderUnitPage(code.toUpperCase()); window.scrollTo(0, 0); }
   else { document.title = window.PAGE_TITLE || document.title; }
 }
@@ -1478,7 +1611,9 @@ function render(){
   if (fk !== lastFilterKey){ state.shown = PAGE_SIZE; lastFilterKey = fk; }   // new filters or sort: back to the first 12
   $("#count").textContent = list.length;
   const live = list.filter(u => u.status !== "SOLD");
-  $("#cheapest").textContent = live.length ? baht(Math.min(...live.map(sell))) : "—";
+  $("#curBox").innerHTML = curSeg();
+  $("#fxNote").textContent = fxNote(); $("#fxNote").hidden = cur !== "USD";
+  $("#cheapest").textContent = live.length ? money(Math.min(...live.map(sell))) : "—";
   if (state.table){ renderTable(list); $("#grid").hidden = true; $("#tblwrap").hidden = false; }
   else { renderGrid(list.slice(0, state.shown)); $("#grid").hidden = false; $("#tblwrap").hidden = true; }
   renderPager(state.table ? 0 : list.length);
@@ -1522,13 +1657,15 @@ function applyLang(){
   renderHighlights();
   if (document.body.classList.contains("unit-mode")){
     if (subPageFromUrl() === "matching") renderMatchingPage();
+    else if (subPageFromUrl() === "destiny") renderDestinyPage();
     else if (unitFromUrl()) renderUnitPage(unitFromUrl().toUpperCase());
   }
   $("#footNote").innerHTML = `${t("foot")}<br>${t("photoNoteLong")}`;
   if (window.LIKit){ $("#lkStrip").hidden = false; LIKit.strip($("#lkStrip"), lkBase()); }
   // buyer guide (Thailand Living Insight) — links carry from=r2 so the guide links back here
-  $("#guideLinks").innerHTML = [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
+  $("#guideLinks").innerHTML = `<a href="${safeLivingHref()}">${t("gSafe")} →</a>` + [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
     .map(([f, k]) => `<a href="LivingInsight-${f}.html?from=r2&lang=${lang}">${t(k)} →</a>`).join("");
+  renderNetTools();
   const intl = t => "+66" + t.replace(/\D/g, "").replace(/^0/, "");
   const pretty = t => t.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
   const rows = [];
@@ -1602,6 +1739,11 @@ $("#tbody").addEventListener("click", e => {
 });
 
 document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => { lang = b.dataset.lang; applyLang(); }));
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-cur]"); if (!b || b.dataset.cur === cur) return;
+  cur = b.dataset.cur; try { localStorage.setItem("rv-cur", cur); } catch (err) {}
+  applyLang();
+});
 
 const phero = $("#phero");
 phero.addEventListener("click", e => {
@@ -1676,7 +1818,7 @@ function openLineDlg(){
   $("#lineDlg").showModal();
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest("[data-line]");
+  const b = e.target.closest("[data-line],#dsLine");
   if (!b) return;
   e.preventDefault(); e.stopPropagation(); openLineDlg();
 }, true);
@@ -1711,9 +1853,10 @@ $("#slCopy").addEventListener("click", e => {
 });
 
 window.PAGE_TITLE = document.title;
-{ const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko"].includes(ql)) lang = ql; }
+{ const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko","ja"].includes(ql)) lang = ql; }
 applyProjectName();
 applyLang();
 route();
+loadFx().then(changed => { if (changed && cur === "USD") applyLang(); });
 startSlides();
 

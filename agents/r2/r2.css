@@ -682,3 +682,59 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
   .q-media.no-plan img{height:56mm}
   .d-grid,.notebox{break-inside:avoid}
 }
+
+/* ---------- Japanese ---------- */
+html:lang(ja){--f-ui:'IBM Plex Sans','Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic UI',Meiryo,-apple-system,BlinkMacSystemFont,sans-serif}
+html:lang(ja) body{line-break:strict;overflow-wrap:anywhere}
+
+/* ---------- network tools on the home page (Destiny Match, Safe Living) ---------- */
+.nettools{padding-block:8px 30px}
+.nt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.nt-card{position:relative;display:grid;gap:6px;align-content:start;padding:20px 22px;border-radius:var(--radius);text-decoration:none;color:#fff;overflow:hidden;box-shadow:var(--shadow);transition:transform .16s ease}
+.nt-card:hover{transform:translateY(-2px)}
+.nt-card b{font-family:var(--f-display);font-size:clamp(20px,2.4vw,24px);line-height:1.25;font-weight:700}
+.nt-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:600}
+.nt-p{font-size:14.5px;line-height:1.6;opacity:.92}
+.nt-go{justify-self:start;margin-top:6px;background:#8E5714;color:#fff;border-radius:99px;padding:8px 16px;font-size:13.5px;font-weight:600}
+.nt-ds{background:linear-gradient(135deg,rgba(4,64,75,.93),rgba(4,64,75,.74)),url(../../hai/img/destiny-hero.jpg) center 30%/cover}
+.nt-sl{background:linear-gradient(135deg,#0B6C7C,#04404B)}
+.nt-sl .nt-go{background:#fff;color:#04404B}
+body.unit-mode .nettools{display:none}
+
+/* Safe Living line under the unit's location */
+.u-sl{display:inline-block;margin-top:10px;color:var(--sea);font-weight:600;font-size:14px;text-decoration:none}
+.u-sl:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Destiny Match page (shared hai/destiny.js renders into #unitView) ----------
+   destiny.js styles itself with the network engine's token names; map them onto R2's palette here. */
+.ds,.dsd-box{--brand:var(--sea);--brand-soft:var(--sea-soft);--accent-soft:var(--gold-soft);--key-brand:#04404B}
+.ds .crumb{display:flex;flex-wrap:wrap;gap:6px;padding-block:18px 2px;font-size:13px;color:var(--muted)}
+.ds .crumb a{color:var(--sea);font-weight:600;text-decoration:none}
+.ds .crumb a:hover{text-decoration:underline;text-underline-offset:3px}
+.ds .lead{margin:0;color:var(--ink-2);max-width:70ch}
+.ds .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;line-height:1.3}
+.ds .btn.sm{background:var(--surface);color:var(--sea);padding:9px 16px}
+.ds .ds-go{padding:12px 22px}
+.ds .ds-mi .hcard{transform:none}
+.ds .ds-sec h2,.ds .ds-hero h1{color:var(--ink)}
+/* R2 is one condo project for sale: the purpose (buy/rent) and property-type pickers have only one answer here */
+.ds-form label:has(select[name="purpose"]),.ds-form label:has(select[name="type"]){display:none}
+.u-sec .dsd-box{margin-top:18px}
+
+/* six language buttons (with 日本語) need the whole bar on phones: keep only the logo's emblem there */
+@media (max-width:440px){
+  .brand-logo img{height:32px;width:33px;object-fit:cover;object-position:0 50%}
+  .langs button{padding:4px 6px}
+}
+@media (max-width:340px){ .brand-logo img{height:28px;width:29px} .langs button{padding:3px 5px;font-size:10.5px} }
+
+/* ---------- currency switch (฿ THB / US$, daily rate) ---------- */
+.cur-seg button{font-variant-numeric:tabular-nums}
+.fx-note{margin:8px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.u-thb{margin-top:4px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.u-cur{margin:14px 0 4px}
+.u-cur .fx-note{margin-top:8px}
+.kv.fx b{font-family:var(--f-mono)}
+@media print{ .u-cur,#curBox{display:none!important} }
+.u-cur .seg,#curBox .seg{display:inline-flex}
+.meta-end{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
