@@ -145,3 +145,7 @@ Never show: full address or house number, village/project name where agents "เ
 - `MATCHING_GUIDE` (engine) has one Pattaya example sentence ("Pattaya has both, from Jomtien beachfront…"): move to the region file when the Bangkok region is added.
 - `hai/regions/pattaya-eec.js` holds ASN's own on-site land checks ("plots ASN is selling" in the Sattahip Safe Zone note); a second Pattaya agent needs these split per agent.
 - `TOP_PICKS` sets the order of the list; with `SITE.showAll: true` (ASN since 3 Nov 2026) every active listing is shown after the picks, Sattahip and land last, sub-plots folded under their parent. Without `showAll` only the picks are shown.
+
+## Partner proposal (first-contact one-pager, `hai/docs/partner-proposal/`)
+
+One A4 page per language (en th zh ko): selling points and main functions like `HybridAIAgentNetwork.html`, no prices, no commission figures (those live in the Google Doc "Hybrid AI Agent Network" in Drive › Property Webpage (ThBHo) › Agent Network). Text in `text.py`, layout in `build.py`; `python3 hai/docs/partner-proposal/build.py --pdf <dir>` (local server on the repo root at :8765) writes the HTML and `Hybrid_AI_Agent_Network_Partner_Proposal_<LANG>.pdf`. Update it whenever a member joins or a network rule changes, then save to Drive with 🩷 (current) / 🟡 (previous) at the start of the file name.
