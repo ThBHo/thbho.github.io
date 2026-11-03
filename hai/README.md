@@ -7,6 +7,22 @@
 Owner: THOR · [WIDEROOMS](https://thbho.github.io/EngWiderooms.html) · [Hybrid AI by ThB.Ho](https://thbho.github.io/AIGymmateXFactory.html)
 First agent: ASN Exclusive Property (Pattaya), `ASNProperty.html` + `agents/asn/`. Split from one file on 3 Nov 2026 with identical output (12 routes × 4 languages compared).
 
+## Member sites
+
+| id | Agent | Site | Built on | Notes |
+|---|---|---|---|---|
+| `asn` | ASN Exclusive Property (Moshi), Pattaya | `ASNProperty.html` | `hai/` engine | houses, villas, condos, land; founding member |
+| `r2` | R2 by Clare (Clare Pattaya Property), Pattaya | `Riviera2Resale.html` + one page per unit | own project app in `agents/r2/` | The Riviera Jomtien resale condos Clare owns; ASN co-sells some of these units |
+
+### R2 by Clare (`agents/r2/`)
+
+A single-project site (one condo building, ~35 units): unit pages, floor stack, layouts, promo price list, quotations, unit stories, MBTI/feng shui matching, social posts. It is not on `hai/engine.js` yet; it shares `insight/kit.js` and the brand/network links.
+- `r2.css` styles · `data.js` units, photos, layouts, stories, matching, contact, prices · `text.js` interface text (th en ru zh ko) · `app.js` the app.
+- `shell.html` + `pages.json` → `python3 agents/r2/build.py` writes `Riviera2Resale.html` and every `Riviera2Resale-<CODE>.html` (only the head differs per page). Never edit those HTML files by hand. Bump `version` in `pages.json` on every change.
+- `Riviera2Resale-8A05.html` is `frozen` (unit booked, hidden since 27 Oct 2026): the build leaves it alone.
+- Clare owns every unit, so R2's data is the master for price and status. ASN may list the same units as co-agent (C03 = 8A05, C04 = 9A02, C05 = 19E02, B01 = COMMERCIAL-1, prices matched on 4 Nov 2026); when a unit's price or status changes on R2, update ASN the same day.
+- Next: Destiny Match and Safe Living for R2, Japanese, and later a "project mode" in `hai/` so R2 can run on the shared engine.
+
 ## Files and load order
 
 A page shell (e.g. `ASNProperty.html`) holds the agent's `<head>` (title, og tags, favicon) and body markup, then loads, in this order:
