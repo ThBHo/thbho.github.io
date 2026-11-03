@@ -546,10 +546,10 @@ function renderHighlights(){
 
 /* ------------------------------ MBTI ------------------------------ */
 const MBTI_GROUPS = {
-  an: { color: "#88619A", types: ["INTJ", "INTP", "ENTJ", "ENTP"], name: { th: "นักวิเคราะห์", en: "Analysts", ru: "Аналитики", zh: "分析家", ko: "분석가형" } },
-  di: { color: "#33A474", types: ["INFJ", "INFP", "ENFJ", "ENFP"], name: { th: "นักการทูต", en: "Diplomats", ru: "Дипломаты", zh: "外交家", ko: "외교관형" } },
-  se: { color: "#4298B4", types: ["ISTJ", "ISFJ", "ESTJ", "ESFJ"], name: { th: "ผู้พิทักษ์", en: "Sentinels", ru: "Хранители", zh: "守护者", ko: "관리자형" } },
-  ex: { color: "#D9A032", types: ["ISTP", "ISFP", "ESTP", "ESFP"], name: { th: "นักสำรวจ", en: "Explorers", ru: "Искатели", zh: "探险家", ko: "탐험가형" } }
+  an: { color: "#88619A", types: ["INTJ", "INTP", "ENTJ", "ENTP"], name: { th: "นักวิเคราะห์", en: "Analysts", ru: "Аналитики", zh: "分析家", ko: "분석가형", ja: "分析家" } },
+  di: { color: "#33A474", types: ["INFJ", "INFP", "ENFJ", "ENFP"], name: { th: "นักการทูต", en: "Diplomats", ru: "Дипломаты", zh: "外交家", ko: "외교관형", ja: "外交官" } },
+  se: { color: "#4298B4", types: ["ISTJ", "ISFJ", "ESTJ", "ESFJ"], name: { th: "ผู้พิทักษ์", en: "Sentinels", ru: "Хранители", zh: "守护者", ko: "관리자형", ja: "番人" } },
+  ex: { color: "#D9A032", types: ["ISTP", "ISFP", "ESTP", "ESFP"], name: { th: "นักสำรวจ", en: "Explorers", ru: "Искатели", zh: "探险家", ko: "탐험가형", ja: "探検家" } }
 };
 const MBTI_ROLE = { INTJ: "Architect", INTP: "Logician", ENTJ: "Commander", ENTP: "Debater", INFJ: "Advocate", INFP: "Mediator",
   ENFJ: "Protagonist", ENFP: "Campaigner", ISTJ: "Logistician", ISFJ: "Defender", ESTJ: "Executive", ESFJ: "Consul",
@@ -718,13 +718,14 @@ function renderUnitPage(code){
             ${floorBar(u)}
           </div>
           <p class="note">${t("uLocNote")}</p>
+          <a class="u-sl" href="${safeLivingHref()}">🛡️ ${t("slLink")} →</a>
         </section>`}
 
         ${lay ? `<section class="u-sec"><h2>${t("uPlan")}</h2>
           <button type="button" class="u-plan" data-uplan="1" aria-label="${t("uPlan")}"><img src="${lay.src}" alt="${t("uPlan")} ${u.unit}" loading="lazy"></button>
           ${lay.code ? `<p class="note">${t("uPlanNote")}</p>` : ""}</section>` : ""}
 
-        ${st ? `<section class="u-sec"><h2>${t("uFeng")}</h2><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p></section>
+        ${st ? `<section class="u-sec"><h2>${t("uFeng")}</h2><ul class="u-list feng">${st.fengshui.map(h => `<li>${h}</li>`).join("")}</ul><p class="note">${t("uFengNote")}</p>${window.ASND && u.type !== "Commercial" && u.status === "AVAILABLE" ? ASND.detailCta(u.unit) : ""}</section>
 
         <details class="u-sec u-fold">
           <summary><h2>${t("uConcept")}</h2></summary>
@@ -825,7 +826,76 @@ const lkBase = () => ({ lang, from: "r2", accent: "var(--sea)", wrLogo: "riviera
 
 /* ------------------------- matching article ------------------------ */
 const matchingHref = () => window.SITE_PAGES ? `${PAGE_FILE_STEM}-matching.html` : "#matching";
-const subPageFromUrl = () => window.SUB_PAGE || (/^#matching/.test(location.hash) ? "matching" : null);
+const subPageFromUrl = () => window.SUB_PAGE || (/^#matching/.test(location.hash) ? "matching" : /^#destiny/.test(location.hash) ? "destiny" : null);
+
+/* ------------------------- Destiny Match (shared hai/destiny.js) ------------------------ */
+/* The network's birth-chart + feng shui matcher, fed with R2's units through window.HAI_HOST (hai/README.md
+   "Destiny Match on any site"). Everything is computed in the browser; no birth data is sent or stored.
+   Page: Riviera2Resale-destiny.html (?u=CODE puts one unit in focus) or #destiny / #destiny-CODE on a local copy. */
+const destinyHref = code => window.SITE_PAGES
+  ? `${PAGE_FILE_STEM}-destiny.html${code ? "?u=" + encodeURIComponent(code) : ""}`
+  : `#destiny${code ? "-" + code : ""}`;
+const destinyFocus = () => {
+  const c = window.SUB_PAGE ? new URLSearchParams(location.search).get("u") : (location.hash.match(/^#destiny-([0-9A-Z-]+)$/i) || [])[1];
+  return c && UNITS.some(u => u.unit === c.toUpperCase()) ? c.toUpperCase() : null;
+};
+const safeLivingHref = () => `SafeLiving.html?from=r2&lang=${lang}`;   // shared network page, branded by ?from=r2
+const escHtml = s => String(s == null ? "" : s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);
+const DS_ZONE = { th: "จอมเทียน", en: "Jomtien", ru: "Джомтьен", zh: "宗滴恩", ko: "좀티엔", ja: "ジョムティエン" };
+// R2 unit → the home shape the engine scores. Sea-view units face the sea (west), city-view units the city (east),
+// the same rule the Living Insight kit uses on unit pages.
+const dsHome = u => ({
+  code: u.unit, name: storyOf(u.unit) ? storyOf(u.unit).name : u.unit, type: "condo", zone: "jomtien",
+  sale: sell(u), rent: 0, beds: u.type === "1 BED" ? 1 : 0, size: u.sqm, floor: u.floor, pool: "shared",
+  tags: [u.view === "Sea View" ? "seaView" : "cityView"], facing: u.view === "Sea View" ? "W" : "E"
+});
+const dsUnits = () => UNITS.filter(u => u.status === "AVAILABLE" && u.type !== "Commercial");
+const dsCard = h => { const u = UNITS.find(x => x.unit === h.code); if (!u) return "";
+  return `<a class="hcard" href="${unitHref(u.unit)}">
+    <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
+    <div class="hbody">
+      <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
+      ${storyOf(u.unit) ? `<div class="usub" style="white-space:normal">${storyOf(u.unit).name}</div>` : ""}
+      <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+    </div></a>`; };
+// text the scorer reads (sea, light, wood…): the English tagline + highlights, feng shui notes and the room palette
+const DS_STYLE = {};
+for (const c of Object.keys(UNIT_STORIES)){ const s = UNIT_STORIES[c], en = s.en; if (!en) continue;
+  DS_STYLE[c] = { en: { concept: [en.tagline, ...(en.highlights || [])].join(" "), feng: en.fengshui || [] }, palette: s.palette || [] }; }
+const DS_EL = {}; for (const e of Object.keys(FS_EL)) DS_EL[e] = { homes: FS_EL[e].units };
+window.HAI_HOST = {
+  lang: () => lang, esc: escHtml,
+  SHOWN: () => dsUnits().map(dsHome),
+  byCode: c => { const u = dsUnits().find(x => x.unit === c); return u ? dsHome(u) : null; },
+  card: dsCard,
+  zn: z => z === "jomtien" ? (DS_ZONE[lang] || DS_ZONE.en) : z,
+  ZONES: { jomtien: { ll: [12.88, 100.88] } },
+  HOME_STYLE: DS_STYLE, MG_EL: DS_EL,
+  FACING: Object.fromEntries(UNITS.map(u => [u.unit, u.view === "Sea View" ? "W" : "E"])),
+  CONTACT: { line: CONTACT.lines[0].id },
+  SITE: { short: "R2", name: "R2 by Clare" },
+  links: { home: () => listHref(), listing: c => unitHref(c), destiny: c => destinyHref(c) },
+  mount: () => document.getElementById("unitView")
+};
+function renderDestinyPage(){
+  if (!window.ASND){ document.getElementById("unitView").innerHTML = `<div class="wrap uv"><div class="empty"><a href="${listHref()}">← ${t("backAll")}</a></div></div>`; return; }
+  ASND.render(destinyFocus());
+}
+// home page: the two network tools (Destiny Match, Safe Living) side by side
+function renderNetTools(){
+  const box = document.getElementById("netTools"); if (!box) return;
+  const nav = window.ASND && ASND.T ? (ASND.T[lang] || ASND.T.en) : null;
+  box.innerHTML = `<div class="wrap nt-grid">
+    ${window.ASND ? `<a class="nt-card nt-ds" href="${destinyHref()}">
+      <span class="nt-k">Destiny Match · Hybrid AI Agent Network</span>
+      <b>🔮 ${t("dsH")}</b><span class="nt-p">${t("dsP")}</span>
+      <span class="nt-go">${nav ? nav.dsHomeCta : t("dsGo") + " →"}</span></a>` : ""}
+    <a class="nt-card nt-sl" href="${safeLivingHref()}">
+      <span class="nt-k">Safe Living · Hybrid AI Agent Network</span>
+      <b>🛡️ ${t("slH")}</b><span class="nt-p">${t("slP")}</span>
+      <span class="nt-go">${t("slGo")} →</span></a>
+  </div>`;
+}
 
 function renderMatchingPage(){
   const a = MATCHING[lang] || MATCHING.en;
@@ -996,7 +1066,19 @@ const MX_T = {
     copy:"고객용 목록 복사", copied:"복사됨", ask:"", copyHead:"고객님을 위해 고른 유닛",
     r:{ exact:x=>`${x}을(를) 위해 디자인`, group:g=>`${g}에게 적합`, sea:"바다 전망", seaSite:"바다 쪽", high:"고층", furn:"바로 입주", full:"풀옵션",
       studio:"관리 쉬운 스튜디오", onebed:"원베드룸, 명확한 공간 구분", big:"넓은 면적", promo:d=>`${d}% 할인`, value:"㎡당 가격 좋음", design:"실제 인테리어 완료", budget:"예산 내" },
-    note:"매칭 결과는 유닛 데이터와 성격을 바탕으로 한 상담 참고용이며, 과학적 판정이 아닙니다. 제안은 무엇보다 고객의 실제 필요를 기준으로 하세요." }
+    note:"매칭 결과는 유닛 데이터와 성격을 바탕으로 한 상담 참고용이며, 과학적 판정이 아닙니다. 제안은 무엇보다 고객의 실제 필요를 기준으로 하세요." },
+  ja: { kicker:"Room Matcher · 営業・エージェント向け", h:"検討中のお客様に合う物件をマッチング", p:"お客様としばらくお話ししたものの、まだ決めかねているときにご利用ください。会話から把握したお客様の性格とご要望を入力すると、販売中のすべての物件が理由付きでランキングされ、ご提案に最適な物件を選べます。",
+    mbti:"お客様のMBTIタイプ", mbtiHint:"お客様について分かっていることから各ペアの一方を選択してください — 分からないものは空欄のままで構いません", unknown:"不明", typeIs:"お客様のタイプ", partial:"4つのペアをすべて選ぶとタイプが表示されます",
+    pairs:[["E","外向的","I","内向的"],["N","全体像","S","細部"],["T","論理","F","感情"],["J","計画的","P","柔軟"]],
+    goal:"購入目的", goals:{ live:"居住用", invest:"投資・賃貸用", holiday:"別荘" },
+    budget:"予算上限", any:"指定なし", type:"物件タイプ", view:"眺望", sea:"オーシャンビュー", city:"シティビュー",
+    must:"必須条件", mFurn:"すぐ住める家具付き", mPromo:"プロモーション価格", mFr:"外国人枠", mPhoto:"実際の写真あり",
+    found:n => `${n}件が該当`, showing:n => `上位${n}件を表示`, more:"さらに表示", reset:"リセット",
+    none:"すべての条件を満たす物件はありません — 予算を上げるか、必須条件を減らしてください。", match:"マッチ", view2:"物件を見る",
+    copy:"お客様用にリストをコピー", copied:"コピーしました", ask:"", copyHead:"お客様におすすめの物件",
+    r:{ exact:x=>`${x}向けにデザイン`, group:g=>`${g}に最適`, sea:"オーシャンビュー", seaSite:"海側", high:"高層階", furn:"すぐ入居可能", full:"家具付き（フル装備）",
+      studio:"手入れが簡単なスタジオ", onebed:"1ベッドルーム、空間が明確に分かれた間取り", big:"ゆとりある広さ", promo:d=>`${d}%オフ`, value:"お得な㎡単価", design:"実際にインテリア済み", budget:"予算内" },
+    note:"マッチ結果は、物件データと性格に基づく会話の参考であり、科学的な判定ではありません。ご提案はまずお客様の実際のご要望を基準にしてください。" }
 };
 const MX_BUDGETS = [0, 3000000, 3500000, 4000000, 4500000, 5000000, 7000000];
 const mx = { l:["","","",""], goal:"", budget:0, type:"", view:"", furn:false, promo:false, fr:false, photo:false, shown:12 };
@@ -1218,7 +1300,21 @@ const SOC_T = {
     cLead:(c, ty) => `${c} 유닛은 ${ty} 유형에게 어울립니다`,
     cGeneric:"저희 팀이 고객님의 성격과 라이프스타일에 맞는 유닛을 찾아 드립니다.",
     cCta:"어떤 유닛이 맞을지 모르겠다면 Personalized Matching 페이지부터 시작해 보세요. 팀이 매칭을 도와 드립니다.",
-    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya #파타야콘도" }
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya #파타야콘도" },
+  ja: { title:c => `${c}の投稿を作成`, plat:"プラットフォーム", style:"キャプションのスタイル", prev:"投稿プレビュー", opts:"オプション",
+    styles:{ a:"価格重視", b:"眺望とライフスタイル", c:"性格マッチ" },
+    o:{ price:"価格を表示", disc:"割引率を表示", qr:"物件ページへのQR", contact:"電話 / LINE", tags:"ハッシュタグ" },
+    langLbl:"投稿の言語", ratioLbl:"画像の比率", pickImg:"背景写真",
+    copy:"キャプションをコピー", dl:"画像をダウンロード", open:"物件リンクを開く", dlHint:"ダウンロードボタンが反応しない場合（プレビュー表示時など）は、画像を右クリックまたは長押しして保存してください。",noImg:"この物件の写真はまだありません — 画像には間取り図または無地の背景を使用します。",
+    ready:"即名義変更可能", promo:"特別価格", from:"通常", save:"お得額", promoTag:"PROMOTION",
+    aCta:"詳細と見積書はコメント欄のリンクから、またはLINEでClare Pattaya Propertyにメッセージをお送りください。",
+    bLead:(v, c) => `${PROJECT_NAME}の${c}号室、カーテンを開ければ${v.toLowerCase()}が広がります`,
+    bBody:"すぐに入居可能、ジョムティエンビーチの近くで、プロジェクトの充実した共用施設付き — 居住にも賃貸にも最適です。",
+    bCta:"この物件の詳細はこちら：",
+    cLead:(c, ty) => `${c}号室は${ty}タイプにぴったりです`,
+    cGeneric:"私たちのチームが、あなたの性格とライフスタイルに合う物件をお探しします。",
+    cCta:"どの物件が合うか迷ったら、まずはPersonalized Matchingページから。チームがぴったりの物件をご提案します。",
+    tags:"#TheRivieraJomtien #PattayaCondo #ClarePattaya" }
 };
 /* Units with their own page link straight to it; the rest open on the list page. */
 function unitUrl(code){
@@ -1398,7 +1494,7 @@ function renderSocialDlg(){
       `<label class="sc-sw"><input type="checkbox" data-soco="${k}"${soc.opt[k] ? " checked" : ""}><span>${l}</span></label>`).join("")}</div>
     <div class="sc-row">
       <label><span class="sc-lbl">${S.langLbl}</span>
-        <select data-socsel="lg">${["th", "en", "ru", "zh", "ko"].map(l =>
+        <select data-socsel="lg">${["th", "en", "ru", "zh", "ko", "ja"].map(l =>
           `<option value="${l}"${soc.lg === l ? " selected" : ""}>${l.toUpperCase()}</option>`).join("")}</select></label>
       <label><span class="sc-lbl">${S.ratioLbl}</span>
         <select data-socsel="ratio">${Object.keys(SOC_RATIOS).map(r =>
@@ -1465,6 +1561,7 @@ function route(){
     const m = g && document.getElementById("matcher");
     if (m) m.scrollIntoView(); else window.scrollTo(0, 0);
   }
+  else if (sub === "destiny"){ renderDestinyPage(); window.scrollTo(0, 0); }
   else if (code){ renderUnitPage(code.toUpperCase()); window.scrollTo(0, 0); }
   else { document.title = window.PAGE_TITLE || document.title; }
 }
@@ -1522,13 +1619,15 @@ function applyLang(){
   renderHighlights();
   if (document.body.classList.contains("unit-mode")){
     if (subPageFromUrl() === "matching") renderMatchingPage();
+    else if (subPageFromUrl() === "destiny") renderDestinyPage();
     else if (unitFromUrl()) renderUnitPage(unitFromUrl().toUpperCase());
   }
   $("#footNote").innerHTML = `${t("foot")}<br>${t("photoNoteLong")}`;
   if (window.LIKit){ $("#lkStrip").hidden = false; LIKit.strip($("#lkStrip"), lkBase()); }
   // buyer guide (Thailand Living Insight) — links carry from=r2 so the guide links back here
-  $("#guideLinks").innerHTML = [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
+  $("#guideLinks").innerHTML = `<a href="${safeLivingHref()}">${t("gSafe")} →</a>` + [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
     .map(([f, k]) => `<a href="LivingInsight-${f}.html?from=r2&lang=${lang}">${t(k)} →</a>`).join("");
+  renderNetTools();
   const intl = t => "+66" + t.replace(/\D/g, "").replace(/^0/, "");
   const pretty = t => t.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
   const rows = [];
@@ -1676,7 +1775,7 @@ function openLineDlg(){
   $("#lineDlg").showModal();
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest("[data-line]");
+  const b = e.target.closest("[data-line],#dsLine");
   if (!b) return;
   e.preventDefault(); e.stopPropagation(); openLineDlg();
 }, true);
@@ -1711,7 +1810,7 @@ $("#slCopy").addEventListener("click", e => {
 });
 
 window.PAGE_TITLE = document.title;
-{ const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko"].includes(ql)) lang = ql; }
+{ const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko","ja"].includes(ql)) lang = ql; }
 applyProjectName();
 applyLang();
 route();
