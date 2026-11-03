@@ -32,6 +32,7 @@ const CONTACT = {
   wechatQr: "asn-img/wechat-qr.jpg",
   email: "asn.exclusive.property@gmail.com",
   facebook: "https://www.facebook.com/share/1E3951oUMg/?mibextid=wwXIfr",        // page: ASN Sale Rent Property
+  facebookName: "ASN Sale Rent Property",                                         // label shown on the contact card
   facebookAgent: "https://www.facebook.com/share/1UgoQ4tJRB/?mibextid=wwXIfr"    // Moshi
 };
 
@@ -126,5 +127,10 @@ const SITE = {
   emblem: "asn-img/logo-emblem.png",
   matchHero: "asn-img/H14-4.jpg",         // hero photo on the matching page
   safeLiving: "ASNSafeLiving.html",
-  showAll: true                           // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026
+  showAll: true,                          // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026
+  why: ["100+", "6", "1:1"],              // About stats (labels: T.why1..why3)
+  tags: { base: "#Pattaya #PattayaRealEstate #PoolVilla", condo: "#PattayaCondo", commercial: "#PattayaCommercial", house: "#PattayaHouse", brand: "#ASNExclusiveProperty" } // social caption hashtags
 };
+
+/* Project names that replace the zone in a listing title (Thor 1 Nov 2026) */
+const PROJECTS = [[/riviera/i, "The Riviera Jomtien"], [/prime habitat/i, "Prime Habitat"]];

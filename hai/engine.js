@@ -11,7 +11,7 @@ let lang = "th";
 const st = { deal:"any", type:"", zone:"", budget:"", beds:0, pool:false, sort:"rec", q:"", view:"grid" };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
-if (window.ASND) for (const k in ASND.T) Object.assign(T[k] || (T[k] = {}), ASND.T[k]);   // Destiny Match (asn-destiny.js) nav strings
+if (window.ASND) for (const k in ASND.T) Object.assign(T[k] || (T[k] = {}), ASND.T[k]);   // Destiny Match (hai/destiny.js) nav strings
 const t = (k, v) => { let s = (T[lang] && T[lang][k]) ?? T.en[k] ?? T.th[k] ?? k; if (v) for (const n in v) s = s.replace("{" + n + "}", v[n]); return s; };
 const zn = z => (ZONE_NAMES[z] && (ZONE_NAMES[z][lang] || ZONE_NAMES[z].en)) || z;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
@@ -27,7 +27,12 @@ const SHOWN = () => { if (!TOP_PICKS.length) return L.filter(l => !l.parent); co
 // listing name in the current language when a listing has `names` (land plots); otherwise its single name
 // Standard listing title (Thor 1 Nov 2026): built from the listing's own data in every language, not the Facebook post title.
 // villa/house: "<type> <beds> bedrooms · <zone>", condo: "<condo> <beds> <size> · <project|zone>", land: "<land> <size> · <zone>"
-const PROJECT_OF = l => /riviera/i.test(l.name || "") ? "The Riviera Jomtien" : /prime habitat/i.test(l.name || "") ? "Prime Habitat" : "";
+// project names that replace the zone in a title come from the agent: PROJECTS = [[/regex/i, "Project name"], …] in agents/<id>/config.js
+// public listing reference, e.g. "ASN-H96": prefix = SITE.ref, else SITE.short
+const ref = c => `${SITE.ref || SITE.short}-${c}`;
+// key colours (fixed in light and dark; print, flyer, social image, map): --key-<name> in hai/engine.css / agents/<id>/theme.css
+const KEY = (k, d) => getComputedStyle(document.documentElement).getPropertyValue("--key-" + k).trim() || d;
+const PROJECT_OF = l => { const P = typeof PROJECTS !== "undefined" ? PROJECTS : []; for (const [re, n] of P) if (re.test(l.name || "")) return n; return ""; };
 function stdName(l) {
   const z = zn(l.zone), pj = PROJECT_OF(l), b = l.beds, n = x => nf(Math.round(x * 100) / 100);
   const area = l.size || l.usable, wah = l.land ? Math.round(l.land / 4) : null;
@@ -90,12 +95,13 @@ function badges(l) {
 }
 // distance to U-Tapao airport / Eastern Airport City (Google Maps driving, 1 Nov 2026). Exact for plots with
 // coordinates; zone listings (houses without a public location) get an approximate figure from the zone centre.
-const UTP = { L01: [11.2, 15], L03: [7.9, 10], L04: [7.9, 10], H96: [3.7, 6] };
-const UTP_ZONE = { huaiyai: [30, "30–35"], sattahip: [18, "15–25"] };
+// Data lives outside the engine: UTP (per listing code) in agents/<id>/listing-data.js, UTP_ZONE (per zone) in hai/regions/<region>.js.
+// A site without either simply shows no airport line.
 function utp(l) {
-  const e = UTP[l.code] || (l.parent && UTP[l.parent]);
+  const U = typeof UTP !== "undefined" ? UTP : {}, UZ = typeof UTP_ZONE !== "undefined" ? UTP_ZONE : {};
+  const e = U[l.code] || (l.parent && U[l.parent]);
   if (e) return { km: e[0], min: e[1], ok: 1 };
-  const z = UTP_ZONE[l.zone]; return z ? { km: z[0], min: z[1], ok: 0 } : null;
+  const z = UZ[l.zone]; return z ? { km: z[0], min: z[1], ok: 0 } : null;
 }
 const utpTxt = l => { const u = utp(l); return u ? t(u.ok ? "utpExact" : "utpApprox", { km: nf(u.km), min: u.min, z: zn(l.zone) }) : null; };
 const utpChip = l => { const u = utp(l); return u ? `<span>✈️ ${u.ok ? "" : "~"}${nf(u.km)} ${t("km")} ${t("utpShort")}</span>` : ""; };
@@ -134,7 +140,7 @@ function card(l, browse) {
       <span class="card-count">📷 <span class="cix">${browse ? `1 / ` : ""}</span>${n}</span></div>
     <button type="button" class="star" data-star="${l.code}" aria-pressed="${on}" aria-label="Save">${on ? "★" : "☆"}</button>
     <div class="card-body">
-      <span class="code">ASN-${l.code}</span>
+      <span class="code">${ref(l.code)}</span>
       <h3><a href="#/l/${l.code}">${esc(nm(l))}</a></h3>
       <p class="where">📍 ${esc(zn(l.zone))}</p>
       <div class="specs">${specLine(l)}</div>
@@ -244,7 +250,7 @@ function renderList() {
   $("#grid").innerHTML = vis.map(l => card(l, true)).join("") // explicit flag: map() would pass the index, leaving the first card without photo arrows
     + (left > 0 ? `<div class="more-wrap"><button type="button" class="btn more-btn" id="moreList">+ ${esc(MORE_TXT[lang] || MORE_TXT.en)} <small>(${left})</small></button></div>` : "");
   $("#thead").innerHTML = `<tr><th>${t("code")}</th><th>${t("type")}</th><th>${t("zone")}</th><th class="n">${t("beds")}</th><th class="n">${t("baths")}</th><th class="n">${t("usable")}</th><th class="n">${t("land")}</th><th class="n">${t("forRent")}</th><th class="n">${t("forSale")}</th></tr>`;
-  $("#tbody").innerHTML = vis.map(l => `<tr data-go="${l.code}"><td><b>ASN-${l.code}</b><br><small>${esc(nm(l))}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
+  $("#tbody").innerHTML = vis.map(l => `<tr data-go="${l.code}"><td><b>${ref(l.code)}</b><br><small>${esc(nm(l))}</small></td><td>${t(l.type)}</td><td>${esc(zn(l.zone))}</td>
     <td class="n">${l.beds ?? "—"}</td><td class="n">${l.baths ?? "—"}</td><td class="n">${area(l) ? nf(area(l)) : "—"}</td><td class="n">${l.land ? nf(Math.round(l.land / 4)) + " " + t("sqw") : "—"}</td>
     <td class="n">${l.rent ? money(l.rent) : "—"}</td><td class="n">${l.sale ? money(l.sale) : "—"}</td></tr>`).join("")
     + (left > 0 ? `<tr class="more-tr"><td colspan="9"><button type="button" class="btn more-btn" data-more="1">+ ${esc(MORE_TXT[lang] || MORE_TXT.en)} <small>(${left})</small></button></td></tr>` : "");
@@ -272,7 +278,7 @@ function drawZones() {
   const col = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim() || "#1F3A5F";
   for (const z of Object.keys(ZONES)) {
     const n = SHOWN().filter(l => l.zone === z).length, land = ZONES[z].land; if (!n && !land) continue;
-    const c = window.L.circle(ZONES[z].ll, { radius: land ? 2200 : 900, color: land ? "#B57A27" : col, weight: 1.5, dashArray: land ? "6 5" : null, fillOpacity: st.zone === z ? .35 : .12 }).addTo(zoneLayer);
+    const c = window.L.circle(ZONES[z].ll, { radius: land ? 2200 : 900, color: land ? KEY("accent", "#B57A27") : col, weight: 1.5, dashArray: land ? "6 5" : null, fillOpacity: st.zone === z ? .35 : .12 }).addTo(zoneLayer);
     const m = window.L.marker(ZONES[z].ll, { icon: window.L.divIcon({ className: "", html: `<div class="zpin" style="width:30px;height:30px${land ? ";background:#B57A27" : ""}">${n}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) }).addTo(zoneLayer);
     const go = () => { if (land) { location.hash = "#/zone/" + z; return; } st.zone = z; fillFilters(); renderList(); drawZones(); document.getElementById("listings").scrollIntoView(); };
     c.on("click", go); m.on("click", go); m.bindTooltip(zn(z));
@@ -349,7 +355,7 @@ function renderMatch() {
 /* ---------- booking ---------- */
 function renderBookForm(pre) {
   const cur = pre || $("#bListing").value || "";
-  opts($("#bListing"), [["", t("anyListing")], ...L.map(l => [l.code, `ASN-${l.code} · ${nm(l)}`])], cur);
+  opts($("#bListing"), [["", t("anyListing")], ...L.map(l => [l.code, `${ref(l.code)} · ${nm(l)}`])], cur);
   const keep = id => $(id).value;
   const d = keep("#bDur"), p = keep("#bPets"), pu = keep("#bPurpose"), v = keep("#bView"), c = keep("#bCh");
   opts($("#bDur"), [1, 2, 3, 4, 5].map(n => ["dur" + n, t("dur" + n)]), d || "dur3");
@@ -362,7 +368,7 @@ function bookMessage() {
   const l = byCode($("#bListing").value);
   const lab = k => t(k) + ": ";
   const val = id => $(id).value.trim();
-  const lines = [t("msgHi") + (l ? ` — ASN-${l.code} ${nm(l)}` : ""), ""];
+  const lines = [t("msgHi") + (l ? ` — ${ref(l.code)} ${nm(l)}` : ""), ""];
   if (l) lines.push(listingUrl(l));
   const add = (k, v) => { if (v) lines.push(lab(k) + v); };
   add("fName", val("#bName")); add("fNation", val("#bNation"));
@@ -379,7 +385,7 @@ function renderReviews() {
   $("#reviews").innerHTML = REVIEWS.map(r => `<div class="review"><div class="stars">${"★".repeat(r.stars || 5)}</div><p>${esc(r.text)}</p><small>${esc(r.name)} · ${esc(r.date || "")}</small></div>`).join("");
 }
 function renderAbout() {
-  $("#why").innerHTML = [["100+", t("why1")], ["6", t("why2")], ["1:1", t("why3")]].map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
+  $("#why").innerHTML = (SITE.why || ["100+", "6", "1:1"]).map((b, i) => [b, t("why" + (i + 1))]).map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
 }
 const fmtPhone = p => p.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
 function renderContact() {
@@ -388,11 +394,11 @@ function renderContact() {
   const ch = [
     ["LINE", "#06C755", "L", "https://line.me/ti/p/~" + encodeURIComponent(C.line), C.line],
     ["WhatsApp", "#25D366", "W", "https://wa.me/" + C.whatsapp, "+" + C.whatsapp],
-    [t("call"), "#1F3A5F", "☎", "tel:" + C.phones[0], C.phones.map(fmtPhone).join(" · ")],
+    [t("call"), KEY("brand", "#1F3A5F"), "☎", "tel:" + C.phones[0], C.phones.map(fmtPhone).join(" · ")],
     ["Telegram", "#229ED9", "T", "https://t.me/" + C.telegram, C.telegram],
     ["WeChat", "#07C160", "微", "#", t("wechatAdd"), "wechat"],
-    [t("email"), "#B57A27", "@", "mailto:" + C.email, C.email],
-    ["Facebook Page", "#1877F2", "f", C.facebook, "ASN Sale Rent Property"],
+    [t("email"), KEY("accent", "#B57A27"), "@", "mailto:" + C.email, C.email],
+    ["Facebook Page", "#1877F2", "f", C.facebook, C.facebookName || SITE.name],
     ["Facebook", "#1877F2", "f", C.facebookAgent, C.person]
   ];
   $("#channels").innerHTML = ch.map(([n, col, ic, href, v, cp]) => `<a href="${esc(href)}" ${cp === "wechat" ? "data-wechat" : href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
@@ -404,7 +410,7 @@ function renderContact() {
    ==================================================================== */
 let dmap;
 function lineText(l) {
-  const s = [`🏡 ${nm(l)} (ASN-${l.code})`, `📍 ${zn(l.zone)} · ${t(l.type)}`];
+  const s = [`🏡 ${nm(l)} (${ref(l.code)})`, `📍 ${zn(l.zone)} · ${t(l.type)}`];
   if (l.ll) s.push(`🗺️ https://www.google.com/maps?q=${l.ll.join(",")}`);
   const sp = [];
   if (l.beds) sp.push(`🛏 ${l.beds} ${t("beds")}`); if (l.baths) sp.push(`🛁 ${l.baths} ${t("baths")}`);
@@ -453,14 +459,14 @@ function renderDetail(code) {
   const l = byCode(code);
   if (!l && !DATA_READY) { // Sheet listings arrive a moment after first paint: hold the link until they do
     const dv = $("#detailView"); dv.dataset.code = code; dv.dataset.zone = ""; dv.dataset.page = "";
-    dv.innerHTML = `<div class="empty" style="padding:80px 16px;text-align:center">ASN-${esc(code)} …</div>`; return;
+    dv.innerHTML = `<div class="empty" style="padding:80px 16px;text-align:center">${ref(esc(code))} …</div>`; return;
   }
   if (!l) { location.hash = "#/"; return; }
   const ph = photos(l);
   const on = saved().includes(l.code);
   const yn = v => v == null ? null : v ? t("yes") : t("no");
   const kv = l.type === "land" ? landKv(l) : [
-    kvItem(t("code"), "ASN-" + l.code), kvItem(t("type"), t(l.type)), kvItem(t("zone"), zn(l.zone)),
+    kvItem(t("code"), ref(l.code)), kvItem(t("type"), t(l.type)), kvItem(t("zone"), zn(l.zone)),
     ...(l.type === "commercial" ? [] : [kvItem(t("beds"), l.beds), kvItem(t("baths"), l.baths)]),
     l.size ? kvItem(t("size"), `${l.size} ${t("sqm")}`) : kvItem(t("usable"), l.usable ? `${nf(l.usable)}${l.usablePlus ? "+" : ""} ${t("sqm")}` : null),
     l.type === "condo" || l.type === "commercial" ? kvItem(t("floor"), l.floor ? l.floor + (l.building ? ` · ${t("building")} ${l.building}` : "") : null) : kvItem(t("land"), landTxt(l)),
@@ -479,7 +485,7 @@ function renderDetail(code) {
   <div class="wrap">
     <nav class="crumb"><a href="#/listings">${t("back")}</a></nav>
     <div class="d-head"><div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${badges(l)}<span class="code" style="align-self:center">ASN-${l.code}</span></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${badges(l)}<span class="code" style="align-self:center">${ref(l.code)}</span></div>
       <h1>${esc(nm(l))}</h1><p class="where">📍 ${esc(zn(l.zone))}</p>${priceRows(l) ? `<div class="m-price">${priceRows(l)}<a class="btn solid sm" href="#/book/${l.code}">📅 ${t("bookThis")}</a></div>` : ""}</div>
       <button type="button" class="btn" data-dstar="${l.code}">${on ? t("saved") : t("save")}</button></div>
     <div class="gal">${ph.slice(0, 5).map((p, i) => `<button type="button" data-lb="${i}"><img src="${esc(p)}" alt="${esc(nm(l))} ${i + 1}" ${i ? 'loading="lazy"' : ""}>${i === 4 && ph.length > 5 ? `<span class="more">+${ph.length - 5} ${t("photos")}</span>` : ""}</button>`).join("")}</div>
@@ -512,7 +518,7 @@ function renderDetail(code) {
         <div class="ch" style="grid-template-columns:repeat(2,minmax(0,1fr))">
           <a href="https://line.me/ti/p/~${encodeURIComponent(CONTACT.line)}" target="_blank" rel="noopener"><i style="background:#06C755">L</i><div><span>LINE</span><b>${esc(CONTACT.line)}</b></div></a>
           <a href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(lineText(l))}" target="_blank" rel="noopener"><i style="background:#25D366">W</i><div><span>WhatsApp</span><b>+${CONTACT.whatsapp}</b></div></a>
-          ${CONTACT.phones.map(p => `<a href="tel:${p}"><i style="background:#1F3A5F">☎</i><div><span>${t("call")}</span><b>${fmtPhone(p)}</b></div></a>`).join("")}
+          ${CONTACT.phones.map(p => `<a href="tel:${p}"><i style="background:${KEY("brand", "#1F3A5F")}">☎</i><div><span>${t("call")}</span><b>${fmtPhone(p)}</b></div></a>`).join("")}
           <a href="#" data-wechat style="grid-column:1/-1"><i style="background:#07C160">微</i><div><span>WeChat</span><b>${t("wechatAdd")}</b></div></a>
         </div>
       </aside>
@@ -521,7 +527,7 @@ function renderDetail(code) {
     <p class="d-copy">${t("copyIp")}</p>
   </div>
   <div class="flyer">
-    <div class="fl-hd"><div class="fl-brand"><img src="${SITE.emblem}" alt=""><div><b>${SITE.short}</b><small>${SITE.tag}</small><em>${esc(CONTACT.company)}</em></div></div><div style="text-align:right;font-size:8.5pt">ASN-${l.code}<br>${esc(zn(l.zone))}</div></div>
+    <div class="fl-hd"><div class="fl-brand"><img src="${SITE.emblem}" alt=""><div><b>${SITE.short}</b><small>${SITE.tag}</small><em>${esc(CONTACT.company)}</em></div></div><div style="text-align:right;font-size:8.5pt">${ref(l.code)}<br>${esc(zn(l.zone))}</div></div>
     <img class="fl-hero" src="${esc(ph[0])}" alt="">
     <div class="fl-row">${ph.slice(1, 4).map(p => `<img src="${esc(p)}" alt="">`).join("")}</div>
     <h1 class="fl-t">${esc(nm(l))}</h1>
@@ -551,7 +557,7 @@ function renderDetail(code) {
     dmap = window.L.map("dmap", { scrollWheelZoom: false }).setView(l.ll || z.ll, l.ll ? 16 : 13);
     window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 17, attribution: "© OpenStreetMap" }).addTo(dmap);
     // listings with exact coordinates (land plots) get a pin; others show the approximate zone circle
-    if (l.ll) window.L.marker(l.ll).addTo(dmap).bindTooltip(`ASN-${l.code}`, { permanent: true, direction: "top" });
+    if (l.ll) window.L.marker(l.ll).addTo(dmap).bindTooltip(`${ref(l.code)}`, { permanent: true, direction: "top" });
     else window.L.circle(z.ll, { radius: 900, color: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(), weight: 1.5, fillOpacity: .2 }).addTo(dmap).bindTooltip(zn(l.zone), { permanent: true, direction: "center" });
   }
   document.title = `${nm(l)} · ${SITE.name}`;
@@ -565,7 +571,7 @@ function plotsSec(l) {
   if (l.type !== "land") return "";
   const kids = L.filter(x => x.parent === l.code).sort((a, b) => a.plotNo - b.plotNo);
   const par = l.parent && byCode(l.parent);
-  if (kids.length) return `<div class="d-sec"><h2>${t("plotsH", { n: kids.length })}</h2><p class="mapnote" style="margin:0 0 10px">${t("plotsP")}</p><div class="plots">${kids.map(k => `<a class="plot" href="#/l/${k.code}"><img src="${esc(photos(k)[0])}" alt="" loading="lazy"><div><b>${t("plotN", { n: k.plotNo })}</b><span>${nf(Math.round(k.land / 4))} ${t("sqw")} · ${nf(k.land)} ${t("sqm")}</span><span class="pp">${k.sale ? money(k.sale) : t("ask")}</span><small>ASN-${k.code}</small></div></a>`).join("")}</div></div>`;
+  if (kids.length) return `<div class="d-sec"><h2>${t("plotsH", { n: kids.length })}</h2><p class="mapnote" style="margin:0 0 10px">${t("plotsP")}</p><div class="plots">${kids.map(k => `<a class="plot" href="#/l/${k.code}"><img src="${esc(photos(k)[0])}" alt="" loading="lazy"><div><b>${t("plotN", { n: k.plotNo })}</b><span>${nf(Math.round(k.land / 4))} ${t("sqw")} · ${nf(k.land)} ${t("sqm")}</span><span class="pp">${k.sale ? money(k.sale) : t("ask")}</span><small>${ref(k.code)}</small></div></a>`).join("")}</div></div>`;
   if (par) return `<div class="d-sec plot-of"><p>${t("plotOf", { n: l.plotNo, all: par.plots || 6 })} <a class="btn sm" href="#/l/${par.code}">${t("plotWhole")} · ${nf(Math.round(par.land / 4))} ${t("sqw")} →</a></p></div>`;
   return "";
 }
@@ -784,7 +790,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTI และฮวงจุ้ย",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "บ้านที่ใช่ เริ่มจากการรู้จักตัวเอง",
-    lede: "คู่มือสั้นๆ ว่าบุคลิกภาพ (MBTI) และหลักฮวงจุ้ยช่วยเลือกบ้านได้อย่างไร งานวิจัยบอกอะไร ส่วนไหนเป็นความเชื่อ และบ้านแต่ละหลังของ ASN เข้ากับใคร",
+    lede: "คู่มือสั้นๆ ว่าบุคลิกภาพ (MBTI) และหลักฮวงจุ้ยช่วยเลือกบ้านได้อย่างไร งานวิจัยบอกอะไร ส่วนไหนเป็นความเชื่อ และบ้านแต่ละหลังของ " + SITE.short + " เข้ากับใคร",
     toc: ["งานวิจัย", "MBTI 4 มิติ", "4 กลุ่มบุคลิก", "ฮวงจุ้ย 5 ธาตุ", "หลักฮวงจุ้ยในบ้าน", "เริ่มจับคู่"],
     whyH: "งานวิจัยบอกอะไรเรื่องบุคลิกภาพกับบ้าน",
     why: [
@@ -801,7 +807,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "ตัดสินใจด้วยอะไร", a: ["T · ใช้เหตุผลและตัวเลข", "ราคาต่อ ตร.ม. ค่าดูแลสระและสวน ผลตอบแทนการปล่อยเช่า เทียบกับหลังอื่น"], b: ["F · ใช้ความรู้สึก", "แสง บรรยากาศ ความอบอุ่น และความรู้สึกว่า ‘ที่นี่คือบ้าน’"] },
       { k: "J · P", h: "ใช้ชีวิตแบบไหน", a: ["J · ชอบความเป็นระเบียบ", "แบ่งโซนชัด เฟอร์นิเจอร์ครบ ทุกอย่างมีที่ทาง"], b: ["P · ชอบความยืดหยุ่น", "พื้นที่โล่งปรับง่าย ดูแลน้อย ล็อกบ้านแล้วออกเดินทางได้"] }
     ],
-    groupsH: "4 กลุ่มบุคลิก กับบ้านของ ASN",
+    groupsH: "4 กลุ่มบุคลิก กับบ้านของ " + SITE.short + "",
     groupsNote: "รายชื่อมาจากส่วน ‘MBTI ที่เหมาะ’ ในหน้าทรัพย์แต่ละหลัง",
     groups: {
       an: { h: "บ้านที่คิดมาแล้ว", p: "ผังมีประสิทธิภาพ ดูเนี้ยบทุกมุม มีมุมโฟกัสและทำงาน", el: "metal", add: "wood", addP: "เติมไม้และต้นไม้ ให้บ้านไม่แข็งเกินไปและช่วยจุดประกายความคิด" },
@@ -847,14 +853,14 @@ const MATCHING_GUIDE = {
       { h: "ชมบ้านจริงแล้วตัดสินใจ", p: "นัดชมพร้อมข้อมูลครบ และถ้าอยากแต่งให้เข้ากับตัวเอง ทีม WIDEROOMS ช่วยต่อได้" }
     ],
     ctaH: "ให้เราช่วยหาบ้านที่ใช่สำหรับคุณ",
-    ctaP: "คุยกับทีม ASN ได้โดยตรง มีผล MBTI แล้วหรือยังไม่มีก็ได้ เราช่วยเริ่มให้",
+    ctaP: "คุยกับทีม " + SITE.short + " ได้โดยตรง มีผล MBTI แล้วหรือยังไม่มีก็ได้ เราช่วยเริ่มให้",
     testBtn: "ทำแบบทดสอบ MBTI",
     quizBtn: "ตอบคำถามหาบ้านที่ใช่",
     honestH: "สิ่งที่ควรรู้",
     honest: [
       { ref: "pittenger", p: "MBTI เป็นเครื่องมือช่วยให้คุยเรื่องความชอบได้ง่ายขึ้น ไม่ใช่แบบประเมินทางการแพทย์ นักจิตวิทยาหลายคนเตือนว่าไม่ควรใช้ผล 4 ตัวอักษรเป็นคำตัดสินตายตัว" },
       { ref: "mccrae", p: "บุคลิกของคนไม่ได้แบ่งเป็นสองขั้วชัดเจน แต่เป็นระดับต่อเนื่อง เราจึงใช้ MBTI ประกอบกับการพูดคุยจริงเสมอ" },
-      { p: "ฮวงจุ้ยเป็นความเชื่อทางวัฒนธรรม การจับคู่ธาตุกับบุคลิกในหน้านี้เป็นการตีความของเราเพื่อช่วยแต่งบ้าน ทิศของบ้านแต่ละหลังยังรอ ASN ยืนยัน" }
+      { p: "ฮวงจุ้ยเป็นความเชื่อทางวัฒนธรรม การจับคู่ธาตุกับบุคลิกในหน้านี้เป็นการตีความของเราเพื่อช่วยแต่งบ้าน ทิศของบ้านแต่ละหลังยังรอ " + SITE.short + " ยืนยัน" }
     ],
     refsH: "แหล่งอ้างอิง",
     readMore: "อ่านงานวิจัย",
@@ -864,7 +870,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTI & feng shui",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "The right home starts with knowing yourself",
-    lede: "A short guide to how personality (MBTI) and feng shui can help you choose a home: what research says, what is belief, and which ASN homes suit whom.",
+    lede: "A short guide to how personality (MBTI) and feng shui can help you choose a home: what research says, what is belief, and which " + SITE.short + " homes suit whom.",
     toc: ["Research", "4 MBTI scales", "4 groups", "5 elements", "Feng shui at home", "Get matched"],
     whyH: "What research says about personality and home",
     why: [
@@ -881,7 +887,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "How you decide", a: ["T · by logic and numbers", "Price per sqm, pool and garden upkeep, rental yield, value against other homes"], b: ["F · by feeling", "Light, atmosphere, warmth and the sense that ‘this is home’"] },
       { k: "J · P", h: "How you like to live", a: ["J · likes order", "Clear zones, fully furnished, a place for everything"], b: ["P · likes flexibility", "Open space that's easy to change, low upkeep, lock up and travel"] }
     ],
-    groupsH: "Four personality groups, and ASN homes for each",
+    groupsH: "Four personality groups, and " + SITE.short + " homes for each",
     groupsNote: "Lists come from the ‘MBTI fit’ section on each listing page",
     groups: {
       an: { h: "The well-thought-out home", p: "An efficient layout, crisp from every angle, a corner to focus and work", el: "metal", add: "wood", addP: "Add wood and plants so the home is not too hard and ideas keep flowing" },
@@ -927,14 +933,14 @@ const MATCHING_GUIDE = {
       { h: "View and decide", p: "View with full details in hand, and if you want it styled to suit you, the WIDEROOMS team can take it from there." }
     ],
     ctaH: "Let us find the right home for you",
-    ctaP: "Talk to the ASN team directly, with your MBTI result or without one: we'll help you start.",
+    ctaP: "Talk to the " + SITE.short + " team directly, with your MBTI result or without one: we'll help you start.",
     testBtn: "Take the MBTI test",
     quizBtn: "Answer the home-finder questions",
     honestH: "Good to know",
     honest: [
       { ref: "pittenger", p: "MBTI helps us talk about preferences more easily; it is not a clinical assessment. Many psychologists warn against treating the four letters as a fixed verdict." },
       { ref: "mccrae", p: "Personality is not split into clean opposites but runs on a continuum, so we always pair MBTI with a real conversation." },
-      { p: "Feng shui is a cultural belief. Matching elements to personality on this page is our own reading to help with styling. The facing direction of each home is still to be confirmed by ASN." }
+      { p: "Feng shui is a cultural belief. Matching elements to personality on this page is our own reading to help with styling. The facing direction of each home is still to be confirmed by " + SITE.short + "." }
     ],
     refsH: "References",
     readMore: "Read the study",
@@ -944,7 +950,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTI与风水",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "合适的家，从了解自己开始",
-    lede: "一份简短指南：性格（MBTI）与风水如何帮助你选房，研究怎么说、哪些属于信仰，以及ASN的每栋房子适合谁。",
+    lede: "一份简短指南：性格（MBTI）与风水如何帮助你选房，研究怎么说、哪些属于信仰，以及" + SITE.short + "的每栋房子适合谁。",
     toc: ["研究", "MBTI四个维度", "四类性格", "风水五行", "居家风水原则", "开始匹配"],
     whyH: "关于性格与住宅，研究怎么说",
     why: [
@@ -961,7 +967,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "如何做决定", a: ["T · 靠逻辑和数字", "每平方米价格、泳池和花园维护费、出租回报，与其他房源比较"], b: ["F · 靠感受", "光线、氛围、温暖，以及“这里就是家”的感觉"] },
       { k: "J · P", h: "喜欢怎样生活", a: ["J · 喜欢秩序", "分区清晰、家具齐全、一切各就其位"], b: ["P · 喜欢灵活", "易于改变的开放空间、维护少、锁门就能出发"] }
     ],
-    groupsH: "四类性格，与ASN的房源",
+    groupsH: "四类性格，与" + SITE.short + "的房源",
     groupsNote: "名单来自每个房源页面的“适合的MBTI性格”部分",
     groups: {
       an: { h: "深思熟虑的家", p: "格局高效、每个角度都利落、有专注工作的角落", el: "metal", add: "wood", addP: "加入木材和绿植，让家不过于冷硬，也激发灵感" },
@@ -1007,14 +1013,14 @@ const MATCHING_GUIDE = {
       { h: "实地看房再决定", p: "带着完整资料看房；如果想布置得更像自己，WIDEROOMS团队可以接手。" }
     ],
     ctaH: "让我们帮你找到合适的家",
-    ctaP: "直接联系ASN团队，有没有MBTI结果都可以，我们帮你开始。",
+    ctaP: "直接联系" + SITE.short + "团队，有没有MBTI结果都可以，我们帮你开始。",
     testBtn: "做MBTI测试",
     quizBtn: "回答找房问题",
     honestH: "须知",
     honest: [
       { ref: "pittenger", p: "MBTI帮助我们更轻松地谈论偏好，并非临床评估。许多心理学家提醒，不应把四个字母当作定论。" },
       { ref: "mccrae", p: "性格并非截然两极，而是连续的程度，因此我们总是把MBTI与真实交谈结合使用。" },
-      { p: "风水是一种文化信仰。本页把五行与性格配对，是我们为布置所作的解读。每栋房子的朝向仍待ASN确认。" }
+      { p: "风水是一种文化信仰。本页把五行与性格配对，是我们为布置所作的解读。每栋房子的朝向仍待" + SITE.short + "确认。" }
     ],
     refsH: "参考文献",
     readMore: "阅读研究",
@@ -1024,7 +1030,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTI와 풍수",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "나에게 맞는 집은 나를 아는 것에서 시작됩니다",
-    lede: "성격(MBTI)과 풍수가 집 선택에 어떻게 도움이 되는지, 연구는 무엇을 말하고 무엇이 믿음인지, 그리고 ASN의 각 집이 누구에게 맞는지 정리한 짧은 가이드입니다.",
+    lede: "성격(MBTI)과 풍수가 집 선택에 어떻게 도움이 되는지, 연구는 무엇을 말하고 무엇이 믿음인지, 그리고 " + SITE.short + "의 각 집이 누구에게 맞는지 정리한 짧은 가이드입니다.",
     toc: ["연구", "MBTI 4가지 축", "4가지 성격 그룹", "풍수 오행", "집 안의 풍수 원칙", "매칭 시작"],
     whyH: "성격과 집에 대해 연구가 말하는 것",
     why: [
@@ -1041,7 +1047,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "어떻게 결정하나요", a: ["T · 논리와 숫자로", "㎡당 가격, 수영장·정원 관리비, 임대 수익률, 다른 집과의 비교"], b: ["F · 느낌으로", "빛, 분위기, 따뜻함, 그리고 ‘여기가 집이다’라는 느낌"] },
       { k: "J · P", h: "어떻게 살고 싶나요", a: ["J · 질서를 좋아함", "명확한 공간 구분, 가구 완비, 모든 것에 제자리"], b: ["P · 유연함을 좋아함", "바꾸기 쉬운 열린 공간, 적은 관리, 문 잠그고 바로 여행"] }
     ],
-    groupsH: "4가지 성격 그룹과 ASN의 집",
+    groupsH: "4가지 성격 그룹과 " + SITE.short + "의 집",
     groupsNote: "목록은 각 매물 페이지의 ‘어울리는 MBTI’ 섹션에서 가져왔습니다",
     groups: {
       an: { h: "잘 설계된 집", p: "효율적인 구조, 어느 각도에서나 깔끔함, 집중해서 일할 공간", el: "metal", add: "wood", addP: "원목과 식물을 더해 집이 딱딱하지 않게, 아이디어가 흐르게" },
@@ -1087,14 +1093,14 @@ const MATCHING_GUIDE = {
       { h: "직접 보고 결정", p: "모든 정보를 갖고 집을 보세요. 나에게 맞게 꾸미고 싶다면 WIDEROOMS 팀이 이어서 도와드립니다." }
     ],
     ctaH: "나에게 맞는 집, 함께 찾아 드립니다",
-    ctaP: "ASN 팀과 바로 이야기하세요. MBTI 결과가 있든 없든 시작을 도와드립니다.",
+    ctaP: "" + SITE.short + " 팀과 바로 이야기하세요. MBTI 결과가 있든 없든 시작을 도와드립니다.",
     testBtn: "MBTI 테스트 하기",
     quizBtn: "집 찾기 질문에 답하기",
     honestH: "알아 두세요",
     honest: [
       { ref: "pittenger", p: "MBTI는 선호를 쉽게 이야기하도록 돕는 도구이며 임상 평가가 아닙니다. 많은 심리학자가 네 글자를 고정된 판정으로 쓰지 말라고 경고합니다." },
       { ref: "mccrae", p: "성격은 뚜렷한 양극으로 나뉘지 않고 연속적인 정도로 나타납니다. 그래서 우리는 MBTI를 항상 실제 대화와 함께 씁니다." },
-      { p: "풍수는 문화적 믿음입니다. 이 페이지에서 오행과 성격을 연결한 것은 인테리어를 돕기 위한 우리의 해석입니다. 각 집의 방향은 아직 ASN의 확인을 기다리고 있습니다." }
+      { p: "풍수는 문화적 믿음입니다. 이 페이지에서 오행과 성격을 연결한 것은 인테리어를 돕기 위한 우리의 해석입니다. 각 집의 방향은 아직 " + SITE.short + "의 확인을 기다리고 있습니다." }
     ],
     refsH: "참고 문헌",
     readMore: "연구 읽기",
@@ -1104,7 +1110,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTIと風水",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "ぴったりの家は、自分を知ることから",
-    lede: "性格（MBTI）と風水が家選びにどう役立つか、研究は何を示し、どこからが信仰なのか、そしてASNの各物件がどんな人に合うのかをまとめた短いガイドです。",
+    lede: "性格（MBTI）と風水が家選びにどう役立つか、研究は何を示し、どこからが信仰なのか、そして" + SITE.short + "の各物件がどんな人に合うのかをまとめた短いガイドです。",
     toc: ["研究", "MBTIの4指標", "4つのグループ", "風水の五行", "住まいの風水", "マッチング"],
     whyH: "性格と住まいについて、研究が示すこと",
     why: [
@@ -1121,7 +1127,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "決め方", a: ["T · 論理と数字で", "㎡単価、プールと庭の維持費、賃貸利回り、他物件との比較"], b: ["F · 気持ちで", "光、雰囲気、温かさ、そして「ここが我が家」という感覚"] },
       { k: "J · P", h: "暮らし方", a: ["J · 秩序が好き", "はっきりしたゾーン分け、家具付き、すべてに定位置"], b: ["P · 柔軟さが好き", "変えやすいオープンな空間、手入れが少ない、鍵をかけてすぐ旅へ"] }
     ],
-    groupsH: "4つの性格グループと、ASNの物件",
+    groupsH: "4つの性格グループと、" + SITE.short + "の物件",
     groupsNote: "リストは各物件ページの「相性の良いMBTI」から作成しています",
     groups: {
       an: { h: "よく考えられた家", p: "効率的な間取り、どこから見ても整っていて、集中して働ける一角がある", el: "metal", add: "wood", addP: "木や植物を加えて硬くなりすぎないように、発想も広がります" },
@@ -1167,14 +1173,14 @@ const MATCHING_GUIDE = {
       { h: "実際に見て決める", p: "すべての情報を手に内覧を。自分らしく整えたいなら、WIDEROOMSチームが引き継ぎます。" }
     ],
     ctaH: "あなたにぴったりの家を一緒に探します",
-    ctaP: "ASNチームに直接ご相談ください。MBTIの結果がなくても大丈夫、始め方からお手伝いします。",
+    ctaP: "" + SITE.short + "チームに直接ご相談ください。MBTIの結果がなくても大丈夫、始め方からお手伝いします。",
     testBtn: "MBTIテストを受ける",
     quizBtn: "家探しの質問に答える",
     honestH: "知っておきたいこと",
     honest: [
       { ref: "pittenger", p: "MBTIは好みを話しやすくするための道具であり、臨床的な評価ではありません。多くの心理学者が、4文字を固定した判定として使わないよう注意しています。" },
       { ref: "mccrae", p: "性格ははっきりした両極に分かれるのではなく、連続的な程度で表れます。だから私たちはMBTIを必ず実際の会話と組み合わせます。" },
-      { p: "風水は文化的な信仰です。このページで五行と性格を結びつけているのは、インテリアのための私たちの解釈です。各物件の向きはASNの確認待ちです。" }
+      { p: "風水は文化的な信仰です。このページで五行と性格を結びつけているのは、インテリアのための私たちの解釈です。各物件の向きは" + SITE.short + "の確認待ちです。" }
     ],
     refsH: "参考文献",
     readMore: "研究を読む",
@@ -1184,7 +1190,7 @@ const MATCHING_GUIDE = {
     crumb: "MBTI и фэншуй",
     eyebrow: "Personalized Matching · " + SITE.name,
     title: "Подходящий дом начинается с понимания себя",
-    lede: "Короткий гид о том, как тип личности (MBTI) и фэншуй помогают выбрать дом: что говорят исследования, что относится к вере и кому подходит каждый дом ASN.",
+    lede: "Короткий гид о том, как тип личности (MBTI) и фэншуй помогают выбрать дом: что говорят исследования, что относится к вере и кому подходит каждый дом " + SITE.short + ".",
     toc: ["Исследования", "4 шкалы MBTI", "4 группы", "5 стихий", "Фэншуй дома", "Подбор"],
     whyH: "Что исследования говорят о личности и доме",
     why: [
@@ -1201,7 +1207,7 @@ const MATCHING_GUIDE = {
       { k: "T · F", h: "Как вы решаете", a: ["T · логикой и цифрами", "Цена за м², уход за бассейном и садом, доходность аренды, сравнение с другими домами"], b: ["F · чувством", "Свет, атмосфера, тепло и ощущение «это мой дом»"] },
       { k: "J · P", h: "Как вы любите жить", a: ["J · любит порядок", "Чёткие зоны, полная меблировка, у всего своё место"], b: ["P · любит гибкость", "Открытое пространство, которое легко менять, минимум ухода, закрыл дверь и в путь"] }
     ],
-    groupsH: "Четыре группы личности и дома ASN для каждой",
+    groupsH: "Четыре группы личности и дома " + SITE.short + " для каждой",
     groupsNote: "Списки взяты из раздела «Подходящие типы MBTI» на странице каждого объекта",
     groups: {
       an: { h: "Продуманный дом", p: "Эффективная планировка, безупречный вид с любой точки, место для сосредоточенной работы", el: "metal", add: "wood", addP: "Добавьте дерево и растения, чтобы дом не был жёстким и идеи шли легче" },
@@ -1247,14 +1253,14 @@ const MATCHING_GUIDE = {
       { h: "Посмотрите и решите", p: "Смотрите дом со всей информацией на руках, а если захотите обустроить его под себя, команда WIDEROOMS продолжит." }
     ],
     ctaH: "Давайте найдём подходящий вам дом",
-    ctaP: "Свяжитесь с командой ASN напрямую — с результатом MBTI или без него, мы поможем начать.",
+    ctaP: "Свяжитесь с командой " + SITE.short + " напрямую — с результатом MBTI или без него, мы поможем начать.",
     testBtn: "Пройти тест MBTI",
     quizBtn: "Ответить на вопросы подбора",
     honestH: "Важно знать",
     honest: [
       { ref: "pittenger", p: "MBTI помогает проще говорить о предпочтениях; это не клиническая оценка. Многие психологи предупреждают: четыре буквы не стоит считать окончательным вердиктом." },
       { ref: "mccrae", p: "Личность не делится на чёткие противоположности, а лежит на шкале, поэтому мы всегда сочетаем MBTI с живым разговором." },
-      { p: "Фэншуй — культурное верование. Сопоставление стихий и характера на этой странице — наша интерпретация для помощи с интерьером. Ориентация каждого дома ещё ждёт подтверждения от ASN." }
+      { p: "Фэншуй — культурное верование. Сопоставление стихий и характера на этой странице — наша интерпретация для помощи с интерьером. Ориентация каждого дома ещё ждёт подтверждения от " + SITE.short + "." }
     ],
     refsH: "Источники",
     readMore: "Читать исследование",
@@ -1276,7 +1282,7 @@ const raiTxt = sqm => {
 const perWa = l => l.sale && l.land ? money(Math.round(l.sale / (l.land / 4))) : null;
 function landKv(l) {
   const util = [l.water != null && `${t("water")} ${l.water ? "✓" : "✗"}`, l.elec != null && `${t("elec")} ${l.elec ? "✓" : "✗"}`].filter(Boolean).join(" · ");
-  return [kvItem(t("code"), "ASN-" + l.code), kvItem(t("type"), t(l.type)), kvItem(t("zone"), zn(l.zone)),
+  return [kvItem(t("code"), ref(l.code)), kvItem(t("type"), t(l.type)), kvItem(t("zone"), zn(l.zone)),
     kvItem(t("ldArea"), l.land ? `${raiTxt(l.land)} · ${nf(Math.round(l.land / 4))} ${t("sqw")}` : null),
     kvItem(t("ldTotal"), l.sale ? money(l.sale) : null), kvItem(t("ldPerWa"), perWa(l)),
     ...(l.near ? [kvItem(t("ldNear"), t("near_" + l.near))] : []), ...(utp(l) ? [kvItem(t("utpK"), utpTxt(l))] : []), kvItem(t("ldDeed"), l.deed ? t("deed_" + l.deed) : null),
@@ -1348,13 +1354,13 @@ function saveBlob(blob, name) { const a = document.createElement("a"); a.href = 
 async function downloadAll(l) {
   const ph = photos(l), btns = [...document.querySelectorAll('[data-act="dlall"]')], labels = btns.map(b => b.innerHTML);
   btns.forEach(b => { b.disabled = true; b.textContent = "⏳ " + t("dlPrep"); });
-  const name = i => `ASN-${l.code}-${String(i + 1).padStart(2, "0")}.jpg`;
+  const name = i => `${ref(l.code)}-${String(i + 1).padStart(2, "0")}.jpg`;
   try {
     const blobs = await Promise.all(ph.map(p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.blob(); })));
     if (window.JSZip) {
       const zip = new JSZip();
       blobs.forEach((b, i) => zip.file(name(i), b));
-      saveBlob(await zip.generateAsync({ type: "blob" }), `ASN-${l.code}-photos.zip`);
+      saveBlob(await zip.generateAsync({ type: "blob" }), `${ref(l.code)}-photos.zip`);
     } else {
       for (const [i, b] of blobs.entries()) { saveBlob(b, name(i)); await new Promise(r => setTimeout(r, 300)); }
     }
@@ -1384,7 +1390,7 @@ function renderCompare() {
   const ls = saved().map(byCode).filter(Boolean);
   const row = (label, f) => `<tr><th>${esc(label)}</th>${ls.map(l => `<td>${f(l) ?? "—"}</td>`).join("")}</tr>`;
   $("#cmpBody").innerHTML = `<table><tbody>
-    <tr><th></th>${ls.map(l => `<td><a href="#/l/${l.code}" data-close><img src="${esc(photo(l, 1))}" alt=""></a><b style="display:block;margin-top:6px">${esc(nm(l))}</b><span class="code">ASN-${l.code}</span></td>`).join("")}</tr>
+    <tr><th></th>${ls.map(l => `<td><a href="#/l/${l.code}" data-close><img src="${esc(photo(l, 1))}" alt=""></a><b style="display:block;margin-top:6px">${esc(nm(l))}</b><span class="code">${ref(l.code)}</span></td>`).join("")}</tr>
     ${row(t("type"), l => t(l.type))}${row(t("zone"), l => esc(zn(l.zone)))}
     ${row(t("forRent"), l => l.rent ? money(l.rent) + " " + t("perMonth") : null)}${row(t("forSale"), l => money(l.sale))}
     ${row(t("beds"), l => l.beds)}${row(t("baths"), l => l.baths)}
@@ -1403,7 +1409,7 @@ async function drawSocial() {
   const l = byCode(socCode); if (!l) return;
   const [W, H] = SOC[socFmt]; const cv = $("#socCanvas"); cv.width = W; cv.height = H; const g = cv.getContext("2d");
   try { await document.fonts.ready; } catch (e) {}
-  g.fillStyle = "#13263F"; g.fillRect(0, 0, W, H);
+  g.fillStyle = KEY("deep", "#13263F"); g.fillRect(0, 0, W, H);
   try {
     const im = await loadImg(photo(l, 1));
     const s = Math.max(W / im.width, H / im.height), w = im.width * s, h = im.height * s;
@@ -1415,11 +1421,11 @@ async function drawSocial() {
   const F = "'IBM Plex Sans Thai','PingFang SC','Hiragino Sans','Apple SD Gothic Neo',sans-serif";
   let lx = 60;
   try { const em = await loadImg(SITE.emblem); const eh = 104, ew = em.width * eh / em.height; g.drawImage(em, 52, 40, ew, eh); lx = 52 + ew + 18; } catch (e) {}
-  g.fillStyle = "#fff"; g.font = `700 44px Fraunces, Georgia, serif`; g.fillText("ASN", lx, 96);
-  g.fillStyle = "#E9C27F"; g.font = `700 20px ${F}`; g.fillText("EXCLUSIVE PROPERTY", lx, 126);
+  g.fillStyle = "#fff"; g.font = `700 44px Fraunces, Georgia, serif`; g.fillText(SITE.short, lx, 96);
+  g.fillStyle = KEY("gold", "#E9C27F"); g.font = `700 20px ${F}`; g.fillText(SITE.tag, lx, 126);
   let badge = l.urgent ? t("urgent") : l.rentWas ? t("discount") : l.hot ? t("hot") : t(l.type);
   g.font = `700 28px ${F}`; const bw = g.measureText(badge).width + 40;
-  g.fillStyle = l.urgent || l.hot ? "#8E5714" : "#B57A27"; roundRect(g, W - 60 - bw, 62, bw, 54, 12); g.fill();
+  g.fillStyle = l.urgent || l.hot ? KEY("hot", "#8E5714") : KEY("accent", "#B57A27"); roundRect(g, W - 60 - bw, 62, bw, 54, 12); g.fill();
   g.fillStyle = "#fff"; g.fillText(badge, W - 60 - bw + 20, 99);
   let y = H - 90;
   g.fillStyle = "rgba(255,255,255,.85)"; g.font = `500 28px ${F}`;
@@ -1428,7 +1434,7 @@ async function drawSocial() {
   const pr = [];
   if (l.rent) pr.push(`${t("forRent")} ${money(l.rent)}${t("perMonth")}`);
   if (l.sale) pr.push(`${t("forSale")} ${money(l.sale)}`);
-  g.fillStyle = "#E9C27F"; g.font = `700 ${pr.length > 1 ? 44 : 54}px ${F}`;
+  g.fillStyle = KEY("gold", "#E9C27F"); g.font = `700 ${pr.length > 1 ? 44 : 54}px ${F}`;
   for (const p of pr.reverse()) { g.fillText(p, 60, y); y -= pr.length > 1 ? 58 : 66; }
   const sp = []; if (l.beds) sp.push(`${l.beds} ${t("beds")}`); if (l.baths) sp.push(`${l.baths} ${t("baths")}`); if (area(l)) sp.push(`${nf(area(l))} ${t("sqm")}`); else if (l.land) sp.push(`${nf(Math.round(l.land / 4))} ${t("sqw")}`);
   g.fillStyle = "#fff"; g.font = `500 32px ${F}`; g.fillText(sp.join("  ·  "), 60, y); y -= 56;
@@ -1436,7 +1442,8 @@ async function drawSocial() {
   g.fillStyle = "#fff"; g.font = `700 64px ${F}`;
   const lines = wrap(g, nm(l), W - 120).slice(0, 2).reverse();
   for (const ln of lines) { y -= 76; g.fillText(ln, 60, y + 52); }
-  $("#socCap").value = lineText(l) + "\n\n#Pattaya #PattayaRealEstate #PoolVilla #" + (l.type === "condo" ? "PattayaCondo" : l.type === "commercial" ? "PattayaCommercial" : "PattayaHouse") + " #ASNExclusiveProperty";
+  const tg2 = SITE.tags || {};   // hashtags: agents/<id>/config.js SITE.tags { base, condo, commercial, house, brand }
+  $("#socCap").value = lineText(l) + "\n\n" + [tg2.base, l.type === "condo" ? tg2.condo : l.type === "commercial" ? tg2.commercial : tg2.house, tg2.brand].filter(Boolean).join(" ");
 }
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 function wrap(g, text, max) { const words = text.split(" "), out = []; let cur = ""; for (const w of words) { const n = cur ? cur + " " + w : w; if (g.measureText(n).width > max && cur) { out.push(cur); cur = w; } else cur = n; } if (cur) out.push(cur); return out; }
@@ -1510,18 +1517,10 @@ const GUIDE_TX = {
   ko:{hub:"구매 가이드 · Thailand Living Insight",sub:"태국에서 집을 사거나 임대하기 전에 알아야 할 정보",Buying:"외국인 부동산 구매",Relocate:"비자, 세금, 이주",Wellness:"건강에 좋은 집",SmartHome:"스마트 홈",EEC:"EEC와 동부 경제회랑"},
   ja:{hub:"購入ガイド · Thailand Living Insight",sub:"タイで購入・賃貸する前に知っておきたい情報",Buying:"外国人の不動産購入",Relocate:"ビザ・税金・移住",Wellness:"健康に良い住まい",SmartHome:"スマートホーム",EEC:"EECと東部経済回廊"}
 };
-const guideUrl = (pg = "") => `LivingInsight${pg ? "-" + pg : ""}.html?from=asn&lang=${lang}`;
+const guideUrl = (pg = "") => `LivingInsight${pg ? "-" + pg : ""}.html?from=${SITE.id}&lang=${lang}`;
 const guideTx = k => (GUIDE_TX[lang] || GUIDE_TX.en)[k];
-// ASN Safe Living: natural-hazard comparison page (Thai/English only)
-const SL_TX = {
-  th:{nav:"อยู่ปลอดภัย",link:"เทียบภัยธรรมชาติ พัทยา–EEC กับทั่วไทย"},
-  en:{nav:"Safe living",link:"Natural hazards: Pattaya–EEC vs the rest of Thailand"},
-  ru:{nav:"Безопасность",link:"Природные риски: Паттайя–EEC и другие регионы"},
-  zh:{nav:"安全居住",link:"自然灾害对比：芭提雅–EEC 与泰国其他地区"},
-  ko:{nav:"안전한 거주",link:"자연재해 비교: 파타야–EEC vs 태국 다른 지역"},
-  ja:{nav:"安全な暮らし",link:"自然災害比較：パタヤ–EEC とタイ各地"}
-};
-const slTx = k => (SL_TX[lang] || SL_TX.en)[k];
+// Safe Living link text is per region: SL_TX in hai/regions/<region>.js (natural-hazard page named by SITE.safeLiving)
+const slTx = k => { const X = typeof SL_TX !== "undefined" ? SL_TX : { en: {} }; return (X[lang] || X.en)[k] || ""; };
 const slUrl = () => `${SITE.safeLiving}?from=${SITE.id}&lang=${lang}`;
 const SL_SUB = {th:"น้ำท่วม แผ่นดินไหว สึนามิ พายุ ฝุ่น — ข้อมูลจริงพร้อมแหล่งอ้างอิง",en:"Floods, earthquakes, tsunami, storms, haze — real records with sources",ru:"Наводнения, землетрясения, цунами, штормы, смог — реальные данные с источниками",zh:"洪水、地震、海啸、风暴、雾霾——附来源的真实记录",ko:"홍수, 지진, 쓰나미, 폭풍, 미세먼지 — 출처가 있는 실제 기록",ja:"洪水・地震・津波・嵐・煙霧 — 出典付きの実記録"};
 const slCard = () => `<div class="gd-card"><a href="${slUrl()}">🗺️ ${slTx("link")} →</a><small>${SL_SUB[lang] || SL_SUB.en}</small></div>`;
@@ -1670,14 +1669,14 @@ $("#slClear").addEventListener("click", () => { store.set(SITE.store + "saved", 
 $("#lbPrev").addEventListener("click", () => lb(lbIx - 1));
 $("#lbNext").addEventListener("click", () => lb(lbIx + 1));
 $("#lbDlg").addEventListener("keydown", e => { if (e.key === "ArrowLeft") lb(lbIx - 1); if (e.key === "ArrowRight") lb(lbIx + 1); });
-$("#socDl").addEventListener("click", () => { const a = document.createElement("a"); a.download = `ASN-${socCode}-${socFmt}.png`; a.href = $("#socCanvas").toDataURL("image/png"); a.click(); });
+$("#socDl").addEventListener("click", () => { const a = document.createElement("a"); a.download = `${ref(socCode)}-${socFmt}.png`; a.href = $("#socCanvas").toDataURL("image/png"); a.click(); });
 $("#socCopy").addEventListener("click", () => copy($("#socCap").value));
 $("#csvBtn").addEventListener("click", exportCSV);
 $("#menuBtn").addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); $("#menuBtn").setAttribute("aria-expanded", o); });
 $("#lang").addEventListener("change", e => { lang = e.target.value; store.set(SITE.store + "lang", lang); renderAll(); });
 document.querySelectorAll("dialog").forEach(dl => dl.addEventListener("click", e => { if (e.target === dl) dl.close(); }));
 // Address bar: a listing shows as asn/CODE.html#/l/CODE so a link copied from the bar opens that listing's share page
-// (LINE/Facebook read its own og:image); everything else shows ASNProperty.html#/... (Thor 2 Nov 2026).
+// (LINE/Facebook read its own og:image); everything else shows the page shell (e.g. ASNProperty.html#/...) (Thor 2 Nov 2026).
 const APP_URL = document.baseURI;
 function syncPath() {
   const [a, b] = location.hash.replace(/^#\/?/, "").split("/");

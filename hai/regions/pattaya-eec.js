@@ -155,3 +155,17 @@ for (const [lg, m] of Object.entries(SZ_I18N)) for (const [k, v] of Object.entri
   else if (sub) S[f][sub][lg] = v;
   else S[f][lg] = v;
 }
+
+// Safe Living nav + link text for this region (read by hai/engine.js; page = SITE.safeLiving)
+const SL_TX = {
+  th:{nav:"อยู่ปลอดภัย",link:"เทียบภัยธรรมชาติ พัทยา–EEC กับทั่วไทย"},
+  en:{nav:"Safe living",link:"Natural hazards: Pattaya–EEC vs the rest of Thailand"},
+  ru:{nav:"Безопасность",link:"Природные риски: Паттайя–EEC и другие регионы"},
+  zh:{nav:"安全居住",link:"自然灾害对比：芭提雅–EEC 与泰国其他地区"},
+  ko:{nav:"안전한 거주",link:"자연재해 비교: 파타야–EEC vs 태국 다른 지역"},
+  ja:{nav:"安全な暮らし",link:"自然災害比較：パタヤ–EEC とタイ各地"}
+};
+
+
+// Approximate drive to U-Tapao airport from a zone centre, for listings without coordinates: [km, "minutes"]
+const UTP_ZONE = { huaiyai: [30, "30–35"], sattahip: [18, "15–25"] };
