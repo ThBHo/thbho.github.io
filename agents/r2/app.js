@@ -869,7 +869,7 @@ window.HAI_HOST = {
   byCode: c => { const u = dsUnits().find(x => x.unit === c); return u ? dsHome(u) : null; },
   card: dsCard,
   zn: z => z === "jomtien" ? (DS_ZONE[lang] || DS_ZONE.en) : z,
-  ZONES: { jomtien: { ll: [12.88, 100.88] } },
+  ZONES: {},   // one building, one location: no "recommended areas" section (Thor 4 Nov 2026)
   HOME_STYLE: DS_STYLE, MG_EL: DS_EL,
   FACING: Object.fromEntries(UNITS.map(u => [u.unit, u.view === "Sea View" ? "W" : "E"])),
   CONTACT: { line: CONTACT.lines[0].id },
