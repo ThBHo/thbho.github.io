@@ -21,7 +21,43 @@ A single-project site (one condo building, ~35 units): unit pages, floor stack, 
 - `shell.html` + `pages.json` → `python3 agents/r2/build.py` writes `Riviera2Resale.html` and every `Riviera2Resale-<CODE>.html` (only the head differs per page). Never edit those HTML files by hand. Bump `version` in `pages.json` on every change.
 - `Riviera2Resale-8A05.html` is `frozen` (unit booked, hidden since 27 Oct 2026): the build leaves it alone.
 - Clare owns every unit, so R2's data is the master for price and status. ASN may list the same units as co-agent (C03 = 8A05, C04 = 9A02, C05 = 19E02, B01 = COMMERCIAL-1, prices matched on 4 Nov 2026); when a unit's price or status changes on R2, update ASN the same day.
-- Next: Destiny Match and Safe Living for R2, Japanese, and later a "project mode" in `hai/` so R2 can run on the shared engine.
+- Next (R2 chat): put Destiny Match on the page with the adapter below, link Safe Living as `SafeLiving.html?from=r2`, add Japanese. Later (core): a "project mode" in `hai/` so R2 can run on the shared engine.
+
+## Network registry (`hai/network.js`)
+
+`HAI_AGENTS.<id>`: name, short, home, listing(code), all, contact, favicon, hero {src, alt, cap{lang}}, show [3 homes], region. Shared pages read it with `haiAgent()` from `?from=<id>` (remembered for the browser session). Add every new member here when its site goes live.
+
+## Safe Living (`SafeLiving.html`, shared)
+
+One page for every member, branded by `?from=<id>`: name, logo link, favicon, hero photo + caption, 3 homes, "browse" and "talk to" buttons. The hazard analysis, map and footer are credited to the Hybrid AI Agent Network (same research for everyone). No `from` = network branding, no homes. `ASNSafeLiving.html` is a redirect that keeps ASN's share preview and old links; the shared share image is `hai/img/og-safeliving.jpg`. Pages link it with `SITE.safeLiving = "SafeLiving.html"` (the engine adds `?from=<id>&lang=`).
+
+## Co-selling between members (Thor 4 Nov 2026)
+
+1. The owner's data is the master: price and status always follow the owner (R2 by Clare owns every Riviera Jomtien resale unit).
+2. Prices must match on both sites.
+3. A unit that is booked or sold goes off both sites the same day.
+
+How it works: the owner's build writes `agents/<owner>/feed.json` (R2: `agents/r2/build.py`, from `UNITS` + `HIDDEN_UNITS`). The co-seller lists the units in `CO_LISTINGS` (`agents/asn/config.js`: C03 = 8A05, C04 = 9A02, C05 = 19E02, B01 = COMMERCIAL-1). On every visit `loadCo()` in `hai/engine.js` reads the feed after the Sheet: the sale price (and the struck-through list price) follow the owner, and a unit that is not live there is taken off the co-seller's site, including an open listing page. So a change on R2 reaches ASN the moment R2's build is pushed; ASN's Sheet row should still be updated (or set Active N) the same day so the back office matches.
+
+## Destiny Match on any site (`hai/destiny.js`)
+
+On `hai/engine.js` sites nothing is needed. Any other site sets `window.HAI_HOST` before calling `ASND.render(focus)`; keys it leaves out fall back to the engine globals of the same name:
+
+```js
+window.HAI_HOST = {
+  lang: () => lang, esc,                       // current language, HTML escaper
+  SHOWN: () => homes, byCode: c => …,          // homes in engine shape: { code, name, type: "condo", zone, sale, rent, beds, size, floor, pool, tags: ["seaView"], facing }
+  card: home => "<a …>…</a>",                  // the site's own card HTML
+  zn: zone => "Jomtien", ZONES: { jomtien: { ll: [12.88, 100.88] } },
+  HOME_STYLE: { CODE: { en: { concept: "…", feng: ["…"] } } },   // text the scorer reads (sea, garden, light…)
+  MG_EL: { water: { homes: ["CODE", …] } },    // element per home (R2: FS_EL units)
+  FACING: { CODE: "E" }, CONTACT: { line: "LINE id" }, SITE: { short: "R2", name: "R2 by Clare" },
+  links: { home: "Riviera2Resale.html", listing: c => `Riviera2Resale-${c}.html`, destiny: c => `…` },
+  mount: () => document.getElementById("…")   // element the page renders into
+};
+```
+
+For R2, map `UNITS` (sell = promoPrice || price, type "1 BED" → beds 1, view → tags), `UNIT_STORIES[c].en` (tagline + highlights → concept) and `FS_EL` (→ MG_EL). Tested on 4 Nov 2026 with R2's real data in th, en, ja, ru: no errors, 9–10 matches, links and LINE button go to R2. Destiny's styles assume engine classes (`.wrap`, `.btn`, `.crumb`); the R2 page needs a few matching rules.
 
 ## Files and load order
 

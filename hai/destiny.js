@@ -7,7 +7,16 @@
 "use strict";
 /* ---------------- astronomy (Meeus, low precision; sun ~0.01°, moon ~0.1°) ---------------- */
 /* site globals are top-level let/const (not window props): resolve by name at call time */
-const G = (n, d) => { try { const v = Function("return typeof " + n + " !== 'undefined' ? " + n + " : undefined")(); return v === undefined ? d : v; } catch (e) { return d; } };
+/* Host adapter. A site that is not on hai/engine.js (e.g. R2 by Clare, one condo project) sets
+   window.HAI_HOST = { lang, esc, SHOWN, byCode, card, zn, ZONES, HOME_STYLE, MG_EL, FACING, CONTACT, SITE, links, mount }
+   before calling ASND.render(). Any key it leaves out falls back to the hai engine globals of the same name.
+   lang may be a value or a function; links = { home, listing(code), destiny(code) }; mount() returns the element to render into.
+   See hai/README.md "Destiny Match on any site". */
+const HOST = () => window.HAI_HOST || null;
+const G0 = (n, d) => { try { const v = Function("return typeof " + n + " !== 'undefined' ? " + n + " : undefined")(); return v === undefined ? d : v; } catch (e) { return d; } };
+const G = (n, d) => { const h = HOST(); if (h && h[n] !== undefined) { const v = h[n]; return n === "lang" && typeof v === "function" ? v() : v; } return G0(n, d); };
+const LINK = { home: "#/", listing: c => "#/l/" + c, destiny: c => "#/destiny/" + encodeURIComponent(c) };
+const link = (k, c) => { const h = HOST(), L2 = (h && h.links) || {}; const f = L2[k] !== undefined ? L2[k] : LINK[k]; return typeof f === "function" ? f(c) : f; };
 const D2R = Math.PI / 180, R2D = 180 / Math.PI, norm = x => ((x % 360) + 360) % 360, md = (a, n) => ((a % n) + n) % n;
 function jdUT(y, m, d, h) { if (m <= 2) { y--; m += 12; } const A = Math.floor(y / 100), B = 2 - A + Math.floor(A / 4); return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + B - 1524.5 + h / 24; }
 function sunLon(J) { const T = (J - 2451545) / 36525, L0 = 280.46646 + 36000.76983 * T, M = 357.52911 + 35999.05029 * T;
@@ -584,7 +593,7 @@ function results(inp, focus) {
     ${tm.days.length ? `<p><b>${(T.bestDays || TX.en.bestDays).replace("{act}", inp.purpose === "rent" ? (T.actRent || TX.en.actRent) : (T.actBuy || TX.en.actBuy))}</b></p><div class="ds-days">${tm.days.map(d => `<span>${dName(d.t)}</span>`).join("")}</div>` : ""}
     <p class="ds-note">${T.tmNote || TX.en.tmNote}</p></section>
   ${zr.length ? `<section class="ds-sec"><h2>📍 ${T.secLoc}</h2><p class="ds-note" style="margin:-4px 0 14px">${T.locNote || TX.en.locNote}</p><div class="ds-zones">${zr.map((z, i) => `<div class="ds-c ds-z"><small>#${i + 1}</small><b>${G("esc")(G("zn", x => x)(z.z))}</b>${bar(z)}<ul class="ds-why">${z.why.map(([k, x]) => `<li data-k="${k}">${G("esc")(x)}</li>`).join("")}</ul>
-      <p class="ds-note">${z.n ? (T.zCount || TX.en.zCount).replace("{n}", z.n) + (z.top.length ? ` · ${T.zBest || TX.en.zBest} ${z.top.map(r => `<a href="#/l/${r.l.code}">${r.l.code} (${r.total}%)</a>`).join(", ")}` : "") : (T.zNone || TX.en.zNone)}</p></div>`).join("")}</div></section>` : ""}
+      <p class="ds-note">${z.n ? (T.zCount || TX.en.zCount).replace("{n}", z.n) + (z.top.length ? ` · ${T.zBest || TX.en.zBest} ${z.top.map(r => `<a href="${link("listing", r.l.code)}">${r.l.code} (${r.total}%)</a>`).join(", ")}` : "") : (T.zNone || TX.en.zNone)}</p></div>`).join("")}</div></section>` : ""}
   <section class="ds-sec"><h2>${T.secMatch}</h2><p class="ds-note" style="margin:-4px 0 14px">${T.matchNote || TX.en.matchNote}</p>
     ${ranked.length ? `<div class="ds-match">${ranked.filter(r => !fo || r.l.code !== fo.code).slice(0, 9).map(r => `<div class="ds-mi">${G("card")(r.l)}${bar(r)}${why(r)}</div>`).join("")}</div>` : `<p>${T.none || TX.en.none}</p>`}
   </section>
@@ -593,11 +602,11 @@ function results(inp, focus) {
 }
 
 function render(focus) {
-  addCss(); const T = L(), dv = document.getElementById("detailView");
+  addCss(); const T = L(), h = HOST(), dv = h && h.mount ? h.mount() : document.getElementById("detailView");
   dv.dataset.code = ""; dv.dataset.zone = ""; dv.dataset.page = "destiny"; dv.dataset.focus = focus || "";
   const fo = focus && G("byCode") ? G("byCode")(focus) : null;
   document.title = T.title + " · " + (G("SITE", {}).name || "");
-  dv.innerHTML = `<div class="wrap ds"><nav class="crumb"><a href="#/">${T.back}</a>${fo ? ` · <a href="#/l/${fo.code}">${fo.code}</a>` : ""}</nav>
+  dv.innerHTML = `<div class="wrap ds"><nav class="crumb"><a href="${link("home")}">${T.back}</a>${fo ? ` · <a href="${link("listing", fo.code)}">${fo.code}</a>` : ""}</nav>
     <header class="ds-hero"><p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="lead">${T.sub}</p></header>
     <figure class="ds-banner"><img src="hai/img/destiny-hero.jpg" alt="" width="1376" height="768" fetchpriority="high">
       <figcaption>${["water","fire","earth","air"].map(e => `<span><img src="hai/img/destiny-${e}.jpg" alt="" loading="lazy" width="120" height="120"><b style="--c:${ELC[e]}">${T.el[e]}</b></span>`).join("")}</figcaption></figure>
@@ -619,7 +628,7 @@ function render(focus) {
     out.querySelector("#dsCopy").onclick = () => { (navigator.clipboard ? navigator.clipboard.writeText(summary) : Promise.reject()).then(() => { out.querySelector("#dsCopied").hidden = false; }, () => {}); }; }
 }
 /* call-to-action block for a listing page */
-function detailCta(code) { addCss(); const T = L(); return `<div class="dsd-box"><div><b>🔮 ${T.detailCta}</b><p>${T.detailCtaSub}</p></div><a href="#/destiny/${encodeURIComponent(code)}">${T.go} →</a></div>`; }
+function detailCta(code) { addCss(); const T = L(); return `<div class="dsd-box"><div><b>🔮 ${T.detailCta}</b><p>${T.detailCtaSub}</p></div><a href="${link("destiny", code)}">${T.go} →</a></div>`; }
 /* nav + i18n keys merged into the site's T table */
 const navT = {}; for (const k of ["th","en","zh","ko","ja","ru"]) navT[k] = { navDestiny: (TX[k] || LBL[k]).nav, dsHomeCta: (TX[k] || LBL[k]).homeCta };
 window.ASND = { render, detailCta, T: navT, _test: { chart, score, timing, feat, kua, zones, parseFacing } };

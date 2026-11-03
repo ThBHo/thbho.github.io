@@ -1466,6 +1466,27 @@ function parseCSV(txt) {
   if (cur || row.length) { row.push(cur); rows.push(row); }
   return rows.filter(r => r.some(x => x.trim()));
 }
+// Co-selling (Hybrid AI Agent Network rule, Thor 4 Nov 2026): a unit owned by another member is listed here through
+// CO_LISTINGS in agents/<id>/config.js, { CODE: { from: "<owner id>", unit: "<owner's unit code>" } }. The owner's feed
+// (agents/<owner>/feed.json, written by its build) is the master: price follows it, and a unit that is booked, sold or
+// held there is taken off this site at once. If the feed can't be read, the listing stays as the Sheet has it.
+async function loadCo() {
+  const CO = typeof CO_LISTINGS !== "undefined" ? CO_LISTINGS : null; if (!CO) return false;
+  const feeds = {};
+  await Promise.all([...new Set(Object.values(CO).map(c => c.from))].map(id => fetch(`agents/${id}/feed.json`, { cache: "no-cache" })
+    .then(r => r.ok ? r.json() : null).then(j => { if (j && j.units) feeds[id] = j.units; }).catch(() => {})));
+  let changed = false;
+  for (const code in CO) {
+    const c = CO[code], F = feeds[c.from]; if (!F) continue;
+    const u = F[c.unit], l = byCode(code); if (!l) continue;
+    if (!u || !u.live) { L = L.filter(x => x.code !== code); changed = true; continue; }
+    const was = u.price > u.sell ? u.price : null;
+    if (l.sale !== u.sell) { l.sale = u.sell; changed = true; }
+    if ((l.saleWas || null) !== was) { l.saleWas = was; changed = true; }
+    l.co = { from: c.from, unit: c.unit };
+  }
+  return changed;
+}
 async function loadSheet() {
   if (!SHEET_CSV) return false;
   try {
@@ -1706,6 +1727,8 @@ window.addEventListener("popstate", onNav);
   const styles = fetch(SITE.styleJson, { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { for (const k in o) if (!HOME_STYLE[k]) HOME_STYLE[k] = o[k]; return true; }).catch(() => false);
   const hls = fetch(SITE.hlJson, { cache: "no-cache" }).then(r => r.ok ? r.json() : {}).then(o => { Object.assign(HL, o); return true; }).catch(() => false);
   const [sheetOk, styleOk, hlOk] = await Promise.all([loadSheet(), styles, hls]);
+  const coOk = await loadCo();   // after the Sheet: co-sold units follow their owner's feed
   DATA_READY = true;
-  if (sheetOk || styleOk || hlOk || !$("#detailView").hidden) renderAll();
+  if (sheetOk || styleOk || hlOk || coOk || !$("#detailView").hidden) renderAll();
+  if (coOk && /^#\/l\//.test(location.hash)) route();   // a co-sold unit that just went off must not stay open
 })();

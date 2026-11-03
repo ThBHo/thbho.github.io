@@ -126,10 +126,20 @@ const SITE = {
   hlJson: "asn-hl.json",                  // highlights per listing
   emblem: "asn-img/logo-emblem.png",
   matchHero: "asn-img/H14-4.jpg",         // hero photo on the matching page
-  safeLiving: "ASNSafeLiving.html",
+  safeLiving: "SafeLiving.html",           // shared page, branded by ?from=<id> (hai/network.js)
   showAll: true,                          // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026
   why: ["100+", "6", "1:1"],              // About stats (labels: T.why1..why3)
   tags: { base: "#Pattaya #PattayaRealEstate #PoolVilla", condo: "#PattayaCondo", commercial: "#PattayaCommercial", house: "#PattayaHouse", brand: "#ASNExclusiveProperty" } // social caption hashtags
+};
+
+/* Units ASN co-sells for another network member (Thor 4 Nov 2026). The owner is the master: price follows the
+   owner's feed and a unit booked, sold or held there goes off this site the same moment. R2 by Clare owns every
+   Riviera Jomtien resale unit (agents/r2/feed.json). The 32F corner unit C01 is not Clare's and is not listed here. */
+const CO_LISTINGS = {
+  C03: { from: "r2", unit: "8A05" },
+  C04: { from: "r2", unit: "9A02" },
+  C05: { from: "r2", unit: "19E02" },
+  B01: { from: "r2", unit: "COMMERCIAL-1" }
 };
 
 /* Project names that replace the zone in a listing title (Thor 1 Nov 2026) */
