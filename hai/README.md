@@ -74,4 +74,4 @@ Never show: full address or house number, village/project name where agents "เ
 - `UTP` / `UTP_ZONE` (distance to U-Tapao) and `PROJECT_OF` (Riviera / Prime Habitat title rules) in `hai/engine.js`.
 - Body markup of the page shell (hero text, about section) and CSS brand colours in `hai/engine.css`.
 - `asn-destiny.js` file name; `asn-style.json` / `asn-hl.json` names (already read through `SITE`).
-- `TOP_PICKS` limits which listings appear in the list, map and matching (60 at present); others open only by their own link. Set `TOP_PICKS = []` in the agent config to show everything.
+- `TOP_PICKS` sets the order of the list; with `SITE.showAll: true` (ASN since 3 Nov 2026) every active listing is shown after the picks, Sattahip and land last, sub-plots folded under their parent. Without `showAll` only the picks are shown.

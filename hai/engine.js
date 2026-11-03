@@ -19,7 +19,11 @@ const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ==
 const byCode = c => L.find(l => l.code === c);
 // listings shown on the page (TOP_PICKS first, then FEATURED); hidden ones stay reachable through byCode
 let DATA_READY = false; // true once the Google Sheet listings and asn-style.json have loaded (or failed)
-const SHOWN = () => { if (!TOP_PICKS.length) return L; const order = [...TOP_PICKS, ...FEATURED.filter(c => !TOP_PICKS.includes(c))]; return order.map(byCode).filter(Boolean); };
+const SHOWN = () => { if (!TOP_PICKS.length) return L.filter(l => !l.parent); const order = [...TOP_PICKS, ...FEATURED.filter(c => !TOP_PICKS.includes(c))]; const picked = order.map(byCode).filter(Boolean);
+  if (!(typeof SITE !== "undefined" && SITE.showAll)) return picked;
+  // showAll: curated order first, then every other active listing; Sattahip and land always last; sub-plots stay folded under their parent
+  const late = l => l.zone === "sattahip" || l.type === "land", rest = L.filter(l => !l.parent && !picked.includes(l));
+  return [...picked.filter(l => !late(l)), ...rest.filter(l => !late(l)), ...picked.filter(late), ...rest.filter(late)]; };
 // listing name in the current language when a listing has `names` (land plots); otherwise its single name
 // Standard listing title (Thor 1 Nov 2026): built from the listing's own data in every language, not the Facebook post title.
 // villa/house: "<type> <beds> bedrooms · <zone>", condo: "<condo> <beds> <size> · <project|zone>", land: "<land> <size> · <zone>"

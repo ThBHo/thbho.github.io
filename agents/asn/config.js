@@ -125,5 +125,6 @@ const SITE = {
   hlJson: "asn-hl.json",                  // highlights per listing
   emblem: "asn-img/logo-emblem.png",
   matchHero: "asn-img/H14-4.jpg",         // hero photo on the matching page
-  safeLiving: "ASNSafeLiving.html"
+  safeLiving: "ASNSafeLiving.html",
+  showAll: true                           // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026
 };
