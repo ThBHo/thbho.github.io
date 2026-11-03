@@ -245,7 +245,7 @@ function foot(){
     <p>© 2026 Thailand Living Insight</p>
     <div class="credit"><span>${lang === "th" ? "พัฒนาเว็บไซต์และแนวคิดโดย" : "Concept & website by"}</span>
       <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" rel="noopener"><img src="insight/logo-widerooms.jpg" alt="WIDEROOMS"></a>
-      <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="insight/logo-thho.jpg" alt="Th.Ho · AI GymMateX Factory"></a></div>
+      <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="insight/logo-thho.jpg" alt="Hybrid AI by ThB.Ho"></a></div>
   </div></footer>`;
 }
 
