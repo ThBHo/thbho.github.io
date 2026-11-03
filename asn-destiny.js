@@ -328,11 +328,19 @@ const css = `
 .ds-banner{margin:0 0 20px;position:relative;border-radius:18px;overflow:hidden;background:#0d1a2b}.ds-banner>img{display:block;width:100%;height:auto;aspect-ratio:1376/560;object-fit:cover;object-position:center 30%}
 .ds-banner figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;justify-content:center;padding:14px;background:linear-gradient(0deg,rgba(10,20,36,.75),rgba(10,20,36,0))}
 .ds-banner figcaption span{display:grid;justify-items:center;gap:4px}.ds-banner figcaption img{width:clamp(48px,9vw,84px);height:clamp(48px,9vw,84px);object-fit:cover;border-radius:50%;border:2px solid #d9b77a;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-.ds-banner figcaption b{font-size:12px;color:#fff;background:var(--c);border-radius:99px;padding:1px 9px}
+.ds-banner figcaption b{font-size:13px;color:#fff;background:var(--c);border-radius:99px;padding:1px 9px}
 @media(max-width:600px){.ds-banner>img{aspect-ratio:4/3;object-position:30% 40%}.ds-banner figcaption{gap:6px;padding:8px}.ds-banner figcaption img{width:44px;height:44px}}
 .ds-elc img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:10px}
 .dsd-box{background-image:linear-gradient(135deg,rgba(31,58,95,.92),rgba(31,58,95,.78)),url(asn-img/destiny-hero.jpg)!important;background-size:cover!important;background-position:center 30%!important}
 .ds-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+/* type scale for the whole page (Thor 3 Nov): body 16 · secondary 15 · labels 13.5–14.5 · nothing under 13 */
+.ds .lead{font-size:16.5px;line-height:1.65}.ds .ds-form label{font-size:14.5px;gap:6px}.ds .ds-form input,.ds .ds-form select{font-size:16px}.ds .ds-form .chk{font-size:14.5px}
+.ds .ds-priv{font-size:14px}.ds .ds-go{font-size:15.5px}.ds .ds-c small{font-size:13.5px}.ds .ds-c em{font-size:15.5px;line-height:1.55}.ds .ds-c b{font-size:20px;line-height:1.35}
+.ds .ds-el{font-size:13px;padding:3px 10px}.ds .ds-dirs span{font-size:14px;padding:5px 9px}.ds .ds-note{font-size:14.5px;line-height:1.6}.ds .ds-leg{font-size:14px}
+.ds .ds-m{font-size:14.5px;padding:11px 8px}.ds .ds-m b{font-size:13.5px}.ds .ds-days span{font-size:14.5px;padding:7px 12px}.ds .ds-why{font-size:15px;gap:5px}.ds .ds-why li{line-height:1.5}
+.ds .ds-score{font-size:15px}.ds .ds-warn{font-size:15px;padding:12px 14px}.ds .ds-sec>p>b{font-size:16px}.ds .ds-cta .btn{font-size:15px}
+.ds .ds-prof li{font-size:16px}.ds .ds-z .ds-note{font-size:14px}
+.dsd-box p{font-size:14.5px!important}.dsd-box b{font-size:16px}
 .dsd-box{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#1F3A5F,#2b4f7d);color:#fff;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.dsd-box p{margin:0;font-size:13.5px;opacity:.9}.dsd-box a{background:#8E5714;color:#fff;border-radius:99px;padding:9px 16px;text-decoration:none;font-weight:600;white-space:nowrap}
 `;
 let styled = false; const addCss = () => { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s); };
