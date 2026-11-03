@@ -130,6 +130,57 @@ const LBL = {
   ja: { nav: "運勢と風水", eyebrow: "Destiny Match · 出生図 × 風水", title: "あなたの運勢に合う家を探す", sub: "生年月日と出生時刻を入力すると、タイ式・西洋式・中国式（四柱推命 · 本命卦）のチャートを作成し、ASN の各物件とマッチングして、購入や入居に良い時期をご提案します。", privacy: "生年月日はお使いの端末内だけで計算され、送信・保存されません。", fName: "お名前（任意）", fDate: "生年月日", fTime: "出生時刻", fTimeUnk: "出生時刻がわからない", fGender: "性別（吉方位の計算用）", gM: "男性", gF: "女性", gN: "回答しない", fPlace: "出生地", fPurpose: "目的", pBuy: "購入", pRent: "賃貸", fBuyDate: "購入・名義変更の予定日", fRentFrom: "賃貸開始", fRentTo: "終了", fType: "物件タイプ", tAny: "すべて", tVilla: "プールヴィラ", tHouse: "一戸建て", tCondo: "コンド", tLand: "土地", go: "運勢を読んで家を探す", needDate: "生年月日を入力してください", secChart: "あなたのチャート", sunTh: "太陽星座（タイ式 · サイデリアル）", sunWest: "太陽星座（西洋 · トロピカル）", moon: "月", lagna: "アセンダント", cnYear: "干支", dayMaster: "日主（四柱推命）", kua: "本命卦と吉方位", kuaNeedG: "吉方位を出すには性別を選んでください", secProfile: "あなたに合う家", secTiming: "良いタイミング", tmBest: "大吉", tmGood: "吉", tmOk: "普通", tmBad: "注意", secMatch: "あなたに合う物件", focus: "この家とあなたの運勢", fit: "相性", send: "LINE で ASN に送る", copy: "要約をコピー", copied: "コピーしました — LINE に貼り付けてください", back: "← ホームへ", detailCta: "この家とあなたの運勢をチェック", detailCtaSub: "生年月日を入れると、この家との相性と、購入・入居に良い時期がわかります。", homeCta: "運勢と風水で家を探す →", animals: ["子（ねずみ）","丑（うし）","寅（とら）","卯（うさぎ）","辰（たつ）","巳（へび）","午（うま）","未（ひつじ）","申（さる）","酉（とり）","戌（いぬ）","亥（いのしし）"], el: { wood: "木", fire: "火", earth: "土", metal: "金", water: "水", air: "風" }, dir: { N: "北", S: "南", E: "東", W: "西", NE: "北東", NW: "北西", SE: "南東", SW: "南西" }, signs: ["牡羊座","牡牛座","双子座","蟹座","獅子座","乙女座","天秤座","蠍座","射手座","山羊座","水瓶座","魚座"] },
   ru: { nav: "Судьба и фэншуй", eyebrow: "Destiny Match · Натальная карта × Фэншуй", title: "Дом, который подходит вашей карте рождения", sub: "Введите дату и время рождения: мы построим тайскую, западную и китайскую (Ба Цзы · число Гуа) карту, сопоставим её с каждым домом ASN и подскажем лучшее время для покупки или переезда.", privacy: "Данные рождения рассчитываются только на вашем устройстве и никуда не отправляются.", fName: "Имя (необязательно)", fDate: "Дата рождения", fTime: "Время рождения", fTimeUnk: "Не знаю время рождения", fGender: "Пол (для благоприятных направлений)", gM: "Мужской", gF: "Женский", gN: "Не указывать", fPlace: "Место рождения", fPurpose: "Цель", pBuy: "Купить", pRent: "Арендовать", fBuyDate: "Планируемая дата покупки", fRentFrom: "Аренда с", fRentTo: "по", fType: "Тип объекта", tAny: "Любой", tVilla: "Вилла с бассейном", tHouse: "Дом", tCondo: "Кондо", tLand: "Земля", go: "Рассчитать и подобрать дом", needDate: "Укажите дату рождения", secChart: "Ваша карта", sunTh: "Знак Солнца (тайский · сидерический)", sunWest: "Знак Солнца (западный · тропический)", moon: "Луна", lagna: "Асцендент", cnYear: "Китайский знак года", dayMaster: "Хозяин дня (Ба Цзы)", kua: "Число Гуа и направления", kuaNeedG: "Выберите пол, чтобы рассчитать направления", secProfile: "Какой дом вам подходит", secTiming: "Лучшее время", tmBest: "Отлично", tmGood: "Хорошо", tmOk: "Нейтрально", tmBad: "Осторожно", secMatch: "Дома, подходящие вашей карте", focus: "Этот дом и ваша карта", fit: "совпадение", send: "Отправить в ASN через LINE", copy: "Скопировать итог", copied: "Скопировано — вставьте в чат LINE", back: "← На главную", detailCta: "Проверить дом по вашей карте рождения", detailCtaSub: "Введите дату рождения: узнаете, насколько дом вам подходит и когда лучше покупать или въезжать.", homeCta: "Подобрать дом по карте и фэншуй →", animals: ["Крыса","Бык","Тигр","Кролик","Дракон","Змея","Лошадь","Коза","Обезьяна","Петух","Собака","Свинья"], el: { wood: "Дерево", fire: "Огонь", earth: "Земля", metal: "Металл", water: "Вода", air: "Воздух" }, dir: { N: "север", S: "юг", E: "восток", W: "запад", NE: "северо-восток", NW: "северо-запад", SE: "юго-восток", SW: "юго-запад" }, signs: ["Овен","Телец","Близнецы","Рак","Лев","Дева","Весы","Скорпион","Стрелец","Козерог","Водолей","Рыбы"] }
 };
+
+/* budget + recommended areas */
+Object.assign(TX.th, { fBudget: "งบประมาณ", bAny: "ไม่จำกัดงบ", bUpS: "ไม่เกิน {n} ล้านบาท", bOverS: "มากกว่า {n} ล้านบาท", bUpR: "ไม่เกิน {n} บาท/เดือน",
+  secLoc: "ทำเลที่แนะนำสำหรับคุณ", locNote: "จัดอันดับจากลักษณะของทำเล (ทะเล ทะเลสาบ ภูเขา ความสงบ ความคึกคัก วิว) เทียบกับธาตุของคุณ ทิศของทำเลเมื่อมองจากตัวเมืองพัทยาเทียบกับทิศมงคล และทรัพย์ที่ตรงเงื่อนไขในทำเลนั้น",
+  zSea: "ใกล้ทะเล — เสริมธาตุน้ำ ลมทะเลเย็นสบาย", zLake: "ใกล้ทะเลสาบ / อ่างเก็บน้ำ — น้ำนิ่ง สงบ", zHill: "เนินเขา / วิวภูเขา — พลังดินที่มั่นคง", zQuiet: "สงบ เป็นส่วนตัว ห่างความวุ่นวาย",
+  zCity: "คึกคัก ใกล้ร้านอาหาร ห้าง และผู้คน — พลังไฟ", zView: "วิวเปิดกว้าง ลมโปร่ง", zGreen: "เขียวขจี ต้นไม้เยอะ — ธาตุไม้",
+  zDirG: "อยู่{d}ของตัวเมืองพัทยา — ทิศมงคลของคุณ", zDirB: "อยู่{d}ของตัวเมือง — ไม่ใช่ทิศมงคล แต่ธาตุของทำเลยังเข้ากัน", zCount: "ทรัพย์ที่ตรงเงื่อนไข {n} รายการ", zNone: "ตอนนี้ยังไม่มีทรัพย์ตรงเงื่อนไขในทำเลนี้", zBest: "เข้ากันที่สุด:", zFit: "เข้ากัน" });
+Object.assign(TX.en, { fBudget: "Budget", bAny: "Any budget", bUpS: "Up to ฿{n}M", bOverS: "Over ฿{n}M", bUpR: "Up to ฿{n}/month",
+  secLoc: "Recommended areas for you", locNote: "Ranked by the character of each area (sea, lake, hills, quiet, lively, views) against your element, the area's direction from central Pattaya against your lucky directions, and the matching homes available there.",
+  zSea: "Near the sea — boosts Water, cool sea breeze", zLake: "Near a lake or reservoir — calm, still water", zHill: "Hills and mountain views — steady Earth energy", zQuiet: "Quiet and private, away from the bustle",
+  zCity: "Lively — close to restaurants, malls and people (Fire)", zView: "Open views and breezes", zGreen: "Green and leafy — Wood element",
+  zDirG: "Lies {d} of central Pattaya — one of your lucky directions", zDirB: "Lies {d} of the centre — not a lucky direction, but the area's elements still suit you", zCount: "Matching homes: {n}", zNone: "No matching homes here right now", zBest: "Best fits:", zFit: "fit" });
+Object.assign(LBL.zh, { locNote: "根据区域特质（海、湖、山、安静、热闹、视野）与您的元素、区域相对芭提雅市中心的方位与您的吉方，以及该区符合条件的房源综合排序。", zSea: "靠海 — 补水，海风清凉", zLake: "靠近湖泊/水库 — 静水安宁", zHill: "山丘与山景 — 稳定的土能量", zQuiet: "安静私密，远离喧嚣", zCity: "热闹 — 靠近餐厅、商场与人群（火）", zView: "视野开阔，通风良好", zGreen: "绿意盎然 — 木元素", zDirG: "位于市中心{d}方 — 您的吉方", zDirB: "位于市中心{d}方 — 非吉方，但区域元素仍相合", zNone: "该区目前暂无符合条件的房源", fBudget: "预算", bAny: "不限预算", bUpS: "≤ ฿{n}M", bOverS: "> ฿{n}M", bUpR: "≤ ฿{n}/月", secLoc: "为您推荐的区域", zCount: "{n} 套符合条件", zBest: "最相合：", zFit: "相合" });
+Object.assign(LBL.ko, { locNote: "지역의 특성(바다, 호수, 언덕, 조용함, 활기, 전망)과 당신의 원소, 파타야 시내 기준 지역 방위와 길방, 그리고 해당 지역의 조건에 맞는 매물을 종합해 순위를 매겼습니다.", zSea: "바다 인근 — 수(水) 기운 보강, 시원한 바닷바람", zLake: "호수·저수지 인근 — 고요한 물", zHill: "언덕과 산 전망 — 안정적인 토(土) 기운", zQuiet: "조용하고 프라이빗함", zCity: "활기참 — 식당·쇼핑몰과 가까움(화)", zView: "탁 트인 전망과 바람", zGreen: "녹음이 풍부함 — 목(木) 원소", zDirG: "시내 기준 {d}쪽 — 당신의 길방", zDirB: "시내 기준 {d}쪽 — 길방은 아니지만 지역 원소가 잘 맞음", zNone: "현재 이 지역에 조건에 맞는 매물이 없습니다", fBudget: "예산", bAny: "예산 무관", bUpS: "≤ ฿{n}M", bOverS: "> ฿{n}M", bUpR: "≤ ฿{n}/월", secLoc: "추천 지역", zCount: "조건에 맞는 매물 {n}건", zBest: "가장 잘 맞는 곳:", zFit: "적합" });
+Object.assign(LBL.ja, { locNote: "エリアの特徴（海・湖・丘・静けさ・にぎわい・眺望）とあなたのエレメント、パタヤ中心部から見たエリアの方位と吉方位、そのエリアの条件に合う物件を総合して順位付けしています。", zSea: "海の近く — 水の気を補い、涼しい海風", zLake: "湖・貯水池の近く — 穏やかな水", zHill: "丘と山の眺め — 安定した土の気", zQuiet: "静かでプライベート", zCity: "にぎやか — レストランやモールに近い（火）", zView: "開けた眺望と風通し", zGreen: "緑豊か — 木のエレメント", zDirG: "中心部から{d} — あなたの吉方位", zDirB: "中心部から{d} — 吉方位ではないがエリアの気は合う", zNone: "現在このエリアに条件に合う物件はありません", fBudget: "予算", bAny: "予算指定なし", bUpS: "≤ ฿{n}M", bOverS: "> ฿{n}M", bUpR: "≤ ฿{n}/月", secLoc: "おすすめのエリア", zCount: "条件に合う物件 {n}件", zBest: "相性の良い物件：", zFit: "相性" });
+Object.assign(LBL.ru, { locNote: "Рейтинг учитывает характер района (море, озеро, холмы, тишина, оживлённость, виды) и вашу стихию, направление района от центра Паттайи относительно ваших благоприятных сторон, а также подходящие объекты в районе.", zSea: "У моря — усиливает Воду, морской бриз", zLake: "У озера или водохранилища — спокойная вода", zHill: "Холмы и виды на горы — устойчивая энергия Земли", zQuiet: "Тихо и уединённо", zCity: "Оживлённо — рядом рестораны, ТЦ и люди (Огонь)", zView: "Открытые виды и ветер", zGreen: "Много зелени — стихия Дерева", zDirG: "Район на направлении «{d}» от центра — ваше благоприятное", zDirB: "Район на направлении «{d}» от центра — не благоприятное, но стихии района подходят", zNone: "Сейчас здесь нет подходящих объектов", fBudget: "Бюджет", bAny: "Любой бюджет", bUpS: "до ฿{n} млн", bOverS: "более ฿{n} млн", bUpR: "до ฿{n}/мес", secLoc: "Рекомендуемые районы", zCount: "Подходящих объектов: {n}", zBest: "Лучше всего:", zFit: "совпадение" });
+const BUY_B = [5, 10, 20, 30, 50, 100], RENT_B = [30000, 50000, 80000, 120000, 200000, 300000, 500000];
+/* area character, 0..1 — water (sea/lake), lake, hill (earth), green (wood), quiet, city (lively, fire), view */
+const ZT = {
+  mapprachan:  { water: .8, lake: 1, hill: .6, green: .8, quiet: .9, city: .1, view: .6 },
+  siamcc:      { water: .6, lake: .8, hill: .3, green: .8, quiet: .8, city: .2, view: .4 },
+  khaotalo:    { water: .1, hill: .8, green: .5, quiet: .5, city: .3, view: .5 },
+  eastpattaya: { water: .1, hill: .4, green: .6, quiet: .6, city: .4, view: .2 },
+  pattanakarn: { water: .1, hill: .3, green: .3, quiet: .4, city: .6, view: .2 },
+  thappraya:   { water: .6, sea: .6, hill: .3, green: .3, quiet: .4, city: .6, view: .6 },
+  pratumnak:   { water: .8, sea: .8, hill: .6, green: .5, quiet: .6, city: .4, view: .9 },
+  jomtien:     { water: 1, sea: 1, hill: .1, green: .2, quiet: .3, city: .6, view: .8 },
+  sattahip:    { water: .9, sea: .9, hill: .6, green: .6, quiet: .8, city: .1, view: .7 },
+  huaiyai:     { water: .2, hill: .8, green: .9, quiet: 1, city: 0, view: .4 },
+  thungklom:   { water: .2, hill: .4, green: .6, quiet: .6, city: .3, view: .3 },
+  chaiyapruk:  { water: .3, hill: .4, green: .5, quiet: .6, city: .4, view: .3 },
+  nongprue:    { water: .1, hill: .3, green: .3, quiet: .3, city: .7, view: .2 },
+  najomtien:   { water: 1, sea: 1, hill: .3, green: .4, quiet: .7, city: .2, view: .7 },
+  southpattaya:{ water: .5, sea: .5, hill: .1, green: .1, quiet: .1, city: 1, view: .5 },
+  northpattaya:{ water: .6, sea: .6, hill: .1, green: .2, quiet: .3, city: .8, view: .6 },
+  nongplalai:  { water: .5, lake: .6, hill: .7, green: .9, quiet: .9, city: 0, view: .5 },
+  khaonoi:     { water: .1, hill: .7, green: .4, quiet: .5, city: .5, view: .6 },
+  pattaya:     { water: .5, sea: .5, hill: .1, green: .1, quiet: .1, city: 1, view: .4 }
+};
+const CENTRE = [12.9276, 100.8771];
+const DIR8 = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+function bearing(a, b) { const r = Math.PI / 180, y = Math.sin((b[1] - a[1]) * r) * Math.cos(b[0] * r), x = Math.cos(a[0] * r) * Math.sin(b[0] * r) - Math.sin(a[0] * r) * Math.cos(b[0] * r) * Math.cos((b[1] - a[1]) * r);
+  return (Math.atan2(y, x) / r + 360) % 360; }
+const km = (a, b) => { const r = Math.PI / 180, dl = (b[0] - a[0]) * r, dn = (b[1] - a[1]) * r * Math.cos(a[0] * r); return 6371 * Math.hypot(dl, dn); };
+const dir8 = deg => DIR8[Math.round(md(deg, 360) / 45) % 8];
+/* facing written in the Sheet: N/NE/…, Thai words, or degrees from north */
+function parseFacing(v) { if (v == null || v === "") return null; const s = String(v).trim().toUpperCase().replace(/[\s_-]/g, "");
+  if (/^\d+(\.\d+)?°?$/.test(s)) return dir8(parseFloat(s));
+  if (DIR_EL[s]) return s; const w = { NORTH: "N", SOUTH: "S", EAST: "E", WEST: "W", NORTHEAST: "NE", NORTHWEST: "NW", SOUTHEAST: "SE", SOUTHWEST: "SW" }[s]; if (w) return w;
+  const t = String(v).replace(/\s|ทิศ/g, ""); const th = { "เหนือ": "N", "ใต้": "S", "ตะวันออก": "E", "ตะวันตก": "W", "ตะวันออกเฉียงเหนือ": "NE", "ตะวันตกเฉียงเหนือ": "NW", "ตะวันออกเฉียงใต้": "SE", "ตะวันตกเฉียงใต้": "SW", "อีสาน": "NE", "พายัพ": "NW", "อาคเนย์": "SE", "หรดี": "SW" }[t];
+  return th || null; }
 const L = () => { const l = G("lang","th"); if (TX[l]) return TX[l]; const base = TX.en; return Object.assign({}, base, LBL[l] || {}); };
 
 /* ---------------- chart ---------------- */
@@ -159,12 +210,12 @@ function hexEl(hex) { const n = parseInt(hex.slice(1), 16), r = (n >> 16) / 255,
   if (h >= 190 && h < 260) return "water"; if (h >= 75 && h < 190) return "wood"; if (h < 22 || h >= 330) return s > 0.4 ? "fire" : "earth"; if (h < 60) return l > 0.75 ? "metal" : "earth"; if (h < 75) return "earth"; return "fire"; }
 const SEA_Z = ["jomtien","pratumnak","thappraya","najomtien","southpattaya","northpattaya","sattahip"], LAKE_Z = ["mapprachan","siamcc"];
 const FACING = { H96: "E", L04: "E" };   // confirmed on site (compass); add more as ASN verifies them
-function facingOf(c) { if (FACING[c]) return FACING[c]; const h = G("HOME_STYLE", {})[c]; const txt = h && h.en ? (h.en.feng || []).join(" ") + " " + (h.en.concept || "") : "";
+function facingOf(c, l) { const fs = l && parseFacing(l.facing); if (fs) return fs; if (FACING[c]) return FACING[c]; const h = G("HOME_STYLE", {})[c]; const txt = h && h.en ? (h.en.feng || []).join(" ") + " " + (h.en.concept || "") : "";
   const m = txt.match(/\b(?:house|home|villa|front|door|it)\s+faces\s+(?:due\s+)?(north|south|east|west)(?:-(east|west))?\b/i); if (!m) return null;
   const k = (m[1][0] + (m[2] ? m[2][0] : "")).toUpperCase(); return DIR_EL[k] ? k : null; }
 function feat(l) {
   const h = G("HOME_STYLE",{})[l.code], tx = h && h.en ? ((h.en.concept || "") + " " + (h.en.feng || []).join(" ")).toLowerCase() : "", tags = l.tags || [];
-  const f = { water: 0, privacy: 0, open: 0, view: 0, garden: 0, earth: 0, metal: 0, fire: 0, pal: {}, facing: facingOf(l.code), flags: [] };
+  const f = { water: 0, privacy: 0, open: 0, view: 0, garden: 0, earth: 0, metal: 0, fire: 0, pal: {}, facing: facingOf(l.code, l), flags: [] };
   if (l.pool === "private") { f.water += 2; f.flags.push("rPoolP"); } else if (l.pool === "shared") { f.water += 1; f.flags.push("rPoolS"); }
   if (tags.includes("seaView") || /\bsea\b|ocean|beach/.test(tx)) { f.water += 1.2; f.view += 0.6; f.flags.push("rSea"); } else if (SEA_Z.includes(l.zone)) f.water += 0.4;
   if (LAKE_Z.includes(l.zone) || /\blake|reservoir/.test(tx)) { f.water += 0.8; f.flags.push("rLake"); }
@@ -268,6 +319,7 @@ const css = `
 .ds-leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12.5px;margin:10px 0}.ds-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 .ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:#8E5714;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
 .ds-ok{background:var(--brand-soft)!important}.ds-c b,.ds-c,.ds-prof li,.ds-why li,.ds-score{color:var(--ink)}.ds-form .chk{color:var(--ink-2)}.ds-note{font-size:12.5px;color:var(--muted);margin-top:8px}.ds-warn{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13.5px}
+.ds-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-z .ds-score{margin:8px 0 6px;font-size:13.5px}.ds-z a{color:var(--brand);font-weight:600}
 .ds-match{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}.ds-mi{display:grid;gap:8px}.ds-score{display:flex;align-items:center;gap:10px;font-weight:600}
 .ds-bar{flex:1;height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden}.ds-bar i{display:block;height:100%;background:linear-gradient(90deg,#B57A27,#1F3A5F)}
 .ds-why{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:3px}.ds-why li::before{content:attr(data-k);display:inline-block;width:16px;font-weight:700}.ds-why li[data-k="+"]::before{color:#2e7d4f}.ds-why li[data-k="!"]::before{color:#b45309}.ds-why li[data-k="~"]::before{color:#888}
@@ -309,6 +361,8 @@ function form(T, focus) {
     <label class="ds-wide" data-p="buy">${T.fBuyDate}${dp("buy", v.buy || plus(1), Y0, Y0 + 4)}</label>
     <label class="ds-wide" data-p="rent">${T.fRentFrom}${dp("from", v.from || plus(1), Y0, Y0 + 4)}</label>
     <label class="ds-wide" data-p="rent">${T.fRentTo}${dp("to", v.to || plus(13), Y0, Y0 + 6)}</label>
+    <label data-p="buy">${T.fBudget}<select name="bBuy">${[0, ...BUY_B, -100].map(n => `<option value="${n}" ${String(v.bBuy || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : n < 0 ? T.bOverS.replace("{n}", -n) : T.bUpS.replace("{n}", n)}</option>`).join("")}</select></label>
+    <label data-p="rent">${T.fBudget}<select name="bRent">${[0, ...RENT_B].map(n => `<option value="${n}" ${String(v.bRent || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : T.bUpR.replace("{n}", n.toLocaleString("en-US"))}</option>`).join("")}</select></label>
     <label>${T.fType}<select name="type">${[["", T.tAny], ["villa", T.tVilla], ["house", T.tHouse], ["condo", T.tCondo], ["land", T.tLand]].map(([k, n]) => `<option value="${k}" ${(v.type || "") === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
     <p class="ds-priv full">🔒 ${T.privacy}</p>
     <button class="btn ds-go" type="submit">${T.go}</button>
@@ -335,6 +389,34 @@ function readDp(fm) { fm.querySelectorAll(".ds-dp").forEach(w => { const g = k =
   h.value = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`; }); }
 function sync(fm) { readDp(fm); const p = fm.purpose.value; fm.querySelectorAll("[data-p]").forEach(el => el.hidden = el.dataset.p !== p); fm.time.disabled = fm.unk.checked; }
 
+
+/* recommended areas: area character vs the client's element, the area's bearing from central Pattaya vs Kua lucky
+   directions, and how well the matching homes there score. Uses zone centres (and, when the Sheet gives one, a listing's
+   rounded area pin) — never an exact address. */
+function zones(ranked, C) {
+  const Z = G("ZONES", {}), T = L(), out = [];
+  const want = { water: t => t.water * .55 + t.quiet * .35 + (1 - t.city) * .1, fire: t => t.city * .4 + t.view * .4 + t.green * .2,
+    earth: t => t.hill * .45 + t.green * .3 + t.quiet * .25, air: t => t.view * .5 + t.city * .3 + (t.sea || 0) * .2 }[C.thEl];
+  const elZ = { water: t => t.water, wood: t => t.green, fire: t => t.city * .6 + t.view * .4, earth: t => t.hill, metal: t => t.city * .5 + t.view * .3 + .1 };
+  for (const z in Z) { const t0 = ZT[z]; if (!t0 || z === "pattaya" || !Z[z].ll) continue; const t = Object.assign({ water: 0, sea: 0, lake: 0, hill: 0, green: 0, quiet: 0, city: 0, view: 0 }, t0);
+    const here = ranked.filter(r => r.l.zone === z), n = here.length;
+    const pins = here.map(r => r.l.area).filter(a => a && a.length === 2);
+    const pt = pins.length ? [pins.reduce((s, a) => s + a[0], 0) / pins.length, pins.reduce((s, a) => s + a[1], 0) / pins.length] : Z[z].ll;
+    const far = km(CENTRE, pt) > 1.2, d = far ? dir8(bearing(CENTRE, pt)) : null;
+    const th = Math.max(0, Math.min(1, want(t))), bz = Math.max(elZ[C.sup[0]](t), elZ[C.sup[1]](t));
+    const kd = !C.dirs || !d ? .5 : C.dirs.includes(d) ? 1 : .2;
+    const top = here.slice(0, 3), ls = top.length ? top.reduce((s, r) => s + r.total, 0) / top.length / 100 : 0;
+    const total = Math.round(40 * th + 20 * bz + 15 * kd + 25 * ls);
+    const why = [], tr = [["sea", "zSea"], ["lake", "zLake"], ["hill", "zHill"], ["quiet", "zQuiet"], ["green", "zGreen"], ["view", "zView"], ["city", "zCity"]];
+    const pref = { water: ["lake", "sea", "quiet", "green"], fire: ["city", "view", "sea", "green"], earth: ["hill", "green", "quiet", "lake"], air: ["view", "sea", "city", "hill"] }[C.thEl];
+    for (const k of pref) if (t[k] >= .6) why.push(["+", T[tr.find(x => x[0] === k)[1]] || TX.en[tr.find(x => x[0] === k)[1]]]);
+    if (C.thEl === "water" && t.city >= .7) why.push(["!", T.zCity || TX.en.zCity]);
+    if (C.thEl === "fire" && t.quiet >= .9) why.push(["~", T.zQuiet || TX.en.zQuiet]);
+    if (d && C.dirs) why.push([kd === 1 ? "+" : "~", ((kd === 1 ? T.zDirG : T.zDirB) || (kd === 1 ? TX.en.zDirG : TX.en.zDirB)).replace("{d}", T.dir[d])]);
+    out.push({ z, n, top, total: Math.max(5, Math.min(99, total)), why: why.slice(0, 4) }); }
+  out.sort((a, b) => (b.n > 0) - (a.n > 0) || b.total - a.total);
+  return out.slice(0, 3);
+}
 function results(inp, focus) {
   const T = L(), C = chart(inp), lg = G("lang","th"), loc = { th: "th-TH", en: "en-GB", zh: "zh-CN", ko: "ko-KR", ja: "ja-JP", ru: "ru-RU" }[lg] || "en-GB";
   const elBadge = e => `<span class="ds-el" style="background:${ELC[e]}">${T.el[e]}</span>`;
@@ -355,7 +437,11 @@ function results(inp, focus) {
   let pool = (G("SHOWN") ? G("SHOWN")() : []).filter(l => l && l.code);
   if (inp.purpose === "rent") pool = pool.filter(l => l.rent && l.type !== "land"); else pool = pool.filter(l => l.sale);
   if (inp.type) pool = pool.filter(l => l.type === inp.type);
+  const bB = +inp.bBuy || 0, bR = +inp.bRent || 0;
+  if (inp.purpose === "rent" && bR) pool = pool.filter(l => l.rent <= bR);
+  if (inp.purpose !== "rent" && bB) pool = pool.filter(l => bB < 0 ? l.sale > -bB * 1e6 : l.sale <= bB * 1e6);
   const ranked = pool.map(l => score(l, C)).sort((a, b) => b.total - a.total);
+  const zr = zones(ranked, C);
   const fo = focus && G("byCode") ? G("byCode")(focus) : null, foS = fo ? score(fo, C) : null;
   const tm = timing(C, inp);
   const mName = (y, m) => new Intl.DateTimeFormat(loc, { month: "short", year: "2-digit" }).format(new Date(y, m - 1, 1));
@@ -367,7 +453,8 @@ function results(inp, focus) {
     `ASN Destiny Match${C.name ? " — " + C.name : ""}`,
     `${TX.en.sunTh}: ${TX.en.signs[Math.floor(C.sunS / 30)]} (${TX.en.el[C.thEl]}) · Western: ${TX.en.signs[Math.floor(C.sunT / 30)]}`,
     `Chinese: ${TX.en.animals[C.yb]} ${C.cy} · Day Master ${TX.en.el[C.dm]}${C.kua ? ` · Kua ${C.kua} (${C.dirs.join(", ")})` : ""}`,
-    `${inp.purpose === "rent" ? `Rent ${inp.from} → ${inp.to}` : `Buy ~${inp.buy}`}`,
+    `${inp.purpose === "rent" ? `Rent ${inp.from} → ${inp.to}${bR ? ` · ≤ ฿${bR.toLocaleString("en-US")}/mo` : ""}` : `Buy ~${inp.buy}${bB ? ` · ${bB < 0 ? ">" : "≤"} ฿${Math.abs(bB)}M` : ""}`}`,
+    zr.length ? `Areas: ${zr.map(z => z.z).join(", ")}` : "",
     `Top matches: ${(foS ? [foS] : []).concat(ranked.filter(r => !fo || r.l.code !== fo.code).slice(0, 5)).map(r => `${r.l.code} ${r.total}%`).join(", ")}`,
     tm.days.length ? `Good days: ${tm.days.slice(0, 4).map(d => d.t.toISOString().slice(0, 10)).join(", ")}` : ""
   ].filter(Boolean).join("\n");
@@ -389,6 +476,8 @@ function results(inp, focus) {
     <div class="ds-leg">${[3, 2, 1, 0].map(k => `<span><i class="g${k}"></i>${T[g[k]]}</span>`).join("")}</div>
     ${tm.days.length ? `<p><b>${(T.bestDays || TX.en.bestDays).replace("{act}", inp.purpose === "rent" ? (T.actRent || TX.en.actRent) : (T.actBuy || TX.en.actBuy))}</b></p><div class="ds-days">${tm.days.map(d => `<span>${dName(d.t)}</span>`).join("")}</div>` : ""}
     <p class="ds-note">${T.tmNote || TX.en.tmNote}</p></section>
+  ${zr.length ? `<section class="ds-sec"><h2>📍 ${T.secLoc}</h2><p class="ds-note" style="margin:-4px 0 14px">${T.locNote || TX.en.locNote}</p><div class="ds-zones">${zr.map((z, i) => `<div class="ds-c ds-z"><small>#${i + 1}</small><b>${G("esc")(G("zn", x => x)(z.z))}</b>${bar(z)}<ul class="ds-why">${z.why.map(([k, x]) => `<li data-k="${k}">${G("esc")(x)}</li>`).join("")}</ul>
+      <p class="ds-note">${z.n ? (T.zCount || TX.en.zCount).replace("{n}", z.n) + (z.top.length ? ` · ${T.zBest || TX.en.zBest} ${z.top.map(r => `<a href="#/l/${r.l.code}">${r.l.code} (${r.total}%)</a>`).join(", ")}` : "") : (T.zNone || TX.en.zNone)}</p></div>`).join("")}</div></section>` : ""}
   <section class="ds-sec"><h2>${T.secMatch}</h2><p class="ds-note" style="margin:-4px 0 14px">${T.matchNote || TX.en.matchNote}</p>
     ${ranked.length ? `<div class="ds-match">${ranked.filter(r => !fo || r.l.code !== fo.code).slice(0, 9).map(r => `<div class="ds-mi">${G("card")(r.l)}${bar(r)}${why(r)}</div>`).join("")}</div>` : `<p>${T.none || TX.en.none}</p>`}
   </section>
@@ -426,5 +515,5 @@ function render(focus) {
 function detailCta(code) { addCss(); const T = L(); return `<div class="dsd-box"><div><b>🔮 ${T.detailCta}</b><p>${T.detailCtaSub}</p></div><a href="#/destiny/${encodeURIComponent(code)}">${T.go} →</a></div>`; }
 /* nav + i18n keys merged into the site's T table */
 const navT = {}; for (const k of ["th","en","zh","ko","ja","ru"]) navT[k] = { navDestiny: (TX[k] || LBL[k]).nav, dsHomeCta: (TX[k] || LBL[k]).homeCta };
-window.ASND = { render, detailCta, T: navT, _test: { chart, score, timing, feat, kua } };
+window.ASND = { render, detailCta, T: navT, _test: { chart, score, timing, feat, kua, zones, parseFacing } };
 })();
