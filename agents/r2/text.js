@@ -212,3 +212,20 @@ const NET_T = {
     slLink: "ジョムティエンと自然災害：パタヤ–EEC とタイ各地の比較", gSafe: "安全な暮らし：パタヤ–EEC の自然災害" }
 };
 for (const l of Object.keys(NET_T)) Object.assign(T[l], NET_T[l]);
+
+/* Currency switch (฿ THB / US$). {r} = baht per US$, {d} = date of the rate. Added 4 Nov 2026. */
+const FX_T = {
+  th: { curLbl: "สกุลเงิน", fxNote: "ราคา US$ คิดที่ 1 US$ = {r} บาท ตามอัตราอ้างอิงรายวันวันที่ {d} ราคาจริงกำหนดเป็นเงินบาท ตัวเลข US$ ใช้เพื่อประกอบการตัดสินใจเท่านั้น",
+    fxOff: "ราคา US$ คิดที่ 1 US$ = {r} บาท (อัตราอ้างอิงวันที่ {d} เพราะโหลดอัตราของวันนี้ไม่ได้) ราคาจริงกำหนดเป็นเงินบาท" },
+  en: { curLbl: "Currency", fxNote: "US$ at 1 US$ = ฿{r}, daily reference rate of {d}. Prices are set in Thai baht; the US$ figure is a guide.",
+    fxOff: "US$ at 1 US$ = ฿{r} (reference rate of {d}; today's rate could not be loaded). Prices are set in Thai baht." },
+  ru: { curLbl: "Валюта", fxNote: "US$ по курсу 1 US$ = ฿{r}, ежедневный справочный курс на {d}. Цены установлены в тайских батах; сумма в US$ ориентировочная.",
+    fxOff: "US$ по курсу 1 US$ = ฿{r} (справочный курс на {d}; сегодняшний курс загрузить не удалось). Цены установлены в тайских батах." },
+  zh: { curLbl: "币种", fxNote: "美元按 1 US$ = ฿{r} 计算（{d} 每日参考汇率）。房价以泰铢为准，美元金额仅供参考。",
+    fxOff: "美元按 1 US$ = ฿{r} 计算（{d} 参考汇率，今日汇率未能加载）。房价以泰铢为准。" },
+  ko: { curLbl: "통화", fxNote: "US$는 1 US$ = ฿{r} 기준({d} 일일 기준 환율)입니다. 가격은 태국 바트로 정해지며 US$ 금액은 참고용입니다.",
+    fxOff: "US$는 1 US$ = ฿{r} 기준({d} 기준 환율, 오늘 환율을 불러오지 못했습니다)입니다. 가격은 태국 바트로 정해집니다." },
+  ja: { curLbl: "通貨", fxNote: "US$は 1 US$ = ฿{r}（{d} の日次参考レート）で換算しています。価格はタイバーツ建てで、US$表示は目安です。",
+    fxOff: "US$は 1 US$ = ฿{r}（{d} の参考レート。本日のレートを取得できませんでした）で換算しています。価格はタイバーツ建てです。" }
+};
+for (const l of Object.keys(FX_T)) Object.assign(T[l], FX_T[l]);

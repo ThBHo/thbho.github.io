@@ -6,6 +6,35 @@ let lang = "th";
 const t = k => (T[lang] && T[lang][k]) || T.en[k] || k;
 const nf = new Intl.NumberFormat("en-US");
 const baht = n => "฿" + nf.format(Math.round(n));
+/* US dollar display. Prices are set in baht (price list); the US$ figure uses the day's reference rate from
+   Frankfurter (https://frankfurter.dev, daily rates), loaded once a day and kept for that day in this browser.
+   Until it loads, or if it can't, FX_FALLBACK in data.js is used and the note says so.
+   Quotations, copied listings and social posts stay in baht; US$ is added beside them as a guide. */
+let cur = "THB"; try { if (localStorage.getItem("rv-cur") === "USD") cur = "USD"; } catch (e) {}
+const fx = { rate: FX_FALLBACK.rate, date: FX_FALLBACK.date, live: false };
+const usd = n => "US$" + nf.format(Math.round(n / fx.rate));
+const money = n => cur === "USD" ? usd(n) : baht(n);
+const fxDate = () => new Intl.DateTimeFormat((lang === "zh" ? "zh-CN" : lang) + "-u-ca-gregory", { day: "numeric", month: "short", year: "numeric" }).format(new Date(fx.date + "T12:00:00"));
+const fxRateTxt = () => fx.rate.toFixed(2);
+const fxNote = () => cur !== "USD" ? "" : t(fx.live ? "fxNote" : "fxOff").replace("{r}", fxRateTxt()).replace("{d}", fxDate());
+const curSeg = () => `<div class="seg cur-seg" role="group" aria-label="${t("curLbl")}">${[["THB", "฿ THB"], ["USD", "US$"]].map(([k, l]) =>
+  `<button type="button" data-cur="${k}" aria-pressed="${cur === k}">${l}</button>`).join("")}</div>`;
+const fxOk = r => r > 20 && r < 60;
+{ // today's rate already loaded on an earlier page: use it from the first render
+  try { const c = JSON.parse(localStorage.getItem("rv-fx") || "null");
+    if (c && c.day === new Date().toISOString().slice(0, 10) && fxOk(c.rate)) Object.assign(fx, { rate: c.rate, date: c.date, live: true }); } catch (e) {} }
+function loadFx(){
+  const today = new Date().toISOString().slice(0, 10), ok = fxOk;
+  if (fx.live) return Promise.resolve(false);
+  const pick = j => +((j && j.rates && (j.rates.THB || j.rates.thb)) || (j && j.rate) || (Array.isArray(j) && j[0] && j[0].rate) || 0);
+  const get = url => fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(j => {
+    const rate = pick(j); if (!ok(rate)) throw new Error("rate");
+    return { rate, date: String((j && j.date) || (Array.isArray(j) && j[0] && j[0].date) || today).slice(0, 10) }; });
+  return get("https://api.frankfurter.dev/v1/latest?base=USD&symbols=THB")
+    .catch(() => get("https://api.frankfurter.app/latest?from=USD&to=THB"))
+    .then(x => { Object.assign(fx, x, { live: true }); try { localStorage.setItem("rv-fx", JSON.stringify({ ...x, day: today })); } catch (e) {} return true; })
+    .catch(() => false);
+}
 const sqmFmt = n => n.toFixed(2);
 const floorKey = f => f === "G" ? 0 : (f === "12A" ? 12.5 : parseFloat(f) || 0);
 const sell = u => u.promoPrice || u.price;
@@ -105,7 +134,7 @@ function renderStats(){
   const live = UNITS.filter(u => u.status !== "SOLD");
   const cells = [
     [live.length, "stAvail", false],
-    [baht(Math.min(...live.map(sell))), "stFrom", true],
+    [money(Math.min(...live.map(sell))), "stFrom", true],
     [live.filter(u => u.view === "Sea View").length, "stSea", false],
     [live.filter(u => u.view === "City View").length, "stCity", false],
     [live.filter(u => u.promoPrice).length, "stPromo", true]
@@ -269,16 +298,19 @@ function renderGrid(list){
           <span>${t(furnLabel(u))}</span>
         </div>
         <div class="price">
-          ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-          <div class="now${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
-          <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
-          ${u.promoPrice ? `<span class="save">${t("saveWord")} ${baht(u.price - u.promoPrice)}</span>` : ""}
+          ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+          <div class="now${u.promoPrice ? " promo" : ""}">${money(sell(u))}</div>
+          <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
+          ${u.promoPrice ? `<span class="save">${t("saveWord")} ${money(u.price - u.promoPrice)}</span>` : ""}
         </div>
       </div>
     </div>`).join("");
 }
 
+const num = n => nf.format(Math.round(cur === "USD" ? n / fx.rate : n));
 function renderTable(list){
+  const ps = document.querySelector('th[data-i18n="thPerSqm"]'); if (ps) ps.textContent = cur === "USD" ? t("thPerSqm").replace("฿", "US$") : t("thPerSqm");
+  ["thList", "thNow"].forEach(k => { const h = document.querySelector(`th[data-i18n="${k}"]`); if (h) h.textContent = t(k) + (cur === "USD" ? " (US$)" : ""); });
   $("#tbody").innerHTML = list.map(u => `
     <tr data-unit="${u.unit}" class="${u.status === "SOLD" ? "is-sold" : ""}">
       <td><b class="num">${u.unit}</b> ${u.status === "SOLD" ? `<span class="tag sold">${t("bSold")}</span>` : u.promoPrice ? `<span class="tag promo">−${Math.round(discount(u)*100)}%</span>` : ""}</td>
@@ -287,9 +319,9 @@ function renderTable(list){
       <td>${t(typeLabel(u))}</td>
       <td>${u.quota === "FR" ? t("quotaFR") : t("quotaTH")}</td>
       <td class="n">${sqmFmt(u.sqm)}</td>
-      <td class="n" style="color:var(--muted)">${u.promoPrice ? nf.format(u.price) : "—"}</td>
-      <td class="n" style="font-weight:600${u.promoPrice ? ";color:var(--coral)" : ""}">${nf.format(sell(u))}</td>
-      <td class="n">${nf.format(Math.round(perSqm(u)))}</td>
+      <td class="n" style="color:var(--muted)">${u.promoPrice ? num(u.price) : "—"}</td>
+      <td class="n" style="font-weight:600${u.promoPrice ? ";color:var(--coral)" : ""}">${num(sell(u))}</td>
+      <td class="n">${num(perSqm(u))}</td>
       <td>${t(furnLabel(u))}</td>
     </tr>`).join("");
 }
@@ -395,6 +427,7 @@ function openUnit(code){
         <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
         <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
         <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
+        ${cur === "USD" ? `<div class="kv fx"><span>≈ US$</span><b>${usd(c.total)}</b></div><p class="fx-note">${fxNote()}</p>` : ""}
         <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
       </div>
     </div>
@@ -435,7 +468,8 @@ function listingText(u){
     `${t("cMaint")}: ${baht(c.maint)}`,
     `${t("cTransfer")}: ${baht(c.transfer)}`,
     `${t("cTotal")}: ${baht(c.total)}`,
-    `${t("cBooking")}: ${baht(u.booking)}`
+    `${t("cBooking")}: ${baht(u.booking)}`,
+    cur === "USD" ? `≈ ${usd(c.total)} (1 US$ = ฿${fxRateTxt()}, ${fx.date})` : null
   ].filter(Boolean);
   return lines.join("\n");
 }
@@ -502,7 +536,7 @@ function renderHero(){
   const live = UNITS.filter(u => u.status !== "SOLD");
   document.getElementById("facts").innerHTML = [
     `<b>${live.length}</b> ${t("stAvail")}`,
-    `${t("stFrom")} <b>${baht(Math.min(...live.map(sell)))}</b>`,
+    `${t("stFrom")} <b>${money(Math.min(...live.map(sell)))}</b>`,
     `<b>${live.filter(u => u.view === "Sea View").length}</b> ${t("stSea")}`,
     `<b>${live.filter(u => u.promoPrice).length}</b> ${t("stPromo")}`
   ].map(x => `<span>${x}</span>`).join("");
@@ -537,9 +571,9 @@ function renderHighlights(){
           <span>${t(typeLabel(u))}</span>
           <span>${t(furnLabel(u))}</span>
         </div>
-        ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-        <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
-        <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+        ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+        <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
+        <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
       </div>
     ${hasPage(u.unit) ? "</a>" : "</div>"}`).join("");
 }
@@ -758,15 +792,15 @@ function renderUnitPage(code){
 
         <section class="u-sec">
           <h2>${t("dCost")}</h2>
-          ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${baht(u.price)}</b></div>` : ""}
-          <div class="kv hi"><span>${t("cPrice")}</span><b>${baht(c.price)}</b></div>
-          ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${baht(u.price - u.promoPrice)}</b></div>` : ""}
-          <div class="kv"><span>${t("cPerSqm")}</span><b>${baht(perSqm(u))}</b></div>
-          <div class="kv"><span>${t("cSinking")}</span><b>${baht(c.sinking)}</b></div>
-          <div class="kv"><span>${t("cMaint")}</span><b>${baht(c.maint)}</b></div>
-          <div class="kv"><span>${t("cTransfer")}</span><b>${baht(c.transfer)}</b></div>
-          <div class="kv total"><span>${t("cTotal")}</span><b>${baht(c.total)}</b></div>
-          <div class="kv"><span>${t("cBooking")}</span><b>${baht(u.booking)}</b></div>
+          ${u.promoPrice ? `<div class="kv"><span>${t("cList")}</span><b style="text-decoration:line-through;color:var(--muted)">${money(u.price)}</b></div>` : ""}
+          <div class="kv hi"><span>${t("cPrice")}</span><b>${money(c.price)}</b></div>
+          ${u.promoPrice ? `<div class="kv disc"><span>${t("cDiscount")}</span><b>−${Math.round(discount(u) * 100)}% · ${t("saveWord")} ${money(u.price - u.promoPrice)}</b></div>` : ""}
+          <div class="kv"><span>${t("cPerSqm")}</span><b>${money(perSqm(u))}</b></div>
+          <div class="kv"><span>${t("cSinking")}</span><b>${money(c.sinking)}</b></div>
+          <div class="kv"><span>${t("cMaint")}</span><b>${money(c.maint)}</b></div>
+          <div class="kv"><span>${t("cTransfer")}</span><b>${money(c.transfer)}</b></div>
+          <div class="kv total"><span>${t("cTotal")}</span><b>${money(c.total)}</b></div>
+          <div class="kv"><span>${t("cBooking")}</span><b>${money(u.booking)}</b></div>
         </section>
 
         ${u.type === "Commercial" ? "" : `<details class="u-sec u-fold" hidden><summary><h2></h2></summary><div id="lkBuy"></div></details>`}
@@ -774,9 +808,11 @@ function renderUnitPage(code){
 
       <aside class="u-aside">
         <div class="u-price">
-          ${u.promoPrice ? `<div class="was">${baht(u.price)}</div>` : ""}
-          <div class="big${u.promoPrice ? " promo" : ""}">${baht(sell(u))}</div>
-          <div class="psq">${baht(perSqm(u))} / ${t("thSqm")}</div>
+          ${u.promoPrice ? `<div class="was">${money(u.price)}</div>` : ""}
+          <div class="big${u.promoPrice ? " promo" : ""}">${money(sell(u))}</div>
+          <div class="psq">${money(perSqm(u))} / ${t("thSqm")}</div>
+          ${cur === "USD" ? `<div class="u-thb">${baht(sell(u))}</div>` : ""}
+          <div class="u-cur">${curSeg()}${cur === "USD" ? `<p class="fx-note">${fxNote()}</p>` : ""}</div>
           <div class="u-ctas">
             <button type="button" data-social="${u.unit}">${t("makeSocialPost")}</button>
             <button type="button" data-ushare="1">${t("uShare")}</button>
@@ -794,12 +830,12 @@ function renderUnitPage(code){
           <div class="utop"><span class="ucode">${o.unit}</span><span class="usub">${t("floorWord")} ${o.floor}</span></div>
           ${mbtiStrip(o.unit)}
           ${storyOf(o.unit) ? `<div class="usub" style="white-space:normal">${storyOf(o.unit).name}</div>` : ""}
-          <div class="hnow${o.promoPrice ? "" : " plain"}">${baht(sell(o))}</div>
+          <div class="hnow${o.promoPrice ? "" : " plain"}">${money(sell(o))}</div>
         </div>
       </a>`).join("")}</div></section>` : ""}
   </div>
   <div class="u-mbar">
-    <div class="p">${baht(sell(u))}<small>${u.unit} · ${sqmFmt(u.sqm)} ${t("thSqm")}</small></div>
+    <div class="p">${money(sell(u))}<small>${u.unit} · ${sqmFmt(u.sqm)} ${t("thSqm")}</small></div>
     <button type="button" class="share" data-ushare="1">${t("uShare")}</button>
   </div>`;
 
@@ -856,7 +892,7 @@ const dsCard = h => { const u = UNITS.find(x => x.unit === h.code); if (!u) retu
     <div class="hbody">
       <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor}</span></div>
       ${storyOf(u.unit) ? `<div class="usub" style="white-space:normal">${storyOf(u.unit).name}</div>` : ""}
-      <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+      <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
     </div></a>`; };
 // text the scorer reads (sea, light, wood…): the English tagline + highlights, feng shui notes and the room palette
 const DS_STYLE = {};
@@ -1188,7 +1224,7 @@ function renderMatches(){
           <div class="usub">${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}</div>
           ${storyOf(u.unit) ? `<div class="mx-name">${storyOf(u.unit).name}</div>` : ""}
           <div class="mx-why">${why.map(w => `<span>${w}</span>`).join("")}</div>
-          <div class="hnow${u.promoPrice ? "" : " plain"}">${baht(sell(u))}</div>
+          <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
         </div>
       </button>`).join("")}</div>
     ${res.length > list.length ? `<div class="mx-morewrap"><button type="button" class="btn alt" data-mxmore="1">${M.more}</button></div>` : ""}`;
@@ -1575,7 +1611,9 @@ function render(){
   if (fk !== lastFilterKey){ state.shown = PAGE_SIZE; lastFilterKey = fk; }   // new filters or sort: back to the first 12
   $("#count").textContent = list.length;
   const live = list.filter(u => u.status !== "SOLD");
-  $("#cheapest").textContent = live.length ? baht(Math.min(...live.map(sell))) : "—";
+  $("#curBox").innerHTML = curSeg();
+  $("#fxNote").textContent = fxNote(); $("#fxNote").hidden = cur !== "USD";
+  $("#cheapest").textContent = live.length ? money(Math.min(...live.map(sell))) : "—";
   if (state.table){ renderTable(list); $("#grid").hidden = true; $("#tblwrap").hidden = false; }
   else { renderGrid(list.slice(0, state.shown)); $("#grid").hidden = false; $("#tblwrap").hidden = true; }
   renderPager(state.table ? 0 : list.length);
@@ -1701,6 +1739,11 @@ $("#tbody").addEventListener("click", e => {
 });
 
 document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => { lang = b.dataset.lang; applyLang(); }));
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-cur]"); if (!b || b.dataset.cur === cur) return;
+  cur = b.dataset.cur; try { localStorage.setItem("rv-cur", cur); } catch (err) {}
+  applyLang();
+});
 
 const phero = $("#phero");
 phero.addEventListener("click", e => {
@@ -1814,5 +1857,6 @@ window.PAGE_TITLE = document.title;
 applyProjectName();
 applyLang();
 route();
+loadFx().then(changed => { if (changed && cur === "USD") applyLang(); });
 startSlides();
 

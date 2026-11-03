@@ -2363,5 +2363,10 @@ const PROJECT_NAME = "The Riviera Jomtien";
 
 const PRICE_LIST_DATE = "9 Jul 2026";
 const PROMO_LIST_DATE = "1 Sep 2026";
-const QUOTE_VALID_DAYS = 14;               // a printed quotation holds its price this long
+const QUOTE_VALID_DAYS = 14;
+
+/* US$ display: the page loads the day's USD→THB reference rate (Frankfurter, daily) and keeps it for the day.
+   This one is used until it loads, or when it can't (offline, API down). Update it now and then.
+   4 Nov 2026: 1 US$ = 33.77 ฿ (Wise mid-market; Frankfurter 25 Oct 2026: 33.72). */
+const FX_FALLBACK = { rate: 33.77, date: "2026-11-04" };               // a printed quotation holds its price this long
 
