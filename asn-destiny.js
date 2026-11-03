@@ -313,7 +313,8 @@ const css = `
 .ds-el{display:inline-block;padding:2px 9px;border-radius:99px;color:#fff;font-size:12px;margin-top:6px}
 .ds-sw{display:flex;gap:6px;margin:8px 0 2px}.ds-sw i{width:34px;height:22px;border-radius:6px;border:1px solid var(--line-2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}.ds-sw.sm i{width:26px;height:18px}
 .ds-dirs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ds-dirs span{background:var(--surface-3);color:var(--ink);border-radius:8px;padding:4px 8px;font-size:12.5px}
-.ds-prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-prof ul{margin:6px 0 0 18px}.ds-prof li{margin:3px 0}
+.ds-prof .ds-c small{font-size:13.5px;margin-top:2px}.ds-prof .ds-c small[style]{margin-top:16px!important}.ds-prof .ds-c em{font-size:16px;line-height:1.6;color:var(--ink-2);margin-top:6px}.ds-prof .ds-c b{font-size:20px;line-height:1.35}.ds-prof li{font-size:16px;line-height:1.6}.ds-prof .ds-sw{margin:10px 0 4px}
+.ds-prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-prof ul{margin:6px 0 0;padding-left:20px}.ds-prof li{margin:3px 0}
 .ds-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}.ds-m{border-radius:12px;padding:10px;text-align:center;font-size:13px}.ds-m b{display:block;font-size:12px;opacity:.85}
 .g3{background:#1F3A5F;color:#fff}.g2{background:var(--brand-soft);color:var(--ink)}.g1{background:var(--surface-3);color:var(--ink-2)}.g0{background:#f3d9cf;color:#8a3b22}:root[data-theme="dark"] .g3{background:#E2A957;color:#0E131A}:root[data-theme="dark"] .g2{background:#2f5d8f;color:#fff}:root[data-theme="dark"] .g0{background:#4a2a20;color:#f3c9b8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g3{background:#E2A957;color:#0E131A}:root:not([data-theme="light"]) .g2{background:#2f5d8f;color:#fff}:root:not([data-theme="light"]) .g0{background:#4a2a20;color:#f3c9b8}}
 .ds-leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12.5px;margin:10px 0}.ds-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
@@ -465,7 +466,7 @@ function results(inp, focus) {
   <section class="ds-sec"><h2>${T.secProfile}</h2>
     <div class="ds-prof">
       <div class="ds-c ds-elc"><img src="asn-img/destiny-${C.thEl}.jpg" alt="" loading="lazy"><small>${PT.pElem}</small><b>${P.core}</b>${elBadge(C.thEl)}<ul>${P.strong.map(x => `<li>${x}</li>`).join("")}</ul></div>
-      <div class="ds-c"><small>${PT.pColor}</small><b style="font-size:16px">${P.color}</b>${sw(SWATCH[C.thEl][0])}<small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>${sw(SWATCH[C.thEl][1], 1)}
+      <div class="ds-c"><small>${PT.pColor}</small><b>${P.color}</b>${sw(SWATCH[C.thEl][0])}<small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>${sw(SWATCH[C.thEl][1], 1)}
         <small style="margin-top:8px">${PT.pDir}</small><em>${P.dir}${C.kua ? "<br>" + (T.kuaLine || TX.en.kuaLine).replace("{dirs}", C.dirs.map(d => T.dir[d]).join(", ")) : ""}</em></div>
       <div class="ds-c"><small>${PT.pAvoid}</small><ul>${P.avoid.map(x => `<li>${x}</li>`).join("")}</ul><small style="margin-top:8px">${PT.pTypes}</small><ul>${Object.values(P.types).map(x => `<li>${x}</li>`).join("")}</ul></div>
     </div></section>
