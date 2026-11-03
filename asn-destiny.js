@@ -260,6 +260,7 @@ const css = `
 .ds-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
 .ds-c{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.ds-c small{display:block;color:var(--muted);font-size:12px}.ds-c b{display:block;font-size:19px;margin-top:4px}.ds-c em{display:block;font-style:normal;color:var(--muted);font-size:13px;margin-top:3px}
 .ds-el{display:inline-block;padding:2px 9px;border-radius:99px;color:#fff;font-size:12px;margin-top:6px}
+.ds-sw{display:flex;gap:6px;margin:8px 0 2px}.ds-sw i{width:34px;height:22px;border-radius:6px;border:1px solid var(--line-2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}.ds-sw.sm i{width:26px;height:18px}
 .ds-dirs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ds-dirs span{background:var(--surface-3);color:var(--ink);border-radius:8px;padding:4px 8px;font-size:12.5px}
 .ds-prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-prof ul{margin:6px 0 0 18px}.ds-prof li{margin:3px 0}
 .ds-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}.ds-m{border-radius:12px;padding:10px;text-align:center;font-size:13px}.ds-m b{display:block;font-size:12px;opacity:.85}
@@ -283,6 +284,14 @@ const css = `
 `;
 let styled = false; const addCss = () => { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s); };
 let last = null;   // last input (memory only, never stored)
+/* colour swatches for the element profile (main colours, accent colours), same order as the text */
+const SWATCH = {
+  water: [["#111418","#1B2A4A","#6B1E2E","#3D4247"], ["#C9A24D","#F1E3A6","#F2B179"]],
+  fire:  [["#C0392B","#E67E22","#E58FA8","#7D3C98"], ["#4E8A5B","#8B5A2B"]],
+  earth: [["#D8C3A5","#7B5536","#C0643A","#D4A017"], ["#B5442F","#E08A3C"]],
+  air:   [["#F7F7F5","#C9CED3","#A9CCE3","#B8BCC2"], ["#F2D16B","#C9A24D"]]
+};
+const sw = (list, small) => `<div class="ds-sw${small ? " sm" : ""}">${list.map(h => `<i style="background:${h}" title="${h}"></i>`).join("")}</div>`;
 const ELC = { water: "#2F6A9A", fire: "#B5442F", earth: "#7E5F2C", metal: "#5E6670", wood: "#3E7049", air: "#2F6F95" };
 const sg = (T, x) => `${T.signs[Math.floor(x / 30)]} ${Math.floor(x % 30)}°`;
 
@@ -369,7 +378,7 @@ function results(inp, focus) {
   <section class="ds-sec"><h2>${T.secProfile}</h2>
     <div class="ds-prof">
       <div class="ds-c ds-elc"><img src="asn-img/destiny-${C.thEl}.jpg" alt="" loading="lazy"><small>${PT.pElem}</small><b>${P.core}</b>${elBadge(C.thEl)}<ul>${P.strong.map(x => `<li>${x}</li>`).join("")}</ul></div>
-      <div class="ds-c"><small>${PT.pColor}</small><b style="font-size:16px">${P.color}</b><small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>
+      <div class="ds-c"><small>${PT.pColor}</small><b style="font-size:16px">${P.color}</b>${sw(SWATCH[C.thEl][0])}<small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>${sw(SWATCH[C.thEl][1], 1)}
         <small style="margin-top:8px">${PT.pDir}</small><em>${P.dir}${C.kua ? "<br>" + (T.kuaLine || TX.en.kuaLine).replace("{dirs}", C.dirs.map(d => T.dir[d]).join(", ")) : ""}</em></div>
       <div class="ds-c"><small>${PT.pAvoid}</small><ul>${P.avoid.map(x => `<li>${x}</li>`).join("")}</ul><small style="margin-top:8px">${PT.pTypes}</small><ul>${Object.values(P.types).map(x => `<li>${x}</li>`).join("")}</ul></div>
     </div></section>
