@@ -2611,4 +2611,7 @@ const T = {
 "million": "M"
 }
 };
+/* network membership line in the footer (every agent site) */
+const NET_T = { th:"สมาชิกเครือข่าย", en:"Member of the", ru:"Участник сети", zh:"成员 ·", ko:"회원 ·", ja:"所属ネットワーク" };
+for (const lg in NET_T) if (T[lg]) T[lg].netMember = NET_T[lg];
 if (typeof BRAND_T !== "undefined") for (const lg in BRAND_T) Object.assign(T[lg] || (T[lg] = {}), BRAND_T[lg]);
