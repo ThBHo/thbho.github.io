@@ -149,3 +149,9 @@ Never show: full address or house number, village/project name where agents "เ
 ## Partner proposal (first-contact one-pager, `hai/docs/partner-proposal/`)
 
 One A4 page per language (en th zh ko): selling points and main functions like `HybridAIAgentNetwork.html`, no prices, no commission figures (those live in the Google Doc "Hybrid AI Agent Network" in Drive › Property Webpage (ThBHo) › Agent Network). Text in `text.py`, layout in `build.py`; `python3 hai/docs/partner-proposal/build.py --pdf <dir>` (local server on the repo root at :8765) writes the HTML and `Hybrid_AI_Agent_Network_Partner_Proposal_<LANG>.pdf`. Update it whenever a member joins or a network rule changes, then save to Drive with 🩷 (current) / 🟡 (previous) at the start of the file name.
+
+## Living Insight (LivingInsight*.html, insight/)
+
+- Six languages: th, en, zh, ko, ja, ru. Thai and English live in `insight/content.js` as `{th, en}` objects. Chinese, Korean, Japanese and Russian live in `insight/i18n/<lang>.js` as `window.LI_T[lang] = {"path.into.LI": "text"}` and load only when that language is chosen (`applyLang` in `insight/insight.js`). Keys `_ui.*`, `_w.*` and `_pp.*` cover the UI labels, the widgets and the property-site links.
+- When you add or change a Thai/English string, add the same path to all four `insight/i18n/*.js` files, then bump `I18N_V` in `insight/insight.js` and the `?v=` on the six pages.
+- Pictures: `LI.hub.img` and `LI.topicImg` (files in `insight/img/`). Deep-dive links per topic: `LI.deep` (shown on each topic page and grouped on the hub). Both blocks sit at the end of `content.js` with all six languages inline.

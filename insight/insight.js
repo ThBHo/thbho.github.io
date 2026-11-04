@@ -8,8 +8,10 @@ const TOPIC = document.body.dataset.topic || "hub";
 
 /* ---------------------------------------------------------------- languages */
 // Languages with full content. Others fall back to English with a note.
-const CONTENT_LANGS = ["th", "en"];
-const ALL_LANGS = [["th","ไทย"],["en","EN"]];
+const CONTENT_LANGS = ["th", "en", "zh", "ko", "ja", "ru"];
+const ALL_LANGS = [["th","ไทย"],["en","EN"],["zh","中文"],["ko","한국어"],["ja","日本語"],["ru","RU"]];
+// th and en live in content.js; the others load from insight/i18n/<lang>.js on demand.
+const PATCH_LANGS = ["zh", "ko", "ja", "ru"];
 const qs = new URLSearchParams(location.search);
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
@@ -20,7 +22,7 @@ const store = {
 // wantLang is what the visitor asked for (passed back to the property page);
 // lang is what this guide can show.
 let wantLang = (qs.get("lang") || store.get("li-lang", "") || (navigator.language || "th").slice(0,2)).toLowerCase();
-let lang = CONTENT_LANGS.includes(wantLang) ? wantLang : (wantLang === "th" ? "th" : "en");
+let lang = CONTENT_LANGS.includes(wantLang) && !["zh","ko","ja","ru"].includes(wantLang) ? wantLang : "en";
 
 /* ----------------------------------------------------- property pages (from) */
 /* Pages that link into this guide pass ?from=<key>. Add a new property site here
@@ -95,7 +97,13 @@ const UI = {
     topicsH:"Pick a topic", factsH:"Six things to know in 2026"
   }
 };
-const u = k => (UI[lang] && UI[lang][k]) || UI.en[k];
+const UI_X = {
+  deepH:   { th:"เจาะลึกเพิ่มเติม", en:"Go deeper", zh:"深入阅读", ko:"더 깊이 읽기", ja:"さらに詳しく", ru:"Подробнее" },
+  deepP:   { th:"รายงานฉบับเต็มบนเว็บนี้ที่เกี่ยวกับหัวข้อนี้ บางฉบับมีเฉพาะภาษาไทยหรืออังกฤษ", en:"Full reports on this site about this topic. Some are in Thai or English only.", zh:"本站与此主题相关的完整报告，部分仅有泰文或英文。", ko:"이 주제와 관련된 이 사이트의 전체 보고서입니다. 일부는 태국어 또는 영어로만 제공됩니다.", ja:"このテーマに関する当サイトの詳細レポート。一部はタイ語または英語のみです。", ru:"Полные отчёты на этом сайте по теме. Некоторые только на тайском или английском." },
+  reportsP:{ th:"บทวิเคราะห์ฉบับเต็มที่คู่มือนี้ใช้อ้างอิง แยกตามหัวข้อ บางฉบับมีเฉพาะภาษาไทยหรืออังกฤษ", en:"The full analyses this guide draws on, by topic. Some are in Thai or English only.", zh:"本指南引用的完整分析，按主题分类。部分仅有泰文或英文。", ko:"이 가이드가 참고한 전체 분석을 주제별로 모았습니다. 일부는 태국어 또는 영어로만 제공됩니다.", ja:"このガイドが参照した詳細分析をテーマ別にまとめました。一部はタイ語または英語のみです。", ru:"Полные аналитические материалы, на которых основан гид, по темам. Некоторые только на тайском или английском." },
+  credit:  { th:"พัฒนาเว็บไซต์และแนวคิดโดย", en:"Concept & website by", zh:"概念与网站设计", ko:"기획 및 웹사이트 제작", ja:"コンセプト・サイト制作", ru:"Концепция и сайт" }
+};
+const u = k => (UI_X[k] && (UI_X[k][lang] || UI_X[k].en)) || (UI[lang] && UI[lang][k]) || UI.en[k];
 const L = o => o == null ? "" : (typeof o === "string" ? o : (o[lang] ?? o.en ?? o.th ?? ""));
 const nf = new Intl.NumberFormat("en-US");
 const baht = n => "฿" + nf.format(Math.round(n));
@@ -168,9 +176,11 @@ function tabs(){
 }
 
 function readMinutes(t){
-  const txt = JSON.stringify(t.blocks.map(b => b)).replace(/"(th|en)":"/g, "");
-  const chars = (txt.match(lang === "th" ? /[฀-๿]/g : /[A-Za-z]/g) || []).length;
-  return Math.max(3, Math.round(chars / (lang === "th" ? 1100 : 1300)));
+  const txt = JSON.stringify(t.blocks.map(b => b)).replace(/"(th|en|zh|ko|ja|ru)":"/g, "");
+  // characters a reader gets through per minute, by script
+  const RE = { th:[/[\u0E00-\u0E7F]/g, 1100], zh:[/[\u4E00-\u9FFF]/g, 450], ja:[/[\u3040-\u30FF\u4E00-\u9FFF]/g, 500], ko:[/[\uAC00-\uD7AF]/g, 500], ru:[/[\u0400-\u04FF]/g, 1200] }[lang] || [/[A-Za-z]/g, 1300];
+  const chars = (txt.match(RE[0]) || []).length;
+  return Math.max(3, Math.round(chars / RE[1]));
 }
 
 function hero(t){
@@ -243,7 +253,7 @@ function tools(){
 function foot(){
   return `<footer class="foot"><div class="wrap">
     <p>© 2026 Thailand Living Insight</p>
-    <div class="credit"><span>${lang === "th" ? "พัฒนาเว็บไซต์และแนวคิดโดย" : "Concept & website by"}</span>
+    <div class="credit"><span>${u("credit")}</span>
       <a href="https://thbho.github.io/EngWiderooms.html" target="_blank" rel="noopener"><img src="insight/logo-widerooms.jpg" alt="WIDEROOMS"></a>
       <a href="https://thbho.github.io/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="insight/logo-thho.jpg" alt="Hybrid AI by ThB.Ho"></a></div>
   </div></footer>`;
@@ -254,13 +264,24 @@ function hubBody(){
   const h = C.hub;
   const cards = ORDER.map(id => {
     const t = C.topics[id];
-    return `<a class="tcard" href="${pageUrl(id)}" style="--c:${t.color}"><div class="card-ic">${ic(id)}</div><small>${esc(L(t.kicker))}</small><h3>${esc(L(t.cardTitle || t.short))}</h3><p>${rich(t.cardText)}</p><span class="go">${u("open")}</span></a>`;
+    const im = C.topicImg && C.topicImg[id];
+    return `<a class="tcard${im ? " has-img" : ""}" href="${pageUrl(id)}" style="--c:${t.color}">${im ? `<span class="tcard-img"><img src="${im.src}" alt="${esc(L(im.alt))}" loading="lazy"></span>` : ""}<div class="card-ic">${ic(id)}</div><small>${esc(L(t.kicker))}</small><h3>${esc(L(t.cardTitle || t.short))}</h3><p>${rich(t.cardText)}</p><span class="go">${u("open")}</span></a>`;
   }).join("");
   const facts = h.facts.map(f => `<li><b>${esc(L(f.k))}</b><span>${rich(f.t)} <a href="${pageUrl(f.topic)}">${esc(L(C.topics[f.topic].short))} →</a></span></li>`).join("");
-  const reports = h.reports.map(r => `<a class="report" href="${esc(r.u)}" target="_blank" rel="noopener"><b>${esc(L(r.t))}</b><small>${esc(L(r.d))}</small></a>`).join("");
-  return `<section class="sec"><div class="sec-hd"><h2>${u("topicsH")}</h2></div><div class="topics">${cards}</div></section>
+  const reports = C.deep ? ORDER.filter(id => C.deep[id]).map(id => `<div class="rgroup" style="--c:${C.topics[id].color}"><h3>${ic(id)}<a href="${pageUrl(id)}">${esc(L(C.topics[id].short))}</a></h3><div class="reports">${deepLinks(C.deep[id])}</div></div>`).join("")
+    : `<div class="reports">${deepLinks(h.reports)}</div>`;
+  const photo = h.img ? `<figure class="hub-photo"><img src="${h.img.src}" alt="${esc(L(h.img.alt))}"><figcaption>${esc(L(h.img.alt))}</figcaption></figure>` : "";
+  return `${photo}<section class="sec"><div class="sec-hd"><h2>${u("topicsH")}</h2></div><div class="topics">${cards}</div></section>
     <section class="sec"><div class="sec-hd"><h2>${u("factsH")}</h2></div><ul class="facts">${facts}</ul></section>
-    <section class="sec"><div class="sec-hd"><h2>${u("reportsH")}</h2></div><p class="sec-intro">${u("reportsP")}</p><div class="reports">${reports}</div></section>`;
+    <section class="sec"><div class="sec-hd"><h2>${u("reportsH")}</h2></div><p class="sec-intro">${u("reportsP")}</p>${reports}</section>`;
+}
+function deepLinks(list){
+  return list.map(r => `<a class="report" href="${esc(r.u)}"><b>${esc(L(r.t))}</b><small>${esc(L(r.d))}</small><span class="go">${u("open")}</span></a>`).join("");
+}
+function deepSec(){
+  const list = C.deep && C.deep[TOPIC];
+  if (!list || !list.length) return "";
+  return `<section class="sec"><div class="sec-hd"><h2>${u("deepH")}</h2></div><p class="sec-intro">${u("deepP")}</p><div class="reports">${deepLinks(list)}</div></section>`;
 }
 
 /* ------------------------------------------------------------------ render */
@@ -271,18 +292,20 @@ function render(){
   const t = isHub ? C.hub : C.topics[TOPIC];
   const body = isHub ? hubBody() : t.blocks.map((b, i) => b.type === "callout" ? `<div class="wrap-c">${R.callout(b)}</div>` : `<section class="sec">${R[b.type](b, i)}</section>`).join("");
   document.title = L(t.docTitle || t.title).replace(/<[^>]+>/g, "") + " · Thailand Living Insight";
-  $("#app").innerHTML = topbar() + tabs() + hero(t) + `<main class="wrap">${body}${cta()}${isHub ? "" : nextTopics()}${sources(t.sources)}${tools()}</main>` + foot();
+  $("#app").innerHTML = topbar() + tabs() + hero(t) + `<main class="wrap">${body}${isHub ? "" : deepSec()}${cta()}${isHub ? "" : nextTopics()}${sources(t.sources)}${tools()}</main>` + foot();
   if (!isHub) t.blocks.forEach((b, i) => { if (b.type === "widget") WIDGETS[b.w]($("#w" + i), b); });
   bind();
 }
 
 function bind(){
   document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => {
-    lang = wantLang = b.dataset.lang; store.set("li-lang", lang);
-    const p = new URLSearchParams(location.search); p.set("lang", lang);
+    wantLang = b.dataset.lang; store.set("li-lang", wantLang);
+    const p = new URLSearchParams(location.search); p.set("lang", wantLang);
     history.replaceState(null, "", location.pathname + "?" + p.toString() + location.hash);
-    render();
+    loadLang(wantLang, render);
   }));
+  const lb = $(".langs"), on = lb && lb.querySelector('[aria-pressed="true"]');
+  if (lb && on && lb.scrollWidth > lb.clientWidth) lb.scrollLeft = on.offsetLeft - (lb.clientWidth - on.offsetWidth) / 2;
   const back = $("#backLink");
   if (back) back.addEventListener("click", e => {
     // return to the exact spot on the property page when we came straight from it
@@ -516,5 +539,41 @@ const WIDGETS = {
   }
 };
 
-render();
+/* ------------------------------------------------- translations (zh ko ja ru) */
+// insight/i18n/<l>.js sets window.LI_T[l] = { "path.to.string": "text" }.
+// Paths point into window.LI; _ui.*, _w.* and _pp.* point at the UI, widget
+// and property-page strings in this file.
+const applied = {};
+function applyLang(l){
+  const T = window.LI_T && window.LI_T[l];
+  if (!T || applied[l]) return !!T;
+  applied[l] = true;
+  UI[l] = UI[l] || { st:{} }; W[l] = W[l] || {};
+  const setIn = (root, path, v, leaf) => {
+    const ks = path.split("."); let o = root;
+    for (let i = 0; i < ks.length - (leaf ? 1 : 0); i++){ if (o[ks[i]] == null) o[ks[i]] = {}; o = o[ks[i]]; }
+    if (leaf) o[ks[ks.length - 1]] = v; else if (o && typeof o === "object") o[l] = v;
+  };
+  for (const k in T){
+    const v = T[k];
+    if (k.startsWith("_ui.")) setIn(UI[l], k.slice(4), v, true);
+    else if (k.startsWith("_w.")) setIn(W[l], k.slice(3), v, true);
+    else if (k.startsWith("_pp.")) setIn(PROPERTY_PAGES, k.slice(4), v, false);
+    else if (k.startsWith("_")) continue;
+    else setIn(C, k, v, false);
+  }
+  return true;
+}
+function loadLang(l, done){
+  const fin = ok => { lang = ok ? l : (CONTENT_LANGS.includes(l) && !PATCH_LANGS.includes(l) ? l : "en"); done(); };
+  if (!PATCH_LANGS.includes(l)) return fin(CONTENT_LANGS.includes(l));
+  if (applyLang(l)) return fin(true);
+  const s = document.createElement("script");
+  s.src = "insight/i18n/" + l + ".js?v=" + I18N_V;
+  s.onload = () => fin(applyLang(l));
+  s.onerror = () => fin(false);
+  document.head.appendChild(s);
+}
+const I18N_V = "20261104a";
+loadLang(wantLang, render);
 })();

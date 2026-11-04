@@ -475,3 +475,51 @@ buying: {
 }
 }
 };
+
+/* ================================================================ PICTURES
+   Photos for the hub and the topic cards. All 6 languages inline. */
+window.LI.hub.img = { src:"insight/img/hub.jpg", alt:{ th:"พัทยายามค่ำ มองเห็นปราสาทสัจธรรมและทะเล", en:"Pattaya at dusk, with the Sanctuary of Truth and the sea", zh:"黄昏时的芭提雅，可见真理寺与大海", ko:"해 질 녘 파타야, 진리의 성전과 바다", ja:"夕暮れのパタヤ、サンクチュアリ・オブ・トゥルースと海", ru:"Паттайя в сумерках: Святилище Истины и море" } };
+window.LI.topicImg = {
+  wellness:  { src:"insight/img/wellness.jpg",  alt:{ th:"สวนและสระน้ำในโครงการคอนโด", en:"Gardens and pools in a condo project", zh:"公寓项目中的花园与泳池", ko:"콘도 단지의 정원과 수영장", ja:"コンドミニアムの庭園とプール", ru:"Сады и бассейны жилого комплекса" } },
+  smarthome: { src:"insight/img/smarthome.jpg", alt:{ th:"ห้องนอนคอนโดรับแสงเช้า", en:"A condo bedroom in morning light", zh:"晨光中的公寓卧室", ko:"아침 햇살이 드는 콘도 침실", ja:"朝の光が入るコンドミニアムの寝室", ru:"Спальня в квартире утром" } },
+  relocate:  { src:"insight/img/relocate.jpg",  alt:{ th:"พระอาทิตย์ตกที่อ่าวพัทยา", en:"Sunset over the Gulf at Pattaya", zh:"芭提雅海湾日落", ko:"파타야 만의 일몰", ja:"パタヤ湾の夕日", ru:"Закат над заливом в Паттайе" } },
+  eec:       { src:"insight/img/eec.jpg",       alt:{ th:"เมืองชายฝั่งตะวันออกมองจากมุมสูง", en:"The Eastern Seaboard from above", zh:"俯瞰东部沿海城市", ko:"위에서 본 동부 해안 도시", ja:"上空から見た東部臨海エリア", ru:"Восточное побережье с высоты" } },
+  buying:    { src:"insight/img/buying.jpg",    alt:{ th:"อาคารคอนโดและสวนแนวตั้ง", en:"A condo tower with vertical gardens", zh:"带垂直绿化的公寓楼", ko:"수직 정원이 있는 콘도 타워", ja:"垂直緑化のあるコンドミニアム", ru:"Жилая башня с вертикальным озеленением" } }
+};
+
+/* ============================================================== DEEP DIVES
+   Longer reports on this site, grouped by topic. Shown on each topic page
+   and, grouped, on the hub. Titles are report names; d is in 6 languages. */
+window.LI.deep = {
+  wellness: [
+    { t:"Wellness Intelligence 2026", u:"WellnessIntelligence.html", d:{ th:"บ้านที่ดูแลสุขภาพ: แสง อากาศ น้ำ และ AI Mirror", en:"Homes that care for health: light, air, water and the AI mirror", zh:"关照健康的住宅：光线、空气、水与 AI 镜", ko:"건강을 돌보는 집: 빛, 공기, 물, AI 미러", ja:"健康を守る住まい：光・空気・水・AIミラー", ru:"Дом, который заботится о здоровье: свет, воздух, вода и AI-зеркало" } },
+    { t:"Thailand 2026: Global Wellness Safe Haven", u:"WellnessTech.html", d:{ th:"ไทยในฐานะจุดหมายด้านสุขภาพและเวลเนสระดับโลก", en:"Thailand as a global health and wellness destination", zh:"泰国作为全球健康与养生目的地", ko:"세계적인 건강·웰니스 목적지로서의 태국", ja:"世界的なヘルス＆ウェルネスの目的地としてのタイ", ru:"Таиланд как мировое направление для здоровья и wellness" } },
+    { t:"Healthspan × Longevity Escape Velocity", u:"LEVCo2Trend.html", d:{ th:"ไม่ใช่แค่อายุยืน แต่คือปีที่ใช้ชีวิตได้เต็มศักยภาพ", en:"Not just a longer life, but more years lived at full strength", zh:"不只是长寿，而是更多健康充实的岁月", ko:"오래 사는 것을 넘어, 온전히 건강하게 사는 해를 늘리기", ja:"長生きだけでなく、元気に過ごせる年月を延ばす", ru:"Не просто долгая жизнь, а больше лет в полной силе" } },
+    { t:"Smart Living & Wellness Trends 2026–2028", u:"SmartLivingTrend.html", d:{ th:"เทรนด์การอยู่อาศัยอัจฉริยะและเวลเนสในไทย", en:"Smart living and wellness trends in Thailand", zh:"泰国智能居住与养生趋势", ko:"태국의 스마트 리빙·웰니스 트렌드", ja:"タイのスマートリビング＆ウェルネスの潮流", ru:"Тренды умного жилья и wellness в Таиланде" } }
+  ],
+  smarthome: [
+    { t:"The Home That Thinks Ahead", u:"SmartHome2026.html", d:{ th:"บ้านที่คิดล่วงหน้า: ระบบอัจฉริยะในชีวิตประจำวัน", en:"The home that thinks ahead: smart systems in daily life", zh:"会预先思考的家：日常生活中的智能系统", ko:"미리 생각하는 집: 일상 속 스마트 시스템", ja:"先回りする家：暮らしの中のスマートシステム", ru:"Дом, который думает наперёд: умные системы в быту" } },
+    { t:"Vision 2026+: The Sentient Habitat", u:"FutureLiving.html", d:{ th:"ภาพบ้านในอนาคตที่รับรู้และตอบสนองผู้อยู่", en:"A look at future homes that sense and respond to the people in them", zh:"展望能感知并回应居住者的未来住宅", ko:"사람을 감지하고 반응하는 미래의 집", ja:"住む人を感じ取り応える、未来の住まい", ru:"Взгляд на дома будущего, которые чувствуют жильцов и реагируют на них" } },
+    { t:"AI-Powered Smart Home Packages", u:"WRSmartHomePack.html", d:{ th:"แพ็กเกจเปลี่ยนคอนโดเป็นสมาร์ทโฮม โดย WIDEROOMS", en:"Packages that turn a condo into a smart home, by WIDEROOMS", zh:"WIDEROOMS 的公寓智能化套餐", ko:"WIDEROOMS의 콘도 스마트홈 패키지", ja:"WIDEROOMS によるコンドミニアムのスマートホーム化パッケージ", ru:"Пакеты WIDEROOMS: как превратить квартиру в умный дом" } }
+  ],
+  relocate: [
+    { t:"Global Shift 2026", u:"GlobalShift2026.html", d:{ th:"อาเซียนในฐานะ Safe Haven และการย้ายฐานทุน", en:"ASEAN as a safe haven and the capital shift", zh:"东盟作为避风港与资本转移", ko:"안전한 피난처로서의 아세안과 자본 이동", ja:"安全な避難先としての ASEAN と資本の移動", ru:"АСЕАН как тихая гавань и перемещение капитала" } },
+    { t:"Why the world's wealthy are leaving Dubai", u:"UHNWIMigration.html", d:{ th:"2026: ทำไมมหาเศรษฐีโลกย้ายฐานจากดูไบ และมองเอเชีย", en:"2026: why the world's wealthiest are moving from Dubai and looking at Asia", zh:"2026：全球富豪为何离开迪拜、转向亚洲", ko:"2026: 세계 부호들이 두바이를 떠나 아시아를 보는 이유", ja:"2026年：世界の富裕層がドバイを離れアジアに目を向ける理由", ru:"2026: почему богатейшие люди мира уезжают из Дубая и смотрят на Азию" } },
+    { t:"Pivot to EEC", u:"PivotToEEC.html", d:{ th:"วิกฤตตะวันออกกลาง กับโอกาสของ EEC (มี.ค. 2026)", en:"The Middle East crisis and the EEC opportunity (Mar 2026)", zh:"中东危机与 EEC 的机遇（2026 年 3 月）", ko:"중동 위기와 EEC의 기회 (2026년 3월)", ja:"中東危機と EEC のチャンス（2026年3月）", ru:"Кризис на Ближнем Востоке и возможности EEC (март 2026)" } },
+    { t:"Thailand: A Global Leader in Livability", u:"ThaiGlobalRank.html", d:{ th:"ไทยในอันดับโลกด้านความน่าอยู่และการพัฒนา", en:"Where Thailand ranks worldwide for livability and development", zh:"泰国在全球宜居与发展排名中的位置", ko:"살기 좋은 나라·발전 순위에서 태국의 위치", ja:"住みやすさと発展の世界ランキングにおけるタイ", ru:"Место Таиланда в мировых рейтингах качества жизни и развития" } }
+  ],
+  eec: [
+    { t:"EEC Safe Haven 2026–2035", u:"EECSafeHaven.html", d:{ th:"EEC ในฐานะพื้นที่ปลอดภัยของทุน", en:"The EEC as a safe haven for capital", zh:"EEC 作为资本避风港", ko:"자본의 안전지대로서의 EEC", ja:"資本の安全地帯としての EEC", ru:"EEC как тихая гавань для капитала" } },
+    { t:"EECiti & Eastern Aviation City Hub 2026", u:"EECITI2026.html", d:{ th:"เมืองใหม่อัจฉริยะ EECiti และศูนย์กลางเมืองการบินภาคตะวันออก", en:"The EECiti smart city and the eastern aviation city hub", zh:"EECiti 智慧新城与东部航空城枢纽", ko:"EECiti 스마트 신도시와 동부 항공도시 허브", ja:"スマートシティ EECiti と東部航空都市ハブ", ru:"Умный город EECiti и восточный авиационный хаб" } },
+    { t:"EEC 2026: The Complete Report", u:"UTPCity.html", d:{ th:"รายงานฉบับเต็มเรื่องเมืองการบินอู่ตะเภาและ EEC", en:"The full report on the U-Tapao aviation city and the EEC", zh:"乌塔堡航空城与 EEC 完整报告", ko:"우타파오 항공도시와 EEC 종합 보고서", ja:"ウタパオ航空都市と EEC の完全レポート", ru:"Полный отчёт об авиагороде У-Тапао и EEC" } },
+    { t:"U-Tapao Aviation City & EEC Impact", u:"UTPCiti02.html", d:{ th:"เมืองการบินอู่ตะเภา กับผลต่อพื้นที่โดยรอบ", en:"The U-Tapao aviation city and what it means for the area", zh:"乌塔堡航空城及其对周边地区的影响", ko:"우타파오 항공도시와 주변 지역에 미치는 영향", ja:"ウタパオ航空都市と周辺地域への影響", ru:"Авиагород У-Тапао и его влияние на район" } },
+    { t:"EEC: The Birth of Bangkok 2", u:"EECMegaProjects.html", d:{ th:"โครงการใหญ่ใน EEC ที่กำลังสร้าง \"กรุงเทพฯ แห่งที่ 2\"", en:"The EEC megaprojects shaping a \"second Bangkok\"", zh:"打造\"第二个曼谷\"的 EEC 大型项目", ko:"\"제2의 방콕\"을 만드는 EEC 메가 프로젝트", ja:"「第二のバンコク」をつくる EEC の大型プロジェクト", ru:"Мегапроекты EEC, создающие «второй Бангкок»" } }
+  ],
+  buying: [
+    { t:"EEC & Pattaya Real Estate Pulse 2026", u:"RealEstateEEC.html", d:{ th:"ภาพรวมตลาดอสังหาฯ พัทยาและ EEC ปี 2026", en:"The Pattaya and EEC property market in 2026", zh:"2026 年芭提雅与 EEC 房地产市场概况", ko:"2026년 파타야·EEC 부동산 시장 개요", ja:"2026年のパタヤと EEC の不動産市場", ru:"Рынок недвижимости Паттайи и EEC в 2026 году" } },
+    { t:"Pattaya Market Recap & Vision 2025–2026", u:"RecapAndTrend.html", d:{ th:"สรุปตลาดพัทยาปีที่ผ่านมา และทิศทางข้างหน้า", en:"A recap of the Pattaya market and where it is heading", zh:"芭提雅市场回顾与未来走向", ko:"파타야 시장 정리와 앞으로의 방향", ja:"パタヤ市場の振り返りとこれから", ru:"Итоги рынка Паттайи и куда он движется" } },
+    { t:"EEC & Pattaya Real Estate Insight 2026", u:"EECTrendNews.html", d:{ th:"ข่าวและแนวโน้มอสังหาฯ พัทยาและ EEC", en:"News and trends in Pattaya and EEC property", zh:"芭提雅与 EEC 房地产新闻和趋势", ko:"파타야·EEC 부동산 뉴스와 트렌드", ja:"パタヤと EEC の不動産ニュースとトレンド", ru:"Новости и тренды недвижимости Паттайи и EEC" } },
+    { t:"EEC & Jomtien Real Estate", u:"EECJomtien.html", d:{ th:"EEC กับตลาดอสังหาฯ จอมเทียน", en:"What the EEC means for Jomtien property", zh:"EEC 对宗滴恩房地产的意义", ko:"EEC가 좀티엔 부동산에 주는 의미", ja:"EEC がジョムティエンの不動産にもたらすもの", ru:"Что EEC значит для недвижимости Джомтьена" } },
+    { t:"Safe Living", u:"SafeLiving.html", d:{ th:"ข้อมูลภัยธรรมชาติจริงในพื้นที่ที่ทรัพย์ตั้งอยู่ เทียบกับพื้นที่อื่นอย่างเป็นกลาง", en:"Recorded natural-hazard data where the home is, compared neutrally with other places", zh:"房源所在地真实记录的自然灾害数据，与其他地区客观对比", ko:"매물 지역의 실제 자연재해 기록을 다른 지역과 중립적으로 비교", ja:"物件エリアで実際に記録された自然災害データを他エリアと中立的に比較", ru:"Реальные данные о природных рисках там, где находится объект, в нейтральном сравнении" } }
+  ]
+};
