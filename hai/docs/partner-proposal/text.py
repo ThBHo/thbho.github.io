@@ -5,6 +5,9 @@ U = "https://thbho.github.io/"
 L = {
  "henley": "https://www.henleyglobal.com/newsroom/press-releases/henley-private-wealth-migration-report-2026",
  "pmail": "https://www.pattayamail.com/latestnews/news/who-really-buys-thai-condos-568269",
+ "si": "https://www.socialinsider.io/blog/social-media-reach/", "fa": "https://flowaccount.com/blog/commission-fees-ecommerce-shopee-lazada-tiktok/",
+ "fo": "https://fortune.com/2026/04/29/meta-zuckerberg-145-billion-ai-spending-roi/", "ch": "https://www.creatorhandbook.net/youtube-addresses-ai-moderation-concerns-after-reporting-12-million-channel-terminations-in-2025/",
+ "ownp": U + "HybridAIAgentNetwork.html#own",
  "asn": U + "ASNProperty.html", "match": U + "ASNProperty.html#/matching", "destiny": U + "asn/destiny.html",
  "h01": U + "asn/H01.html", "h04": U + "asn/H04.html", "h02": U + "asn/H02.html", "h11": U + "asn/H11.html", "c04": U + "asn/C04.html", "h90": U + "asn/H90.html",
  "insight": U + "LivingInsight.html", "zone": U + "ASNProperty.html#/zone/jomtien", "safe": U + "SafeLiving.html?from=asn", "safe_r2": U + "SafeLiving.html?from=r2",
@@ -24,6 +27,8 @@ SOURCES = [("Henley & Partners", L["henley"]), ("Pattaya Mail", L["pmail"]),
 
 T = {}
 T["en"] = dict(
+ own_h="Don't build your business on someone else's free platform", own=[("1.25%", "of followers see a Facebook brand post", "si"), ("17%+", "top Shopee/Lazada commission in Thailand after Aug 2026", "fa"), ("$145B", "Meta's 2026 AI-led spending, paid back by ads and fees", "fo"), ("12M", "YouTube channels terminated in 2025, mostly by automation", "ch")],
+ own_t="Members keep listings, photos and client contacts on their own site and Sheet; social media is the door, not the house",
  tag="PARTNER PROPOSAL", forline="For real estate agents and freelancers · by Thor Ayanundana · 4 Nov 2026",
  h1a="A multi-city agent network", h1b="Share listings, refer clients",
  lede="Trusted agents in each city share listings and refer clients both ways, with a Hybrid AI platform doing the heavy lifting", gold="gold text = clickable link",
@@ -69,6 +74,8 @@ T["en"] = dict(
  copy="© 2026 THOR · <a>WIDEROOMS</a> · <a>Hybrid AI by ThB.Ho</a> · ASN Exclusive Property and R2 by Clare shown as case studies · legal notes are not legal advice")
 
 T["th"] = dict(T["en"],
+ own_h="อย่าฝากธุรกิจไว้บนแพลตฟอร์มฟรีของคนอื่น", own=[("1.25%", "ของผู้ติดตามที่เห็นโพสต์แบรนด์บน Facebook", "si"), ("17%+", "ค่าคอมสูงสุด Shopee/Lazada ในไทยหลัง ส.ค. 2026", "fa"), ("$145B", "งบลงทุน AI ของ Meta ปี 2026 ต้องหาคืนจากโฆษณาและค่าธรรมเนียม", "fo"), ("12M", "ช่อง YouTube ที่ถูกปิดในปี 2025 ส่วนใหญ่โดยระบบอัตโนมัติ", "ch")],
+ own_t="สมาชิกเก็บทรัพย์ รูป และรายชื่อลูกค้าไว้บนเว็บและชีตของตัวเอง โซเชียลเป็นแค่ประตู ไม่ใช่บ้าน",
  tag="PARTNER PROPOSAL · ข้อเสนอความร่วมมือ", forline="เสนอให้ agents และฟรีแลนซ์อสังหาฯ · โดย Thor Ayanundana · 4 พ.ย. 2026",
  h1a="เครือข่าย agent หลายเมือง", h1b="แชร์ทรัพย์ ส่งลูกค้าให้กัน",
  lede="ชวน agents และฟรีแลนซ์ที่เชื่อถือได้ในแต่ละเมือง มาแชร์ทรัพย์และส่งลูกค้าให้กันสองทาง โดยมีแพลตฟอร์ม Hybrid AI ช่วยทำงาน", gold="ข้อความสีทองกดเปิดเว็บได้",
@@ -114,6 +121,8 @@ T["th"] = dict(T["en"],
  copy="© 2026 THOR · <a>WIDEROOMS</a> · <a>Hybrid AI by ThB.Ho</a> · ASN Exclusive Property และ R2 by Clare ใช้เป็นกรณีศึกษา · ข้อมูลกฎหมายไม่ใช่คำปรึกษากฎหมาย")
 
 T["zh"] = dict(T["en"],
+ own_h="别把生意建在别人的免费平台上", own=[("1.25%", "的粉丝能看到 Facebook 品牌帖子", "si"), ("17%+", "2026 年 8 月后泰国 Shopee/Lazada 最高佣金", "fa"), ("$145B", "Meta 2026 年以 AI 为主的投入，靠广告和收费回本", "fo"), ("12M", "2025 年被关闭的 YouTube 频道，大多为自动处理", "ch")],
+ own_t="成员把房源、照片和客户联系人放在自己的网站和表格里；社交媒体只是门，不是家",
  tag="PARTNER PROPOSAL · 合作提案", forline="致房产经纪与自由经纪人 · Thor Ayanundana · 2026年11月4日",
  h1a="多城市经纪人网络", h1b="共享房源 互荐客户",
  lede="邀请各城市值得信赖的经纪人双向共享房源、互荐客户，由 Hybrid AI 平台分担大量工作", gold="金色文字可点击",
@@ -158,6 +167,8 @@ T["zh"] = dict(T["en"],
  copy="© 2026 THOR · <a>WIDEROOMS</a> · <a>Hybrid AI by ThB.Ho</a> · ASN Exclusive Property 与 R2 by Clare 作为案例展示 · 法律信息不构成法律意见")
 
 T["ko"] = dict(T["en"],
+ own_h="남의 무료 플랫폼 위에 사업을 세우지 마세요", own=[("1.25%", "Facebook 브랜드 게시물이 닿는 팔로워 비율", "si"), ("17%+", "2026년 8월 이후 태국 Shopee/Lazada 최고 수수료", "fa"), ("$145B", "Meta의 2026년 AI 중심 투자, 광고와 수수료로 회수", "fo"), ("12M", "2025년 종료된 YouTube 채널, 대부분 자동 처리", "ch")],
+ own_t="회원은 매물·사진·고객 연락처를 자기 사이트와 시트에 둡니다. 소셜 미디어는 집이 아니라 문입니다",
  tag="PARTNER PROPOSAL · 파트너 제안", forline="부동산 에이전트·프리랜서 대상 · Thor Ayanundana · 2026년 11월 4일",
  h1a="다도시 에이전트 네트워크", h1b="매물 공유, 고객 상호 추천",
  lede="각 도시의 신뢰할 수 있는 에이전트가 매물을 공유하고 고객을 서로 추천합니다. 많은 일은 Hybrid AI 플랫폼이 맡습니다", gold="금색 글자 = 링크",

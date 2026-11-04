@@ -38,26 +38,26 @@ CSS = """
 :root{--navy:#13263F;--navy2:#2B4A72;--gold:#B07A26;--ink:#17202B;--mut:#5B6573;--line:#D4DBE4;--tile:#F3F6F9;--gsoft:#FBF4E6}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#fff}
-body{width:210mm;height:297mm;overflow:hidden;font-family:Plex,"Noto Sans CJK SC","Noto Sans CJK KR",sans-serif;color:var(--ink);font-size:6.5pt;line-height:1.26;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{width:210mm;height:297mm;overflow:hidden;font-family:Plex,"Noto Sans CJK SC","Noto Sans CJK KR",sans-serif;color:var(--ink);font-size:6.25pt;line-height:1.22;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body.zh{font-family:Plex,"Noto Sans CJK SC",sans-serif} body.ko{font-family:Plex,"Noto Sans CJK KR",sans-serif}
 a{color:inherit;text-decoration:none} a.g{color:var(--gold);font-weight:600} .g0{color:var(--mut)}
-.top{background:var(--navy);color:#fff;padding:2.6mm 8mm 2.4mm;display:flex;justify-content:space-between;align-items:center}
+.top{background:var(--navy);color:#fff;padding:2.2mm 8mm 2mm;display:flex;justify-content:space-between;align-items:center}
 .top h1{font-family:Bodoni,Georgia,serif;font-weight:700;font-size:15pt;line-height:1}
 .top small{display:block;letter-spacing:.32em;font-size:5.6pt;opacity:.85;margin-top:1.4mm}
 .top .r{text-align:right} .top .r b{display:block;font-size:8.4pt;letter-spacing:.06em} .top .r span{font-size:6.6pt;opacity:.85}
 .pg{padding:2mm 8mm 0}
 .intro{display:grid;grid-template-columns:1fr 77mm;gap:5mm;align-items:start}
-.intro h2{font-size:13.5pt;line-height:1.12;color:var(--navy)} .intro h2 em{font-style:normal;color:var(--gold);display:block}
+.intro h2{font-size:12.5pt;line-height:1.12;color:var(--navy)} .intro h2 em{font-style:normal;color:var(--gold);display:block}
 .intro p{font-size:7pt;margin-top:1.4mm;color:#333}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:1.6mm}
 .st{border:1px solid var(--line);border-radius:2mm;padding:.9mm 2mm;background:var(--tile)}
 .st b{display:block;font-size:9.4pt;color:var(--navy);line-height:1.15} .st span{color:var(--mut);font-size:6pt;display:block}
-.sec{margin-top:1.9mm} .hd{display:flex;align-items:center;gap:2mm;margin-bottom:1mm}
+.sec{margin-top:1.4mm} .hd{display:flex;align-items:center;gap:2mm;margin-bottom:1mm}
 .hd i{flex:none;width:4.6mm;height:4.6mm;border-radius:50%;background:var(--gold);color:#fff;font-style:normal;font-weight:700;display:grid;place-items:center;font-size:6.8pt}
 .hd h3{font-size:8.6pt;color:var(--navy);flex:1} .hd .o{font-size:6.8pt}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
 .how{display:grid;grid-template-columns:30mm 1fr;gap:2mm;align-items:center}
-.hubd{position:relative;height:20mm}
+.hubd{position:relative;height:18mm}
 .hubd .c{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12mm;height:12mm;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;text-align:center;font-weight:700;font-size:6.2pt;line-height:1.05}
 .hubd .c small{display:block;font-weight:400;font-size:4.8pt;opacity:.8}
 .hubd .n{position:absolute;border:1px solid var(--navy);border-radius:1.2mm;background:#fff;padding:.5mm 1.4mm;font-weight:600;font-size:5.6pt;white-space:nowrap}
@@ -71,7 +71,7 @@ a{color:inherit;text-decoration:none} a.g{color:var(--gold);font-weight:600} .g0
 .path{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2mm;margin-top:1.4mm}
 .path div{background:var(--tile);border-top:2px solid var(--navy);padding:1mm 1.6mm} .path b{display:block}
 .lbl{font-weight:700;font-size:6.8pt;margin-top:1.1mm;color:var(--navy)}
-.case{display:grid;grid-template-columns:34mm 1fr;gap:2.4mm;margin-bottom:1.2mm}
+.case{display:grid;grid-template-columns:34mm 1fr;gap:2.4mm;margin-bottom:1mm}
 .case .ph{position:relative;border-radius:2mm;overflow:hidden;background:#ccc}
 .case .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .case .ph span{position:absolute;left:0;right:0;bottom:0;padding:1mm 1.6mm;color:#fff;font-size:5.6pt;background:linear-gradient(transparent,rgba(10,20,34,.85))}
@@ -81,14 +81,18 @@ a{color:inherit;text-decoration:none} a.g{color:var(--gold);font-weight:600} .g0
 .tl b{display:block;font-size:6.9pt} .tl span{display:block;color:var(--mut);font-size:6.1pt}
 .tl a,.tl .g0{font-size:6.1pt}
 .case.r2 .tl{background:var(--gsoft);border-color:#E6D3AE}
+.ownb{border:1px solid #E6D3AE;background:var(--gsoft);border-radius:2mm;padding:1.3mm 2.2mm}
+.ownb .ot{display:block;color:var(--navy);font-size:7.6pt;margin-bottom:.8mm}.ownb .ot a{color:var(--navy)}
+.ownb .of{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm}.ownb .of a{display:block;color:var(--mut);font-size:6pt;line-height:1.22}
+.ownb .of b{display:block;color:var(--gold);font-size:9.2pt;line-height:1.1}.ownb p{margin-top:.8mm;font-weight:600}
 .mk{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:1.6mm}
 .box{border:1px solid var(--line);border-radius:2mm;padding:1.3mm 2mm} .box.n{background:#EEF3FA}
 .box b{display:block;font-size:7pt;margin-bottom:.6mm} .box li{margin-left:3.4mm}
-.lay div{display:grid;grid-template-columns:17mm 1fr;border:1px solid var(--line);border-radius:1.6mm;overflow:hidden;margin-bottom:1mm}
+.lay div{display:grid;grid-template-columns:17mm 1fr;border:1px solid var(--line);border-radius:1.6mm;overflow:hidden;margin-bottom:.7mm}
 .lay div b{background:var(--navy);color:#fff;padding:.7mm 1.6mm;font-size:6.6pt;line-height:1.1} .lay div:nth-child(2) b{background:var(--navy2)} .lay div:nth-child(3) b{background:#5874A0}
 .lay b small{display:block;font-weight:400;font-size:5.2pt;opacity:.85} .lay p{padding:.8mm 1.8mm;align-self:center}
 .homes{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6mm;margin-top:1mm}
-.homes img{width:100%;height:12.5mm;object-fit:cover;border-radius:1.6mm;display:block}
+.homes img{width:100%;height:5mm;object-fit:cover;border-radius:1.6mm;display:block}
 .homes b{display:block;margin-top:.6mm;font-size:6.8pt} .homes span{color:var(--mut);display:block;font-size:6pt}
 .mb{display:flex;gap:.8mm;margin-top:.5mm} .mb i{font-style:normal;font-size:5.2pt;font-weight:700;color:#fff;background:#3E7A5C;border-radius:.8mm;padding:.1mm 1mm}
 .homes div:nth-child(2) .mb i{background:#C98B2B} .homes div:nth-child(4) .mb i{background:#5B5FA8}
@@ -98,7 +102,7 @@ a{color:inherit;text-decoration:none} a.g{color:var(--gold);font-weight:600} .g0
 .exp{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--navy)}
 .exp div{padding:1.2mm 2mm;border-right:1px solid var(--line)} .exp div:last-child{border:0}
 .exp b{font-size:7.6pt;color:var(--navy)} .exp small{font-weight:600;color:var(--mut);margin-left:1mm} .exp em{display:block;font-style:normal;color:var(--gold);font-weight:600;margin-top:.4mm}
-.crit{display:flex;flex-wrap:wrap;gap:1.1mm}
+.crit{display:flex;flex-wrap:wrap;gap:.8mm}
 .crit span{border:1px solid var(--line);border-radius:1.4mm;padding:.5mm 1.6mm} .crit b{color:var(--gold);margin-right:.8mm}
 .join{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1mm}
 .join div{background:var(--tile);border-top:2px solid var(--gold);padding:1mm 1.6mm} .join b{display:block}
@@ -136,6 +140,7 @@ def page(lg):
 <div class="mode"><b>{m("share")}<small>{m("shares")}</small></b><p>{m("shared")}</p></div><div class="mode r"><b>{m("refer")}<small>{m("refers")}</small></b><p>{m("referd")}</p></div></div></div></section>
 <section><div class="hd"><i>2</i><h3>{m("n2")}</h3></div><div class="gets">{"".join(f"<div><b>{e(x)}</b> {e(y)}</div>" for x, y in t["gets"])}</div>
 <p class="lbl">{m("path")}</p><div class="path">{"".join(f"<div><b>{e(x)}</b>{e(y)}</div>" for x, y in t["steps"])}</div></section></div>
+<section class="ownb sec"><b class="ot"><a href="{L["ownp"]}">{m("own_h")} →</a></b><div class="of">{"".join(f'<a href="{L[k]}"><b>{e(v)}</b>{e(d)}</a>' for v, d, k in t["own"])}</div><p>{m("own_t")}</p></section>
 <section class="sec"><div class="hd"><i>3</i><h3>{m("n3")}</h3></div>
 <div class="case"><a class="ph" href="{L["h90"]}"><img src="{R}asn-img/H90-1.jpg" alt=""><span>{m("h90")}</span></a><div><div class="ch"><span>{m("asn_h")}</span>{a(t["open"], "asn", "g o")}</div><div class="tiles">{tiles(t["asn"])}</div></div></div>
 <div class="case r2"><a class="ph" href="{L["r2"]}"><img src="{R}riviera-img/hero-3.jpg" alt=""><span>{m("r2cap")}</span></a><div><div class="ch"><span>{m("r2_h")}</span>{a(t["open"], "r2", "g o")}</div><div class="tiles">{tiles(t["r2"])}</div></div></div></section>
