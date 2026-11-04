@@ -24,13 +24,6 @@ hub: {
     { k:"฿728B", topic:"eec", t:{ th:"คำขอลงทุน Data Center ปี 2025 ส่วนใหญ่อยู่ระยองและชลบุรี ดึงคนทำงานรายได้สูงเข้ามาในภาค", en:"Data-centre investment applications in 2025, mostly in Rayong and Chonburi, bringing well-paid staff to the region." } },
     { k:"22.9%", topic:"wellness", t:{ th:"อัตราเติบโตต่อปีของ Wellness Real Estate ในไทย คนซื้อเริ่มถามเรื่องอากาศ แสง และโรงพยาบาลใกล้บ้าน", en:"Yearly growth of wellness real estate in Thailand. Buyers now ask about air, light and the nearest hospital." } }
   ],
-  reports: [
-    { t:"Wellness Intelligence 2026", d:{ th:"บ้านที่ดูแลสุขภาพ: แสง อากาศ น้ำ และ AI Mirror", en:"Homes that care for health: light, air, water, AI mirrors" }, u:"https://thbho.github.io/WellnessIntelligence.html" },
-    { t:"Global Shift 2026", d:{ th:"อาเซียนในฐานะ Safe Haven และการย้ายฐานทุน", en:"ASEAN as a safe haven and the capital shift" }, u:"https://thbho.github.io/GlobalShift2026.html" },
-    { t:"Pivot to EEC", d:{ th:"วิกฤตตะวันออกกลาง กับโอกาสของ EEC (มี.ค. 2026)", en:"The Middle East crisis and the EEC opportunity (Mar 2026)" }, u:"https://thbho.github.io/PivotToEEC.html" },
-    { t:"EEC Safe Haven", d:{ th:"EEC ในฐานะพื้นที่ปลอดภัยของทุน", en:"The EEC as a safe haven for capital" }, u:"https://thbho.github.io/EECSafeHaven.html" },
-    { t:"U-Tapao Airport City", d:{ th:"เมืองการบินอู่ตะเภา", en:"The U-Tapao aviation city" }, u:"https://thbho.github.io/UTPCity.html" }
-  ],
   sources: []
 },
 
@@ -151,7 +144,7 @@ smarthome: {
   short:{ th:"Smart Home", en:"Smart Home" },
   kicker:{ th:"Smart Home", en:"Smart Home" },
   cardTitle:{ th:"Smart Home ที่คุ้มจริงในคอนโด", en:"Smart upgrades that pay off" },
-  cardText:{ th:"ไม่ต้องรื้อห้อง เลือกอุปกรณ์ที่ช่วยประหยัดไฟ ปลอดภัยขึ้น หรือปล่อยเช่าง่ายขึ้น พร้อมตัวคำนวณงบ", en:"No renovation needed. Pick devices that save power, add security or make letting easier, with a budget builder." },
+  cardText:{ th:"ไม่ต้องรื้อห้อง เลือกอุปกรณ์ที่ช่วยประหยัดไฟ ปลอดภัยขึ้น หรือปล่อยเช่าง่ายขึ้น", en:"No renovation needed. Pick devices that save power, add security or make letting easier." },
   title:{ th:"Smart Home ที่คุ้มจริงสำหรับคอนโด", en:"Smart home upgrades that pay off in a condo" },
   lead:{ th:"อุปกรณ์ส่วนใหญ่ติดตั้งเองได้ในวันเดียว ไม่ต้องเจาะผนังใหญ่ สิ่งที่ต้องคิดมีสามเรื่อง คือใช้มาตรฐานเดียวกัน (Matter) เก็บข้อมูลไว้ในบ้าน และเลือกเฉพาะสิ่งที่ช่วยเรื่องค่าไฟ ความปลอดภัย หรือการปล่อยเช่า",
          en:"Most devices install in a day with no major drilling. Three things matter: use one standard (Matter), keep your data at home, and only buy what helps with power bills, security or letting." },
@@ -172,29 +165,6 @@ smarthome: {
         { ic:"bulb", t:{ th:"ไฟและม่านอัตโนมัติ", en:"Smart lights and curtains" }, d:{ th:"ไฟปรับสีตามเวลาช่วยการนอน ม่านที่ปิดเองตอนบ่ายช่วยลดความร้อนจากแดด", en:"Lights that shift colour help sleep. Curtains that close in the afternoon keep out the sun's heat." } },
         { ic:"shield", t:{ th:"กล้องในห้อง (ใช้อย่างระวัง)", en:"Indoor camera (use with care)" }, d:{ th:"ติดเฉพาะในห้องตัวเอง ห้ามหันไปทางทางเดินส่วนกลาง และต้องถอดหรือปิดเมื่อปล่อยเช่า เพื่อเคารพความเป็นส่วนตัวของผู้เช่าตาม PDPA[[4]]", en:"Inside your own unit only, never pointed at the corridor, and removed or switched off while tenants live there, to respect their privacy under the PDPA[[4]]." } }
       ] },
-    { type:"widget", w:"builder", h:{ th:"จัดแพ็กเกจ Smart Home ของคุณ", en:"Build your smart home package" },
-      wt:{ th:"เลือกแบบที่ตรงกับคุณ แล้วปรับรายการได้", en:"Pick the profile that fits, then adjust" },
-      wp:{ th:"ราคาเป็นช่วงโดยประมาณ ไม่รวมค่าช่าง", en:"Prices are rough ranges, labour not included" },
-      profiles:[
-        { t:{ th:"อยู่เอง", en:"Living in" }, pick:["hub","ac","plugs","air","bulbs","curtain","filter"] },
-        { t:{ th:"ปล่อยเช่ารายเดือน", en:"Letting monthly" }, pick:["lock","hub","ac","plugs","leak","wifi"] },
-        { t:{ th:"เจ้าของอยู่ต่างประเทศ", en:"Owner abroad" }, pick:["lock","hub","ac","leak","air","cam","wifi"] }
-      ],
-      items:[
-        { id:"lock", t:{ th:"กลอนประตูดิจิทัล", en:"Digital door lock" }, d:{ th:"รหัส คีย์การ์ด แอป", en:"Code, card, app" }, lo:6000, hi:18000 },
-        { id:"hub", t:{ th:"ฮับ Matter / Thread", en:"Matter / Thread hub" }, d:{ th:"หรือใช้ลำโพงอัจฉริยะที่มีอยู่", en:"Or a smart speaker you already own" }, lo:1500, hi:5000 },
-        { id:"ac", t:{ th:"ตัวควบคุมแอร์ Wi-Fi (ต่อเครื่อง)", en:"Wi-Fi AC controller (per unit)" }, d:{ th:"ใช้กับแอร์เดิมได้", en:"Works with existing units" }, lo:600, hi:1800 },
-        { id:"plugs", t:{ th:"ปลั๊กอัจฉริยะวัดไฟ ×3", en:"Energy-metering plugs ×3" }, d:{ th:"ตู้เย็น เครื่องทำน้ำอุ่น ทีวี", en:"Fridge, water heater, TV" }, lo:900, hi:2400 },
-        { id:"air", t:{ th:"เครื่องวัด PM2.5 / CO₂ / ความชื้น", en:"PM2.5 / CO₂ / humidity monitor" }, d:{ th:"แจ้งเตือนเข้ามือถือ", en:"Phone alerts" }, lo:1500, hi:5000 },
-        { id:"purifier", t:{ th:"เครื่องฟอกอากาศมีเซนเซอร์", en:"Air purifier with sensor" }, d:{ th:"ขนาดตามพื้นที่ห้อง", en:"Sized to the room" }, lo:4000, hi:15000 },
-        { id:"bulbs", t:{ th:"หลอดไฟปรับสี ×4", en:"Tunable smart bulbs ×4" }, d:{ th:"แสงตามนาฬิกาชีวิต", en:"Circadian lighting" }, lo:1600, hi:4800 },
-        { id:"curtain", t:{ th:"มอเตอร์ม่าน (1 ราง)", en:"Curtain motor (1 track)" }, d:{ th:"ปิดเองตอนแดดแรง", en:"Closes in strong sun" }, lo:3500, hi:9000 },
-        { id:"leak", t:{ th:"เซนเซอร์น้ำรั่ว ×2 + วาล์วตัดน้ำ", en:"Leak sensors ×2 + shut-off valve" }, d:{ th:"ห้องน้ำและใต้ซิงก์", en:"Bathroom and under the sink" }, lo:2500, hi:7000 },
-        { id:"cam", t:{ th:"กล้องในห้อง ×1", en:"Indoor camera ×1" }, d:{ th:"ปิดเมื่อมีผู้เช่า", en:"Off while tenanted" }, lo:1000, hi:3500 },
-        { id:"wifi", t:{ th:"Mesh Wi-Fi", en:"Mesh Wi-Fi" }, d:{ th:"แยกเครือข่ายผู้เช่า", en:"Separate tenant network" }, lo:2500, hi:8000 },
-        { id:"filter", t:{ th:"เครื่องกรองน้ำใต้ซิงก์", en:"Under-sink water filter" }, d:{ th:"RO หรือ UF", en:"RO or UF" }, lo:4000, hi:12000 }
-      ],
-      note:{ th:"ราคาประมาณจากร้านค้าออนไลน์และห้างไอทีในไทย ต.ค. 2026 ไม่ใช่ใบเสนอราคา ตรวจราคาจริงและความเข้ากันได้ก่อนซื้อ", en:"Rough ranges from Thai online and IT retailers, Oct 2026. Not a quote; check real prices and compatibility before buying." } },
     { type:"cards", h:{ th:"ความเป็นส่วนตัวต้องออกแบบตั้งแต่แรก", en:"Design for privacy from day one" },
       intro:{ th:"ยิ่งบ้านฉลาด ข้อมูลยิ่งมาก เทรนด์ปี 2026 จึงเน้นให้ประมวลผลในบ้าน (Edge) แทนการส่งทุกอย่างขึ้นคลาวด์", en:"The smarter the home, the more data it holds. The 2026 trend is to process it at home (on the edge) rather than send everything to the cloud." },
       items:[
@@ -374,7 +344,6 @@ eec: {
         { ic:"home", t:{ th:"ห้องมือสองในตึกที่เปิดใช้แล้ว", en:"Resale in a finished building" }, d:{ th:"เห็นสภาพอาคาร นิติบุคคล และค่าส่วนกลางจริง ลดความเสี่ยงจากโครงการที่ยังไม่สร้าง ในตลาดที่บางทำเลอุปทานเกิน", en:"You see the real building, management and fees, which cuts the risk of off-plan projects in a market where some areas are oversupplied." } },
         { ic:"globe", t:{ th:"กระจายความเสี่ยงสินทรัพย์", en:"Spread your risk" }, d:{ th:"สำหรับคนที่ถือทรัพย์สินในภูมิภาคที่มีความขัดแย้ง ห้องในไทยเป็นสินทรัพย์ในสกุลบาทที่ใช้อยู่เองได้ ระหว่างที่สถานการณ์ยังไม่แน่นอน", en:"For people with assets in conflict regions, a Thai home is a baht asset you can live in while things settle." } }
       ] },
-    { type:"callout", t:{ th:"อ่านฉบับเต็ม", en:"Read the full reports" }, p:{ th:"บทวิเคราะห์ <a href=\"https://thbho.github.io/GlobalShift2026.html\" target=\"_blank\" rel=\"noopener\">Global Shift 2026</a> และ <a href=\"https://thbho.github.io/PivotToEEC.html\" target=\"_blank\" rel=\"noopener\">Pivot to EEC</a> มีรายละเอียดเชิงลึก (ข้อมูล มี.ค. 2026) ส่วนหน้านี้อัปเดตสถานะล่าสุดแล้ว", en:"<a href=\"https://thbho.github.io/GlobalShift2026.html\" target=\"_blank\" rel=\"noopener\">Global Shift 2026</a> and <a href=\"https://thbho.github.io/PivotToEEC.html\" target=\"_blank\" rel=\"noopener\">Pivot to EEC</a> go deeper (data from March 2026). This page has the latest status." } }
   ],
   sources:[
     { t:"Nation Thailand: U-Tapao megaproject enters delivery phase", u:"https://www.nationthailand.com/news/policy/40065619", d:"Apr 2026" },
@@ -493,33 +462,20 @@ window.LI.topicImg = {
 window.LI.deep = {
   wellness: [
     { t:"Wellness Intelligence 2026", u:"WellnessIntelligence.html", d:{ th:"บ้านที่ดูแลสุขภาพ: แสง อากาศ น้ำ และ AI Mirror", en:"Homes that care for health: light, air, water and the AI mirror", zh:"关照健康的住宅：光线、空气、水与 AI 镜", ko:"건강을 돌보는 집: 빛, 공기, 물, AI 미러", ja:"健康を守る住まい：光・空気・水・AIミラー", ru:"Дом, который заботится о здоровье: свет, воздух, вода и AI-зеркало" } },
-    { t:"Thailand 2026: Global Wellness Safe Haven", u:"WellnessTech.html", d:{ th:"ไทยในฐานะจุดหมายด้านสุขภาพและเวลเนสระดับโลก", en:"Thailand as a global health and wellness destination", zh:"泰国作为全球健康与养生目的地", ko:"세계적인 건강·웰니스 목적지로서의 태국", ja:"世界的なヘルス＆ウェルネスの目的地としてのタイ", ru:"Таиланд как мировое направление для здоровья и wellness" } },
-    { t:"Healthspan × Longevity Escape Velocity", u:"LEVCo2Trend.html", d:{ th:"ไม่ใช่แค่อายุยืน แต่คือปีที่ใช้ชีวิตได้เต็มศักยภาพ", en:"Not just a longer life, but more years lived at full strength", zh:"不只是长寿，而是更多健康充实的岁月", ko:"오래 사는 것을 넘어, 온전히 건강하게 사는 해를 늘리기", ja:"長生きだけでなく、元気に過ごせる年月を延ばす", ru:"Не просто долгая жизнь, а больше лет в полной силе" } },
-    { t:"Smart Living & Wellness Trends 2026–2028", u:"SmartLivingTrend.html", d:{ th:"เทรนด์การอยู่อาศัยอัจฉริยะและเวลเนสในไทย", en:"Smart living and wellness trends in Thailand", zh:"泰国智能居住与养生趋势", ko:"태국의 스마트 리빙·웰니스 트렌드", ja:"タイのスマートリビング＆ウェルネスの潮流", ru:"Тренды умного жилья и wellness в Таиланде" } }
+    { t:"Healthspan × Longevity Escape Velocity", u:"LEVCo2Trend.html", d:{ th:"ไม่ใช่แค่อายุยืน แต่คือปีที่ใช้ชีวิตได้เต็มศักยภาพ", en:"Not just a longer life, but more years lived at full strength", zh:"不只是长寿，而是更多健康充实的岁月", ko:"오래 사는 것을 넘어, 온전히 건강하게 사는 해를 늘리기", ja:"長生きだけでなく、元気に過ごせる年月を延ばす", ru:"Не просто долгая жизнь, а больше лет в полной силе" } }
   ],
   smarthome: [
-    { t:"The Home That Thinks Ahead", u:"SmartHome2026.html", d:{ th:"บ้านที่คิดล่วงหน้า: ระบบอัจฉริยะในชีวิตประจำวัน", en:"The home that thinks ahead: smart systems in daily life", zh:"会预先思考的家：日常生活中的智能系统", ko:"미리 생각하는 집: 일상 속 스마트 시스템", ja:"先回りする家：暮らしの中のスマートシステム", ru:"Дом, который думает наперёд: умные системы в быту" } },
-    { t:"Vision 2026+: The Sentient Habitat", u:"FutureLiving.html", d:{ th:"ภาพบ้านในอนาคตที่รับรู้และตอบสนองผู้อยู่", en:"A look at future homes that sense and respond to the people in them", zh:"展望能感知并回应居住者的未来住宅", ko:"사람을 감지하고 반응하는 미래의 집", ja:"住む人を感じ取り応える、未来の住まい", ru:"Взгляд на дома будущего, которые чувствуют жильцов и реагируют на них" } },
-    { t:"AI-Powered Smart Home Packages", u:"WRSmartHomePack.html", d:{ th:"แพ็กเกจเปลี่ยนคอนโดเป็นสมาร์ทโฮม โดย WIDEROOMS", en:"Packages that turn a condo into a smart home, by WIDEROOMS", zh:"WIDEROOMS 的公寓智能化套餐", ko:"WIDEROOMS의 콘도 스마트홈 패키지", ja:"WIDEROOMS によるコンドミニアムのスマートホーム化パッケージ", ru:"Пакеты WIDEROOMS: как превратить квартиру в умный дом" } }
+    { t:"The Home That Thinks Ahead", u:"SmartHome2026.html", d:{ th:"บ้านที่คิดล่วงหน้า: ระบบอัจฉริยะในชีวิตประจำวัน", en:"The home that thinks ahead: smart systems in daily life", zh:"会预先思考的家：日常生活中的智能系统", ko:"미리 생각하는 집: 일상 속 스마트 시스템", ja:"先回りする家：暮らしの中のスマートシステム", ru:"Дом, который думает наперёд: умные системы в быту" } }
   ],
   relocate: [
-    { t:"Global Shift 2026", u:"GlobalShift2026.html", d:{ th:"อาเซียนในฐานะ Safe Haven และการย้ายฐานทุน", en:"ASEAN as a safe haven and the capital shift", zh:"东盟作为避风港与资本转移", ko:"안전한 피난처로서의 아세안과 자본 이동", ja:"安全な避難先としての ASEAN と資本の移動", ru:"АСЕАН как тихая гавань и перемещение капитала" } },
-    { t:"Why the world's wealthy are leaving Dubai", u:"UHNWIMigration.html", d:{ th:"2026: ทำไมมหาเศรษฐีโลกย้ายฐานจากดูไบ และมองเอเชีย", en:"2026: why the world's wealthiest are moving from Dubai and looking at Asia", zh:"2026：全球富豪为何离开迪拜、转向亚洲", ko:"2026: 세계 부호들이 두바이를 떠나 아시아를 보는 이유", ja:"2026年：世界の富裕層がドバイを離れアジアに目を向ける理由", ru:"2026: почему богатейшие люди мира уезжают из Дубая и смотрят на Азию" } },
-    { t:"Pivot to EEC", u:"PivotToEEC.html", d:{ th:"วิกฤตตะวันออกกลาง กับโอกาสของ EEC (มี.ค. 2026)", en:"The Middle East crisis and the EEC opportunity (Mar 2026)", zh:"中东危机与 EEC 的机遇（2026 年 3 月）", ko:"중동 위기와 EEC의 기회 (2026년 3월)", ja:"中東危機と EEC のチャンス（2026年3月）", ru:"Кризис на Ближнем Востоке и возможности EEC (март 2026)" } },
-    { t:"Thailand: A Global Leader in Livability", u:"ThaiGlobalRank.html", d:{ th:"ไทยในอันดับโลกด้านความน่าอยู่และการพัฒนา", en:"Where Thailand ranks worldwide for livability and development", zh:"泰国在全球宜居与发展排名中的位置", ko:"살기 좋은 나라·발전 순위에서 태국의 위치", ja:"住みやすさと発展の世界ランキングにおけるタイ", ru:"Место Таиланда в мировых рейтингах качества жизни и развития" } }
+    { t:"Why the world's wealthy are leaving Dubai", u:"UHNWIMigration.html", d:{ th:"2026: ทำไมมหาเศรษฐีโลกย้ายฐานจากดูไบ และมองเอเชีย", en:"2026: why the world's wealthiest are moving from Dubai and looking at Asia", zh:"2026：全球富豪为何离开迪拜、转向亚洲", ko:"2026: 세계 부호들이 두바이를 떠나 아시아를 보는 이유", ja:"2026年：世界の富裕層がドバイを離れアジアに目を向ける理由", ru:"2026: почему богатейшие люди мира уезжают из Дубая и смотрят на Азию" } }
   ],
   eec: [
     { t:"EEC Safe Haven 2026–2035", u:"EECSafeHaven.html", d:{ th:"EEC ในฐานะพื้นที่ปลอดภัยของทุน", en:"The EEC as a safe haven for capital", zh:"EEC 作为资本避风港", ko:"자본의 안전지대로서의 EEC", ja:"資本の安全地帯としての EEC", ru:"EEC как тихая гавань для капитала" } },
-    { t:"EECiti & Eastern Aviation City Hub 2026", u:"EECITI2026.html", d:{ th:"เมืองใหม่อัจฉริยะ EECiti และศูนย์กลางเมืองการบินภาคตะวันออก", en:"The EECiti smart city and the eastern aviation city hub", zh:"EECiti 智慧新城与东部航空城枢纽", ko:"EECiti 스마트 신도시와 동부 항공도시 허브", ja:"スマートシティ EECiti と東部航空都市ハブ", ru:"Умный город EECiti и восточный авиационный хаб" } },
-    { t:"EEC 2026: The Complete Report", u:"UTPCity.html", d:{ th:"รายงานฉบับเต็มเรื่องเมืองการบินอู่ตะเภาและ EEC", en:"The full report on the U-Tapao aviation city and the EEC", zh:"乌塔堡航空城与 EEC 完整报告", ko:"우타파오 항공도시와 EEC 종합 보고서", ja:"ウタパオ航空都市と EEC の完全レポート", ru:"Полный отчёт об авиагороде У-Тапао и EEC" } },
-    { t:"U-Tapao Aviation City & EEC Impact", u:"UTPCiti02.html", d:{ th:"เมืองการบินอู่ตะเภา กับผลต่อพื้นที่โดยรอบ", en:"The U-Tapao aviation city and what it means for the area", zh:"乌塔堡航空城及其对周边地区的影响", ko:"우타파오 항공도시와 주변 지역에 미치는 영향", ja:"ウタパオ航空都市と周辺地域への影響", ru:"Авиагород У-Тапао и его влияние на район" } },
-    { t:"EEC: The Birth of Bangkok 2", u:"EECMegaProjects.html", d:{ th:"โครงการใหญ่ใน EEC ที่กำลังสร้าง \"กรุงเทพฯ แห่งที่ 2\"", en:"The EEC megaprojects shaping a \"second Bangkok\"", zh:"打造\"第二个曼谷\"的 EEC 大型项目", ko:"\"제2의 방콕\"을 만드는 EEC 메가 프로젝트", ja:"「第二のバンコク」をつくる EEC の大型プロジェクト", ru:"Мегапроекты EEC, создающие «второй Бангкок»" } }
+    { t:"EECiti & Eastern Aviation City Hub 2026", u:"EECITI2026.html", d:{ th:"เมืองใหม่อัจฉริยะ EECiti และศูนย์กลางเมืองการบินภาคตะวันออก", en:"The EECiti smart city and the eastern aviation city hub", zh:"EECiti 智慧新城与东部航空城枢纽", ko:"EECiti 스마트 신도시와 동부 항공도시 허브", ja:"スマートシティ EECiti と東部航空都市ハブ", ru:"Умный город EECiti и восточный авиационный хаб" } }
   ],
   buying: [
     { t:"EEC & Pattaya Real Estate Pulse 2026", u:"RealEstateEEC.html", d:{ th:"ภาพรวมตลาดอสังหาฯ พัทยาและ EEC ปี 2026", en:"The Pattaya and EEC property market in 2026", zh:"2026 年芭提雅与 EEC 房地产市场概况", ko:"2026년 파타야·EEC 부동산 시장 개요", ja:"2026年のパタヤと EEC の不動産市場", ru:"Рынок недвижимости Паттайи и EEC в 2026 году" } },
-    { t:"Pattaya Market Recap & Vision 2025–2026", u:"RecapAndTrend.html", d:{ th:"สรุปตลาดพัทยาปีที่ผ่านมา และทิศทางข้างหน้า", en:"A recap of the Pattaya market and where it is heading", zh:"芭提雅市场回顾与未来走向", ko:"파타야 시장 정리와 앞으로의 방향", ja:"パタヤ市場の振り返りとこれから", ru:"Итоги рынка Паттайи и куда он движется" } },
-    { t:"EEC & Pattaya Real Estate Insight 2026", u:"EECTrendNews.html", d:{ th:"ข่าวและแนวโน้มอสังหาฯ พัทยาและ EEC", en:"News and trends in Pattaya and EEC property", zh:"芭提雅与 EEC 房地产新闻和趋势", ko:"파타야·EEC 부동산 뉴스와 트렌드", ja:"パタヤと EEC の不動産ニュースとトレンド", ru:"Новости и тренды недвижимости Паттайи и EEC" } },
-    { t:"EEC & Jomtien Real Estate", u:"EECJomtien.html", d:{ th:"EEC กับตลาดอสังหาฯ จอมเทียน", en:"What the EEC means for Jomtien property", zh:"EEC 对宗滴恩房地产的意义", ko:"EEC가 좀티엔 부동산에 주는 의미", ja:"EEC がジョムティエンの不動産にもたらすもの", ru:"Что EEC значит для недвижимости Джомтьена" } },
     { t:"Safe Living", u:"SafeLiving.html", d:{ th:"ข้อมูลภัยธรรมชาติจริงในพื้นที่ที่ทรัพย์ตั้งอยู่ เทียบกับพื้นที่อื่นอย่างเป็นกลาง", en:"Recorded natural-hazard data where the home is, compared neutrally with other places", zh:"房源所在地真实记录的自然灾害数据，与其他地区客观对比", ko:"매물 지역의 실제 자연재해 기록을 다른 지역과 중립적으로 비교", ja:"物件エリアで実際に記録された自然災害データを他エリアと中立的に比較", ru:"Реальные данные о природных рисках там, где находится объект, в нейтральном сравнении" } }
   ]
 };

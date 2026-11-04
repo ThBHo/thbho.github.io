@@ -574,6 +574,6 @@ function loadLang(l, done){
   s.onerror = () => fin(false);
   document.head.appendChild(s);
 }
-const I18N_V = "20261104a";
+const I18N_V = "20261104b";
 loadLang(wantLang, render);
 })();
