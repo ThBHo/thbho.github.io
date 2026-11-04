@@ -29,12 +29,30 @@ function moonLon(J) { const T = (J - 2451545) / 36525, Lp = 218.3164477 + 481267
 function ascendant(J, lat, lon) { const T = (J - 2451545) / 36525, ramc = norm(280.46061837 + 360.98564736629 * (J - 2451545) + 0.000387933 * T * T + lon) * D2R, eps = (23.4392911 - 0.0130042 * T) * D2R;
   return norm(Math.atan2(Math.cos(ramc), -(Math.sin(eps) * Math.tan(lat * D2R) + Math.cos(eps) * Math.sin(ramc))) * R2D); }
 const ayan = J => 23.853 + (J - 2451545) / 365.25 * 0.0139694;   // Lahiri
+/* Jupiter and Saturn: JPL approximate Keplerian elements (valid 1800-2050, J2000 ecliptic),
+   [a, e, I, L, varpi, Omega] and their rates per Julian century. Good to well under 1 degree,
+   plenty for which sign a slow planet is in. */
+const PL = {
+  earth:  [[1.00000261, 0.01671123, -0.00001531, 100.46457166, 102.93768193, 0], [0.00000562, -0.00004392, -0.01294668, 35999.37244981, 0.32327364, 0]],
+  jupiter:[[5.20288700, 0.04838624, 1.30439695, 34.39644051, 14.72847983, 100.47390909], [-0.00011607, -0.00013253, -0.00183714, 3034.74612775, 0.21252668, 0.20469106]],
+  saturn: [[9.53667594, 0.05386179, 2.48599187, 49.95424423, 92.59887831, 113.66242448], [-0.00125060, -0.00050991, 0.00193609, 1222.49362201, -0.41897216, -0.28867794]]
+};
+function helio(k, T) { const [e0, r] = PL[k], [a, e, I, L, w, O] = e0.map((v, i) => v + r[i] * T);
+  const M = norm(L - w) * D2R, om = (w - O) * D2R, Om = O * D2R, inc = I * D2R; let E = M + e * Math.sin(M);
+  for (let i = 0; i < 8; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+  const x = a * (Math.cos(E) - e), y = a * Math.sqrt(1 - e * e) * Math.sin(E);
+  const co = Math.cos(om), so = Math.sin(om), cO = Math.cos(Om), sO = Math.sin(Om), ci = Math.cos(inc), si = Math.sin(inc);
+  return [(co * cO - so * sO * ci) * x + (-so * cO - co * sO * ci) * y, (co * sO + so * cO * ci) * x + (-so * sO + co * cO * ci) * y]; }
+// sidereal (Lahiri) geocentric longitude: J2000-ecliptic longitude minus the J2000 ayanamsa
+function planetSid(k, J) { const T = (J - 2451545) / 36525, p = helio(k, T), g = helio("earth", T);
+  return norm(Math.atan2(p[1] - g[1], p[0] - g[0]) * R2D - 23.853); }
 const jdn = (y, m, d) => { const a = Math.floor((14 - m) / 12), Y = y + 4800 - a, M = m + 12 * a - 3; return d + Math.floor((153 * M + 2) / 5) + 365 * Y + Math.floor(Y / 4) - Math.floor(Y / 100) + Math.floor(Y / 400) - 32045; };
 
 /* ---------------- Chinese calendar helpers ---------------- */
 const STEM_EL = ["wood","wood","fire","fire","earth","earth","metal","metal","water","water"];
 const BR_EL = ["water","earth","wood","wood","earth","fire","fire","earth","metal","metal","earth","water"];
 const MOTHER = { wood: "water", fire: "wood", earth: "fire", metal: "earth", water: "metal" };
+const CONTROLLER = { wood: "metal", fire: "water", earth: "wood", metal: "fire", water: "earth" };   // the element that controls each one
 const CLASH = (a, b) => md(a - b, 12) === 6;
 const HARM6 = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]], HARMS = [[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]];
 const pairIn = (L, a, b) => L.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
@@ -290,6 +308,14 @@ const brandAll = () => { if (BRANDED) return; BRANDED = 1; const b = G("SITE", {
   walk(TX); walk(LBL); };
 const L = () => { brandAll(); const l = G("lang","th"); if (TX[l]) return TX[l]; const base = TX.en; return Object.assign({}, base, LBL[l] || {}); };
 
+/* timing: yearly planets and the updated method note */
+Object.assign(TX.th, {"plJup": "ดาวพฤหัส", "plSat": "ดาวเสาร์", "plLine": "ราศี{sign} เรือน {h}", "plRef": "นับจาก{ref}", "plAll": "ทั้งช่วง", "refLagna": "ลัคนา", "refMoon": "ราศีจันทร์", "plGood": "หนุน", "plOk": "กลาง ๆ", "plBad": "ควรระวัง", "tmNote": "คำนวณจากนักษัตรและก้านฟ้าของเดือนและปี เทียบกับปีเกิด วันเกิด และธาตุที่หนุนดวง ราศีที่ดวงอาทิตย์โคจรเทียบกับราศีเกิด และตำแหน่งจริงของดาวพฤหัสและดาวเสาร์เทียบกับลัคนา (ใช้ราศีจันทร์แทนถ้าไม่ทราบเวลาเกิด) ผลจึงต่างกันในแต่ละปี"});
+Object.assign(TX.en, {"plJup": "Jupiter", "plSat": "Saturn", "plLine": "{sign}, house {h}", "plRef": "counted from your {ref}", "plAll": "whole period", "refLagna": "ascendant", "refMoon": "Moon sign", "plGood": "supportive", "plOk": "neutral", "plBad": "take care", "tmNote": "Based on each month's and year's earthly branch and heavenly stem against your birth year, birth day and the elements that support your Day Master; the Sun's transit against your Thai sun sign; and the real positions of Jupiter and Saturn against your ascendant (or your Moon sign if the birth time is unknown). So every year reads differently."});
+Object.assign(LBL.zh, {"plJup": "木星", "plSat": "土星", "plLine": "{sign}，第 {h} 宫", "plRef": "自您的{ref}起算", "plAll": "全程", "refLagna": "上升", "refMoon": "月亮星座", "plGood": "助力", "plOk": "平", "plBad": "宜谨慎", "tmNote": "依据每月、每年的地支与天干，对照您的出生年、出生日及日主的喜用五行；太阳行经星座与您泰式太阳星座的关系；以及木星、土星的实际位置相对于您的上升（不知出生时间则用月亮星座）。因此每年结果都不同。"});
+Object.assign(LBL.ko, {"plJup": "목성", "plSat": "토성", "plLine": "{sign}, {h}번째 하우스", "plRef": "{ref} 기준", "plAll": "전체 기간", "refLagna": "상승궁", "refMoon": "달 별자리", "plGood": "도움", "plOk": "보통", "plBad": "주의", "tmNote": "매달·매년의 지지와 천간을 출생 연·일, 일간을 돕는 오행과 비교하고, 태양이 지나는 별자리를 태국식 태양 별자리와 비교하며, 목성과 토성의 실제 위치를 상승궁(출생 시간을 모르면 달 별자리) 기준으로 봅니다. 그래서 해마다 결과가 달라집니다."});
+Object.assign(LBL.ja, {"plJup": "木星", "plSat": "土星", "plLine": "{sign}・第{h}ハウス", "plRef": "{ref}から数えて", "plAll": "期間中ずっと", "refLagna": "アセンダント", "refMoon": "月星座", "plGood": "追い風", "plOk": "普通", "plBad": "注意", "tmNote": "各月・各年の十二支と十干を、生まれ年・生まれ日・日主を助ける五行と照らし合わせ、太陽の運行をタイ式太陽星座と比較し、さらに木星と土星の実際の位置をアセンダント（出生時刻が不明なら月星座）から見ています。そのため年ごとに結果が変わります。"});
+Object.assign(LBL.ru, {"plJup": "Юпитер", "plSat": "Сатурн", "plLine": "{sign}, {h}-й дом", "plRef": "считая от {ref}", "plAll": "весь период", "refLagna": "асцендента", "refMoon": "лунного знака", "plGood": "поддерживает", "plOk": "нейтрально", "plBad": "осторожно", "tmNote": "Расчёт по земным ветвям и небесным стволам каждого месяца и года относительно года и дня рождения и элементов, поддерживающих Хозяина дня; по транзиту Солнца относительно тайского знака Солнца; и по реальному положению Юпитера и Сатурна относительно асцендента (или лунного знака, если время рождения неизвестно). Поэтому каждый год выглядит по-разному."});
+
 /* ---------------- chart ---------------- */
 function chart(inp) {
   const [y, m, d] = inp.date.split("-").map(Number);
@@ -382,13 +408,24 @@ function score(l, C) {
 /* ---------------- timing ---------------- */
 function dayScore(C, date) { const [, b] = dayPillar(date.getFullYear(), date.getMonth() + 1, date.getDate());
   if (CLASH(b, C.yb) || CLASH(b, C.db)) return -3; return branchRel(b, C.yb) * 1.2 + branchRel(b, C.db) * 0.8; }
+// heavenly stem element of a year / month against the elements that support the Day Master
+const stemFit = (C, stem, w) => { const el = STEM_EL[stem]; return C.sup.includes(el) ? w : el === CONTROLLER[C.dm] ? -w * 0.7 : 0; };
+// gochara: house a slow planet transits, counted from the lagna (or the natal Moon sign without a birth time)
+const refSign = C => Math.floor((C.asc != null ? C.asc : C.moonS) / 30);
+const houseOf = (C, lon) => md(Math.floor(lon / 30) - refSign(C), 12) + 1;
+const JUP_H = h => [2, 5, 7, 9, 11].includes(h) ? 0.8 : [8, 12].includes(h) ? -0.5 : 0;
+const SAT_H = h => [3, 6, 11].includes(h) ? 0.6 : [4, 8, 12, 1, 2].includes(h) ? -0.5 : 0;
 function monthScore(C, y, m) {
-  const J = jdUT(y, m, 15, 5), mb = monthBranch(J), cy = cnYear(y, m, J), ybr = md(cy - 4, 12);
+  const J = jdUT(y, m, 15, 5), mb = monthBranch(J), cy = cnYear(y, m, J), ybr = md(cy - 4, 12), ys = md(cy - 4, 10);
   let s = branchRel(mb, C.yb) * 1.2 + branchRel(mb, C.db) * 0.6 + (CLASH(ybr, C.yb) ? -1 : 0) + (branchRel(ybr, C.yb) > 1 ? 0.5 : 0);
   const rel = md(Math.floor(norm(sunLon(J) - ayan(J)) / 30) - Math.floor(C.sunS / 30), 12);   // sun transit house from natal sun
   if ([0, 4, 8].includes(rel)) s += 1; else if ([5, 7, 11].includes(rel)) s -= 0.7; else if (rel === 6) s -= 0.3;
+  // month stem: the 寅 month of a year with stem ys starts at stem (ys % 5) * 2 + 2 (五虎遁)
+  const ms = md((ys % 5) * 2 + 2 + md(mb - 2, 12), 10);
+  s += stemFit(C, ms, 0.6) + stemFit(C, ys, 0.3);
+  s += JUP_H(houseOf(C, planetSid("jupiter", J))) + SAT_H(houseOf(C, planetSid("saturn", J)));
   return s; }
-const grade = s => s >= 2 ? 3 : s >= 0.8 ? 2 : s >= -0.5 ? 1 : 0;
+const grade = s => s >= 2.5 ? 3 : s >= 1.2 ? 2 : s >= -0.2 ? 1 : 0;   // tuned so the four grades keep roughly the same shares as before the stem/planet factors
 function timing(C, inp) {
   const months = [];
   let start, end;
@@ -397,13 +434,23 @@ function timing(C, inp) {
   for (let y = start.getFullYear(), m = start.getMonth() + 1, i = 0; i < 24; i++) {
     if (new Date(y, m - 1, 1) > end) break;
     months.push({ y, m, s: monthScore(C, y, m) }); m++; if (m > 12) { m = 1; y++; } }
-  // best days: inside the first 2 months of the window, good month + good day
-  const days = []; const from = new Date(start); const until = new Date(Math.min(end.getTime(), from.getTime() + 75 * 864e5));
-  for (let t = new Date(from); t <= until; t = new Date(t.getTime() + 864e5)) {
-    const ds = dayScore(C, t); if (ds > 1.5) days.push({ t: new Date(t), s: ds + monthScore(C, t.getFullYear(), t.getMonth() + 1) * 0.5 }); }
-  days.sort((a, b) => b.s - a.s);
+  // best days: a good day inside a good month. Look in the "good"/"excellent" months first (nearest first),
+  // then fall back to "neutral" months, so a suggested day never sits in a "caution" month.
+  const mg = {}; months.forEach(x => { mg[x.y * 100 + x.m] = grade(x.s); });
+  const winEnd = inp.purpose === "rent" ? new Date(Math.min(end.getTime(), start.getTime() + 75 * 864e5)) : new Date(start.getFullYear(), start.getMonth() + 12, 0);   // move-in: near the start of the lease
+  const pick = minG => { const out = [];
+    for (let t = new Date(start); t <= winEnd && out.length < 6; t = new Date(t.getTime() + 864e5)) {
+      const g = mg[t.getFullYear() * 100 + t.getMonth() + 1]; if (g == null || g < minG) continue;
+      const ds = dayScore(C, t); if (ds > 1.5) out.push({ t: new Date(t), s: ds + g }); }
+    return out; };
+  let days = pick(2); if (days.length < 3) days = days.concat(pick(1).filter(d => !days.some(x => +x.t === +d.t)));
   const yrs = [...new Set(months.map(x => x.y))].map(y => { const ybr = md(y - 4, 12); return { y, clash: CLASH(ybr, C.yb), good: branchRel(ybr, C.yb) > 1 }; });
-  return { months, days: days.slice(0, 6).sort((a, b) => a.t - b.t), yrs };
+  // Jupiter and Saturn across the window, grouped into runs of months in the same sign (retrogrades can move them back)
+  const pl = ["jupiter", "saturn"].map(k => { const runs = [];
+    months.forEach(x => { const lon = planetSid(k, jdUT(x.y, x.m, 15, 5)), sign = Math.floor(lon / 30), r = runs[runs.length - 1];
+      if (r && r.sign === sign) r.to = x; else { const h = houseOf(C, lon); runs.push({ sign, h, v: (k === "jupiter" ? JUP_H : SAT_H)(h), from: x, to: x }); } });
+    return { k, runs }; });
+  return { months, days: days.slice(0, 6).sort((a, b) => a.t - b.t), yrs, pl };
 }
 
 /* ---------------- UI ---------------- */
@@ -425,7 +472,7 @@ const css = `
 .ds-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}.ds-m{border-radius:12px;padding:10px;text-align:center;font-size:13px}.ds-m b{display:block;font-size:12px;opacity:.85}
 .g3{background:#1F3A5F;color:#fff}.g2{background:var(--brand-soft);color:var(--ink)}.g1{background:var(--surface-3);color:var(--ink-2)}.g0{background:#f3d9cf;color:#8a3b22}:root[data-theme="dark"] .g3{background:#E2A957;color:#0E131A}:root[data-theme="dark"] .g2{background:#2f5d8f;color:#fff}:root[data-theme="dark"] .g0{background:#4a2a20;color:#f3c9b8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g3{background:#E2A957;color:#0E131A}:root:not([data-theme="light"]) .g2{background:#2f5d8f;color:#fff}:root:not([data-theme="light"]) .g0{background:#4a2a20;color:#f3c9b8}}
 .ds-leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12.5px;margin:10px 0}.ds-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
-.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:#8E5714;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
+.ds-pl{margin:0 0 6px}.ds-pl .pvg{color:#2F7A4F}.ds-pl .pvb{color:#A3553C}.ds-pl .pvn{color:inherit;font-weight:500}.ds-days{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.ds-days span{background:#8E5714;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
 .ds-ok{background:var(--brand-soft)!important}.ds-c b,.ds-c,.ds-prof li,.ds-why li,.ds-score{color:var(--ink)}.ds-form .chk{color:var(--ink-2)}.ds-note{font-size:12.5px;color:var(--muted);margin-top:8px}.ds-warn{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13.5px}
 .ds-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}.ds-z .ds-score{margin:8px 0 6px;font-size:13.5px}.ds-z a{color:var(--brand);font-weight:600}
 .ds-match{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}.ds-mi{display:grid;gap:8px}.ds-score{display:flex;align-items:center;gap:10px;font-weight:600}
@@ -588,6 +635,7 @@ function results(inp, focus) {
   <section class="ds-sec"><h2>${T.secTiming}</h2>
     <p class="ds-note" style="margin-top:0">${inp.purpose === "rent" ? (T.tmRent || TX.en.tmRent) : (T.tmBuy || TX.en.tmBuy)}</p>
     ${tm.yrs.map(y => y.clash ? `<div class="ds-warn">⚠️ ${(T.yearClash || TX.en.yearClash).replace("{y}", lg === "th" ? y.y + 543 : y.y)}</div>` : y.good ? `<div class="ds-warn ds-ok">✨ ${(T.yearGood || TX.en.yearGood).replace("{y}", lg === "th" ? y.y + 543 : y.y)}</div>` : "").join("")}
+    ${tm.pl.map(p => `<p class="ds-note ds-pl">${p.k === "jupiter" ? "♃" : "♄"} <b>${T[p.k === "jupiter" ? "plJup" : "plSat"] || TX.en[p.k === "jupiter" ? "plJup" : "plSat"]}</b> (${(T.plRef || TX.en.plRef).replace("{ref}", C.asc != null ? (T.refLagna || TX.en.refLagna) : (T.refMoon || TX.en.refMoon))}): ${p.runs.map(r => `${(T.plLine || TX.en.plLine).replace("{sign}", T.signs[r.sign]).replace("{h}", r.h)} (${p.runs.length > 1 ? (r.from === r.to ? mName(r.from.y, r.from.m) : mName(r.from.y, r.from.m) + "–" + mName(r.to.y, r.to.m)) : (T.plAll || TX.en.plAll)}) <b class="pv${r.v > 0 ? "g" : r.v < 0 ? "b" : "n"}">${r.v > 0 ? (T.plGood || TX.en.plGood) : r.v < 0 ? (T.plBad || TX.en.plBad) : (T.plOk || TX.en.plOk)}</b>`).join(" → ")}</p>`).join("")}
     <div class="ds-months">${tm.months.map(x => { const k = grade(x.s); return `<div class="ds-m g${k}"><b>${mName(x.y, x.m)}</b>${T[g[k]]}</div>`; }).join("")}</div>
     <div class="ds-leg">${[3, 2, 1, 0].map(k => `<span><i class="g${k}"></i>${T[g[k]]}</span>`).join("")}</div>
     ${tm.days.length ? `<p><b>${(T.bestDays || TX.en.bestDays).replace("{act}", inp.purpose === "rent" ? (T.actRent || TX.en.actRent) : (T.actBuy || TX.en.actBuy))}</b></p><div class="ds-days">${tm.days.map(d => `<span>${dName(d.t)}</span>`).join("")}</div>` : ""}
