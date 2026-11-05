@@ -306,7 +306,18 @@ let BRANDED = 0;
 const brandAll = () => { if (BRANDED) return; BRANDED = 1; const b = G("SITE", {}).short || "";
   const walk = o => { for (const k in o) { const v = o[k]; if (typeof v === "string") { if (v.includes("{brand}")) o[k] = v.split("{brand}").join(b); } else if (v && typeof v === "object") walk(v); } };
   walk(TX); walk(LBL); };
-const L = () => { brandAll(); const l = G("lang","th"); if (TX[l]) return TX[l]; const base = TX.en; return Object.assign({}, base, LBL[l] || {}); };
+/* A host can reword any key per language with HAI_HOST.TEXT = { th: {…}, en: {…}, … } (e.g. a condo project says "unit", not "home").
+   Languages without a full table fall back to English, so TEXT.en also fills their missing keys; "{brand}" works in TEXT too. */
+const L = () => { brandAll(); const l = G("lang","th"), ov = G("TEXT", null);
+  const base = TX[l] ? TX[l] : Object.assign({}, TX.en, LBL[l] || {});
+  if (!ov) return base;
+  const b = G("SITE", {}).short || "", br = o => { const r = {}; for (const k in o || {}) r[k] = typeof o[k] === "string" ? o[k].replace(/\{brand\}/g, b) : o[k]; return r; };
+  const o1 = TX[l] ? {} : br(ov.en), o2 = br(ov[l]), out = Object.assign({}, base, o1, o2);
+  const pf = Object.assign({}, o1.prof || {}, o2.prof || {});   // element profiles merge per element, so a host can reword only strong/avoid/dir
+  if (Object.keys(pf).length) { const bp = base.prof || TX.en.prof; out.prof = {}; for (const e in bp) out.prof[e] = Object.assign({}, bp[e], (o1.prof || {})[e] || {}, (o2.prof || {})[e] || {}); }
+  return out; };
+/* HAI_HOST.MODE = { saleOnly: true, condoOnly: true } hides the rent purpose and the property-type filter (one condo project for sale). */
+const MODE = () => G("MODE", null) || {};
 
 /* timing: yearly planets and the updated method note */
 Object.assign(TX.th, {"plJup": "ดาวพฤหัส", "plSat": "ดาวเสาร์", "plLine": "ราศี{sign} เรือน {h}", "plRef": "นับจาก{ref}", "plAll": "ทั้งช่วง", "refLagna": "ลัคนา", "refMoon": "ราศีจันทร์", "plGood": "หนุน", "plOk": "กลาง ๆ", "plBad": "ควรระวัง", "tmNote": "คำนวณจากนักษัตรและก้านฟ้าของเดือนและปี เทียบกับปีเกิด วันเกิด และธาตุที่หนุนดวง ราศีที่ดวงอาทิตย์โคจรเทียบกับราศีเกิด และตำแหน่งจริงของดาวพฤหัสและดาวเสาร์เทียบกับลัคนา (ใช้ราศีจันทร์แทนถ้าไม่ทราบเวลาเกิด) ผลจึงต่างกันในแต่ละปี"});
@@ -546,13 +557,13 @@ function form(T, focus) {
     <label class="chk"><input type="checkbox" name="unk" ${v.unk ? "checked" : ""}>${T.fTimeUnk}</label>
     <label>${T.fGender}<select name="gender"><option value="m" ${v.gender === "m" ? "selected" : ""}>${T.gM}</option><option value="f" ${v.gender === "f" ? "selected" : ""}>${T.gF}</option><option value="n" ${v.gender === "n" ? "selected" : ""}>${T.gN}</option></select></label>
     <label>${T.fPlace}<select name="city">${CITIES.map(c => `<option value="${c[0]}" ${(v.city || "bkk") === c[0] ? "selected" : ""}>${(CITY_N[G("lang","th")] || {})[c[0]] || c[1]} (UTC${c[4] >= 0 ? "+" : ""}${c[4]})</option>`).join("")}</select></label>
-    <label>${T.fPurpose}<select name="purpose"><option value="buy" ${v.purpose !== "rent" ? "selected" : ""}>${T.pBuy}</option><option value="rent" ${v.purpose === "rent" ? "selected" : ""}>${T.pRent}</option></select></label>
+    <label${MODE().saleOnly ? " hidden" : ""}>${T.fPurpose}<select name="purpose"><option value="buy" ${v.purpose !== "rent" || MODE().saleOnly ? "selected" : ""}>${T.pBuy}</option>${MODE().saleOnly ? "" : `<option value="rent" ${v.purpose === "rent" ? "selected" : ""}>${T.pRent}</option>`}</select></label>
     <label class="ds-wide" data-p="buy">${T.fBuyDate}${dp("buy", v.buy || plus(1), Y0, Y0 + 4)}</label>
     <label class="ds-wide" data-p="rent">${T.fRentFrom}${dp("from", v.from || plus(1), Y0, Y0 + 4)}</label>
     <label class="ds-wide" data-p="rent">${T.fRentTo}${dp("to", v.to || plus(13), Y0, Y0 + 6)}</label>
     <label data-p="buy">${T.fBudget}<select name="bBuy">${[0, ...BUY_B, -100].map(n => `<option value="${n}" ${String(v.bBuy || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : n < 0 ? T.bOverS.replace("{n}", -n) : T.bUpS.replace("{n}", n)}</option>`).join("")}</select></label>
     <label data-p="rent">${T.fBudget}<select name="bRent">${[0, ...RENT_B].map(n => `<option value="${n}" ${String(v.bRent || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : T.bUpR.replace("{n}", n.toLocaleString("en-US"))}</option>`).join("")}</select></label>
-    <label>${T.fType}<select name="type">${[["", T.tAny], ["villa", T.tVilla], ["house", T.tHouse], ["condo", T.tCondo], ["land", T.tLand]].map(([k, n]) => `<option value="${k}" ${(v.type || "") === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+    <label${MODE().condoOnly ? " hidden" : ""}>${T.fType}<select name="type">${[["", T.tAny], ["villa", T.tVilla], ["house", T.tHouse], ["condo", T.tCondo], ["land", T.tLand]].map(([k, n]) => `<option value="${k}" ${(v.type || "") === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
     <p class="ds-priv full">🔒 ${T.privacy}</p>
     <button class="btn ds-go" type="submit">${T.go}</button>
   </form>`;
@@ -664,7 +675,7 @@ function results(inp, focus) {
       <div class="ds-c ds-elc"><img src="hai/img/destiny-${C.thEl}.jpg" alt="" loading="lazy"><small>${PT.pElem}</small><b>${P.core}</b>${elBadge(C.thEl)}<ul>${P.strong.map(x => `<li>${x}</li>`).join("")}</ul></div>
       <div class="ds-c"><small>${PT.pColor}</small><b>${P.color}</b>${sw(SWATCH[C.thEl][0])}<small style="margin-top:8px">${PT.pAccent}</small><em>${P.accent}</em>${sw(SWATCH[C.thEl][1], 1)}
         <small style="margin-top:8px">${PT.pDir}</small><em>${P.dir}${C.kua ? "<br>" + (T.kuaLine || TX.en.kuaLine).replace("{dirs}", C.dirs.map(d => T.dir[d]).join(", ")) : ""}</em></div>
-      <div class="ds-c"><small>${PT.pAvoid}</small><ul>${P.avoid.map(x => `<li>${x}</li>`).join("")}</ul><small style="margin-top:8px">${PT.pTypes}</small><ul>${Object.values(P.types).map(x => `<li>${x}</li>`).join("")}</ul></div>
+      <div class="ds-c"><small>${PT.pAvoid}</small><ul>${P.avoid.map(x => `<li>${x}</li>`).join("")}</ul><small style="margin-top:8px">${PT.pTypes}</small><ul>${Object.entries(P.types).filter(([k]) => !MODE().condoOnly || k === "condo").map(([, x]) => `<li>${x}</li>`).join("")}</ul></div>
     </div></section>
   <section class="ds-sec"><h2>${T.secTiming}</h2>
     <p class="ds-note" style="margin-top:0">${inp.purpose === "rent" ? (T.tmRent || TX.en.tmRent) : (T.tmBuy || TX.en.tmBuy)}</p>

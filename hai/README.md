@@ -57,6 +57,11 @@ window.HAI_HOST = {
 };
 ```
 
+Optional keys (5 Nov 2026), used by Coral Reef (`CoralReefSale-v2.html`, one condo project under construction, sale only):
+- `TEXT: { th: {…}, en: {…}, zh: {…}, … }` rewords any text key per language ("unit" instead of "home", booking/contract instead of transfer). Languages without a full table also take `TEXT.en`. `prof: { water: { strong, avoid, dir }, … }` merges per element.
+- `MODE: { saleOnly: true, condoOnly: true }` hides the rent purpose and the property-type filter, and shows only the condo tip in the element profile.
+Sites that leave them out render exactly as before.
+
 For R2, map `UNITS` (sell = promoPrice || price, type "1 BED" → beds 1, view → tags), `UNIT_STORIES[c].en` (tagline + highlights → concept) and `FS_EL` (→ MG_EL). Tested on 4 Nov 2026 with R2's real data in th, en, ja, ru: no errors, 9–10 matches, links and LINE button go to R2. Destiny's styles assume engine classes (`.wrap`, `.btn`, `.crumb`); the R2 page needs a few matching rules.
 
 ## Files and load order
