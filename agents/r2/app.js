@@ -910,6 +910,10 @@ window.HAI_HOST = {
   FACING: Object.fromEntries(UNITS.map(u => [u.unit, u.view === "Sea View" ? "W" : "E"])),
   CONTACT: { line: CONTACT.lines[0].id },
   SITE: { short: "R2", name: "R2 by Clare" },
+  // one resale condo project, for sale only: no rent purpose or property-type picker, and unit/transfer wording (text.js DS_TEXT)
+  MODE: { saleOnly: true, condoOnly: true },
+  // only for languages DS_TEXT covers: destiny.js lays TEXT.en over its own zh/ko/ja/ru tables, so a missing language would turn English
+  get TEXT(){ return (lang === "th" || lang === "en" || DS_TEXT[lang]) ? DS_TEXT : null; },
   links: { home: () => listHref(), listing: c => unitHref(c), destiny: c => destinyHref(c) },
   mount: () => document.getElementById("unitView")
 };
@@ -920,12 +924,11 @@ function renderDestinyPage(){
 // home page: the two network tools (Destiny Match, Safe Living) side by side
 function renderNetTools(){
   const box = document.getElementById("netTools"); if (!box) return;
-  const nav = window.ASND && ASND.T ? (ASND.T[lang] || ASND.T.en) : null;
   box.innerHTML = `<div class="wrap nt-grid">
     ${window.ASND ? `<a class="nt-card nt-ds" href="${destinyHref()}">
       <span class="nt-k">Destiny Match · Hybrid AI Agent Network</span>
       <b>🔮 ${t("dsH")}</b><span class="nt-p">${t("dsP")}</span>
-      <span class="nt-go">${nav ? nav.dsHomeCta : t("dsGo") + " →"}</span></a>` : ""}
+      <span class="nt-go">${t("dsGo")} →</span></a>` : ""}
     <a class="nt-card nt-sl" href="${safeLivingHref()}">
       <span class="nt-k">Safe Living · Hybrid AI Agent Network</span>
       <b>🛡️ ${t("slH")}</b><span class="nt-p">${t("slP")}</span>
