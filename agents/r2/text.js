@@ -229,3 +229,8 @@ const FX_T = {
     fxOff: "US$は 1 US$ = ฿{r}（{d} の参考レート。本日のレートを取得できませんでした）で換算しています。価格はタイバーツ建てです。" }
 };
 for (const l of Object.keys(FX_T)) Object.assign(T[l], FX_T[l]);
+
+/* Footer feedback link (Google Form). Added 5 Nov 2026. */
+const FB_T = { th: "ข้อเสนอแนะ ติชมเว็บไซต์", en: "Suggestions and feedback on this site", ru: "Предложения и отзывы о сайте",
+  zh: "对本网站的建议与反馈", ko: "사이트에 대한 제안 및 의견", ja: "サイトへのご意見・ご感想" };
+for (const l of Object.keys(FB_T)) T[l].fbLink = FB_T[l];
