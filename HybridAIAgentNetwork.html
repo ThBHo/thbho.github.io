@@ -160,12 +160,6 @@ html[lang=th] #match h2,html[lang=th] #why h2,html[lang=th] #idea h2,html[lang=t
 .pm-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.pm-c:hover .pm-img img{transform:scale(1.04)}
 .band{position:relative;margin:0;border-top:1px solid var(--line);background:#0b1418;overflow:hidden}
 .band img,.band video{display:block;width:100%;height:clamp(260px,46vw,560px);object-fit:cover}
-/* video band: the source is 960x540, so it plays in a frame near its own size over a blurred copy of its poster instead of being stretched edge to edge */
-.band.vid{padding:40px 24px;background:#0b1418;isolation:isolate}
-.band.vid::before{content:"";position:absolute;inset:-40px;background:url(asn-img/H04-video.jpg) center/cover;filter:blur(28px) brightness(.45);z-index:-1}
-.band.vid .vbox{position:relative;max-width:1100px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.band.vid video{height:auto;aspect-ratio:16/9;object-fit:cover}
-@media (max-width:620px){.band.vid{padding:0}.band.vid .vbox{border-radius:0;box-shadow:none}}
 .band figcaption{position:absolute;left:0;right:0;bottom:0;padding:60px 24px 20px;background:linear-gradient(transparent,rgba(6,12,15,.78));color:#fff}
 .band figcaption .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
 .band q{font-family:var(--serif);font-size:clamp(22px,3vw,38px);line-height:1.15;max-width:760px;quotes:none}
@@ -438,7 +432,7 @@ footer p{margin:0 0 8px;max-width:900px}
  </div>
 </div></section>
 
-<figure class="band vid"><div class="vbox"><video src="asn-img/H04.mp4" poster="asn-img/H04-video.jpg" muted loop playsinline preload="none" aria-label="Video tour of a pool villa in Mapprachan, Pattaya"></video><figcaption><div class="wrap"><q data-i="bd2">Every home has a personality.</q><small data-i="bd2_c">Video tour of a pool villa at Lake Mapprachan, on the ASN website.</small></div></figcaption></div></figure>
+<figure class="band"><video data-sd="asn-img/H04.mp4" data-hd="asn-img/H04-1080.mp4" poster="hai/img/net/h04-poster.jpg" muted loop playsinline preload="none" aria-label="Video tour of a pool villa in Mapprachan, Pattaya"></video><figcaption><div class="wrap"><q data-i="bd2">Every home has a personality.</q><small data-i="bd2_c">Video tour of a pool villa at Lake Mapprachan, on the ASN website.</small></div></figcaption></figure>
 
 <section class="night" id="rules"><div class="wrap spread">
  <header><p class="kicker" data-i="pr_k">Principles</p><h2 data-i="pr_h">Local, legal, in writing.</h2></header>
@@ -520,8 +514,10 @@ footer p{margin:0 0 8px;max-width:900px}
   if(!open&&!bf.firstChild){var f=document.createElement("iframe");f.src="https://docs.google.com/forms/d/e/1FAIpQLScEoU15NgEX9_1UrlSieOekJ9_9NLNs86hYLh6KOTUC1ooXMA/viewform?embedded=true";f.title="Property Website Brief · แบบสอบถามก่อนทำเว็บไซต์อสังหา";f.loading="lazy";bf.appendChild(f)}
   bf.hidden=open;bt.setAttribute("aria-expanded",open?"false":"true")});
  var v=document.querySelector(".band video");
+ // 1080p on wide screens, the light 540p file on phones; chosen when the band first comes into view
+ function vsrc(){if(v&&!v.src){v.src=(innerWidth*(devicePixelRatio||1)>=1400?v.dataset.hd:v.dataset.sd)}}
  if(v&&"IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion:reduce)").matches){
-  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.35}).observe(v)}
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){vsrc();v.play().catch(function(){})}else{v.pause()}})},{threshold:.35}).observe(v)}
 })();
 </script>
 </body>
