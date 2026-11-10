@@ -1,7 +1,7 @@
 /* Hybrid AI Agent Network · member registry
    One entry per member agent. Shared pages (SafeLiving.html, later Living Insight and the network page) read
    their branding from here when opened with ?from=<id>. Add a member here when its site goes live.
-   Owner: THOR · WIDEROOMS https://thbho.github.io/EngWiderooms.html · Hybrid AI by ThB.Ho https://thbho.github.io/AIGymmateXFactory.html
+   Owner: THOR · WIDEROOMS https://thbho.com/EngWiderooms.html · Hybrid AI by ThB.Ho https://thbho.com/AIGymmateXFactory.html
    Fields: name, short, home (page shell), listing(code) → URL, all (all listings), contact, favicon,
            hero { src, alt, cap{lang} }, show [ {code, img} ] (3 homes for Safe Living), region (hai/regions file). */
 const HAI_AGENTS = {

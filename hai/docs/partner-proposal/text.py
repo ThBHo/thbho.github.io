@@ -1,7 +1,7 @@
 # Hybrid AI Agent Network · one-page partner proposal · text per language.
 # First-contact document: selling points and main functions only. No prices, no commission figures.
 # Links: (label, url). Edit here, then run build.py.
-U = "https://thbho.github.io/"
+U = "https://thbho.com/"
 L = {
  "henley": "https://www.henleyglobal.com/newsroom/press-releases/henley-private-wealth-migration-report-2026",
  "pmail": "https://www.pattayamail.com/latestnews/news/who-really-buys-thai-condos-568269",

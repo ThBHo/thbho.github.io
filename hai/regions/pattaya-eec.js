@@ -38,7 +38,7 @@ const SZ_SRC = {
   jomtienSand: { n: "Pattaya Mail · Jomtien Beach sand replenishment, phase 2", u: "https://www.pattayamail.com/news/jomtien-beach-sand-replenishment-phase-2-underway-with-318-million-baht-budget-to-transform-pattayas-coastline-526721", d: "2026-08-05" },
   thSattahip: { n: "ThinkHazard (World Bank GFDRR) · Sattahip, Chonburi", u: "https://thinkhazard.org/en/report/26539-thailand-chonburi-sattahip", d: "2026-10-25" },
   satOct2026: { n: "Pattaya Mail · Bang Saray clears floodwater and sand from Sukhumvit Road", u: "https://www.pattayamail.com/news/bang-saray-clears-floodwater-and-sand-from-sukhumvit-road-after-heavy-rain-568202", d: "2026-10-13" },
-  asnSurvey: { n: "ASN Exclusive Property · ข้อมูลแปลงจากการลงพื้นที่ / on-site plot check", u: "https://thbho.github.io/ASNProperty.html#/l/L01", d: "2026-10-30" },
+  asnSurvey: { n: "ASN Exclusive Property · ข้อมูลแปลงจากการลงพื้นที่ / on-site plot check", u: "https://thbho.com/ASNProperty.html#/l/L01", d: "2026-10-30" },
   satMar2026: { n: "Pattaya Mail · Heavy rain floods parts of Sattahip", u: "https://www.pattayamail.com/news/heavy-rain-floods-parts-of-sattahip-as-wet-weather-expected-to-continue-through-weekend-539263", d: "2026-03-14" },
   huaiYaiRoad: { n: "Pattaya Mail · Huay Yai villager rows boat on flooded road (Moo 11, Klong Pai reservoir)", u: "https://www.pattayamail.com/news/protesting-pattaya-villager-rows-boat-on-shoddy-forever-flooded-road-389822", d: "2022-02-18" },
   m7: { n: "Wikipedia · Motorway 7 (Thailand): Pong–Map Ta Phut section, interchanges", u: "https://en.wikipedia.org/wiki/Motorway_7_(Thailand)", d: "2026-10-25" },
@@ -72,7 +72,7 @@ const SAFE_ZONES = {
       ["2025-12", "วางท่อระบายน้ำเลียบหาดจอมเทียนยาวราว 3.5 กม. แล้วเสร็จ", "About 3.5 km of new beachfront drainage completed.", "floodMap"],
       ["2025-05-21", "ถนนดงตาลมีน้ำขัง ผู้สื่อข่าวระบุว่าไม่ปกติสำหรับถนนนี้", "Flooding on Dongtan Road, described by the reporter as unusual for that road.", "floodMap"]
     ],
-    deep: { th: "รายงานธรณีและการระบายน้ำของจอมเทียน", en: "Jomtien geology and drainage report", u: "https://thbho.github.io/SafeZone.html" } },
+    deep: { th: "รายงานธรณีและการระบายน้ำของจอมเทียน", en: "Jomtien geology and drainage report", u: "https://thbho.com/SafeZone.html" } },
   pratumnak: {
     flood: { lvl: "low", src: ["floodMap"],
       th: "พระตำหนักเป็นเนินเขา ไม่พบรายงานน้ำท่วมถนนตั้งแต่ พ.ค. 2024 ถึง ก.ย. 2026 วันที่ 24 ก.ย. 2026 สถานีวัดฝนราชวรุณวัดได้ 132 มม. โดยไม่มีการบันทึกน้ำท่วม ที่ต้องระวังคือถนนเชิงเขาฝั่งพัทยาใต้และวอล์กกิ้งสตรีทซึ่งท่วมเป็นครั้งคราว",

@@ -4,7 +4,7 @@
 แต่ละ agent มีโฟลเดอร์ของตัวเองใน `agents/<id>/` (ข้อมูลติดต่อ Sheet ทรัพย์ ข้อความแบรนด์) และหน้าเว็บของตัวเอง 1 ไฟล์
 แก้ระบบกลางที่ `hai/` ครั้งเดียว ทุก agent ได้ของใหม่พร้อมกัน ห้ามแก้ข้อมูลของ agent หนึ่งในไฟล์ของอีกรายเด็ดขาด
 
-Owner: THOR · [WIDEROOMS](https://thbho.github.io/EngWiderooms.html) · [Hybrid AI by ThB.Ho](https://thbho.github.io/AIGymmateXFactory.html)
+Owner: THOR · [WIDEROOMS](https://thbho.com/EngWiderooms.html) · [Hybrid AI by ThB.Ho](https://thbho.com/AIGymmateXFactory.html)
 First agent: ASN Exclusive Property (Pattaya), `ASNProperty.html` + `agents/asn/`. Split from one file on 3 Nov 2026 with identical output (12 routes × 4 languages compared).
 
 ## Member sites

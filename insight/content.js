@@ -134,7 +134,7 @@ wellness: {
     { t:"Pacific Prime / Cornerstone: hospitals for expats in Pattaya", u:"https://cornerstone.co.th/healthcare-in-pattaya-retirement-living-guide-2026", d:"2026" },
     { t:"HKTDC Belt and Road: Thailand EECmd Medical Hub", u:"https://beltandroad-prd.hktdc.com/en/project-database/thailand-eecmd-medical-hub", d:"undated" },
     { t:"Bangkok Hospital Pattaya: BDMS Wellness Clinic", u:"https://www.bangkokhospital.com/en/pattaya/center-clinic/default/bdms-wellness-clinic-bph/overview", d:"" },
-    { t:"Th.Ho: Wellness Intelligence 2026 (original report)", u:"https://thbho.github.io/WellnessIntelligence.html", d:"2026" }
+    { t:"Th.Ho: Wellness Intelligence 2026 (original report)", u:"https://thbho.com/WellnessIntelligence.html", d:"2026" }
   ]
 },
 
@@ -191,7 +191,7 @@ smarthome: {
     { t:"Mobility Foresights: Thailand smart home devices market", u:"https://mobilityforesights.com/product/thailand-smart-home-devices-market", d:"" },
     { t:"Personal Data Protection Committee (PDPC) Thailand", u:"https://www.pdpc.or.th/", d:"PDPA in force since June 2022" },
     { t:"Thailand Hotel Act B.E. 2547 (daily lets need a hotel licence; condo by-laws usually ban them)", u:"", d:"" },
-    { t:"Th.Ho: Wellness Intelligence 2026 (privacy-by-design section)", u:"https://thbho.github.io/WellnessIntelligence.html", d:"2026" }
+    { t:"Th.Ho: Wellness Intelligence 2026 (privacy-by-design section)", u:"https://thbho.com/WellnessIntelligence.html", d:"2026" }
   ]
 },
 

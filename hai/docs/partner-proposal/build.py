@@ -129,7 +129,7 @@ def page(lg):
     lay = "".join(f'<div><b>{e(x)}<small>{e(y)}</small></b><p>{e(z)} {a(w, k)}</p></div>' for x, y, z, w, k in t["lay"])
     src = " · ".join(f'<a href="{u}">{e(n)}</a>' for n, u in SOURCES)
     copy = fill(e(t["copy"]).replace("&lt;a&gt;", "<a>").replace("&lt;/a&gt;", "</a>"), ["wr", "hai"])
-    netu = f"https://thbho.github.io/HybridAIAgentNetwork.html?lang={lg}"
+    netu = f"https://thbho.com/HybridAIAgentNetwork.html?lang={lg}"
     return f"""<!doctype html><html lang="{lg}"><head><meta charset="utf-8"><title>Hybrid AI Agent Network · Partner Proposal ({lg.upper()})</title><style>{CSS}</style></head>
 <body class="{lg}"><header class="top"><div><h1>Hybrid AI Agent Network</h1><small>WIDEROOMS × HYBRID AI BY THB.HO</small></div><div class="r"><b>{m("tag")}</b><span>{m("forline")}</span></div></header>
 <main class="pg">

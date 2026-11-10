@@ -617,7 +617,7 @@ const LK_DETAIL = false; // THOR 27 Oct 2026: kit blocks (smart home for your pe
 const lkBase = () => ({ lang, from: SITE.id, accent: "var(--brand)", wrLogo: SITE.img + "logo-widerooms.jpg", groupName: g => t("g_" + g) });
 
 /* ---------- Persona Styling (WIDEROOMS) ---------- */
-const WR_URL = "https://thbho.github.io/EngWiderooms.html";
+const WR_URL = "https://thbho.com/EngWiderooms.html";
 const wrLink = key => `<a class="u-wr" href="${WR_URL}" target="_blank" rel="noopener"><img src="${SITE.img}logo-widerooms.jpg" alt="WIDEROOMS"><span>${t(key)}</span></a>`;
 function styleSec(l) {
   if (l.type === "commercial" || l.type === "land") return "";

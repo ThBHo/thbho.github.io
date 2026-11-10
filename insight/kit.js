@@ -14,7 +14,7 @@
 "use strict";
 
 const LANGS = ["th", "en", "ru", "zh", "ko", "ja"];
-const WR_URL = "https://thbho.github.io/EngWiderooms.html";
+const WR_URL = "https://thbho.com/EngWiderooms.html";
 const GUIDE = { hub: "LivingInsight.html", wellness: "LivingInsight-Wellness.html", smarthome: "LivingInsight-SmartHome.html",
   relocate: "LivingInsight-Relocate.html", eec: "LivingInsight-EEC.html", buying: "LivingInsight-Buying.html" };
 const GROUP_COLOR = { an: "#88619A", di: "#33A474", se: "#4298B4", ex: "#D9A032" };

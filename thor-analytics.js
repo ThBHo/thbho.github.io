@@ -1,4 +1,4 @@
-/* Thor Real Estate visitor analytics (Google Analytics 4), thbho.github.io.
+/* Thor Real Estate visitor analytics (Google Analytics 4), thbho.com.
    Copy of GymMateX/thbho-analytics.js with this site's Measurement ID, plus:
    - per-agent reports: page path for page views; `agent` (asn, r2, or ?from=<id>) on click events
    - line_click and contact_click (phone, email, WhatsApp, Messenger)
@@ -9,7 +9,7 @@
      Before that, GA only receives cookieless, anonymous pings, so totals are still counted.
    - Never runs inside an embedded demo (?embed=1), so a page view is not counted twice.
    - Extra events: video_play, persona_open, apply_click, language.
-   Used by the ThB.Ho pages, O2OEventsVR, Fit & Fantasy (index) and thbho.github.io/AIGymmateXFactory.html. */
+   Used by the ThB.Ho pages, O2OEventsVR, Fit & Fantasy (index) and thbho.com/AIGymmateXFactory.html. */
 (function () {
   var GA_ID = 'G-6C7B6BBD35';
   if (!GA_ID || /[?&]embed=1/.test(location.search)) return;
