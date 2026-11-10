@@ -533,8 +533,8 @@
         </section>
 
         <section id="gemini-chat" class="max-w-5xl mx-auto px-4 py-20 reveal">
-            <div class="glass-panel rounded-2xl overflow-hidden border border-gray-700 shadow-2xl flex flex-col md:flex-row h-[600px] md:h-[500px]">
-                <div class="w-full md:w-1/3 bg-secondary/90 border-r border-glass-border p-6 flex flex-col">
+            <div class="glass-panel rounded-2xl overflow-hidden border border-gray-700 shadow-2xl flex flex-col md:flex-row h-[820px] md:h-[500px]">
+                <div class="w-full md:w-1/3 bg-secondary/90 border-r border-glass-border p-6 flex flex-col shrink-0 md:shrink">
                     <div class="mb-6">
                         <h3 class="text-xl font-bold text-white flex items-center gap-2">
                             <i data-lucide="sparkles" class="text-accent w-5 h-5"></i>
@@ -570,14 +570,14 @@
                     </div>
                 </div>
 
-                <div class="w-full md:w-2/3 bg-primary/95 flex flex-col relative">
+                <div class="w-full md:w-2/3 bg-primary/95 flex flex-col relative flex-1 min-h-0">
                     <div id="chat-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 z-0">
                         <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4 animate-float border border-glass-border">
                             <i data-lucide="bot" class="w-8 h-8 text-surface"></i>
                         </div>
                         <p class="text-surface" data-key="chat_placeholder">เลือก Persona เพื่อเริ่มแลกเปลี่ยนไอเดีย...</p>
                     </div>
-                    <div id="chat-window" class="flex-grow p-4 space-y-4 overflow-y-auto z-10 custom-scrollbar"></div>
+                    <div id="chat-window" class="flex-grow min-h-0 p-4 space-y-4 overflow-y-auto z-10 custom-scrollbar"></div>
                     <div class="p-4 border-t border-glass-border bg-secondary/80 z-20">
                          <div id="loading-indicator" class="hidden mb-2 ml-2">
                              <div class="flex items-center gap-2 bg-primary px-3 py-1 rounded-full w-fit border border-glass-border">
@@ -585,8 +585,9 @@
                                 <span class="text-xs text-surface ml-2">AI is typing...</span>
                              </div>
                         </div>
+                        <div id="chat-chips" class="hidden flex flex-wrap gap-1.5 pb-2 mb-1"></div>
                         <div class="flex gap-2">
-                            <input type="text" id="chat-input" disabled class="flex-grow bg-primary border border-glass-border text-white rounded-lg px-4 py-2 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent placeholder-gray-600 disabled:opacity-50" placeholder="..." data-key-placeholder="chat_input_placeholder">
+                            <input type="text" id="chat-input" maxlength="500" autocomplete="off" disabled class="flex-grow bg-primary border border-glass-border text-white rounded-lg px-4 py-2 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent placeholder-gray-600 disabled:opacity-50" placeholder="..." data-key-placeholder="chat_input_placeholder">
                             <button id="send-chat-btn" disabled class="bg-accent text-primary p-2 rounded-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors" aria-label="Send Message">
                                 <i data-lucide="send" class="w-5 h-5"></i>
                             </button>
@@ -788,6 +789,7 @@
         <i data-lucide="arrow-up" class="w-6 h-6"></i>
     </button>
 
+    <script src="AIGymmateXFactory.chat.js?v=1"></script>
     <script>
         lucide.createIcons();
 
@@ -1214,6 +1216,7 @@
             }
 
             document.title = translations[lang]['page_title'];
+            if (typeof renderChips === 'function' && typeof activePersona !== 'undefined' && activePersona) renderChips();
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 if(btn.dataset.lang === lang) {
@@ -1265,23 +1268,37 @@
         const loadingIndicator = document.getElementById('loading-indicator');
         
         let activePersona = null;
-        let lastThoughtSignature = ""; 
-        
-        const apiKey = ""; // <--- INSERT API KEY HERE
+        // Replies come from AIGymmateXFactory.chat.js (scripted, no API key in the page).
+        const chipsBox = document.getElementById('chat-chips');
+        let chatBusy = false;
 
         const personas = {
-            tee: { nameKey: "chat_btn_1", promptKey: "persona_tee_prompt" },
-            b:   { nameKey: "chat_btn_2", promptKey: "persona_b_prompt" },
-            hour:{ nameKey: "chat_btn_3", promptKey: "persona_hour_prompt" }
+            tee: { nameKey: "chat_btn_1" },
+            b:   { nameKey: "chat_btn_2" },
+            hour:{ nameKey: "chat_btn_3" }
         };
+
+        function renderChips() {
+            chipsBox.innerHTML = '';
+            if (!activePersona || !window.FactoryChat) { chipsBox.classList.add('hidden'); return; }
+            window.FactoryChat.chips(currentLang).forEach(q => {
+                const c = document.createElement('button');
+                c.type = 'button';
+                c.className = 'px-2.5 py-1 rounded-full border border-glass-border text-xs text-surface hover:border-accent hover:text-white transition-colors whitespace-nowrap';
+                c.textContent = q;
+                c.addEventListener('click', () => { if (!chatBusy) askPersona(q); });
+                chipsBox.appendChild(c);
+            });
+            chipsBox.classList.remove('hidden');
+        }
 
         function resetChat() {
             activePersona = null;
-            lastThoughtSignature = ""; 
             chatInput.disabled = true;
             sendBtn.disabled = true;
             chatWindow.innerHTML = '';
             placeholder.style.display = 'flex';
+            chipsBox.classList.add('hidden');
             personaBtns.forEach(b => {
                 b.classList.remove('bg-secondary', 'border-accent', 'border-action', 'border-accent-dark');
                 b.classList.add('border-glass-border');
@@ -1290,7 +1307,8 @@
 
         personaBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                resetChat(); 
+                if (chatBusy) return;
+                resetChat();
 
                 const persona = btn.dataset.persona;
                 activePersona = persona;
@@ -1301,126 +1319,77 @@
                 if (persona === 'tee') btn.classList.add('border-accent');
                 else if (persona === 'b') btn.classList.add('border-action');
                 else if (persona === 'hour') btn.classList.add('border-accent-dark');
-                
+
                 chatInput.disabled = false;
                 sendBtn.disabled = false;
                 placeholder.style.display = 'none';
-                
+
                 const personaName = translations[currentLang][personas[activePersona].nameKey];
                 chatInput.placeholder = `${translations[currentLang].chat_input_placeholder} (@${personaName})`;
-                chatInput.focus();
+                if (window.FactoryChat) addMessageToChat(window.FactoryChat.welcome(persona, currentLang), 'ai');
+                renderChips();
+                chatInput.focus({ preventScroll: true });
             });
         });
 
-        async function callGemini(question) {
-            if (!activePersona) return;
-            
+        function askPersona(question) {
+            if (!activePersona || chatBusy) return;
+            const persona = activePersona;
             addMessageToChat(question, 'user');
             chatInput.value = '';
             setLoading(true);
-
-            if(!apiKey || apiKey === "") {
+            const started = Date.now();
+            const job = window.FactoryChat
+                ? window.FactoryChat.reply(persona, currentLang, question)
+                : Promise.resolve({ text: translations[currentLang].chat_error, link: null });
+            job.catch(() => ({ text: translations[currentLang].chat_error, link: null })).then(res => {
+                // a short pause so the reply reads like typing
                 setTimeout(() => {
-                    addMessageToChat("⚠️ <b>Connection Error:</b> กรุณาใส่ API Key ก่อนใช้งานครับ", 'ai');
+                    if (activePersona === persona) addMessageToChat(res.text, 'ai', res.link);
                     setLoading(false);
-                }, 500);
-                return;
-            }
-
-            const prompt = translations[currentLang][personas[activePersona].promptKey];
-            
-            let circulatedContext = lastThoughtSignature ? `\n\n[System Context - Previous Thought Signature: ${lastThoughtSignature}]` : "";
-            const fullPrompt = `${prompt}${circulatedContext}\n\nUser Question: ${question}\n\n[Instruction: You MUST output your internal reasoning process wrapped in <think>...</think> tags before providing your final answer to the user. This is required for the thought signature circulation.]`;
-            
-            try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`;
-                
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: fullPrompt }] }] })
-                });
-                
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error("Gemini API Error");
-                }
-
-                let text = "AI Error (No content generated).";
-                let thoughtProcess = null;
-
-                if (data.candidates && data.candidates[0].content) {
-                    let rawText = data.candidates[0].content.parts[0].text;
-                    
-                    let thoughtMatch = rawText.match(/<think>([\s\S]*?)<\/think>/);
-                    if (thoughtMatch) {
-                        thoughtProcess = thoughtMatch[1].trim();
-                        lastThoughtSignature = thoughtProcess; 
-                        text = rawText.replace(/<think>[\s\S]*?<\/think>/, '').trim();
-                    } else {
-                        text = rawText;
-                        lastThoughtSignature = ""; 
-                    }
-                }
-                addMessageToChat(text, 'ai', thoughtProcess);
-
-            } catch (error) {
-                console.error("Gemini Fetch Error:", error);
-                addMessageToChat("Connection Failed", 'ai');
-            } finally {
-                setLoading(false);
-            }
+                }, Math.max(0, 700 - (Date.now() - started)));
+            });
         }
 
-        function addMessageToChat(text, sender, thought = null) {
+        // text is always set with textContent, never innerHTML
+        function addMessageToChat(text, sender, link = null) {
             const div = document.createElement('div');
             div.classList.add('max-w-[85%]', 'p-3', 'text-sm', 'leading-relaxed', 'animate-fade-in-up');
-            
-            if (sender === 'user') {
-                div.classList.add('chat-msg-user');
-                div.innerHTML = text;
-            } else {
-                div.classList.add('chat-msg-ai');
-                let contentHTML = '';
-                
-                if (thought) {
-                    contentHTML += `
-                    <details class="mb-3 border border-accent/30 rounded-lg bg-black/40 text-xs overflow-hidden shadow-[0_0_10px_rgba(102,252,241,0.1)]">
-                        <summary class="cursor-pointer p-2 text-accent/80 hover:text-accent bg-black/20 flex items-center gap-2 outline-none select-none transition-colors">
-                            <i data-lucide="cpu" class="w-3 h-3"></i> 
-                            <span class="font-mono tracking-wider">THOUGHT_SIGNATURE</span>
-                        </summary>
-                        <div class="p-3 text-surface/70 border-t border-accent/30 whitespace-pre-wrap font-mono text-[11px] leading-relaxed max-h-40 overflow-y-auto custom-scrollbar">
-                            ${thought.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
-                        </div>
-                    </details>`;
-                }
-                
-                contentHTML += text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-                div.innerHTML = contentHTML;
+            div.classList.add(sender === 'user' ? 'chat-msg-user' : 'chat-msg-ai');
+            const p = document.createElement('div');
+            p.style.whiteSpace = 'pre-wrap';
+            p.textContent = text;
+            div.appendChild(p);
+            if (link && link.href) {
+                const a = document.createElement('a');
+                a.href = link.href;
+                a.textContent = link.text;
+                a.className = 'inline-block mt-2 text-accent underline hover:text-white';
+                if (!link.href.startsWith('#')) { a.target = '_blank'; a.rel = 'noopener'; }
+                div.appendChild(a);
             }
             chatWindow.appendChild(div);
             chatWindow.scrollTop = chatWindow.scrollHeight;
-            lucide.createIcons();
         }
 
         function setLoading(isLoading) {
+            chatBusy = isLoading;
             loadingIndicator.style.display = isLoading ? 'block' : 'none';
-            chatInput.disabled = isLoading;
-            sendBtn.disabled = isLoading;
-            if(!isLoading) chatInput.focus();
+            chatInput.disabled = isLoading || !activePersona;
+            sendBtn.disabled = isLoading || !activePersona;
+            if (!isLoading && activePersona) chatInput.focus({ preventScroll: true });
         }
 
         sendBtn.addEventListener('click', () => {
             const val = chatInput.value.trim();
-            if(val) callGemini(val);
+            if (val) askPersona(val);
         });
-        
-        chatInput.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') {
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.isComposing) {
+                e.preventDefault();
                 const val = chatInput.value.trim();
-                if(val) callGemini(val);
+                if (val) askPersona(val);
             }
         });
 
