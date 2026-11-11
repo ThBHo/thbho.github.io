@@ -252,11 +252,12 @@ function tools(){
 
 function foot(){
   return `<footer class="foot"><div class="wrap">
-    <p>© 2026 Thailand Living Insight</p>
+    <p>© 2026 Thailand Living Insight · <a href="https://thbho.com/HybridAIAgentNetwork.html">Hybrid AI Agent Network</a></p>
     <div class="credit"><span>${u("credit")}</span>
+      <a href="https://thbho.com/ThorRealProfile.html" target="_blank" rel="noopener">Thor Ayanundana</a>
       <a href="https://thbho.com/EngWiderooms.html" target="_blank" rel="noopener"><img src="insight/logo-widerooms.jpg" alt="WIDEROOMS"></a>
       <a href="https://thbho.com/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="insight/logo-thho.jpg" alt="Hybrid AI by ThB.Ho"></a></div>
-  </div><div data-thor-links></div></footer>`;
+  </div></footer>`;
 }
 
 /* ---------------------------------------------------------------- hub page */
