@@ -10,6 +10,7 @@
 #
 # Runs on every push that changes asn-img/, or by hand from the Actions tab.
 # It only adds and updates files in the bucket; it never deletes there.
+# Cache is 1 hour because the ASN workflow replaces retouched photos under the same file name.
 name: media-sync
 
 on:
@@ -53,6 +54,6 @@ jobs:
         run: |
           test -d "$FOLDER" || { echo "::error::Folder $FOLDER not found"; exit 1; }
           aws s3 sync "$FOLDER" "s3://$BUCKET/$FOLDER" --endpoint-url "$ENDPOINT" \
-            --exclude "*.DS_Store" --cache-control "public, max-age=2592000" --only-show-errors
+            --exclude "*.DS_Store" --cache-control "public, max-age=3600" --only-show-errors
           n=$(find "$FOLDER" -type f | wc -l)
           echo "::notice::Copied $FOLDER ($n files) to $BUCKET"
