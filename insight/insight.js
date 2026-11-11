@@ -256,7 +256,7 @@ function foot(){
     <div class="credit"><span>${u("credit")}</span>
       <a href="https://thbho.com/EngWiderooms.html" target="_blank" rel="noopener"><img src="insight/logo-widerooms.jpg" alt="WIDEROOMS"></a>
       <a href="https://thbho.com/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="insight/logo-thho.jpg" alt="Hybrid AI by ThB.Ho"></a></div>
-  </div></footer>`;
+  </div><div data-thor-links></div></footer>`;
 }
 
 /* ---------------------------------------------------------------- hub page */
