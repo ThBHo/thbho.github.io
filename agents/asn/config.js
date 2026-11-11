@@ -120,6 +120,7 @@ const SITE = {
   name: "ASN Exclusive Property",
   short: "ASN", tag: "EXCLUSIVE PROPERTY", // flyer / print brand block
   img: "asn-img/",                        // listing photos <img><CODE>-<n>.jpg, logos
+  media: { from: "asn-img/", to: "https://media.thbho.com/asn-img/" }, // listing photos served from Cloudflare R2 (bucket asn-media, synced by .github/workflows/media-sync.yml), 11 Nov 2026
   share: "asn/",                          // LINE/Facebook share pages
   store: "asn-",                          // localStorage prefix
   styleJson: "asn-style.json",            // house persona per listing (Sheet listings)

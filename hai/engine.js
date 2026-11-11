@@ -54,9 +54,12 @@ function stdName(l) {
   return `${L[k]()} · ${where}`;
 }
 const nm = l => l.type ? stdName(l) : ((l.names && (l.names[lang] || l.names.en)) || l.name);
-const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return p || `${SITE.img}${l.code}-${n}.jpg`; };
+// listing photos can be served from an outside media host (SITE.media = { from: "asn-img/", to: "https://media.thbho.com/asn-img/" });
+// only paths that start with SITE.media.from are rewritten, so logos and other page images stay local
+const media = p => (SITE.media && typeof p === "string" && p.startsWith(SITE.media.from)) ? SITE.media.to + p.slice(SITE.media.from.length) : p;
+const photo = (l, n) => { const p = (l.photoList || [])[n - 1]; return media(p || `${SITE.img}${l.code}-${n}.jpg`); };
 const MAX_PHOTOS = 30;   // per listing (Thor 28 Oct 2026: up to 30): gallery, card arrows, download-all
-const photos = l => (l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `${SITE.img}${l.code}-${i + 1}.jpg`)).slice(0, MAX_PHOTOS);
+const photos = l => (l.photoList && l.photoList.length ? l.photoList : Array.from({ length: l.photos || 1 }, (_, i) => `${SITE.img}${l.code}-${i + 1}.jpg`)).slice(0, MAX_PHOTOS).map(media);
 const area = l => l.usable || l.size || null;
 const nf = n => Number(n).toLocaleString("en-US");
 function money(n) {
