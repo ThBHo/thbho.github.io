@@ -485,7 +485,7 @@ function stage(c){var m=-1;c.jobs.forEach(function(j){var i=STEPS.indexOf(j.stat
 function sorted(rows){var f={todo:function(a,b){return todo(a)-todo(b)||b.last-a.last},act:function(a,b){return b.last-a.last},stage:function(a,b){return stage(b)-stage(a)||b.last-a.last},"new":function(a,b){return b.created-a.created}}[sortBy];return rows.slice().sort(f)}
 // what the person looking should update: [urgent?, text, client id]
 function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
- var add=function(u,x,id,key){if(key&&seen[key])return;out.push([u,x,id,key||""])};
+ var add=function(u,x,id,key,at){if(key&&seen[key])return;out.push([u,x,id,key||"",at||0,out.length])};
  var taken={};db.clients.forEach(function(c){if(c.arch||c.lost)return;c.jobs.forEach(function(j){if(STEPS.indexOf(j.status)>=2&&j.listing)taken[j.listing]=c.id})});
  db.clients.forEach(function(c){if(c.arch||c.owner!==role)return;c.log.forEach(function(l){if(l.k==="l_rereg"&&l.m!==role)add(0,t("a_rereg",{m:mname(l.m),l:l.l}),c.id,"rr|"+c.id+"|"+l.l)})});
  db.clients.forEach(function(c){if(c.arch||c.lost||c.next||free(c))return;var mineC=c.owner===role||role==="admin";
@@ -498,9 +498,9 @@ function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
    if(role!=="admin"&&j.m===role&&j.status==="ref"&&c.confirmed)add(1,t("a_acc"),c.id);
    if(role!=="admin"&&j.m===role&&STEPS.indexOf(j.status)<2)j.views.forEach(function(v){if(v.st!=="view")return;var d=Math.floor((now-v.t)/DAY);
     if(!v.at){if(d>=3)add(0,t("a_stale",{l:v.code,n:d}),c.id)}
-    else if(v.at<now)add(1,t("a_past",{l:v.code,d:v.nt?fd(v.at):fdt(v.at)}),c.id);
-    else if(dayDiff(v.at)<=1)add(1,t("a_soon",{l:v.code,d:whenTxt(v.at,v.nt)}),c.id)});
-   if(role!=="admin"&&c.owner===role&&j.m!==role)j.views.forEach(function(v){if(v.st==="view"&&v.at&&v.at>=now&&dayDiff(v.at)<=1)add(0,t("a_soonO",{l:v.code,d:whenTxt(v.at,v.nt),m:mname(j.m)}),c.id,"ap|"+c.id+"|"+v.code+"|"+v.at)});
+    else if(v.at<now)add(1,t("a_past",{l:v.code,d:v.nt?fd(v.at):fdt(v.at)}),c.id,"",v.at);
+    else if(dayDiff(v.at)<=1)add(1,t("a_soon",{l:v.code,d:whenTxt(v.at,v.nt)}),c.id,"",v.at)});
+   if(role!=="admin"&&c.owner===role&&j.m!==role)j.views.forEach(function(v){if(v.st==="view"&&v.at&&v.at>=now&&dayDiff(v.at)<=1)add(0,t("a_soonO",{l:v.code,d:whenTxt(v.at,v.nt),m:mname(j.m)}),c.id,"ap|"+c.id+"|"+v.code+"|"+v.at,v.at)});
    if(role==="admin"&&j.status==="none")add(0,t("a_none",{c:city(j.city)}),c.id,"none|"+c.id+"|"+j.city);
   });
   if(mineC&&open1(c)){var idle=Math.floor((now-c.last)/DAY),left=leftDays(c);
@@ -508,7 +508,8 @@ function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
   if(mineC)c.log.forEach(function(l){if(l.k==="l_maybe"&&(c.maybe||[]).some(function(m){return m.id===l.l&&!m.same}))add(0,t("a_maybe",{l:l.l,w:t("mw_"+l.w)}),c.id,"maybe|"+c.id+"|"+l.l)});
   if(mineC)c.log.forEach(function(l){if(l.k==="l_dup"&&now-l.t<7*DAY)add(1,t("a_dup",{m:mname(l.by)}),c.id,"dup|"+c.id+"|"+l.t)});
  });
- return out.sort(function(a,b){return b[0]-a[0]});
+ // urgent first; appointment reminders in time order, nearest first
+ return out.sort(function(a,b){return b[0]-a[0]||a[4]-b[4]||a[5]-b[5]});
 }
 function mineRep(c){return role==="admin"||c.owner===role||c.jobs.some(function(j){return j.m===role})||c.log.some(function(l){return l.by===role})}
 function allEvents(scoped){var o=[];db.clients.forEach(function(c){if(scoped&&!mineRep(c))return;c.log.forEach(function(l){o.push({t:l.t,id:c.id,by:l.by,k:l.k.replace(/^l_/,""),c:l.c||"",l:l.l||"",m:l.m||"",p:l.p||0,x:l.x?1:0,it:c.intent,r:l.r||""})})});return o.sort(function(a,b){return a.t-b.t})}
@@ -656,7 +657,7 @@ function jobRow(c,j,i){
  var si=STEPS.indexOf(j.status), mine=role!=="admin"&&j.m===role&&c.confirmed&&!dead(c);
  var h='<li class="job'+(j.m?" o-"+j.m:"")+'"><span class="jc">'+esc(city(j.city))+'</span><span class="jm">'+(j.m?esc(mname(j.m))+(j.m===c.owner?" · "+esc(t("self")):""):esc(t("noMember")))+'</span><span class="chip s-'+j.status+'">'+esc(jphrase(j,c))+'</span><span class="ju">'+esc(t("upd"))+" "+fd(j.t||c.created)+"</span>",a="";
  if(j.m)h+='<span class="steps">'+STEPS.map(function(x,k){return '<i class="'+(k<=si?"on":"")+(k===si?" cur":"")+'">'+esc(t(x==="close"&&rent(c)?"s_closeR":"s_"+x))+"</i>"}).join("")+"</span>";
- if(j.views.length)h+='<ul class="vs">'+j.views.map(function(v,k){return viewRow(c,j,i,v,k,mine)}).join("")+"</ul>";
+ if(j.views.length)h+='<ul class="vs">'+j.views.map(function(v,k){return k}).sort(function(a,b){var x=j.views[a],y=j.views[b],px=x.st==="view"?0:1,py=y.st==="view"?0:1;return px-py||(px?0:(x.at||x.t)-(y.at||y.t))||a-b}).map(function(k){return viewRow(c,j,i,j.views[k],k,mine)}).join("")+"</ul>";
  if(role!=="admin"&&j.m===role&&!dead(c)){var d=' data-id="'+c.id+'" data-j="'+i+'"';
   if(!c.confirmed)a='<span class="lock">'+esc(t("waitNote"))+"</span>";
   else if(j.status==="ref")a='<button class="btn sm" type="button" data-act="acc"'+d+">"+esc(t("accept"))+"</button>";
