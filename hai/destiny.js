@@ -536,6 +536,10 @@ const css = `
 `;
 let styled = false; const addCss = () => { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s); };
 let last = null;   // last input (memory only, never stored)
+// A member's back office (NetworkRegistry) can hand the form a client's details once: it leaves them in this browser's
+// localStorage under "hai-prefill" just before opening this page. Read once, removed at once, ignored after 10 minutes.
+const takePrefill = () => { try { const raw = localStorage.getItem("hai-prefill"); if (!raw) return null; localStorage.removeItem("hai-prefill");
+  const p = JSON.parse(raw); if (!p || !p.t || Date.now() - p.t > 6e5) return null; delete p.t; return p; } catch (e) { return null; } };
 /* colour swatches for the element profile (main colours, accent colours), same order as the text */
 const SWATCH = {
   water: [["#111418","#1B2A4A","#6B1E2E","#3D4247"], ["#C9A24D","#F1E3A6","#F2B179"]],
@@ -548,6 +552,7 @@ const ELC = { water: "#2F6A9A", fire: "#B5442F", earth: "#7E5F2C", metal: "#5E66
 const sg = (T, x) => `${T.signs[Math.floor(x / 30)]} ${Math.floor(x % 30)}°`;
 
 function form(T, focus) {
+  if (!last) { const pf = takePrefill(); if (pf) last = pf; }
   const v = last || {}; const today = new Date().toISOString().slice(0, 10);
   const plus = n => { const d = new Date(); d.setMonth(d.getMonth() + n); return d.toISOString().slice(0, 10); };
   return `<form class="ds-form" id="dsForm" autocomplete="off">
