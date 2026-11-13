@@ -159,7 +159,7 @@ button{font:inherit;cursor:pointer}
 .pv-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}.pv-h .code{font-size:17px}.pv-h span{font-size:13px;color:var(--ink2);margin-right:auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pvx{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:var(--ink);font:600 18px/1 var(--sans);display:grid;place-items:center;cursor:pointer;opacity:.9}.pvx:hover{opacity:1;background:rgba(127,127,127,.15)}.pvx:focus-visible{outline:2px solid var(--ink);outline-offset:2px}.pv-h .btn{flex:none;width:auto;white-space:nowrap}
 .pv-img{border-radius:10px;overflow:hidden;background:var(--paper);aspect-ratio:3/2;display:grid;place-items:center}.pv-img img{width:100%;height:100%;object-fit:cover;display:block}.pv-img p{font-size:13px;color:var(--ink2);padding:12px;text-align:center}
-.pv-n{font-size:15.5px;font-weight:600;margin:10px 0 0}.pv-n:empty{display:none}.pv-n+.pv-p{margin-top:2px}
+.pv-n{font-size:15.5px;font-weight:600;margin:10px 0 0}.pv-n:empty{display:none}.pv-n small{display:block;font-weight:400;font-size:13.5px;color:var(--ink2);margin-top:1px}.pv-n+.pv-p{margin-top:2px}
 .pv-p{font-size:14px;margin:10px 0;min-height:1em}.pv .btn{display:flex;justify-content:center;width:100%;text-decoration:none}
 @media (max-width:560px){.pv{margin:auto auto 12px}}
 .c.lost{opacity:.72}.chip.lostc{background:#E7E3DA;color:#4C5C63;border-color:#C9C2B2}
@@ -632,8 +632,12 @@ function preview(code){
  if(st){h+='<div class="pv-img"><img src="'+st.img+'" alt="'+esc(t("pvAlt",{l:code}))+'" width="800" height="533"><p hidden>'+esc(t("pvNoImg"))+'</p></div><p class="pv-n" id="pvn"></p><p class="pv-p" id="pvp"></p><a class="btn" href="'+st.url+'" target="_blank" rel="noopener">'+esc(t("pvGo",{m:mname(st.m)}))+" ↗</a>"}
  else h+='<p class="pv-p">'+esc(t("pvNoPage"))+"</p>";
  d.innerHTML=h;var im=d.querySelector("img");if(im)im.onerror=function(){im.hidden=true;im.nextElementSibling.hidden=false};
- if(st&&st.m==="r2"){var show=function(){var u=r2feed&&r2feed.units&&r2feed.units[code],e=document.getElementById("pvp");if(u&&e&&d.open)e.textContent=t("pvPrice",{p:"฿"+Number(u.sell).toLocaleString("en-US")})};
-  if(r2feed)show();else fetch("agents/r2/feed.json").then(function(r){return r.json()}).then(function(j){r2feed=j;show()}).catch(function(){})}
+ if(st&&st.m==="r2"){var same=function(){var k=d.querySelector(".code");return k&&k.textContent===code},
+   show=function(){var u=r2feed&&r2feed.units&&r2feed.units[code],e=document.getElementById("pvp");if(u&&e&&same())e.textContent=t("pvPrice",{p:"฿"+Number(u.sell).toLocaleString("en-US")})};
+  document.getElementById("pvn").textContent="The Riviera Jomtien";
+  if(r2feed)show();else fetch("agents/r2/feed.json").then(function(r){return r.json()}).then(function(j){r2feed=j;show()}).catch(function(){});
+  // room type, size and floor come from the unit's own share page
+  fetch("Riviera2Resale-"+code+".html").then(function(r){return r.ok?r.text():""}).then(function(x){var m=x.match(/property="og:description" content="([^"]*)"/),ne=document.getElementById("pvn");if(!m||!ne||!same())return;var spec=m[1].split(" — ")[0].split(" · ").filter(function(q){return q.indexOf("฿")<0}).join(" · ");if(spec)ne.innerHTML="The Riviera Jomtien<small>"+esc(spec)+"</small>"}).catch(function(){})}
  if(st&&st.m==="asn"){var pe=document.getElementById("pvp");pe.textContent=t("pvLoad");
   asnLoad().then(function(o){var r=o[code],ne=document.getElementById("pvn"),e=document.getElementById("pvp");if(!e||!d.open||!d.querySelector('.code')||d.querySelector('.code').textContent!==code)return;
    if(!r){e.textContent=t("pvOff");return}
