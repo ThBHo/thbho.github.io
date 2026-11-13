@@ -153,7 +153,8 @@ button{font:inherit;cursor:pointer}
 .vc .lc{min-height:32px;padding:4px 0}
 .pv{border:0;border-radius:16px;padding:14px;width:min(440px,calc(100vw - 24px));background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .pv::backdrop{background:rgba(10,20,25,.55)}
-.pv-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}.pv-h .code{font-size:17px}.pv-h span{font-size:13px;color:var(--ink2);margin-right:auto}.pv-h .btn{flex:none;width:auto;white-space:nowrap}
+.pv-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}.pv-h .code{font-size:17px}.pv-h span{font-size:13px;color:var(--ink2);margin-right:auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvx{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:var(--ink);font:600 18px/1 var(--sans);display:grid;place-items:center;cursor:pointer;opacity:.9}.pvx:hover{opacity:1;background:rgba(127,127,127,.15)}.pvx:focus-visible{outline:2px solid var(--ink);outline-offset:2px}.pv-h .btn{flex:none;width:auto;white-space:nowrap}
 .pv-img{border-radius:10px;overflow:hidden;background:var(--paper);aspect-ratio:3/2;display:grid;place-items:center}.pv-img img{width:100%;height:100%;object-fit:cover;display:block}.pv-img p{font-size:13px;color:var(--ink2);padding:12px;text-align:center}
 .pv-n{font-size:15.5px;font-weight:600;margin:10px 0 0}.pv-n:empty{display:none}.pv-n+.pv-p{margin-top:2px}
 .pv-p{font-size:14px;margin:10px 0;min-height:1em}.pv .btn{display:flex;justify-content:center;width:100%;text-decoration:none}
@@ -608,7 +609,7 @@ function asnLoad(){if(asnRows)return Promise.resolve(asnRows);return fetch(ASN_C
   rs.forEach(function(r){var e={};hd.forEach(function(h,i){e[h]=(r[i]||"").trim()});if(e.code)o[e.code]=e});asnRows=o;return o})}
 function money(v){var n=+String(v||"").replace(/[^\d.]/g,"");return n?"฿"+n.toLocaleString("en-US"):""}
 function preview(code){
- var d=$("#pv"),st=lsite(code),h='<div class="pv-h"><b class="code">'+esc(code)+"</b><span>"+esc(st?mname(st.m):t("pvNone"))+'</span><button type="button" class="btn undo" data-pvx="1">✕ '+esc(t("rClose"))+"</button></div>";
+ var d=$("#pv"),st=lsite(code),h='<div class="pv-h"><b class="code">'+esc(code)+"</b><span>"+esc(st?mname(st.m):t("pvNone"))+'</span><button type="button" class="pvx" data-pvx="1" aria-label="'+esc(t("rClose"))+'">✕</button></div>';
  if(st){h+='<div class="pv-img"><img src="'+st.img+'" alt="'+esc(t("pvAlt",{l:code}))+'" width="800" height="533"><p hidden>'+esc(t("pvNoImg"))+'</p></div><p class="pv-n" id="pvn"></p><p class="pv-p" id="pvp"></p><a class="btn" href="'+st.url+'" target="_blank" rel="noopener">'+esc(t("pvGo",{m:mname(st.m)}))+" ↗</a>"}
  else h+='<p class="pv-p">'+esc(t("pvNoPage"))+"</p>";
  d.innerHTML=h;var im=d.querySelector("img");if(im)im.onerror=function(){im.hidden=true;im.nextElementSibling.hidden=false};
