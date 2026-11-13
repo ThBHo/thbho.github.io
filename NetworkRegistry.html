@@ -86,6 +86,9 @@ button{font:inherit;cursor:pointer}
 .msg .mono{font-family:var(--mono);font-size:13px}
 .list-h{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:10px}
 .list-h h2{margin:0;font-size:17px;margin-right:auto}
+.sortl{font-size:13px;color:var(--ink2);display:inline-flex;align-items:center;gap:6px}
+.sortl select{font:inherit;font-size:13.5px;min-height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0 10px}
+.chip.todo{background:var(--warn-soft);border-color:var(--warn);font-weight:600}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tabs button{min-height:36px;padding:0 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13.5px}
 .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -200,7 +203,8 @@ footer a{text-underline-offset:3px}
 
   <section aria-labelledby="lh">
    <div class="list-h"><h2 id="lh" data-t="lh">ทะเบียนลูกค้าของเครือข่าย</h2>
-    <div class="tabs" id="tabs"></div></div>
+    <div class="tabs" id="tabs"></div>
+    <label class="sortl"><span data-t="sortBy">เรียงตาม</span> <select id="sort"></select></label></div>
    <div class="legend" id="legend"></div>
    <div id="list"></div>
   </section>
@@ -219,7 +223,7 @@ footer a{text-underline-offset:3px}
 (function(){
 "use strict";
 var CONFIRM_H=48, STEPS=["view","seen","book","contract","close"];
-var KEY="hai-registry-demo-v4", DAY=864e5, PROTECT=90;
+var KEY="hai-registry-demo-v5", DAY=864e5, PROTECT=90;
 var T={
  th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
   h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
@@ -227,7 +231,7 @@ var T={
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",r5:"ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก",r6:"ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
-  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
   stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
   adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
   memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
@@ -247,7 +251,7 @@ var T={
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",r5:"One client has one owner and can be referred to several cities, one member per city",r6:"The client confirms the registration themselves; unconfirmed entries lapse after 48 hours",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
-  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
   stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
   adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
   memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
@@ -271,7 +275,7 @@ var MEMBERS={
 var CITIES=[["pattaya",{th:"พัทยา",en:"Pattaya"},"asn"],["jomtien",{th:"จอมเทียน",en:"Jomtien"},"r2"],["bangkok",{th:"กรุงเทพฯ",en:"Bangkok"},"bkk"],["sattahip",{th:"สัตหีบ",en:"Sattahip"},"asn"],["huahin",{th:"หัวหิน",en:"Hua Hin"},""],["phuket",{th:"ภูเก็ต",en:"Phuket"},""],["chiangmai",{th:"เชียงใหม่",en:"Chiang Mai"},""]];
 var BUDGET={buy:["≤ 5M","5–10M","10–20M","20–50M","50M+"],rent:["≤ 30K","30–60K","60–120K","120–250K","250K+"]};
 var ORDER=["new","ref","acc","view","book","close"];
-var $=function(s){return document.querySelector(s)}, lang="th", role="asn", tab="all", db;
+var $=function(s){return document.querySelector(s)}, lang="th", role="asn", tab="all", sortBy="todo", db;
 
 function t(k,v){var s=(T[lang][k]!=null?T[lang][k]:T.th[k])||k;if(v)for(var x in v)s=s.split("{"+x+"}").join(v[x]);return s}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -319,7 +323,9 @@ function seed(){
   mk("C-0142","asn","Li Wei","8613800001234","buy","5–10M","",5,[["pattaya",5],["bangkok",3],["huahin",0.5]],[[4,"view","pattaya","H04"],[2,"seen","pattaya"],[2.5,"acc","bangkok"],[1,"view","bangkok"]]),
   mk("C-0141","asn","Anna Petrova","79000000141","buy","5–10M","8A03",9,[["jomtien",8.8]],[[8.5,"acc","jomtien"],[7,"view","jomtien","8A03"],[5,"seen","jomtien"],[2,"book","jomtien"]]),
   mk("C-0140","r2","Kim Min-jun","821000000140","buy","≤ 5M","19E02",16,[["jomtien",16]],[[14,"view","jomtien","19E02"],[12,"seen","jomtien"],[8,"book","jomtien"],[3,"contract","jomtien"]]),
-  mk("C-0139","asn","James Carter","447000000139","rent","60–120K","H04",21,[["pattaya",21]],[[18,"view","pattaya","H04"],[4,"dup","r2"]])
+  mk("C-0139","asn","James Carter","447000000139","rent","60–120K","H04",21,[["pattaya",21]],[[18,"view","pattaya","H04"],[4,"dup","r2"]]),
+  mk("C-0138","asn","Tom Becker","491000000138","buy","10–20M","",1.5,[["jomtien",1.4]],[]),
+  mk("C-0137","r2","Mei Tanaka","819000000137","buy","5–10M","12B07",95,[["jomtien",95]],[[82,"view","jomtien","12B07"]])
  ]};
  return Promise.all(db.clients.map(function(c){return fp(c.phone).then(function(h){c.fp=h})})).then(save);
 }
@@ -327,6 +333,18 @@ function seed(){
 function budgets(){var it=$("#it").value,b=$("#bg"),k=b.getAttribute("data-it")===it?b.value:"";b.innerHTML=BUDGET[it].map(function(x){return "<option>"+esc(x)+"</option>"}).join("");b.setAttribute("data-it",it);if(k)b.value=k;$("#bgU").textContent=t(it==="rent"?"uRent":"uBuy")}
 function bshow(c){return c.budget+(c.intent==="rent"?t("perMo"):"")}
 function myJob(c){return c.jobs.some(function(j){return j.m===role&&j.m!==c.owner})}
+function leftDays(c){return Math.max(0,Math.ceil((c.last+PROTECT*DAY-Date.now())/DAY))}
+function open1(c){return c.jobs.some(function(j){return j.status!=="close"&&j.status!=="none"})}
+// what the person looking should act on: 0 accept a referral, 1 own client not confirmed yet, 2 protection ending, 3 own open work
+function todo(c){
+ if(role!=="admin"&&c.confirmed&&c.jobs.some(function(j){return j.m===role&&j.status==="ref"}))return 0;
+ if(!c.confirmed&&(c.owner===role||role==="admin"))return 1;
+ if(open1(c)&&leftDays(c)<=14&&(c.owner===role||role==="admin"))return 2;
+ if(role!=="admin"&&c.jobs.some(function(j){return j.m===role&&j.status!=="close"&&j.status!=="none"}))return 3;
+ return 4;
+}
+function stage(c){var m=-1;c.jobs.forEach(function(j){var i=STEPS.indexOf(j.status);if(j.status==="close")i=-2;if(i>m)m=i});return m}
+function sorted(rows){var f={todo:function(a,b){return todo(a)-todo(b)||b.last-a.last},act:function(a,b){return b.last-a.last},stage:function(a,b){return stage(b)-stage(a)||b.last-a.last},"new":function(a,b){return b.created-a.created}}[sortBy];return rows.slice().sort(f)}
 function canSee(c){return role!=="admin"&&(c.owner===role||c.jobs.some(function(j){return j.m===role&&j.accepted}))}
 
 function render(){
@@ -343,6 +361,8 @@ function render(){
  $("#tabs").innerHTML=tabs.map(function(k){return '<button type="button" data-tab="'+k+'" aria-pressed="'+(k===tab)+'">'+esc(t(k))+"</button>"}).join("");
  $("#legend").innerHTML="<span>"+esc(t("legend"))+"</span>"+Object.keys(MEMBERS).map(function(m){return '<span class="lg o-'+m+'">'+esc(mname(m))+"</span>"}).join("");
  var rows=db.clients.filter(function(c){return tab==="all"||(tab==="mine"&&c.owner===role)||(tab==="tome"&&myJob(c))});
+ $("#sort").innerHTML=["todo","act","stage","new"].map(function(k){return '<option value="'+k+'"'+(k===sortBy?" selected":"")+">"+esc(t("so_"+k))+"</option>"}).join("");
+ rows=sorted(rows);
  $("#list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+esc(t("empty"))+"</div>";
 }
 
@@ -368,7 +388,7 @@ function jobRow(c,j,i){
 function card(c){
  var see=canSee(c), exp=c.last+PROTECT*DAY, left=Math.max(0,Math.ceil((exp-Date.now())/DAY));
  var cls="c o-"+c.owner, tag=c.owner===role?t("mine"):myJob(c)?t("tome"):"";
- var h='<article class="'+cls+'"><div class="c-top"><span class="code">'+esc(c.id)+'</span><span class="own">'+esc(mname(c.owner))+"</span>"+(c.confirmed?"":'<span class="chip s-wait">'+esc(t("s_wait"))+"</span>")+(c.jobs.length>1?'<span class="chip">'+esc(t("nCities",{n:c.jobs.length}))+"</span>":"")+(tag?'<span class="chip me">'+esc(tag)+"</span>":"")+'<span class="when">'+fdt(c.created)+"</span></div>";
+ var h='<article class="'+cls+'"><div class="c-top"><span class="code">'+esc(c.id)+'</span><span class="own">'+esc(mname(c.owner))+"</span>"+(c.confirmed?"":'<span class="chip s-wait">'+esc(t("s_wait"))+"</span>")+(todo(c)===0?'<span class="chip todo">'+esc(t("td_acc"))+"</span>":todo(c)===2?'<span class="chip todo">'+esc(t("td_exp"))+"</span>":"")+(c.jobs.length>1?'<span class="chip">'+esc(t("nCities",{n:c.jobs.length}))+"</span>":"")+(tag?'<span class="chip me">'+esc(tag)+"</span>":"")+'<span class="when">'+fdt(c.created)+"</span></div>";
  h+='<div class="who-c"><span>'+esc(see?c.name:maskName(c.name))+'</span><span class="ph">'+esc(see?showPhone(c.phone):maskPhone(c.phone))+'</span><span class="lock">'+esc(see?t("full"):t("hidden"))+"</span></div>";
  h+='<div class="meta"><span>'+esc(t("owner"))+": <b>"+esc(mname(c.owner))+"</b></span><span>"+esc(t("need"))+": <b>"+esc(t(c.intent))+"</b></span><span>"+esc(t("budget"))+": <b>"+esc(bshow(c))+"</b></span>"+(c.listing?"<span>"+esc(t("listing"))+": <b>"+esc(c.listing)+"</b></span>":"")+"<span>"+esc(t("until"))+": <b>"+fd(exp)+"</b> ("+esc(t("left",{n:left}))+")</span></div>";
  h+='<div class="nowl"><b>'+esc(t("now"))+":</b> "+(c.confirmed?"":esc(t("s_wait"))+" · ")+c.jobs.map(function(j){return esc(city(j.city))+" "+esc(jphrase(j))}).join(" · ")+"</div>";
@@ -415,6 +435,7 @@ document.addEventListener("click",function(e){var b=e.target.closest("[data-act]
  var tb=e.target.closest("[data-tab]");if(tb){tab=tb.getAttribute("data-tab");render()}});
 $("#role").addEventListener("change",function(e){role=e.target.value;if(!$("#out").getAttribute("data-keep"))$("#out").innerHTML="";render()});
 $("#it").addEventListener("change",budgets);
+$("#sort").addEventListener("change",function(e){sortBy=e.target.value;render()});
 $("#lang").addEventListener("change",function(e){lang=e.target.value;render()});
 $("#reset").addEventListener("click",function(){seed().then(function(){$("#out").innerHTML="";tab="all";render()})});
 
