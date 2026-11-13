@@ -40,6 +40,9 @@ a{color:inherit}
 :root[data-role="admin"]{--bar:#12232B;--barc:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.bar{transition:none}}
 .bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-top:12px;padding-bottom:12px}
+.rlogo{flex:none;width:44px;height:44px;border-radius:10px;background:#fff;display:grid;place-items:center;overflow:hidden;font:600 15px var(--sans);color:#4A2450}
+.rlogo img{width:100%;height:100%;object-fit:contain;padding:4px;box-sizing:border-box}
+.rlogo.dark{background:#000}.rlogo.dark img{padding:0}
 .mark{font-family:var(--serif);font-weight:600;font-size:19px;text-decoration:none;margin-right:auto}
 .mark small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;opacity:.7;font-weight:400}
 .bar label{font-size:13px;opacity:.8}
@@ -194,12 +197,13 @@ footer a{text-underline-offset:3px}
 @media (max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:480px){.row2{grid-template-columns:1fr}.c-top .when{margin-left:0;width:100%}}
 @media (prefers-reduced-motion:no-preference){.c{transition:border-color .2s}}
-@media (max-width:640px){.bar .wrap{gap:6px 8px;padding-top:8px;padding-bottom:8px}.mark{font-size:15px;flex:1 1 100%;margin:0}.mark small{display:none}.bar label{display:none}.bar select{min-height:36px;font-size:13.5px;padding:0 6px}#role{flex:1 1 0;min-width:0}#lang{flex:none}.bell{min-height:32px;padding:0 9px;font-size:12.5px}}
+@media (max-width:640px){.bar .wrap{gap:6px 8px;padding-top:8px;padding-bottom:8px}.rlogo{width:30px;height:30px;border-radius:7px;font-size:12px}.rlogo img{padding:2px}.mark{font-size:15px;flex:1 1 calc(100% - 40px);min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar .wrap{row-gap:6px}.mark small{display:none}.bar label{display:none}.bar select{min-height:36px;font-size:13.5px;padding:0 6px}#role{flex:1 1 0;min-width:0}#lang{flex:none}.bell{min-height:32px;padding:0 9px;font-size:12.5px}}
 </style>
 <script src="thor-analytics.js?v=1" defer></script>
 </head>
 <body>
 <header class="bar"><div class="wrap">
+ <span class="rlogo" id="rlogo" aria-hidden="true"></span>
  <a class="mark" href="https://thbho.com/HybridAIAgentNetwork.html">Hybrid AI Agent Network<small>CLIENT REGISTRY · DEMO</small></a>
  <a class="bell" id="bell" href="#todo" hidden></a>
  <label for="role" data-t="viewAs">ดูในฐานะ</label>
@@ -432,6 +436,7 @@ function csv(){var q=function(x){x=String(x==null?"":x);return /[",\n]/.test(x)?
 function canSee(c){return role!=="admin"&&(c.owner===role||c.jobs.some(function(j){return j.m===role&&j.accepted}))}
 
 function render(){
+ var LG={asn:["asn-img/logo-emblem-96.png",""],r2:["riviera-img/logo-mark.png",""],admin:["profile-img/thho-icon-64.png","dark"]}[role],rl=$("#rlogo");rl.className="rlogo"+(LG&&LG[1]?" "+LG[1]:"");rl.innerHTML=LG?'<img src="'+LG[0]+'" alt="">':"BKK";
  document.documentElement.lang=lang;document.documentElement.setAttribute("data-role",role);var mt=document.querySelector("meta[name=theme-color]");if(mt)mt.content={asn:"#4A3413",r2:"#04404B",bkk:"#4A2450",admin:"#12232B"}[role];
  [].forEach.call(document.querySelectorAll("[data-t]"),function(e){e.textContent=t(e.getAttribute("data-t"))});
  var rs=$("#role"),h="";["asn","r2","bkk","admin"].forEach(function(id){h+='<option value="'+id+'"'+(id===role?" selected":"")+">"+esc(mname(id))+"</option>"});rs.innerHTML=h;
