@@ -58,6 +58,8 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-
 .todo h2 b{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:#C7402B;color:#fff;font-family:var(--mono);font-size:13px;font-weight:500}
 .todo.none h2 b{background:var(--teal)}
 .todo ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.todo li{display:flex;gap:6px;align-items:stretch}
+.todo .ackb{flex:none;width:auto;min-height:44px;padding:0 12px;border:1px solid var(--line);border-left:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;justify-content:center}
 .todo button{display:flex;width:100%;align-items:center;gap:10px;text-align:left;min-height:44px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);border-left:4px solid var(--ink2);background:var(--paper);color:var(--ink);font-size:14px}
 .todo button.urgent{border-left-color:#C7402B}
 .todo button .tc{font-family:var(--mono);font-size:13px;flex:none}.todo button .tx{flex:1}.todo button .go{color:var(--ink2);flex:none}
@@ -245,7 +247,7 @@ footer a{text-underline-offset:3px}
 (function(){
 "use strict";
 var CONFIRM_H=48, STEPS=["view","seen","book","contract","close"];
-var KEY="hai-registry-demo-v7", DAY=864e5, PROTECT=90;
+var KEY="hai-registry-demo-v8", DAY=864e5, PROTECT=90;
 var T={
  th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
   h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
@@ -253,7 +255,7 @@ var T={
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",r5:"ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก",r6:"ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
-  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",ack:"รับทราบ",l_ack:"รับทราบ: {l}",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
   stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
   adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
   memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
@@ -273,7 +275,7 @@ var T={
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",r5:"One client has one owner and can be referred to several cities, one member per city",r6:"The client confirms the registration themselves; unconfirmed entries lapse after 48 hours",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
-  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",ack:"Acknowledge",l_ack:"Acknowledged: {l}",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
   stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
   adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
   memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
@@ -371,17 +373,18 @@ function todo(c){
 function stage(c){var m=-1;c.jobs.forEach(function(j){var i=STEPS.indexOf(j.status);if(j.status==="close")i=-2;if(i>m)m=i});return m}
 function sorted(rows){var f={todo:function(a,b){return todo(a)-todo(b)||b.last-a.last},act:function(a,b){return b.last-a.last},stage:function(a,b){return stage(b)-stage(a)||b.last-a.last},"new":function(a,b){return b.created-a.created}}[sortBy];return rows.slice().sort(f)}
 // what the person looking should update: [urgent?, text, client id]
-function alerts(){var out=[],now=Date.now();
+function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
+ var add=function(u,x,id,key){if(key&&seen[key])return;out.push([u,x,id,key||""])};
  db.clients.forEach(function(c){var mineC=c.owner===role||role==="admin";
-  if(!c.confirmed&&mineC)out.push([1,t("a_conf",{n:Math.max(0,Math.ceil((c.created+CONFIRM_H*36e5-now)/36e5))}),c.id]);
+  if(!c.confirmed&&mineC)add(1,t("a_conf",{n:Math.max(0,Math.ceil((c.created+CONFIRM_H*36e5-now)/36e5))}),c.id);
   c.jobs.forEach(function(j){
-   if(role!=="admin"&&j.m===role&&j.status==="ref"&&c.confirmed)out.push([1,t("a_acc"),c.id]);
-   if(role!=="admin"&&j.m===role&&STEPS.indexOf(j.status)<2)j.views.forEach(function(v){var d=Math.floor((now-v.t)/DAY);if(v.st==="view"&&d>=3)out.push([0,t("a_stale",{l:v.code,n:d}),c.id])});
-   if(role==="admin"&&j.status==="none")out.push([0,t("a_none",{c:city(j.city)}),c.id]);
+   if(role!=="admin"&&j.m===role&&j.status==="ref"&&c.confirmed)add(1,t("a_acc"),c.id);
+   if(role!=="admin"&&j.m===role&&STEPS.indexOf(j.status)<2)j.views.forEach(function(v){var d=Math.floor((now-v.t)/DAY);if(v.st==="view"&&d>=3)add(0,t("a_stale",{l:v.code,n:d}),c.id)});
+   if(role==="admin"&&j.status==="none")add(0,t("a_none",{c:city(j.city)}),c.id,"none|"+c.id+"|"+j.city);
   });
   if(mineC&&open1(c)){var idle=Math.floor((now-c.last)/DAY),left=leftDays(c);
-   if(left<=14)out.push([1,t("a_exp",{n:left}),c.id]);else if(idle>=30)out.push([0,t("a_idle",{n:idle}),c.id])}
-  if(mineC)c.log.forEach(function(l){if(l.k==="l_dup"&&now-l.t<7*DAY)out.push([1,t("a_dup",{m:mname(l.by)}),c.id])});
+   if(left<=14)add(1,t("a_exp",{n:left}),c.id,"exp|"+c.id+"|"+c.last);else if(idle>=30)add(0,t("a_idle",{n:idle}),c.id,"idle|"+c.id+"|"+c.last)}
+  if(mineC)c.log.forEach(function(l){if(l.k==="l_dup"&&now-l.t<7*DAY)add(1,t("a_dup",{m:mname(l.by)}),c.id,"dup|"+c.id+"|"+l.t)});
  });
  return out.sort(function(a,b){return b[0]-a[0]});
 }
@@ -395,7 +398,7 @@ function render(){
  $("#who").innerHTML="<b>"+esc(mname(role))+"</b><span>"+esc(role==="admin"?t("adminNote"):MEMBERS[role].z[lang]+" · "+t("memberNote"))+"</span>";
  var al=alerts(),td=$("#todo"),bl=$("#bell");
  td.className="todo"+(al.length?"":" none");
- td.innerHTML="<h2><b>"+al.length+"</b>"+esc(t("todoH"))+"</h2>"+(al.length?"<ul>"+al.map(function(a){return '<li><button type="button" class="'+(a[0]?"urgent":"")+'" data-go="'+a[2]+'"><span class="tc">'+esc(a[2])+'</span><span class="tx">'+esc(a[1])+'</span><span class="go" aria-hidden="true">→</span></button></li>'}).join("")+"</ul>":"<p>"+esc(t("todoNone"))+"</p>");
+ td.innerHTML="<h2><b>"+al.length+"</b>"+esc(t("todoH"))+"</h2>"+(al.length?"<ul>"+al.map(function(a){return '<li><button type="button" class="'+(a[0]?"urgent":"")+'" data-go="'+a[2]+'"><span class="tc">'+esc(a[2])+'</span><span class="tx">'+esc(a[1])+'</span><span class="go" aria-hidden="true">→</span></button>'+(a[3]?'<button type="button" class="ackb" data-ack="'+esc(a[3])+'" data-id="'+a[2]+'" data-x="'+esc(a[1])+'">✓ '+esc(t("ack"))+"</button>":"")+"</li>"}).join("")+"</ul>":"<p>"+esc(t("todoNone"))+"</p>");
  bl.hidden=!al.length;bl.textContent="🔔 "+t("bell",{n:al.length});
  var mine=db.clients.filter(function(c){return c.owner===role}).length, tome=db.clients.filter(myJob).length;
  $("#stats").innerHTML=[[db.clients.length,"stTotal"],[role==="admin"?"–":mine,"stMine"],[role==="admin"?"–":tome,"stTo"],[db.dups,"stDup"]].map(function(s){return '<div class="stat"><b>'+s[0]+"</b><span>"+esc(t(s[1]))+"</span></div>"}).join("");
@@ -498,6 +501,7 @@ $("#f").addEventListener("submit",function(e){
  });
 });
 document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(b){act(b.getAttribute("data-act"),b.getAttribute("data-id"),+b.getAttribute("data-j"),+b.getAttribute("data-v"));return}
+ var k=e.target.closest("[data-ack]");if(k){db.acks=db.acks||{};db.acks[role]=db.acks[role]||{};db.acks[role][k.getAttribute("data-ack")]=1;var kc=db.clients.filter(function(x){return x.id===k.getAttribute("data-id")})[0];if(kc)kc.log.push({t:Date.now(),by:role,k:"l_ack",l:k.getAttribute("data-x")});save();render();return}
  var g=e.target.closest("[data-go]");if(g){tab="all";render();var el=document.getElementById("c-"+g.getAttribute("data-go"));if(el){el.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});el.classList.add("flash");setTimeout(function(){el.classList.remove("flash")},1800)}return}
  var tb=e.target.closest("[data-tab]");if(tb){tab=tb.getAttribute("data-tab");render()}});
 $("#role").addEventListener("change",function(e){role=e.target.value;if(!$("#out").getAttribute("data-keep"))$("#out").innerHTML="";render()});
