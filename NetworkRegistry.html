@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Client Registry Demo — Hybrid AI Agent Network</title>
+<meta name="description" content="ตัวอย่างระบบลงทะเบียนลูกค้าของ Hybrid AI Agent Network: ลงก่อนได้สิทธิ์ก่อน เช็กเบอร์ซ้ำ และเส้นทางลูกค้าที่สมาชิกทุกรายเห็น ข้อมูลในหน้านี้เป็นข้อมูลสมมติ">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://thbho.com/NetworkRegistry.html">
+<meta name="theme-color" content="#12232B">
+<link rel="icon" type="image/png" sizes="32x32" href="profile-img/thho-icon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500..700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+ --paper:#EEF1EF; --surface:#FFFFFF; --ink:#12232B; --ink2:#4E6068; --line:#CDD7D5;
+ --teal:#0B6E6A; --teal-soft:#DCEDEB; --brass:#9A7230; --brass-soft:#F3EADA; --warn:#A8452E; --warn-soft:#F8E6E0;
+ --night:#12232B; --night-ink:#EAF1F0;
+ --serif:"Bodoni Moda","Noto Serif Thai",Georgia,serif;
+ --sans:"IBM Plex Sans Thai",system-ui,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+ color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#0E1A1F; --surface:#13232A; --ink:#E4EEEC; --ink2:#9FB3B2; --line:#26404A;
+ --teal:#4FC2B9; --teal-soft:#173A3B; --brass:#D6A75A; --brass-soft:#3A3020; --warn:#F09A80; --warn-soft:#40221B;
+ --night:#081014; color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0E1A1F;--surface:#13232A;--ink:#E4EEEC;--ink2:#9FB3B2;--line:#26404A;--teal:#4FC2B9;--teal-soft:#173A3B;--brass:#D6A75A;--brass-soft:#3A3020;--warn:#F09A80;--warn-soft:#40221B;--night:#081014;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.bar{background:var(--night);color:var(--night-ink)}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-top:12px;padding-bottom:12px}
+.mark{font-family:var(--serif);font-weight:600;font-size:19px;text-decoration:none;margin-right:auto}
+.mark small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;opacity:.7;font-weight:400}
+.bar label{font-size:13px;opacity:.8}
+.bar select{font:inherit;font-size:14px;min-height:40px;padding:0 10px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:#1B323C;color:#fff;max-width:100%}
+.demo{background:var(--brass-soft);border-bottom:1px solid var(--line);font-size:14px}
+.demo .wrap{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding-top:9px;padding-bottom:9px}
+.demo b{color:var(--brass)}
+.demo button{margin-left:auto}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:26px 0 6px;text-wrap:balance}
+.lede{color:var(--ink2);margin:0 0 18px;max-width:70ch}
+.who{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.who b{font-size:17px}
+.who span{color:var(--ink2);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-family:var(--mono);font-size:24px;font-weight:500;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--ink2)}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start;padding-bottom:40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.card h2{font-size:17px;margin:0 0 4px}
+.card p.sub{margin:0 0 12px;color:var(--ink2);font-size:13.5px}
+.f{margin-bottom:10px}
+.f label{display:block;font-size:13px;font-weight:500;margin-bottom:3px}
+.f label i{font-style:normal;color:var(--ink2);font-weight:400}
+.f input,.f select{width:100%;font:inherit;min-height:44px;padding:0 11px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.f input:focus-visible,.f select:focus-visible,button:focus-visible,.bar select:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.phone{display:grid;grid-template-columns:104px 1fr;gap:8px}
+.ck{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;margin:10px 0 12px}
+.ck input{width:20px;height:20px;margin-top:1px;accent-color:var(--teal);flex:none}
+button{font:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:var(--teal);color:#fff;font-weight:600;font-size:15px}
+:root[data-theme="dark"] .btn,.dark-btn{color:#06201F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#06201F}}
+.btn.full{width:100%}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);min-height:38px;padding:0 14px;font-size:14px;font-weight:500}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.ghost{color:var(--ink)}}
+.btn.sm{min-height:38px;padding:0 14px;font-size:14px}
+.msg{border-radius:12px;padding:11px 13px;font-size:14px;margin-top:12px}
+.msg.ok{background:var(--teal-soft);border:1px solid var(--teal)}
+.msg.dup{background:var(--warn-soft);border:1px solid var(--warn)}
+.msg b{display:block;margin-bottom:2px}
+.msg .mono{font-family:var(--mono);font-size:13px}
+.list-h{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:10px}
+.list-h h2{margin:0;font-size:17px;margin-right:auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{min-height:36px;padding:0 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13.5px}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.c{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.c.mine{border-left:4px solid var(--teal)}
+.c.tome{border-left:4px solid var(--brass)}
+.c-top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.code{font-family:var(--mono);font-weight:500;font-size:15px}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--paper);border:1px solid var(--line);white-space:nowrap}
+.chip.s-new{background:var(--teal-soft);border-color:transparent}
+.chip.s-ref,.chip.s-acc{background:var(--brass-soft);border-color:transparent}
+.chip.s-view{background:var(--teal-soft);border-color:transparent}
+.chip.s-book,.chip.s-close{background:var(--ink);color:var(--paper);border-color:transparent}
+.c-top .when{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.who-c{margin:8px 0 2px;font-size:16px;font-weight:600;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.who-c .ph{font-family:var(--mono);font-weight:400;font-size:14.5px}
+.lock{font-size:12px;font-weight:400;color:var(--ink2)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px;font-size:13.5px;color:var(--ink2);margin-top:6px}
+.meta b{color:var(--ink);font-weight:500}
+.path{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.path span{font-size:11.5px;padding:2px 8px;border-radius:6px;background:var(--paper);color:var(--ink2);border:1px solid var(--line)}
+.path span.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .path span.on{color:#06201F}}
+.acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.acts select{font:inherit;font-size:14px;min-height:38px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:0 10px;max-width:100%}
+details{margin-top:10px;font-size:13px}
+summary{cursor:pointer;color:var(--ink2);min-height:28px}
+.log{list-style:none;margin:6px 0 0;padding:0 0 0 12px;border-left:2px solid var(--line)}
+.log li{margin-bottom:5px}
+.log time{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-right:6px}
+.log .al{color:var(--warn);font-weight:500}
+.empty{color:var(--ink2);padding:26px 8px;text-align:center;border:1px dashed var(--line);border-radius:14px}
+.rules{margin-top:14px;font-size:13.5px;color:var(--ink2)}
+.rules ol{margin:6px 0 0;padding-left:20px}
+footer{border-top:1px solid var(--line);padding:18px 0 32px;font-size:13.5px;color:var(--ink2)}
+footer a{text-underline-offset:3px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.row2{grid-template-columns:1fr}.c-top .when{margin-left:0;width:100%}}
+@media (prefers-reduced-motion:no-preference){.c{transition:border-color .2s}}
+</style>
+<script src="thor-analytics.js?v=1" defer></script>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+ <a class="mark" href="https://thbho.com/HybridAIAgentNetwork.html">Hybrid AI Agent Network<small>CLIENT REGISTRY · DEMO</small></a>
+ <label for="role" data-t="viewAs">ดูในฐานะ</label>
+ <select id="role"></select>
+ <select id="lang" aria-label="Language"><option value="th">ไทย</option><option value="en">EN</option></select>
+</div></header>
+<div class="demo"><div class="wrap">
+ <span><b data-t="demoB">ระบบตัวอย่าง</b> <span data-t="demoT">ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง</span></span>
+ <button class="btn ghost" id="reset" type="button" data-t="reset">เริ่มข้อมูลตัวอย่างใหม่</button>
+</div></div>
+
+<main class="wrap">
+ <h1 data-t="h1">ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า</h1>
+ <p class="lede" data-t="lede">ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง</p>
+ <div class="who" id="who"></div>
+ <div class="stats" id="stats"></div>
+
+ <div class="grid">
+  <section class="card" id="formCard" aria-labelledby="fh">
+   <h2 id="fh" data-t="fh">ลงทะเบียนลูกค้า</h2>
+   <p class="sub" data-t="fsub">ใช้เวลา 1 นาที ระบบประทับวันเวลาและเช็กเบอร์ซ้ำให้</p>
+   <form id="f" novalidate>
+    <div class="f"><label for="ph" data-t="lPhone">เบอร์โทรลูกค้า</label>
+     <div class="phone"><select id="cc" aria-label="Country code"><option>+66</option><option>+86</option><option>+7</option><option>+82</option><option>+81</option><option>+65</option><option>+44</option><option>+1</option></select><input id="ph" inputmode="tel" autocomplete="off" placeholder="80 000 0199" required></div></div>
+    <div class="f"><label for="nm" data-t="lName">ชื่อที่ลูกค้าใช้</label><input id="nm" autocomplete="off" placeholder="Anna Petrova" required></div>
+    <div class="row2">
+     <div class="f"><label for="it" data-t="lIntent">ต้องการ</label><select id="it"><option value="buy" data-t="buy">ซื้อ</option><option value="rent" data-t="rent">เช่า</option></select></div>
+     <div class="f"><label for="ct" data-t="lCity">เมือง / โซน</label><select id="ct"></select></div>
+    </div>
+    <div class="row2">
+     <div class="f"><label for="bg" data-t="lBudget">งบประมาณ</label><select id="bg"><option>≤ 5M</option><option>5–10M</option><option>10–20M</option><option>20–50M</option><option>50M+</option></select></div>
+     <div class="f"><label for="ls"><span data-t="lListing">รหัสทรัพย์</span> <i data-t="opt">(ถ้ามี)</i></label><input id="ls" autocomplete="off" placeholder="H04"></div>
+    </div>
+    <label class="ck"><input type="checkbox" id="cs"><span data-t="consent">ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง</span></label>
+    <button class="btn full" type="submit" data-t="submit">ลงทะเบียนและประทับเวลา</button>
+   </form>
+   <div id="out" role="status" aria-live="polite"></div>
+   <div class="rules"><b data-t="rulesH">กติกาในระบบนี้</b>
+    <ol><li data-t="r1">เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน</li><li data-t="r2">เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม</li><li data-t="r3">คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด</li><li data-t="r4">ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล</li></ol></div>
+  </section>
+
+  <section aria-labelledby="lh">
+   <div class="list-h"><h2 id="lh" data-t="lh">ทะเบียนลูกค้าของเครือข่าย</h2>
+    <div class="tabs" id="tabs"></div></div>
+   <div id="list"></div>
+  </section>
+ </div>
+</main>
+
+<footer><div class="wrap">
+ <span data-t="foot">ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·</span>
+ <a href="https://thbho.com/HybridAIAgentNetwork.html">Hybrid AI Agent Network</a> ·
+ <a href="https://thbho.com/ThorRealProfile.html">Thor Ayanundana</a> ·
+ <a href="https://thbho.com/EngWiderooms.html">WIDEROOMS</a> ·
+ <a href="https://thbho.com/AIGymmateXFactory.html">Hybrid AI by ThB.Ho</a>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+var KEY="hai-registry-demo-v1", DAY=864e5, PROTECT=90;
+var T={
+ th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
+  h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
+  fh:"ลงทะเบียนลูกค้า",fsub:"ใช้เวลา 1 นาที ระบบประทับวันเวลาและเช็กเบอร์ซ้ำให้",lPhone:"เบอร์โทรลูกค้า",lName:"ชื่อที่ลูกค้าใช้",lIntent:"ต้องการ",lCity:"เมือง / โซน",lBudget:"งบประมาณ",lListing:"รหัสทรัพย์",opt:"(ถ้ามี)",buy:"ซื้อ",rent:"เช่า",
+  consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
+  rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",
+  lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",
+  stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
+  adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
+  memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
+  needPhone:"กรอกเบอร์โทรอย่างน้อย 7 หลัก",needName:"กรอกชื่อลูกค้า",needConsent:"ต้องได้ความยินยอมจากลูกค้าก่อน ระบบจึงรับลงทะเบียน",
+  okH:"ลงทะเบียนสำเร็จ",okT:"รหัส {id} · ประทับเวลา {t} · คุ้มครองถึง {e}",
+  dupH:"เบอร์นี้ลงทะเบียนแล้ว",dupT:"{o} ลงไว้เมื่อ {t} (รหัส {id}) จึงลงซ้ำไม่ได้ ระบบแจ้ง {o} และผู้ดูแลเครือข่ายแล้ว",dupMine:"คุณลงลูกค้ารายนี้ไว้แล้วเมื่อ {t} (รหัส {id})",
+  owner:"เจ้าของลูกค้า",handler:"ผู้ดูแลดีล",need:"ต้องการ",budget:"งบ",listing:"ทรัพย์",until:"คุ้มครองถึง",left:"เหลือ {n} วัน",
+  hidden:"ซ่อนชื่อและเบอร์เต็ม",full:"เห็นข้อมูลเต็ม",
+  s_new:"ลงทะเบียน",s_ref:"ส่งต่อ รอรับ",s_acc:"รับแล้ว",s_view:"นัดดู",s_book:"จอง",s_close:"ปิดดีล",
+  refer:"ส่งต่อให้",referBtn:"ส่งต่อ",accept:"รับลูกค้ารายนี้",toView:"บันทึกนัดดู",toBook:"บันทึกจอง",toClose:"บันทึกปิดดีล",
+  hist:"ประวัติ {n} รายการ",
+  l_reg:"ลงทะเบียนลูกค้า",l_ref:"ส่งต่อให้ {m}",l_acc:"รับลูกค้า เห็นข้อมูลติดต่อแล้ว",l_view:"นัดดูทรัพย์",l_book:"ลูกค้าจอง ทรัพย์ถูกปิดบนทุกเว็บ",l_close:"ปิดดีล ระบบคิดส่วนแบ่งตามสูตรที่ตกลง",l_dup:"พยายามลงทะเบียนซ้ำ ระบบไม่รับ",
+  empty:"ยังไม่มีลูกค้าในมุมมองนี้",admin:"ผู้ดูแลเครือข่าย",share:"ส่วนแบ่ง: เจ้าของลูกค้ากับผู้ปิดดีล ตามสูตรในสัญญา"},
+ en:{viewAs:"View as",demoB:"Demo",demoT:"Clients on this page are made up and stored on this device only. Do not enter real client data.",reset:"Reset sample data",
+  h1:"First to register holds the right, and everyone sees the client's path",lede:"Register a client, then change “View as” above to see what each member and the network admin can see.",
+  fh:"Register a client",fsub:"One minute. The system stamps the time and checks for a duplicate number.",lPhone:"Client phone",lName:"Name the client uses",lIntent:"Wants to",lCity:"City / zone",lBudget:"Budget",lListing:"Listing code",opt:"(optional)",buy:"Buy",rent:"Rent",
+  consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
+  rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",
+  lh:"Network client registry",foot:"A demo for the client registry plan ·",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",
+  stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
+  adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
+  memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
+  needPhone:"Enter a phone number of at least 7 digits",needName:"Enter the client's name",needConsent:"The client must consent before the system accepts the registration",
+  okH:"Registered",okT:"Code {id} · stamped {t} · protected until {e}",
+  dupH:"This number is already registered",dupT:"{o} registered it on {t} (code {id}), so it cannot be registered again. {o} and the network admin have been notified.",dupMine:"You already registered this client on {t} (code {id})",
+  owner:"Client owner",handler:"Handling the deal",need:"Wants",budget:"Budget",listing:"Listing",until:"Protected until",left:"{n} days left",
+  hidden:"Full name and number hidden",full:"Full details visible",
+  s_new:"Registered",s_ref:"Referred, pending",s_acc:"Accepted",s_view:"Viewing",s_book:"Booked",s_close:"Closed",
+  refer:"Refer to",referBtn:"Refer",accept:"Accept this client",toView:"Log a viewing",toBook:"Log a booking",toClose:"Log deal closed",
+  hist:"History · {n} entries",
+  l_reg:"Registered the client",l_ref:"Referred to {m}",l_acc:"Accepted the client; contact details now visible",l_view:"Viewing arranged",l_book:"Client booked; listing closed on every site",l_close:"Deal closed; shares calculated by the agreed formula",l_dup:"Tried to register a duplicate; refused",
+  empty:"No clients in this view yet",admin:"Network admin",share:"Share: client owner and closing member, by the contract formula"}
+};
+var MEMBERS={
+ asn:{n:"ASN Exclusive Property",z:{th:"พัทยา · บ้านและพูลวิลล่า",en:"Pattaya · houses and pool villas"}},
+ r2:{n:"R2 by Clare",z:{th:"พัทยา · คอนโด The Riviera Jomtien",en:"Pattaya · The Riviera Jomtien condos"}},
+ bkk:{n:{th:"สมาชิกกรุงเทพฯ (ตัวอย่าง)",en:"Bangkok member (example)"},z:{th:"กรุงเทพฯ · คอนโด",en:"Bangkok · condos"}}
+};
+var CITIES=[["pattaya",{th:"พัทยา",en:"Pattaya"}],["jomtien",{th:"จอมเทียน",en:"Jomtien"}],["bangkok",{th:"กรุงเทพฯ",en:"Bangkok"}],["sattahip",{th:"สัตหีบ",en:"Sattahip"}],["other",{th:"เมืองอื่น",en:"Other city"}]];
+var ORDER=["new","ref","acc","view","book","close"];
+var $=function(s){return document.querySelector(s)}, lang="th", role="asn", tab="all", db;
+
+function t(k,v){var s=(T[lang][k]!=null?T[lang][k]:T.th[k])||k;if(v)for(var x in v)s=s.split("{"+x+"}").join(v[x]);return s}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function mname(id){if(id==="admin")return t("admin");var m=MEMBERS[id];return typeof m.n==="string"?m.n:m.n[lang]}
+function city(id){for(var i=0;i<CITIES.length;i++)if(CITIES[i][0]===id)return CITIES[i][1][lang];return id}
+function pad(n){return n<10?"0"+n:""+n}
+function fdt(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
+function fd(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()}
+function norm(cc,ph){var d=String(ph).replace(/\D/g,"").replace(/^0+/,"");return cc.replace(/\D/g,"")+d}
+function maskName(n){return String(n).trim().split(/\s+/).map(function(w){return w.charAt(0).toUpperCase()+"••"}).join(" ")}
+function maskPhone(p){return "••"+String(p).slice(-4)}
+function showPhone(p){return "+"+p.replace(/^(\d{2})(\d{2})(\d{3,4})(\d+)$/,"$1 $2 $3 $4")}
+function fp(s){ // fingerprint of the number: what the central registry would keep instead of the number itself
+ if(window.crypto&&crypto.subtle&&window.TextEncoder)return crypto.subtle.digest("SHA-256",new TextEncoder().encode("hai:"+s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return pad(x.toString(16))}).join("").slice(0,24)});
+ return Promise.resolve("p"+s);
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}}
+function load(){try{var s=localStorage.getItem(KEY);if(s){db=JSON.parse(s);if(db&&db.clients)return true}}catch(e){}return false}
+
+function seed(){
+ var now=Date.now(), mk=function(id,owner,name,phone,intent,c,budget,listing,ago,steps){
+  var o={id:id,owner:owner,name:name,phone:phone,intent:intent,city:c,budget:budget,listing:listing,to:null,accepted:false,status:"new",created:now-ago*DAY,last:now-ago*DAY,log:[{t:now-ago*DAY,by:owner,k:"l_reg"}]};
+  (steps||[]).forEach(function(s){var tt=now-s[0]*DAY;o.last=tt;
+   if(s[1]==="ref"){o.to=s[2];o.status="ref";o.log.push({t:tt,by:owner,k:"l_ref",m:s[2]})}
+   if(s[1]==="acc"){o.accepted=true;o.status="acc";o.log.push({t:tt,by:o.to,k:"l_acc"})}
+   if(s[1]==="view"){o.status="view";o.log.push({t:tt,by:o.to||owner,k:"l_view"})}
+   if(s[1]==="book"){o.status="book";o.log.push({t:tt,by:o.to||owner,k:"l_book"})}
+   if(s[1]==="dup"){o.log.push({t:tt,by:s[2],k:"l_dup"})}});
+  return o};
+ db={seq:142,dups:1,clients:[
+  mk("C-0142","asn","Li Wei","8613800001234","buy","bangkok","5–10M","",0.02,[[0.015,"ref","bkk"]]),
+  mk("C-0141","asn","Anna Petrova","79000000141","buy","jomtien","5–10M","8A03",6,[[5.8,"ref","r2"],[5.5,"acc"],[2,"view"]]),
+  mk("C-0140","r2","Kim Min-jun","821000000140","buy","jomtien","≤ 5M","19E02",12,[[9,"view"],[3,"book"]]),
+  mk("C-0139","asn","James Carter","447000000139","rent","pattaya","10–20M","H04",21,[[18,"view"],[4,"dup","r2"]])
+ ]};
+ return Promise.all(db.clients.map(function(c){return fp(c.phone).then(function(h){c.fp=h})})).then(save);
+}
+
+function canSee(c){return role!=="admin"&&(c.owner===role||(c.to===role&&c.accepted))}
+function handler(c){return c.to&&c.accepted?c.to:c.owner}
+
+function render(){
+ document.documentElement.lang=lang;
+ [].forEach.call(document.querySelectorAll("[data-t]"),function(e){e.textContent=t(e.getAttribute("data-t"))});
+ var rs=$("#role"),h="";["asn","r2","bkk","admin"].forEach(function(id){h+='<option value="'+id+'"'+(id===role?" selected":"")+">"+esc(mname(id))+"</option>"});rs.innerHTML=h;
+ var cs=$("#ct"),keep=cs.value;cs.innerHTML=CITIES.map(function(c){return '<option value="'+c[0]+'">'+esc(c[1][lang])+"</option>"}).join("");if(keep)cs.value=keep;
+ $("#who").innerHTML="<b>"+esc(mname(role))+"</b><span>"+esc(role==="admin"?t("adminNote"):MEMBERS[role].z[lang]+" · "+t("memberNote"))+"</span>";
+ var mine=db.clients.filter(function(c){return c.owner===role}).length, tome=db.clients.filter(function(c){return c.to===role}).length;
+ $("#stats").innerHTML=[[db.clients.length,"stTotal"],[role==="admin"?"–":mine,"stMine"],[role==="admin"?"–":tome,"stTo"],[db.dups,"stDup"]].map(function(s){return '<div class="stat"><b>'+s[0]+"</b><span>"+esc(t(s[1]))+"</span></div>"}).join("");
+ var f=$("#f");f.hidden=role==="admin";if(role==="admin")$("#out").innerHTML='<div class="msg ok">'+esc(t("adminForm"))+"</div>";else if($("#out").getAttribute("data-admin"))$("#out").innerHTML="";
+ $("#out").toggleAttribute("data-admin",role==="admin");
+ var tabs=role==="admin"?["all"]:["all","mine","tome"];if(tabs.indexOf(tab)<0)tab="all";
+ $("#tabs").innerHTML=tabs.map(function(k){return '<button type="button" data-tab="'+k+'" aria-pressed="'+(k===tab)+'">'+esc(t(k))+"</button>"}).join("");
+ var rows=db.clients.filter(function(c){return tab==="all"||(tab==="mine"&&c.owner===role)||(tab==="tome"&&c.to===role)});
+ $("#list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+esc(t("empty"))+"</div>";
+}
+
+function card(c){
+ var see=canSee(c), exp=c.last+PROTECT*DAY, left=Math.max(0,Math.ceil((exp-Date.now())/DAY)), si=ORDER.indexOf(c.status);
+ var cls="c"+(c.owner===role?" mine":c.to===role?" tome":"");
+ var h='<article class="'+cls+'"><div class="c-top"><span class="code">'+esc(c.id)+'</span><span class="chip s-'+c.status+'">'+esc(t("s_"+c.status))+'</span><span class="when">'+fdt(c.created)+"</span></div>";
+ h+='<div class="who-c"><span>'+esc(see?c.name:maskName(c.name))+'</span><span class="ph">'+esc(see?showPhone(c.phone):maskPhone(c.phone))+'</span><span class="lock">'+esc(see?t("full"):t("hidden"))+"</span></div>";
+ h+='<div class="meta"><span>'+esc(t("owner"))+": <b>"+esc(mname(c.owner))+"</b></span>"+(c.to?"<span>"+esc(t("handler"))+": <b>"+esc(mname(c.to))+"</b></span>":"")+"<span>"+esc(t("need"))+": <b>"+esc(t(c.intent))+" · "+esc(city(c.city))+"</b></span><span>"+esc(t("budget"))+": <b>"+esc(c.budget)+"</b></span>"+(c.listing?"<span>"+esc(t("listing"))+": <b>"+esc(c.listing)+"</b></span>":"")+"<span>"+esc(t("until"))+": <b>"+fd(exp)+"</b> ("+esc(t("left",{n:left}))+")</span></div>";
+ h+='<div class="path">'+ORDER.map(function(s,i){if((s==="ref"||s==="acc")&&!c.to)return"";return '<span class="'+(i<=si?"on":"")+'">'+esc(t("s_"+s))+"</span>"}).join("")+"</div>";
+ var a="";
+ if(role!=="admin"){
+  if(c.owner===role&&c.status==="new"){var o=Object.keys(MEMBERS).filter(function(m){return m!==role}).map(function(m){return '<option value="'+m+'">'+esc(mname(m))+"</option>"}).join("");
+   a+='<label class="lock" for="to-'+c.id+'">'+esc(t("refer"))+'</label><select id="to-'+c.id+'">'+o+'</select><button class="btn sm" type="button" data-act="ref" data-id="'+c.id+'">'+esc(t("referBtn"))+"</button>"}
+  if(c.to===role&&c.status==="ref")a+='<button class="btn sm" type="button" data-act="acc" data-id="'+c.id+'">'+esc(t("accept"))+"</button>";
+  if(handler(c)===role&&(c.status==="new"||c.status==="acc"))a+='<button class="btn ghost" type="button" data-act="view" data-id="'+c.id+'">'+esc(t("toView"))+"</button>";
+  if(handler(c)===role&&c.status==="view")a+='<button class="btn ghost" type="button" data-act="book" data-id="'+c.id+'">'+esc(t("toBook"))+"</button>";
+  if(handler(c)===role&&c.status==="book")a+='<button class="btn ghost" type="button" data-act="close" data-id="'+c.id+'">'+esc(t("toClose"))+"</button>";
+ }
+ if(a)h+='<div class="acts">'+a+"</div>";
+ if(c.status==="close"&&c.to)h+='<div class="msg ok">'+esc(t("share"))+"</div>";
+ h+="<details><summary>"+esc(t("hist",{n:c.log.length}))+'</summary><ul class="log">'+c.log.slice().reverse().map(function(l){return "<li"+(l.k==="l_dup"?' class="al"':"")+"><time>"+fdt(l.t)+"</time><b>"+esc(mname(l.by))+"</b> · "+esc(t(l.k,{m:l.m?mname(l.m):""}))+"</li>"}).join("")+"</ul></details></article>";
+ return h;
+}
+
+function act(kind,id){
+ var c=db.clients.filter(function(x){return x.id===id})[0];if(!c)return;var now=Date.now();
+ if(kind==="ref"&&c.owner===role&&c.status==="new"){var m=$("#to-"+id).value;c.to=m;c.status="ref";c.log.push({t:now,by:role,k:"l_ref",m:m})}
+ else if(kind==="acc"&&c.to===role&&c.status==="ref"){c.accepted=true;c.status="acc";c.log.push({t:now,by:role,k:"l_acc"})}
+ else if(handler(c)===role&&{view:1,book:1,close:1}[kind]){c.status=kind;c.log.push({t:now,by:role,k:"l_"+kind})}
+ else return;
+ c.last=now;save();render();
+}
+
+$("#f").addEventListener("submit",function(e){
+ e.preventDefault();var out=$("#out"),num=norm($("#cc").value,$("#ph").value),name=$("#nm").value.trim();
+ var bad=num.length<9?"needPhone":!name?"needName":!$("#cs").checked?"needConsent":"";
+ if(bad){out.innerHTML='<div class="msg dup">'+esc(t(bad))+"</div>";return}
+ fp(num).then(function(h){
+  var ex=db.clients.filter(function(c){return c.fp===h})[0], now=Date.now();
+  if(ex){
+   if(ex.owner===role){out.innerHTML='<div class="msg dup"><b>'+esc(t("dupH"))+"</b>"+esc(t("dupMine",{t:fdt(ex.created),id:ex.id}))+"</div>";return}
+   ex.log.push({t:now,by:role,k:"l_dup"});db.dups++;save();render();
+   out.innerHTML='<div class="msg dup"><b>'+esc(t("dupH"))+"</b>"+esc(t("dupT",{o:mname(ex.owner),t:fdt(ex.created),id:ex.id}))+"</div>";return}
+  db.seq++;var id="C-"+("0000"+db.seq).slice(-4);
+  db.clients.unshift({id:id,owner:role,name:name,phone:num,fp:h,intent:$("#it").value,city:$("#ct").value,budget:$("#bg").value,listing:$("#ls").value.trim().toUpperCase().slice(0,12),to:null,accepted:false,status:"new",created:now,last:now,log:[{t:now,by:role,k:"l_reg"}]});
+  save();$("#f").reset();tab="all";render();
+  out.innerHTML='<div class="msg ok"><b>'+esc(t("okH"))+'</b><span class="mono">'+esc(t("okT",{id:id,t:fdt(now),e:fd(now+PROTECT*DAY)}))+"</span></div>";
+ });
+});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(b){act(b.getAttribute("data-act"),b.getAttribute("data-id"));return}
+ var tb=e.target.closest("[data-tab]");if(tb){tab=tb.getAttribute("data-tab");render()}});
+$("#role").addEventListener("change",function(e){role=e.target.value;if(!$("#out").getAttribute("data-keep"))$("#out").innerHTML="";render()});
+$("#lang").addEventListener("change",function(e){lang=e.target.value;render()});
+$("#reset").addEventListener("click",function(){seed().then(function(){$("#out").innerHTML="";tab="all";render()})});
+
+var q=new URLSearchParams(location.search);if(T[q.get("lang")])lang=q.get("lang");if(MEMBERS[q.get("as")]||q.get("as")==="admin")role=q.get("as");
+$("#lang").value=lang;
+(load()?Promise.resolve():seed()).then(render);
+})();
+</script>
+</body>
+</html>
