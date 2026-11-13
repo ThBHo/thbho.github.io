@@ -17,6 +17,7 @@
  --paper:#EEF1EF; --surface:#FFFFFF; --ink:#12232B; --ink2:#4E6068; --line:#CDD7D5;
  --teal:#0B6E6A; --teal-soft:#DCEDEB; --brass:#9A7230; --brass-soft:#F3EADA; --warn:#A8452E; --warn-soft:#F8E6E0;
  --night:#12232B; --night-ink:#EAF1F0;
+ --m-asn:#0B6E6A; --m-asn-bg:#E9F4F2; --m-r2:#A8641C; --m-r2-bg:#FAF0E1; --m-bkk:#4A56B8; --m-bkk-bg:#ECEEFA;
  --serif:"Bodoni Moda","Noto Serif Thai",Georgia,serif;
  --sans:"IBM Plex Sans Thai",system-ui,sans-serif;
  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -25,8 +26,9 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
  --paper:#0E1A1F; --surface:#13232A; --ink:#E4EEEC; --ink2:#9FB3B2; --line:#26404A;
  --teal:#4FC2B9; --teal-soft:#173A3B; --brass:#D6A75A; --brass-soft:#3A3020; --warn:#F09A80; --warn-soft:#40221B;
- --night:#081014; color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#0E1A1F;--surface:#13232A;--ink:#E4EEEC;--ink2:#9FB3B2;--line:#26404A;--teal:#4FC2B9;--teal-soft:#173A3B;--brass:#D6A75A;--brass-soft:#3A3020;--warn:#F09A80;--warn-soft:#40221B;--night:#081014;color-scheme:dark}
+ --night:#081014; color-scheme:dark;
+ --m-asn:#4FC2B9; --m-asn-bg:#122E30; --m-r2:#E0A45A; --m-r2-bg:#32281A; --m-bkk:#9AA5F0; --m-bkk-bg:#1D2242}}
+:root[data-theme="dark"]{--paper:#0E1A1F;--surface:#13232A;--ink:#E4EEEC;--ink2:#9FB3B2;--line:#26404A;--teal:#4FC2B9;--teal-soft:#173A3B;--brass:#D6A75A;--brass-soft:#3A3020;--warn:#F09A80;--warn-soft:#40221B;--night:#081014;color-scheme:dark;--m-asn:#4FC2B9;--m-asn-bg:#122E30;--m-r2:#E0A45A;--m-r2-bg:#32281A;--m-bkk:#9AA5F0;--m-bkk-bg:#1D2242}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit}
@@ -82,8 +84,15 @@ button{font:inherit;cursor:pointer}
 .tabs button{min-height:36px;padding:0 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13.5px}
 .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .c{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
-.c.mine{border-left:4px solid var(--teal)}
-.c.tome{border-left:4px solid var(--brass)}
+.c{border-left:5px solid var(--mc,var(--line));background:var(--mb,var(--surface))}
+.c.o-asn,.lg.o-asn{--mc:var(--m-asn);--mb:var(--m-asn-bg)}
+.c.o-r2,.lg.o-r2{--mc:var(--m-r2);--mb:var(--m-r2-bg)}
+.c.o-bkk,.lg.o-bkk{--mc:var(--m-bkk);--mb:var(--m-bkk-bg)}
+.own{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--mc)}
+.own:before,.lg:before{content:"";width:10px;height:10px;border-radius:3px;background:var(--mc);flex:none}
+.chip.me{background:var(--ink);color:var(--paper);border-color:transparent}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 10px;font-size:13px;color:var(--ink2)}
+.lg{display:inline-flex;align-items:center;gap:6px}
 .c-top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .code{font-family:var(--mono);font-weight:500;font-size:15px}
 .chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--paper);border:1px solid var(--line);white-space:nowrap}
@@ -165,6 +174,7 @@ footer a{text-underline-offset:3px}
   <section aria-labelledby="lh">
    <div class="list-h"><h2 id="lh" data-t="lh">ทะเบียนลูกค้าของเครือข่าย</h2>
     <div class="tabs" id="tabs"></div></div>
+   <div class="legend" id="legend"></div>
    <div id="list"></div>
   </section>
  </div>
@@ -189,7 +199,7 @@ var T={
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
-  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",
   stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
   adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
   memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
@@ -209,7 +219,7 @@ var T={
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
-  all:"Whole network",mine:"My clients",tome:"Referred to me",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",
   stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
   adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
   memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
@@ -288,14 +298,15 @@ function render(){
  $("#out").toggleAttribute("data-admin",role==="admin");
  var tabs=role==="admin"?["all"]:["all","mine","tome"];if(tabs.indexOf(tab)<0)tab="all";
  $("#tabs").innerHTML=tabs.map(function(k){return '<button type="button" data-tab="'+k+'" aria-pressed="'+(k===tab)+'">'+esc(t(k))+"</button>"}).join("");
+ $("#legend").innerHTML="<span>"+esc(t("legend"))+"</span>"+Object.keys(MEMBERS).map(function(m){return '<span class="lg o-'+m+'">'+esc(mname(m))+"</span>"}).join("");
  var rows=db.clients.filter(function(c){return tab==="all"||(tab==="mine"&&c.owner===role)||(tab==="tome"&&c.to===role)});
  $("#list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+esc(t("empty"))+"</div>";
 }
 
 function card(c){
  var see=canSee(c), exp=c.last+PROTECT*DAY, left=Math.max(0,Math.ceil((exp-Date.now())/DAY)), si=ORDER.indexOf(c.status);
- var cls="c"+(c.owner===role?" mine":c.to===role?" tome":"");
- var h='<article class="'+cls+'"><div class="c-top"><span class="code">'+esc(c.id)+'</span><span class="chip s-'+c.status+'">'+esc(t("s_"+c.status))+'</span><span class="when">'+fdt(c.created)+"</span></div>";
+ var cls="c o-"+c.owner, tag=c.owner===role?t("mine"):c.to===role?t("tome"):"";
+ var h='<article class="'+cls+'"><div class="c-top"><span class="code">'+esc(c.id)+'</span><span class="own">'+esc(mname(c.owner))+'</span><span class="chip s-'+c.status+'">'+esc(t("s_"+c.status))+"</span>"+(tag?'<span class="chip me">'+esc(tag)+"</span>":"")+'<span class="when">'+fdt(c.created)+"</span></div>";
  h+='<div class="who-c"><span>'+esc(see?c.name:maskName(c.name))+'</span><span class="ph">'+esc(see?showPhone(c.phone):maskPhone(c.phone))+'</span><span class="lock">'+esc(see?t("full"):t("hidden"))+"</span></div>";
  h+='<div class="meta"><span>'+esc(t("owner"))+": <b>"+esc(mname(c.owner))+"</b></span>"+(c.to?"<span>"+esc(t("handler"))+": <b>"+esc(mname(c.to))+"</b></span>":"")+"<span>"+esc(t("need"))+": <b>"+esc(t(c.intent))+" · "+esc(city(c.city))+"</b></span><span>"+esc(t("budget"))+": <b>"+esc(bshow(c))+"</b></span>"+(c.listing?"<span>"+esc(t("listing"))+": <b>"+esc(c.listing)+"</b></span>":"")+"<span>"+esc(t("until"))+": <b>"+fd(exp)+"</b> ("+esc(t("left",{n:left}))+")</span></div>";
  h+='<div class="path">'+ORDER.map(function(s,i){if((s==="ref"||s==="acc")&&!c.to)return"";return '<span class="'+(i<=si?"on":"")+'">'+esc(t("s_"+s))+"</span>"}).join("")+"</div>";
