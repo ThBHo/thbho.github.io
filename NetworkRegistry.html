@@ -139,6 +139,8 @@ button{font:inherit;cursor:pointer}
 .vs .vt{margin-right:auto;color:var(--ink2)}
 .vs .vt.like{color:var(--teal);font-weight:600}.vs .vt.pick{color:var(--ink);font-weight:600}.vs li.drop{opacity:.6}
 .vs .btn{min-height:32px;padding:0 11px;font-size:13px}
+.btn.undo{background:transparent;color:var(--ink2);box-shadow:none;text-decoration:underline;text-underline-offset:3px;min-height:36px;padding:0 6px;font-size:13px;font-weight:400}
+.log .un{color:var(--ink2);font-style:italic}
 .conf{margin-top:10px;border:1px dashed var(--mc,var(--line));border-radius:12px;padding:10px 12px;background:var(--surface);font-size:13.5px}
 .conf .bub{margin:6px 0 8px;padding:9px 12px;border-radius:14px 14px 14px 4px;background:var(--paper);border:1px solid var(--line);max-width:46ch}
 .conf .rowc{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
@@ -204,7 +206,7 @@ footer a{text-underline-offset:3px}
    </form>
    <div id="out" role="status" aria-live="polite"></div>
    <div class="rules"><b data-t="rulesH">กติกาในระบบนี้</b>
-    <ol><li data-t="r1">เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน</li><li data-t="r2">เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม</li><li data-t="r3">คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด</li><li data-t="r4">ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล</li><li data-t="r5">ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก</li><li data-t="r6">ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง</li></ol></div>
+    <ol><li data-t="r1">เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน</li><li data-t="r2">เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม</li><li data-t="r3">คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด</li><li data-t="r4">ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล</li><li data-t="r5">ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก</li><li data-t="r6">ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง</li><li data-t="r7">กดผิดย้อนขั้นล่าสุดได้ และประวัติจะบันทึกการย้อนไว้</li></ol></div>
   </section>
 
   <section aria-labelledby="lh">
@@ -229,7 +231,7 @@ footer a{text-underline-offset:3px}
 (function(){
 "use strict";
 var CONFIRM_H=48, STEPS=["view","seen","book","contract","close"];
-var KEY="hai-registry-demo-v6", DAY=864e5, PROTECT=90;
+var KEY="hai-registry-demo-v7", DAY=864e5, PROTECT=90;
 var T={
  th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
   h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
@@ -247,7 +249,7 @@ var T={
   owner:"เจ้าของลูกค้า",handler:"ผู้ดูแลดีล",need:"ต้องการ",budget:"งบ",listing:"ทรัพย์",until:"คุ้มครองถึง",left:"เหลือ {n} วัน",
   hidden:"ซ่อนชื่อและเบอร์เต็ม",full:"เห็นข้อมูลเต็ม",
   s_new:"ยังไม่นัดดู",s_none:"ยังไม่มีสมาชิก",s_ref:"ส่งต่อ รอรับ",s_acc:"รับแล้ว รอนัดดู",s_view:"นัดแล้ว",s_seen:"ดูทรัพย์แล้ว",s_book:"จอง",s_contract:"ทำสัญญา",s_close:"โอน ปิดดีล",
-  accept:"รับลูกค้า",self:"ดูแลเอง",noMember:"ยังไม่มีสมาชิกในพื้นที่",noneNote:"บันทึกความต้องการไว้ให้ผู้ดูแลเครือข่ายหาสมาชิกเมืองนี้",addCity:"ลูกค้าอยากดูเมืองอื่นด้วย",addBtn:"เพิ่มเมือง",nCities:"{n} เมือง",okRef:"{c} อยู่ในพื้นที่ของ {m} ระบบส่งต่อให้แล้ว รอกดรับ",okNone:"{c} ยังไม่มีสมาชิกในพื้นที่ ระบบบันทึกความต้องการไว้",toView:"บันทึกนัดดู",toSeen:"ลูกค้าดูแล้ว",toBook:"บันทึกจอง",toContract:"ทำสัญญาแล้ว",toClose:"โอน ปิดดีล",lsPh:"รหัสทรัพย์",vAdd:"นัดดูทรัพย์นี้",vSeen:"ดูแล้ว",vLike:"สนใจ",vNo:"ไม่สนใจ",vBook:"จองหลังนี้",v_view:"นัดแล้ว",v_seen:"ดูแล้ว",v_like:"ดูแล้ว สนใจ",v_no:"ดูแล้ว ไม่สนใจ",v_pick:"ลูกค้าเลือกหลังนี้",v_drop:"ไม่ได้เลือก",nSeen:"ดูแล้ว {n} หลัง",nAppt:"นัดอีก {n} หลัง ({c})",l_vlike:"{c}: ลูกค้าสนใจ {l}",l_vno:"{c}: ลูกค้าไม่สนใจ {l}",now:"ตอนนี้",upd:"อัปเดต",client:"ลูกค้า",s_wait:"รอลูกค้ายืนยัน",waitNote:"รอลูกค้ายืนยันก่อน จึงเดินงานต่อได้",confH:"ข้อความที่ลูกค้าได้รับทาง LINE หรือ SMS",confMsg:"คุณลงทะเบียนกับ {o} เพื่อหาทรัพย์ใน {c} กดยืนยันเพื่อให้ {o} ดูแลคุณ",confLeft:"รอยืนยันได้อีก {n} ชม.",confBtn:"จำลอง: ลูกค้ากดยืนยัน",okConf:"ระบบส่งข้อความให้ลูกค้ากดยืนยันแล้ว สิทธิ์จะสมบูรณ์เมื่อลูกค้ายืนยัน",
+  accept:"รับลูกค้า",self:"ดูแลเอง",noMember:"ยังไม่มีสมาชิกในพื้นที่",noneNote:"บันทึกความต้องการไว้ให้ผู้ดูแลเครือข่ายหาสมาชิกเมืองนี้",addCity:"ลูกค้าอยากดูเมืองอื่นด้วย",addBtn:"เพิ่มเมือง",nCities:"{n} เมือง",okRef:"{c} อยู่ในพื้นที่ของ {m} ระบบส่งต่อให้แล้ว รอกดรับ",okNone:"{c} ยังไม่มีสมาชิกในพื้นที่ ระบบบันทึกความต้องการไว้",toView:"บันทึกนัดดู",toSeen:"ลูกค้าดูแล้ว",toBook:"บันทึกจอง",toContract:"ทำสัญญาแล้ว",toClose:"โอน ปิดดีล",lsPh:"รหัสทรัพย์",undo:"ย้อนขั้นล่าสุด",cancelCity:"ยกเลิกเมืองนี้",l_undo:"{c}: ย้อนกลับ ({l}) เพราะบันทึกผิด",l_cancel:"{c}: ยกเลิกเมืองนี้",r7:"กดผิดย้อนขั้นล่าสุดได้ และประวัติจะบันทึกการย้อนไว้",vAdd:"นัดดูทรัพย์นี้",vSeen:"ดูแล้ว",vLike:"สนใจ",vNo:"ไม่สนใจ",vBook:"จองหลังนี้",v_view:"นัดแล้ว",v_seen:"ดูแล้ว",v_like:"ดูแล้ว สนใจ",v_no:"ดูแล้ว ไม่สนใจ",v_pick:"ลูกค้าเลือกหลังนี้",v_drop:"ไม่ได้เลือก",nSeen:"ดูแล้ว {n} หลัง",nAppt:"นัดอีก {n} หลัง ({c})",l_vlike:"{c}: ลูกค้าสนใจ {l}",l_vno:"{c}: ลูกค้าไม่สนใจ {l}",now:"ตอนนี้",upd:"อัปเดต",client:"ลูกค้า",s_wait:"รอลูกค้ายืนยัน",waitNote:"รอลูกค้ายืนยันก่อน จึงเดินงานต่อได้",confH:"ข้อความที่ลูกค้าได้รับทาง LINE หรือ SMS",confMsg:"คุณลงทะเบียนกับ {o} เพื่อหาทรัพย์ใน {c} กดยืนยันเพื่อให้ {o} ดูแลคุณ",confLeft:"รอยืนยันได้อีก {n} ชม.",confBtn:"จำลอง: ลูกค้ากดยืนยัน",okConf:"ระบบส่งข้อความให้ลูกค้ากดยืนยันแล้ว สิทธิ์จะสมบูรณ์เมื่อลูกค้ายืนยัน",
   hist:"ประวัติ {n} รายการ",
   l_reg:"ลงทะเบียนลูกค้า",l_ref:"{c}: ส่งต่อให้ {m}",l_own:"{c}: เพิ่มเมือง ดูแลเอง",l_none:"{c}: ยังไม่มีสมาชิกในพื้นที่ บันทึกความต้องการไว้",l_acc:"{c}: รับลูกค้า เห็นข้อมูลติดต่อแล้ว",l_view:"{c}: นัดดูทรัพย์ {l}",l_seen:"{c}: ลูกค้าดูทรัพย์ {l} แล้ว",l_book:"{c}: ลูกค้าจอง {l} ทรัพย์ถูกปิดบนทุกเว็บ",l_contract:"{c}: ทำสัญญา {l} แล้ว",l_close:"{c}: โอนและปิดดีล {l} ระบบคิดส่วนแบ่งตามสูตรที่ตกลง",l_conf:"กดยืนยันว่าลงทะเบียนกับ {m}",l_dup:"พยายามลงทะเบียนซ้ำ ระบบไม่รับ",
   empty:"ยังไม่มีลูกค้าในมุมมองนี้",admin:"ผู้ดูแลเครือข่าย",share:"แบ่งค่านายหน้ากับเจ้าของลูกค้าตามสูตรในสัญญา"},
@@ -267,7 +269,7 @@ var T={
   owner:"Client owner",handler:"Handling the deal",need:"Wants",budget:"Budget",listing:"Listing",until:"Protected until",left:"{n} days left",
   hidden:"Full name and number hidden",full:"Full details visible",
   s_new:"No viewing yet",s_none:"No member yet",s_ref:"Referred, pending",s_acc:"Accepted, no viewing yet",s_view:"Viewing booked",s_seen:"Viewed",s_book:"Reserved",s_contract:"Contract signed",s_close:"Transferred, closed",
-  accept:"Accept the client",self:"own area",noMember:"No member in this area yet",noneNote:"Demand logged so the network admin can find a member for this city",addCity:"The client also wants to see another city",addBtn:"Add city",nCities:"{n} cities",okRef:"{c} is in {m}'s area, so the system referred the client. Waiting for them to accept.",okNone:"{c} has no member yet. The demand is logged.",toView:"Book a viewing",toSeen:"Client has viewed",toBook:"Log a reservation",toContract:"Contract signed",toClose:"Transferred, close deal",lsPh:"Listing code",vAdd:"Book a viewing",vSeen:"Viewed",vLike:"Interested",vNo:"Not interested",vBook:"Reserve this one",v_view:"Viewing booked",v_seen:"Viewed",v_like:"Viewed, interested",v_no:"Viewed, not interested",v_pick:"Client chose this one",v_drop:"Not chosen",nSeen:"{n} viewed",nAppt:"{n} more booked ({c})",l_vlike:"{c}: client is interested in {l}",l_vno:"{c}: client is not interested in {l}",now:"Now",upd:"Updated",client:"Client",s_wait:"Waiting for client to confirm",waitNote:"Waiting for the client to confirm before the work can move on",confH:"Message the client receives on LINE or SMS",confMsg:"You registered with {o} to find a property in {c}. Tap confirm so {o} can look after you.",confLeft:"{n} h left to confirm",confBtn:"Simulate: client taps confirm",okConf:"A confirmation message was sent to the client. The right is complete once they confirm.",
+  accept:"Accept the client",self:"own area",noMember:"No member in this area yet",noneNote:"Demand logged so the network admin can find a member for this city",addCity:"The client also wants to see another city",addBtn:"Add city",nCities:"{n} cities",okRef:"{c} is in {m}'s area, so the system referred the client. Waiting for them to accept.",okNone:"{c} has no member yet. The demand is logged.",toView:"Book a viewing",toSeen:"Client has viewed",toBook:"Log a reservation",toContract:"Contract signed",toClose:"Transferred, close deal",lsPh:"Listing code",undo:"Undo last step",cancelCity:"Remove this city",l_undo:"{c}: undone ({l}), logged by mistake",l_cancel:"{c}: city removed",r7:"A wrong tap can be undone, and the history keeps a record of the undo",vAdd:"Book a viewing",vSeen:"Viewed",vLike:"Interested",vNo:"Not interested",vBook:"Reserve this one",v_view:"Viewing booked",v_seen:"Viewed",v_like:"Viewed, interested",v_no:"Viewed, not interested",v_pick:"Client chose this one",v_drop:"Not chosen",nSeen:"{n} viewed",nAppt:"{n} more booked ({c})",l_vlike:"{c}: client is interested in {l}",l_vno:"{c}: client is not interested in {l}",now:"Now",upd:"Updated",client:"Client",s_wait:"Waiting for client to confirm",waitNote:"Waiting for the client to confirm before the work can move on",confH:"Message the client receives on LINE or SMS",confMsg:"You registered with {o} to find a property in {c}. Tap confirm so {o} can look after you.",confLeft:"{n} h left to confirm",confBtn:"Simulate: client taps confirm",okConf:"A confirmation message was sent to the client. The right is complete once they confirm.",
   hist:"History · {n} entries",
   l_reg:"Registered the client",l_ref:"{c}: referred to {m}",l_own:"{c}: city added, own area",l_none:"{c}: no member in this area yet; demand logged",l_acc:"{c}: accepted the client; contact details now visible",l_view:"{c}: viewing booked {l}",l_seen:"{c}: client viewed {l}",l_book:"{c}: client reserved {l}; listing closed on every site",l_contract:"{c}: contract signed {l}",l_close:"{c}: transferred and closed {l}; shares calculated by the agreed formula",l_conf:"Confirmed registering with {m}",l_dup:"Tried to register a duplicate; refused",
   empty:"No clients in this view yet",admin:"Network admin",share:"Commission shared with the client owner by the contract formula"}
@@ -401,6 +403,8 @@ function jobRow(c,j,i){
   else if(j.status==="book")a='<button class="btn ghost" type="button" data-act="contract"'+d+">"+esc(t("toContract"))+"</button>";
   else if(j.status==="contract")a='<button class="btn ghost" type="button" data-act="close"'+d+">"+esc(t("toClose"))+"</button>";
  }
+ if(mine&&j.undo&&j.undo.length)a+='<button class="btn undo" type="button" data-act="undo" data-id="'+c.id+'" data-j="'+i+'">↩ '+esc(t("undo"))+"</button>";
+ if(role!=="admin"&&c.owner===role&&c.jobs.length>1&&!j.views.length&&(j.status==="ref"||j.status==="none"||j.status==="new"))a+='<button class="btn undo" type="button" data-act="cancel" data-id="'+c.id+'" data-j="'+i+'">✕ '+esc(t("cancelCity"))+"</button>";
  if(a)h+='<span class="ja">'+a+"</span>";
  if(j.status==="close"&&j.m!==c.owner)h+='<span class="jn">'+esc(t("share"))+"</span>";
  if(j.status==="none")h+='<span class="jn">'+esc(t("noneNote"))+"</span>";
@@ -418,7 +422,7 @@ function card(c){
  h+='<ul class="jobs">'+c.jobs.map(function(j,i){return jobRow(c,j,i)}).join("")+"</ul>";
  if(c.owner===role){var used=c.jobs.map(function(j){return j.city}),o=CITIES.filter(function(x){return used.indexOf(x[0])<0}).map(function(x){return '<option value="'+x[0]+'">'+esc(x[1][lang])+" → "+esc(x[2]?(x[2]===role?t("self"):mname(x[2])):t("noMember"))+"</option>"}).join("");
   if(o)h+='<div class="acts"><label class="lock" for="add-'+c.id+'">'+esc(t("addCity"))+'</label><select id="add-'+c.id+'">'+o+'</select><button class="btn sm" type="button" data-act="add" data-id="'+c.id+'">'+esc(t("addBtn"))+"</button></div>"}
- h+="<details><summary>"+esc(t("hist",{n:c.log.length}))+'</summary><ul class="log">'+c.log.slice().sort(function(a,b){return b.t-a.t}).map(function(l){return "<li"+(l.k==="l_dup"?' class="al"':"")+"><time>"+fdt(l.t)+"</time><b>"+esc(mname(l.by))+"</b> · "+esc(t(l.k,{m:l.m?mname(l.m):"",c:l.c?city(l.c):"",l:l.l||""}).replace(/\s+/g," "))+"</li>"}).join("")+"</ul></details></article>";
+ h+="<details><summary>"+esc(t("hist",{n:c.log.length}))+'</summary><ul class="log">'+c.log.slice().sort(function(a,b){return b.t-a.t}).map(function(l){return "<li"+(l.k==="l_dup"?' class="al"':l.k==="l_undo"?' class="un"':"")+"><time>"+fdt(l.t)+"</time><b>"+esc(mname(l.by))+"</b> · "+esc(t(l.k,{m:l.m?mname(l.m):"",c:l.c?city(l.c):"",l:l.l||""}).replace(/\s+/g," "))+"</li>"}).join("")+"</ul></details></article>";
  return h;
 }
 
@@ -426,7 +430,9 @@ function act(kind,id,ji,vi){
  var c=db.clients.filter(function(x){return x.id===id})[0];if(!c||role==="admin")return;var now=Date.now();
  if(kind==="conf"){if(c.owner!==role||c.confirmed)return;c.confirmed=true;c.log.push({t:now,by:"client",k:"l_conf",m:c.owner})}
  else if(kind==="add"){if(c.owner!==role)return;var v=$("#add-"+id).value;if(c.jobs.some(function(j){return j.city===v}))return;addJob(c,v,now,role)}
- else{var j=c.jobs[ji];if(!j||j.m!==role||!c.confirmed)return;var si=STEPS.indexOf(j.status),v=j.views[vi],code="";
+ else if(kind==="cancel"){var jc=c.jobs[ji];if(!jc||c.owner!==role||c.jobs.length<2||jc.views.length||["ref","none","new"].indexOf(jc.status)<0)return;c.jobs.splice(ji,1);c.log.push({t:now,by:role,k:"l_cancel",c:jc.city})}
+ else if(kind==="undo"){var ju=c.jobs[ji];if(!ju||ju.m!==role||!ju.undo||!ju.undo.length)return;var u=ju.undo.pop(),sn=JSON.parse(u.s);ju.status=sn.status;ju.listing=sn.listing;ju.views=sn.views;ju.t=now;c.log.push({t:now,by:role,k:"l_undo",c:ju.city,l:t(u.k,{c:"",l:u.l,m:""}).replace(/^[:\s]+/,"").replace(/\s+/g," ").trim()})}
+ else{var j=c.jobs[ji];if(!j||j.m!==role||!c.confirmed)return;var si=STEPS.indexOf(j.status),v=j.views[vi],code="",snap=JSON.stringify({status:j.status,listing:j.listing,views:j.views});
   if(kind==="acc"){if(j.status!=="ref")return;j.accepted=true;j.status="acc"}
   else if(kind==="vadd"){if(j.status==="ref"||si>=2)return;var li=$("#ls-"+id+"-"+ji);code=li?li.value.trim().toUpperCase().slice(0,12):"";if(!code||j.views.some(function(x){return x.code===code})){if(li)li.focus();return}
    j.views.push({code:code,st:"view",like:null,t:now});if(j.status!=="seen")j.status="view";kind="view"}
@@ -436,6 +442,7 @@ function act(kind,id,ji,vi){
   else if(kind==="contract"){if(j.status!=="book")return;j.status="contract";code=j.listing}
   else if(kind==="close"){if(j.status!=="contract")return;j.status="close";code=j.listing}
   else return;
+  if(kind!=="acc"){j.undo=(j.undo||[]).slice(-9);j.undo.push({s:snap,k:"l_"+kind,l:code})}
   j.t=now;c.log.push({t:now,by:role,k:"l_"+kind,c:j.city,l:code})}
  c.last=now;save();render();
 }
