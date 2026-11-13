@@ -254,7 +254,9 @@ footer a{text-underline-offset:3px}
    <p class="sub" data-t="fsub">ใช้เวลา 1 นาที ระบบประทับวันเวลาและเช็กเบอร์ซ้ำให้</p>
    <form id="f" novalidate>
     <div class="f"><label for="ph" data-t="lPhone">เบอร์โทรลูกค้า</label>
-     <div class="phone"><select id="cc" aria-label="Country code"><option>+66</option><option>+86</option><option>+7</option><option>+82</option><option>+81</option><option>+65</option><option>+44</option><option>+1</option></select><input id="ph" inputmode="tel" autocomplete="off" placeholder="80 000 0199" required></div></div>
+     <div class="phone"><select id="cc" aria-label="Country code"><option>+66</option><option>+86</option><option>+7</option><option>+82</option><option>+81</option><option>+65</option><option>+44</option><option>+1</option></select><input id="ph" inputmode="tel" autocomplete="off" placeholder="80 000 0199"></div></div>
+    <div class="f"><label for="cid"><span data-t="lChat">LINE / WhatsApp / WeChat ของลูกค้า</span> <i data-t="optOne">(ใส่เบอร์หรือ ID อย่างน้อย 1 อย่าง)</i></label>
+     <div class="phone"><select id="ch" aria-label="Chat app"><option value="">–</option><option value="line">LINE</option><option value="wa">WhatsApp</option><option value="wc">WeChat</option></select><input id="cid" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ID"></div></div>
     <div class="f"><label for="nm" data-t="lName">ชื่อที่ลูกค้าใช้</label><input id="nm" autocomplete="off" placeholder="Anna Petrova" required></div>
     <div class="row2">
      <div class="f"><label for="it" data-t="lIntent">ต้องการ</label><select id="it"><option value="buy" data-t="buy">ซื้อ</option><option value="rent" data-t="rent">เช่า</option></select></div>
@@ -298,11 +300,11 @@ document.getElementById("pv").addEventListener("click",function(e){if(e.target==
 (function(){
 "use strict";
 var CONFIRM_H=48, STEPS=["view","seen","book","contract","close"];
-var KEY="hai-registry-demo-v10", DAY=864e5, PROTECT=90;
+var KEY="hai-registry-demo-v11", DAY=864e5, PROTECT=90;
 var T={
  th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
   h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
-  fh:"ลงทะเบียนลูกค้า",fsub:"ใช้เวลา 1 นาที ระบบประทับวันเวลาและเช็กเบอร์ซ้ำให้",lPhone:"เบอร์โทรลูกค้า",lName:"ชื่อที่ลูกค้าใช้",lIntent:"ต้องการ",lCity:"เมืองที่อยากดู",lBudget:"งบประมาณ",uBuy:"(บาท)",uRent:"(บาท/เดือน)",perMo:"/เดือน",lListing:"รหัสทรัพย์",opt:"(ถ้ามี)",buy:"ซื้อ",rent:"เช่า",
+  fh:"ลงทะเบียนลูกค้า",fsub:"ใช้เวลา 1 นาที ระบบประทับวันเวลาและเช็กเบอร์ซ้ำให้",lPhone:"เบอร์โทรลูกค้า",lChat:"LINE / WhatsApp / WeChat ของลูกค้า",optOne:"(ใส่เบอร์หรือ ID อย่างน้อย 1 อย่าง)",noPhone:"ไม่มีเบอร์",needOne:"กรอกเบอร์โทร หรือ ID แชตของลูกค้า อย่างน้อย 1 อย่าง",needCh:"เลือกแอปของ ID นี้ก่อน (LINE, WhatsApp หรือ WeChat)",dupHC:"ID แชตซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",mayH:"ลงทะเบียนแล้ว แต่อาจเป็นลูกค้าคนเดียวกับรายที่มีอยู่ ",mayT:"ตรวจกับลูกค้า: {l} ระบบแจ้งเจ้าของรายนั้นและผู้ดูแลเครือข่ายแล้ว ถ้าเป็นคนเดียวกัน คนที่ลงก่อนเป็นเจ้าของ",mayChip:"อาจซ้ำกับ {l}",a_maybe:"อาจเป็นคนเดียวกับ {l} ({w}) ตรวจกับลูกค้า",l_maybe:"ระบบพบว่าอาจเป็นคนเดียวกับ {l}",mw_name:"ชื่อตรงกัน",mw_tail:"เบอร์ 8 ตัวท้ายตรงกัน",mw_cid:"ID เดียวกันคนละแอป",lName:"ชื่อที่ลูกค้าใช้",lIntent:"ต้องการ",lCity:"เมืองที่อยากดู",lBudget:"งบประมาณ",uBuy:"(บาท)",uRent:"(บาท/เดือน)",perMo:"/เดือน",lListing:"รหัสทรัพย์",opt:"(ถ้ามี)",buy:"ซื้อ",rent:"เช่า",
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",r5:"ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก",r6:"ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
@@ -322,7 +324,7 @@ var T={
   empty:"ยังไม่มีลูกค้าในมุมมองนี้",admin:"ผู้ดูแลเครือข่าย",share:"แบ่งค่านายหน้ากับเจ้าของลูกค้าตามสูตรในสัญญา"},
  en:{viewAs:"View as",demoB:"Demo",demoT:"Clients on this page are made up and stored on this device only. Do not enter real client data.",reset:"Reset sample data",
   h1:"First to register holds the right, and everyone sees the client's path",lede:"Register a client, then change “View as” above to see what each member and the network admin can see.",
-  fh:"Register a client",fsub:"One minute. The system stamps the time and checks for a duplicate number.",lPhone:"Client phone",lName:"Name the client uses",lIntent:"Wants to",lCity:"City to view",lBudget:"Budget",uBuy:"(THB)",uRent:"(THB/month)",perMo:"/mo",lListing:"Listing code",opt:"(optional)",buy:"Buy",rent:"Rent",
+  fh:"Register a client",fsub:"One minute. The system stamps the time and checks for a duplicate number.",lPhone:"Client phone",lChat:"Client LINE / WhatsApp / WeChat",optOne:"(a phone number or a chat ID, at least one)",noPhone:"No phone",needOne:"Enter the client phone number or a chat ID, at least one",needCh:"Choose the app for this ID first (LINE, WhatsApp or WeChat)",dupHC:"Chat ID already registered. The owner has been notified. ",mayH:"Registered, but this may be the same person as an existing client. ",mayT:"Check with the client: {l}. That owner and the network admin have been notified. If it is the same person, the earlier registration owns the client.",mayChip:"May match {l}",a_maybe:"May be the same person as {l} ({w}). Check with the client.",l_maybe:"System flagged a possible match with {l}",mw_name:"same name",mw_tail:"last 8 digits match",mw_cid:"same ID on another app",lName:"Name the client uses",lIntent:"Wants to",lCity:"City to view",lBudget:"Budget",uBuy:"(THB)",uRent:"(THB/month)",perMo:"/mo",lListing:"Listing code",opt:"(optional)",buy:"Buy",rent:"Rent",
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",r5:"One client has one owner and can be referred to several cities, one member per city",r6:"The client confirms the registration themselves; unconfirmed entries lapse after 48 hours",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
@@ -363,8 +365,20 @@ function fdt(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()
 function fd(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()}
 function norm(cc,ph){var d=String(ph).replace(/\D/g,"").replace(/^0+/,"");return cc.replace(/\D/g,"")+d}
 function maskName(n){return String(n).trim().split(/\s+/).map(function(w){return w.charAt(0).toUpperCase()+"••"}).join(" ")}
-function maskPhone(p){return "••"+String(p).slice(-4)}
-function showPhone(p){return "+"+p.replace(/^(\d{2})(\d{2})(\d{3,4})(\d+)$/,"$1 $2 $3 $4")}
+function maskPhone(p){return p?"••"+String(p).slice(-4):t("noPhone")}
+var CHN={line:"LINE",wa:"WhatsApp",wc:"WeChat"};
+function cnorm(k,id){id=String(id||"").trim().toLowerCase().replace(/^@/,"").replace(/\s+/g,"");return k==="wa"?id.replace(/\D/g,"").replace(/^0+/,""):id}
+function chatShow(c,see){if(!c.chat)return "";var i=c.chat.id;return CHN[c.chat.k]+" · "+(see?i:i.slice(0,2)+"••••")}
+function nkey(n){return String(n).toLowerCase().replace(/[^a-z\u0e00-\u0e7f\u4e00-\u9fff\u0400-\u04ff ]/g,"").split(/\s+/).filter(Boolean).sort().join(" ")}
+// backup check: signs that a new client may be someone already registered under different contact details
+function maybeOf(c){var out=[];db.clients.forEach(function(x){if(x.arch||x.id===c.id)return;var why="";
+  if(c.phone&&x.phone&&c.phone!==x.phone&&c.phone.slice(-8)===x.phone.slice(-8))why="tail";
+  else if(c.chat&&x.chat&&c.chat.id===x.chat.id&&c.chat.k!==x.chat.k)why="cid";
+  else if(c.chat&&c.chat.k==="wa"&&x.phone&&x.phone.slice(-8)===c.chat.id.slice(-8))why="tail";
+  else if(x.chat&&x.chat.k==="wa"&&c.phone&&c.phone.slice(-8)===x.chat.id.slice(-8))why="tail";
+  else if(nkey(c.name).length>=5&&nkey(c.name)===nkey(x.name))why="name";
+  if(why)out.push({id:x.id,why:why})});return out}
+function showPhone(p){if(!p)return t("noPhone");return "+"+p.replace(/^(\d{2})(\d{2})(\d{3,4})(\d+)$/,"$1 $2 $3 $4")}
 function fp(s){ // fingerprint of the number: what the central registry would keep instead of the number itself
  if(window.crypto&&crypto.subtle&&window.TextEncoder)return crypto.subtle.digest("SHA-256",new TextEncoder().encode("hai:"+s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return pad(x.toString(16))}).join("").slice(0,24)});
  return Promise.resolve("p"+s);
@@ -405,8 +419,9 @@ function seed(){
   mk("C-0138","asn","Tom Becker","491000000138","buy","10–20M","",1.5,[["jomtien",1.4]],[]),
   mk("C-0137","r2","Mei Tanaka","819000000137","buy","5–10M","14E05",95,[["jomtien",95]],[[82,"view","jomtien","14E05"]])
  ]};
- var act=db.clients;db.clients=act.concat(history(now));
- return Promise.all(act.map(function(c){return fp(c.phone).then(function(h){c.fp=h})})).then(save);
+ var act=db.clients,CH={"C-0142":["wc","liwei_88"],"C-0141":["wa","79000000141"],"C-0140":["line","minjun.k"],"C-0138":["wa","491000000138"],"C-0137":["line","mei.tnk"]};
+ act.forEach(function(c){if(CH[c.id])c.chat={k:CH[c.id][0],id:CH[c.id][1]}});db.clients=act.concat(history(now));
+ return Promise.all(act.map(function(c){return fp(c.phone).then(function(h){c.fp=h;return c.chat?fp(c.chat.k+":"+c.chat.id):""}).then(function(h){c.cfp=h})})).then(save);
 }
 
 function budgets(){var it=$("#it").value,b=$("#bg"),k=b.getAttribute("data-it")===it?b.value:"";b.innerHTML=BUDGET[it].map(function(x){return "<option>"+esc(x)+"</option>"}).join("");b.setAttribute("data-it",it);if(k)b.value=k;$("#bgU").textContent=t(it==="rent"?"uRent":"uBuy")}
@@ -436,6 +451,7 @@ function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
   });
   if(mineC&&open1(c)){var idle=Math.floor((now-c.last)/DAY),left=leftDays(c);
    if(left<=14)add(1,t("a_exp",{n:left}),c.id,"exp|"+c.id+"|"+c.last);else if(idle>=30)add(0,t("a_idle",{n:idle}),c.id,"idle|"+c.id+"|"+c.last)}
+  if(mineC)c.log.forEach(function(l){if(l.k==="l_maybe")add(0,t("a_maybe",{l:l.l,w:t("mw_"+l.w)}),c.id,"maybe|"+c.id+"|"+l.l)});
   if(mineC)c.log.forEach(function(l){if(l.k==="l_dup"&&now-l.t<7*DAY)add(1,t("a_dup",{m:mname(l.by)}),c.id,"dup|"+c.id+"|"+l.t)});
  });
  return out.sort(function(a,b){return b[0]-a[0]});
@@ -599,7 +615,7 @@ function card(c){
  var see=canSee(c), exp=c.last+PROTECT*DAY, left=Math.max(0,Math.ceil((exp-Date.now())/DAY));
  var cls="c o-"+c.owner+(op?"":" shut"), tag=c.owner===role?t("mine"):myJob(c)?t("tome"):"";
  var h='<article class="'+cls+'" id="c-'+c.id+'"><div class="c-top"><button type="button" class="tg" data-tg="'+c.id+'" aria-expanded="'+op+'" aria-label="'+esc(t(op?"tgLess":"tgMore"))+" "+c.id+'">'+(op?"−":"+")+'</button><span class="code">'+esc(c.id)+'</span><span class="own">'+esc(mname(c.owner))+"</span>"+(c.confirmed?"":'<span class="chip s-wait">'+esc(t("s_wait"))+"</span>")+(todo(c)===0?'<span class="chip todo">'+esc(t("td_acc"))+"</span>":todo(c)===2?'<span class="chip todo">'+esc(t("td_exp"))+"</span>":"")+(c.jobs.length>1?'<span class="chip">'+esc(t("nCities",{n:c.jobs.length}))+"</span>":"")+(tag?'<span class="chip me">'+esc(tag)+"</span>":"")+'<span class="when">'+fdt(c.created)+"</span></div>";
- h+='<div class="who-c"><span>'+esc(see?c.name:maskName(c.name))+'</span><span class="ph">'+esc(see?showPhone(c.phone):maskPhone(c.phone))+'</span><span class="lock">'+esc(see?t("full"):t("hidden"))+"</span></div>";
+ h+='<div class="who-c"><span>'+esc(see?c.name:maskName(c.name))+'</span><span class="ph">'+esc(see?showPhone(c.phone):maskPhone(c.phone))+"</span>"+(c.chat?'<span class="ph">'+esc(chatShow(c,see))+"</span>":"")+(c.maybe&&c.maybe.length?'<span class="chip todo">'+esc(t("mayChip",{l:c.maybe.map(function(m){return m.id}).join(", ")}))+"</span>":"")+'<span class="lock">'+esc(see?t("full"):t("hidden"))+"</span></div>";
  h+='<div class="meta"><span>'+esc(t("owner"))+": <b>"+esc(mname(c.owner))+"</b></span><span>"+esc(t("need"))+": <b>"+esc(t(c.intent))+"</b></span><span>"+esc(t("budget"))+": <b>"+esc(bshow(c))+"</b></span>"+(c.listing?"<span>"+esc(t("listing"))+": <b>"+lcodes(esc(c.listing))+"</b></span>":"")+"<span>"+esc(t("until"))+": <b>"+fd(exp)+"</b> ("+esc(t("left",{n:left}))+")</span></div>";
  h+='<div class="nowl"><b>'+esc(t("now"))+":</b> "+(c.confirmed?"":esc(t("s_wait"))+" · ")+c.jobs.map(function(j){return esc(city(j.city))+" "+lcodes(esc(jphrase(j)))}).join(" · ")+"</div>";
  if(!op)return h+"</article>";
@@ -635,20 +651,24 @@ function act(kind,id,ji,vi){openC[role+id]=true;
 }
 
 $("#f").addEventListener("submit",function(e){
- e.preventDefault();var out=$("#out"),num=norm($("#cc").value,$("#ph").value),name=$("#nm").value.trim();
- var bad=num.length<9?"needPhone":!name?"needName":!$("#cs").checked?"needConsent":"";
+ e.preventDefault();var out=$("#out"),raw=$("#ph").value.replace(/\D/g,""),num=raw?norm($("#cc").value,$("#ph").value):"",name=$("#nm").value.trim(),ck=$("#ch").value,ci=cnorm(ck,$("#cid").value);
+ if($("#cid").value.trim()&&!ck){out.innerHTML='<div class="msg dup">'+esc(t("needCh"))+"</div>";$("#ch").focus();return}
+ var hasC=ck&&ci.length>=3;
+ var bad=(raw&&num.length<9)?"needPhone":(!raw&&!hasC)?"needOne":!name?"needName":!$("#cs").checked?"needConsent":"";
  if(bad){out.innerHTML='<div class="msg dup">'+esc(t(bad))+"</div>";return}
- fp(num).then(function(h){
-  var ex=db.clients.filter(function(c){return !c.arch&&c.fp===h})[0], now=Date.now();
-  if(ex){
-   if(ex.owner===role){out.innerHTML='<div class="msg dup"><b>'+esc(t("dupH"))+"</b>"+esc(t("dupMine",{t:fdt(ex.created),id:ex.id}))+"</div>";return}
+ Promise.all([num?fp(num):"",hasC?fp(ck+":"+ci):""]).then(function(hs){
+  var h=hs[0],ch=hs[1],by="",ex=db.clients.filter(function(c){if(c.arch)return false;if(h&&c.fp===h){by="phone";return true}if(ch&&c.cfp===ch){by="chat";return true}return false})[0], now=Date.now();
+  if(ex){var hd=t(by==="chat"?"dupHC":"dupH");
+   if(ex.owner===role){out.innerHTML='<div class="msg dup"><b>'+esc(hd)+"</b>"+esc(t("dupMine",{t:fdt(ex.created),id:ex.id}))+"</div>";return}
    ex.log.push({t:now,by:role,k:"l_dup"});db.dups++;save();render();
-   out.innerHTML='<div class="msg dup"><b>'+esc(t("dupH"))+"</b>"+esc(t("dupT",{o:mname(ex.owner),t:fdt(ex.created),id:ex.id}))+"</div>";return}
+   out.innerHTML='<div class="msg dup"><b>'+esc(hd)+"</b>"+esc(t("dupT",{o:mname(ex.owner),t:fdt(ex.created),id:ex.id}))+"</div>";return}
   db.seq++;var id="C-"+("0000"+db.seq).slice(-4),ct=$("#ct").value;
   var c={id:id,owner:role,name:name,phone:num,fp:h,intent:$("#it").value,budget:$("#bg").value,listing:$("#ls").value.trim().toUpperCase().slice(0,12),created:now,last:now,confirmed:false,log:[{t:now,by:role,k:"l_reg"}],jobs:[]};
-  var j=addJob(c,ct,now,role);db.clients.unshift(c);
+  if(hasC){c.chat={k:ck,id:ci};c.cfp=ch}
+  var mb=maybeOf(c);if(mb.length){c.maybe=mb;mb.forEach(function(m){c.log.push({t:now,by:"admin",k:"l_maybe",l:m.id,w:m.why});var x=db.clients.filter(function(q){return q.id===m.id})[0];x.maybe=(x.maybe||[]).concat([{id:id,why:m.why}]);x.log.push({t:now,by:"admin",k:"l_maybe",l:id,w:m.why})})}
+  var j=addJob(c,ct,now,role);db.clients.unshift(c);openC[role+id]=true;
   save();$("#f").reset();budgets();tab="all";render();
-  out.innerHTML='<div class="msg ok"><b>'+esc(t("okH"))+'</b><span class="mono">'+esc(t("okT",{id:id,t:fdt(now),e:fd(now+PROTECT*DAY)}))+"</span><br>"+esc(t("okConf"))+(j.status==="ref"?"<br>"+esc(t("okRef",{c:city(ct),m:mname(j.m)})):j.status==="none"?"<br>"+esc(t("okNone",{c:city(ct)})):"")+"</div>";
+  out.innerHTML='<div class="msg ok"><b>'+esc(t("okH"))+'</b><span class="mono">'+esc(t("okT",{id:id,t:fdt(now),e:fd(now+PROTECT*DAY)}))+"</span><br>"+esc(t("okConf"))+(j.status==="ref"?"<br>"+esc(t("okRef",{c:city(ct),m:mname(j.m)})):j.status==="none"?"<br>"+esc(t("okNone",{c:city(ct)})):"")+"</div>"+(mb.length?'<div class="msg dup"><b>'+esc(t("mayH"))+"</b>"+esc(t("mayT",{l:mb.map(function(m){return m.id+" ("+t("mw_"+m.why)+")"}).join(", ")}))+"</div>":"");
  });
 });
 document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(b){act(b.getAttribute("data-act"),b.getAttribute("data-id"),+b.getAttribute("data-j"),+b.getAttribute("data-v"));return}
