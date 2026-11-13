@@ -33,7 +33,7 @@
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-.bar{background:var(--bar,var(--night));color:var(--night-ink);transition:background .25s}
+.bar{background:var(--bar,var(--night));color:var(--night-ink);transition:background .25s;position:sticky;top:0;z-index:30;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 :root[data-role="asn"]{--bar:#4A3413;--barc:var(--m-asn)}
 :root[data-role="r2"]{--bar:#04404B;--barc:var(--m-r2)}
 :root[data-role="bkk"]{--bar:#4A2450;--barc:var(--m-bkk)}
@@ -53,7 +53,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-
 .lede{color:var(--ink2);margin:0 0 18px;max-width:70ch}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:999px;background:#C7402B;color:#fff;font-size:13.5px;font-weight:600;text-decoration:none}
 .bell[hidden]{display:none}
-.todo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px;scroll-margin-top:12px}
+.todo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px;scroll-margin-top:var(--sm,84px)}
 .todo h2{font-size:16px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
 .todo h2 b{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:#C7402B;color:#fff;font-family:var(--mono);font-size:13px;font-weight:500}
 .todo.none h2 b{background:var(--teal)}
@@ -64,7 +64,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-
 .todo button.urgent{border-left-color:#C7402B}
 .todo button .tc{font-family:var(--mono);font-size:13px;flex:none}.todo button .tx{flex:1}.todo button .go{color:var(--ink2);flex:none}
 .todo p{margin:0;color:var(--ink2);font-size:14px}
-.c{scroll-margin-top:12px}.c.flash{outline:3px solid #C7402B;outline-offset:2px}
+.c{scroll-margin-top:var(--sm,84px)}.c.flash{outline:3px solid #C7402B;outline-offset:2px}
 .who{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--barc,var(--teal));border-radius:12px;padding:12px 14px;margin-bottom:16px}
 .who b{font-size:17px}
 .who span{color:var(--ink2);font-size:14px}
@@ -194,6 +194,7 @@ footer a{text-underline-offset:3px}
 @media (max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:480px){.row2{grid-template-columns:1fr}.c-top .when{margin-left:0;width:100%}}
 @media (prefers-reduced-motion:no-preference){.c{transition:border-color .2s}}
+@media (max-width:640px){.bar .wrap{gap:6px 8px;padding-top:8px;padding-bottom:8px}.mark{font-size:15px;flex:1 1 100%;margin:0}.mark small{display:none}.bar label{display:none}.bar select{min-height:36px;font-size:13.5px;padding:0 6px}#role{flex:1 1 0;min-width:0}#lang{flex:none}.bell{min-height:32px;padding:0 9px;font-size:12.5px}}
 </style>
 <script src="thor-analytics.js?v=1" defer></script>
 </head>
@@ -272,7 +273,7 @@ var T={
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",r5:"ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก",r6:"ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
-  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",ack:"รับทราบ",l_ack:"รับทราบ: {l}",rH:"รายงานจากข้อมูลความเคลื่อนไหว",rSub:"ทุกการกดในระบบถูกเก็บเป็น 1 รายการ รายงานด้านล่างคำนวณจากรายการเหล่านั้น {n} รายการ",rFun:"ลูกค้าไปถึงขั้นไหน (นับตามงานแต่ละเมือง)",rAg:"รายสมาชิก",rLs:"รายทรัพย์",rAgMe:"ของคุณ เทียบกับรวมเครือข่าย",rLsMe:"ทรัพย์ในงานของคุณ",rTot:"รวมเครือข่าย",rScope:"คุณเห็นรายละเอียดเฉพาะของตัวเอง และตัวเลขรวมของเครือข่าย",rScopeA:"ผู้ดูแลเครือข่ายเห็นรายงานของสมาชิกทุกราย",rNoLs:"ยังไม่มีการพาดูทรัพย์",cAg:"สมาชิก",cReg:"ลงทะเบียน",cOut:"ส่งต่อออก",cIn:"รับส่งต่อ",cView:"พาดู",cBook:"จองขึ้นไป",cLs:"ทรัพย์",cSeen:"ดูแล้ว",cLike:"สนใจ",cNo:"ไม่สนใจ",cPick:"จอง",rDl:"ดาวน์โหลดรายการความเคลื่อนไหว (CSV)",rDlN:"ไฟล์มีรหัสลูกค้า ไม่มีชื่อและเบอร์โทร",s_all:"งานทั้งหมด",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",ack:"รับทราบ",l_ack:"รับทราบ: {l}",rH:"รายงานจากข้อมูลความเคลื่อนไหว",rSub:"ทุกการกดในระบบถูกเก็บเป็น 1 รายการ รายงานด้านล่างคำนวณจากรายการเหล่านั้น {n} รายการ",rFun:"ลูกค้าไปถึงขั้นไหน (นับตามงานแต่ละเมือง)",rAg:"รายสมาชิก",rLs:"รายทรัพย์",rAgMe:"ของคุณ เทียบกับรวมเครือข่าย",rLsMe:"ทรัพย์ในงานของคุณ",rTot:"รวมเครือข่าย",rScope:"คุณเห็นรายละเอียดเฉพาะของตัวเอง และตัวเลขรวมของเครือข่าย",rScopeA:"ผู้ดูแลเครือข่ายเห็นรายงานของสมาชิกทุกราย",rNoLs:"ยังไม่มีการพาดูทรัพย์",cAg:"สมาชิก",cReg:"ลงทะเบียน",cOut:"ส่งต่อออก",cIn:"รับส่งต่อ",cView:"นัดดู",cBook:"จองขึ้นไป",cLs:"ทรัพย์",cSeen:"ดูแล้ว",cLike:"สนใจ",cNo:"ไม่สนใจ",cPick:"จอง",rDl:"ดาวน์โหลดรายการความเคลื่อนไหว (CSV)",rDlN:"ไฟล์มีรหัสลูกค้า ไม่มีชื่อและเบอร์โทร",s_all:"งานทั้งหมด",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
   stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
   adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
   memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
@@ -292,7 +293,7 @@ var T={
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",r5:"One client has one owner and can be referred to several cities, one member per city",r6:"The client confirms the registration themselves; unconfirmed entries lapse after 48 hours",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
-  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",ack:"Acknowledge",l_ack:"Acknowledged: {l}",rH:"Reports from the activity log",rSub:"Every tap in the system is stored as one entry. The reports below are computed from those {n} entries.",rFun:"How far clients get (counted per city job)",rAg:"By member",rLs:"By listing",rAgMe:"Yours against the network total",rLsMe:"Listings in your jobs",rTot:"Network total",rScope:"You see your own detail and the network totals",rScopeA:"The network admin sees every member's report",rNoLs:"No viewings yet",cAg:"Member",cReg:"Registered",cOut:"Referred out",cIn:"Referrals taken",cView:"Viewings",cBook:"Reserved or beyond",cLs:"Listing",cSeen:"Viewed",cLike:"Interested",cNo:"Not interested",cPick:"Reserved",rDl:"Download the activity log (CSV)",rDlN:"The file holds client codes, no names or phone numbers",s_all:"All jobs",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",ack:"Acknowledge",l_ack:"Acknowledged: {l}",rH:"Reports from the activity log",rSub:"Every tap in the system is stored as one entry. The reports below are computed from those {n} entries.",rFun:"How far clients get (counted per city job)",rAg:"By member",rLs:"By listing",rAgMe:"Yours against the network total",rLsMe:"Listings in your jobs",rTot:"Network total",rScope:"You see your own detail and the network totals",rScopeA:"The network admin sees every member's report",rNoLs:"No viewings yet",cAg:"Member",cReg:"Registered",cOut:"Referred out",cIn:"Referrals taken",cView:"Viewings booked",cBook:"Reserved or beyond",cLs:"Listing",cSeen:"Viewed",cLike:"Interested",cNo:"Not interested",cPick:"Reserved",rDl:"Download the activity log (CSV)",rDlN:"The file holds client codes, no names or phone numbers",s_all:"All jobs",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
   stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
   adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
   memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
@@ -552,9 +553,11 @@ $("#sort").addEventListener("change",function(e){sortBy=e.target.value;render()}
 $("#lang").addEventListener("change",function(e){lang=e.target.value;render()});
 $("#reset").addEventListener("click",function(){seed().then(function(){$("#out").innerHTML="";tab="all";render()})});
 
+function barH(){var b=document.querySelector(".bar");if(b)document.documentElement.style.setProperty("--sm",(b.offsetHeight+12)+"px")}
+window.addEventListener("resize",barH);
 var q=new URLSearchParams(location.search);if(T[q.get("lang")])lang=q.get("lang");if(MEMBERS[q.get("as")]||q.get("as")==="admin")role=q.get("as");
 $("#lang").value=lang;
-(load()?Promise.resolve():seed()).then(render);
+(load()?Promise.resolve():seed()).then(function(){render();barH()});
 })();
 </script>
 </body>
