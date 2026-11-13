@@ -86,6 +86,19 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-
 .fun b{font-family:var(--mono);font-weight:500;text-align:right}
 .rep-g>div{min-width:0}
 .tw{overflow-x:auto}
+.pds{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
+.pds button{min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13.5px}
+.pds button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lk{background:none;border:0;padding:6px 0;min-height:32px;color:var(--teal);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-align:left}
+.det{margin-top:16px;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:12px 14px;background:var(--paper);scroll-margin-top:var(--sm,84px)}
+.det-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}.det-h h3{margin:0;font-size:16px}
+.det h4{font-size:13.5px;margin:16px 0 6px}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin-top:10px}
+.kp div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.kp b{display:block;font-family:var(--mono);font-size:21px;font-weight:500;line-height:1.2}
+.kp span{display:block;font-size:12.5px;color:var(--ink2)}.kp small{display:block;font-size:11.5px;color:var(--ink2);margin-top:2px}
+.kp small.up{color:var(--teal)}.kp small.dn{color:var(--warn)}
+.facts{margin:12px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2)}.facts b{color:var(--ink);font-weight:500}
 .rep table{border-collapse:collapse;width:100%;font-size:13.5px}
 .rep th,.rep td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
 .rep th{font-weight:500;color:var(--ink2);font-size:12.5px}.rep th:first-child,.rep td:first-child{text-align:left}
@@ -163,6 +176,7 @@ button{font:inherit;cursor:pointer}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .steps i.on{color:#0B1418}}
 .ju{font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
 .ja{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ja input.pr{width:150px}
 .ja input{font:inherit;font-size:14px;width:108px;min-height:38px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .nowl{margin-top:10px;font-size:14.5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
 .nowl b{font-weight:600}
@@ -269,7 +283,7 @@ footer a{text-underline-offset:3px}
 (function(){
 "use strict";
 var CONFIRM_H=48, STEPS=["view","seen","book","contract","close"];
-var KEY="hai-registry-demo-v8", DAY=864e5, PROTECT=90;
+var KEY="hai-registry-demo-v9", DAY=864e5, PROTECT=90;
 var T={
  th:{viewAs:"ดูในฐานะ",demoB:"ระบบตัวอย่าง",demoT:"ลูกค้าในหน้านี้เป็นข้อมูลสมมติ และเก็บในเครื่องนี้เท่านั้น อย่ากรอกข้อมูลลูกค้าจริง",reset:"เริ่มข้อมูลตัวอย่างใหม่",
   h1:"ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า",lede:"ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง",
@@ -277,7 +291,7 @@ var T={
   consent:"ลูกค้ายินยอมให้แชร์ความต้องการกับสมาชิกในเครือข่าย เพื่อหาทรัพย์ที่ตรง",submit:"ลงทะเบียนและประทับเวลา",
   rulesH:"กติกาในระบบนี้",r1:"เวลาที่ระบบประทับคือหลักฐาน ลงก่อนได้สิทธิ์ก่อน",r2:"เบอร์ซ้ำ ลงไม่ได้ และระบบแจ้งเจ้าของเดิม",r3:"คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด",r4:"ชื่อและเบอร์เต็มเห็นเฉพาะสมาชิกที่เกี่ยวข้องกับดีล",r5:"ลูกค้า 1 คนมีเจ้าของคนเดียว ส่งต่อได้หลายเมือง เมืองละ 1 สมาชิก",r6:"ลูกค้ากดยืนยันเอง สิทธิ์จึงสมบูรณ์ รอยืนยันได้ 48 ชั่วโมง",
   lh:"ทะเบียนลูกค้าของเครือข่าย",foot:"ตัวอย่างประกอบแผนระบบลงทะเบียนลูกค้า ·",
-  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",ack:"รับทราบ",l_ack:"รับทราบ: {l}",rH:"รายงานจากข้อมูลความเคลื่อนไหว",rSub:"ทุกการกดในระบบถูกเก็บเป็น 1 รายการ รายงานด้านล่างคำนวณจากรายการเหล่านั้น {n} รายการ",rFun:"ลูกค้าไปถึงขั้นไหน (นับตามงานแต่ละเมือง)",rAg:"รายสมาชิก",rLs:"รายทรัพย์",rAgMe:"ของคุณ เทียบกับรวมเครือข่าย",rLsMe:"ทรัพย์ในงานของคุณ",rTot:"รวมเครือข่าย",rScope:"คุณเห็นรายละเอียดเฉพาะของตัวเอง และตัวเลขรวมของเครือข่าย",rScopeA:"ผู้ดูแลเครือข่ายเห็นรายงานของสมาชิกทุกราย",rNoLs:"ยังไม่มีการพาดูทรัพย์",cAg:"สมาชิก",cReg:"ลงทะเบียน",cOut:"ส่งต่อออก",cIn:"รับส่งต่อ",cView:"นัดดู",cBook:"จองขึ้นไป",cLs:"ทรัพย์",cSeen:"ดูแล้ว",cLike:"สนใจ",cNo:"ไม่สนใจ",cPick:"จอง",rDl:"ดาวน์โหลดรายการความเคลื่อนไหว (CSV)",rDlN:"ไฟล์มีรหัสลูกค้า ไม่มีชื่อและเบอร์โทร",s_all:"งานทั้งหมด",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
+  all:"ทั้งเครือข่าย",mine:"ลูกค้าของฉัน",tome:"ส่งต่อมาให้ฉัน",legend:"สีกล่อง = เจ้าของลูกค้า",ack:"รับทราบ",l_ack:"รับทราบ: {l}",rH:"รายงานจากข้อมูลความเคลื่อนไหว",rSub:"รายงานคำนวณจากรายการความเคลื่อนไหว {n} รายการ รวมประวัติย้อนหลังสมมติ 14 เดือน",rFun:"ทั้งเครือข่ายในช่วงเวลานี้",rPd:"ช่วงเวลา",pd_d30:"30 วันล่าสุด",pd_d90:"3 เดือนล่าสุด",pd_d365:"12 เดือนล่าสุด",pd_all:"ทั้งหมด",cClose:"โอน",cVal:"มูลค่าจอง (ซื้อ)",cMon:"เดือน",rTap:"กดที่ชื่อสมาชิกหรือรหัสทรัพย์เพื่อดูรายละเอียดตามช่วงเวลา",rClose:"ปิด",rPrev:"จากช่วงก่อนหน้า",rPrevV:"ช่วงก่อนหน้า {v}",rMon:"รายเดือน 6 เดือนล่าสุด",rLast:"ความเคลื่อนไหวล่าสุด",fAcc:"เวลาเฉลี่ยก่อนกดรับลูกค้าส่งต่อ",fHrs:"{n} ชม.",fStale:"นัดค้างเกิน 3 วันที่ยังไม่อัปเดต (ตอนนี้)",fTop:"ทรัพย์ที่นัดดูมากที่สุด",fBy:"สมาชิกที่นัดดูทรัพย์นี้",fRate:"สนใจ ต่อ ดูแล้ว",fConv:"จอง ต่อ นัดดู",fConvV:"{b} จาก {v} ครั้ง",prPh:"ราคาที่ตกลง (บาท)",prPhR:"ค่าเช่าต่อเดือน (บาท)",prSave:"บันทึกราคา",l_price:"{c}: บันทึกราคา {l}",rAg:"รายสมาชิก",rLs:"รายทรัพย์",rAgMe:"ของคุณ เทียบกับรวมเครือข่าย",rLsMe:"ทรัพย์ในงานของคุณ",rTot:"รวมเครือข่าย",rScope:"คุณเห็นรายละเอียดเฉพาะของตัวเอง และตัวเลขรวมของเครือข่าย",rScopeA:"ผู้ดูแลเครือข่ายเห็นรายงานของสมาชิกทุกราย",rNoLs:"ยังไม่มีการพาดูทรัพย์",cAg:"สมาชิก",cReg:"ลงทะเบียน",cOut:"ส่งต่อออก",cIn:"รับส่งต่อ",cView:"นัดดู",cBook:"จองขึ้นไป",cLs:"ทรัพย์",cSeen:"ดูแล้ว",cLike:"สนใจ",cNo:"ไม่สนใจ",cPick:"จอง",rDl:"ดาวน์โหลดรายการความเคลื่อนไหว (CSV)",rDlN:"ไฟล์มีรหัสลูกค้า ไม่มีชื่อและเบอร์โทร",s_all:"งานทั้งหมด",todoH:"งานที่รอคุณ",todoNone:"ไม่มีงานค้าง",bell:"งานค้าง {n}",a_acc:"ส่งต่อมาให้คุณ รอกดรับ",a_conf:"รอลูกค้ายืนยัน เหลือ {n} ชม.",a_stale:"นัดดู {l} ไว้ {n} วันแล้ว ยังไม่อัปเดต",a_idle:"ไม่มีความเคลื่อนไหว {n} วัน",a_exp:"คุ้มครองเหลือ {n} วัน",a_dup:"{m} พยายามลงทะเบียนซ้ำ",a_none:"{c}: ลูกค้าต้องการ แต่ยังไม่มีสมาชิกในพื้นที่",sortBy:"เรียงตาม",so_todo:"งานที่ต้องทำก่อน",so_act:"อัปเดตล่าสุด",so_stage:"ใกล้ปิดดีลที่สุด",so_new:"ลงทะเบียนล่าสุด",td_acc:"รอคุณกดรับ",td_exp:"ใกล้หมดคุ้มครอง",
   stTotal:"ลูกค้าในทะเบียน",stMine:"ลูกค้าของฉัน",stTo:"ส่งต่อมาให้ฉัน",stDup:"ลงซ้ำที่ระบบกันไว้",
   adminNote:"ผู้ดูแลเห็นรหัส เจ้าของ และสถานะของทุกราย แต่ไม่เห็นชื่อเต็มและเบอร์โทร",adminForm:"ผู้ดูแลเครือข่ายไม่ลงทะเบียนลูกค้าในบทบาทนี้ เลือกดูในฐานะสมาชิกเพื่อลองลงทะเบียน",
   memberNote:"คุณเห็นชื่อและเบอร์เต็มเฉพาะลูกค้าของคุณ และลูกค้าที่ส่งต่อมาแล้วคุณกดรับ",
@@ -297,7 +311,7 @@ var T={
   consent:"The client agrees to share their requirements with network members to find a matching property",submit:"Register and stamp the time",
   rulesH:"Rules in this system",r1:"The system timestamp is the evidence: first to register holds the right",r2:"A duplicate number is refused and the first owner is notified",r3:"Protected for 90 days from the latest activity",r4:"Full name and number are shown only to members on the deal",r5:"One client has one owner and can be referred to several cities, one member per city",r6:"The client confirms the registration themselves; unconfirmed entries lapse after 48 hours",
   lh:"Network client registry",foot:"A demo for the client registry plan ·",
-  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",ack:"Acknowledge",l_ack:"Acknowledged: {l}",rH:"Reports from the activity log",rSub:"Every tap in the system is stored as one entry. The reports below are computed from those {n} entries.",rFun:"How far clients get (counted per city job)",rAg:"By member",rLs:"By listing",rAgMe:"Yours against the network total",rLsMe:"Listings in your jobs",rTot:"Network total",rScope:"You see your own detail and the network totals",rScopeA:"The network admin sees every member's report",rNoLs:"No viewings yet",cAg:"Member",cReg:"Registered",cOut:"Referred out",cIn:"Referrals taken",cView:"Viewings booked",cBook:"Reserved or beyond",cLs:"Listing",cSeen:"Viewed",cLike:"Interested",cNo:"Not interested",cPick:"Reserved",rDl:"Download the activity log (CSV)",rDlN:"The file holds client codes, no names or phone numbers",s_all:"All jobs",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
+  all:"Whole network",mine:"My clients",tome:"Referred to me",legend:"Box colour = client owner",ack:"Acknowledge",l_ack:"Acknowledged: {l}",rH:"Reports from the activity log",rSub:"Computed from {n} activity entries, including 14 months of made-up history.",rFun:"Whole network in this period",rPd:"Period",pd_d30:"Last 30 days",pd_d90:"Last 3 months",pd_d365:"Last 12 months",pd_all:"All time",cClose:"Transferred",cVal:"Reserved value (sales)",cMon:"Month",rTap:"Tap a member or a listing code for its detail over the chosen period",rClose:"Close",rPrev:"vs previous period",rPrevV:"previous period {v}",rMon:"By month, last 6 months",rLast:"Latest activity",fAcc:"Average time before accepting a referral",fHrs:"{n} h",fStale:"Viewings booked over 3 days ago and not updated (now)",fTop:"Most-booked listings",fBy:"Members who booked viewings of this listing",fRate:"Interested per viewed",fConv:"Reserved per viewing booked",fConvV:"{b} of {v}",prPh:"Agreed price (THB)",prPhR:"Monthly rent (THB)",prSave:"Save price",l_price:"{c}: price saved for {l}",rAg:"By member",rLs:"By listing",rAgMe:"Yours against the network total",rLsMe:"Listings in your jobs",rTot:"Network total",rScope:"You see your own detail and the network totals",rScopeA:"The network admin sees every member's report",rNoLs:"No viewings yet",cAg:"Member",cReg:"Registered",cOut:"Referred out",cIn:"Referrals taken",cView:"Viewings booked",cBook:"Reserved or beyond",cLs:"Listing",cSeen:"Viewed",cLike:"Interested",cNo:"Not interested",cPick:"Reserved",rDl:"Download the activity log (CSV)",rDlN:"The file holds client codes, no names or phone numbers",s_all:"All jobs",todoH:"Waiting for you",todoNone:"Nothing pending",bell:"{n} pending",a_acc:"Referred to you, waiting for you to accept",a_conf:"Waiting for the client to confirm, {n} h left",a_stale:"Viewing of {l} was booked {n} days ago, not updated",a_idle:"No activity for {n} days",a_exp:"{n} days of protection left",a_dup:"{m} tried to register a duplicate",a_none:"{c}: a client wants this city, but there is no member yet",sortBy:"Sort by",so_todo:"To-do first",so_act:"Latest update",so_stage:"Closest to closing",so_new:"Newest registration",td_acc:"Waiting for you to accept",td_exp:"Protection ending soon",
   stTotal:"Clients registered",stMine:"My clients",stTo:"Referred to me",stDup:"Duplicates blocked",
   adminNote:"The admin sees every client's code, owner and status, but not full names or phone numbers.",adminForm:"The network admin does not register clients in this role. View as a member to try registering.",
   memberNote:"You see full name and number only for your own clients, and for referrals you have accepted.",
@@ -321,7 +335,7 @@ var MEMBERS={
 var CITIES=[["pattaya",{th:"พัทยา",en:"Pattaya"},"asn"],["jomtien",{th:"จอมเทียน",en:"Jomtien"},"r2"],["bangkok",{th:"กรุงเทพฯ",en:"Bangkok"},"bkk"],["sattahip",{th:"สัตหีบ",en:"Sattahip"},"asn"],["huahin",{th:"หัวหิน",en:"Hua Hin"},""],["phuket",{th:"ภูเก็ต",en:"Phuket"},""],["chiangmai",{th:"เชียงใหม่",en:"Chiang Mai"},""]];
 var BUDGET={buy:["≤ 5M","5–10M","10–20M","20–50M","50M+"],rent:["≤ 30K","30–60K","60–120K","120–250K","250K+"]};
 var ORDER=["new","ref","acc","view","book","close"];
-var $=function(s){return document.querySelector(s)}, lang="th", role="asn", tab="all", sortBy="todo", db;
+var $=function(s){return document.querySelector(s)}, lang="th", role="asn", tab="all", sortBy="todo", period="d90", focus=null, db;
 
 function t(k,v){var s=(T[lang][k]!=null?T[lang][k]:T.th[k])||k;if(v)for(var x in v)s=s.split("{"+x+"}").join(v[x]);return s}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -376,7 +390,8 @@ function seed(){
   mk("C-0138","asn","Tom Becker","491000000138","buy","10–20M","",1.5,[["jomtien",1.4]],[]),
   mk("C-0137","r2","Mei Tanaka","819000000137","buy","5–10M","12B07",95,[["jomtien",95]],[[82,"view","jomtien","12B07"]])
  ]};
- return Promise.all(db.clients.map(function(c){return fp(c.phone).then(function(h){c.fp=h})})).then(save);
+ var act=db.clients;db.clients=act.concat(history(now));
+ return Promise.all(act.map(function(c){return fp(c.phone).then(function(h){c.fp=h})})).then(save);
 }
 
 function budgets(){var it=$("#it").value,b=$("#bg"),k=b.getAttribute("data-it")===it?b.value:"";b.innerHTML=BUDGET[it].map(function(x){return "<option>"+esc(x)+"</option>"}).join("");b.setAttribute("data-it",it);if(k)b.value=k;$("#bgU").textContent=t(it==="rent"?"uRent":"uBuy")}
@@ -397,7 +412,7 @@ function sorted(rows){var f={todo:function(a,b){return todo(a)-todo(b)||b.last-a
 // what the person looking should update: [urgent?, text, client id]
 function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
  var add=function(u,x,id,key){if(key&&seen[key])return;out.push([u,x,id,key||""])};
- db.clients.forEach(function(c){var mineC=c.owner===role||role==="admin";
+ db.clients.forEach(function(c){if(c.arch)return;var mineC=c.owner===role||role==="admin";
   if(!c.confirmed&&mineC)add(1,t("a_conf",{n:Math.max(0,Math.ceil((c.created+CONFIRM_H*36e5-now)/36e5))}),c.id);
   c.jobs.forEach(function(j){
    if(role!=="admin"&&j.m===role&&j.status==="ref"&&c.confirmed)add(1,t("a_acc"),c.id);
@@ -410,29 +425,73 @@ function alerts(){var out=[],now=Date.now(),seen=(db.acks&&db.acks[role])||{};
  });
  return out.sort(function(a,b){return b[0]-a[0]});
 }
-function mineRep(c){return role==="admin"||c.owner===role||c.jobs.some(function(j){return j.m===role})}
-function events(){var o=[];db.clients.filter(mineRep).forEach(function(c){c.log.forEach(function(l){o.push({t:l.t,id:c.id,by:l.by,k:l.k.replace(/^l_/,""),c:l.c||"",l:l.l||"",m:l.m||""})})});return o.sort(function(a,b){return a.t-b.t})}
+function mineRep(c){return role==="admin"||c.owner===role||c.jobs.some(function(j){return j.m===role})||c.log.some(function(l){return l.by===role})}
+function allEvents(scoped){var o=[];db.clients.forEach(function(c){if(scoped&&!mineRep(c))return;c.log.forEach(function(l){o.push({t:l.t,id:c.id,by:l.by,k:l.k.replace(/^l_/,""),c:l.c||"",l:l.l||"",m:l.m||"",p:l.p||0,x:l.x?1:0,it:c.intent})})});return o.sort(function(a,b){return a.t-b.t})}
+function events(){return allEvents(true)}
+function live(ev){return ev.filter(function(e){return !e.x&&e.k!=="undo"&&e.k!=="ack"})}
+var PERIODS={d30:30,d90:90,d365:365,all:0}, MET=["view","seen","vlike","vno","book","close"];
+function win(){var n=Date.now(),d=PERIODS[period];return d?[n-d*DAY,n,n-2*d*DAY]:[0,n,null]}
+function tally(ev,a,b){var r={reg:0,ref:0,acc:0,view:0,seen:0,vlike:0,vno:0,book:0,contract:0,close:0,val:0};ev.forEach(function(e){if(e.t<a||e.t>=b)return;if(r[e.k]!=null)r[e.k]++;if(e.k==="book"&&e.it==="buy")r.val+=e.p});return r}
+function baht(n){return !n?"–":n>=1e6?"฿"+(n/1e6).toFixed(n>=1e7?0:1)+"M":n>=1e3?"฿"+Math.round(n/1e3)+"K":"฿"+n}
+function td(a){return "<td>"+a.join("</td><td>")+"</td>"}
+function th(a){return "<thead><tr><th>"+a.map(function(k){return esc(t(k))}).join("</th><th>")+"</th></tr></thead>"}
 function report(){
- var ev=events(),jobs=[],ag={},ls={},mem=Object.keys(MEMBERS);
- mem.forEach(function(m){ag[m]={reg:0,out:0,inn:0,view:0,book:0}});
- db.clients.forEach(function(c){ag[c.owner].reg++;c.jobs.forEach(function(j){if(!j.m)return;jobs.push(j);
-  if(j.m!==c.owner){ag[c.owner].out++;if(j.accepted)ag[j.m].inn++}
-  ag[j.m].view+=j.views.length;if(STEPS.indexOf(j.status)>=2)ag[j.m].book++;
-  if(role==="admin"||j.m===role||c.owner===role)j.views.forEach(function(v){var r=ls[v.code]=ls[v.code]||{view:0,seen:0,like:0,no:0,pick:0};r.view++;if(v.st==="seen")r.seen++;if(v.like===true)r.like++;if(v.like===false)r.no++;if(STEPS.indexOf(j.status)>=2&&j.listing===v.code)r.pick++})})});
- var fn=[["s_all",jobs.length]].concat(STEPS.map(function(x,i){return ["s_"+x,jobs.filter(function(j){return STEPS.indexOf(j.status)>=i}).length]})),mx=Math.max(1,jobs.length);
- var h='<h2 id="rh">'+esc(t("rH"))+'</h2><p class="sub">'+esc(t("rSub",{n:ev.length}))+"</p>";
+ var w=win(),net=live(allEvents(false)),mineEv=live(events()),mem=Object.keys(MEMBERS),shown=mem.filter(function(m){return role==="admin"||m===role});
+ var h='<h2 id="rh">'+esc(t("rH"))+'</h2><p class="sub">'+esc(t("rSub",{n:allEvents(true).length}))+" "+esc(t(role==="admin"?"rScopeA":"rScope"))+"</p>";
+ h+='<div class="pds" role="group" aria-label="'+esc(t("rPd"))+'">'+Object.keys(PERIODS).map(function(k){return '<button type="button" data-pd="'+k+'" aria-pressed="'+(k===period)+'">'+esc(t("pd_"+k))+"</button>"}).join("")+"</div>";
+ var nt=tally(net,w[0],w[1]),fn=[["cReg",nt.reg],["s_view",nt.view],["s_seen",nt.seen],["s_book",nt.book],["s_contract",nt.contract],["s_close",nt.close]],mx=Math.max(1,nt.reg,nt.view);
  h+="<h3>"+esc(t("rFun"))+'</h3><div class="fun">'+fn.map(function(f){return "<div><span>"+esc(t(f[0]))+'</span><i style="width:'+Math.round(f[1]/mx*100)+'%"></i><b>'+f[1]+"</b></div>"}).join("")+"</div>";
- h+='<p class="sub">'+esc(t(role==="admin"?"rScopeA":"rScope"))+"</p>";
- h+='<div class="rep-g"><div><h3>'+esc(t(role==="admin"?"rAg":"rAgMe"))+'</h3><div class="tw"><table><thead><tr><th>'+["cAg","cReg","cOut","cIn","cView","cBook"].map(function(k){return esc(t(k))}).join("</th><th>")+"</th></tr></thead><tbody>"+mem.filter(function(m){return role==="admin"||m===role}).map(function(m){var a=ag[m];return "<tr><td>"+esc(mname(m))+"</td><td>"+[a.reg,a.out,a.inn,a.view,a.book].join("</td><td>")+"</td></tr>"}).join("")+"<tr><td>"+esc(t("rTot"))+"</td><td>"+["reg","out","inn","view","book"].map(function(k){return mem.reduce(function(x,m){return x+ag[m][k]},0)}).join("</td><td>")+"</td></tr></tbody></table></div></div>";
- var codes=Object.keys(ls).sort(function(a,b){return ls[b].view-ls[a].view||a.localeCompare(b)});
- h+="<div><h3>"+esc(t(role==="admin"?"rLs":"rLsMe"))+"</h3>"+(codes.length?"":'<p class="sub">'+esc(t("rNoLs"))+"</p>")+'<div class="tw"'+(codes.length?"":" hidden")+'><table><thead><tr><th>'+["cLs","cView","cSeen","cLike","cNo","cPick"].map(function(k){return esc(t(k))}).join("</th><th>")+"</th></tr></thead><tbody>"+codes.map(function(k){var r=ls[k];return "<tr><td>"+esc(k)+"</td><td>"+[r.view,r.seen,r.like,r.no,r.pick].join("</td><td>")+"</td></tr>"}).join("")+"</tbody></table></div></div></div>";
+ var row=function(r){return [r.reg,r.ref,r.acc,r.view,r.seen,r.book,r.close,baht(r.val)]};
+ h+='<h3>'+esc(t(role==="admin"?"rAg":"rAgMe"))+'</h3><div class="tw"><table>'+th(["cAg","cReg","cOut","cIn","cView","cSeen","cPick","cClose","cVal"])+"<tbody>"+shown.map(function(m){return '<tr><td><button type="button" class="lk" data-fo="ag|'+m+'">'+esc(mname(m))+"</button></td>"+td(row(tally(net.filter(function(e){return e.by===m}),w[0],w[1])))+"</tr>"}).join("")+"<tr><td>"+esc(t("rTot"))+"</td>"+td(row(nt))+"</tr></tbody></table></div>";
+ var ls={};mineEv.forEach(function(e){if(!e.l||e.t<w[0]||MET.indexOf(e.k)<0)return;var r=ls[e.l]=ls[e.l]||{view:0,seen:0,vlike:0,vno:0,book:0,close:0,val:0};r[e.k]++;if(e.k==="book"&&e.it==="buy")r.val+=e.p});
+ var codes=Object.keys(ls).sort(function(a,b){return ls[b].view-ls[a].view||ls[b].seen-ls[a].seen||a.localeCompare(b)});
+ h+="<h3>"+esc(t(role==="admin"?"rLs":"rLsMe"))+"</h3>"+(codes.length?'<div class="tw"><table>'+th(["cLs","cView","cSeen","cLike","cNo","cPick","cClose","cVal"])+"<tbody>"+codes.map(function(k){var r=ls[k];return '<tr><td><button type="button" class="lk" data-fo="ls|'+esc(k)+'">'+esc(k)+"</button></td>"+td([r.view,r.seen,r.vlike,r.vno,r.book,r.close,baht(r.val)])+"</tr>"}).join("")+"</tbody></table></div>":'<p class="sub">'+esc(t("rNoLs"))+"</p>");
+ h+='<p class="sub">'+esc(t("rTap"))+"</p>";
+ if(focus)h+=detail(focus,w,net,mineEv);
  h+='<div class="dl"><button class="btn sm" type="button" id="csv">'+esc(t("rDl"))+"</button><span>"+esc(t("rDlN"))+"</span></div>";
  $("#rep").innerHTML=h;
 }
+function detail(f,w,net,mineEv){
+ var isAg=f.t==="ag";if(isAg&&role!=="admin"&&f.id!==role)return "";
+ var ev=isAg?net.filter(function(e){return e.by===f.id}):mineEv.filter(function(e){return e.l===f.id});
+ var cur=tally(ev,w[0],w[1]),prev=w[2]==null?null:tally(ev,w[2],w[0]);
+ var keys=isAg?[["cReg","reg"],["cOut","ref"],["cIn","acc"],["cView","view"],["cSeen","seen"],["cPick","book"],["cClose","close"]]:[["cView","view"],["cSeen","seen"],["cLike","vlike"],["cNo","vno"],["cPick","book"],["cClose","close"]];
+ var h='<div class="det" id="det"><div class="det-h"><h3>'+esc(isAg?mname(f.id):t("cLs")+" "+f.id)+" · "+esc(t("pd_"+period))+'</h3><button type="button" class="btn undo" data-fx="1">✕ '+esc(t("rClose"))+"</button></div>";
+ h+='<div class="kp">'+keys.map(function(k){var d=prev?cur[k[1]]-prev[k[1]]:null;return "<div><b>"+cur[k[1]]+"</b><span>"+esc(t(k[0]))+"</span>"+(d==null?"":'<small class="'+(d>0?"up":d<0?"dn":"")+'">'+(d>0?"+":"")+d+" "+esc(t("rPrev"))+"</small>")+"</div>"}).join("")+"<div><b>"+baht(cur.val)+"</b><span>"+esc(t("cVal"))+"</span>"+(prev?"<small>"+esc(t("rPrevV",{v:baht(prev.val)}))+"</small>":"")+"</div></div>";
+ var now=new Date(),ms=[];for(var i=5;i>=0;i--){var a=new Date(now.getFullYear(),now.getMonth()-i,1),b=new Date(now.getFullYear(),now.getMonth()-i+1,1);ms.push([pad(a.getMonth()+1)+"/"+a.getFullYear(),tally(ev,a.getTime(),b.getTime())])}
+ var mk=isAg?["reg","view","seen","book","close"]:["view","seen","vlike","book","close"],mh=isAg?["cMon","cReg","cView","cSeen","cPick","cClose","cVal"]:["cMon","cView","cSeen","cLike","cPick","cClose","cVal"];
+ h+="<h4>"+esc(t("rMon"))+'</h4><div class="tw"><table>'+th(mh)+"<tbody>"+ms.map(function(m){return "<tr><td>"+m[0]+"</td>"+td(mk.map(function(k){return m[1][k]}).concat([baht(m[1].val)]))+"</tr>"}).join("")+"</tbody></table></div>";
+ var inW=ev.filter(function(e){return e.t>=w[0]});
+ if(isAg){var hrs=[];inW.forEach(function(e){if(e.k!=="acc")return;var r=net.filter(function(x){return x.k==="ref"&&x.id===e.id&&x.c===e.c&&x.t<=e.t}).pop();if(r)hrs.push((e.t-r.t)/36e5)});
+  var stale=0;db.clients.forEach(function(c){if(c.arch)return;c.jobs.forEach(function(j){if(j.m===f.id&&STEPS.indexOf(j.status)<2)j.views.forEach(function(v){if(v.st==="view"&&Date.now()-v.t>=3*DAY)stale++})})});
+  var top={};inW.forEach(function(e){if(e.k==="view"&&e.l)top[e.l]=(top[e.l]||0)+1});var tl=Object.keys(top).sort(function(a,b){return top[b]-top[a]}).slice(0,5);
+  h+='<ul class="facts"><li>'+esc(t("fAcc"))+": <b>"+(hrs.length?t("fHrs",{n:Math.round(hrs.reduce(function(a,b){return a+b},0)/hrs.length)}):"–")+"</b></li><li>"+esc(t("fStale"))+": <b>"+stale+"</b></li><li>"+esc(t("fTop"))+": <b>"+(tl.length?tl.map(function(k){return esc(k)+" ("+top[k]+")"}).join(", "):"–")+"</b></li></ul>";
+ }else{var by={};inW.forEach(function(e){if(e.k==="view")by[e.by]=(by[e.by]||0)+1});var bl=Object.keys(by).sort(function(a,b){return by[b]-by[a]});
+  var sn=cur.seen,rate=sn?Math.round(cur.vlike/sn*100):null;
+  h+='<ul class="facts"><li>'+esc(t("fBy"))+": <b>"+(bl.length?bl.map(function(m){return esc(mname(m))+" ("+by[m]+")"}).join(", "):"–")+"</b></li><li>"+esc(t("fRate"))+": <b>"+(rate==null?"–":rate+"%")+"</b></li><li>"+esc(t("fConv"))+": <b>"+(cur.view?t("fConvV",{b:cur.book,v:cur.view}):"–")+"</b></li></ul>";}
+ var last=ev.slice(-6).reverse();
+ h+="<h4>"+esc(t("rLast"))+'</h4><ul class="log">'+last.map(function(e){return "<li><time>"+fdt(e.t)+"</time><b>"+esc(mname(e.by))+"</b> · "+esc(e.id)+" · "+esc(t("l_"+e.k,{m:e.m?mname(e.m):"",c:e.c?city(e.c):"",l:e.l}).replace(/\s+/g," "))+(e.p?" · "+baht(e.p):"")+"</li>"}).join("")+"</ul></div>";
+ return h;
+}
 function csv(){var q=function(x){x=String(x==null?"":x);return /[",\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
- var rows=[["time","client","by","event","city","listing","member"]].concat(events().map(function(e){return [new Date(e.t).toISOString(),e.id,e.by,e.k,e.c,e.l,e.m]}));
- var u=URL.createObjectURL(new Blob(["\ufeff"+rows.map(function(r){return r.map(q).join(",")}).join("\n")],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");
+ var rows=[["time","client","by","event","city","listing","member","price","undone"]].concat(events().map(function(e){return [new Date(e.t).toISOString(),e.id,e.by,e.k,e.c,e.l,e.m,e.p||"",e.x?"yes":""]}));
+ var u=URL.createObjectURL(new Blob(["﻿"+rows.map(function(r){return r.map(q).join(",")}).join("\n")],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");
  a.href=u;a.download="hai-registry-activity-demo.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},2000)}
+// made-up history so the period views have something to show: finished or lapsed clients, kept out of the working list
+function history(now){
+ var sd=20261113,rnd=function(){sd|=0;sd=sd+0x6D2B79F5|0;var x=Math.imul(sd^sd>>>15,1|sd);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296},pick=function(a){return a[Math.floor(rnd()*a.length)]};
+ var POOL={asn:[["H01",18e6,32e6],["H02",60e6,110e6],["H04",52e6,69e6],["H14",17e6,23e6],["H80",9e6,14e6],["H90",21e6,29e6]],r2:[["8A03",5e6,7.5e6],["19E02",3.6e6,4.8e6],["36E09",6e6,8.5e6],["12B07",4e6,5.5e6],["27C05",7e6,9.5e6]],bkk:[["BK-2105",6e6,9e6],["BK-0812",4e6,6e6],["BK-1507",8e6,12e6]]},CITY={asn:"pattaya",r2:"jomtien",bkk:"bangkok"},out=[];
+ for(var i=0;i<54;i++){var r=rnd(),owner=r<.52?"asn":r<.88?"r2":"bkk",hand=rnd()<.28?pick(Object.keys(POOL).filter(function(m){return m!==owner})):owner;
+  var t0=now-(25+rnd()*400)*DAY,tt=t0,c={id:"C-"+("0000"+(136-i)).slice(-4),owner:owner,arch:true,confirmed:true,intent:rnd()<.86?"buy":"rent",budget:"",listing:"",name:"",phone:"",created:t0,last:t0,jobs:[],log:[{t:t0,by:owner,k:"l_reg"},{t:t0+36e5,by:"client",k:"l_conf",m:owner}]},ct=CITY[hand];
+  if(hand!==owner){tt+=rnd()*DAY;c.log.push({t:tt,by:owner,k:"l_ref",m:hand,c:ct});if(rnd()<.9){tt+=(1+rnd()*40)*36e5;c.log.push({t:tt,by:hand,k:"l_acc",c:ct})}else{out.push(c);continue}}
+  var n=1+Math.floor(rnd()*3),pool=POOL[hand].slice(),seen=[];
+  for(var v=0;v<n&&pool.length;v++){var L=pool.splice(Math.floor(rnd()*pool.length),1)[0];tt+=(.5+rnd()*5)*DAY;c.log.push({t:tt,by:hand,k:"l_view",c:ct,l:L[0]});
+   if(rnd()<.82){tt+=(.5+rnd()*3)*DAY;c.log.push({t:tt,by:hand,k:"l_seen",c:ct,l:L[0]});var lk=rnd();if(lk<.45){c.log.push({t:tt+6e5,by:hand,k:"l_vlike",c:ct,l:L[0]});seen.push(L)}else if(lk<.8)c.log.push({t:tt+6e5,by:hand,k:"l_vno",c:ct,l:L[0]})}}
+  if(seen.length&&rnd()<.5){var B=pick(seen),pr=c.intent==="buy"?Math.round((B[1]+rnd()*(B[2]-B[1]))/1e5)*1e5:Math.round((25+rnd()*120))*1e3;tt+=(2+rnd()*12)*DAY;c.log.push({t:tt,by:hand,k:"l_book",c:ct,l:B[0],p:pr});
+   if(rnd()<.85){tt+=(5+rnd()*20)*DAY;c.log.push({t:tt,by:hand,k:"l_contract",c:ct,l:B[0]});if(rnd()<.85){tt+=(15+rnd()*45)*DAY;c.log.push({t:tt,by:hand,k:"l_close",c:ct,l:B[0]})}}}
+  c.log=c.log.filter(function(l){return l.t<now});c.last=c.log[c.log.length-1].t;out.push(c)}
+ return out;
+}
 function canSee(c){return role!=="admin"&&(c.owner===role||c.jobs.some(function(j){return j.m===role&&j.accepted}))}
 
 function render(){
@@ -446,14 +505,14 @@ function render(){
  td.className="todo"+(al.length?"":" none");
  td.innerHTML="<h2><b>"+al.length+"</b>"+esc(t("todoH"))+"</h2>"+(al.length?"<ul>"+al.map(function(a){return '<li><button type="button" class="'+(a[0]?"urgent":"")+'" data-go="'+a[2]+'"><span class="tc">'+esc(a[2])+'</span><span class="tx">'+esc(a[1])+'</span><span class="go" aria-hidden="true">→</span></button>'+(a[3]?'<button type="button" class="ackb" data-ack="'+esc(a[3])+'" data-id="'+a[2]+'" data-x="'+esc(a[1])+'">✓ '+esc(t("ack"))+"</button>":"")+"</li>"}).join("")+"</ul>":"<p>"+esc(t("todoNone"))+"</p>");
  bl.hidden=!al.length;bl.textContent="🔔 "+t("bell",{n:al.length});
- var mine=db.clients.filter(function(c){return c.owner===role}).length, tome=db.clients.filter(myJob).length;
- $("#stats").innerHTML=[[db.clients.length,"stTotal"],[role==="admin"?"–":mine,"stMine"],[role==="admin"?"–":tome,"stTo"],[db.dups,"stDup"]].map(function(s){return '<div class="stat"><b>'+s[0]+"</b><span>"+esc(t(s[1]))+"</span></div>"}).join("");
+ var actv=db.clients.filter(function(c){return !c.arch}),mine=actv.filter(function(c){return c.owner===role}).length, tome=actv.filter(myJob).length;
+ $("#stats").innerHTML=[[actv.length,"stTotal"],[role==="admin"?"–":mine,"stMine"],[role==="admin"?"–":tome,"stTo"],[db.dups,"stDup"]].map(function(s){return '<div class="stat"><b>'+s[0]+"</b><span>"+esc(t(s[1]))+"</span></div>"}).join("");
  var f=$("#f");f.hidden=role==="admin";if(role==="admin")$("#out").innerHTML='<div class="msg ok">'+esc(t("adminForm"))+"</div>";else if($("#out").getAttribute("data-admin"))$("#out").innerHTML="";
  $("#out").toggleAttribute("data-admin",role==="admin");
  var tabs=role==="admin"?["all"]:["all","mine","tome"];if(tabs.indexOf(tab)<0)tab="all";
  $("#tabs").innerHTML=tabs.map(function(k){return '<button type="button" data-tab="'+k+'" aria-pressed="'+(k===tab)+'">'+esc(t(k))+"</button>"}).join("");
  $("#legend").innerHTML="<span>"+esc(t("legend"))+"</span>"+Object.keys(MEMBERS).map(function(m){return '<span class="lg o-'+m+'">'+esc(mname(m))+"</span>"}).join("");
- var rows=db.clients.filter(function(c){return tab==="all"||(tab==="mine"&&c.owner===role)||(tab==="tome"&&myJob(c))});
+ var rows=actv.filter(function(c){return tab==="all"||(tab==="mine"&&c.owner===role)||(tab==="tome"&&myJob(c))});
  $("#sort").innerHTML=["todo","act","stage","new"].map(function(k){return '<option value="'+k+'"'+(k===sortBy?" selected":"")+">"+esc(t("so_"+k))+"</option>"}).join("");
  rows=sorted(rows);
  report();
@@ -464,7 +523,7 @@ function jphrase(j){
  if(j.status==="view"||j.status==="seen"){var sn=j.views.filter(function(v){return v.st==="seen"}),ap=j.views.filter(function(v){return v.st==="view"}),o=[];
   if(sn.length)o.push(t("nSeen",{n:sn.length}));if(ap.length)o.push(sn.length?t("nAppt",{n:ap.length,c:ap.map(function(v){return v.code}).join(", ")}):t("s_view")+" "+ap.map(function(v){return v.code}).join(", "));
   return o.join(" · ")}
- return t("s_"+j.status)+(j.listing&&STEPS.indexOf(j.status)>-1?" "+j.listing:"")}
+ return t("s_"+j.status)+(j.listing&&STEPS.indexOf(j.status)>-1?" "+j.listing:"")+(j.price?" · "+baht(j.price):"")}
 function viewRow(c,j,i,v,k,mine){
  var picked=STEPS.indexOf(j.status)>=2, isPick=picked&&v.code===j.listing;
  var lab=isPick?"v_pick":picked?"v_drop":v.st==="view"?"v_view":v.like===true?"v_like":v.like===false?"v_no":"v_seen";
@@ -482,9 +541,8 @@ function jobRow(c,j,i){
  if(role!=="admin"&&j.m===role){var d=' data-id="'+c.id+'" data-j="'+i+'"';
   if(!c.confirmed)a='<span class="lock">'+esc(t("waitNote"))+"</span>";
   else if(j.status==="ref")a='<button class="btn sm" type="button" data-act="acc"'+d+">"+esc(t("accept"))+"</button>";
-  else if(si<2)a='<input id="ls-'+c.id+"-"+i+'" value="'+esc(j.views.length?"":c.listing||"")+'" placeholder="'+esc(t("lsPh"))+'" aria-label="'+esc(t("lsPh"))+'" autocomplete="off"><button class="btn ghost" type="button" data-act="vadd"'+d+">"+esc(t("vAdd"))+"</button>";
-  else if(j.status==="book")a='<button class="btn ghost" type="button" data-act="contract"'+d+">"+esc(t("toContract"))+"</button>";
-  else if(j.status==="contract")a='<button class="btn ghost" type="button" data-act="close"'+d+">"+esc(t("toClose"))+"</button>";
+  else if(si<2)a=(j.views.some(function(v){return v.st==="seen"&&v.like!==false})?'<input class="pr" id="pr-'+c.id+"-"+i+'" inputmode="numeric" placeholder="'+esc(t(c.intent==="rent"?"prPhR":"prPh"))+'" aria-label="'+esc(t("prPh"))+'" autocomplete="off">':"")+'<input id="ls-'+c.id+"-"+i+'" value="'+esc(j.views.length?"":c.listing||"")+'" placeholder="'+esc(t("lsPh"))+'" aria-label="'+esc(t("lsPh"))+'" autocomplete="off"><button class="btn ghost" type="button" data-act="vadd"'+d+">"+esc(t("vAdd"))+"</button>";
+  else if(j.status==="book"||j.status==="contract")a='<button class="btn ghost" type="button" data-act="'+(j.status==="book"?"contract":"close")+'"'+d+">"+esc(t(j.status==="book"?"toContract":"toClose"))+'</button><input class="pr" id="pr-'+c.id+"-"+i+'" inputmode="numeric" value="'+(j.price||"")+'" placeholder="'+esc(t(c.intent==="rent"?"prPhR":"prPh"))+'" aria-label="'+esc(t("prPh"))+'" autocomplete="off"><button class="btn undo" type="button" data-act="price"'+d+">"+esc(t("prSave"))+"</button>";
  }
  if(mine&&j.undo&&j.undo.length)a+='<button class="btn undo" type="button" data-act="undo" data-id="'+c.id+'" data-j="'+i+'">↩ '+esc(t("undo"))+"</button>";
  if(role!=="admin"&&c.owner===role&&c.jobs.length>1&&!j.views.length&&(j.status==="ref"||j.status==="none"||j.status==="new"))a+='<button class="btn undo" type="button" data-act="cancel" data-id="'+c.id+'" data-j="'+i+'">✕ '+esc(t("cancelCity"))+"</button>";
@@ -514,19 +572,20 @@ function act(kind,id,ji,vi){
  if(kind==="conf"){if(c.owner!==role||c.confirmed)return;c.confirmed=true;c.log.push({t:now,by:"client",k:"l_conf",m:c.owner})}
  else if(kind==="add"){if(c.owner!==role)return;var v=$("#add-"+id).value;if(c.jobs.some(function(j){return j.city===v}))return;addJob(c,v,now,role)}
  else if(kind==="cancel"){var jc=c.jobs[ji];if(!jc||c.owner!==role||c.jobs.length<2||jc.views.length||["ref","none","new"].indexOf(jc.status)<0)return;c.jobs.splice(ji,1);c.log.push({t:now,by:role,k:"l_cancel",c:jc.city})}
- else if(kind==="undo"){var ju=c.jobs[ji];if(!ju||ju.m!==role||!ju.undo||!ju.undo.length)return;var u=ju.undo.pop(),sn=JSON.parse(u.s);ju.status=sn.status;ju.listing=sn.listing;ju.views=sn.views;ju.t=now;c.log.push({t:now,by:role,k:"l_undo",c:ju.city,l:t(u.k,{c:"",l:u.l,m:""}).replace(/^[:\s]+/,"").replace(/\s+/g," ").trim()})}
- else{var j=c.jobs[ji];if(!j||j.m!==role||!c.confirmed)return;var si=STEPS.indexOf(j.status),v=j.views[vi],code="",snap=JSON.stringify({status:j.status,listing:j.listing,views:j.views});
+ else if(kind==="undo"){var ju=c.jobs[ji];if(!ju||ju.m!==role||!ju.undo||!ju.undo.length)return;var u=ju.undo.pop(),sn=JSON.parse(u.s);for(var q9=c.log.length-1;q9>=0;q9--){var L9=c.log[q9];if(L9.k===u.k&&L9.c===ju.city&&(L9.l||"")===(u.l||"")&&!L9.x){L9.x=1;break}}ju.price=sn.price||0;ju.status=sn.status;ju.listing=sn.listing;ju.views=sn.views;ju.t=now;c.log.push({t:now,by:role,k:"l_undo",c:ju.city,l:t(u.k,{c:"",l:u.l,m:""}).replace(/^[:\s]+/,"").replace(/\s+/g," ").trim()})}
+ else{var j=c.jobs[ji];if(!j||j.m!==role||!c.confirmed)return;var si=STEPS.indexOf(j.status),v=j.views[vi],code="",snap=JSON.stringify({status:j.status,listing:j.listing,views:j.views,price:j.price||0}),price=0;
   if(kind==="acc"){if(j.status!=="ref")return;j.accepted=true;j.status="acc"}
   else if(kind==="vadd"){if(j.status==="ref"||si>=2)return;var li=$("#ls-"+id+"-"+ji);code=li?li.value.trim().toUpperCase().slice(0,12):"";if(!code||j.views.some(function(x){return x.code===code})){if(li)li.focus();return}
    j.views.push({code:code,st:"view",like:null,t:now});if(j.status!=="seen")j.status="view";kind="view"}
   else if(kind==="vseen"){if(!v||v.st!=="view"||si>=2)return;v.st="seen";v.t=now;j.status="seen";code=v.code;kind="seen"}
   else if(kind==="vlike"||kind==="vno"){if(!v||v.st!=="seen"||si>=2)return;v.like=kind==="vlike";v.t=now;code=v.code}
-  else if(kind==="book"){if(!v||v.st!=="seen"||si>=2)return;j.status="book";j.listing=v.code;code=v.code}
+  else if(kind==="book"){if(!v||v.st!=="seen"||si>=2)return;var pi=$("#pr-"+id+"-"+ji);price=pi?+String(pi.value).replace(/\D/g,"")||0:0;j.status="book";j.listing=v.code;j.price=price;code=v.code}
+  else if(kind==="price"){if(si<2)return;var pj=$("#pr-"+id+"-"+ji);price=pj?+String(pj.value).replace(/\D/g,"")||0:0;if(!price){if(pj)pj.focus();return}j.price=price;code=j.listing;for(var q8=c.log.length-1;q8>=0;q8--){var L8=c.log[q8];if(L8.k==="l_book"&&L8.c===j.city&&!L8.x){L8.p=price;break}}}
   else if(kind==="contract"){if(j.status!=="book")return;j.status="contract";code=j.listing}
   else if(kind==="close"){if(j.status!=="contract")return;j.status="close";code=j.listing}
   else return;
   if(kind!=="acc"){j.undo=(j.undo||[]).slice(-9);j.undo.push({s:snap,k:"l_"+kind,l:code})}
-  j.t=now;c.log.push({t:now,by:role,k:"l_"+kind,c:j.city,l:code})}
+  j.t=now;var le={t:now,by:role,k:"l_"+kind,c:j.city,l:code};if(price)le.p=price;c.log.push(le)}
  c.last=now;save();render();
 }
 
@@ -535,7 +594,7 @@ $("#f").addEventListener("submit",function(e){
  var bad=num.length<9?"needPhone":!name?"needName":!$("#cs").checked?"needConsent":"";
  if(bad){out.innerHTML='<div class="msg dup">'+esc(t(bad))+"</div>";return}
  fp(num).then(function(h){
-  var ex=db.clients.filter(function(c){return c.fp===h})[0], now=Date.now();
+  var ex=db.clients.filter(function(c){return !c.arch&&c.fp===h})[0], now=Date.now();
   if(ex){
    if(ex.owner===role){out.innerHTML='<div class="msg dup"><b>'+esc(t("dupH"))+"</b>"+esc(t("dupMine",{t:fdt(ex.created),id:ex.id}))+"</div>";return}
    ex.log.push({t:now,by:role,k:"l_dup"});db.dups++;save();render();
@@ -549,10 +608,13 @@ $("#f").addEventListener("submit",function(e){
 });
 document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(b){act(b.getAttribute("data-act"),b.getAttribute("data-id"),+b.getAttribute("data-j"),+b.getAttribute("data-v"));return}
  if(e.target.closest("#csv")){csv();return}
+ var pd=e.target.closest("[data-pd]");if(pd){period=pd.getAttribute("data-pd");report();return}
+ var fo=e.target.closest("[data-fo]");if(fo){var fv=fo.getAttribute("data-fo").split("|");focus={t:fv[0],id:fv[1]};report();var de=document.getElementById("det");if(de)de.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});return}
+ if(e.target.closest("[data-fx]")){focus=null;report();return}
  var k=e.target.closest("[data-ack]");if(k){db.acks=db.acks||{};db.acks[role]=db.acks[role]||{};db.acks[role][k.getAttribute("data-ack")]=1;var kc=db.clients.filter(function(x){return x.id===k.getAttribute("data-id")})[0];if(kc)kc.log.push({t:Date.now(),by:role,k:"l_ack",l:k.getAttribute("data-x")});save();render();return}
  var g=e.target.closest("[data-go]");if(g){tab="all";render();var el=document.getElementById("c-"+g.getAttribute("data-go"));if(el){el.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});el.classList.add("flash");setTimeout(function(){el.classList.remove("flash")},1800)}return}
  var tb=e.target.closest("[data-tab]");if(tb){tab=tb.getAttribute("data-tab");render()}});
-$("#role").addEventListener("change",function(e){role=e.target.value;if(!$("#out").getAttribute("data-keep"))$("#out").innerHTML="";render()});
+$("#role").addEventListener("change",function(e){role=e.target.value;focus=null;if(!$("#out").getAttribute("data-keep"))$("#out").innerHTML="";render()});
 $("#it").addEventListener("change",budgets);
 $("#sort").addEventListener("change",function(e){sortBy=e.target.value;render()});
 $("#lang").addEventListener("change",function(e){lang=e.target.value;render()});
