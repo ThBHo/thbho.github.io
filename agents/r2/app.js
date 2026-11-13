@@ -1862,4 +1862,6 @@ applyLang();
 route();
 loadFx().then(changed => { if (changed && cur === "USD") applyLang(); });
 startSlides();
+// ?quote=1 on a unit page opens the print-ready quotation at once (linked from the network registry's viewing sheet)
+if (window.UNIT_PAGE && new URLSearchParams(location.search).get("quote") === "1") setTimeout(() => { const b = $("#dPrint"); if (b) b.click(); }, 900);
 

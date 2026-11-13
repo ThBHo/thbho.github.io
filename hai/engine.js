@@ -1734,4 +1734,6 @@ window.addEventListener("popstate", onNav);
   DATA_READY = true;
   if (sheetOk || styleOk || hlOk || coOk || !$("#detailView").hidden) renderAll();
   if (coOk && /^#\/l\//.test(location.hash)) route();   // a co-sold unit that just went off must not stay open
+  // ?quote=1 on a listing opens the print-ready sheet at once (linked from the network registry's viewing sheet)
+  if (new URLSearchParams(location.search).get("quote") === "1" && /^#\/l\//.test(location.hash) && !$("#detailView").hidden) setTimeout(() => window.print(), 900);
 })();
