@@ -321,6 +321,18 @@ body{transition:background .25s}
 #oRep table{width:100%;border-collapse:collapse;font-size:13.5px}
 #oRep th,#oRep td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
 #oRep td.n,#oRep th.n{text-align:right;font-family:var(--mono)}
+.ogrp{border:1px dashed var(--line);border-radius:14px;padding:10px 10px 2px;margin-bottom:12px;background:color-mix(in srgb,var(--surface) 55%,transparent)}
+.ogrp>h4{margin:0 0 8px;font-size:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ogrp>h4 span{font-weight:400;color:var(--ink2);font-size:13px}
+.oe{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0}
+.oe label{font-size:12.5px;color:var(--ink2);display:block}
+.oe select,.oe input{width:100%;font:inherit;font-size:14px;min-height:38px;padding:0 8px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.ol .more{margin-top:8px}
+.ol .top3{margin-top:8px}
+#oRep .pds{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#oRep .pds button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13px}
+#oRep .pds button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#oRep .lk{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;min-height:30px}
 </style>
 <script src="thor-analytics.js?v=1" defer></script>
 </head>
@@ -405,6 +417,7 @@ body{transition:background .25s}
      <div class="f"><label for="od"><span data-o="lDate">วันพาดู</span></label><input id="od" type="date"></div>
     </div>
     <div class="f"><label for="otm"><span data-o="lTime">เวลา</span> <i data-o="opt">(ถ้ามี)</i></label><input id="otm" type="time"></div>
+    <details class="more" id="oFmore"><summary data-o="more">ตัวเลือกเพิ่มเติม</summary><div class="f"><label for="obg"><span data-o="lBudget">งบประมาณ</span> <i data-o="opt">(ถ้ามี)</i></label><select id="obg"></select></div></details>
     <label class="ck"><input type="checkbox" id="ocs"><span data-o="consent">ลูกค้ายินยอมให้ส่งชื่อย่อและเวลานัดให้เจ้าของทรัพย์</span></label>
     <button class="btn full" type="submit" id="osub">ลงทะเบียนและประทับเวลา</button>
    </form>
@@ -414,6 +427,7 @@ body{transition:background .25s}
   <section aria-labelledby="olh">
    <div class="list-h"><h2 id="olh" data-o="lh">รายการ</h2><div class="tabs" id="oTabs"></div><label class="sortl"><span data-o="sortBy">เรียงตาม</span> <select id="osort"></select></label></div>
    <div class="f srch"><label for="oq" data-o="qL">ค้นหา</label><input id="oq" type="search" autocomplete="off"></div>
+   <details class="more" id="oLmore"><summary data-o="more">ตัวเลือกเพิ่มเติม</summary><label class="ck"><input type="checkbox" id="ogrp"><span data-o="grp">รวมทรัพย์ของลูกค้าคนเดียวกันไว้ในกล่องเดียว</span></label></details>
    <div class="fold" id="oFold"></div>
    <div id="oList"></div>
   </section>
@@ -1022,13 +1036,14 @@ window.addEventListener("resize",barH);
 var q=new URLSearchParams(location.search);if(T[q.get("lang")])lang=q.get("lang");if(MEMBERS[q.get("as")]||q.get("as")==="admin")role=q.get("as");
 $("#lang").value=lang;
 (load()?Promise.resolve():seed()).then(function(){render();barH()});
+window.HAIX={mxLoad:mxLoad,MX:MX};
 })();
 </script>
 <script>
 // --- Owner mode: the member who holds the listing (and pays the commission) runs the registry; sub-agents register a client + listing before a viewing
 (function(){
 "use strict";
-var OKEY="hai-owner-demo-v3",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
+var OKEY="hai-owner-demo-v4",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
 var O={
  th:{mNet:"เครือข่ายข้ามเมือง",mNetS:"ส่งลูกค้าระหว่างเมือง",mOwn:"เจ้าของทรัพย์ · sub-agent",mOwnS:"ลงทะเบียนก่อนพาดู",
   h1:"ทรัพย์ของใคร คนนั้นคุม: ลงทะเบียนก่อนพาดู",
@@ -1071,7 +1086,7 @@ var O={
   l_req:"ส่งคำขอพาดู {l}",l_dir:"ลงลูกค้าตรง {l}",l_dup:"ลงซ้ำ ระบบไม่รับ",l_conf:"ลูกค้ายืนยันว่ามากับ {b}",l_confX:"ลูกค้าไม่ยืนยันภายใน 48 ชั่วโมง",l_ok:"อนุมัตินัดดู · ค่าแนะนำ {x}%",l_noB:"ไม่อนุมัติ: ทรัพย์ไม่ว่าง",l_seen:"ลูกค้าดูทรัพย์แล้ว",l_book:"จอง {x}",l_close:"ปิดดีล ค่าคอม {x}",l_lost:"ปิดงาน: {x}",l_reopen:"เปิดงานอีกครั้ง",l_paid:"แจ้งจ่ายค่าแนะนำ {x}",l_got:"ยืนยันได้รับค่าแนะนำ",l_ownTry:"เจ้าของทรัพย์ลงลูกค้ารายนี้ซ้ำ ระบบยืนยันว่าเป็นลูกค้าที่ {b} พามา",l_undo:"ย้อนกลับ เพราะบันทึกผิด",l_ap:"แก้วันนัดเป็น {x}",l_apDel:"ยกเลิกนัด",l_note:"บันทึก: {x}",l_ext:"ต่ออายุคุ้มครอง: {x}",l_may:"อาจซ้ำกับ {x}",l_same:"ยืนยันว่าเป็นคนเดียวกับ {x} ผู้ลงก่อนได้สิทธิ์",l_diff:"ยืนยันว่าคนละคนกับ {x}",
   rH:"รายงาน",rSub:"คำนวณจากประวัติทุกรายการในโหมดนี้",rLs:"รายทรัพย์",rAg:"ราย agent",cLs:"ทรัพย์",cAg:"agent",cReq:"คำขอ",cOk:"อนุมัติ",cSeen:"ดูแล้ว",cClose:"ปิดดีล",cNo:"ไม่รับ/ซ้ำ",cRef:"ค่าแนะนำ",rNone:"ยังไม่มีข้อมูล",
   shT:"ใบพาลูกค้าดูทรัพย์",shMade:"ทำเมื่อ",shPrint:"พิมพ์ / บันทึกเป็น PDF",rClose:"ปิด",shHow:"กดพิมพ์ แล้วเลือก “บันทึกเป็น PDF” เพื่อส่งให้ลูกค้า",shCl:"ลูกค้า",shAp:"ทรัพย์ที่จะพาดู {n} รายการ",shPage:"หน้าทรัพย์",shQuote:"ใบเสนอราคา",shName:"ชื่อ",shOwn:"เจ้าของทรัพย์",
-  today:"วันนี้",tmr:"พรุ่งนี้",reset:"เริ่มข้อมูลตัวอย่างโหมดนี้ใหม่",perMo:"/เดือน",adminNoForm:"ผู้ดูแลไม่ลงทะเบียนลูกค้าในโหมดนี้ เลือกดูในฐานะสมาชิกเพื่อลอง",noPhone:"ไม่มีเบอร์",saved:"บันทึกแล้ว",st_contract:"ทำสัญญา",aContract:"ทำสัญญาแล้ว",l_contract:"ทำสัญญา",aLike:"ลูกค้าชอบ",aNoLike:"ลูกค้าไม่ชอบ",likeY:"ชอบ",likeN:"ไม่ชอบ",l_like:"ผลหลังดู: {x}",ack:"รับทราบ",l_ack:"รับทราบ: {x}",prevChip:"รอบใหม่ของ {x}",nextChip:"ลงรอบใหม่แล้ว {x}",l_prev:"ลูกค้าเก่ากลับมา รอบก่อน {x} หมดคุ้มครองแล้ว",l_next:"{b} ลงทะเบียนลูกค้ารายนี้รอบใหม่ ({x})",a_next:"{l}: หมดคุ้มครองแล้ว และ {b} ลงรอบใหม่ ({x})",tDone:"บันทึกแล้ว",cLike:"ชอบ"},
+  today:"วันนี้",tmr:"พรุ่งนี้",reset:"เริ่มข้อมูลตัวอย่างโหมดนี้ใหม่",perMo:"/เดือน",adminNoForm:"ผู้ดูแลไม่ลงทะเบียนลูกค้าในโหมดนี้ เลือกดูในฐานะสมาชิกเพื่อลอง",noPhone:"ไม่มีเบอร์",saved:"บันทึกแล้ว",more:"ตัวเลือกเพิ่มเติม",lBudget:"งบประมาณ",bNone:"ไม่ระบุ",eH:"ข้อมูลลูกค้า (แก้ได้ทุกเมื่อ)",eSave:"บันทึกข้อมูลลูกค้า",eType:"ประเภททรัพย์",ty_:"ทุกประเภท",ty_villa:"พูลวิลล่า",ty_house:"บ้าน",ty_condo:"คอนโด",ty_land:"ที่ดิน",ePlan:"ช่วงที่จะซื้อ / ย้ายเข้า",eBd:"วันเกิด",eBt:"เวลาเกิด",eG:"เพศ",g_:"–",g_m:"ชาย",g_f:"หญิง",g_n:"ไม่ระบุ",eMb:"MBTI",l_edit:"แก้ข้อมูลลูกค้า: {x}",topBtn:"หาทรัพย์ Top 3",topAgain:"หา Top 3 ใหม่",topBusy:"กำลังคำนวณ…",topH:"Top 3 สำหรับลูกค้ารายนี้",topLv:"ใช้ข้อมูล",lv1:"พื้นฐาน",lv2:"วันเกิด",lv3:"MBTI",topNone:"ยังไม่พบทรัพย์ที่ตรง ลองปรับงบหรือประเภท",topMore:"เพิ่มข้อมูลเพื่อให้แม่นขึ้น: {x}",topPick:"พาดู",topHas:"มีคำขอแล้ว",topMb:"ตรงกับ {m}",topTip:"กว่าจะได้ข้อมูลครบอาจใช้เวลา ส่งลิงก์ Destiny Match / MBTI ให้ลูกค้าทำเองได้",l_top:"หา Top 3: {x}",grp:"รวมทรัพย์ของลูกค้าคนเดียวกันไว้ในกล่องเดียว",grpH:"{n} ทรัพย์",pd_d30:"30 วัน",pd_d90:"90 วัน",pd_d365:"1 ปี",pd_all:"ทั้งหมด",rDet:"รายละเอียด: {x}",rClose2:"ปิดรายละเอียด",rTip:"กดชื่อทรัพย์หรือ agent เพื่อดูรายการ",rPdH:"ช่วงเวลาของรายงาน",shBud:"งบ",shIn:"อยู่ในงบ",shUnder:"ต่ำกว่างบ",shOver:"เกินงบ {n}%",cLike:"ชอบ",cWhen:"วันที่ลง",cSt:"สถานะ",st_contract:"ทำสัญญา",aContract:"ทำสัญญาแล้ว",l_contract:"ทำสัญญา",aLike:"ลูกค้าชอบ",aNoLike:"ลูกค้าไม่ชอบ",likeY:"ชอบ",likeN:"ไม่ชอบ",l_like:"ผลหลังดู: {x}",ack:"รับทราบ",l_ack:"รับทราบ: {x}",prevChip:"รอบใหม่ของ {x}",nextChip:"ลงรอบใหม่แล้ว {x}",l_prev:"ลูกค้าเก่ากลับมา รอบก่อน {x} หมดคุ้มครองแล้ว",l_next:"{b} ลงทะเบียนลูกค้ารายนี้รอบใหม่ ({x})",a_next:"{l}: หมดคุ้มครองแล้ว และ {b} ลงรอบใหม่ ({x})",tDone:"บันทึกแล้ว"},
  en:{mNet:"Cross-city network",mNetS:"refer clients between cities",mOwn:"Listing owner · sub-agent",mOwnS:"register before a viewing",
   h1:"Whoever holds the listing runs it: register before the viewing",
   lede:"Use this mode when one member holds the listing and pays the commission, like R2 by Clare (owner of The Riviera Jomtien units) or ASN (owner-direct listings). Sub-agents register the client and listing code before a viewing, the listing owner just approves, and the system keeps the timestamp and works out the referral fee when the deal closes.",
@@ -1113,9 +1128,14 @@ var O={
   l_req:"Viewing request for {l}",l_dir:"Direct client for {l}",l_dup:"Duplicate, refused",l_conf:"Client confirmed coming with {b}",l_confX:"Client did not confirm within 48 hours",l_ok:"Viewing approved · referral {x}%",l_noB:"Declined: not available",l_seen:"Client viewed the listing",l_book:"Reserved {x}",l_close:"Closed, commission {x}",l_lost:"Closed off: {x}",l_reopen:"Reopened",l_paid:"Referral fee marked paid {x}",l_got:"Referral fee received",l_ownTry:"The owner tried to log this client; the system confirms {b} brought them",l_undo:"Undone, logged in error",l_ap:"Viewing moved to {x}",l_apDel:"Viewing cancelled",l_note:"Note: {x}",l_ext:"Protection extended: {x}",l_may:"May match {x}",l_same:"Confirmed same person as {x}; the first registrant holds the right",l_diff:"Confirmed different from {x}",
   rH:"Reports",rSub:"Computed from every record's history in this mode",rLs:"By listing",rAg:"By agent",cLs:"Listing",cAg:"Agent",cReq:"Requests",cOk:"Approved",cSeen:"Viewed",cClose:"Closed",cNo:"Declined/dup",cRef:"Referral",rNone:"No data yet",
   shT:"Client viewing sheet",shMade:"Made",shPrint:"Print / save as PDF",rClose:"Close",shHow:"Print, then choose “Save as PDF” to send to the client",shCl:"Client",shAp:"{n} listings to view",shPage:"Listing page",shQuote:"Quotation",shName:"Name",shOwn:"Listing owner",
-  today:"Today",tmr:"Tomorrow",reset:"Reset sample data for this mode",perMo:"/mo",adminNoForm:"The admin does not register clients in this mode. View as a member to try it.",noPhone:"No phone",saved:"Saved",st_contract:"Contract signed",aContract:"Contract signed",l_contract:"Contract signed",aLike:"Client liked it",aNoLike:"Client did not like it",likeY:"liked",likeN:"not liked",l_like:"After viewing: {x}",ack:"Acknowledge",l_ack:"Acknowledged: {x}",prevChip:"New round of {x}",nextChip:"Re-registered as {x}",l_prev:"Returning client; the earlier round {x} had lapsed",l_next:"{b} registered this client for a new round ({x})",a_next:"{l}: protection ended and {b} registered a new round ({x})",tDone:"Saved",cLike:"Liked"}
+  today:"Today",tmr:"Tomorrow",reset:"Reset sample data for this mode",perMo:"/mo",adminNoForm:"The admin does not register clients in this mode. View as a member to try it.",noPhone:"No phone",saved:"Saved",more:"More options",lBudget:"Budget",bNone:"Not set",eH:"Client details (edit any time)",eSave:"Save client details",eType:"Property type",ty_:"Any type",ty_villa:"Pool villa",ty_house:"House",ty_condo:"Condo",ty_land:"Land",ePlan:"Buying / move-in month",eBd:"Birth date",eBt:"Birth time",eG:"Gender",g_:"–",g_m:"Male",g_f:"Female",g_n:"Not stated",eMb:"MBTI",l_edit:"Client details edited: {x}",topBtn:"Find Top 3 homes",topAgain:"Find Top 3 again",topBusy:"Working it out…",topH:"Top 3 for this client",topLv:"Using",lv1:"basics",lv2:"birth date",lv3:"MBTI",topNone:"No matching listing yet; try another budget or type",topMore:"Add for a better match: {x}",topPick:"Book viewing",topHas:"Already requested",topMb:"Matches {m}",topTip:"Getting all the details can take time; you can send the client the Destiny Match / MBTI link to fill in themselves",l_top:"Top 3 found: {x}",grp:"Group one client's listings in one box",grpH:"{n} listings",pd_d30:"30 days",pd_d90:"90 days",pd_d365:"1 year",pd_all:"All",rDet:"Details: {x}",rClose2:"Close details",rTip:"Tap a listing or agent to see its records",rPdH:"Report period",shBud:"Budget",shIn:"Within budget",shUnder:"Below budget",shOver:"{n}% over budget",cLike:"Liked",cWhen:"Registered",cSt:"Status",st_contract:"Contract signed",aContract:"Contract signed",l_contract:"Contract signed",aLike:"Client liked it",aNoLike:"Client did not like it",likeY:"liked",likeN:"not liked",l_like:"After viewing: {x}",ack:"Acknowledge",l_ack:"Acknowledged: {x}",prevChip:"New round of {x}",nextChip:"Re-registered as {x}",l_prev:"Returning client; the earlier round {x} had lapsed",l_next:"{b} registered this client for a new round ({x})",a_next:"{l}: protection ended and {b} registered a new round ({x})",tDone:"Saved"}
 };
-var ROLES=["asn","r2","sa1","sa2","admin"],CHN={line:"LINE",wa:"WhatsApp",wc:"WeChat"},mode="net",lang="th",orole="asn",otab="",osort="todo",oq="",oOpen={},repOn=false,pend=null,od;
+var ROLES=["asn","r2","sa1","sa2","admin"],CHN={line:"LINE",wa:"WhatsApp",wc:"WeChat"},mode="net",lang="th",orole="asn",otab="",osort="todo",oq="",oOpen={},repOn=false,pend=null,od,grp=false,opd="d90",ofo=null,busyTop="";
+var BUDGET={buy:["≤ 5M","5–10M","10–20M","20–50M","50M+"],rent:["≤ 30K","30–60K","60–120K","120–250K","250K+"]},MBTI16=["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"],OPD={d30:30,d90:90,d365:365,all:0};
+function band(b){b=String(b||"");var n=(b.match(/\d+/g)||[]).map(Number),u=/K/.test(b)?1e3:1e6;if(!n.length)return null;if(/\+/.test(b))return [n[0]*u,Infinity];if(/≤/.test(b))return [0,n[0]*u];return [n[0]*u,(n[1]||n[0])*u]}
+function fitTxt(p,b){var bd=band(b);if(!p||!bd)return "";return p>=bd[0]&&p<=bd[1]?o("shIn"):p<bd[0]?o("shUnder"):o("shOver",{n:Math.round((p-bd[1])/bd[1]*100)})}
+function mbtiFit(list,ty){if(!ty||!list||!list.length)return null;var i=list.indexOf(ty);if(i>-1)return [100,88,76][i]||70;var best=0;list.forEach(function(x){var s=0;for(var k=0;k<4;k++)if(x[k]===ty[k])s++;best=Math.max(best,s)});return best*16}
+function budOpts(it,v){return '<option value="">'+esc(o("bNone"))+"</option>"+BUDGET[it].map(function(g){return "<option"+(g===v?" selected":"")+">"+esc(g)+"</option>"}).join("")}
 var MS={asn:{du:function(l){return "https://thbho.com/ASNProperty.html#/destiny/"+l},m:"https://thbho.com/ASNProperty.html#/match",pg:function(l){return "https://thbho.com/ASNProperty.html#/l/"+l},q:function(l){return "https://thbho.com/ASNProperty.html?quote=1#/l/"+l},img:function(l){return "asn-img/"+l+"-1.jpg"},lg:"asn-img/logo-emblem-96.png"},
  r2:{du:function(l){return "https://thbho.com/Riviera2Resale-destiny.html?u="+l},m:"https://thbho.com/Riviera2Resale-matching.html",pg:function(l){return "https://thbho.com/Riviera2Resale-"+l+".html"},q:function(l){return "https://thbho.com/Riviera2Resale-"+l+".html?quote=1"},img:function(l){return "riviera-img/"+l+"-1.jpg"},lg:"riviera-img/logo-mark.png"}};
 function lg(){var s=$("#lang");return s&&O[s.value]?s.value:"th"}
@@ -1145,12 +1165,12 @@ function seed(){var now=Date.now(),L=[];od={leads:L,seq:100};
   if(!l.dir)l.log.push({t:t0+40*60000,by:"client",k:"l_conf",b:by});for(var k in x||{})l[k]=x[k];L.push(l);return l};
  var a=mk("H80","asn","Somchai Kittisak","66812340001",null,"buy",21,"seen",now-15*DAY);a.like=true;a.log.push({t:now-15*DAY,by:"asn",k:"l_seen"});
  var b=mk("H80","sa2","Somchai K.","66812340001",null,"buy",3,"no",at(2,11),{why:"dup",dup:a.id});b.log=[{t:b.t,by:"sa2",k:"l_req",x:"H80"},{t:b.t,by:"sa2",k:"l_dup"}];
- var c=mk("H04","sa1","Anna Petrova","79161234567",{k:"wa",id:"79161234567"},"rent",6,"ok",at(1,14));c.log.push({t:c.t+2*3600e3,by:"asn",k:"l_ok",x:20});
+ var c=mk("H04","sa1","Anna Petrova","79161234567",{k:"wa",id:"79161234567"},"rent",6,"ok",at(1,14),{budget:"60–120K",match:{type:"villa",date:"1990-05-14",gender:"f"}});c.log.push({t:c.t+2*3600e3,by:"asn",k:"l_ok",x:20});
  var d=mk("H14","sa2","Wang Lei","8613812345678",{k:"wc",id:"wanglei88"},"buy",0.05,"wait",at(2,10,30));
  var d2=mk("H14","sa1","Lei Wang","66812345678",null,"buy",0.02,"wait",at(3,15),{may:[{id:d.id,why:"tail"}]});d2.log.push({t:d2.t,by:"sa1",k:"l_may",x:d.id});
  var e=mk("8A03","asn","Kim Jiwoo","821098765432",{k:"line",id:"jiwoo.k"},"buy",34,"close",now-30*DAY,{rate:25,price:2799000,comm:83970,paid:1});
  e.log.push({t:e.t+3600e3,by:"r2",k:"l_ok",x:25},{t:now-30*DAY,by:"asn",k:"l_seen"},{t:now-20*DAY,by:"r2",k:"l_book",x:baht(2799000)},{t:now-6*DAY,by:"r2",k:"l_close",x:baht(83970)},{t:now-2*DAY,by:"r2",k:"l_paid",x:baht(20993)});
- var f=mk("36E09","sa1","Olga Smirnova","79031112233",null,"buy",9,"book",now-5*DAY,{price:3150000});
+ var f=mk("36E09","sa1","Olga Smirnova","79031112233",null,"buy",9,"book",now-5*DAY,{price:3150000,budget:"≤ 5M"});
  f.log.push({t:f.t+5*3600e3,by:"r2",k:"l_ok",x:20},{t:now-5*DAY,by:"sa1",k:"l_seen"},{t:now-DAY,by:"r2",k:"l_book",x:baht(3150000)});
  var g=mk("H04","sa1","David Miller","447700900123",null,"rent",40,"close",now-36*DAY,{rate:15,price:65000,comm:65000,paid:2});
  g.log.push({t:g.t+3600e3,by:"asn",k:"l_ok",x:15},{t:now-36*DAY,by:"sa1",k:"l_seen"},{t:now-30*DAY,by:"asn",k:"l_close",x:baht(65000)},{t:now-25*DAY,by:"asn",k:"l_paid",x:baht(9750)},{t:now-24*DAY,by:"sa1",k:"l_got"});
@@ -1225,6 +1245,7 @@ function card(l){
  if((meOwn||meBy)&&live(l)&&(l.st==="ok"||l.st==="seen"||l.st==="book"||l.st==="contract"))h+='<details><summary>'+esc(o("aLost"))+'</summary><div class="xrow"><select id="olr-'+l.id+'" aria-label="'+esc(o("lostQ"))+'">'+["budget","else","cancel","other"].map(function(r){return '<option value="'+r+'">'+esc(o("lr_"+r))+"</option>"}).join("")+'</select><button class="btn ghost sm" type="button" data-oa="lost|'+l.id+'">'+esc(o("aLost"))+"</button></div></details>";
  if(meBy&&live(l)&&l.st!=="close"){h+='<details><summary>'+esc(o("aNote"))+'</summary><div class="xrow"><input id="ono-'+l.id+'" maxlength="200" placeholder="'+esc(o("notePh"))+'"><button class="btn sm" type="button" data-oa="note|'+l.id+'">'+esc(o("saved"))+"</button></div></details>";
   if(!l.ext&&!l.dir)h+='<details><summary>'+esc(o("aExt"))+'</summary><p class="sub">'+esc(o("extQ",{n:Math.ceil((expAt(l)-Date.now())/DAY)}))+'</p><div class="xrow"><input id="oxr-'+l.id+'" maxlength="200" placeholder="'+esc(o("extPh"))+'"><button class="btn sm" type="button" data-oa="ext|'+l.id+'">'+esc(o("aExt"))+"</button></div></details>"}
+ if(meBy&&live(l))h+=moreHtml(l);
  if(meBy){var mk=MS[l.own];h+='<div class="links"><a class="btn ghost sm" href="'+mk.du(l.code)+'" target="_blank" rel="noopener" data-ofill="'+l.id+'">✦ '+esc(o("dmUnit"))+' ↗</a><a class="btn ghost sm" href="'+mk.m+'" target="_blank" rel="noopener" data-ofill="'+l.id+'">'+esc(o("mbtiL"))+" ↗</a>"+(live(l)?'<button class="btn ghost sm" type="button" data-oa="more|'+l.id+'">＋ '+esc(o("aMore"))+'</button><button class="btn ghost sm" type="button" data-oa="sheet|'+l.id+'">🖨 '+esc(o("aSheet"))+"</button>":"")+"</div>"}
  h+="<details><summary>"+esc(o("hist",{n:l.log.length}))+"</summary><ol>"+l.log.map(function(g){return "<li>"+fdt(g.t)+" · "+esc(g.by==="client"?(lang==="th"?"ลูกค้า":"Client"):nm(g.by))+" · "+esc(o(g.k,{l:l.code,x:g.x,b:g.b?nm(g.b):""}))+"</li>"}).join("")+"</ol></details>";
  return h+"</article>"}
@@ -1238,14 +1259,16 @@ function stats(){var L=od.leads.filter(canSee),wk=Date.now()+7*DAY,s;
  else if(orole==="asn")s=[[inW,"sInWait"],[myW,"sMyWait"],[baht(pay),"sPay"],[baht(get),"sGet"]];
  else s=[[myW,"sMyWait"],[soon,"sSoon"],[cl,"sClosed"],[baht(get),"sGet"]];
  $("#oStats").innerHTML=s.map(function(x){return '<div class="stat"><b>'+x[0]+"</b><span>"+esc(o(x[1]))+"</span></div>"}).join("")}
-function report(){var el=$("#oRep"),L=od.leads.filter(canSee);
+function report(){var el=$("#oRep"),adv=orole!=="sa1"&&orole!=="sa2",dys=adv?OPD[opd]:0,L=od.leads.filter(function(l){return canSee(l)&&(!dys||l.t>=Date.now()-dys*DAY)});
  var h='<h2 id="orh" class="rh"><button type="button" class="tg" data-orep="1" aria-expanded="'+repOn+'" aria-label="'+esc(o(repOn?"tgLess":"tgMore"))+'">'+(repOn?"−":"+")+"</button>"+esc(o("rH"))+"</h2>";
  if(!repOn){el.innerHTML=h;return}
- h+='<p class="sub">'+esc(o("rSub"))+"</p>";
+ h+='<p class="sub">'+esc(o("rSub"))+(adv?" · "+esc(o("rTip")):"")+"</p>";
+ if(adv)h+='<details class="more"'+(opd!=="d90"?" open":"")+'><summary>'+esc(o("more"))+" · "+esc(o("rPdH"))+': '+esc(o("pd_"+opd))+'</summary><div class="pds" role="group">'+Object.keys(OPD).map(function(k){return '<button type="button" data-opd="'+k+'" aria-pressed="'+(k===opd)+'">'+esc(o("pd_"+k))+"</button>"}).join("")+"</div></details>";
  var tally=function(rows){var r={req:0,ok:0,seen:0,like:0,close:0,no:0,ref:0};rows.forEach(function(l){if(!l.dir)r.req++;if(l.log.some(function(g){return g.k==="l_ok"})||l.dir)r.ok++;if(l.log.some(function(g){return g.k==="l_seen"}))r.seen++;if(l.like===true)r.like++;if(l.st==="close"){r.close++;if(!l.dir)r.ref+=share(l)}if(l.st==="no")r.no++});return r};
- var tbl=function(head,keys,lab){if(!keys.length)return '<p class="sub">'+esc(o("rNone"))+"</p>";return '<div class="tw"><table><thead><tr><th>'+esc(o(head))+"</th>"+["cReq","cOk","cSeen","cLike","cClose","cNo","cRef"].map(function(c){return '<th class="n">'+esc(o(c))+"</th>"}).join("")+"</tr></thead><tbody>"+keys.map(function(k){var r=tally(L.filter(function(l){return lab(l)===k}));return "<tr><td>"+esc(head==="cAg"?nm(k):k)+'</td><td class="n">'+r.req+'</td><td class="n">'+r.ok+'</td><td class="n">'+r.seen+'</td><td class="n">'+r.like+'</td><td class="n">'+r.close+'</td><td class="n">'+r.no+'</td><td class="n">'+baht(r.ref)+"</td></tr>"}).join("")+"</tbody></table></div>"};
+ var tbl=function(head,keys,lab){if(!keys.length)return '<p class="sub">'+esc(o("rNone"))+"</p>";return '<div class="tw"><table><thead><tr><th>'+esc(o(head))+"</th>"+["cReq","cOk","cSeen","cLike","cClose","cNo","cRef"].map(function(c){return '<th class="n">'+esc(o(c))+"</th>"}).join("")+"</tr></thead><tbody>"+keys.map(function(k){var r=tally(L.filter(function(l){return lab(l)===k}));return "<tr><td>"+(adv?'<button type="button" class="lk" data-odr="'+(head==="cAg"?"ag":"ls")+"|"+esc(k)+'">'+esc(head==="cAg"?nm(k):k)+"</button>":esc(head==="cAg"?nm(k):k))+'</td><td class="n">'+r.req+'</td><td class="n">'+r.ok+'</td><td class="n">'+r.seen+'</td><td class="n">'+r.like+'</td><td class="n">'+r.close+'</td><td class="n">'+r.no+'</td><td class="n">'+baht(r.ref)+"</td></tr>"}).join("")+"</tbody></table></div>"};
  var codes=[],ags=[];L.forEach(function(l){if(codes.indexOf(l.code)<0)codes.push(l.code);if(ags.indexOf(l.by)<0)ags.push(l.by)});codes.sort();
  h+="<h3>"+esc(o("rLs"))+"</h3>"+tbl("cLs",codes,function(l){return l.code})+"<h3>"+esc(o("rAg"))+"</h3>"+tbl("cAg",ags,function(l){return l.by});
+ if(adv&&ofo){var D=L.filter(function(l){return ofo.t==="ls"?l.code===ofo.k:l.by===ofo.k});h+='<h3>'+esc(o("rDet",{x:ofo.t==="ag"?nm(ofo.k):ofo.k}))+' <button type="button" class="btn undo sm" data-odr="">'+esc(o("rClose2"))+'</button></h3><div class="tw"><table><thead><tr><th>ID</th><th>'+esc(o("cLs"))+"</th><th>"+esc(o("cAg"))+"</th><th>"+esc(o("cSt"))+"</th><th>"+esc(o("cWhen"))+'</th><th class="n">'+esc(o("cRef"))+"</th></tr></thead><tbody>"+D.map(function(l){return '<tr><td><button type="button" class="lk" data-ogo="'+l.id+'">'+l.id+"</button></td><td>"+esc(l.code)+"</td><td>"+esc(l.dir?o("st_dir"):nm(l.by))+"</td><td>"+esc(o("st_"+(expired(l)?"exp":l.st)))+(l.like!=null&&l.st==="seen"?" · "+esc(o(l.like?"likeY":"likeN")):"")+"</td><td>"+fd(l.t)+'</td><td class="n">'+(l.st==="close"&&!l.dir?baht(share(l)):"–")+"</td></tr>"}).join("")+"</tbody></table></div>"}
  el.innerHTML=h}
 function hint(){var c=$("#ocode").value.trim().toUpperCase(),w=ownerOf(c),e=$("#ohint"),b=$("#osub");
  if(!c){e.textContent=o("hNone");b.textContent=o("subReq");return}
@@ -1270,13 +1293,17 @@ function render(){
  var ss=$("#osort");ss.innerHTML=["todo","appt","new"].map(function(k){return '<option value="'+k+'"'+(k===osort?" selected":"")+">"+esc(o("so_"+k))+"</option>"}).join("");
  var f=$("#of");f.hidden=orole==="admin";if(orole==="admin")$("#oout").innerHTML='<div class="msg ok">'+esc(o("adminNoForm"))+"</div>";else if($("#oout").getAttribute("data-ad"))$("#oout").innerHTML="";
  $("#oout").toggleAttribute("data-ad",orole==="admin");
+ var bg=$("#obg"),bv=bg.value;bg.innerHTML=budOpts($("#oit").value,bv);$("#ogrp").checked=grp;
  hint();todo();stats();report();
  var tbs=tabsFor();if(tbs.indexOf(otab)<0)otab=tbs[0];
  $("#oTabs").innerHTML=tbs.map(function(k){var n=od.leads.filter(function(l){return inTab(l,k)}).length;return '<button type="button" data-otab="'+k+'" aria-pressed="'+(k===otab)+'">'+esc(o({in:"tIn",own:"tOwn",by:"tBy",pay:"tPay",all:"tAll"}[k]))+" ("+n+")</button>"}).join("");
  var rows=od.leads.filter(function(l){return (oq?canSee(l):inTab(l,otab))&&match(l)}).sort(function(a,b){return sortKey(a)-sortKey(b)});
  var nOpen=rows.filter(isOpen).length;
  $("#oFold").innerHTML=rows.length?"<span>"+esc(o("foldN",{a:nOpen,b:rows.length-nOpen}))+'</span><button type="button" class="btn undo" data-oall="1">'+esc(o("openAll"))+'</button><button type="button" class="btn undo" data-oall="0">'+esc(o("shutAll"))+"</button>":"";
- $("#oList").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+esc(o("empty"))+"</div>"}
+ if(!rows.length){$("#oList").innerHTML='<div class="empty">'+esc(o("empty"))+"</div>";return}
+ if(!grp){$("#oList").innerHTML=rows.map(card).join("");return}
+ var G=[],gi={};rows.forEach(function(l){var k=l.by+"|"+(l.ph||(l.chat?l.chat.k+l.chat.id:l.id));if(gi[k]==null){gi[k]=G.length;G.push([])}G[gi[k]].push(l)});
+ $("#oList").innerHTML=G.map(function(g){if(g.length<2)return card(g[0]);var f=g[0];return '<div class="ogrp"><h4>'+esc(vis(f))+" <span>"+esc(o("grpH",{n:g.length}))+" · "+esc(g.map(function(x){return x.code}).join(", "))+" · "+esc(nm(f.by))+"</span></h4>"+g.map(card).join("")+"</div>"}).join("")}
 function msg(kind,head,body){$("#oout").innerHTML='<div class="msg '+kind+'"><b>'+esc(head)+"</b>"+esc(body||"")+"</div>"}
 var toastT=0;function toast(h,w){var el=$("#toast");if(!el)return;el.innerHTML="<b>✓ "+esc(h)+"</b>"+(w?"<span>"+esc(w)+"</span>":"");el.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove("on")},3800)}
 function flash(id){var c=document.getElementById("o-"+id);if(c){c.classList.add("flash");setTimeout(function(){c.classList.remove("flash")},1600)}}
@@ -1287,10 +1314,10 @@ function read(e){e.preventDefault();var code=$("#ocode").value.trim().toUpperCas
  var dir=own===orole;if(!dir&&!dv)return msg("dup",o("needDate"));
  var ms=dv?new Date(dv+"T"+(tv||"23:59")).getTime():0;if(ms&&dd(ms)<-1)return msg("dup",o("badDate"));
  if(!$("#ocs").checked)return msg("dup",o("needCs"));
- var c={code:code,own:own,by:orole,dir:dir,name:name,ph:ph,chat:cid?{k:ck,id:cid}:null,intent:$("#oit").value,at:ms,nt:ms&&!tv?1:0};
+ var c={code:code,own:own,by:orole,dir:dir,name:name,ph:ph,chat:cid?{k:ck,id:cid}:null,intent:$("#oit").value,budget:$("#obg").value||"",at:ms,nt:ms&&!tv?1:0};
  var cl=clashOf(c,ms,c.nt);if(cl)return msg("dup",o("clash",{l:cl.code,id:cl.id}));
  pend=c;
- $("#oout").innerHTML='<div class="oconf" role="dialog" aria-label="'+esc(o("cfH"))+'"><b>'+esc(o("cfH"))+"</b><dl><dt>"+esc(o("cfType"))+"</dt><dd>"+esc(dir?o("cfDir"):o("cfReq",{o:nm(own)}))+"</dd><dt>"+esc(o("lCode"))+"</dt><dd>"+esc(code)+"</dd><dt>"+esc(o("shName"))+"</dt><dd>"+esc(name)+"</dd><dt>"+esc(o("lPhone"))+"</dt><dd>"+esc(ph?"+"+ph:"–")+(c.chat?" · "+esc(CHN[ck]+" "+cid):"")+"</dd><dt>"+esc(o("lIntent"))+"</dt><dd>"+esc(o(c.intent))+"</dd>"+(ms?"<dt>"+esc(o("cfWhen"))+"</dt><dd>"+esc(fd(ms)+(c.nt?" ("+o("cfNoTime")+")":" "+tVal(ms)))+"</dd>":"")+'</dl><div class="acts"><button class="btn sm" type="button" data-ocf="1">'+esc(o("cfOk"))+'</button><button class="btn ghost sm" type="button" data-ocf="0">'+esc(o("cfEdit"))+"</button></div></div>";
+ $("#oout").innerHTML='<div class="oconf" role="dialog" aria-label="'+esc(o("cfH"))+'"><b>'+esc(o("cfH"))+"</b><dl><dt>"+esc(o("cfType"))+"</dt><dd>"+esc(dir?o("cfDir"):o("cfReq",{o:nm(own)}))+"</dd><dt>"+esc(o("lCode"))+"</dt><dd>"+esc(code)+"</dd><dt>"+esc(o("shName"))+"</dt><dd>"+esc(name)+"</dd><dt>"+esc(o("lPhone"))+"</dt><dd>"+esc(ph?"+"+ph:"–")+(c.chat?" · "+esc(CHN[ck]+" "+cid):"")+"</dd><dt>"+esc(o("lIntent"))+"</dt><dd>"+esc(o(c.intent))+"</dd>"+(c.budget?"<dt>"+esc(o("lBudget"))+"</dt><dd>"+esc(c.budget)+"</dd>":"")+(ms?"<dt>"+esc(o("cfWhen"))+"</dt><dd>"+esc(fd(ms)+(c.nt?" ("+o("cfNoTime")+")":" "+tVal(ms)))+"</dd>":"")+'</dl><div class="acts"><button class="btn sm" type="button" data-ocf="1">'+esc(o("cfOk"))+'</button><button class="btn ghost sm" type="button" data-ocf="0">'+esc(o("cfEdit"))+"</button></div></div>";
  var bx=$("#oout .oconf button");if(bx)bx.focus()}
 function commit(){var c=pend;pend=null;if(!c)return;var now=Date.now(),hd=holder(c.own,c);
  if(hd&&hd.by===c.by&&hd.code===c.code){render();return msg("dup",o("dupMine",{l:hd.code,t:fdt(hd.t),id:hd.id}))}
@@ -1303,7 +1330,7 @@ function commit(){var c=pend;pend=null;if(!c)return;var now=Date.now(),hd=holder
  var mb=maybeOf(c.own,c);if(mb.length){l.may=mb;l.log.push({t:now,by:c.by,k:"l_may",x:mb.map(function(m){return m.id}).join(", ")})}
  var pv=null;od.leads.forEach(function(x){if(x.own===c.own&&x.st!=="no"&&!x.next&&!held(x)&&sameKey(x,c)&&(!pv||x.t>pv.t))pv=x});
  if(pv){l.prev=pv.id;pv.next=l.id;l.log.push({t:now,by:c.by,k:"l_prev",x:pv.id});pv.log.push({t:now,by:c.by,k:"l_next",x:l.id,b:c.by})}
- od.leads.push(l);save();$("#of").reset();toast(o(c.dir?"okDir":"okReq"),l.id+" · "+c.code);otab=c.dir?"own":"by";oOpen[orole+l.id]=true;render();flash(l.id);
+ od.leads.push(l);save();$("#of").reset();$("#oFmore").open=false;toast(o(c.dir?"okDir":"okReq"),l.id+" · "+c.code);otab=c.dir?"own":"by";oOpen[orole+l.id]=true;render();flash(l.id);
  if(mb.length)msg("dup",o("mayH"),o("mayT",{l:mb.map(function(m){return m.id+" ("+o("mayWhy_"+m.why)+")"}).join(", ")}));
  else msg("ok",o(c.dir?"okDir":"okReq"),o(c.dir?"okDirT":"okReqT",{id:l.id,t:fdt(now),o:nm(c.own)}))}
 function snap(l){l.u={t:Date.now(),by:orole,s:{st:l.st,price:l.price,comm:l.comm,paid:l.paid,at:l.at,nt:l.nt,rate:l.rate,why:l.why,like:l.like==null?null:l.like}}}
@@ -1331,22 +1358,61 @@ function act(k,id,x){var l=byId(id);if(!l)return;var now=Date.now(),meOwn=l.own=
  else if((k==="same"||k==="diff")&&meOwn){var other=byId(x);l.may=(l.may||[]).filter(function(m){return m.id!==x});
   if(k==="same"&&other){var first=other.t<l.t?other:l,second=first===l?other:l;snap(second);second.st="no";second.why="dup";second.dup=first.id;second.log.push({t:now,by:orole,k:"l_same",x:first.id});first.log.push({t:now,by:orole,k:"l_same",x:first.id})}
   else l.log.push({t:now,by:orole,k:"l_diff",x:x})}
- else if(k==="more"&&meBy){$("#onm").value=l.name;$("#oit").value=l.intent;if(l.ph){var cc=["66","86","7","82","81","65","44","1"].filter(function(z){return l.ph.indexOf(z)===0})[0]||"66";$("#occ").value="+"+cc;$("#oph").value=l.ph.slice(cc.length)}else $("#oph").value="";$("#och").value=l.chat?l.chat.k:"";$("#ocid").value=l.chat?l.chat.id:"";$("#ocode").value="";$("#ocs").checked=true;hint();$("#ocode").focus();$("#ocode").scrollIntoView({block:"center"});return}
+ else if(k==="more"&&meBy){$("#onm").value=l.name;$("#oit").value=l.intent;if(l.ph){var cc=["66","86","7","82","81","65","44","1"].filter(function(z){return l.ph.indexOf(z)===0})[0]||"66";$("#occ").value="+"+cc;$("#oph").value=l.ph.slice(cc.length)}else $("#oph").value="";$("#och").value=l.chat?l.chat.k:"";$("#ocid").value=l.chat?l.chat.id:"";$("#ocode").value="";$("#ocs").checked=true;$("#obg").innerHTML=budOpts(l.intent,l.budget||"");if(l.budget)$("#oFmore").open=true;hint();$("#ocode").focus();$("#ocode").scrollIntoView({block:"center"});return}
  else if(k==="sheet"&&meBy){sheet(l);return}
+ else if(k==="edit"&&meBy){var g=function(p){var e=document.getElementById("oe-"+p+"-"+id);return e?e.value:""},nm2={intent:g("it"),budget:g("bg"),match:{type:g("ty"),plan:g("pl"),date:g("bd"),time:g("bt"),gender:g("g"),mbti:g("mb")}},ch=[];
+  if(nm2.intent!==l.intent)ch.push(o(nm2.intent));if(nm2.budget!==(l.budget||""))ch.push(nm2.budget||o("bNone"));var om=l.match||{};["type","plan","date","time","gender","mbti"].forEach(function(q){if((om[q]||"")!==nm2.match[q])ch.push(q==="type"?o("ty_"+nm2.match[q]):q==="gender"?o("g_"+nm2.match[q]):(nm2.match[q]||"–"))});
+  if(!ch.length)return;od.leads.forEach(function(x){if(x.by===l.by&&sameKey(x,l)){x.intent=nm2.intent;x.budget=nm2.budget;x.match=nm2.match;if(x!==l)x.log.push({t:now,by:orole,k:"l_edit",x:ch.join(", ")})}});l.log.push({t:now,by:orole,k:"l_edit",x:ch.join(", ")});oOpen["m"+orole+id]=true}
+ else if(k==="top"&&meBy){busyTop=id;oOpen["m"+orole+id]=true;render();var X=window.HAIX;(X?X.mxLoad():Promise.resolve()).then(function(){topRun(l);busyTop="";save();render();flash(id);toast(o("topH"),l.top.items.map(function(i){return i.code}).join(", ")||o("topNone"))}).catch(function(){busyTop="";render()});return}
+ else if(k==="pick"&&meBy){act("more",id);$("#ocode").value=x;hint();var dE=$("#od");if(dE)dE.focus();return}
  else ok=false;
  if(!ok)return;save();render();flash(id);var lg1=l.log[l.log.length-1];toast(o("tDone"),l.id+" · "+o(lg1.k,{l:l.code,x:lg1.x,b:lg1.b?nm(lg1.b):""}))}
 function sheet(l){var el=$("#sheet"),now=Date.now(),rows=od.leads.filter(function(x){return x.by===l.by&&sameKey(x,l)&&(x.st==="ok"||x.st==="wait")}).sort(function(a,b){return (a.at||9e15)-(b.at||9e15)});
  var h='<div class="sh-bar"><button type="button" class="btn" data-shp="1">🖨 '+esc(o("shPrint"))+'</button><button type="button" class="btn ghost" data-shx="1">✕ '+esc(o("rClose"))+"</button><span>"+esc(o("shHow"))+'</span></div><div class="sh-page"><header class="sh-h">'+(MS[l.by]?'<img src="'+MS[l.by].lg+'" alt="">':"")+"<div><h1>"+esc(o("shT"))+"</h1><p>"+esc(nm(l.by))+" · "+esc(o("shMade"))+" "+fdt(now)+'</p></div><div class="sh-id">'+esc(l.id)+"</div></header>";
- h+="<h2>"+esc(o("shCl"))+'</h2><div class="sh-g"><div><span>'+esc(o("shName"))+"</span><b>"+esc(l.name)+"</b></div><div><span>"+esc(o("lPhone"))+"</span><b>"+esc(l.ph?"+"+l.ph:"–")+"</b></div>"+(l.chat?"<div><span>"+esc(o("chatL"))+"</span><b>"+esc(CHN[l.chat.k]+" · "+l.chat.id)+"</b></div>":"")+"<div><span>"+esc(o("lIntent"))+"</span><b>"+esc(o(l.intent))+"</b></div></div>";
+ h+="<h2>"+esc(o("shCl"))+'</h2><div class="sh-g"><div><span>'+esc(o("shName"))+"</span><b>"+esc(l.name)+"</b></div><div><span>"+esc(o("lPhone"))+"</span><b>"+esc(l.ph?"+"+l.ph:"–")+"</b></div>"+(l.chat?"<div><span>"+esc(o("chatL"))+"</span><b>"+esc(CHN[l.chat.k]+" · "+l.chat.id)+"</b></div>":"")+"<div><span>"+esc(o("lIntent"))+"</span><b>"+esc(o(l.intent))+"</b></div>"+(l.budget?"<div><span>"+esc(o("shBud"))+"</span><b>"+esc(l.budget+(l.intent==="rent"?o("perMo"):""))+"</b></div>":"")+"</div>";
  h+="<h2>"+esc(o("shAp",{n:rows.length}))+"</h2>";
  rows.forEach(function(x){var m=MS[x.own];h+='<div class="sh-ap"><div class="sh-ph"><img src="'+m.img(x.code)+'" alt=""></div><div class="sh-b"><h3>'+esc(x.code)+' <span class="sh-nm" data-shn="'+esc(x.code)+'"></span></h3><p class="sh-when">'+esc(o("view"))+": "+esc(when(x.at,x.nt))+'</p><p class="sh-pr" data-shp2="'+esc(x.code)+'"></p><p>'+esc(o("shOwn"))+": "+esc(nm(x.own))+" · "+esc(o(x.st==="wait"?"st_wait":"st_ok"))+'</p><p class="sh-ln"><a href="'+m.pg(x.code)+'" target="_blank" rel="noopener">'+esc(o("shPage"))+" ↗</a> · <a href=\""+m.q(x.code)+'" target="_blank" rel="noopener">'+esc(o("shQuote"))+" ↗</a></p></div></div>"});
  h+='<p class="sh-note">WIDEROOMS · Hybrid AI by ThB.Ho · Hybrid AI Agent Network</p></div>';
  el.innerHTML=h;el.hidden=false;document.body.classList.add("sheeting");el.scrollTop=0;
  // names and prices: R2 from the unit feed, ASN from its listing sheet (best effort)
- fetch("agents/r2/feed.json").then(function(r){return r.json()}).then(function(j){rows.forEach(function(x){if(x.own!=="r2")return;var u=j.units&&j.units[x.code],p=document.querySelector('[data-shp2="'+x.code+'"]'),n=document.querySelector('[data-shn="'+x.code+'"]');if(n)n.textContent="· The Riviera Jomtien";if(u&&p)p.textContent=baht(u.sell)})}).catch(function(){});
+ fetch("agents/r2/feed.json").then(function(r){return r.json()}).then(function(j){rows.forEach(function(x){if(x.own!=="r2")return;var u=j.units&&j.units[x.code],p=document.querySelector('[data-shp2="'+x.code+'"]'),n=document.querySelector('[data-shn="'+x.code+'"]');if(n)n.textContent="· The Riviera Jomtien";if(u&&p&&x.intent!=="rent"){var f=fitTxt(u.sell,x.budget);p.innerHTML=esc(baht(u.sell))+(f?" · <i>"+esc(f)+"</i>":"")}})}).catch(function(){});
  fetch("https://docs.google.com/spreadsheets/d/1c2GnMuGXetQS6-zf46TywNQgPg1PdwJ70rswXMoGwso/gviz/tq?tqx=out:csv&sheet=Listings",{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(x){if(!x)return;var lines=x.split("\n"),hd=lines.shift().split(",").map(function(s){return s.replace(/"/g,"").trim()}),ci=hd.indexOf("code"),ni=hd.indexOf("name"),si=hd.indexOf("sale"),ri=hd.indexOf("rent");
-  lines.forEach(function(line){var c=(line.match(/("([^"]|"")*"|[^,]*)(,|$)/g)||[]).map(function(s){return s.replace(/,$/,"").replace(/^"|"$/g,"").replace(/""/g,'"').trim()});rows.forEach(function(x){if(x.own!=="asn"||c[ci]!==x.code)return;var n=document.querySelector('[data-shn="'+x.code+'"]'),p=document.querySelector('[data-shp2="'+x.code+'"]');if(n&&c[ni])n.textContent="· "+c[ni];var v=+String((x.intent==="rent"?c[ri]:c[si])||"").replace(/[^\d.]/g,"");if(p&&v)p.textContent=baht(v)+(x.intent==="rent"?o("perMo"):"")})})}).catch(function(){})}
-function prefill(l){if(!full(l))return;try{localStorage.setItem("hai-prefill",JSON.stringify({t:Date.now(),name:l.name,purpose:l.intent}))}catch(e){}}
+  lines.forEach(function(line){var c=(line.match(/("([^"]|"")*"|[^,]*)(,|$)/g)||[]).map(function(s){return s.replace(/,$/,"").replace(/^"|"$/g,"").replace(/""/g,'"').trim()});rows.forEach(function(x){if(x.own!=="asn"||c[ci]!==x.code)return;var n=document.querySelector('[data-shn="'+x.code+'"]'),p=document.querySelector('[data-shp2="'+x.code+'"]');if(n&&c[ni])n.textContent="· "+c[ni];var v=+String((x.intent==="rent"?c[ri]:c[si])||"").replace(/[^\d.]/g,"");if(p&&v){var f=fitTxt(v,x.budget);p.innerHTML=esc(baht(v)+(x.intent==="rent"?o("perMo"):""))+(f?" · <i>"+esc(f)+"</i>":"")}})})}).catch(function(){})}
+function moreHtml(l){var m=l.match||{},id=l.id,opn=oOpen["m"+orole+id];
+ var h='<details class="more" data-omore="'+id+'"'+(opn?" open":"")+'><summary>'+esc(o("more"))+'</summary><b>'+esc(o("eH"))+'</b><div class="oe">';
+ h+='<div><label for="oe-it-'+id+'">'+esc(o("lIntent"))+'</label><select id="oe-it-'+id+'" data-oeit="'+id+'"><option value="buy"'+(l.intent==="buy"?" selected":"")+'>'+esc(o("buy"))+'</option><option value="rent"'+(l.intent==="rent"?" selected":"")+'>'+esc(o("rent"))+'</option></select></div>';
+ h+='<div><label for="oe-bg-'+id+'">'+esc(o("lBudget"))+'</label><select id="oe-bg-'+id+'">'+budOpts(l.intent,l.budget)+'</select></div>';
+ h+='<div><label for="oe-ty-'+id+'">'+esc(o("eType"))+'</label><select id="oe-ty-'+id+'">'+["","villa","house","condo","land"].map(function(k){return '<option value="'+k+'"'+((m.type||"")===k?" selected":"")+'>'+esc(o("ty_"+k))+"</option>"}).join("")+'</select></div>';
+ h+='<div><label for="oe-pl-'+id+'">'+esc(o("ePlan"))+'</label><input type="month" id="oe-pl-'+id+'" value="'+esc(m.plan||"")+'"></div>';
+ h+='<div><label for="oe-bd-'+id+'">'+esc(o("eBd"))+'</label><input type="date" id="oe-bd-'+id+'" value="'+esc(m.date||"")+'"></div>';
+ h+='<div><label for="oe-bt-'+id+'">'+esc(o("eBt"))+' <i>'+esc(o("opt"))+'</i></label><input type="time" id="oe-bt-'+id+'" value="'+esc(m.time||"")+'"></div>';
+ h+='<div><label for="oe-g-'+id+'">'+esc(o("eG"))+'</label><select id="oe-g-'+id+'">'+["","m","f","n"].map(function(k){return '<option value="'+k+'"'+((m.gender||"")===k?" selected":"")+'>'+esc(o("g_"+k))+"</option>"}).join("")+'</select></div>';
+ h+='<div><label for="oe-mb-'+id+'">'+esc(o("eMb"))+'</label><select id="oe-mb-'+id+'"><option value="">–</option>'+MBTI16.map(function(k){return "<option"+(m.mbti===k?" selected":"")+">"+k+"</option>"}).join("")+'</select></div>';
+ h+='</div><button class="btn sm" type="button" data-oa="edit|'+id+'">'+esc(o("eSave"))+'</button>';
+ h+='<div class="top3">';
+ if(busyTop===id)h+='<p class="sub">'+esc(o("topBusy"))+'</p>';
+ else{var tp=l.top;h+='<button class="btn sm" type="button" data-oa="top|'+id+'">★ '+esc(o(tp?"topAgain":"topBtn"))+'</button>';
+  if(tp){h+='<p class="top-h"><b>'+esc(o("topH"))+'</b> <span>'+esc(o("topLv"))+": "+tp.lv.map(function(n){return esc(o("lv"+n))}).join(" + ")+" · "+fdt(tp.t)+'</span></p>';
+   if(tp.items.length)h+="<ol>"+tp.items.map(function(it,i){var has=od.leads.some(function(x){return x.by===l.by&&x.code===it.code&&sameKey(x,l)&&live(x)});
+    return '<li><span class="rk">'+(i+1)+'</span><span class="tb"><span class="tl"><button type="button" class="lc" data-pv="'+esc(it.code)+'">'+esc(it.code)+'</button> <i>'+esc(nm(it.site))+'</i> <b>'+it.score+'%</b></span><span class="tn">'+esc(it.name)+" · "+esc(baht(it.price))+(l.intent==="rent"?esc(o("perMo")):"")+'</span><small>'+esc([o("lv1")+" "+it.b].concat(it.d!=null?[o("lv2")+" "+it.d]:[]).concat(it.m!=null?[o("lv3")+" "+it.m]:[]).join(" · "))+(it.why.length?" · "+esc(it.why.join(" · ")):"")+'</small></span>'+(has?'<span class="tdone">✓ '+esc(o("topHas"))+'</span>':'<button class="btn ghost tadd" type="button" data-oa="pick|'+id+"|"+esc(it.code)+'">+ '+esc(o("topPick"))+'</button>')+"</li>"}).join("")+"</ol>";
+   else h+='<p class="sub">'+esc(o("topNone"))+'</p>'}
+  var need=[];if(!m.date)need.push(o("lv2"));if(!m.mbti)need.push(o("lv3"));if(need.length)h+='<p class="sub">'+esc(o("topMore",{x:need.join(" · ")}))+" · "+esc(o("topTip"))+'</p>'}
+ return h+"</div></details>"}
+function topRun(l){var X=window.HAIX,m=l.match||{},sites=[];od.leads.forEach(function(x){if(x.by===l.by&&sameKey(x,l)&&live(x)&&sites.indexOf(x.own)<0)sites.push(x.own)});if(sites.indexOf(l.own)<0)sites.push(l.own);
+ var bd=band(l.budget),C=null,T=window.ASND&&ASND._test;if(m.date&&T){try{C=T.chart({date:m.date,time:m.time||"",city:"bkk",gender:m.gender||"n"})}catch(e){C=null}}
+ var rows=[];((X&&X.MX.homes)||[]).forEach(function(h){if(sites.indexOf(h.site)<0)return;var p=l.intent==="rent"?h.rent:h.sale;if(!p)return;if(m.type&&h.type!==m.type&&!(m.type==="villa"&&h.type==="house"&&h.pool==="private"))return;
+  var b=70;if(bd){if(p>=bd[0]&&p<=bd[1])b=100;else if(p<bd[0])b=Math.max(40,Math.round(100-(bd[0]-p)/bd[0]*100));else if(p<=bd[1]*1.1)b=75;else if(p<=bd[1]*1.25)b=50;else return}
+  var d=null,why=[];if(C){try{var r=T.score(h,C);d=r.total;why=r.why.filter(function(w){return w[0]==="+"}).slice(0,2).map(function(w){return w[1]})}catch(e){d=null}}
+  var mb=mbtiFit(h.mbti,m.mbti);if(m.mbti&&mb==null)mb=40;if(C&&d==null)d=40;var sc=d!=null&&mb!=null?.3*b+.4*d+.3*mb:d!=null?.4*b+.6*d:mb!=null?.5*b+.5*mb:b;
+  if(mb!=null&&h.mbti.indexOf(m.mbti)>-1)why.unshift(o("topMb",{m:m.mbti}));
+  rows.push({code:h.code,site:h.site,name:h.name,price:p,score:Math.round(sc),b:b,d:d,m:mb,why:why})});
+ rows.sort(function(x,y){return y.score-x.score||y.price-x.price});
+ l.top={t:Date.now(),lv:[1].concat(C?[2]:[]).concat(m.mbti?[3]:[]),items:rows.slice(0,3)};l.log.push({t:Date.now(),by:orole,k:"l_top",x:l.top.items.map(function(i){return i.code}).join(", ")||"–"})}
+function prefill(l){if(!full(l))return;var m=l.match||{},bd=band(l.budget),ob={t:Date.now(),name:l.name,purpose:l.intent};
+ if(m.date){ob.date=m.date;if(m.time)ob.time=m.time;else ob.unk=true}if(m.gender)ob.gender=m.gender;if(m.type)ob.type=m.type;if(l.own==="r2")ob.type="condo";
+ if(bd){var up=bd[1];if(l.intent==="buy"){var B=[5,10,20,30,50,100];ob.bBuy=up===Infinity?0:(B.filter(function(n){return n*1e6>=up})[0]||0)}else{var R=[30000,50000,80000,120000,200000,300000,500000];ob.bRent=up===Infinity?0:(R.filter(function(n){return n>=up})[0]||0)}}
+ if(m.plan){if(l.intent==="buy")ob.buy=m.plan+"-15";else ob.from=m.plan+"-01"}
+ try{localStorage.setItem("hai-prefill",JSON.stringify(ob))}catch(e){}}
 function setMode(m,init){mode=m;var own=m==="own";document.documentElement.classList.toggle("om",own);$("#own").hidden=!own;$("#netMain").hidden=own;
  [].forEach.call(document.querySelectorAll('.bar label[for="role"], #role'),function(el){el.style.display=own?"none":""});
  try{var u=new URL(location.href);if(own)u.searchParams.set("mode","owner");else u.searchParams.delete("mode");history.replaceState(null,"",u)}catch(e){}
@@ -1356,17 +1422,23 @@ function setMode(m,init){mode=m;var own=m==="own";document.documentElement.class
 document.addEventListener("click",function(e){
  var mb=e.target.closest("[data-mode]");if(mb){setMode(mb.getAttribute("data-mode"));return}
  if(mode!=="own")return;
- var r=e.target.closest("[data-orole]");if(r){orole=r.getAttribute("data-orole");otab="";pend=null;$("#oout").innerHTML="";render();return}
+ var r=e.target.closest("[data-orole]");if(r){orole=r.getAttribute("data-orole");otab="";ofo=null;pend=null;$("#oout").innerHTML="";render();return}
  var tb=e.target.closest("[data-otab]");if(tb){otab=tb.getAttribute("data-otab");render();return}
  var cf=e.target.closest("[data-ocf]");if(cf){if(cf.getAttribute("data-ocf")==="1")commit();else{pend=null;$("#oout").innerHTML="";$("#ocode").focus()}return}
  var tg=e.target.closest("[data-otg]");if(tg){var id=tg.getAttribute("data-otg"),l=byId(id);oOpen[orole+id]=!isOpen(l);render();var nb=document.querySelector('[data-otg="'+id+'"]');if(nb)nb.focus();return}
  var al=e.target.closest("[data-oall]");if(al){var on=al.getAttribute("data-oall")==="1";od.leads.forEach(function(l){oOpen[orole+l.id]=on});render();return}
+ var pd=e.target.closest("[data-opd]");if(pd){opd=pd.getAttribute("data-opd");report();return}
+ var dr=e.target.closest("[data-odr]");if(dr){var v=dr.getAttribute("data-odr");ofo=v?{t:v.split("|")[0],k:v.split("|")[1]}:null;report();return}
  var rp=e.target.closest("[data-orep]");if(rp){repOn=!repOn;report();return}
  var go=e.target.closest("[data-ogo]");if(go){var gid=go.getAttribute("data-ogo"),gl=byId(gid);if(gl){var t=tabsFor();otab=t.filter(function(k){return inTab(gl,k)})[0]||otab;oq="";$("#oq").value="";oOpen[orole+gid]=true;render();var c=document.getElementById("o-"+gid);if(c){c.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});flash(gid)}}return}
  var ac=e.target.closest("[data-oack]");if(ac){od.acks=od.acks||{};od.acks[orole]=od.acks[orole]||{};od.acks[orole][ac.getAttribute("data-oack")]=1;var kl=byId(ac.getAttribute("data-id"));if(kl)kl.log.push({t:Date.now(),by:orole,k:"l_ack",x:ac.getAttribute("data-x")});save();render();toast(o("ack"),ac.getAttribute("data-id"));return}
  var fl=e.target.closest("[data-ofill]");if(fl){prefill(byId(fl.getAttribute("data-ofill")));return}
  var a=e.target.closest("[data-oa]");if(a){var p=a.getAttribute("data-oa").split("|");act(p[0],p[1],p[2])}});
+document.addEventListener("toggle",function(e){var d=e.target;if(d&&d.getAttribute&&d.getAttribute("data-omore"))oOpen["m"+orole+d.getAttribute("data-omore")]=d.open},true);
 $("#of").addEventListener("submit",read);
+$("#oit").addEventListener("change",function(){$("#obg").innerHTML=budOpts($("#oit").value,"")});
+$("#ogrp").addEventListener("change",function(e){grp=e.target.checked;render()});
+document.addEventListener("change",function(e){var s2=e.target.closest&&e.target.closest("[data-oeit]");if(!s2)return;var b2=document.getElementById("oe-bg-"+s2.getAttribute("data-oeit"));if(b2)b2.innerHTML=budOpts(s2.value,"")});
 $("#ocode").addEventListener("input",hint);
 $("#oq").addEventListener("input",function(e){oq=e.target.value.trim();render()});
 $("#osort").addEventListener("change",function(e){osort=e.target.value;render()});
