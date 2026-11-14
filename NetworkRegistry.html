@@ -276,6 +276,31 @@ footer .copy{padding-top:12px;border-top:1px dashed var(--line);font-size:13px}
 @media (max-width:480px){.row2{grid-template-columns:1fr}.c-top .when{margin-left:0;width:100%}}
 @media (prefers-reduced-motion:no-preference){.c{transition:border-color .2s}}
 @media (max-width:640px){.bar .wrap{gap:6px 8px;padding-top:8px;padding-bottom:8px}.rlogo{width:30px;height:30px;border-radius:7px;font-size:12px}.rlogo img{padding:2px}.mark{font-size:15px;flex:1 1 calc(100% - 40px);min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar .wrap{row-gap:6px}.mark small{display:none}.bar label{display:none}.bar select{min-height:36px;font-size:13.5px;padding:0 6px}#role{flex:1 1 0;min-width:0}#lang{flex:none}.bell{min-height:32px;padding:0 9px;font-size:12.5px}}
+.modes{display:flex;gap:8px;flex-wrap:wrap;padding-top:14px}
+.modes button{min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;font-size:14.5px}
+.modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.modes small{display:block;font-weight:400;font-size:11.5px;opacity:.75;line-height:1.1}
+.modes button{display:flex;flex-direction:column;justify-content:center;text-align:left}
+.oroles{margin-bottom:12px}
+.ohint{font-size:12.5px;color:var(--ink2);margin:4px 0 0;min-height:1em}
+.ohint b{color:var(--ink)}
+.ol{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--oc,var(--line));border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.ol.o-asn{--oc:var(--m-asn)}.ol.o-r2{--oc:var(--m-r2)}.ol.o-sa1{--oc:#6B7F2A}.ol.o-sa2{--oc:#9A4E78}.ol.o-no{opacity:.86}
+.ol h3{font-size:15px;margin:0 0 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;line-height:1.35}
+.ol h3 .id{font-family:var(--mono);font-size:13px;color:var(--ink2);font-weight:500}
+.ol .om-m{font-size:13px;color:var(--ink2);margin:2px 0}
+.ol .om-m b{color:var(--ink);font-weight:500}
+.ol .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:9px}
+.ol .acts select,.ol .acts input{font:inherit;font-size:14px;min-height:38px;padding:0 9px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);max-width:150px}
+.ol .proof{background:var(--warn-soft);border:1px solid var(--warn);border-radius:10px;padding:8px 10px;font-size:13px;margin-top:8px}
+.ol .good{background:var(--teal-soft);border:1px solid var(--teal);border-radius:10px;padding:8px 10px;font-size:13px;margin-top:8px}
+.ol .money{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ol details{margin-top:8px;font-size:12.5px;color:var(--ink2)}
+.ol details li{margin:2px 0}
+.st-wait{background:var(--warn-soft)!important;border-color:var(--warn)!important}
+.st-ok,.st-seen{background:var(--teal-soft)!important;border-color:var(--teal)!important}
+.st-close{background:var(--ink)!important;color:var(--paper)!important;border-color:var(--ink)!important}
+#own .rules li{margin:3px 0}
 </style>
 <script src="thor-analytics.js?v=1" defer></script>
 </head>
@@ -293,7 +318,8 @@ footer .copy{padding-top:12px;border-top:1px dashed var(--line);font-size:13px}
  <button class="btn ghost" id="reset" type="button" data-t="reset">เริ่มข้อมูลตัวอย่างใหม่</button>
 </div></div>
 
-<main class="wrap">
+<div class="wrap modes" role="group" aria-label="Mode"><button type="button" id="mNet" data-mode="net" aria-pressed="true">เครือข่ายข้ามเมือง</button><button type="button" id="mOwn" data-mode="own" aria-pressed="false">เจ้าของทรัพย์ · sub-agent</button></div>
+<main class="wrap" id="netMain">
  <h1 data-t="h1">ลงก่อน ได้สิทธิ์ก่อน และทุกคนเห็นเส้นทางลูกค้า</h1>
  <p class="lede" data-t="lede">ลองลงทะเบียนลูกค้า แล้วเปลี่ยน “ดูในฐานะ” ด้านบนเพื่อดูว่าสมาชิกแต่ละรายและผู้ดูแลเครือข่ายเห็นอะไรบ้าง</p>
  <div class="who" id="who"></div>
@@ -337,6 +363,38 @@ footer .copy{padding-top:12px;border-top:1px dashed var(--line);font-size:13px}
   </section>
  </div>
  <section class="card rep" id="rep" aria-labelledby="rh"></section>
+</main>
+<main class="wrap" id="own" hidden>
+ <h1 data-o="h1">ทรัพย์ของใคร คนนั้นคุม: ลงทะเบียนก่อนพาดู</h1>
+ <p class="lede" data-o="lede"></p>
+ <div class="tabs oroles" id="oRoles" role="group"></div>
+ <div class="who" id="oWho"></div>
+ <div class="stats" id="oStats"></div>
+ <div class="grid">
+  <section class="card" aria-labelledby="ofh">
+   <h2 id="ofh" data-o="fh">ลงทะเบียนลูกค้า + รหัสทรัพย์</h2>
+   <p class="sub" id="oFsub"></p>
+   <form id="of" novalidate>
+    <div class="f"><label for="ocode" data-o="lCode">รหัสทรัพย์ที่จะพาดู</label><input id="ocode" list="ocodes" autocomplete="off" autocapitalize="characters" placeholder="H04 · 8A03"><datalist id="ocodes"><option value="H04"><option value="H14"><option value="H80"><option value="8A03"><option value="36E09"><option value="7D02"></datalist><p class="ohint" id="ohint" aria-live="polite"></p></div>
+    <div class="f"><label for="onm" data-o="lName">ชื่อที่ลูกค้าใช้</label><input id="onm" autocomplete="off" placeholder="Anna Petrova"></div>
+    <div class="f"><label for="oph" data-o="lPhone">เบอร์โทรลูกค้า</label><div class="phone"><select id="occ" aria-label="Country code"><option>+66</option><option>+86</option><option>+7</option><option>+82</option><option>+81</option><option>+65</option><option>+44</option><option>+1</option></select><input id="oph" inputmode="tel" autocomplete="off" placeholder="80 000 0199"></div></div>
+    <div class="row2">
+     <div class="f"><label for="oit" data-o="lIntent">ต้องการ</label><select id="oit"><option value="buy" data-o="buy">ซื้อ</option><option value="rent" data-o="rent">เช่า</option></select></div>
+     <div class="f"><label for="od"><span data-o="lDate">วันพาดู</span></label><input id="od" type="date"></div>
+    </div>
+    <div class="f"><label for="otm"><span data-o="lTime">เวลา</span> <i data-o="opt">(ถ้ามี)</i></label><input id="otm" type="time"></div>
+    <label class="ck"><input type="checkbox" id="ocs"><span data-o="consent">ลูกค้ายินยอมให้ส่งชื่อย่อและเวลานัดให้เจ้าของทรัพย์</span></label>
+    <button class="btn full" type="submit" id="osub">ลงทะเบียนและประทับเวลา</button>
+   </form>
+   <div id="oout" role="status" aria-live="polite"></div>
+   <div class="rules"><b data-o="rulesH">กติกาในโหมดนี้</b><ol id="oRules"></ol></div>
+  </section>
+  <section aria-labelledby="olh">
+   <div class="list-h"><h2 id="olh" data-o="lh">รายการ</h2><div class="tabs" id="oTabs"></div></div>
+   <div id="oList"></div>
+  </section>
+ </div>
+ <p class="sub"><button class="btn ghost sm" type="button" id="oReset" data-o="reset">เริ่มข้อมูลตัวอย่างโหมดนี้ใหม่</button></p>
 </main>
 <div id="sheet" class="sheet" hidden></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -939,6 +997,202 @@ window.addEventListener("resize",barH);
 var q=new URLSearchParams(location.search);if(T[q.get("lang")])lang=q.get("lang");if(MEMBERS[q.get("as")]||q.get("as")==="admin")role=q.get("as");
 $("#lang").value=lang;
 (load()?Promise.resolve():seed()).then(function(){render();barH()});
+})();
+</script>
+<script>
+// --- Owner mode: the member who holds the listing (and pays the commission) runs the registry; sub-agents register a client + listing before a viewing
+(function(){
+"use strict";
+var OKEY="hai-owner-demo-v1",DAY=864e5,PROT=90,$=function(s){return document.querySelector(s)};
+var O={
+ th:{mNet:"เครือข่ายข้ามเมือง",mNetS:"ส่งลูกค้าระหว่างเมือง",mOwn:"เจ้าของทรัพย์ · sub-agent",mOwnS:"ลงทะเบียนก่อนพาดู",
+  h1:"ทรัพย์ของใคร คนนั้นคุม: ลงทะเบียนก่อนพาดู",
+  lede:"โหมดนี้ใช้เมื่อมีเจ้าของทรัพย์ที่เป็นคนจ่ายค่าคอม เช่น R2 by Clare (เจ้าของห้อง The Riviera Jomtien) หรือ ASN (ทรัพย์ที่ติดเจ้าของตรง) sub-agent ลงทะเบียนลูกค้าพร้อมรหัสทรัพย์ก่อนพาดู เจ้าของทรัพย์แค่กดอนุมัติ ระบบเก็บหลักฐานเวลา และคิดค่าแนะนำให้เมื่อปิดดีล",
+  fh:"ลงทะเบียนลูกค้า + รหัสทรัพย์",fsubS:"ลงก่อนพาดู จึงมีสิทธิ์ค่าแนะนำ ใช้เวลา 1 นาที",fsubO:"ทรัพย์ของคุณเอง: ลงลูกค้าตรง (เช่นจาก Facebook) แค่ชื่อกับเบอร์ 10 วินาที ไม่บังคับ แต่กันการอ้างลูกค้าทีหลัง · รหัสทรัพย์ของเจ้าของอื่น: ส่งคำขอพาดูในฐานะ sub-agent",
+  lCode:"รหัสทรัพย์ที่จะพาดู",lName:"ชื่อที่ลูกค้าใช้",lPhone:"เบอร์โทรลูกค้า",lIntent:"ต้องการ",buy:"ซื้อ",rent:"เช่า",lDate:"วันพาดู",lTime:"เวลา",opt:"(ถ้ามี)",
+  consent:"ลูกค้ายินยอมให้ส่งชื่อย่อและเวลานัดให้เจ้าของทรัพย์",subReq:"ส่งคำขอพาดู และประทับเวลา",subDir:"ลงลูกค้าตรง และประทับเวลา",
+  hNone:"ใส่รหัสทรัพย์ เช่น H04 (ASN) หรือ 8A03 (R2)",hBad:"ไม่พบรหัสทรัพย์นี้ในตัวอย่าง",hReq:"ทรัพย์ของ {o} · ส่งคำขอพาดูให้ {o} อนุมัติ",hDir:"ทรัพย์ของคุณ · ลงเป็นลูกค้าตรง ไม่มีค่าแนะนำ",
+  needCode:"ใส่รหัสทรัพย์ที่มีในระบบ",needName:"กรอกชื่อลูกค้า",needPhone:"กรอกเบอร์โทรอย่างน้อย 7 หลัก",needDate:"ใส่วันพาดู",needCs:"ต้องได้ความยินยอมจากลูกค้าก่อน",
+  okReq:"ส่งคำขอแล้ว",okReqT:"รหัส {id} · ประทับเวลา {t} · รอ {o} อนุมัติ",okDir:"ลงลูกค้าตรงแล้ว",okDirT:"รหัส {id} · ประทับเวลา {t} · ถ้า sub-agent ลงลูกค้ารายนี้ทีหลัง ระบบไม่รับ",
+  dupH:"ระบบไม่รับ: ลูกค้ารายนี้มีผู้พามาแล้ว",dupT:"{b} ลงลูกค้ารายนี้กับทรัพย์ของ {o} ไว้เมื่อ {t} ({id}) คุ้มครองถึง {e}",
+  dupOwn:"ลูกค้ารายนี้ {b} พามาตั้งแต่ {t} ({id}) ถ้าปิดดีลกับทรัพย์ของคุณ ต้องจ่ายค่าแนะนำให้ {b} ระบบบันทึกไว้ในประวัติแล้ว",
+  dupMine:"คุณลงลูกค้ารายนี้กับทรัพย์ {l} ไว้แล้วเมื่อ {t} ({id})",dupDir:"ลูกค้ารายนี้เป็นลูกค้าตรงของ {o} ลงไว้เมื่อ {t} ({id}) ก่อนคุณส่งคำขอ จึงไม่มีค่าแนะนำ",proofDir:"หลักฐาน: {b} ลงเป็นลูกค้าตรงไว้ก่อนเมื่อ {t} ({id})",
+  rulesH:"กติกาในโหมดนี้",
+  r:["sub-agent ลงทะเบียนลูกค้าพร้อมรหัสทรัพย์ก่อนพาดู ไม่ลง = ไม่มีสิทธิ์ค่าแนะนำ","เจ้าของทรัพย์แค่กดอนุมัติหรือไม่อนุมัติ ไม่ต้องกรอกข้อมูลลูกค้าเอง","ลูกค้า 1 คนกับเจ้าของทรัพย์ 1 ราย มีผู้พามาได้คนเดียว คุ้มครอง 90 วัน ใครลงก่อนได้สิทธิ์","ลูกค้าติดต่อเจ้าของทรัพย์ตรงทีหลัง ยังเป็นลูกค้าของคนที่พามา","เจ้าของทรัพย์ไม่เห็นเบอร์เต็ม และ sub-agent ไม่เห็นเจ้าของบ้านกับที่ตั้งจริง จึงไม่มีใครข้ามใครได้","ปิดดีลแล้ว ระบบคิดค่าแนะนำตามอัตราในสัญญา (10–25% ตกลงรายดีล) และติดตามการจ่ายจนอีกฝ่ายยืนยัน","เจ้าของทรัพย์ลงลูกค้าตรงที่คุยใน Facebook ไว้ได้ แค่ชื่อกับเบอร์ เพื่อกันการอ้างทีหลัง (ไม่บังคับ)"],
+  lh:"รายการ",tIn:"คำขอรออนุมัติ",tOwn:"ลูกค้าบนทรัพย์ของฉัน",tBy:"ลูกค้าที่ฉันพาไป",tPay:"ค่าแนะนำ",tAll:"ทั้งหมด",
+  admin:"ผู้ดูแลเครือข่าย",sa1:"Sub-agent A · Jomtien Homes (ตัวอย่าง)",sa2:"Sub-agent B · ฟรีแลนซ์ (ตัวอย่าง)",
+  wAsn:"เจ้าของทรัพย์ H/B ของ ASN และเป็น sub-agent เมื่อพาลูกค้าไปดูห้อง R2",wR2:"เจ้าของห้อง The Riviera Jomtien · เป็นคนจ่ายค่าคอมให้คนที่พาลูกค้ามา",wSa:"พาลูกค้าไปดูทรัพย์ของเจ้าของทรัพย์ในระบบ · ลงทะเบียนก่อนพาดูเพื่อรับค่าแนะนำ",wAd:"เห็นทุกรายการ แต่ไม่เห็นชื่อเต็มและเบอร์โทร",
+  sInWait:"คำขอรออนุมัติ",sMyWait:"คำขอของฉันรออนุมัติ",sSoon:"นัดดูใน 7 วัน",sClosed:"ปิดดีลแล้ว",sPay:"ค่าแนะนำค้างจ่าย",sGet:"ค่าแนะนำที่จะได้",sAll:"รายการทั้งหมด",sDup:"ลงซ้ำที่ระบบกันไว้",sRef:"ค่าแนะนำรวม",
+  st_wait:"รอเจ้าของทรัพย์อนุมัติ",st_ok:"อนุมัติแล้ว รอพาดู",st_no:"ไม่อนุมัติ",st_seen:"ดูทรัพย์แล้ว",st_book:"จอง",st_close:"ปิดดีล",st_lost:"ไม่ไปต่อ",st_dir:"ลูกค้าตรงของเจ้าของทรัพย์",
+  by:"พามาโดย",ownL:"เจ้าของทรัพย์",view:"นัดดู",rate:"ค่าแนะนำ",price:"ราคา",comm:"ค่าคอมของดีล",share:"ค่าแนะนำของ {b}",
+  aOk:"อนุมัตินัดดู",aNoBusy:"ไม่อนุมัติ: ทรัพย์ไม่ว่าง",aNoMine:"ไม่อนุมัติ: ลูกค้าของฉันอยู่แล้ว",aSeen:"ลูกค้าดูแล้ว",aBook:"บันทึกจอง",aClose:"ปิดดีล",aLost:"ไม่ไปต่อ",aPaid:"จ่ายค่าแนะนำแล้ว",aGot:"ยืนยันได้รับเงิน",
+  mineNo:"ระบบไม่รับเหตุผลนี้: ไม่มีบันทึกลูกค้าตรงของคุณก่อน {t} ครั้งหน้าลงลูกค้าตรงไว้ก่อน ระบบจะกันให้อัตโนมัติ",
+  wBusy:"ทรัพย์ไม่ว่างในวันนั้น หรือขายแล้ว",wDup:"ลูกค้ารายนี้มีผู้พามาแล้ว",proof:"หลักฐาน: {b} ลงไว้ก่อนเมื่อ {t} ({id})",
+  payDue:"ค้างจ่าย",payDone:"เจ้าของทรัพย์แจ้งจ่ายแล้ว รอผู้รับยืนยัน",payOk:"ได้รับเงินแล้ว",
+  pHint:"ราคา (บาท)",cHint:"ค่าคอม (บาท)",hist:"ประวัติ {n} รายการ",empty:"ยังไม่มีรายการในมุมมองนี้",
+  l_req:"ส่งคำขอพาดู {l}",l_dir:"ลงลูกค้าตรง {l}",l_dup:"ลงซ้ำ ระบบไม่รับ",l_ok:"อนุมัตินัดดู · ค่าแนะนำ {x}%",l_noB:"ไม่อนุมัติ: ทรัพย์ไม่ว่าง",l_seen:"ลูกค้าดูทรัพย์แล้ว",l_book:"จอง {x}",l_close:"ปิดดีล ค่าคอม {x}",l_lost:"ไม่ไปต่อ",l_paid:"แจ้งจ่ายค่าแนะนำ {x}",l_got:"ยืนยันได้รับค่าแนะนำ",l_ownTry:"เจ้าของทรัพย์ลงลูกค้ารายนี้ซ้ำ ระบบยืนยันว่าเป็นลูกค้าที่ {b} พามา",
+  today:"วันนี้",tmr:"พรุ่งนี้",reset:"เริ่มข้อมูลตัวอย่างโหมดนี้ใหม่",perMo:"/เดือน",adminNoForm:"ผู้ดูแลไม่ลงทะเบียนลูกค้าในโหมดนี้ เลือกดูในฐานะสมาชิกเพื่อลอง",viewAs:"ดูในฐานะ"},
+ en:{mNet:"Cross-city network",mNetS:"refer clients between cities",mOwn:"Listing owner · sub-agent",mOwnS:"register before a viewing",
+  h1:"Whoever holds the listing runs it: register before the viewing",
+  lede:"Use this mode when one member holds the listing and pays the commission, like R2 by Clare (owner of The Riviera Jomtien units) or ASN (owner-direct listings). Sub-agents register the client and listing code before a viewing, the listing owner just approves, and the system keeps the timestamp and works out the referral fee when the deal closes.",
+  fh:"Register a client + listing code",fsubS:"Register before the viewing to hold the referral right. One minute.",fsubO:"Your own listing: log a direct client (e.g. from Facebook) with just a name and number, 10 seconds. Optional, but it blocks later claims. Another owner's code: send a viewing request as a sub-agent.",
+  lCode:"Listing code to view",lName:"Client's name",lPhone:"Client phone",lIntent:"Wants",buy:"Buy",rent:"Rent",lDate:"Viewing date",lTime:"Time",opt:"(optional)",
+  consent:"The client agrees to share their initials and viewing time with the listing owner",subReq:"Send viewing request and stamp the time",subDir:"Log direct client and stamp the time",
+  hNone:"Enter a listing code, e.g. H04 (ASN) or 8A03 (R2)",hBad:"This code is not in the demo",hReq:"{o}'s listing · the viewing request goes to {o} to approve",hDir:"Your listing · logged as a direct client, no referral fee",
+  needCode:"Enter a listing code that exists",needName:"Enter the client's name",needPhone:"Enter a phone number of at least 7 digits",needDate:"Enter the viewing date",needCs:"The client must consent first",
+  okReq:"Request sent",okReqT:"Code {id} · stamped {t} · waiting for {o} to approve",okDir:"Direct client logged",okDirT:"Code {id} · stamped {t} · a sub-agent registering this client later will be refused",
+  dupH:"Refused: someone already brought this client",dupT:"{b} registered this client for {o}'s listings on {t} ({id}); protected until {e}",
+  dupOwn:"{b} brought this client on {t} ({id}). If the deal closes on your listing, the referral fee goes to {b}. Logged in the history.",
+  dupMine:"You already registered this client for {l} on {t} ({id})",dupDir:"This is {o}'s direct client, logged on {t} ({id}) before your request, so there is no referral fee",proofDir:"Evidence: {b} logged them as a direct client on {t} ({id})",
+  rulesH:"Rules in this mode",
+  r:["Sub-agents register the client and listing code before the viewing. Not registered = no referral fee","The listing owner only approves or declines, and never has to type client details","One client with one listing owner has one introducer, protected 90 days: first to register holds the right","If the client later contacts the owner directly, they still belong to whoever brought them","The owner never sees the full number, and the sub-agent never sees the house owner or the real address, so nobody can go around anybody","When the deal closes the system works out the referral fee at the contract rate (10–25%, set per deal) and tracks payment until the other side confirms","Owners can log direct clients from Facebook with just a name and number to block later claims (optional)"],
+  lh:"Records",tIn:"Requests to approve",tOwn:"Clients on my listings",tBy:"Clients I brought",tPay:"Referral fees",tAll:"All",
+  admin:"Network admin",sa1:"Sub-agent A · Jomtien Homes (example)",sa2:"Sub-agent B · freelance (example)",
+  wAsn:"Owner of ASN's H/B listings, and a sub-agent when bringing clients to R2 units",wR2:"Owner of The Riviera Jomtien units · pays the commission to whoever brings the client",wSa:"Brings clients to listings of owners in the system · registers before the viewing to earn the referral fee",wAd:"Sees every record, but not full names or numbers",
+  sInWait:"Requests to approve",sMyWait:"My requests pending",sSoon:"Viewings in 7 days",sClosed:"Deals closed",sPay:"Referral fees to pay",sGet:"Referral fees due to me",sAll:"All records",sDup:"Duplicates blocked",sRef:"Referral fees total",
+  st_wait:"Waiting for the owner",st_ok:"Approved, viewing pending",st_no:"Declined",st_seen:"Viewed",st_book:"Reserved",st_close:"Closed",st_lost:"Not going ahead",st_dir:"Owner's direct client",
+  by:"Brought by",ownL:"Listing owner",view:"Viewing",rate:"Referral",price:"Price",comm:"Deal commission",share:"{b}'s referral fee",
+  aOk:"Approve viewing",aNoBusy:"Decline: not available",aNoMine:"Decline: already my client",aSeen:"Client viewed",aBook:"Log reservation",aClose:"Close deal",aLost:"Not going ahead",aPaid:"Referral fee paid",aGot:"Confirm received",
+  mineNo:"Refused: there is no direct-client record of yours before {t}. Log direct clients first next time and the system blocks this automatically.",
+  wBusy:"Listing not available that day, or already sold",wDup:"Someone already brought this client",proof:"Evidence: {b} registered first on {t} ({id})",
+  payDue:"To pay",payDone:"Owner marked paid, waiting for the receiver to confirm",payOk:"Received",
+  pHint:"Price (THB)",cHint:"Commission (THB)",hist:"History · {n} entries",empty:"Nothing in this view yet",
+  l_req:"Viewing request for {l}",l_dir:"Direct client for {l}",l_dup:"Duplicate, refused",l_ok:"Viewing approved · referral {x}%",l_noB:"Declined: not available",l_seen:"Client viewed the listing",l_book:"Reserved {x}",l_close:"Closed, commission {x}",l_lost:"Not going ahead",l_paid:"Referral fee marked paid {x}",l_got:"Referral fee received",l_ownTry:"The owner tried to log this client; the system confirms {b} brought them",
+  today:"Today",tmr:"Tomorrow",reset:"Reset sample data for this mode",perMo:"/mo",adminNoForm:"The admin does not register clients in this mode. View as a member to try it.",viewAs:"View as"}
+};
+var ROLES=["asn","r2","sa1","sa2","admin"],mode="net",lang="th",orole="asn",otab="",od;
+function lg(){var s=$("#lang");return s&&O[s.value]?s.value:"th"}
+function o(k,v){var s=(O[lang][k]!=null?O[lang][k]:O.th[k]);if(s==null)s=k;if(v)for(var x in v)s=String(s).split("{"+x+"}").join(v[x]);return s}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function nm(r){return r==="asn"?"ASN Exclusive Property":r==="r2"?"R2 by Clare":o(r)}
+function ownerOf(c){return /^[HB]\d{2}$/.test(c)?"asn":/^\d{1,2}[A-E]\d{2}$/.test(c)?"r2":null}
+function pad(n){return n<10?"0"+n:""+n}
+function fd(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()}
+function fdt(ms){var d=new Date(ms);return fd(ms)+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
+function dd(ms){var a=new Date();a.setHours(0,0,0,0);var b=new Date(ms);b.setHours(0,0,0,0);return Math.round((b-a)/DAY)}
+function when(ms,nt){var d=dd(ms),h=new Date(ms),hm=pad(h.getHours())+":"+pad(h.getMinutes());return (d===0?o("today"):d===1?o("tmr"):fd(ms))+(nt?"":" "+hm)}
+function baht(n){return "฿"+Math.round(n||0).toLocaleString("en-US")}
+function norm(cc,p){return cc.replace(/\D/g,"")+String(p).replace(/\D/g,"").replace(/^0+/,"")}
+function maskN(n){return String(n).trim().split(/\s+/).map(function(w){return w.charAt(0).toUpperCase()+"••"}).join(" ")}
+function save(){try{localStorage.setItem(OKEY,JSON.stringify(od))}catch(e){}}
+function load(){try{var s=localStorage.getItem(OKEY);if(s){od=JSON.parse(s);if(od&&od.leads)return true}}catch(e){}return false}
+function nid(){od.seq++;return "V-"+pad(od.seq)}
+function seed(){var now=Date.now(),L=[];od={leads:L,seq:100};
+ var mk=function(code,by,name,ph,intent,ago,st,at,x){var t0=now-ago*DAY,own=ownerOf(code),l={id:nid(),code:code,own:own,by:by,dir:by===own,name:name,ph:ph,intent:intent,t:t0,at:at,nt:0,st:st,rate:by===own?0:20,price:0,comm:0,paid:0,log:[{t:t0,by:by,k:by===own?"l_dir":"l_req",x:code}]};for(var k in x||{})l[k]=x[k];L.push(l);return l};
+ var a=mk("H80","asn","Somchai Kittisak","66812340001","buy",21,"seen",now-15*DAY);a.log.push({t:now-15*DAY,by:"asn",k:"l_seen"});
+ var b=mk("H80","sa2","Somchai K.","66812340001","buy",3,"no",now+2*DAY,{why:"dup",dup:a.id});b.log=[{t:b.t,by:"sa2",k:"l_req",x:"H80"},{t:b.t,by:"sa2",k:"l_dup"}];
+ var c=mk("H04","sa1","Anna Petrova","79161234567","rent",6,"ok",now+DAY+14*3600e3-((new Date()).getHours()*3600e3));c.log.push({t:c.t+2*3600e3,by:"asn",k:"l_ok",x:20});
+ c.at=(function(){var d=new Date(now+DAY);d.setHours(14,0,0,0);return d.getTime()})();
+ var d=mk("H14","sa2","Wang Lei","8613812345678","buy",0.05,"wait",(function(){var q=new Date(now+2*DAY);q.setHours(10,30,0,0);return q.getTime()})());
+ var e=mk("8A03","asn","Kim Jiwoo","821098765432","buy",34,"close",now-30*DAY,{rate:25,price:2799000,comm:83970,paid:1});
+ e.log.push({t:e.t+3600e3,by:"r2",k:"l_ok",x:25},{t:now-30*DAY,by:"asn",k:"l_seen"},{t:now-20*DAY,by:"r2",k:"l_book",x:baht(2799000)},{t:now-6*DAY,by:"r2",k:"l_close",x:baht(83970)},{t:now-2*DAY,by:"r2",k:"l_paid",x:baht(20993)});
+ var f=mk("36E09","sa1","Olga Smirnova","79031112233","buy",9,"book",now-5*DAY,{price:3150000});
+ f.log.push({t:f.t+5*3600e3,by:"r2",k:"l_ok",x:20},{t:now-5*DAY,by:"sa1",k:"l_seen"},{t:now-DAY,by:"r2",k:"l_book",x:baht(3150000)});
+ var g=mk("H04","sa1","David Miller","447700900123","rent",40,"close",now-36*DAY,{rate:15,price:65000,comm:65000,paid:2});
+ g.log.push({t:g.t+3600e3,by:"asn",k:"l_ok",x:15},{t:now-36*DAY,by:"sa1",k:"l_seen"},{t:now-30*DAY,by:"asn",k:"l_close",x:baht(65000)},{t:now-25*DAY,by:"asn",k:"l_paid",x:baht(9750)},{t:now-24*DAY,by:"sa1",k:"l_got"});
+ save()}
+function share(l){return Math.round((l.comm||0)*(l.rate||0)/100)}
+function live(l){return l.st!=="no"&&l.st!=="lost"}
+// first active record of this client with this listing owner, inside the 90-day protection
+function holder(own,ph,skip){var h=null;od.leads.forEach(function(l){if(l===skip||l.own!==own||l.ph!==ph||!live(l))return;var last=l.log[l.log.length-1].t;if(Date.now()-last>PROT*DAY)return;if(!h||l.t<h.t)h=l});return h}
+function canSee(l){return orole==="admin"||l.own===orole||l.by===orole}
+function full(l){return l.by===orole}
+function tabsFor(){return orole==="admin"?["all","pay"]:orole==="r2"?["in","own","pay"]:orole==="asn"?["in","own","by","pay"]:["by","pay"]}
+function inTab(l,tb){if(!canSee(l))return false;if(tb==="all")return true;if(tb==="in")return l.own===orole&&l.st==="wait";if(tb==="own")return l.own===orole;if(tb==="by")return l.by===orole&&!l.dir;if(tb==="pay")return l.st==="close"&&!l.dir&&(orole==="admin"||l.own===orole||l.by===orole);return false}
+function chip(l){var k=l.dir&&l.st!=="close"&&l.st!=="lost"&&l.st!=="book"?"dir":l.st;return '<span class="chip st-'+esc(l.st)+'">'+esc(o("st_"+k))+"</span>"}
+function card(l){
+ var see=full(l),meOwn=l.own===orole&&orole!=="admin",meBy=l.by===orole,h='<article class="ol o-'+esc(l.by)+(l.st==="no"?" o-no":"")+'" id="o-'+l.id+'"><h3><span class="id">'+l.id+'</span><button type="button" class="lc" data-pv="'+esc(l.code)+'">'+esc(l.code)+"</button>"+chip(l)+"</h3>";
+ h+='<p class="om-m"><b>'+esc(see?l.name:maskN(l.name))+"</b> · "+esc(see?"+"+l.ph:"••"+l.ph.slice(-4))+" · "+esc(o(l.intent))+"</p>";
+ h+='<p class="om-m">'+esc(o("ownL"))+": <b>"+esc(nm(l.own))+"</b>"+(l.dir?"":" · "+esc(o("by"))+": <b>"+esc(nm(l.by))+"</b>")+(l.at&&(l.st==="wait"||l.st==="ok")?" · "+esc(o("view"))+": <b>"+esc(when(l.at,l.nt))+"</b>":"")+(!l.dir&&l.st!=="no"?" · "+esc(o("rate"))+" <b>"+l.rate+"%</b>":"")+"</p>";
+ if(l.price)h+='<p class="om-m">'+esc(o("price"))+': <b class="money">'+baht(l.price)+(l.intent==="rent"?esc(o("perMo")):"")+"</b>"+(l.comm?" · "+esc(o("comm"))+': <b class="money">'+baht(l.comm)+"</b>":"")+"</p>";
+ if(l.st==="no"){var d=l.dup&&od.leads.filter(function(x){return x.id===l.dup})[0];h+='<div class="proof"><b>'+esc(l.why==="dup"?o("wDup"):o("wBusy"))+"</b>"+(d?"<br>"+esc(o(d.dir?"proofDir":"proof",{b:nm(d.by),t:fdt(d.t),id:d.id})):"")+"</div>"}
+ if(l.st==="close"&&!l.dir){var s=share(l);h+='<div class="'+(l.paid===2?"good":"proof")+'"><b>'+esc(o("share",{b:nm(l.by)}))+': <span class="money">'+baht(s)+"</span></b> ("+l.rate+"% × "+baht(l.comm)+") · "+esc(l.paid===2?o("payOk"):l.paid===1?o("payDone"):o("payDue"))+"</div>"}
+ var a="";
+ if(meOwn&&l.st==="wait")a+='<select data-rate="'+l.id+'" aria-label="'+esc(o("rate"))+'">'+[10,15,20,25].map(function(r){return "<option"+(r===l.rate?" selected":"")+' value="'+r+'">'+r+"%</option>"}).join("")+'</select><button class="btn sm" type="button" data-oa="ok|'+l.id+'">'+esc(o("aOk"))+'</button><button class="btn ghost sm" type="button" data-oa="busy|'+l.id+'">'+esc(o("aNoBusy"))+'</button><button class="btn ghost sm" type="button" data-oa="mine|'+l.id+'">'+esc(o("aNoMine"))+"</button>";
+ if((meOwn||meBy)&&l.st==="ok")a+='<button class="btn sm" type="button" data-oa="seen|'+l.id+'">'+esc(o("aSeen"))+"</button>";
+ if(meOwn&&(l.st==="ok"||l.st==="seen"))a+='<label class="sub" for="op-'+l.id+'">'+esc(o("pHint"))+'</label><input type="number" min="0" step="1000" id="op-'+l.id+'" placeholder="'+esc(o("pHint"))+'" aria-label="'+esc(o("pHint"))+'"><button class="btn sm" type="button" data-oa="book|'+l.id+'">'+esc(o("aBook"))+"</button>";
+ if(meOwn&&l.st==="book"){var dc=l.intent==="rent"?l.price:Math.round(l.price*0.03);a+='<label class="sub" for="oc-'+l.id+'">'+esc(o("cHint"))+'</label><input type="number" min="0" step="500" id="oc-'+l.id+'" value="'+dc+'" aria-label="'+esc(o("cHint"))+'"><button class="btn sm" type="button" data-oa="close|'+l.id+'">'+esc(o("aClose"))+"</button>"}
+ if((meOwn||meBy)&&(l.st==="ok"||l.st==="seen"||l.st==="book"))a+='<button class="btn ghost sm" type="button" data-oa="lost|'+l.id+'">'+esc(o("aLost"))+"</button>";
+ if(meOwn&&l.st==="close"&&!l.dir&&!l.paid)a+='<button class="btn sm" type="button" data-oa="paid|'+l.id+'">'+esc(o("aPaid"))+"</button>";
+ if(meBy&&l.st==="close"&&!l.dir&&l.paid===1)a+='<button class="btn sm" type="button" data-oa="got|'+l.id+'">'+esc(o("aGot"))+"</button>";
+ if(a)h+='<div class="acts">'+a+"</div>";
+ h+="<details><summary>"+esc(o("hist",{n:l.log.length}))+"</summary><ol>"+l.log.map(function(g){return "<li>"+fdt(g.t)+" · "+esc(nm(g.by))+" · "+esc(o(g.k,{l:l.code,x:g.x,b:g.b?nm(g.b):""}))+"</li>"}).join("")+"</ol></details>";
+ return h+"</article>"}
+function stats(){var L=od.leads.filter(canSee),wk=Date.now()+7*DAY,s;
+ var inW=L.filter(function(l){return l.own===orole&&l.st==="wait"}).length,myW=L.filter(function(l){return l.by===orole&&!l.dir&&l.st==="wait"}).length,
+  soon=L.filter(function(l){return l.st==="ok"&&l.at&&l.at<wk&&l.at>Date.now()-DAY}).length,cl=L.filter(function(l){return l.st==="close"}).length,
+  pay=L.filter(function(l){return l.own===orole&&l.st==="close"&&!l.dir&&l.paid<2}).reduce(function(a,l){return a+share(l)},0),
+  get=L.filter(function(l){return l.by===orole&&l.st==="close"&&!l.dir&&l.paid<2}).reduce(function(a,l){return a+share(l)},0);
+ if(orole==="admin")s=[[L.length,"sAll"],[L.filter(function(l){return l.why==="dup"}).length,"sDup"],[cl,"sClosed"],[baht(L.filter(function(l){return l.st==="close"&&!l.dir}).reduce(function(a,l){return a+share(l)},0)),"sRef"]];
+ else if(orole==="r2")s=[[inW,"sInWait"],[soon,"sSoon"],[cl,"sClosed"],[baht(pay),"sPay"]];
+ else if(orole==="asn")s=[[inW,"sInWait"],[myW,"sMyWait"],[baht(pay),"sPay"],[baht(get),"sGet"]];
+ else s=[[myW,"sMyWait"],[soon,"sSoon"],[cl,"sClosed"],[baht(get),"sGet"]];
+ $("#oStats").innerHTML=s.map(function(x){return '<div class="stat"><b>'+x[0]+"</b><span>"+esc(o(x[1]))+"</span></div>"}).join("")}
+function hint(){var c=$("#ocode").value.trim().toUpperCase(),w=ownerOf(c),e=$("#ohint"),b=$("#osub");
+ if(!c){e.textContent=o("hNone");b.textContent=o("subReq");return}
+ if(!w){e.textContent=o("hBad");b.textContent=o("subReq");return}
+ if(w===orole){e.innerHTML="<b>"+esc(o("hDir"))+"</b>";b.textContent=o("subDir")}else{e.innerHTML="<b>"+esc(o("hReq",{o:nm(w)}))+"</b>";b.textContent=o("subReq")}}
+function render(){
+ lang=lg();
+ [].forEach.call(document.querySelectorAll("[data-o]"),function(el){el.textContent=o(el.getAttribute("data-o"))});
+ $("#mNet").innerHTML=esc(o("mNet"))+"<small>"+esc(o("mNetS"))+"</small>";$("#mOwn").innerHTML=esc(o("mOwn"))+"<small>"+esc(o("mOwnS"))+"</small>";
+ $("#mNet").setAttribute("aria-pressed",mode==="net");$("#mOwn").setAttribute("aria-pressed",mode==="own");
+ if(mode!=="own")return;
+ document.documentElement.setAttribute("data-role",orole==="asn"||orole==="r2"?orole:"admin");
+ $("#oRoles").innerHTML='<span class="sub" style="align-self:center">'+esc(o("viewAs"))+"</span>"+ROLES.map(function(r){return '<button type="button" data-orole="'+r+'" aria-pressed="'+(r===orole)+'">'+esc(nm(r))+"</button>"}).join("");
+ $("#oWho").innerHTML="<b>"+esc(nm(orole))+"</b><span>"+esc(o(orole==="asn"?"wAsn":orole==="r2"?"wR2":orole==="admin"?"wAd":"wSa"))+"</span>";
+ $("#oRules").innerHTML=o("r").map(function(x){return "<li>"+esc(x)+"</li>"}).join("");
+ $("#oFsub").textContent=o(orole==="asn"||orole==="r2"?"fsubO":"fsubS");
+ var f=$("#of");f.hidden=orole==="admin";if(orole==="admin")$("#oout").innerHTML='<div class="msg ok">'+esc(o("adminNoForm"))+"</div>";else if($("#oout").getAttribute("data-ad")){$("#oout").innerHTML=""}
+ $("#oout").toggleAttribute("data-ad",orole==="admin");
+ hint();stats();
+ var tbs=tabsFor();if(tbs.indexOf(otab)<0)otab=tbs[0];
+ $("#oTabs").innerHTML=tbs.map(function(k){var n=od.leads.filter(function(l){return inTab(l,k)}).length;return '<button type="button" data-otab="'+k+'" aria-pressed="'+(k===otab)+'">'+esc(o({in:"tIn",own:"tOwn",by:"tBy",pay:"tPay",all:"tAll"}[k]))+" ("+n+")</button>"}).join("");
+ var rows=od.leads.filter(function(l){return inTab(l,otab)}).sort(function(a,b){var wa=a.st==="wait"?0:1,wb=b.st==="wait"?0:1;if(wa!==wb)return wa-wb;var la=a.log[a.log.length-1].t,lb=b.log[b.log.length-1].t;return lb-la});
+ $("#oList").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+esc(o("empty"))+"</div>"}
+function msg(kind,head,body){$("#oout").innerHTML='<div class="msg '+kind+'"><b>'+esc(head)+"</b>"+esc(body)+"</div>"}
+function submit(e){e.preventDefault();var code=$("#ocode").value.trim().toUpperCase(),own=ownerOf(code),name=$("#onm").value.trim(),ph=norm($("#occ").value,$("#oph").value),dv=$("#od").value,tv=$("#otm").value;
+ if(!own)return msg("dup",o("needCode"),"");if(!name)return msg("dup",o("needName"),"");if(ph.length<9)return msg("dup",o("needPhone"),"");
+ var dir=own===orole;if(!dir&&!dv)return msg("dup",o("needDate"),"");if(!$("#ocs").checked)return msg("dup",o("needCs"),"");
+ var now=Date.now(),hd=holder(own,ph),at=dv?new Date(dv+"T"+(tv||"23:59")).getTime():0;
+ if(hd&&hd.by===orole&&hd.code===code)return msg("dup",o("dupMine",{l:hd.code,t:fdt(hd.t),id:hd.id}),"");
+ if(hd&&hd.by!==orole){var exp=fd(hd.log[hd.log.length-1].t+PROT*DAY);
+  if(dir){hd.log.push({t:now,by:orole,k:"l_ownTry",b:hd.by});save();render();return msg("dup",o("dupH"),o("dupOwn",{b:nm(hd.by),t:fdt(hd.t),id:hd.id}))}
+  var r={id:nid(),code:code,own:own,by:orole,dir:false,name:name,ph:ph,intent:$("#oit").value,t:now,at:at,nt:tv?0:1,st:"no",why:"dup",dup:hd.id,rate:20,price:0,comm:0,paid:0,log:[{t:now,by:orole,k:"l_req",x:code},{t:now,by:orole,k:"l_dup"}]};
+  od.leads.push(r);save();otab=tabsFor().indexOf("by")>-1?"by":otab;render();return msg("dup",o("dupH"),hd.dir?o("dupDir",{o:nm(own),t:fdt(hd.t),id:hd.id}):o("dupT",{b:nm(hd.by),o:nm(own),t:fdt(hd.t),id:hd.id,e:exp}))}
+ var l={id:nid(),code:code,own:own,by:orole,dir:dir,name:name,ph:ph,intent:$("#oit").value,t:now,at:at,nt:tv?0:1,st:dir?"ok":"wait",rate:dir?0:20,price:0,comm:0,paid:0,log:[{t:now,by:orole,k:dir?"l_dir":"l_req",x:code}]};
+ od.leads.push(l);save();$("#of").reset();otab=dir?"own":"by";render();
+ msg("ok",o(dir?"okDir":"okReq"),o(dir?"okDirT":"okReqT",{id:l.id,t:fdt(now),o:nm(own)}))}
+function act(k,id){var l=od.leads.filter(function(x){return x.id===id})[0];if(!l)return;var now=Date.now(),meOwn=l.own===orole,meBy=l.by===orole;
+ if(k==="ok"&&meOwn&&l.st==="wait"){var s=document.querySelector('[data-rate="'+id+'"]');l.rate=s?+s.value:20;l.st="ok";l.log.push({t:now,by:orole,k:"l_ok",x:l.rate})}
+ else if(k==="busy"&&meOwn&&l.st==="wait"){l.st="no";l.why="busy";l.log.push({t:now,by:orole,k:"l_noB"})}
+ else if(k==="mine"&&meOwn&&l.st==="wait"){var el=document.getElementById("o-"+id),p=el&&el.querySelector(".acts");if(p&&!el.querySelector(".mineNo"))p.insertAdjacentHTML("afterend",'<div class="proof mineNo" role="alert">'+esc(o("mineNo",{t:fdt(l.t)}))+"</div>");return}
+ else if(k==="seen"&&(meOwn||meBy)&&l.st==="ok"){l.st="seen";l.log.push({t:now,by:orole,k:"l_seen"})}
+ else if(k==="book"&&meOwn){var pv=+(document.getElementById("op-"+id)||{}).value||0;if(!pv){var pe=document.getElementById("op-"+id);if(pe)pe.focus();return}l.price=pv;l.st="book";l.log.push({t:now,by:orole,k:"l_book",x:baht(pv)})}
+ else if(k==="close"&&meOwn&&l.st==="book"){var cv=+(document.getElementById("oc-"+id)||{}).value||0;if(!cv)return;l.comm=cv;l.st="close";l.log.push({t:now,by:orole,k:"l_close",x:baht(cv)})}
+ else if(k==="lost"&&(meOwn||meBy)){l.st="lost";l.log.push({t:now,by:orole,k:"l_lost"})}
+ else if(k==="paid"&&meOwn&&l.st==="close"){l.paid=1;l.log.push({t:now,by:orole,k:"l_paid",x:baht(share(l))})}
+ else if(k==="got"&&meBy&&l.paid===1){l.paid=2;l.log.push({t:now,by:orole,k:"l_got"})}
+ else return;
+ save();render();var c=document.getElementById("o-"+id);if(c){c.classList.add("flash");setTimeout(function(){c.classList.remove("flash")},1600)}}
+function setMode(m,init){mode=m;var own=m==="own";$("#own").hidden=!own;$("#netMain").hidden=own;
+ [].forEach.call(document.querySelectorAll('.bar label[for="role"], #role, #bell'),function(el){el.style.display=own?"none":""});
+ try{var u=new URL(location.href);if(own)u.searchParams.set("mode","owner");else u.searchParams.delete("mode");history.replaceState(null,"",u)}catch(e){}
+ if(!own&&!init){var lsel=$("#lang");if(lsel)lsel.dispatchEvent(new Event("change"))}
+ render();window.scrollTo(0,0)}
+document.addEventListener("click",function(e){
+ var mb=e.target.closest("[data-mode]");if(mb){setMode(mb.getAttribute("data-mode"));return}
+ if(mode!=="own")return;
+ var r=e.target.closest("[data-orole]");if(r){orole=r.getAttribute("data-orole");otab="";$("#oout").innerHTML="";render();return}
+ var tb=e.target.closest("[data-otab]");if(tb){otab=tb.getAttribute("data-otab");render();return}
+ var a=e.target.closest("[data-oa]");if(a){var p=a.getAttribute("data-oa").split("|");act(p[0],p[1])}});
+$("#of").addEventListener("submit",submit);
+$("#ocode").addEventListener("input",hint);
+$("#lang").addEventListener("change",function(){if(mode==="own")render();else{lang=lg();$("#mNet").innerHTML=esc(o("mNet"))+"<small>"+esc(o("mNetS"))+"</small>";$("#mOwn").innerHTML=esc(o("mOwn"))+"<small>"+esc(o("mOwnS"))+"</small>"}});
+$("#oReset").addEventListener("click",function(){seed();$("#oout").innerHTML="";otab="";render()});
+if(!load())seed();
+var qs=new URLSearchParams(location.search);if(ROLES.indexOf(qs.get("oas"))>-1)orole=qs.get("oas");
+setMode(qs.get("mode")==="owner"?"own":"net",true);
 })();
 </script>
 </body>
