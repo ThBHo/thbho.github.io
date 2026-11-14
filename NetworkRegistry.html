@@ -301,6 +301,10 @@ footer .copy{padding-top:12px;border-top:1px dashed var(--line);font-size:13px}
 .st-ok,.st-seen{background:var(--teal-soft)!important;border-color:var(--teal)!important}
 .st-close{background:var(--ink)!important;color:var(--paper)!important;border-color:var(--ink)!important}
 #own .rules li{margin:3px 0}
+:root.om{--paper:#E3EEF8;--line:#C2D4E4;--surface:#FBFDFF}
+@media (prefers-color-scheme:dark){:root.om:not([data-theme="light"]){--paper:#0A1824;--surface:#11222F;--line:#24415A}}
+:root[data-theme="dark"].om{--paper:#0A1824;--surface:#11222F;--line:#24415A}
+body{transition:background .25s}
 .ol h3 .tgo{margin-left:auto;min-width:34px;min-height:34px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:17px;line-height:1}
 .ol .sum{font-size:13px;color:var(--ink2);margin:2px 0 0}
 .ol .note{font-size:13px;margin-top:6px;color:var(--ink)}
@@ -1331,7 +1335,7 @@ function sheet(l){var el=$("#sheet"),now=Date.now(),rows=od.leads.filter(functio
  fetch("https://docs.google.com/spreadsheets/d/1c2GnMuGXetQS6-zf46TywNQgPg1PdwJ70rswXMoGwso/gviz/tq?tqx=out:csv&sheet=Listings",{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(x){if(!x)return;var lines=x.split("\n"),hd=lines.shift().split(",").map(function(s){return s.replace(/"/g,"").trim()}),ci=hd.indexOf("code"),ni=hd.indexOf("name"),si=hd.indexOf("sale"),ri=hd.indexOf("rent");
   lines.forEach(function(line){var c=(line.match(/("([^"]|"")*"|[^,]*)(,|$)/g)||[]).map(function(s){return s.replace(/,$/,"").replace(/^"|"$/g,"").replace(/""/g,'"').trim()});rows.forEach(function(x){if(x.own!=="asn"||c[ci]!==x.code)return;var n=document.querySelector('[data-shn="'+x.code+'"]'),p=document.querySelector('[data-shp2="'+x.code+'"]');if(n&&c[ni])n.textContent="· "+c[ni];var v=+String((x.intent==="rent"?c[ri]:c[si])||"").replace(/[^\d.]/g,"");if(p&&v)p.textContent=baht(v)+(x.intent==="rent"?o("perMo"):"")})})}).catch(function(){})}
 function prefill(l){if(!full(l))return;try{localStorage.setItem("hai-prefill",JSON.stringify({t:Date.now(),name:l.name,purpose:l.intent}))}catch(e){}}
-function setMode(m,init){mode=m;var own=m==="own";$("#own").hidden=!own;$("#netMain").hidden=own;
+function setMode(m,init){mode=m;var own=m==="own";document.documentElement.classList.toggle("om",own);$("#own").hidden=!own;$("#netMain").hidden=own;
  [].forEach.call(document.querySelectorAll('.bar label[for="role"], #role, #bell'),function(el){el.style.display=own?"none":""});
  try{var u=new URL(location.href);if(own)u.searchParams.set("mode","owner");else u.searchParams.delete("mode");history.replaceState(null,"",u)}catch(e){}
  if(!own&&!init){var lsel=$("#lang");if(lsel)lsel.dispatchEvent(new Event("change"))}
