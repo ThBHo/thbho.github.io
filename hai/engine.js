@@ -1359,7 +1359,10 @@ async function downloadAll(l) {
   btns.forEach(b => { b.disabled = true; b.textContent = "⏳ " + t("dlPrep"); });
   const name = i => `${ref(l.code)}-${String(i + 1).padStart(2, "0")}.jpg`;
   try {
-    const blobs = await Promise.all(ph.map(p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.blob(); })));
+    // the media host sends no CORS header, so fetch() of its photos fails; fall back to the same-origin copy (SITE.media.from path)
+    const local = p => (SITE.media && p.startsWith(SITE.media.to)) ? SITE.media.from + p.slice(SITE.media.to.length) : p;
+    const get = p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.blob(); });
+    const blobs = await Promise.all(ph.map(p => get(p).catch(() => local(p) !== p ? get(local(p)) : Promise.reject(new Error(p)))));
     if (window.JSZip) {
       const zip = new JSZip();
       blobs.forEach((b, i) => zip.file(name(i), b));
