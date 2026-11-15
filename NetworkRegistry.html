@@ -333,6 +333,24 @@ body{transition:background .25s}
 #oRep .pds button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13px}
 #oRep .pds button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 #oRep .lk{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;min-height:30px}
+.tw-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 12px;align-items:end}
+.tl-l{border:0;padding:0;margin:0 0 10px;display:flex;gap:4px 14px;flex-wrap:wrap}
+.tl-l legend{font-size:13px;font-weight:500;padding:0;margin-bottom:3px}
+.tp-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:8px 0}
+.tp-b{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--paper);min-width:0}
+.tp-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+#oTools textarea{width:100%;font:13px/1.55 var(--sans);border:1px solid var(--line);border-radius:9px;padding:8px;background:var(--surface);color:var(--ink);resize:vertical}
+.tp-ph{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.tp-ph img{height:110px;width:auto;border-radius:8px;flex:none}
+#oTools table{width:100%;border-collapse:collapse;font-size:13.5px}
+#oTools th,#oTools td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+#oTools td.n,#oTools th.n{text-align:right;font-family:var(--mono)}
+.ti-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:8px 0}
+.ti{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--paper);display:grid;gap:6px;min-width:0}
+.cmpT th{width:150px;text-align:left;font-size:12px;color:#4C5C63;padding:6px;border-bottom:1px solid #CDD7D5;vertical-align:top}
+.cmpT td{padding:6px;border-bottom:1px solid #CDD7D5;vertical-align:top;min-width:150px}
+.cmpT img{width:100%;max-width:220px;height:130px;object-fit:cover;border-radius:6px;display:block;margin-bottom:4px}
+.cmpT a{color:#0B5A8A}
 </style>
 <script src="thor-analytics.js?v=1" defer></script>
 </head>
@@ -432,6 +450,7 @@ body{transition:background .25s}
    <div id="oList"></div>
   </section>
  </div>
+ <section class="card rep" id="oTools" aria-label="tools"></section>
  <section class="card rep" id="oRep" aria-labelledby="orh"></section>
  <p class="sub"><button class="btn ghost sm" type="button" id="oReset" data-o="reset">เริ่มข้อมูลตัวอย่างโหมดนี้ใหม่</button></p>
 </main>
@@ -1036,14 +1055,14 @@ window.addEventListener("resize",barH);
 var q=new URLSearchParams(location.search);if(T[q.get("lang")])lang=q.get("lang");if(MEMBERS[q.get("as")]||q.get("as")==="admin")role=q.get("as");
 $("#lang").value=lang;
 (load()?Promise.resolve():seed()).then(function(){render();barH()});
-window.HAIX={mxLoad:mxLoad,MX:MX};
+window.HAIX={mxLoad:mxLoad,MX:MX,db:function(){return db}};
 })();
 </script>
 <script>
 // --- Owner mode: the member who holds the listing (and pays the commission) runs the registry; sub-agents register a client + listing before a viewing
 (function(){
 "use strict";
-var OKEY="hai-owner-demo-v4",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
+var OKEY="hai-owner-demo-v5",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
 var O={
  th:{mNet:"เครือข่ายข้ามเมือง",mNetS:"ส่งลูกค้าระหว่างเมือง",mOwn:"เจ้าของทรัพย์ · sub-agent",mOwnS:"ลงทะเบียนก่อนพาดู",
   h1:"ทรัพย์ของใคร คนนั้นคุม: ลงทะเบียนก่อนพาดู",
@@ -1163,7 +1182,7 @@ function at(daysAhead,h,m){var d=new Date(Date.now()+daysAhead*DAY);d.setHours(h
 function seed(){var now=Date.now(),L=[];od={leads:L,seq:100};
  var mk=function(code,by,name,ph,chat,intent,ago,st,ap,x){var t0=now-ago*DAY,own=ownerOf(code),l={id:nid(),code:code,own:own,by:by,dir:by===own,name:name,ph:ph,chat:chat,intent:intent,t:t0,at:ap||0,nt:0,st:st,conf:true,rate:by===own?0:20,price:0,comm:0,paid:0,log:[{t:t0,by:by,k:by===own?"l_dir":"l_req",x:code}]};
   if(!l.dir)l.log.push({t:t0+40*60000,by:"client",k:"l_conf",b:by});for(var k in x||{})l[k]=x[k];L.push(l);return l};
- var a=mk("H80","asn","Somchai Kittisak","66812340001",null,"buy",21,"seen",now-15*DAY);a.like=true;a.log.push({t:now-15*DAY,by:"asn",k:"l_seen"});
+ var a=mk("H80","asn","Somchai Kittisak","66812340001",null,"buy",21,"seen",now-15*DAY,{budget:"20–40M",match:{type:"villa"}});a.like=true;a.log.push({t:now-15*DAY,by:"asn",k:"l_seen"});
  var b=mk("H80","sa2","Somchai K.","66812340001",null,"buy",3,"no",at(2,11),{why:"dup",dup:a.id});b.log=[{t:b.t,by:"sa2",k:"l_req",x:"H80"},{t:b.t,by:"sa2",k:"l_dup"}];
  var c=mk("H04","sa1","Anna Petrova","79161234567",{k:"wa",id:"79161234567"},"rent",6,"ok",at(1,14),{budget:"60–120K",match:{type:"villa",date:"1990-05-14",gender:"f"}});c.log.push({t:c.t+2*3600e3,by:"asn",k:"l_ok",x:20});
  var d=mk("H14","sa2","Wang Lei","8613812345678",{k:"wc",id:"wanglei88"},"buy",0.05,"wait",at(2,10,30));
@@ -1174,8 +1193,10 @@ function seed(){var now=Date.now(),L=[];od={leads:L,seq:100};
  f.log.push({t:f.t+5*3600e3,by:"r2",k:"l_ok",x:20},{t:now-5*DAY,by:"sa1",k:"l_seen"},{t:now-DAY,by:"r2",k:"l_book",x:baht(3150000)});
  var g=mk("H04","sa1","David Miller","447700900123",null,"rent",40,"close",now-36*DAY,{rate:15,price:65000,comm:65000,paid:2});
  g.log.push({t:g.t+3600e3,by:"asn",k:"l_ok",x:15},{t:now-36*DAY,by:"sa1",k:"l_seen"},{t:now-30*DAY,by:"asn",k:"l_close",x:baht(65000)},{t:now-25*DAY,by:"asn",k:"l_paid",x:baht(9750)},{t:now-24*DAY,by:"sa1",k:"l_got"});
- var h=mk("7D02","sa2","Mikhail Orlov","79265554433",null,"buy",2,"ok",at(-1,16));h.log.push({t:h.t+3600e3,by:"r2",k:"l_ok",x:20});
- var i=mk("H14","asn","Pim Chaiyo","66899887766",{k:"line",id:"pimchy"},"rent",130,"seen",now-120*DAY);i.log.push({t:now-120*DAY,by:"asn",k:"l_seen"});
+ var h=mk("7D02","sa2","Mikhail Orlov","79265554433",null,"buy",2,"ok",at(-1,16),{budget:"2–4M",match:{type:"condo"}});h.log.push({t:h.t+3600e3,by:"r2",k:"l_ok",x:20});
+ var i=mk("H14","asn","Pim Chaiyo","66899887766",{k:"line",id:"pimchy"},"rent",130,"seen",now-120*DAY,{budget:"≤ 40K",match:{type:"villa"}});i.log.push({t:now-120*DAY,by:"asn",k:"l_seen"});
+ var j=mk("H80","sa2","Tom Becker","4915112345678",{k:"wa",id:"4915112345678"},"buy",12,"lost",now-8*DAY,{budget:"≤ 8M",match:{type:"villa"},lostFrom:"seen",like:false});
+ j.log.push({t:j.t+3600e3,by:"asn",k:"l_ok",x:20},{t:now-8*DAY,by:"sa2",k:"l_seen"},{t:now-7*DAY,by:"sa2",k:"l_lost",x:O.th.lr_budget});
  save()}
 function share(l){return Math.round((l.comm||0)*(l.rate||0)/100)}
 function lastAct(l){var m=l.t;l.log.forEach(function(g){if(g.k!=="l_note"&&g.k!=="l_may"&&g.k!=="l_ownTry"&&g.k!=="l_next"&&g.k!=="l_ack"&&g.t>m)m=g.t});return m}
@@ -1294,7 +1315,7 @@ function render(){
  var f=$("#of");f.hidden=orole==="admin";if(orole==="admin")$("#oout").innerHTML='<div class="msg ok">'+esc(o("adminNoForm"))+"</div>";else if($("#oout").getAttribute("data-ad"))$("#oout").innerHTML="";
  $("#oout").toggleAttribute("data-ad",orole==="admin");
  var bg=$("#obg"),bv=bg.value;bg.innerHTML=budOpts($("#oit").value,bv);$("#ogrp").checked=grp;
- hint();todo();stats();report();
+ hint();todo();stats();report();tools();
  var tbs=tabsFor();if(tbs.indexOf(otab)<0)otab=tbs[0];
  $("#oTabs").innerHTML=tbs.map(function(k){var n=od.leads.filter(function(l){return inTab(l,k)}).length;return '<button type="button" data-otab="'+k+'" aria-pressed="'+(k===otab)+'">'+esc(o({in:"tIn",own:"tOwn",by:"tBy",pay:"tPay",all:"tAll"}[k]))+" ("+n+")</button>"}).join("");
  var rows=od.leads.filter(function(l){return (oq?canSee(l):inTab(l,otab))&&match(l)}).sort(function(a,b){return sortKey(a)-sortKey(b)});
@@ -1377,7 +1398,7 @@ function sheet(l){var el=$("#sheet"),now=Date.now(),rows=od.leads.filter(functio
  h+="<h2>"+esc(o("shCl"))+'</h2><div class="sh-g"><div><span>'+esc(o("shName"))+"</span><b>"+esc(l.name)+"</b></div><div><span>"+esc(o("lPhone"))+"</span><b>"+esc(l.ph?"+"+l.ph:"–")+"</b></div>"+(l.chat?"<div><span>"+esc(o("chatL"))+"</span><b>"+esc(CHN[l.chat.k]+" · "+l.chat.id)+"</b></div>":"")+"<div><span>"+esc(o("lIntent"))+"</span><b>"+esc(o(l.intent))+"</b></div>"+(l.budget?"<div><span>"+esc(o("shBud"))+"</span><b>"+esc(l.budget+(l.intent==="rent"?o("perMo"):""))+"</b></div>":"")+"</div>";
  h+="<h2>"+esc(o("shAp",{n:rows.length}))+"</h2>";
  rows.forEach(function(x){var m=MS[x.own];h+='<div class="sh-ap"><div class="sh-ph"><img src="'+m.img(x.code)+'" alt=""></div><div class="sh-b"><h3>'+esc(x.code)+' <span class="sh-nm" data-shn="'+esc(x.code)+'"></span></h3><p class="sh-when">'+esc(o("view"))+": "+esc(when(x.at,x.nt))+'</p><p class="sh-pr" data-shp2="'+esc(x.code)+'"></p><p>'+esc(o("shOwn"))+": "+esc(nm(x.own))+" · "+esc(o(x.st==="wait"?"st_wait":"st_ok"))+'</p><p class="sh-ln"><a href="'+m.pg(x.code)+'" target="_blank" rel="noopener">'+esc(o("shPage"))+" ↗</a> · <a href=\""+m.q(x.code)+'" target="_blank" rel="noopener">'+esc(o("shQuote"))+" ↗</a></p></div></div>"});
- h+='<p class="sh-note">WIDEROOMS · Hybrid AI by ThB.Ho · Hybrid AI Agent Network</p></div>';
+ h+='<p class="sh-note"><a href="https://thbho.com/EngWiderooms.html" target="_blank" rel="noopener">WIDEROOMS</a> · <a href="https://thbho.com/AIGymmateXFactory.html" target="_blank" rel="noopener">Hybrid AI by ThB.Ho</a></p></div>';
  el.innerHTML=h;el.hidden=false;document.body.classList.add("sheeting");el.scrollTop=0;
  // names and prices: R2 from the unit feed, ASN from its listing sheet (best effort)
  fetch("agents/r2/feed.json").then(function(r){return r.json()}).then(function(j){rows.forEach(function(x){if(x.own!=="r2")return;var u=j.units&&j.units[x.code],p=document.querySelector('[data-shp2="'+x.code+'"]'),n=document.querySelector('[data-shn="'+x.code+'"]');if(n)n.textContent="· The Riviera Jomtien";if(u&&p&&x.intent!=="rent"){var f=fitTxt(u.sell,x.budget);p.innerHTML=esc(baht(u.sell))+(f?" · <i>"+esc(f)+"</i>":"")}})}).catch(function(){});
@@ -1449,6 +1470,129 @@ $("#ocode").addEventListener("input",hint);
 $("#oq").addEventListener("input",function(e){oq=e.target.value.trim();render()});
 $("#osort").addEventListener("change",function(e){osort=e.target.value;render()});
 $("#lang").addEventListener("change",function(){if(mode==="own")render();else{lang=lg();$("#mNet").innerHTML=esc(o("mNet"))+"<small>"+esc(o("mNetS"))+"</small>";$("#mOwn").innerHTML=esc(o("mOwn"))+"<small>"+esc(o("mOwnS"))+"</small>"}});
+// --- Back-office tools (owner mode): post writer, demand board, compare sheet, unmet demand, content ideas
+var TL={th:{tH:"เครื่องมือหลังบ้าน",tSub:"ใช้ข้อมูลทรัพย์และประวัติในระบบที่มีอยู่แล้ว ไม่ต้องกรอกเพิ่ม",t_post:"สร้างโพสต์ FB",t_board:"ทรัพย์ขายดี / เงียบ",t_cmp:"เทียบทรัพย์",t_gap:"ความต้องการที่ยังขาด",t_idea:"ไอเดีย content",tLoad:"กำลังโหลดข้อมูลทรัพย์…",tNoData:"โหลดข้อมูลทรัพย์ไม่ได้ ลองใหม่อีกครั้ง",
+  pPick:"เลือกทรัพย์",pLang:"ภาษา",pFor:"ประกาศ",pSale:"ขาย",pRent:"เช่า",pMake:"สร้างข้อความ",pCopy:"คัดลอก",pCopied:"คัดลอกแล้ว",pPhotos:"รูปของทรัพย์นี้ (กดค้างที่รูปเพื่อบันทึก แล้วแนบในโพสต์)",pTip:"ตรวจข้อความก่อนโพสต์ทุกครั้ง ข้อมูลมาจาก Sheet ทรัพย์",
+  bTip:"นับจากคำขอ นัดดู และผลหลังดูในโหมดนี้",bHot:"มาแรง",bClosed:"ปิดดีลแล้ว",bCold:"ดูแล้วไม่ชอบ",bQuiet:"เงียบ",bQuietH:"ยังไม่มีคนขอดู {n} ทรัพย์",bQuietTip:"ลองถ่ายรูปใหม่ ทำคลิปสั้น หรือคุยเรื่องราคากับเจ้าของบ้าน",bColdTip:"ดูแล้วไม่ชอบ: ตรวจราคาเทียบงบลูกค้า และสภาพบ้านเทียบกับรูป",bLast:"ล่าสุด",
+  cPick:"เลือก 2–3 ทรัพย์",cClient:"เทียบกับลูกค้า (ถ้ามี)",cNone:"ไม่เลือก",cOpen:"เปิดตารางเทียบ",cNeed:"เลือกอย่างน้อย 2 ทรัพย์",cT:"ตารางเทียบทรัพย์",cPrice:"ราคา",cFit:"เทียบงบ",cBeds:"ห้องนอน",cBaths:"ห้องน้ำ",cSize:"พื้นที่ใช้สอย",cLand:"ที่ดิน",cPool:"สระ",cView:"วิว / โซน",cMbti:"บุคลิกที่เหมาะ",cMbFit:"ตรงกับ MBTI ลูกค้า",cDest:"คะแนนดวง (Destiny)",cOwner:"เจ้าของทรัพย์",cLinks:"ลิงก์",poolP:"ส่วนตัว",poolS:"ส่วนกลาง",yes:"ใช่",no:"ไม่",
+  gTip:"เทียบงบและประเภทที่ลูกค้าในระบบต้องการ กับทรัพย์ที่มีอยู่ตอนนี้",gNeed:"ลูกค้าต้องการ",gClients:"ลูกค้า",gHave:"ทรัพย์ที่ตรง",gGap:"ขาดทรัพย์",gOk:"มีพอ",gLost:"ปิดงานเพราะงบไม่ถึง {n} ราย",gNone:"ยังไม่มีลูกค้าที่ระบุงบ",gSuggest:"ควรหาทรัพย์เพิ่ม: {x}",gFromNet:"รวมลูกค้าจากโหมดเครือข่ายในพื้นที่ของคุณ",anyType:"ทุกประเภท",
+  iTip:"จัดทรัพย์ของคุณเป็นหัวข้อโพสต์ ไม่ต้องเก็บข้อมูลจากลูกค้า",iWeek:"สัปดาห์นี้",iAll:"ไอเดียทั้งหมด {n}",iFmt:"รูปแบบ",iCar:"Carousel 4–6 รูป",iReel:"Reels / TikTok 15–30 วินาที",iCopy:"คัดลอกแคปชัน"},
+ en:{tH:"Back-office tools",tSub:"Built from the listings and history already in the system; nothing more to type",t_post:"FB post writer",t_board:"Hot / quiet listings",t_cmp:"Compare listings",t_gap:"Unmet demand",t_idea:"Content ideas",tLoad:"Loading listings…",tNoData:"Could not load the listings. Try again.",
+  pPick:"Listing",pLang:"Languages",pFor:"Offer",pSale:"Sale",pRent:"Rent",pMake:"Write the post",pCopy:"Copy",pCopied:"Copied",pPhotos:"Photos of this listing (long-press to save, then attach to the post)",pTip:"Check the text before posting; it comes from the listing sheet",
+  bTip:"Counted from requests, viewings and after-viewing results in this mode",bHot:"Hot",bClosed:"Closed",bCold:"Viewed, not liked",bQuiet:"Quiet",bQuietH:"{n} listings with no viewing request yet",bQuietTip:"Try new photos, a short clip, or a price talk with the house owner",bColdTip:"Viewed but not liked: check the price against client budgets and the house against its photos",bLast:"Latest",
+  cPick:"Pick 2–3 listings",cClient:"Compare for a client (optional)",cNone:"None",cOpen:"Open the comparison",cNeed:"Pick at least 2 listings",cT:"Listing comparison",cPrice:"Price",cFit:"Budget",cBeds:"Bedrooms",cBaths:"Bathrooms",cSize:"Usable area",cLand:"Land",cPool:"Pool",cView:"View / zone",cMbti:"Suits",cMbFit:"Matches client MBTI",cDest:"Destiny score",cOwner:"Listing owner",cLinks:"Links",poolP:"private",poolS:"shared",yes:"Yes",no:"No",
+  gTip:"What clients in the system want, against the listings you have now",gNeed:"Clients want",gClients:"Clients",gHave:"Matching listings",gGap:"Short",gOk:"Enough",gLost:"{n} closed off for budget",gNone:"No client with a budget yet",gSuggest:"Source more: {x}",gFromNet:"Includes cross-city network clients in your area",anyType:"any type",
+  iTip:"Your listings grouped into post themes; no client data needed",iWeek:"This week",iAll:"All ideas ({n})",iFmt:"Format",iCar:"Carousel, 4–6 photos",iReel:"Reels / TikTok, 15–30 s",iCopy:"Copy caption"}};
+for(var tk in TL.th)O.th[tk]=TL.th[tk];for(var tk2 in TL.en)O.en[tk2]=TL.en[tk2];
+var toolOn=false,tTab="post",tBusy=false,tPost={code:"",langs:{th:1,en:1},kind:""},tCmp={a:"",b:"",c:"",cl:""};
+var ZN={mapprachan:["มาบประชัน","Lake Mapprachan"],siamcc:["สยามคันทรีคลับ","Siam Country Club"],khaotalo:["เขาตาโล","Khao Talo"],eastpattaya:["พัทยาตะวันออก","East Pattaya"],pattanakarn:["ถ.พัฒนาการ","Pattanakarn"],thappraya:["ทัพพระยา","Thappraya"],pratumnak:["พระตำหนัก","Pratumnak"],jomtien:["จอมเทียน","Jomtien"],sattahip:["สัตหีบ","Sattahip"],huaiyai:["ห้วยใหญ่","Huai Yai"],thungklom:["ทุ่งกลม","Thung Klom"],chaiyapruk:["ชัยพฤกษ์","Chaiyapruk"],nongprue:["หนองปรือ","Nong Prue"],najomtien:["นาจอมเทียน","Na Jomtien"],southpattaya:["พัทยาใต้","South Pattaya"],northpattaya:["พัทยาเหนือ","North Pattaya"],nongplalai:["หนองปลาไหล","Nong Pla Lai"],khaonoi:["เขาน้อย","Khao Noi"],pattaya:["พัทยา","Pattaya"]};
+function zname(z,l){var r=ZN[z];return r?(l==="th"?r[0]:r[1]):(z||"")}
+function homesFor(){var X=window.HAIX,H=(X&&X.MX.homes)||[];return orole==="admin"||orole==="sa1"||orole==="sa2"?H:H.filter(function(h){return h.site===orole})}
+function hByCode(c){var X=window.HAIX;return ((X&&X.MX.homes)||[]).filter(function(h){return h.code===c})[0]}
+function pgUrl(h){return MS[h.site].pg(h.code)}
+function fmtN(n){return Math.round(n).toLocaleString("en-US")}
+var TAGT={seaView:["วิวทะเล","sea view","海景","вид на море"],cityView:["วิวเมือง","city view","城市景观","вид на город"],corner:["ห้องมุม","corner unit","转角单位","угловая"],duplex:["ดูเพล็กซ์","duplex","复式","дуплекс"],rooftop:["ดาดฟ้า","rooftop","屋顶露台","терраса на крыше"],basketball:["สนามบาส","basketball court","篮球场","баскетбольная площадка"],theater:["ห้องโฮมเธียเตอร์","home theater","家庭影院","домашний кинотеатр"],nearSchool:["ใกล้โรงเรียนนานาชาติ","near international schools","近国际学校","рядом с международными школами"],outdoorKitchen:["ครัวนอกบ้าน","outdoor kitchen","户外厨房","летняя кухня"],waterGarden:["สวนน้ำ","water garden","水景花园","водный сад"],thaiQuota:["โควตาไทย","Thai quota","泰籍配额","тайская квота"],storey3:["3 ชั้น","3 storeys","三层","3 этажа"],maid3:["ห้องแม่บ้าน 3 ห้อง","3 maid rooms","3间佣人房","3 комнаты для персонала"]};
+var PL=["th","en","zh","ru"],PLN={th:"ไทย",en:"English",zh:"中文",ru:"Русский"};
+function postText(h,lg2,kind){var i=PL.indexOf(lg2),own=h.site==="asn"?"ASN Exclusive Property":"R2 by Clare",T={
+  th:{s:"ขาย",r:"ให้เช่า",m:"/เดือน",bd:"ห้องนอน",ba:"ห้องน้ำ",sz:"พื้นที่ใช้สอย",ld:"ที่ดิน",pp:"สระว่ายน้ำส่วนตัว",ps:"สระส่วนกลาง",mb:"บ้านหลังนี้เข้ากับบุคลิก",go:"ดูรูปทั้งหมด ราคา และนัดชม",tp:{villa:"พูลวิลล่า",house:"บ้าน",condo:"คอนโด",land:"ที่ดิน"},pl:"พัทยา",hs:h.site==="asn"?"#บ้านพัทยา #พูลวิลล่าพัทยา #ASNProperty":"#คอนโดจอมเทียน #TheRivieraJomtien #R2byClare"},
+  en:{s:"For sale",r:"For rent",m:"/month",bd:"bedrooms",ba:"bathrooms",sz:"usable",ld:"land",pp:"private pool",ps:"shared pool",mb:"Suits personalities",go:"All photos, price and viewing",tp:{villa:"Pool villa",house:"House",condo:"Condo",land:"Land"},pl:"Pattaya",hs:h.site==="asn"?"#PattayaVilla #PattayaRealEstate #ASNProperty":"#JomtienCondo #TheRivieraJomtien #R2byClare"},
+  zh:{s:"出售",r:"出租",m:"/月",bd:"卧室",ba:"浴室",sz:"使用面积",ld:"土地",pp:"私人泳池",ps:"公共泳池",mb:"适合的性格",go:"查看全部照片、价格并预约看房",tp:{villa:"泳池别墅",house:"住宅",condo:"公寓",land:"土地"},pl:"芭提雅",hs:h.site==="asn"?"#芭提雅别墅 #芭提雅房产 #ASNProperty":"#宗滴恩公寓 #TheRivieraJomtien #R2byClare"},
+  ru:{s:"Продажа",r:"Аренда",m:"/мес.",bd:"спальни",ba:"ванные",sz:"жилая площадь",ld:"участок",pp:"частный бассейн",ps:"общий бассейн",mb:"Подходит типам личности",go:"Все фото, цена и просмотр",tp:{villa:"Вилла с бассейном",house:"Дом",condo:"Кондо",land:"Участок"},pl:"Паттайя",hs:h.site==="asn"?"#ВиллаПаттайя #НедвижимостьПаттайя #ASNProperty":"#КондоДжомтьен #TheRivieraJomtien #R2byClare"}}[lg2];
+ var L=[],sp=[];L.push("🏡 "+(T.tp[h.type]||"")+" · "+h.name+" ("+h.code+")");L.push("📍 "+zname(h.zone,lg2==="th"?"th":"en")+(h.zone==="pattaya"?"":", "+T.pl));
+ var pr=[];if((kind==="sale"||!kind)&&h.sale)pr.push(T.s+" ฿"+fmtN(h.sale));if((kind==="rent"||!kind)&&h.rent)pr.push(T.r+" ฿"+fmtN(h.rent)+T.m);if(pr.length)L.push("💰 "+pr.join(" | "));
+ if(h.beds)sp.push(h.beds+" "+T.bd);if(h.baths)sp.push(h.baths+" "+T.ba);if(h.size)sp.push(T.sz+" "+fmtN(h.size)+(lg2==="th"?" ตร.ม.":" m²"));if(h.land)sp.push(T.ld+" "+(lg2==="th"?fmtN(h.land/4)+" ตร.ว.":fmtN(h.land)+" m²"));if(sp.length)L.push("🛏 "+sp.join(" · "));
+ var ft=[];if(h.pool==="private")ft.push(T.pp);else if(h.pool==="shared")ft.push(T.ps);(h.tags||[]).forEach(function(g){if(TAGT[g]&&g!=="thaiQuota")ft.push(TAGT[g][i])});if(h.floor&&h.type==="condo")ft.push((lg2==="th"?"ชั้น ":lg2==="zh"?"楼层 ":lg2==="ru"?"этаж ":"floor ")+h.floor);if(ft.length)L.push("✨ "+ft.join(" · "));
+ if(h.mbti&&h.mbti.length)L.push("🧭 "+T.mb+": "+h.mbti.slice(0,3).join(", "));
+ L.push("");L.push("👉 "+T.go+": "+pgUrl(h));L.push(own);L.push("");L.push(T.hs);return L.join("\n")}
+function toolsLoad(){if(tBusy)return;var X=window.HAIX;if(!X)return;if(X.MX.ok){return}tBusy=true;X.mxLoad().then(function(){tBusy=false;tools()}).catch(function(){tBusy=false;tools()})}
+function toolTabs(){return orole==="sa1"||orole==="sa2"?["cmp"]:["post","board","cmp","gap","idea"]}
+function tools(){var el=$("#oTools");if(!el)return;var tb=toolTabs();if(tb.indexOf(tTab)<0)tTab=tb[0];
+ var h='<h2 class="rh"><button type="button" class="tg" data-otool="1" aria-expanded="'+toolOn+'" aria-label="'+esc(o(toolOn?"tgLess":"tgMore"))+'">'+(toolOn?"−":"+")+"</button>"+esc(o("tH"))+"</h2>";
+ if(!toolOn){el.innerHTML=h;return}
+ h+='<p class="sub">'+esc(o("tSub"))+'</p><div class="tabs" role="group" style="margin:8px 0 12px">'+tb.map(function(k){return '<button type="button" data-ottab="'+k+'" aria-pressed="'+(k===tTab)+'">'+esc(o("t_"+k))+"</button>"}).join("")+"</div>";
+ var X=window.HAIX;if(!X||!X.MX.ok){h+='<p class="sub">'+esc(o(tBusy||!X?"tLoad":"tLoad"))+"</p>";el.innerHTML=h;toolsLoad();return}
+ if(!X.MX.homes.length){el.innerHTML=h+'<p class="sub">'+esc(o("tNoData"))+"</p>";return}
+ h+=({post:tPostHtml,board:tBoardHtml,cmp:tCmpHtml,gap:tGapHtml,idea:tIdeaHtml}[tTab])();
+ el.innerHTML=h}
+function homeOpt(h,sel){var p=h.sale?"฿"+fmtN(h.sale):h.rent?"฿"+fmtN(h.rent)+o("perMo"):"";return '<option value="'+esc(h.code)+'"'+(h.code===sel?" selected":"")+">"+esc(h.code+" · "+h.name+(p?" · "+p:""))+"</option>"}
+function tPostHtml(){var H=homesFor().filter(function(x){return x.site==="asn"||x.site==="r2"});if(!tPost.code&&H[0])tPost.code=H[0].code;var h0=hByCode(tPost.code);
+ var s='<div class="tw-f"><div class="f"><label for="tp-code">'+esc(o("pPick"))+'</label><select id="tp-code">'+H.map(function(x){return homeOpt(x,tPost.code)}).join("")+"</select></div>";
+ if(h0&&h0.sale&&h0.rent)s+='<div class="f"><label for="tp-kind">'+esc(o("pFor"))+'</label><select id="tp-kind"><option value="">'+esc(o("pSale")+" + "+o("pRent"))+'</option><option value="sale"'+(tPost.kind==="sale"?" selected":"")+">"+esc(o("pSale"))+'</option><option value="rent"'+(tPost.kind==="rent"?" selected":"")+">"+esc(o("pRent"))+"</option></select></div>";
+ s+='<fieldset class="tl-l"><legend>'+esc(o("pLang"))+"</legend>"+PL.map(function(k){return '<label class="ck"><input type="checkbox" data-tplang="'+k+'"'+(tPost.langs[k]?" checked":"")+"><span>"+PLN[k]+"</span></label>"}).join("")+"</fieldset></div>";
+ if(!h0)return s;
+ s+='<p class="sub">'+esc(o("pTip"))+'</p><div class="tp-out">'+PL.filter(function(k){return tPost.langs[k]}).map(function(k){var tx=postText(h0,k,tPost.kind);return '<div class="tp-b"><div class="tp-h"><b>'+PLN[k]+'</b><button type="button" class="btn sm" data-tcopy="tp-'+k+'">'+esc(o("pCopy"))+'</button></div><textarea id="tp-'+k+'" rows="'+(tx.split("\n").length+1)+'" readonly>'+esc(tx)+"</textarea></div>"}).join("")+"</div>";
+ var base=h0.site==="asn"?"asn-img/":"riviera-img/";s+='<p class="sub">'+esc(o("pPhotos"))+'</p><div class="tp-ph">'+[1,2,3,4,5,6].map(function(n){return '<img src="'+base+h0.code+"-"+n+'.jpg" alt="'+esc(h0.code+" "+n)+'" loading="lazy" onerror="this.remove()">'}).join("")+"</div>";
+ return s}
+function tally(code){var r={req:0,ok:0,seen:0,like:0,nolike:0,close:0,last:0};od.leads.forEach(function(l){if(l.code!==code)return;if(!l.dir)r.req++;if(l.log.some(function(g){return g.k==="l_ok"})||l.dir)r.ok++;if(l.log.some(function(g){return g.k==="l_seen"}))r.seen++;if(l.like===true)r.like++;if(l.like===false)r.nolike++;if(l.st==="close")r.close++;var la=lastAct(l);if(la>r.last)r.last=la});return r}
+function tBoardHtml(){var H=homesFor(),rows=H.map(function(h){var r=tally(h.code);r.h=h;r.score=r.req*2+r.seen*2+r.like*3+r.close*5-r.nolike;return r});
+ var act=rows.filter(function(r){return r.req||r.seen||r.close||r.ok}).sort(function(a,b){return b.score-a.score}),quiet=rows.filter(function(r){return !(r.req||r.seen||r.close||r.ok)});
+ var tag=function(r){return r.close?'<span class="chip st-close">'+esc(o("bClosed"))+"</span>":r.nolike&&!r.like?'<span class="chip st-wait">'+esc(o("bCold"))+"</span>":r.score>=4?'<span class="chip st-ok">🔥 '+esc(o("bHot"))+"</span>":""};
+ var s='<p class="sub">'+esc(o("bTip"))+'</p><div class="tw"><table><thead><tr><th>'+esc(o("cLs"))+'</th><th class="n">'+esc(o("cReq"))+'</th><th class="n">'+esc(o("cOk"))+'</th><th class="n">'+esc(o("cSeen"))+'</th><th class="n">👍</th><th class="n">👎</th><th class="n">'+esc(o("cClose"))+"</th><th>"+esc(o("bLast"))+"</th><th></th></tr></thead><tbody>";
+ s+=act.map(function(r){return '<tr><td><button type="button" class="lc" data-pv="'+esc(r.h.code)+'">'+esc(r.h.code)+"</button> "+esc(r.h.name)+'</td><td class="n">'+r.req+'</td><td class="n">'+r.ok+'</td><td class="n">'+r.seen+'</td><td class="n">'+r.like+'</td><td class="n">'+r.nolike+'</td><td class="n">'+r.close+"</td><td>"+(r.last?fd(r.last):"–")+"</td><td>"+tag(r)+"</td></tr>"}).join("")+"</tbody></table></div>";
+ if(act.some(function(r){return r.nolike&&!r.like}))s+='<p class="sub">👎 '+esc(o("bColdTip"))+"</p>";
+ if(quiet.length)s+='<div class="proof" style="margin-top:10px"><b>'+esc(o("bQuietH",{n:quiet.length}))+"</b> · "+esc(o("bQuietTip"))+'<p style="margin:6px 0 0">'+quiet.map(function(r){return '<button type="button" class="lc" data-pv="'+esc(r.h.code)+'">'+esc(r.h.code)+"</button>"}).join(" ")+"</p></div>";
+ return s}
+function myClients(){var seen={},out=[];od.leads.forEach(function(l){if(l.by!==orole||l.dir&&orole!=="asn"&&orole!=="r2")return;var k=l.ph||(l.chat?l.chat.k+l.chat.id:l.id);if(seen[k])return;seen[k]=1;out.push(l)});return out}
+function tCmpHtml(){var H=((window.HAIX&&window.HAIX.MX.homes)||[]),C=myClients();
+ var sel=function(id,v){return '<select id="'+id+'"><option value="">–</option>'+H.map(function(x){return homeOpt(x,v)}).join("")+"</select>"};
+ return '<p class="sub">'+esc(o("cPick"))+'</p><div class="tw-f"><div class="f"><label for="tc-a">1</label>'+sel("tc-a",tCmp.a)+'</div><div class="f"><label for="tc-b">2</label>'+sel("tc-b",tCmp.b)+'</div><div class="f"><label for="tc-c">3</label>'+sel("tc-c",tCmp.c)+'</div><div class="f"><label for="tc-cl">'+esc(o("cClient"))+'</label><select id="tc-cl"><option value="">'+esc(o("cNone"))+"</option>"+C.map(function(l){return '<option value="'+l.id+'"'+(tCmp.cl===l.id?" selected":"")+">"+esc(l.name+" · "+o(l.intent)+(l.budget?" · "+l.budget:""))+"</option>"}).join("")+'</select></div></div><button class="btn sm" type="button" data-tcmp="1">'+esc(o("cOpen"))+'</button><p class="err" id="tc-err" role="alert"></p>'}
+function cmpSheet(){var codes=[tCmp.a,tCmp.b,tCmp.c].filter(Boolean).filter(function(c,i,a){return a.indexOf(c)===i}),er=$("#tc-err");if(codes.length<2){if(er)er.textContent=o("cNeed");return}
+ var H=codes.map(hByCode).filter(Boolean),cl=tCmp.cl?byId(tCmp.cl):null,m=(cl&&cl.match)||{},rent=cl&&cl.intent==="rent",C=null,T=window.ASND&&ASND._test;
+ if(cl&&m.date&&T){try{C=T.chart({date:m.date,time:m.time||"",city:"bkk",gender:m.gender||"n"})}catch(e){C=null}}
+ var row=function(lab,f){return "<tr><th>"+esc(lab)+"</th>"+H.map(function(h){return "<td>"+f(h)+"</td>"}).join("")+"</tr>"};
+ var pr=function(h){var a=[];if(h.sale&&!rent)a.push(o("pSale")+" ฿"+fmtN(h.sale));if(h.rent)a.push(o("pRent")+" ฿"+fmtN(h.rent)+o("perMo"));if(h.sale&&rent)a.push(o("pSale")+" ฿"+fmtN(h.sale));return esc(a.join(" · ")||"–")};
+ var s='<div class="sh-bar"><button type="button" class="btn" data-shp="1">🖨 '+esc(o("shPrint"))+'</button><button type="button" class="btn ghost" data-shx="1">✕ '+esc(o("rClose"))+"</button><span>"+esc(o("shHow"))+'</span></div><div class="sh-page"><header class="sh-h"><div><h1>'+esc(o("cT"))+"</h1><p>"+esc(nm(orole))+" · "+esc(o("shMade"))+" "+fdt(Date.now())+(cl?" · "+esc(o("shCl"))+": "+esc(cl.name)+(cl.budget?" · "+esc(o("shBud"))+" "+esc(cl.budget+(rent?o("perMo"):"")):""):"")+'</p></div></header><div class="tw"><table class="cmpT"><tbody>';
+ s+="<tr><th></th>"+H.map(function(h){var base=h.site==="asn"?"asn-img/":"riviera-img/";return '<td><img src="'+esc(h.photo||base+h.code+"-1.jpg")+'" alt="" onerror="this.remove()"><b>'+esc(h.code)+"</b><br>"+esc(h.name)+"</td>"}).join("")+"</tr>";
+ s+=row(o("cOwner"),function(h){return esc(nm(h.site))})+row(o("cPrice"),pr);
+ if(cl&&cl.budget)s+=row(o("cFit"),function(h){var p=rent?h.rent:h.sale;return esc(fitTxt(p,cl.budget)||"–")});
+ s+=row(o("cBeds"),function(h){return h.beds||"–"})+row(o("cBaths"),function(h){return h.baths||"–"})+row(o("cSize"),function(h){return h.size?fmtN(h.size)+" m²":"–"})+row(o("cLand"),function(h){return h.land?fmtN(h.land)+" m² ("+fmtN(h.land/4)+" ตร.ว.)":"–"})
+  +row(o("cPool"),function(h){return h.pool==="private"?esc(o("poolP")):h.pool?esc(o("poolS")):"–"})+row(o("cView"),function(h){return esc([zname(h.zone,lang)].concat((h.tags||[]).filter(function(g){return g==="seaView"||g==="cityView"}).map(function(g){return TAGT[g][lang==="th"?0:1]})).filter(Boolean).join(" · "))})
+  +row(o("cMbti"),function(h){return esc((h.mbti||[]).slice(0,3).join(", ")||"–")});
+ if(m.mbti)s+=row(o("cMbFit")+" ("+m.mbti+")",function(h){return (h.mbti||[]).indexOf(m.mbti)>-1?"✓ "+esc(o("yes")):esc(o("no"))});
+ if(C)s+=row(o("cDest"),function(h){try{return T.score(h,C).total+"%"}catch(e){return "–"}});
+ s+=row(o("cLinks"),function(h){return '<a href="'+MS[h.site].pg(h.code)+'" target="_blank" rel="noopener">'+esc(o("shPage"))+'</a><br><a href="'+MS[h.site].q(h.code)+'" target="_blank" rel="noopener">'+esc(o("shQuote"))+"</a>"});
+ s+='</tbody></table></div><p class="sh-note"><a href="https://thbho.com/EngWiderooms.html" target="_blank" rel="noopener">WIDEROOMS</a> · <a href="https://thbho.com/AIGymmateXFactory.html" target="_blank" rel="noopener">Hybrid AI by ThB.Ho</a></p></div>';
+ var el=$("#sheet");el.innerHTML=s;el.hidden=false;document.body.classList.add("sheeting");el.scrollTop=0}
+function tGapHtml(){var H=homesFor(),X=window.HAIX,own=orole,cl=[],seen={};
+ od.leads.forEach(function(l){if(!l.budget||(own!=="admin"&&l.own!==own))return;var k=l.own+"|"+(l.ph||(l.chat?l.chat.id:l.id));if(seen[k])return;seen[k]=1;cl.push({intent:l.intent,budget:l.budget,type:(l.match||{}).type||"",site:l.own})});
+ var net=0;try{var D=X&&X.db&&X.db();if(D&&D.clients)D.clients.forEach(function(c){if(c.arch||!c.budget)return;c.jobs.forEach(function(j){if((own==="admin"?(j.m==="asn"||j.m==="r2"):j.m===own)){cl.push({intent:c.intent,budget:c.budget,type:(c.match||{}).type||"",site:j.m});net++}})})}catch(e){}
+ if(!cl.length)return '<p class="sub">'+esc(o("gNone"))+"</p>";
+ var G={};cl.forEach(function(c){var k=c.site+"|"+c.intent+"|"+c.budget+"|"+c.type;(G[k]=G[k]||{c:c,n:0}).n++});
+ var rows=Object.keys(G).map(function(k){var g=G[k],c=g.c,bd=band(c.budget),have=H.filter(function(h){if(h.site!==c.site)return false;var p=c.intent==="rent"?h.rent:h.sale;if(!p||!bd||p<bd[0]||p>bd[1])return false;if(c.type&&h.type!==c.type&&!(c.type==="villa"&&h.type==="house"&&h.pool==="private"))return false;return true});return {c:c,n:g.n,have:have}}).sort(function(a,b){return (a.have.length-b.have.length)||(b.n-a.n)});
+ var lost=od.leads.filter(function(l){return (own==="admin"||l.own===own)&&l.st==="lost"&&l.log.some(function(g){return g.k==="l_lost"&&(g.x===O.th.lr_budget||g.x===O.en.lr_budget)})}).length;
+ var s='<p class="sub">'+esc(o("gTip"))+(net?" · "+esc(o("gFromNet")):"")+'</p><div class="tw"><table><thead><tr><th>'+esc(o("gNeed"))+"</th>"+(own==="admin"?"<th>"+esc(o("ownL"))+"</th>":"")+'<th class="n">'+esc(o("gClients"))+'</th><th class="n">'+esc(o("gHave"))+"</th><th></th></tr></thead><tbody>";
+ s+=rows.map(function(r){var lab=o(r.c.intent)+" "+r.c.budget+(r.c.intent==="rent"?o("perMo"):"")+" · "+(r.c.type?o("ty_"+r.c.type):o("anyType"));return "<tr><td>"+esc(lab)+"</td>"+(own==="admin"?"<td>"+esc(nm(r.c.site))+"</td>":"")+'<td class="n">'+r.n+'</td><td class="n">'+r.have.length+(r.have.length?' <small>'+r.have.slice(0,3).map(function(h){return '<button type="button" class="lc" data-pv="'+esc(h.code)+'">'+esc(h.code)+"</button>"}).join(" ")+"</small>":"")+"</td><td>"+(r.have.length<=1?'<span class="chip st-wait">'+esc(o("gGap"))+"</span>":'<span class="chip st-ok">'+esc(o("gOk"))+"</span>")+"</td></tr>"}).join("")+"</tbody></table></div>";
+ var short=rows.filter(function(r){return r.have.length<=1}).slice(0,3).map(function(r){return o(r.c.intent)+" "+r.c.budget+" "+(r.c.type?o("ty_"+r.c.type):"")});
+ if(short.length)s+='<div class="proof" style="margin-top:10px"><b>'+esc(o("gSuggest",{x:short.join(" · ")}))+"</b>"+(lost?"<br>"+esc(o("gLost",{n:lost})):"")+"</div>";else if(lost)s+='<p class="sub">'+esc(o("gLost",{n:lost}))+"</p>";
+ return s}
+var MBG={nt:[["INTJ","INTP","ENTJ","ENTP"],"สายนักวิเคราะห์","Analysts"],nf:[["INFJ","INFP","ENFJ","ENFP"],"สายนักการทูต","Diplomats"],sj:[["ISTJ","ISFJ","ESTJ","ESFJ"],"สายผู้พิทักษ์","Sentinels"],sp:[["ISTP","ISFP","ESTP","ESFP"],"สายนักสำรวจ","Explorers"]};
+var FEL={N:["น้ำ","Water","เหนือ","north"],S:["ไฟ","Fire","ใต้","south"],E:["ไม้","Wood","ตะวันออก","east"],SE:["ไม้","Wood","ตะวันออกเฉียงใต้","south-east"],W:["ทอง (โลหะ)","Metal","ตะวันตก","west"],NW:["ทอง (โลหะ)","Metal","ตะวันตกเฉียงเหนือ","north-west"],NE:["ดิน","Earth","ตะวันออกเฉียงเหนือ","north-east"],SW:["ดิน","Earth","ตะวันตกเฉียงใต้","south-west"]};
+function ideas(){var H=homesFor().filter(function(h){return h.type!=="commercial"}),th=lang==="th",I=[],pick=function(a){return a.slice().sort(function(x,y){return (y.sale||y.rent*200)-(x.sale||x.rent*200)}).slice(0,5)};
+ var seen={},add=function(title,cap,list,fmt,tags){if(list.length<2)return;var l=pick(list),k=l.map(function(h){return h.code}).join(",");if(seen[k])return;seen[k]=1;I.push({t:title,c:cap,l:l,f:fmt,h:tags})};
+ Object.keys(MBG).forEach(function(k){var g=MBG[k],L=H.filter(function(h){return (h.mbti||[]).slice(0,2).some(function(x){return g[0].indexOf(x)>-1})});
+  add(th?"บ้านสำหรับ"+g[1]+" ("+g[0].join(" ")+")":"Homes for "+g[2]+" ("+g[0].join(" ")+")",th?"คุณเป็นคน"+g[1]+"หรือเปล่า? บ้านเหล่านี้ออกแบบมาเข้ากับบุคลิกแบบคุณ ลองทำแบบทดสอบ MBTI บนเว็บแล้วดูว่าหลังไหนใช่ที่สุด":"Are you one of the "+g[2]+"? These homes suit your personality. Take the MBTI match on our site to see which one fits best.",L,"car","#MBTI #"+g[0].join(" #"))});
+ Object.keys(FEL).forEach(function(d){var e=FEL[d],L=H.filter(function(h){return h.facing===d});add(th?"บ้านหันทิศ"+e[2]+" เสริมธาตุ"+e[0]:"Homes facing "+e[3]+": the "+e[1]+" element",th?"ตามหลักฮวงจุ้ย บ้านที่หันทิศ"+e[2]+"สัมพันธ์กับธาตุ"+e[0]+" เหมาะกับคนที่ธาตุนี้ส่งเสริม เช็กธาตุของคุณได้ใน Destiny Match":"In feng shui a house facing "+e[3]+" relates to "+e[1]+". Check your own element in Destiny Match.",L,"reel","#ฮวงจุ้ย #FengShui #Destiny")});
+ add(th?"บ้านวิวทะเล":"Sea-view homes",th?"ตื่นมาเห็นทะเลทุกเช้า รวมทรัพย์วิวทะเลที่ยังว่างตอนนี้":"Wake up to the sea. Sea-view listings available now.",H.filter(function(h){return (h.tags||[]).indexOf("seaView")>-1}),"reel","#SeaView #วิวทะเล");
+ add(th?"พูลวิลล่าสระส่วนตัว ไม่เกิน 25 ล้าน":"Private-pool villas under ฿25M",th?"พูลวิลล่าสระส่วนตัวในพัทยา ราคาไม่เกิน 25 ล้าน":"Private-pool villas in Pattaya under ฿25M",H.filter(function(h){return h.pool==="private"&&h.sale&&h.sale<=25e6}),"car","#PoolVilla #พูลวิลล่า");
+ add(th?"บ้านเช่าพูลวิลล่า ไม่เกิน 100,000/เดือน":"Pool villas for rent under ฿100K/month",th?"เช่าพูลวิลล่าในพัทยา งบไม่เกินแสนต่อเดือน":"Rent a pool villa in Pattaya for under ฿100K a month",H.filter(function(h){return h.rent&&h.rent<=1e5&&h.pool==="private"}),"car","#บ้านเช่าพัทยา #PattayaRental");
+ add(th?"บ้านที่ดินกว้าง 1,000 ตร.ม. ขึ้นไป":"Homes on 1,000 m² or more",th?"บ้านที่ดินกว้าง เหมาะกับครอบครัวใหญ่และคนที่อยากมีสวน":"Big plots for big families and garden lovers",H.filter(function(h){return h.land>=1000}),"car","#LargeLand #บ้านสวน");
+ add(th?"ใกล้โรงเรียนนานาชาติ":"Near international schools",th?"บ้านสำหรับครอบครัวที่มีลูก เดินทางไปโรงเรียนนานาชาติสะดวก":"Family homes close to international schools",H.filter(function(h){return (h.tags||[]).indexOf("nearSchool")>-1}),"car","#Family #InternationalSchool");
+ add(th?"คอนโดวิวทะเล จอมเทียน":"Sea-view condos in Jomtien",th?"ห้องวิวทะเลที่ The Riviera Jomtien พร้อมราคาพิเศษ":"Sea-view units at The Riviera Jomtien at special prices",H.filter(function(h){return h.site==="r2"&&(h.tags||[]).indexOf("seaView")>-1}),"reel","#TheRivieraJomtien #คอนโดจอมเทียน");
+ return I}
+function weekNo(){var d=new Date(),j=new Date(d.getFullYear(),0,1);return Math.ceil(((d-j)/DAY+j.getDay()+1)/7)}
+function tIdeaHtml(){var I=ideas();if(!I.length)return '<p class="sub">'+esc(o("rNone"))+"</p>";var w=weekNo(),wk=[0,1,2].map(function(i){return I[(w*3+i)%I.length]}).filter(function(x,i,a){return a.indexOf(x)===i});
+ var card2=function(it,i){var cap=it.c+"\n\n"+it.l.map(function(h){return "• "+h.code+" "+h.name+" — "+pgUrl(h)}).join("\n")+"\n\n"+it.h,id="ti-"+i;return '<div class="ti"><b>'+esc(it.t)+'</b><p class="sub">'+esc(o("iFmt"))+": "+esc(o(it.f==="reel"?"iReel":"iCar"))+" · "+it.l.map(function(h){return '<button type="button" class="lc" data-pv="'+esc(h.code)+'">'+esc(h.code)+"</button>"}).join(" ")+'</p><textarea id="'+id+'" rows="4" readonly>'+esc(cap)+'</textarea><button type="button" class="btn ghost sm" data-tcopy="'+id+'">'+esc(o("iCopy"))+"</button></div>"};
+ return '<p class="sub">'+esc(o("iTip"))+"</p><h3>"+esc(o("iWeek"))+'</h3><div class="ti-g">'+wk.map(function(it,i){return card2(it,"w"+i)}).join("")+'</div><details class="more"><summary>'+esc(o("iAll",{n:I.length}))+'</summary><div class="ti-g">'+I.map(function(it,i){return card2(it,"a"+i)}).join("")+"</div></details>"}
+document.addEventListener("click",function(e){if(mode!=="own")return;
+ var t1=e.target.closest("[data-otool]");if(t1){toolOn=!toolOn;tools();return}
+ var t2=e.target.closest("[data-ottab]");if(t2){tTab=t2.getAttribute("data-ottab");tools();return}
+ var t3=e.target.closest("[data-tcopy]");if(t3){var ta=document.getElementById(t3.getAttribute("data-tcopy"));if(!ta)return;var done=function(){var old=t3.textContent;t3.textContent="✓ "+o("pCopied");setTimeout(function(){t3.textContent=old},1500)};
+  try{navigator.clipboard.writeText(ta.value).then(done,function(){ta.focus();ta.select();done()})}catch(err){ta.focus();ta.select();done()}return}
+ var t4=e.target.closest("[data-tcmp]");if(t4){tCmp.a=$("#tc-a").value;tCmp.b=$("#tc-b").value;tCmp.c=$("#tc-c").value;tCmp.cl=$("#tc-cl").value;cmpSheet();return}});
+document.addEventListener("change",function(e){if(mode!=="own")return;var t=e.target;
+ if(t.id==="tp-code"){tPost.code=t.value;tPost.kind="";tools();return}if(t.id==="tp-kind"){tPost.kind=t.value;tools();return}
+ if(t.getAttribute&&t.getAttribute("data-tplang")){tPost.langs[t.getAttribute("data-tplang")]=t.checked?1:0;tools();return}
+ if(/^tc-/.test(t.id||"")){tCmp[t.id.slice(3)]=t.value}});
 $("#oReset").addEventListener("click",function(){seed();oOpen={};pend=null;$("#oout").innerHTML="";otab="";render()});
 if(!load())seed();
 var qs=new URLSearchParams(location.search);if(ROLES.indexOf(qs.get("oas"))>-1)orole=qs.get("oas");
