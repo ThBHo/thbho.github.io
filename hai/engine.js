@@ -1495,6 +1495,14 @@ async function loadCo() {
   }
   return changed;
 }
+// "newest listing" ribbon (Sheet column latest): a start date (YYYY-MM-DD) shows it for SITE.latestDays days (default 21,
+// Thor 15 Nov 2026: drop the ribbon once a listing has been up more than 3 weeks); a plain Y still shows it with no end
+function isLatest(v) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+  if (!m) return /^(1|true|yes|y|ใช่|ได้)$/i.test(v || "");
+  const start = new Date(+m[1], +m[2] - 1, +m[3]), days = SITE.latestDays ?? 21;
+  return (Date.now() - start.getTime()) / 864e5 < days;
+}
 async function loadSheet() {
   if (!SHEET_CSV) return false;
   try {
@@ -1506,7 +1514,7 @@ async function loadSheet() {
       code: o.code, name: o.name, type: o.type || "house", zone: ZONES[o.zone] ? o.zone : "eastpattaya",
       rent: num(o.rent), rentWas: num(o.rentWas), sale: num(o.sale), saleWas: num(o.saleWas), isNew: bool(o.isNew), beds: num(o.beds), baths: num(o.baths), land: num(o.land), usable: num(o.usable), usablePlus: bool(o.usablePlus),
       size: num(o.size), floor: o.floor || null, building: o.building || null, pool: o.pool || null, style: o.style || "modern", tags: o.tags ? o.tags.split("|") : [],
-      urgent: bool(o.urgent), hot: bool(o.hot), latest: bool(o.latest), gallery: (o.gallery || "").split(/[|,\s]+/).map(Number).filter(n => n > 0), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
+      urgent: bool(o.urgent), hot: bool(o.hot), latest: isLatest(o.latest), gallery: (o.gallery || "").split(/[|,\s]+/).map(Number).filter(n => n > 0), deposit: o.deposit || null, minContract: o.minContract || null, pets: bool(o.pets), furn: o.furn || null,
       parking: o.parking || null, internet: bool(o.internet), available: o.available || null, shortTerm: num(o.shortTerm), photoDate: o.photoDate || null, video: o.video || null, youtube: (o.youtube || "").replace(/^.*(?:v=|youtu\.be\/|embed\/)([\w-]{11}).*$/, "$1") || null, poster: o.poster || null, fb: o.fb || null, aiEdited: bool(o.aiEdited) === true, facing: o.facing || null, area: (m => m ? [+m[1], +m[2]] : null)(String(o.area || "").match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/)),
       booked: o.booked ? o.booked.split("|").map(r => r.split(">")) : [],
       photoList: (o.photos || "").split("|").map(s => s.trim()).filter(Boolean).map(s => /[\/.]/.test(s) ? s : `https://drive.google.com/thumbnail?id=${encodeURIComponent(s)}&sz=w1600`)
