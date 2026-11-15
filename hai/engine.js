@@ -1414,7 +1414,9 @@ async function drawSocial() {
   try { await document.fonts.ready; } catch (e) {}
   g.fillStyle = KEY("deep", "#13263F"); g.fillRect(0, 0, W, H);
   try {
-    const im = await loadImg(photo(l, 1));
+    // the media host (Cloudflare R2) sends no CORS header, so a cross-origin photo would fail to load for the canvas;
+    // fall back to the same-origin copy in the repo (asn-img/ is still deployed with the site)
+    const im = await loadImg(photo(l, 1)).catch(() => loadImg((l.photoList || [])[0] || `${SITE.img}${l.code}-1.jpg`));
     const s = Math.max(W / im.width, H / im.height), w = im.width * s, h = im.height * s;
     g.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
   } catch (e) {}
