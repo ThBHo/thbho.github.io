@@ -1276,7 +1276,7 @@ const SOC_T = {
     langLbl:"ภาษาของโพสต์", ratioLbl:"สัดส่วนภาพ", pickImg:"ภาพพื้นหลัง",
     copy:"คัดลอกแคปชัน", dl:"ดาวน์โหลดภาพ", open:"เปิดลิงก์ห้อง", dlHint:"ถ้าปุ่มดาวน์โหลดไม่ทำงาน (เช่น ในหน้าตัวอย่าง) ให้คลิกขวาหรือกดค้างที่ภาพแล้วเซฟรูป",noImg:"ห้องนี้ยังไม่มีรูป ภาพโพสต์จะใช้ผังห้องหรือพื้นสีแทน",
     ready:"พร้อมโอน", promo:"ราคาโปร", from:"จาก", save:"ประหยัด", promoTag:"โปรโมชั่น",
-    aCta:"ดูรายละเอียดและขอใบเสนอราคาได้ที่ลิงก์ในคอมเมนต์ หรือทัก LINE Clare Pattaya Property ได้เลย",
+    aCta:"ดูรายละเอียดและขอใบเสนอราคาได้ที่ลิงก์ในคอมเมนต์ หรือทัก LINE Clare Pattaya Property ได้เลย", aCtaN:"ดูรายละเอียดและขอใบเสนอราคาได้ที่ลิงก์ในคอมเมนต์ หรือทักมาได้เลย",
     bLead:(v, c) => `ตื่นมาเปิดผ้าม่านเจอ${v}จากห้อง ${c} ที่ ${PROJECT_NAME}`,
     bBody:"ห้องพร้อมอยู่ ใกล้หาดจอมเทียน สิ่งอำนวยความสะดวกครบในโครงการ เหมาะทั้งอยู่เองและปล่อยเช่า",
     bCta:"ดูห้องนี้ได้ที่",
@@ -1290,7 +1290,7 @@ const SOC_T = {
     langLbl:"Post language", ratioLbl:"Image ratio", pickImg:"Background photo",
     copy:"Copy caption", dl:"Download image", open:"Open unit link", dlHint:"If the download button does nothing (e.g. in a preview), right-click or long-press the image and save it.",noImg:"No photos for this unit yet — the image will use the floor plan or a plain ground.",
     ready:"ready to transfer", promo:"Special price", from:"was", save:"save", promoTag:"PROMOTION",
-    aCta:"Full details and a quotation via the link in the comments, or message Clare Pattaya Property on LINE.",
+    aCta:"Full details and a quotation via the link in the comments, or message Clare Pattaya Property on LINE.", aCtaN:"Full details and a quotation via the link in the comments, or just send us a message.",
     bLead:(v, c) => `Open the curtains to a ${v.toLowerCase()} from unit ${c} at ${PROJECT_NAME}`,
     bBody:"Ready to move in, close to Jomtien beach, with the project's full facilities — good to live in or to rent out.",
     bCta:"See this unit at",
@@ -1304,7 +1304,7 @@ const SOC_T = {
     langLbl:"Язык поста", ratioLbl:"Формат", pickImg:"Фон",
     copy:"Скопировать подпись", dl:"Скачать картинку", open:"Открыть страницу", dlHint:"Если кнопка скачивания не срабатывает (например, в предпросмотре), сохраните картинку через правый клик или долгое нажатие.",noImg:"Фото пока нет — будет использована планировка или однотонный фон.",
     ready:"готово к передаче", promo:"Спеццена", from:"вместо", save:"экономия", promoTag:"АКЦИЯ",
-    aCta:"Детали и коммерческое предложение — по ссылке в комментариях или напишите Clare Pattaya Property в LINE.",
+    aCta:"Детали и коммерческое предложение — по ссылке в комментариях или напишите Clare Pattaya Property в LINE.", aCtaN:"Детали и предложение — по ссылке в комментариях, или просто напишите нам.",
     bLead:(v, c) => `Откройте шторы — и ${v.toLowerCase()} из квартиры ${c} в ${PROJECT_NAME}`,
     bBody:"Готова к заселению, рядом с пляжем Джомтьен, вся инфраструктура проекта — для жизни и для аренды.",
     bCta:"Смотреть квартиру",
@@ -1318,7 +1318,7 @@ const SOC_T = {
     langLbl:"贴文语言", ratioLbl:"图片比例", pickImg:"背景图",
     copy:"复制文案", dl:"下载图片", open:"打开房源页", dlHint:"如果下载按钮无效（例如在预览中），可右键或长按图片另存为。",noImg:"该房源暂无实拍图，图片将使用户型图或纯色底。",
     ready:"已竣工可过户", promo:"特价", from:"原价", save:"省", promoTag:"特惠",
-    aCta:"详情与报价请点评论区链接，或在 LINE 联系 Clare Pattaya Property。",
+    aCta:"详情与报价请点评论区链接，或在 LINE 联系 Clare Pattaya Property。", aCtaN:"详情与报价请点评论区链接，或直接私信我们。",
     bLead:(v, c) => `拉开窗帘，${PROJECT_NAME} ${c} 的${v}尽收眼底`,
     bBody:"可即时入住，靠近宗滴恩海滩，项目设施齐全，自住出租皆合适。",
     bCta:"查看房源",
@@ -1332,7 +1332,7 @@ const SOC_T = {
     langLbl:"게시물 언어", ratioLbl:"이미지 비율", pickImg:"배경 사진",
     copy:"캡션 복사", dl:"이미지 다운로드", open:"유닛 링크 열기", dlHint:"다운로드 버튼이 작동하지 않으면(예: 미리보기 화면) 이미지를 우클릭하거나 길게 눌러 저장하세요.",noImg:"이 유닛은 아직 사진이 없어 평면도나 단색 배경을 사용합니다.",
     ready:"즉시 이전 가능", promo:"특별가", from:"정가", save:"할인", promoTag:"프로모션",
-    aCta:"자세한 내용과 견적은 댓글의 링크를 확인하시거나 LINE으로 Clare Pattaya Property에 문의하세요.",
+    aCta:"자세한 내용과 견적은 댓글의 링크를 확인하시거나 LINE으로 Clare Pattaya Property에 문의하세요.", aCtaN:"자세한 내용과 견적은 댓글의 링크를 확인하시거나 메시지를 보내 주세요.",
     bLead:(v, c) => `커튼을 열면 ${PROJECT_NAME} ${c} 유닛의 ${v}`,
     bBody:"바로 입주 가능, 좀티엔 해변과 가깝고 프로젝트 시설을 모두 누릴 수 있어 실거주와 임대 모두 좋습니다.",
     bCta:"유닛 자세히 보기",
@@ -1346,7 +1346,7 @@ const SOC_T = {
     langLbl:"投稿の言語", ratioLbl:"画像の比率", pickImg:"背景写真",
     copy:"キャプションをコピー", dl:"画像をダウンロード", open:"物件リンクを開く", dlHint:"ダウンロードボタンが反応しない場合（プレビュー表示時など）は、画像を右クリックまたは長押しして保存してください。",noImg:"この物件の写真はまだありません — 画像には間取り図または無地の背景を使用します。",
     ready:"即名義変更可能", promo:"特別価格", from:"通常", save:"お得額", promoTag:"PROMOTION",
-    aCta:"詳細と見積書はコメント欄のリンクから、またはLINEでClare Pattaya Propertyにメッセージをお送りください。",
+    aCta:"詳細と見積書はコメント欄のリンクから、またはLINEでClare Pattaya Propertyにメッセージをお送りください。", aCtaN:"詳細と見積書はコメント欄のリンクから、またはお気軽にメッセージをお送りください。",
     bLead:(v, c) => `${PROJECT_NAME}の${c}号室、カーテンを開ければ${v.toLowerCase()}が広がります`,
     bBody:"すぐに入居可能、ジョムティエンビーチの近くで、プロジェクトの充実した共用施設付き — 居住にも賃貸にも最適です。",
     bCta:"この物件の詳細はこちら：",
@@ -1365,7 +1365,7 @@ const telPretty = tel => tel.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
 const SOC_PLAT = { fb:"Facebook", ig:"Instagram", line:"LINE OA", tiktok:"TikTok" };
 const SOC_RATIOS = { "4:5":[1080, 1350], "1:1":[1080, 1080], "9:16":[1080, 1920], "16:9":[1920, 1080] };
 const soc = { unit:null, plats:{ fb:true, ig:true, line:false, tiktok:false }, style:"a", ratio:"4:5", lg:"th", img:0,
-  opt:{ price:true, disc:true, qr:true, contact:true, tags:true } };
+  opt:{ price:true, disc:true, qr:true, contact:!window.UNIT_PAGE, tags:true } };
 const socT = () => SOC_T[soc.lg] || SOC_T.en;
 const tl = (k, lg) => (T[lg] && T[lg][k]) || T.en[k] || k;             // any label in the post's own language
 
@@ -1384,7 +1384,7 @@ function buildSocialCaption(u, style, lg, opts){
     (d ? `${S.promo} ${baht(sell(u))}` + (opts.disc ? ` (${S.from} ${baht(u.price)} · −${d}% · ${S.save} ${baht(u.price - sell(u))})` : ` (${S.from} ${baht(u.price)})`)
        : baht(sell(u)));
   const url = socUrl(u);
-  const contact = !opts.contact ? [] : CONTACT.lines.map(l => {
+  const contact = !opts.contact || window.UNIT_PAGE ? [] : CONTACT.lines.map(l => {
     const ph = CONTACT.phones.find(p => p.name === l.name);
     return `📞 ${ph ? telPretty(ph.tel) + " " : ""}(${l.name}) · LINE ${l.id}`;
   });
@@ -1396,7 +1396,7 @@ function buildSocialCaption(u, style, lg, opts){
     const who = types.length ? S.cLead(u.unit, types.join(" / ")) : `${u.unit} — ${S.cGeneric}`;
     lines = [who, st && st.mbtiText ? st.mbtiText : "", "", spec, priceLine, "", S.cCta, url, new URL(matchingHref(), location.href).href];
   } else {
-    lines = [`${u.unit} · ${PROJECT_NAME} · ${S.ready}`, priceLine, spec, "", S.aCta];
+    lines = [`${u.unit} · ${PROJECT_NAME} · ${S.ready}`, priceLine, spec, "", window.UNIT_PAGE ? S.aCtaN : S.aCta];
   }
   return [...lines, ...(contact.length ? ["", ...contact] : []), ...(tags.length ? ["", ...tags] : [])]
     .filter((l, i, arr) => l !== "" || (i > 0 && arr[i - 1] !== "")).join("\n").replace(/\n{3,}/g, "\n\n").trim();
@@ -1529,7 +1529,7 @@ function renderSocialDlg(){
   $("#socStyle").innerHTML = `<div class="sc-lbl">${S.style}</div><div class="sc-chips">${Object.entries(S.styles).map(([k, l]) =>
     `<button type="button" class="chip ghost" data-socs="${k}" aria-pressed="${soc.style === k}">${l}</button>`).join("")}</div>`;
   $("#socOptsBox").innerHTML = `<div class="sc-lbl">${S.opts}</div>
-    <div class="sc-switches">${Object.entries(S.o).map(([k, l]) =>
+    <div class="sc-switches">${Object.entries(S.o).filter(([k]) => !(window.UNIT_PAGE && k === "contact")).map(([k, l]) =>
       `<label class="sc-sw"><input type="checkbox" data-soco="${k}"${soc.opt[k] ? " checked" : ""}><span>${l}</span></label>`).join("")}</div>
     <div class="sc-row">
       <label><span class="sc-lbl">${S.langLbl}</span>
@@ -1679,14 +1679,28 @@ function applyLang(){
   CONTACT.emails.forEach(m => rows.push(
     `<a class="c-row" href="mailto:${m.addr}"><span class="c-ic">✉</span><span class="c-mail">${m.addr}</span><em>${m.name}</em></a>`));
   $("#contactBlock").innerHTML = rows.join("");
-  $("#printContact").innerHTML = [
-    "Clare Pattaya Property",
-    CONTACT.phones.map(ph => `${pretty(ph.tel)} (${ph.name})`).join(" · "),
-    `LINE ${CONTACT.lines.map(l => `${l.id} (${l.name})`).join(" · ")}`,
-    ...CONTACT.emails.map(m => m.addr)
-  ].join("<br>");
+  // unit pages are shared by every agent: no Clare sales contact there (Thor 17 Nov 2026)
+  if (window.UNIT_PAGE) $("#contactBlock").innerHTML = "";
+  renderQuoteBy();
   render();
 }
+
+/* The quotation carries no sales contact: whoever prints it (Clare's team or any agent)
+   types their own name and number once; this device remembers them (Thor 17 Nov 2026). */
+const QBY_KEY = "r2.quoteBy";
+function quoteBy(){ try { return JSON.parse(localStorage.getItem(QBY_KEY)) || {}; } catch (e) { return {}; } }
+function renderQuoteBy(){
+  const q = quoteBy(), dots = "……………………………";
+  const n = $("#qByName"), tl = $("#qByTel");
+  if (n && document.activeElement !== n) n.value = q.name || "";
+  if (tl && document.activeElement !== tl) tl.value = q.tel || "";
+  $("#printContact").innerHTML = `${t("qBy")} <b>${escHtml(q.name || dots)}</b><br>${t("qByTel")} <b>${escHtml(q.tel || dots)}</b>`;
+}
+["#qByName", "#qByTel"].forEach(id => $(id).addEventListener("input", () => {
+  const q = { name: $("#qByName").value.trim(), tel: $("#qByTel").value.trim() };
+  try { localStorage.setItem(QBY_KEY, JSON.stringify(q)); } catch (e) {}
+  renderQuoteBy();
+}));
 
 /* ------------------------------ events --------------------------- */
 $("#q").addEventListener("input", e => { state.q = e.target.value; render(); });
@@ -1790,7 +1804,11 @@ $("#unitView").addEventListener("click", e => {
   }
   const dl = e.target.closest("[data-udl]");
   if (dl && ug.unit){ downloadAllPhotos(ug.unit, dl); return; }
-  if (e.target.closest("[data-uprint]") && ug.unit){ openUnit(ug.unit.unit); setTimeout(() => $("#dPrint").click(), 250); }
+  if (e.target.closest("[data-uprint]") && ug.unit){
+    openUnit(ug.unit.unit);
+    if (quoteBy().name) setTimeout(() => $("#dPrint").click(), 250);
+    else setTimeout(() => { const n = $("#qByName"); n.scrollIntoView({ block: "nearest" }); n.focus(); }, 150);
+  }
 });
 document.addEventListener("keydown", e => {
   if (!document.body.classList.contains("unit-mode") || document.getElementById("dlg").open) return;
@@ -1857,6 +1875,10 @@ $("#slCopy").addEventListener("click", e => {
 
 window.PAGE_TITLE = document.title;
 { const ql = new URLSearchParams(location.search).get("lang"); if (["th","en","ru","zh","ko","ja"].includes(ql)) lang = ql; }
+if (window.UNIT_PAGE){   // contact column becomes "ask the agent who sent you this link"
+  const h = document.querySelector('[data-i18n="contactH"]'), p = document.querySelector('[data-i18n="contactP"]');
+  if (h) h.dataset.i18n = "uAskH"; if (p) p.dataset.i18n = "uAskP";
+}
 applyProjectName();
 applyLang();
 route();

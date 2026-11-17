@@ -300,6 +300,9 @@ dialog::backdrop{background:rgba(4,25,31,.6);backdrop-filter:blur(3px)}
 .kv.disc b{color:var(--coral)}
 .notebox ul{margin:6px 0 0;padding-left:17px}
 .sheet-ft{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:var(--surface-2)}
+.q-by{flex:1 0 100%;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.q-by input{flex:1 1 180px;min-width:0;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.q-by small{flex:1 0 100%;font-size:12px;color:var(--muted)}
 .btn{border:1px solid var(--sea);background:var(--sea);color:#fff;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600}
 .btn.alt{background:var(--surface);color:var(--sea)}
 .btn.wide{flex:1}
@@ -355,8 +358,9 @@ body.unit-mode .lk-strip-host{display:none}
 /* ---------- unit page ---------- */
 body.unit-mode .phero, body.unit-mode .intro, body.unit-mode .hl, body.unit-mode .hero,
 body.unit-mode .controls, body.unit-mode main.wrap, body.unit-mode .slbar{display:none!important}
-/* featured-unit pages are shared by every salesperson: no team contacts there (main + matching pages keep them) */
-body.unit-page .c-col, body.unit-page #printContact{display:none!important}
+/* featured-unit pages are shared by every agent: app.js leaves no team contact there at all; the contact column
+   reads "ask the agent who sent you this link" and the quotation carries the name the person printing typed in */
+body.unit-page #contactBlock{display:none!important}
 .uv{padding-block:18px 60px}
 .u-crumb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:14px}
 .u-crumb a{color:var(--sea);font-weight:600;text-decoration:none}
@@ -662,7 +666,8 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
   #dlg .notebox ul{margin:1mm 0 0;padding-left:5mm}
   body{background:#fff;color:#000}
   .topbar,.hero,.phero,.intro,.hl,.controls,.meta-row,.grid,.tblwrap,.slbar,.info,.foot,.sheet-ft,.x,.star,.navb,.thumbs,.counter{display:none!important}
-  dialog{max-width:100%;display:block!important;position:static}
+  dialog#dlg{max-width:100%;display:block!important;position:static}
+  dialog:not(#dlg){display:none!important}
   dialog::backdrop{display:none}
   .sheet{box-shadow:none;max-height:none;border-radius:0}
   .sheet-body{overflow:visible;padding:0}
@@ -678,7 +683,8 @@ body.unit-page .c-col, body.unit-page #printContact{display:none!important}
   .q-media.no-plan{grid-template-columns:1fr 1fr}
   .q-plan{height:72mm;border:1px solid #cfd6d6;border-radius:3mm;background:#fff;padding:2mm;display:flex;align-items:center;justify-content:center}
   .q-plan img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-  .q-side{display:grid;grid-template-rows:1fr 1fr;gap:4mm;height:72mm}
+  .q-side{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:4mm;height:72mm;overflow:hidden}
+  .q-side img{min-height:0}
   .q-side.one{grid-template-rows:1fr}
   .q-side img,.q-media.no-plan img{width:100%;height:100%;object-fit:cover;border-radius:3mm;display:block}
   .q-media.no-plan img{height:56mm}

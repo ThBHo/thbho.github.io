@@ -2269,16 +2269,9 @@ const PROJECT_FACILITIES = {
   ja: ["37階にスカイプール、42階にインフィニティスカイプール","大きなオーシャンプールと子ども用プール","42階の全フロアをオーナー専用のレクリエーションスペースに","フィットネスルーム、スカイジム、屋外ジム","キッズクラブと子ども用プレイグラウンド","58か所の静かなガーデンゾーン","飲食店が入る店舗","24時間セキュリティ"]
 };
 
-/* Sales contact — fill these in, then the placeholder badge disappears. */
-const CONTACT = {
-  address: {
-    th: "29/1128 Commercial 21CU หมู่ 12 ถนนจอมเทียนสาย 2<br>ต.หนองปรือ อ.บางละมุง จ.ชลบุรี 20150",
-    en: "29/1128 Commercial 21CU, Moo 12, Jomtien 2nd Road<br>Nongprue, Banglamung, Chonburi 20150, Thailand"
-  },
-  phones: [{ name: "Kung", tel: "0661253116" }, { name: "Koy", tel: "0661253117" }],
-  emails: [{ name: "Koy", addr: "koy24.clarepattayaproperty@gmail.com" }, { name: "Kung", addr: "kungnuree.clarepattayaproperty@gmail.com" }],
-  lines: [{ name: "Koy", id: "koyuni", qr: "riviera-img/line-qr-koy.png" }, { name: "Kung", id: "nureekung", qr: "riviera-img/line-qr-kung.png" }]
-};
+/* Sales contact lives in agents/r2/contact.js, which unit pages do not load (they are shared by every agent).
+   Without it the contact is empty and nothing that would show it is drawn. */
+const CONTACT = (typeof window !== "undefined" && window.R2_CONTACT) || { address: { th: "", en: "" }, phones: [], emails: [], lines: [{ name: "", id: "", qr: "" }] };
 const lineUrl = id => `https://line.me/ti/p/~${id}`;
 /* One green LINE button everywhere; it opens the chooser with each salesperson's QR code. */
 const lineBtn = (cls, label) => `<a class="${cls}" href="${lineUrl(CONTACT.lines[0].id)}" data-line="1" target="_blank" rel="noopener">${label}</a>`;

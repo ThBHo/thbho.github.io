@@ -5,6 +5,7 @@ Run from the repo root:  python3 agents/r2/build.py
 - Edit styles in agents/r2/r2.css, data in data.js, text in text.js, the app in app.js; bump "version" in
   pages.json so phones fetch the new files, then run this script.
 - New unit page: add {"file": "Riviera2Resale-<CODE>.html", "vars": ..., "meta": [...]} to pages.json.
+- Sales contacts are in contact.js, loaded only by pages without window.UNIT_PAGE (unit pages are shared by every agent).
 - "frozen": true pages (the hidden unit 8A05) are left untouched.
 - Also writes agents/r2/feed.json (price, promotion price and live/off status per unit) for network members that
   co-sell R2 units (ASN: CO_LISTINGS in agents/asn/config.js). R2 is the master: a unit that is booked, sold or in
@@ -17,7 +18,7 @@ tpl = open(os.path.join(here, "shell.html"), encoding="utf-8").read()
 n = 0
 for p in cfg["pages"]:
     if p.get("frozen"): continue
-    html = tpl.replace("{{VARS}}", p["vars"]).replace("{{META}}", "\n".join(p["meta"])).replace("{{V}}", cfg["version"])
+    html = tpl.replace("{{VARS}}", p["vars"]).replace("{{META}}", "\n".join(p["meta"])).replace("{{CONTACT}}", "" if "UNIT_PAGE" in p["vars"] else '<script src="agents/r2/contact.js?v={{V}}"></script>\n').replace("{{V}}", cfg["version"])
     open(os.path.join(root, p["file"]), "w", encoding="utf-8").write(html); n += 1
 print(f"built {n} pages (version {cfg['version']})")
 
