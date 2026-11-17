@@ -182,5 +182,12 @@ Live sites (17 Nov 2026): R2 by Clare (agents/r2/app.js, PF_HOST), ASN (engine),
 (CoralReefSale-v2.html, PF_HOST: home panel and #matching; `groupKey` keeps one unit per stack and floor band).
 `host.opts.view` limits the views offered (a beach tower has no hill view).
 
+### Agents' registry (NetworkRegistry.html)
+Top 3 in both registry modes runs through `HAIP.rank` (`pfTop`), so an agent and a client get the same order.
+`pfOfClient()` turns a client record into the profile: buy/rent, budget band (its floor goes in `budgetMin`;
+homes far below the band rank lower), type, plan month (as timing), purpose, bedrooms, view, style, MBTI and
+birth date. "Personalized Matching ↗" and the Destiny links write that profile to the browser first, so the
+site's panel opens with this client's answers.
+
 Budget is one number shared by all sites: under 1,000,000 means monthly rent, otherwise purchase. A
 sale-only site ignores a rent budget (and the reverse) instead of showing nothing.

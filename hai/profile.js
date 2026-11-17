@@ -121,7 +121,9 @@
     for (const it of items) {
       let w = 0, s = 0; const why = []; let drop = false;
       const f = (wt, v, label) => { w += wt; s += wt * v; if (label && v >= .8 && why.length < 4) why.push(label); };
-      if (useBudget) { const pr = priceOf(it); if (pr == null) drop = true; else { const r = pr / p.budget; if (r <= 1) f(3, 1, tx(R.inBudget)); else if (r <= 1.1) f(3, .6, tx(R.near)); else if (r <= 1.25) f(3, .25); else drop = true; } }
+      if (useBudget) { const pr = priceOf(it); if (pr == null) drop = true; else { const r = pr / p.budget;
+        // a budget band (e.g. 20–50M from the agents' registry) also has a floor: homes far below it fit less
+        if (r <= 1 && p.budgetMin && pr < p.budgetMin) f(3, Math.max(.15, pr / p.budgetMin * .85)); else if (r <= 1) f(3, 1, tx(R.inBudget)); else if (r <= 1.1) f(3, .6, tx(R.near)); else if (r <= 1.25) f(3, .25); else drop = true; } }
       if (p.intent && it.intents && !it.intents.includes(p.intent)) drop = true;
       if (p.beds >= 0 && it.beds != null) f(2, it.beds === p.beds ? 1 : (p.beds === 4 && it.beds >= 4) ? 1 : it.beds > p.beds ? .6 : .15, tx(R.beds));
       if (p.zone && it.zone) f(2, it.zone === p.zone ? 1 : .3, tx(R.zone));
@@ -153,7 +155,7 @@
       const score = Math.round(Math.max(1, Math.min(cap, parts.reduce((a, x) => a + x[0] * x[1], 0) / tw * cap)));
       if (mw && m >= .65) why.unshift(mw);
       if (d != null && d >= .62) why.splice(1, 0, tx(R.ds));
-      out.push({ it, score, why: [...new Set(why)].slice(0, 4), pr: (bk && priceOf(it)) || (rentMode && it.prices && it.prices.rent) || it.price || 0 });
+      out.push({ it, score, why: [...new Set(why)].slice(0, 4), b: Math.round(base * 100), m: m == null ? null : Math.round(m * 100), d: d == null ? null : Math.round(d * 100), pr: (bk && priceOf(it)) || (rentMode && it.prices && it.prices.rent) || it.price || 0 });
     }
     return out.sort((a, b) => b.score - a.score || a.pr - b.pr);   // ties: cheaper first, in the price the client is looking at (rent or sale)
   }
@@ -258,7 +260,7 @@
       const c = e.target.closest("[data-pf]");
       if (c) { const k = c.dataset.pf, raw = c.dataset.v, v = k === "beds" ? +raw : raw;
         return upd(p => { if (k === "gender") p.birth.gender = p.birth.gender === v ? "" : v; else p[k] = String(p[k]) === String(v) ? (k === "beds" ? -1 : "") : v;
-          if (k === "intent" && p.intent && p.budget && (p.budget < 1e6 ? "rent" : "buy") !== p.intent) p.budget = 0;
+          if (k === "intent" && p.intent && p.budget && (p.budget < 1e6 ? "rent" : "buy") !== p.intent) { p.budget = 0; delete p.budgetMin; }
           if (k === "intent" && p.intent === "rent" && (p.purpose === "invest" || p.purpose === "rent")) p.purpose = "";
           st.shown = 3; }); }
       const l = e.target.closest("[data-pfl]");
@@ -272,7 +274,7 @@
     });
     el.addEventListener("change", e => {
       const s = e.target.closest("[data-pfsel]");
-      if (s) { const k = s.dataset.pfsel; if (k === "mbti") st.open.mbti = true; return upd(p => { p[k] = k === "budget" ? +s.value : s.value; st.shown = 3; }); }
+      if (s) { const k = s.dataset.pfsel; if (k === "mbti") st.open.mbti = true; return upd(p => { p[k] = k === "budget" ? +s.value : s.value; if (k === "budget") delete p.budgetMin; st.shown = 3; }); }
       const b = e.target.closest("[data-pfb]");
       if (b) { st.open.birth = true; return upd(p => { const k = b.dataset.pfb; p.birth[k] = k === "unk" ? b.checked : b.value; }); }
     });
