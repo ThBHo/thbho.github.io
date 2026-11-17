@@ -152,9 +152,9 @@
       const score = Math.round(Math.max(1, Math.min(cap, parts.reduce((a, x) => a + x[0] * x[1], 0) / tw * cap)));
       if (mw && m >= .65) why.unshift(mw);
       if (d != null && d >= .62) why.splice(1, 0, tx(R.ds));
-      out.push({ it, score, why: [...new Set(why)].slice(0, 4) });
+      out.push({ it, score, why: [...new Set(why)].slice(0, 4), pr: (bk && priceOf(it)) || (rentMode && it.prices && it.prices.rent) || it.price || 0 });
     }
-    return out.sort((a, b) => b.score - a.score || (a.it.price || 0) - (b.it.price || 0));
+    return out.sort((a, b) => b.score - a.score || a.pr - b.pr);   // ties: cheaper first, in the price the client is looking at (rent or sale)
   }
   const levels = p => [true, p.life.some(Boolean), !!p.mbti, !!p.birth.date];
 
