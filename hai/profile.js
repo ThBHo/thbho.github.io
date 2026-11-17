@@ -41,7 +41,7 @@
   const X = (th, en, ru, zh, ko, ja) => ({ th, en, ru, zh, ko, ja });
   const TX = {
     kicker: X("Personalized Matching", "Personalized Matching", "Personalized Matching", "Personalized Matching", "Personalized Matching", "Personalized Matching"),
-    title: X("หาที่ที่ใช่ เริ่มจากข้อมูลเท่าที่คุณมี", "Find the right home with whatever you know now", "Подберите жильё по тому, что вы знаете сейчас", "用你现在知道的信息，找到合适的家", "지금 아는 만큼만 알려 주세요, 맞는 집을 찾아 드립니다", "今わかることだけで、合う住まいを"),
+    title: X("หาบ้านที่ใช่ เริ่มจากข้อมูลเท่าที่คุณมี", "Find the right home with whatever you know now", "Подберите жильё по тому, что вы знаете сейчас", "用你现在知道的信息，找到合适的家", "지금 아는 만큼만 알려 주세요, 맞는 집을 찾아 드립니다", "今わかることだけで、合う住まいを"),
     sub: X("ตอบเท่าที่สะดวก ผลขึ้นทันที แล้วค่อยเพิ่มข้อมูลทีหลัง ระบบจะปรับผลให้แม่นขึ้นเอง", "Answer what you like and the results appear at once. Add more later and they sharpen on their own.", "Ответьте на что хотите — результат сразу. Добавите больше позже — подбор станет точнее.", "回答方便的问题即可立即看到结果，之后补充信息，结果会自动更精准。", "편한 것만 답하면 결과가 바로 나옵니다. 나중에 더 알려 주시면 결과가 더 정확해집니다.", "答えられる範囲でOK。すぐに結果が出て、あとから情報を足すほど精度が上がります。"),
     lv: [X("พื้นฐาน", "Basics", "Основное", "基本", "기본", "基本"), X("ไลฟ์สไตล์", "Lifestyle", "Образ жизни", "生活方式", "라이프스타일", "ライフスタイル"), X("MBTI", "MBTI", "MBTI", "MBTI", "MBTI", "MBTI"), X("วันเกิด", "Birth date", "Дата рождения", "生日", "생일", "生年月日")],
     using: X("ใช้ข้อมูล", "Using", "Учтено", "已用信息", "반영한 정보", "使った情報"),
