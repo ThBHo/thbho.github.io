@@ -322,7 +322,7 @@ const PF_HOST = {
   lang: () => lang, products: () => pfPool().map(pfItem), card: pfCard, money: v => money(v),
   fields: ["intent", "budget", "zone", "kind", "when", "purpose", "beds", "style"], extra: ["view", "floor", "furn", "quota"],
   get opts() { const zs = [...new Set(pfPool().map(l => l.zone))], ks = [...new Set(pfPool().map(l => pfItem(l).kind))];
-    return { budget: SITE.pfBudget || { rent: [70000, 90000, 120000, 150000, 500000], buy: [3e6, 5e6, 10e6, 20e6, 30e6, 70e6, 120e6] },
+    return { budget: SITE.pfBudget || { rent: [50000, 70000, 90000, 120000, 150000, 500000], buy: [3e6, 5e6, 10e6, 20e6, 30e6, 70e6, 120e6] },
       zone: Object.keys(ZONES).filter(z => zs.includes(z)).map(z => [z, ZONE_NAMES[z] || { en: z }]), kind: ["condo", "house", "villa"].filter(k => ks.includes(k)),
       beds: [1, 2, 3, 4], when: ["now", "q", "h", "y", "later"] }; },
   get TEXT() { return SITE.pfText || null; },
