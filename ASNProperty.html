@@ -143,10 +143,13 @@
 
   <section class="sec" id="land">
     <div class="wrap">
-      <div class="sec-hd"><div><p class="eyebrow" data-i18n="ldEyebrow">ที่ดิน</p><h2 data-i18n="ldTitle">ที่ดิน</h2><p data-i18n="ldSub"></p></div></div>
+      <!-- land section folded by default (Thor, 17 Nov 2026); +/- opens it, and #/land opens it too -->
+      <details class="ld-fold" id="ldFold">
+      <summary class="sec-hd"><div><p class="eyebrow" data-i18n="ldEyebrow">ที่ดิน</p><h2 data-i18n="ldTitle">ที่ดิน</h2><p data-i18n="ldSub"></p></div><span class="ld-pm" aria-hidden="true"></span></summary>
       <div class="ld-zones" id="ldZones"></div>
       <div class="grid" id="ldGrid" hidden></div>
       <div class="ld-cta" id="ldCta"></div>
+      </details>
     </div>
   </section>
 
@@ -331,6 +334,15 @@
 <script src="hai/i18n.js?v=20261104n1"></script>
 <script src="hai/regions/pattaya-eec.js?v=20261103c1"></script>
 <script src="agents/asn/listing-data.js?v=20261103c1"></script>
+<style>
+.ld-fold>summary{list-style:none;cursor:pointer;align-items:center;flex-wrap:nowrap}.ld-fold>summary>div{min-width:0}
+.ld-fold>summary::-webkit-details-marker{display:none}
+.ld-fold:not([open])>summary{margin-bottom:0}
+.ld-pm{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;font-size:22px;line-height:1}
+.ld-pm::before{content:"+"}.ld-fold[open] .ld-pm::before{content:"−"}
+.ld-fold>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}
+</style>
+<script>(function(){var f=document.getElementById("ldFold");function o(){if(location.hash==="#/land"||location.hash.indexOf("#/zone/")===0)f.open=true}o();addEventListener("hashchange",o)})();</script>
 <script src="hai/engine.js?v=20261117q"></script>
 </body>
 </html>
