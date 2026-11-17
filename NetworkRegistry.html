@@ -1164,8 +1164,8 @@ var MS={asn:{du:function(l){return "https://thbho.com/ASNProperty.html#/destiny/
 function lg(){var s=$("#lang");return s&&O[s.value]?s.value:"th"}
 function o(k,v){var s=(O[lang][k]!=null?O[lang][k]:O.th[k]);if(s==null)s=k;if(v)for(var x in v)s=String(s).split("{"+x+"}").join(v[x]==null?"":v[x]);return s}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function nm(r){return r==="asn"?"ASN Exclusive Property":r==="r2"?"R2 by Clare":o(r)}
-function ownerOf(c){return /^[HB]\d{2}$/.test(c)?"asn":/^\d{1,2}[A-E]\d{2}$/.test(c)?"r2":null}
+function nm(r){return r==="asn"?(CV?o("cvPa"):"ASN Exclusive Property"):r==="r2"?"R2 by Clare":o(r)}
+function ownerOf(c){return /^[HB]\d{2}$/.test(c)?(CV?null:"asn"):/^\d{1,2}[A-E]\d{2}$/.test(c)?"r2":null}
 function pad(n){return n<10?"0"+n:""+n}
 function fd(ms){var d=new Date(ms);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()}
 function fdt(ms){var d=new Date(ms);return fd(ms)+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
@@ -1319,7 +1319,7 @@ function render(){
  [].forEach.call(document.querySelectorAll("[data-o]"),function(el){el.textContent=o(el.getAttribute("data-o"))});
  $("#mNet").innerHTML=esc(o("mNet"))+"<small>"+esc(o("mNetS"))+"</small>";$("#mOwn").innerHTML=esc(o("mOwn"))+"<small>"+esc(o("mOwnS"))+"</small>";
  $("#mNet").setAttribute("aria-pressed",mode==="net");$("#mOwn").setAttribute("aria-pressed",mode==="own");
- if(mode!=="own")return;sweep();
+ if(mode!=="own")return;sweep();if(CV)cvChrome();
  document.documentElement.setAttribute("data-role",orole==="asn"||orole==="r2"?orole:"admin");
  $("#oRoles").innerHTML='<span class="sub" style="align-self:center">'+esc(o("viewAs"))+"</span>"+ROLES.map(function(r){return '<button type="button" data-orole="'+r+'" aria-pressed="'+(r===orole)+'">'+esc(nm(r))+"</button>"}).join("");
  $("#oWho").innerHTML="<b>"+esc(nm(orole))+"</b><span>"+esc(o(orole==="asn"?"wAsn":orole==="r2"?"wR2":orole==="admin"?"wAd":"wSa"))+"</span>";
@@ -1668,7 +1668,7 @@ function fitClients(h,kind,price,skipCode){var out=[],seen={},X=window.HAIX;
   var f=fitBand(price||p,l.budget);if(!f||!tyOk(h,(l.match||{}).type))return;out.push({ag:l.by,agN:nm(l.by),who:l.by===orole?l.name:maskN(l.name),id:l.id,need:o(l.intent)+" "+l.budget,f:f,l:l,b:l.budget})});
  try{var D=X&&X.db&&X.db();if(D&&D.clients)D.clients.forEach(function(c){if(c.arch||c.lost||c.next||!c.budget)return;if(!c.jobs.some(function(j){return j.m===h.site}))return;if(kind&&c.intent!==kind)return;
   var p=c.intent==="rent"?h.rent:h.sale,f=fitBand(price||p,c.budget);if(!f||!tyOk(h,(c.match||{}).type))return;
-  out.push({ag:"net:"+c.owner,agN:(c.owner===orole?o("nMine"):X.mname?X.mname(c.owner):c.owner)+" · "+o("nNet"),who:c.name?maskN(c.name):c.id,id:c.id,need:o(c.intent)+" "+c.budget,f:f,b:c.budget})})}catch(e){}
+  out.push({ag:"net:"+c.owner,agN:(c.owner===orole?o("nMine"):CV&&c.owner==="asn"?o("cvPa"):X.mname?X.mname(c.owner):c.owner)+" · "+o("nNet"),who:c.name?maskN(c.name):c.id,id:c.id,need:o(c.intent)+" "+c.budget,f:f,b:c.budget})})}catch(e){}
  return out}
 function groupAg(L){var G={},order=[];L.forEach(function(x){if(!G[x.ag]){G[x.ag]={n:x.agN,L:[]};order.push(x.ag)}G[x.ag].L.push(x)});return order.map(function(k){return {k:k,n:G[k].n,L:G[k].L}})}
 function tDropHtml(){var H=myHomes().filter(function(h){return h.sale||h.rent});if(!tDrop.code&&H[0])tDrop.code=H[0].code;var h=hByCode(tDrop.code);
@@ -1742,6 +1742,22 @@ document.addEventListener("change",function(e){if(mode!=="own")return;var t=e.ta
  if(t.id==="td-code"){tDrop.code=t.value;tDrop.kind="";tDrop.np="";tDrop.run=false;tools();return}if(t.id==="td-kind"){tDrop.kind=t.value;tDrop.run=false;tools();return}
  if(t.id==="tf-lg"){tFol.lg=t.value;tools();return}if(t.id==="tn-code"){tNew.code=t.value;tools();return}if(t.id==="tpay-m"){tPay.m=t.value;tools();return}});
 $("#oReset").addEventListener("click",function(){seed();oOpen={};pend=null;$("#oout").innerHTML="";otab="";render()});
+// Clare's view (?mode=owner&oas=r2, the demo sent with the Clare Pattaya Property tools proposal, 17 Nov 2026):
+// documents for Clare never name the other member, so it shows as "partner agent"; only R2 units and the
+// leads around them; no cross-city tab, no link or logo of the other member's site; its own demo storage.
+var CV=new URLSearchParams(location.search).get("oas")==="r2"&&new URLSearchParams(location.search).get("mode")==="owner";
+if(CV){
+ OKEY+="-r2";ROLES=["r2","sa1","sa2"];
+ O.th.cvPa="agent พันธมิตร";O.en.cvPa="Partner agent";
+ O.th.lede="โหมดนี้ใช้เมื่อเจ้าของทรัพย์เป็นคนจ่ายค่าคอม เช่น ห้องรีเซล The Riviera Jomtien (R2) ของ Clare Pattaya Property agent พันธมิตรหรือ sub-agent ลงทะเบียนลูกค้าพร้อมรหัสห้องก่อนพาดู Clare แค่กดอนุมัติ ระบบเก็บหลักฐานเวลา และคิดค่าแนะนำให้เมื่อปิดดีล";
+ O.en.lede="Use this mode when the listing holder pays the commission, like The Riviera Jomtien (R2) resale units of Clare Pattaya Property. Partner agents and sub-agents register the client and unit code before a viewing, Clare just approves, and the system keeps the timestamp and works out the referral fee when the deal closes.";
+ O.th.wR2="ห้องรีเซล The Riviera Jomtien ของ Clare Pattaya Property · จ่ายค่าคอมให้คนที่พาลูกค้ามา";
+ O.en.wR2="The Riviera Jomtien resale units of Clare Pattaya Property · pays the commission to whoever brings the client";
+ O.th.hNone="ใส่รหัสห้อง เช่น 8A03 หรือ 36E09";O.en.hNone="Enter a unit code, e.g. 8A03 or 36E09";
+ var seedAll=seed;seed=function(){seedAll();od.leads=od.leads.filter(function(l){return !!l.own});save()};
+ if(window.HAIX){var mxAll=HAIX.mxLoad;HAIX.mxLoad=function(){return mxAll.apply(this,arguments).then(function(r){HAIX.MX.homes=HAIX.MX.homes.filter(function(h){return h.site==="r2"});return r})}}
+}
+function cvChrome(){var mn=$("#mNet");if(mn)mn.hidden=true;var oc=$("#ocode");if(oc)oc.placeholder="8A03 · 36E09";[].forEach.call(document.querySelectorAll("#ocodes option"),function(x){if(/^[HB]\d{2}$/.test(x.value))x.remove()});[$("#role"),document.querySelector("label[for=role]")].forEach(function(e){if(e)e.hidden=true});var rl=$("#rlogo");if(rl){rl.className="rlogo";rl.innerHTML='<img src="riviera-img/logo-mark.png" alt="">';rl.href="https://thbho.com/Riviera2Resale.html";rl.title=rl.ariaLabel="R2 by Clare"}}
 if(!load())seed();
 var qs=new URLSearchParams(location.search);if(ROLES.indexOf(qs.get("oas"))>-1)orole=qs.get("oas");
 setMode(qs.get("mode")==="owner"?"own":"net",true);
