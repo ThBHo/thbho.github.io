@@ -21,6 +21,7 @@
      host.TEXT = { th:{title,sub,...}, en:{...} }   (optional wording per language)
      host.copy(items) -> text          (optional "copy list for the client")
      host.dsHome(item)                 (optional) engine-shaped home for destiny scoring
+     host.groupKey(item)               (optional) show only the best item per key, e.g. one unit per stack and floor band
    Item shape: { code, price, beds, zone, view:"sea"|"city"|"green"|"other", floor, furn, quota:"FR"|"TH",
                  styles:[keys], purpose:{live,holiday,invest,rent:0..1}, mbti:[types], ready,
                  kind:"condo"|"house"|"villa", intents:["buy","rent"], prices:{buy, rent} }
@@ -217,8 +218,10 @@
       if (p.intent === "rent" && k === "when") lb = esc(tx(TX.whenR));
       return `<div class="pf-f"><b>${lb}</b>${chips(k, keys.map(v => [v, tx(map[v])]), p[k])}</div>`;
     }
+    const ranked = p => { const r = rank(host.products(), p, host); if (!host.groupKey) return r; const seen = new Set();
+      return r.filter(x => { const k = host.groupKey(x.it); if (seen.has(k)) return false; seen.add(k); return true; }); };
     function render() {
-      const p = load(), lv = levels(p), items = host.products(), res = rank(items, p, host), list = res.slice(0, st.shown);
+      const p = load(), lv = levels(p), res = ranked(p), list = res.slice(0, st.shown);
       const letters = p.life, g = groupOf(letters), est = letters.every(Boolean) ? letters.join("") : "";
       const ds = window.ASND && ASND._test && host.dsHome;
       el.innerHTML = `<section class="pf" aria-labelledby="pfH">
@@ -264,7 +267,7 @@
       if (e.target.closest("[data-pfclear]")) { try { localStorage.removeItem(KEY); } catch (err) {} st.shown = 3; return render(); }
       if (e.target.closest("[data-pfds]")) { const p = load(); try { localStorage.setItem("hai-prefill", JSON.stringify({ t: Date.now(), date: p.birth.date, time: p.birth.unk ? "" : p.birth.time, unk: p.birth.unk || !p.birth.time, gender: p.birth.gender || "n" })); } catch (err) {} return; }
       const cp = e.target.closest("[data-pfcopy]");
-      if (cp) { const p = load(), txt = host.copy(rank(host.products(), p, host).slice(0, st.shown).map(r => r.it)); const done = () => { cp.textContent = tx(TX.copied); setTimeout(() => cp.textContent = tx(TX.copy), 1600); };
+      if (cp) { const p = load(), txt = host.copy(ranked(p).slice(0, st.shown).map(r => r.it)); const done = () => { cp.textContent = tx(TX.copied); setTimeout(() => cp.textContent = tx(TX.copy), 1600); };
         try { navigator.clipboard.writeText(txt).then(done, done); } catch (err) { done(); } }
     });
     el.addEventListener("change", e => {

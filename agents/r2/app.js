@@ -1307,7 +1307,7 @@ const PF_HOST = {
   card: pfCard, money: v => money(v),
   fields: ["budget", "when", "purpose", "beds", "view", "style"],
   extra: ["floor", "furn", "quota"],
-  opts: { budget: MX_BUDGETS.filter(Boolean), beds: [0, 1], purpose: ["live", "holiday", "invest", "rent"], when: ["now", "q", "h", "y", "later"] },
+  opts: { budget: MX_BUDGETS.filter(Boolean), beds: [0, 1], view: ["sea", "city"], purpose: ["live", "holiday", "invest", "rent"], when: ["now", "q", "h", "y", "later"] },
   get TEXT(){ return PF_TEXT; },
   dsHome: it => dsHome(it.u),
   destinyHref: () => destinyHref(),

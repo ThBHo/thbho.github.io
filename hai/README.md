@@ -178,5 +178,9 @@ purpose, bedrooms and style; view, floor, furniture and quota sit under "More op
 `#pfMatch` the older four-question form still works. Optional per site in config: `SITE.pfBudget =
 { rent:[...], buy:[...] }` and `SITE.pfText = { th:{title,sub}, en:{...} }`. Live on ASN since 17 Nov 2026.
 
+Live sites (17 Nov 2026): R2 by Clare (agents/r2/app.js, PF_HOST), ASN (engine), Copacabana Coral Reef
+(CoralReefSale-v2.html, PF_HOST: home panel and #matching; `groupKey` keeps one unit per stack and floor band).
+`host.opts.view` limits the views offered (a beach tower has no hill view).
+
 Budget is one number shared by all sites: under 1,000,000 means monthly rent, otherwise purchase. A
 sale-only site ignores a rent budget (and the reverse) instead of showing nothing.
