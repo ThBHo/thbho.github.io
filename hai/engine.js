@@ -288,9 +288,56 @@ function drawZones() {
   }
 }
 
-/* ---------- MBTI match ---------- */
+/* ---------- Personalized Matching (shared hai/profile.js) ----------
+   A page with <div id="pfMatch"> and hai/profile.js loaded gets the one-profile matcher: basics first
+   (buy or rent, budget, area, type, timing, purpose, bedrooms, style), then lifestyle, MBTI and birth date.
+   The answers live in localStorage "hai-profile", shared with every site on thbho.com.
+   Pages without #pfMatch keep the older four-question form below. */
+const PF_STYLE = { modern: ["modern"], classic: ["warm"], tropical: ["nature", "coastal"] };
+const PF_RE = [["coastal", /coastal|breez|blue|navy|ocean|sea|beach|resort|mediterran|santa maria/i], ["nature", /botanic|garden|fern|grove|natural|leaf|green|tropical|tuscan|oak/i],
+  ["calm", /calm|nordic|zen|minimal|quiet|soft|grey|gray|white|linen|neutral|glass/i], ["warm", /warm|cozy|hearth|golden|classic|colonial|family|comfort/i],
+  ["modern", /modern|monochrome|urban|loft|executive|duplex|shopfront/i], ["creative", /glam|sun|entertain|social|bright|play|joy/i]];
+const PF_BEACH = ["jomtien", "pratumnak", "najomtien", "southpattaya", "northpattaya"];
+function pfItem(l) {
+  const hs = HOME_STYLE[l.code] || {}, tg = l.tags || [], cx = [hs.title, hs.en && hs.en.concept].filter(Boolean).join(" ");
+  const kind = l.type === "condo" ? "condo" : (l.type === "villa" || l.pool === "private") ? "villa" : "house";
+  const st = [...new Set([...(PF_STYLE[l.style] || []), ...PF_RE.filter(([, re]) => re.test(cx)).map(([k]) => k)])].slice(0, 3);
+  const sea = tg.includes("seaView"), pool = l.pool === "private", big = (l.beds || 0) >= 3;
+  return { code: l.code, l, kind, zone: l.zone, beds: l.beds == null ? null : l.beds,
+    prices: { buy: l.sale || null, rent: l.rent || null }, price: l.sale || l.rent, intents: [l.sale && "buy", l.rent && "rent"].filter(Boolean),
+    view: sea ? "sea" : tg.includes("cityView") ? "city" : tg.includes("mountainView") ? "green" : "other",
+    floor: kind === "condo" ? parseInt(l.floor, 10) || null : null, furn: l.furn === "full" ? true : l.furn === "none" ? false : null,
+    quota: kind === "condo" && tg.includes("thaiQuota") ? "TH" : null, styles: st.length ? st : ["modern"], mbti: hs.mbti || [], ready: true,
+    purpose: { live: big || kind === "condo" ? .9 : .65, holiday: Math.min(1, (pool || sea ? .85 : .5) + (PF_BEACH.includes(l.zone) ? .1 : 0)),
+      invest: kind === "condo" ? .8 : l.sale && l.rent ? .75 : .45, rent: l.sale && l.rent ? 1 : kind === "condo" ? .75 : pool ? .6 : .4 } };
+}
+const pfPool = () => SHOWN().filter(l => l && l.type !== "land" && l.type !== "commercial" && (l.rent || l.sale));
+const pfPriceTxt = (l, p) => { const r = l.rent ? money(l.rent) + " " + t("perMonth") : "", s2 = l.sale ? money(l.sale) : "";
+  return (p && p.intent === "rent") || (p && p.budget && p.budget < 1e6) ? (r || s2) : (s2 || r); };
+function pfCard(it, r) {
+  const mt = `<div class="pf-meter"><b>${r.score}%</b><i><b style="width:${r.score}%"></b></i></div><div class="pf-why">${r.why.map(w => `<span>${esc(w)}</span>`).join("")}</div>`;
+  return card(it.l, false).replace('<div class="prices">', mt + '<div class="prices">');
+}
+const PF_HOST = {
+  lang: () => lang, products: () => pfPool().map(pfItem), card: pfCard, money: v => money(v),
+  fields: ["intent", "budget", "zone", "kind", "when", "purpose", "beds", "style"], extra: ["view", "floor", "furn", "quota"],
+  get opts() { const zs = [...new Set(pfPool().map(l => l.zone))], ks = [...new Set(pfPool().map(l => pfItem(l).kind))];
+    return { budget: SITE.pfBudget || { rent: [70000, 90000, 120000, 150000, 500000], buy: [3e6, 5e6, 10e6, 20e6, 30e6, 70e6, 120e6] },
+      zone: Object.keys(ZONES).filter(z => zs.includes(z)).map(z => [z, ZONE_NAMES[z] || { en: z }]), kind: ["condo", "house", "villa"].filter(k => ks.includes(k)),
+      beds: [1, 2, 3, 4], when: ["now", "q", "h", "y", "later"] }; },
+  get TEXT() { return SITE.pfText || null; },
+  dsHome: it => it.l, destinyHref: () => "#/destiny",
+  copy: items => { const p = window.HAIP ? HAIP.load() : null;
+    return [`${SITE.name}`, "", ...items.map((it, i) => `${i + 1}. ${ref(it.l.code)} ${nm(it.l)} · ${zn(it.l.zone)} · ${pfPriceTxt(it.l, p)}\n   ${listingUrl(it.l)}`)].join("\n"); }
+};
+let pfUI = null;
+const pfOn = () => !!(window.HAIP && $("#pfMatch"));
+function pfRender() { if (!pfUI) pfUI = HAIP.mount($("#pfMatch"), PF_HOST); else pfUI.render(); }
+
+/* ---------- MBTI match (older four-question form) ---------- */
 const mq = store.get(SITE.store + "mq", { q1: "E", q2: "S", q3: "F", q4: "J", deal: "any", budget: "", beds: 0 });
 function renderMatchForm() {
+  if (pfOn()) return pfRender();
   const Q = [["q1", "E", "I"], ["q2", "S", "N"], ["q3", "T", "F"], ["q4", "J", "P"]];
   $("#mq").innerHTML = Q.map(([k, a, b]) => `<div class="mq"><p>${t(k)}</p><div class="opts">
     <button type="button" data-mq="${k}" data-v="${a}" aria-pressed="${mq[k] === a}">${t(k + "a")}</button>
@@ -1679,9 +1726,9 @@ $("#fPool").addEventListener("click", () => { st.pool = !st.pool; $("#fPool").se
 $("#vGrid").addEventListener("click", () => { st.view = "grid"; renderList(); });
 $("#vTable").addEventListener("click", () => { st.view = "table"; renderList(); });
 $("#reset").addEventListener("click", () => { Object.assign(st, { deal: "any", type: "", zone: "", budget: "", beds: 0, pool: false, sort: "rec", q: "" }); fillFilters(); renderList(); drawZones(); });
-$("#mDeal").addEventListener("change", e => { mq.deal = e.target.value; mq.budget = ""; store.set(SITE.store + "mq", mq); renderMatchForm(); });
-$("#mBudget").addEventListener("change", e => { mq.budget = e.target.value; store.set(SITE.store + "mq", mq); renderMatch(); });
-$("#mBeds").addEventListener("change", e => { mq.beds = +e.target.value; store.set(SITE.store + "mq", mq); renderMatch(); });
+$("#mDeal")?.addEventListener("change", e => { mq.deal = e.target.value; mq.budget = ""; store.set(SITE.store + "mq", mq); renderMatchForm(); });
+$("#mBudget")?.addEventListener("change", e => { mq.budget = e.target.value; store.set(SITE.store + "mq", mq); renderMatch(); });
+$("#mBeds")?.addEventListener("change", e => { mq.beds = +e.target.value; store.set(SITE.store + "mq", mq); renderMatch(); });
 $("#bookForm").addEventListener("submit", e => {
   e.preventDefault();
   const msg = bookMessage();

@@ -16,18 +16,23 @@
      host.products()                   items in the shape below
      host.card(item, res, rank)        the site's own card HTML (res = {score, why[]})
      host.fields                       basics to ask, e.g. ["budget","when","purpose","style","beds","view"]
-     host.opts = { budget:[3e6,...], zone:[["jomtien",{th,en..}],...], style:[keys], beds:[0,1,2] }
+                                       (all: intent budget zone kind when purpose beds style view floor furn quota)
+     host.opts = { budget:[3e6,...] or {buy:[...], rent:[...]}, zone:[["jomtien",{th,en..}],...], style:[keys], beds:[0,1,2], kind:[keys] }
      host.TEXT = { th:{title,sub,...}, en:{...} }   (optional wording per language)
      host.copy(items) -> text          (optional "copy list for the client")
      host.dsHome(item)                 (optional) engine-shaped home for destiny scoring
-   Item shape: { code, price, beds, zone, view:"sea"|"city", floor, furn, quota:"FR"|"TH",
-                 styles:[keys], purpose:{live,holiday,invest,rent:0..1}, mbti:[types], ready }
+   Item shape: { code, price, beds, zone, view:"sea"|"city"|"green"|"other", floor, furn, quota:"FR"|"TH",
+                 styles:[keys], purpose:{live,holiday,invest,rent:0..1}, mbti:[types], ready,
+                 kind:"condo"|"house"|"villa", intents:["buy","rent"], prices:{buy, rent} }
+   Budget: one number in the profile. Under 1,000,000 it is a monthly rent budget, otherwise a
+   purchase budget, so a client who set a rent budget on one site and opens a sale-only site
+   simply sees that site's results without the budget (and the other way round).
    ===================================================================== */
 (function () {
   "use strict";
   const KEY = "hai-profile", LANGS = ["th", "en", "ru", "zh", "ko", "ja"];
   const MBTI16 = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
-  const blank = () => ({ v: 1, intent: "", budget: 0, zone: "", when: "", purpose: "", style: "", beds: -1,
+  const blank = () => ({ v: 1, intent: "", budget: 0, zone: "", kind: "", when: "", purpose: "", style: "", beds: -1,
     view: "", floor: "", furn: "", quota: "", life: ["", "", "", ""], mbti: "", birth: { date: "", time: "", unk: false, gender: "" } });
   const load = () => { try { const p = JSON.parse(localStorage.getItem(KEY) || "null"); return p && p.v === 1 ? Object.assign(blank(), p, { birth: Object.assign(blank().birth, p.birth || {}) }) : blank(); } catch (e) { return blank(); } };
   const save = p => { try { p.t = Date.now(); localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} };
@@ -44,6 +49,11 @@
     intent: X("ต้องการ", "Looking to", "Цель", "需求", "목적", "目的"), buy: X("ซื้อ", "Buy", "Купить", "购买", "매매", "購入"), rent: X("เช่า", "Rent", "Аренда", "租赁", "임대", "賃貸"),
     budget: X("งบสูงสุด", "Budget up to", "Бюджет до", "预算上限", "최대 예산", "予算の上限"),
     zone: X("ทำเล", "Area", "Район", "区域", "지역", "エリア"),
+    kind: X("ประเภท", "Property type", "Тип жилья", "房产类型", "유형", "物件タイプ"),
+    kindO: { condo: X("คอนโด", "Condo", "Кондо", "公寓", "콘도", "コンドミニアム"), house: X("บ้าน", "House", "Дом", "独栋住宅", "단독주택", "一戸建て"), villa: X("พูลวิลล่า", "Pool villa", "Вилла с бассейном", "泳池别墅", "풀빌라", "プールヴィラ") },
+    mo: X("เดือน", "mo", "мес.", "月", "월", "月"), budRent: X("ค่าเช่าต่อเดือน", "Monthly rent", "Аренда в месяц", "月租", "월 임대료", "月額家賃"), budBuy: X("ราคาซื้อ", "Purchase price", "Цена покупки", "购买价格", "매매가", "購入価格"),
+    whenR: X("ช่วงเวลาที่จะเข้าอยู่", "When you plan to move in", "Когда планируете въехать", "计划入住时间", "입주 예정 시기", "入居の予定時期"),
+    purposeR: X("เช่าเพื่อ", "Renting for", "Аренда для", "租房用途", "임대 용도", "借りる目的"),
     when: X("ช่วงเวลาที่วางแผนจะซื้อ/โอน", "When you plan to buy / transfer", "Когда планируете покупку", "计划购买/过户时间", "구매·이전 예정 시기", "購入・名義変更の予定時期"),
     whenO: { now: X("ภายใน 1 เดือน", "Within a month", "В течение месяца", "1个月内", "1개월 이내", "1か月以内"), q: X("1–3 เดือน", "1–3 months", "1–3 месяца", "1–3个月", "1–3개월", "1〜3か月"), h: X("3–6 เดือน", "3–6 months", "3–6 месяцев", "3–6个月", "3–6개월", "3〜6か月"), y: X("6–12 เดือน", "6–12 months", "6–12 месяцев", "6–12个月", "6–12개월", "6〜12か月"), later: X("ยังไม่รีบ", "No rush", "Не спешу", "不着急", "급하지 않음", "急いでいない") },
     purpose: X("ซื้อไปเพื่อ", "Buying to", "Для чего", "用途", "용도", "目的"),
@@ -52,7 +62,7 @@
     styleO: { modern: X("โมเดิร์น เออร์เบิน", "Modern, urban", "Современный", "现代都市", "모던·어반", "モダン"), coastal: X("ทะเล รีสอร์ต", "Coastal, resort", "Морской, курортный", "海岸度假", "코스탈·리조트", "海辺・リゾート"), calm: X("มินิมอล เรียบสงบ", "Minimal, calm", "Минимализм, спокойствие", "极简宁静", "미니멀·차분함", "ミニマル・静か"), warm: X("อบอุ่น คลาสสิก", "Warm, classic", "Тёплый, классика", "温馨经典", "따뜻함·클래식", "温かみ・クラシック"), nature: X("ธรรมชาติ ต้นไม้", "Nature, greenery", "Природа, зелень", "自然绿意", "자연·식물", "自然・グリーン"), creative: X("สดใส สร้างสรรค์", "Bright, creative", "Яркий, творческий", "明亮创意", "밝고 개성 있게", "明るく個性的") },
     beds: X("ห้องนอน", "Bedrooms", "Спальни", "卧室", "침실", "寝室"),
     bedsO: [X("สตูดิโอ", "Studio", "Студия", "开间", "스튜디오", "スタジオ"), X("1 ห้องนอน", "1 bed", "1 спальня", "1卧", "침실 1", "1寝室"), X("2 ห้องนอน", "2 beds", "2 спальни", "2卧", "침실 2", "2寝室"), X("3 ห้องนอน", "3 beds", "3 спальни", "3卧", "침실 3", "3寝室"), X("4+ ห้องนอน", "4+ beds", "4+ спальни", "4卧以上", "침실 4+", "4寝室以上")],
-    view: X("วิว", "View", "Вид", "景观", "전망", "眺望"), viewO: { sea: X("วิวทะเล", "Sea view", "Вид на море", "海景", "바다 전망", "海の眺め"), city: X("วิวเมือง", "City view", "Вид на город", "城市景观", "시티 뷰", "街の眺め") },
+    view: X("วิว", "View", "Вид", "景观", "전망", "眺望"), viewO: { sea: X("วิวทะเล", "Sea view", "Вид на море", "海景", "바다 전망", "海の眺め"), city: X("วิวเมือง", "City view", "Вид на город", "城市景观", "시티 뷰", "街の眺め"), green: X("วิวภูเขา สีเขียว", "Hills, greenery", "Горы, зелень", "山景绿意", "산·녹지 전망", "山・緑の眺め") },
     floor: X("ความสูงชั้น", "Floor", "Этаж", "楼层", "층", "階数"), floorO: { low: X("ชั้นต่ำ", "Low", "Низкий", "低层", "저층", "低層"), mid: X("ชั้นกลาง", "Middle", "Средний", "中层", "중층", "中層"), high: X("ชั้นสูง", "High", "Высокий", "高层", "고층", "高層") },
     furn: X("เฟอร์นิเจอร์", "Furniture", "Мебель", "家具", "가구", "家具"), furnO: { yes: X("พร้อมเข้าอยู่", "Move-in ready", "Готово к заселению", "拎包入住", "바로 입주", "すぐ入居可"), no: X("ไม่จำเป็น", "Not needed", "Не обязательно", "不需要", "필요 없음", "不要") },
     quota: X("ชื่อผู้ซื้อ", "Buyer's quota", "Квота покупателя", "购房配额", "구매자 쿼터", "購入者の枠"), quotaO: { FR: X("โควตาต่างชาติ", "Foreign quota", "Иностранная квота", "外籍配额", "외국인 쿼터", "外国人枠"), TH: X("ชื่อคนไทย", "Thai name", "Тайское имя", "泰籍名下", "태국인 명의", "タイ人名義") },
@@ -75,7 +85,8 @@
     detail: X("ดูวิเคราะห์ดวงและฮวงจุ้ยละเอียด", "See the full chart and feng shui", "Полный разбор гороскопа и фэншуй", "查看完整命盘与风水分析", "사주·풍수 자세히 보기", "命式と風水を詳しく見る"),
     r: {
       inBudget: X("อยู่ในงบ", "Within budget", "В бюджете", "预算内", "예산 내", "予算内"), near: X("เกินงบเล็กน้อย", "Just over budget", "Чуть выше бюджета", "略超预算", "예산 약간 초과", "予算を少し超える"),
-      beds: X("ห้องนอนตรง", "Right bedrooms", "Нужное число спален", "卧室数符合", "침실 수 일치", "寝室数が合う"), sea: X("วิวทะเล", "Sea view", "Вид на море", "海景", "바다 전망", "海の眺め"), city: X("วิวเมือง", "City view", "Вид на город", "城市景观", "시티 뷰", "街の眺め"),
+      beds: X("ห้องนอนตรง", "Right bedrooms", "Нужное число спален", "卧室数符合", "침실 수 일치", "寝室数が合う"), sea: X("วิวทะเล", "Sea view", "Вид на море", "海景", "바다 전망", "海の眺め"), city: X("วิวเมือง", "City view", "Вид на город", "城市景观", "시티 뷰", "街の眺め"), green: X("วิวภูเขา สีเขียว", "Hills, greenery", "Горы, зелень", "山景绿意", "산·녹지 전망", "山・緑の眺め"),
+      kind: X("ประเภทตรง", "Right type", "Нужный тип", "类型符合", "원하는 유형", "希望のタイプ"), readyIn: X("เข้าอยู่ได้ทันที", "Ready to move in", "Можно въезжать", "可立即入住", "즉시 입주 가능", "すぐ入居可"),
       floor: X("ชั้นตามที่ชอบ", "Preferred floor", "Нужный этаж", "理想楼层", "원하는 층", "希望の階"), furn: X("พร้อมเข้าอยู่", "Move-in ready", "Готово к заселению", "拎包入住", "바로 입주", "すぐ入居可"), quota: X("ตรงโควตา", "Quota fits", "Квота подходит", "配额符合", "쿼터 적합", "枠が合う"),
       zone: X("ทำเลตรง", "Right area", "Нужный район", "区域符合", "원하는 지역", "希望エリア"), ready: X("พร้อมโอนทันที", "Ready to transfer", "Готово к переоформлению", "可立即过户", "즉시 이전 가능", "すぐ名義変更可"),
       purpose: X("เหมาะกับ", "Good for:", "Подходит:", "适合", "용도:", "向き:"), style: X("สไตล์", "Style:", "Стиль:", "风格", "스타일:", "スタイル:"),
@@ -101,20 +112,26 @@
     let C = null; if (hasB) { try { C = ASND._test.chart({ date: p.birth.date, time: p.birth.unk ? "" : p.birth.time, city: "bkk", gender: p.birth.gender || "n" }); } catch (e) { C = null; } }
     const L = host.lang(), tx = o => (o && (o[L] || o.en)) || "", R = TX.r;
     const out = [];
+    // budget: under 1M = monthly rent, otherwise purchase. An item's price for that kind comes from it.prices,
+    // or it.price for a buy budget. A site with no price of that kind ignores the budget instead of dropping everything.
+    const bk = p.budget ? (p.budget < 1e6 ? "rent" : "buy") : "", rentMode = p.intent === "rent" || bk === "rent";
+    const priceOf = it => it.prices ? (it.prices[bk] != null ? it.prices[bk] : null) : (bk === "buy" ? it.price : null);
+    const useBudget = bk && items.some(it => priceOf(it) != null);
     for (const it of items) {
       let w = 0, s = 0; const why = []; let drop = false;
       const f = (wt, v, label) => { w += wt; s += wt * v; if (label && v >= .8 && why.length < 4) why.push(label); };
-      if (p.budget && it.price) { const r = it.price / p.budget; if (r <= 1) f(3, 1, tx(R.inBudget)); else if (r <= 1.1) f(3, .6, tx(R.near)); else if (r <= 1.25) f(3, .25); else drop = true; }
+      if (useBudget) { const pr = priceOf(it); if (pr == null) drop = true; else { const r = pr / p.budget; if (r <= 1) f(3, 1, tx(R.inBudget)); else if (r <= 1.1) f(3, .6, tx(R.near)); else if (r <= 1.25) f(3, .25); else drop = true; } }
       if (p.intent && it.intents && !it.intents.includes(p.intent)) drop = true;
       if (p.beds >= 0 && it.beds != null) f(2, it.beds === p.beds ? 1 : (p.beds === 4 && it.beds >= 4) ? 1 : it.beds > p.beds ? .6 : .15, tx(R.beds));
       if (p.zone && it.zone) f(2, it.zone === p.zone ? 1 : .3, tx(R.zone));
+      if (p.kind && it.kind) f(2, it.kind === p.kind ? 1 : (p.kind !== "condo" && it.kind !== "condo") ? .6 : .15, tx(R.kind));
       if (p.view && it.view) f(2, it.view === p.view ? 1 : .25, tx(R[it.view]));
       if (p.floor && it.floor) { const b = floorBand(it.floor); f(1, b === p.floor ? 1 : (b === "mid" || p.floor === "mid") ? .55 : .2, tx(R.floor)); }
       if (p.furn === "yes" && it.furn != null) f(1.2, it.furn ? 1 : .2, tx(R.furn));
       if (p.quota && it.quota) { if (p.quota === "FR" && it.quota !== "FR") drop = true; else f(1.5, 1, tx(R.quota)); }
-      if (p.purpose && it.purpose) f(2, it.purpose[p.purpose] != null ? it.purpose[p.purpose] : .5, tx(R.purpose) + " " + tx(TX.purposeO[p.purpose]));
+      if (p.purpose && it.purpose && !(rentMode && (p.purpose === "invest" || p.purpose === "rent"))) f(2, it.purpose[p.purpose] != null ? it.purpose[p.purpose] : .5, tx(R.purpose) + " " + tx(TX.purposeO[p.purpose]));
       if (p.style && it.styles) f(1.5, it.styles.includes(p.style) ? 1 : .3, tx(R.style) + " " + tx(TX.styleO[p.style]));
-      if (p.when && it.ready != null) f(.6, (p.when === "now" || p.when === "q") ? (it.ready ? 1 : .4) : .8, (p.when === "now" || p.when === "q") && it.ready ? tx(R.ready) : "");
+      if (p.when && it.ready != null) f(.6, (p.when === "now" || p.when === "q") ? (it.ready ? 1 : .4) : .8, (p.when === "now" || p.when === "q") && it.ready ? tx(rentMode ? R.readyIn : R.ready) : "");
       const base = w ? s / w : .6;
       // personality
       let m = null, mw = "";
@@ -131,7 +148,8 @@
       if (drop) continue;
       const parts = [[base, .5], [m, .27], [d, .23]].filter(x => x[0] != null), tw = parts.reduce((a, x) => a + x[1], 0);
       const layers = 1 + (known ? 1 : 0) + (p.mbti ? 1 : 0) + (d != null ? 1 : 0), cap = [80, 86, 92, 97][layers - 1];
-      const score = Math.round(Math.max(1, Math.min(cap, parts.reduce((a, x) => a + x[0] * x[1], 0) / tw * 100)));
+      // scaled inside the cap (not clipped), so good matches still differ and a perfect fit on basics alone reads 80%
+      const score = Math.round(Math.max(1, Math.min(cap, parts.reduce((a, x) => a + x[0] * x[1], 0) / tw * cap)));
       if (mw && m >= .65) why.unshift(mw);
       if (d != null && d >= .62) why.splice(1, 0, tx(R.ds));
       out.push({ it, score, why: [...new Set(why)].slice(0, 4) });
@@ -178,15 +196,26 @@
     const money = v => host.money ? host.money(v) : "฿" + (v >= 1e6 ? (v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 }) + "M" : v.toLocaleString("en-US"));
     function field(k, p) {
       const O = host.opts || {}, lab = esc(H(k));
-      if (k === "budget") return `<label class="pf-f"><b>${lab}</b><select data-pfsel="budget"><option value="0">${tx(TX.any)}</option>${(O.budget || []).map(v => `<option value="${v}"${+p.budget === v ? " selected" : ""}>≤ ${esc(money(v))}</option>`).join("")}</select></label>`;
+      if (k === "budget") {
+        // one list, or {buy, rent}: the client's intent picks the list; with no intent both show in groups.
+        // A budget set on another site that is not in this list is added, so the select never hides it.
+        const B = O.budget || [], kindOf = v => v < 1e6 ? "rent" : "buy", cur = +p.budget || 0;
+        const lists = Array.isArray(B) ? [["", B]] : (p.intent === "rent" ? [["", B.rent || []]] : p.intent === "buy" ? [["", B.buy || []]] : [["rent", B.rent || []], ["buy", B.buy || []]]);
+        const optsOf = (vs, kk) => { vs = vs.slice(); if (cur && !vs.includes(cur) && vs.length && kindOf(vs[0]) === kindOf(cur) && (!kk || kk === kindOf(cur))) { vs.push(cur); vs.sort((a, b) => a - b); }
+          return vs.map(v => `<option value="${v}"${cur === v ? " selected" : ""}>≤ ${esc(money(v))}${kindOf(v) === "rent" ? " / " + esc(tx(TX.mo)) : ""}</option>`).join(""); };
+        return `<label class="pf-f"><b>${lab}</b><select data-pfsel="budget"><option value="0">${tx(TX.any)}</option>${lists.map(([g, vs]) => g ? `<optgroup label="${esc(tx(g === "rent" ? TX.budRent : TX.budBuy))}">${optsOf(vs, g)}</optgroup>` : optsOf(vs, "")).join("")}</select></label>`;
+      }
       if (k === "intent") return `<div class="pf-f"><b>${lab}</b>${chips("intent", [["buy", tx(TX.buy)], ["rent", tx(TX.rent)]], p.intent)}</div>`;
       if (k === "zone") return `<label class="pf-f"><b>${lab}</b><select data-pfsel="zone"><option value="">${tx(TX.any)}</option>${(O.zone || []).map(([v, n]) => `<option value="${esc(v)}"${p.zone === v ? " selected" : ""}>${esc(tx(n))}</option>`).join("")}</select></label>`;
+      if (k === "kind") return `<div class="pf-f"><b>${lab}</b>${chips("kind", (O.kind || Object.keys(TX.kindO)).map(v => [v, tx(TX.kindO[v])]), p.kind)}</div>`;
       if (k === "beds") return `<div class="pf-f"><b>${lab}</b>${chips("beds", (O.beds || [0, 1, 2, 3, 4]).map(n => [n, tx(TX.bedsO[n])]), p.beds)}</div>`;
       if (k === "style") return `<div class="pf-f"><b>${lab}</b>${chips("style", (O.style || Object.keys(TX.styleO)).map(s => [s, tx(TX.styleO[s])]), p.style)}</div>`;
       const map = { when: TX.whenO, purpose: TX.purposeO, view: TX.viewO, floor: TX.floorO, furn: TX.furnO, quota: TX.quotaO }[k];
       if (!map) return "";
-      const keys = (O[k] || Object.keys(map));
-      return `<div class="pf-f"><b>${lab}</b>${chips(k, keys.map(v => [v, tx(map[v])]), p[k])}</div>`;
+      let keys = (O[k] || Object.keys(map)), lb = lab;
+      if (p.intent === "rent" && k === "purpose") { keys = keys.filter(v => v === "live" || v === "holiday"); lb = esc(tx(TX.purposeR)); }
+      if (p.intent === "rent" && k === "when") lb = esc(tx(TX.whenR));
+      return `<div class="pf-f"><b>${lb}</b>${chips(k, keys.map(v => [v, tx(map[v])]), p[k])}</div>`;
     }
     function render() {
       const p = load(), lv = levels(p), items = host.products(), res = rank(items, p, host), list = res.slice(0, st.shown);
@@ -225,7 +254,10 @@
     el.addEventListener("click", e => {
       const c = e.target.closest("[data-pf]");
       if (c) { const k = c.dataset.pf, raw = c.dataset.v, v = k === "beds" ? +raw : raw;
-        return upd(p => { if (k === "gender") p.birth.gender = p.birth.gender === v ? "" : v; else p[k] = String(p[k]) === String(v) ? (k === "beds" ? -1 : "") : v; st.shown = 3; }); }
+        return upd(p => { if (k === "gender") p.birth.gender = p.birth.gender === v ? "" : v; else p[k] = String(p[k]) === String(v) ? (k === "beds" ? -1 : "") : v;
+          if (k === "intent" && p.intent && p.budget && (p.budget < 1e6 ? "rent" : "buy") !== p.intent) p.budget = 0;
+          if (k === "intent" && p.intent === "rent" && (p.purpose === "invest" || p.purpose === "rent")) p.purpose = "";
+          st.shown = 3; }); }
       const l = e.target.closest("[data-pfl]");
       if (l) { st.open.life = true; return upd(p => { const i = +l.dataset.pfl; p.life[i] = p.life[i] === l.dataset.v ? "" : l.dataset.v; }); }
       if (e.target.closest("[data-pfmore]")) { st.shown = st.shown > 3 ? 3 : 6; return render(); }

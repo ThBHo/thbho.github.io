@@ -169,3 +169,14 @@ Thor: the client fills in their details once; every matching page shows the Top 
 - Score = basics 50% + personality 27% + chart 23%, renormalised over the layers present; the ceiling rises with each layer (80 → 86 → 92 → 97%) so a basics-only match never claims near-certainty.
 - A site calls `HAIP.mount(el, host)`; `host` gives `lang()`, `products()` (items `{code, price, beds, zone, view, floor, furn, quota, styles, purpose{live,holiday,invest,rent}, mbti[], ready}`), `card(item,res,rank)`, `fields`, `opts`, optional `TEXT`, `copy()`, `dsHome()`, `destinyHref()`, `money()`. Theme with `--pf-accent --pf-border --pf-surface --pf-soft-bg --pf-muted --pf-on`.
 - Live on R2 (home page + matching page, replacing the Room Matcher form; sale only in Jomtien, so no buy/rent or area). Next: ASN (simple first step fits Moshi's "keep it simple"), Coral Reef, NetworkRegistry Top 3, then non-property products with the same item shape.
+
+### Sites on the shared engine (hai/engine.js)
+An engine site gets the panel by putting `<div id="pfMatch"></div>` in its match section and loading
+`hai/profile.js` before `hai/engine.js`. The engine builds the items from its own listings (rent and sale
+prices, type, zone, view, HOME_STYLE MBTI, destiny scoring) and asks buy/rent, budget, area, type, timing,
+purpose, bedrooms and style; view, floor, furniture and quota sit under "More options". Without
+`#pfMatch` the older four-question form still works. Optional per site in config: `SITE.pfBudget =
+{ rent:[...], buy:[...] }` and `SITE.pfText = { th:{title,sub}, en:{...} }`. Live on ASN since 17 Nov 2026.
+
+Budget is one number shared by all sites: under 1,000,000 means monthly rent, otherwise purchase. A
+sale-only site ignores a rent budget (and the reverse) instead of showing nothing.
