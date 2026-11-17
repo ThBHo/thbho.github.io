@@ -962,7 +962,7 @@ function renderMatchingPage(){
       <div class="ar-swatch">${Object.keys(MBTI_GROUPS).map(g => `<i class="g-${g}"></i>`).join("")}</div>
     </header>
 
-    ${matcherHTML()}
+    <div id="pfMatchPage"></div>
 
     <section class="ar-sec">
       <h2>${a.whyH}</h2>
@@ -1039,7 +1039,7 @@ function renderMatchingPage(){
       <ol class="ar-refs">${MATCHING_REFS.map(r => `<li id="ref-${r.id}">${r.cite} <a href="${r.url}" target="_blank" rel="noopener">${a.readMore} ↗</a></li>`).join("")}</ol>
     </section>
   </div>`;
-  renderMatches();
+  mountPF("pfMatchPage");
   if (window.LIKit) LIKit.types(document.getElementById("lkTypes"), lkBase());
   document.title = `Personalized Matching — ${a.title}`;
 }
@@ -1263,6 +1263,58 @@ document.addEventListener("change", e => {
   mx[sel.dataset.mxsel] = sel.dataset.mxsel === "budget" ? +sel.value : sel.value;
   mx.shown = 12; renderMatches();
 });
+
+/* ===================================================================
+   PERSONALIZED MATCHING (shared hai/profile.js)
+   One client profile for every page on thbho.com: basics first, then lifestyle,
+   MBTI and birth date. R2 is one resale building in Jomtien, sale only, so it
+   asks budget, transfer timing, purpose, style, bedrooms, view, floor,
+   furniture and quota instead of buy/rent and area. Shown on the home page and
+   the matching page (it replaces the old Room Matcher form).
+   =================================================================== */
+const PF_TEXT = {
+  th: { title: "หาห้องที่ใช่ใน The Riviera Jomtien" }, en: { title: "Find your unit at The Riviera Jomtien" },
+  ru: { title: "Подберите квартиру в The Riviera Jomtien" }, zh: { title: "在 The Riviera Jomtien 找到适合你的房源" },
+  ko: { title: "The Riviera Jomtien에서 나에게 맞는 유닛 찾기" }, ja: { title: "The Riviera Jomtien であなたに合う部屋を" }
+};
+const PF_STYLE_KEYS = [["coastal", /coastal|breez|blue|navy|sea|beach|riviera|marine/i], ["nature", /botanic|garden|fern|grove|natural|leaf|green/i],
+  ["calm", /calm|nordic|zen|minimal|pearl|silver|white|linen|oat|slate|soft/i], ["warm", /warm|cozy|hearth|golden|classic|champagne|amber/i],
+  ["modern", /modern|executive|urban|charcoal|study|loft|showroom|ember|strateg|boutique|signature/i], ["creative", /joy|blush|atelier|daydream|crystal|bright|play/i]];
+const pfStyles = u => { const st = UNIT_STORIES[u.unit], c = st && st.en && st.en.concept ? st.en.concept.title + " " + (st.en.concept.text || "") : "";
+  const k = PF_STYLE_KEYS.filter(([, re]) => re.test(c)).map(([k]) => k); return k.length ? k.slice(0, 2) : ["modern"]; };
+let PF_MED = 0;
+const pfItem = u => {
+  if (!PF_MED){ const a = dsUnits().map(perSqm).sort((x, y) => x - y); PF_MED = a[Math.floor(a.length / 2)] || 1; }
+  const sea = u.view === "Sea View", full = u.furniture === "Fully Furnished", one = u.type === "1 BED", cheap = perSqm(u) <= PF_MED;
+  return { code: u.unit, u, price: sell(u), beds: one ? 1 : 0, zone: "jomtien", view: sea ? "sea" : "city", floor: +u.floor,
+    furn: isFurnished(u), quota: u.quota, styles: pfStyles(u), mbti: (UNIT_STORIES[u.unit] || {}).mbti || [], ready: true,
+    purpose: { live: one ? (u.sqm >= 35 ? 1 : .8) : .5, holiday: (sea ? .7 : .4) + (full ? .3 : 0), invest: (cheap ? .6 : .3) + (u.promoPrice ? .3 : 0) + (one ? 0 : .1),
+               rent: (isFurnished(u) ? .55 : .25) + (sea || u.seaSite ? .3 : .1) + (cheap ? .1 : 0) } };
+};
+const pfCard = (it, r) => { const u = it.u;
+  return `<a class="hcard" href="${unitHref(u.unit)}">
+    <div class="shot">${shot(u)}<div class="badges">${badges(u)}</div></div>
+    <div class="hbody">
+      <div class="utop"><span class="ucode">${u.unit}</span><span class="usub">${t("floorWord")} ${u.floor} · ${t(typeLabel(u))} · ${sqmFmt(u.sqm)} ${t("thSqm")}</span></div>
+      ${storyOf(u.unit) ? `<div class="mx-name">${storyOf(u.unit).name}</div>` : ""}
+      <div class="pf-meter"><b>${r.score}%</b><i><b style="width:${r.score}%"></b></i></div>
+      <div class="pf-why">${r.why.map(w => `<span>${w}</span>`).join("")}</div>
+      <div class="hnow${u.promoPrice ? "" : " plain"}">${money(sell(u))}</div>
+    </div></a>`; };
+const PF_HOST = {
+  lang: () => lang,
+  products: () => dsUnits().map(pfItem),
+  card: pfCard, money: v => money(v),
+  fields: ["budget", "when", "purpose", "beds", "view", "style"],
+  extra: ["floor", "furn", "quota"],
+  opts: { budget: MX_BUDGETS.filter(Boolean), beds: [0, 1], purpose: ["live", "holiday", "invest", "rent"], when: ["now", "q", "h", "y", "later"] },
+  get TEXT(){ return PF_TEXT; },
+  dsHome: it => dsHome(it.u),
+  destinyHref: () => destinyHref(),
+  copy: items => [`${PROJECT_NAME} — ${(MX_T[lang] || MX_T.en).copyHead}`, "", ...items.map((it, i) => { const u = it.u;
+    return `${i + 1}. ${u.unit} · ${t(typeLabel(u))} ${sqmFmt(u.sqm)} ${t("thSqm")} · ${t("floorWord")} ${u.floor} · ${baht(sell(u))}\n   ${unitUrl(u.unit)}`; })].join("\n")
+};
+function mountPF(id){ const el = document.getElementById(id); if (el && window.HAIP) HAIP.mount(el, PF_HOST); }
 
 /* ===================================================================
    SOCIAL POST BUILDER
@@ -1595,9 +1647,9 @@ function route(){
   document.getElementById("unitView").hidden = !on;
   if (sub === "matching"){
     const g = (location.hash.match(/mx-(an|di|se|ex)\b/) || [])[1];      // arrived from a legend chip
-    if (g){ mx.l = MX_GROUP_LETTERS[g].slice(); mx.shown = 12; }
+    if (g && window.HAIP){ const p = HAIP.load(); MX_GROUP_LETTERS[g].forEach((v, i) => { if (v && !p.mbti) p.life[i] = v; }); HAIP.save(p); }
     renderMatchingPage();
-    const m = g && document.getElementById("matcher");
+    const m = g && document.getElementById("pfMatchPage");
     if (m) m.scrollIntoView(); else window.scrollTo(0, 0);
   }
   else if (sub === "destiny"){ renderDestinyPage(); window.scrollTo(0, 0); }
@@ -1669,6 +1721,7 @@ function applyLang(){
   $("#guideLinks").innerHTML = `<a href="${safeLivingHref()}">${t("gSafe")} →</a>` + [["Wellness","gWell"],["SmartHome","gSmart"],["Relocate","gMove"],["EEC","gEEC"],["Buying","gBuy"]]
     .map(([f, k]) => `<a href="LivingInsight-${f}.html?from=r2&lang=${lang}">${t(k)} →</a>`).join("");
   renderNetTools();
+  if (!document.body.classList.contains("unit-mode")) mountPF("pfHome");
   const intl = t => "+66" + t.replace(/\D/g, "").replace(/^0/, "");
   const pretty = t => t.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
   const rows = [];

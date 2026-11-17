@@ -160,3 +160,12 @@ One A4 page per language (en th zh ko): selling points and main functions like `
 - Six languages: th, en, zh, ko, ja, ru. Thai and English live in `insight/content.js` as `{th, en}` objects. Chinese, Korean, Japanese and Russian live in `insight/i18n/<lang>.js` as `window.LI_T[lang] = {"path.into.LI": "text"}` and load only when that language is chosen (`applyLang` in `insight/insight.js`). Keys `_ui.*`, `_w.*` and `_pp.*` cover the UI labels, the widgets and the property-site links.
 - When you add or change a Thai/English string, add the same path to all four `insight/i18n/*.js` files, then bump `I18N_V` in `insight/insight.js` and the `?v=` on the six pages.
 - Pictures: `LI.hub.img` and `LI.topicImg` (files in `insight/img/`). Deep-dive links per topic: `LI.deep` (shown on each topic page and grouped on the hub). Both blocks sit at the end of `content.js` with all six languages inline.
+
+## Personalized Matching: one client profile for every site (`hai/profile.js`, 17 Nov 2026)
+
+Thor: the client fills in their details once; every matching page shows the Top 3 (up to 6) best-fitting products from the same answers, and the results sharpen when more data comes in. Clients rarely give birth date or MBTI at first, so it starts from basics.
+
+- Profile: `localStorage["hai-profile"]` (same origin = shared by ASN, R2, Coral Reef and future sites). Layers: 1 basics (budget, transfer timing, purpose, style, bedrooms + site extras such as view, floor, furniture, quota, buy/rent, area), 2 four lifestyle questions (→ MBTI letters), 3 MBTI, 4 birth date/time/gender (→ `hai/destiny.js` chart + feng shui). Nothing is sent anywhere.
+- Score = basics 50% + personality 27% + chart 23%, renormalised over the layers present; the ceiling rises with each layer (80 → 86 → 92 → 97%) so a basics-only match never claims near-certainty.
+- A site calls `HAIP.mount(el, host)`; `host` gives `lang()`, `products()` (items `{code, price, beds, zone, view, floor, furn, quota, styles, purpose{live,holiday,invest,rent}, mbti[], ready}`), `card(item,res,rank)`, `fields`, `opts`, optional `TEXT`, `copy()`, `dsHome()`, `destinyHref()`, `money()`. Theme with `--pf-accent --pf-border --pf-surface --pf-soft-bg --pf-muted --pf-on`.
+- Live on R2 (home page + matching page, replacing the Room Matcher form; sale only in Jomtien, so no buy/rent or area). Next: ASN (simple first step fits Moshi's "keep it simple"), Coral Reef, NetworkRegistry Top 3, then non-property products with the same item shape.
