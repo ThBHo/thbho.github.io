@@ -114,6 +114,17 @@ const FEATURED = ["H04","H01","H02","C01","H06","H14"];
 const TOP_PICKS = ["H100","H99","H98","H97","H95","H94","H93","H92","H91","H90","H81","H19","H87","C04","H80","H43","H86","H60","H76","C02","H82","H70","H16","B02","H63","H23","C06","H85","H83","H20","H15","H05","H28","H55","B01","H68","H65","H33","H49","H72","H37","H12","H10","H40","H36","H09","H27","H61","H18","H07","H34","H73","H75","H77","H78","H44","H35","H96","L01","L03","L04"];
 
 
+/* Admin view (Thor, 19 Nov 2026): when the public page is cut to a short list (SHOW_ALL_PUBLIC = false),
+   ASNProperty.html?view=all still lists, maps and matches every active listing for Thor on that browser.
+   ?view=public turns it off. Not a lock: anyone with the link sees the same (a real lock needs a login). */
+const SHOW_ALL_PUBLIC = true;               // false = public page shows only TOP_PICKS + FEATURED (starter pack)
+const ADMIN_VIEW = (() => { try {
+  const v = new URLSearchParams(location.search).get("view");
+  if (v === "all") localStorage.setItem("asn-adminView", "1");
+  if (v === "public") localStorage.removeItem("asn-adminView");
+  return localStorage.getItem("asn-adminView") === "1";
+} catch (e) { return /[?&]view=all\b/.test(location.search); } })();
+
 /* Paths and names the engine uses for this agent */
 const SITE = {
   id: "asn",                              // short id: share pages live in <id>/CODE.html, storage keys start with <id>-
@@ -128,7 +139,7 @@ const SITE = {
   emblem: "asn-img/logo-emblem.png",
   matchHero: "asn-img/H14-4.jpg",         // hero photo on the matching page
   safeLiving: "SafeLiving.html",           // shared page, branded by ?from=<id> (hai/network.js)
-  showAll: true,                          // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026
+  showAll: SHOW_ALL_PUBLIC || ADMIN_VIEW,  // list every active listing (TOP_PICKS sets the order only), Thor 3 Nov 2026; admin view always lists all
   why: ["100+", "6", "1:1"],              // About stats (labels: T.why1..why3)
   tags: { base: "#Pattaya #PattayaRealEstate #PoolVilla", condo: "#PattayaCondo", commercial: "#PattayaCommercial", house: "#PattayaHouse", brand: "#ASNExclusiveProperty" } // social caption hashtags
 };
