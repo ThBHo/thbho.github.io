@@ -794,9 +794,9 @@ const ALLFLOORS=["54","53","52","51","50","49","48","47","46","45","44","43","42
 const fnum=f=>parseFloat(f)+(f.endsWith("A")?0.5:0);
 const BUD=[[0,5e6],[5e6,8e6],[8e6,12e6],[12e6,20e6],[20e6,1e12]];
 const TYPES=[{k:"1",img:"plan-type1-1br.jpg",keys:["1"]},{k:"1p",img:"plan-type18-1br-pool.jpg",keys:["1p"]},{k:"2",img:"plan-type15-2br.jpg",keys:["2","2p"]},{k:"3",img:"plan-a2-3br.jpg",keys:["3"]}];
-// Real show-unit photos per Sales Kit type: [file prefix in ccr-img/show/, count, label]
+// Real show-unit photos per Sales Kit type: [file prefix in ccr-img/show/, photo order, label, (optional) photo numbers whose window view is simulated]
 // Order = photo numbers, cover first; each cover shows what sets that type apart (kitchen, curved lounge, garden balcony, dining for four, wide living room, private pool).
-const SHOW={"3":["t3",[4,1,3,6,9,2,5,7,8,10],"3"],"4":["t4",[2,1,3,4,5,8,6,7,9,10],"4"],"6.1":["t38",[6,2,4,1,7,5,3,8,9,10],"6.1 / 7.1"],"7.1":["t38",[6,2,4,1,7,5,3,8,9,10],"6.1 / 7.1"],"13":["t13",[1,2,3,4,6,5,7,8,9,10],"13"],"14":["t14",[1,2,3,4,5,6,7,8,9,10],"14"],"15":["t15",[2,4,1,6,9,3,5,7,8,10],"15"],"19":["t19",[4,1,2,5,7,3,6,8,9,10],"19"]};
+const SHOW={"3":["t3",[11,12,13,14,15,16,4,1,3,6,9,2,5,7,8,10,17,18,19],"3",[11,12,13]],"4":["t4",[2,1,3,4,5,8,6,7,9,10],"4"],"6.1":["t38",[11,12,13,14,15,16,6,2,4,1,7,5,3,8,9,10],"6.1 / 7.1"],"7.1":["t38",[11,12,13,14,15,16,6,2,4,1,7,5,3,8,9,10],"6.1 / 7.1"],"13":["t13",[1,2,3,4,6,5,7,8,9,10],"13"],"14":["t14",[1,2,3,4,5,6,7,8,9,10],"14"],"15":["t15",[11,12,13,14,15,16,2,4,1,6,9,3,5,7,8,10],"15"],"19":["t19",[4,1,2,5,7,3,6,8,9,10],"19"]};
 const BY={};DATA.forEach(r=>BY[r[0]]=r);
 let S={lang:"th",q:0,t:"",kit:"",face:"",v:"",fl:"",b:"",floor:"",shown:8,page:8,lvl:"G",quiz:{},saved:[]};
 const $=id=>document.getElementById(id);
@@ -954,7 +954,7 @@ Object.assign(I18N.th,{
 "v2.aCopyLink":"คัดลอกลิงก์ห้องนี้","v2.aCopyPost":"คัดลอกข้อความโพสต์","v2.aSave":"บันทึกห้องนี้","v2.aSaved":"บันทึกแล้ว","v2.aPrint":"พิมพ์ใบเสนอราคา",
 "v2.copied":"คัดลอกแล้ว","v2.copyFail":"คัดลอกไม่ได้ เลือกข้อความแล้วคัดลอกเอง",
 "v2.others":"ห้องอื่นที่บุคลิกใกล้เคียง","v2.mbMore":"หาห้องตาม MBTI ของลูกค้า →",
-"v2.gShow":"ภาพจริงห้องตัวอย่าง Type {k} (ไม่ใช่ห้องนี้)","v2.gPlan":"ผังห้อง Type {k} จาก Sales Kit","v2.gFloor":"ผังชั้น {f} จาก Sales Kit",
+"v2.gShow":"ภาพจริงห้องตัวอย่าง Type {k} (ไม่ใช่ห้องนี้)","v2.gSim":"ห้องตัวอย่าง Type {k}: วิวนอกหน้าต่างเป็นภาพจำลอง (ไม่ใช่ห้องนี้)","v2.gPlan":"ผังห้อง Type {k} จาก Sales Kit","v2.gFloor":"ผังชั้น {f} จาก Sales Kit",
 "v2.post":"🪸 Copacabana Coral Reef Jomtien\n{name} · ห้อง {code}\n{t} · {s} ตร.ม. · ชั้น {f} · {v}\n{hl}\n💰 {p} บาท ({asof})\n📍 ถนนจอมเทียนสาย 2 ใกล้หาดจอมเทียน\n📞 095-945-1665 · LINE @copacabanajomtien\n{url}",
 "v2.lineMsg":"สวัสดีครับ/ค่ะ สนใจนัดชมห้อง {code} ({name}) โครงการ Copacabana Coral Reef Jomtien",
 "v2.lineMsg0":"สวัสดีครับ/ค่ะ สนใจนัดชมห้องตัวอย่าง Copacabana Coral Reef Jomtien",
@@ -1001,7 +1001,7 @@ Object.assign(I18N.en,{
 "v2.aCopyLink":"Copy link to this unit","v2.aCopyPost":"Copy post text","v2.aSave":"Save this unit","v2.aSaved":"Saved","v2.aPrint":"Print quotation",
 "v2.copied":"Copied","v2.copyFail":"Couldn't copy; select the text and copy it yourself",
 "v2.others":"Units with a similar personality","v2.mbMore":"Match units to a buyer's MBTI →",
-"v2.gShow":"Real show-unit photo, Type {k} (not this unit)","v2.gPlan":"Type {k} plan from the Sales Kit","v2.gFloor":"Floor {f} plan from the Sales Kit",
+"v2.gShow":"Real show-unit photo, Type {k} (not this unit)","v2.gSim":"Show unit, Type {k}: window view is simulated (not this unit)","v2.gPlan":"Type {k} plan from the Sales Kit","v2.gFloor":"Floor {f} plan from the Sales Kit",
 "v2.post":"🪸 Copacabana Coral Reef Jomtien\n{name} · unit {code}\n{t} · {s} sqm · floor {f} · {v}\n{hl}\n💰 THB {p} ({asof})\n📍 Jomtien 2nd Road, near Jomtien Beach\n📞 +66 95 945 1665 · LINE @copacabanajomtien\n{url}",
 "v2.lineMsg":"Hello, I'd like to view unit {code} ({name}) at Copacabana Coral Reef Jomtien.",
 "v2.lineMsg0":"Hello, I'd like to book a show-unit visit at Copacabana Coral Reef Jomtien.",
@@ -1139,7 +1139,7 @@ function renderFaq(){$("faqList").innerHTML=FAQ[L()].map(([q,a])=>`<details clas
 /* ---------- unit page ---------- */
 let G={list:[],i:0};
 function gallery(r){const s=SHOW[r[4]],L0=[];
- if(s)s[1].forEach(i=>L0.push([`show/${s[0]}-${i}.jpg`,T("v2.gShow",{k:s[2]}),1]));
+ if(s)s[1].forEach(i=>L0.push([`show/${s[0]}-${i}.jpg`,T(s[3]&&s[3].includes(i)?"v2.gSim":"v2.gShow",{k:s[2]}),1]));
  L0.push([`plan/type-${r[4]}.jpg`,T("v2.gPlan",{k:r[4]}),0]);L0.push([`floor/floor-${r[2]}.jpg`,T("v2.gFloor",{f:r[2]}),0]);return L0}
 function showG(){const [src,cap,cov]=G.list[G.i];const im=$("gImg");im.src="ccr-img/"+src;im.alt=cap;im.className=cov?"cover":"";
  $("gCap").textContent=cap;$("gCount").textContent=`${G.i+1} / ${G.list.length}`;
