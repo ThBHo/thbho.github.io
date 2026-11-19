@@ -3,6 +3,8 @@
    Thai astrology (sidereal, Lahiri ayanamsa) + Western (tropical) + Chinese (BaZi day master, year animal, Kua / Eight Mansions).
    Uses the page globals at call time: lang, esc, card, SHOWN, byCode, HOME_STYLE, MG_EL, CONTACT, nm, SITE, FACING.
    "{brand}" in the text tables is replaced with SITE.short on first use. */
+/* friendlier date and number fields (hai/forms.js), 19 Nov 2026 */
+try { if (!window.HAIForms && !document.querySelector('script[data-hai-forms]')) { const s = document.createElement("script"); s.src = new URL("forms.js?v=20261119b", document.currentScript.src).href; s.dataset.haiForms = "1"; document.head.appendChild(s); } } catch (e) {}
 (function () {
 "use strict";
 /* ---------------- astronomy (Meeus, low precision; sun ~0.01°, moon ~0.1°) ---------------- */

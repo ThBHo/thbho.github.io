@@ -30,7 +30,7 @@
    simply sees that site's results without the budget (and the other way round).
    ===================================================================== */
 /* friendlier date and number fields (hai/forms.js), 19 Nov 2026 */
-try { if (!window.HAIForms && !document.querySelector('script[data-hai-forms]')) { const s = document.createElement("script"); s.src = new URL("forms.js?v=20261119a", document.currentScript.src).href; s.dataset.haiForms = "1"; document.head.appendChild(s); } } catch (e) {}
+try { if (!window.HAIForms && !document.querySelector('script[data-hai-forms]')) { const s = document.createElement("script"); s.src = new URL("forms.js?v=20261119b", document.currentScript.src).href; s.dataset.haiForms = "1"; document.head.appendChild(s); } } catch (e) {}
 (function () {
   "use strict";
   const KEY = "hai-profile", LANGS = ["th", "en", "ru", "zh", "ko", "ja"];
