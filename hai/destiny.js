@@ -161,6 +161,19 @@ const LBL = {
   ru: { nav: "Судьба и фэншуй", eyebrow: "Destiny Match · Натальная карта × Фэншуй", title: "Дом, который подходит вашей карте рождения", sub: "Введите дату и время рождения: мы построим тайскую, западную и китайскую (Ба Цзы · число Гуа) карту, сопоставим её с каждым домом {brand} и подскажем лучшее время для покупки или переезда.", privacy: "Данные рождения рассчитываются только на вашем устройстве и никуда не отправляются.", fName: "Имя (необязательно)", fDate: "Дата рождения", fTime: "Время рождения", fTimeUnk: "Не знаю время рождения", fGender: "Пол (для благоприятных направлений)", gM: "Мужской", gF: "Женский", gN: "Не указывать", fPlace: "Место рождения", fPurpose: "Цель", pBuy: "Купить", pRent: "Арендовать", fBuyDate: "Планируемая дата покупки", fRentFrom: "Аренда с", fRentTo: "по", fType: "Тип объекта", tAny: "Любой", tVilla: "Вилла с бассейном", tHouse: "Дом", tCondo: "Кондо", tLand: "Земля", go: "Рассчитать и подобрать дом", needDate: "Укажите дату рождения", secChart: "Ваша карта", sunTh: "Знак Солнца (тайский · сидерический)", sunWest: "Знак Солнца (западный · тропический)", moon: "Луна", lagna: "Асцендент", cnYear: "Китайский знак года", dayMaster: "Хозяин дня (Ба Цзы)", kua: "Число Гуа и направления", kuaNeedG: "Выберите пол, чтобы рассчитать направления", secProfile: "Какой дом вам подходит", secTiming: "Лучшее время", tmBest: "Отлично", tmGood: "Хорошо", tmOk: "Нейтрально", tmBad: "Осторожно", secMatch: "Дома, подходящие вашей карте", focus: "Этот дом и ваша карта", fit: "совпадение", send: "Отправить в {brand} через LINE", copy: "Скопировать итог", copied: "Скопировано — вставьте в чат LINE", back: "← На главную", detailCta: "Проверить дом по вашей карте рождения", detailCtaSub: "Введите дату рождения: узнаете, насколько дом вам подходит и когда лучше покупать или въезжать.", homeCta: "Подобрать дом по карте и фэншуй →", animals: ["Крыса","Бык","Тигр","Кролик","Дракон","Змея","Лошадь","Коза","Обезьяна","Петух","Собака","Свинья"], el: { wood: "Дерево", fire: "Огонь", earth: "Земля", metal: "Металл", water: "Вода", air: "Воздух" }, dir: { N: "север", S: "юг", E: "восток", W: "запад", NE: "северо-восток", NW: "северо-запад", SE: "юго-восток", SW: "юго-запад" }, signs: ["Овен","Телец","Близнецы","Рак","Лев","Дева","Весы","Скорпион","Стрелец","Козерог","Водолей","Рыбы"] }
 };
 
+/* optional: area of interest + what the purchase is for (Thor, 19 Nov 2026) */
+Object.assign(TX.th, { fZone: "ทำเลที่สนใจ (ไม่บังคับ)", zAnyLoc: "ทุกทำเล", fGoal: "ซื้อไปเพื่อ (ไม่บังคับ)", gNone: "ไม่ระบุ", gLive: "อยู่เอง", gInvest: "ลงทุนปล่อยเช่า", gHoliday: "บ้านพักตากอากาศ", gRetire: "เกษียณ / อยู่ระยะยาว", gFlip: "ลงทุนขายต่อ",
+  rZone: "อยู่ในทำเลที่คุณสนใจ", rgLive: "เหมาะกับการอยู่เอง: มีห้องนอนพอสำหรับครอบครัว", rgInvest: "เหมาะกับการลงทุน: ทรัพย์นี้ปล่อยเช่าได้ด้วย", rgHoliday: "เหมาะกับบ้านพักตากอากาศ: มีสระ วิว หรือใกล้ทะเล", rgRetire: "เหมาะกับการอยู่ยาว: เป็นส่วนตัว มีสวน", rgFlip: "เหมาะกับการลงทุนขายต่อ: ราคาลดลงหรือเจ้าของอยากขายเร็ว" });
+Object.assign(TX.en, { fZone: "Area of interest (optional)", zAnyLoc: "Any area", fGoal: "Buying for (optional)", gNone: "Not specified", gLive: "To live in", gInvest: "Rental investment", gHoliday: "Holiday home", gRetire: "Retirement / long stay", gFlip: "Investment to resell",
+  rZone: "In the area you chose", rgLive: "Good to live in: enough bedrooms for a family", rgInvest: "Good for investment: this home can also be rented out", rgHoliday: "Good holiday home: pool, view or near the sea", rgRetire: "Good for a long stay: private, with a garden", rgFlip: "Good to resell: price reduced or the owner wants a quick sale" });
+Object.assign(LBL.zh, { fZone: "意向区域（选填）", zAnyLoc: "不限区域", fGoal: "购买用途（选填）", gNone: "未指定", gLive: "自住", gInvest: "出租投资", gHoliday: "度假屋", gRetire: "养老 / 长住", gFlip: "投资转售",
+  rZone: "位于您选择的区域", rgLive: "适合自住：卧室足够一家人", rgInvest: "适合投资：此房源也可出租", rgHoliday: "适合度假：有泳池、景观或靠海", rgRetire: "适合长住：私密并带花园", rgFlip: "适合转售：已降价或业主急售" });
+Object.assign(LBL.ko, { fZone: "관심 지역 (선택)", zAnyLoc: "모든 지역", fGoal: "구매 목적 (선택)", gNone: "선택 안 함", gLive: "실거주", gInvest: "임대 투자", gHoliday: "별장", gRetire: "은퇴 / 장기 거주", gFlip: "전매 투자",
+  rZone: "선택한 지역에 있음", rgLive: "실거주에 적합: 가족이 살 만한 침실 수", rgInvest: "투자에 적합: 임대도 가능한 매물", rgHoliday: "별장에 적합: 수영장, 전망 또는 바다 근처", rgRetire: "장기 거주에 적합: 프라이빗하고 정원이 있음", rgFlip: "전매에 적합: 가격 인하 또는 급매" });
+Object.assign(LBL.ja, { fZone: "希望エリア（任意）", zAnyLoc: "全エリア", fGoal: "購入目的（任意）", gNone: "指定なし", gLive: "自宅用", gInvest: "賃貸投資", gHoliday: "別荘", gRetire: "リタイア / 長期滞在", gFlip: "転売投資",
+  rZone: "選んだエリアにあります", rgLive: "自宅向き：家族に十分な寝室数", rgInvest: "投資向き：賃貸にも出せる物件", rgHoliday: "別荘向き：プール、眺望、または海の近く", rgRetire: "長期滞在向き：プライベートで庭付き", rgFlip: "転売向き：値下げ済み、またはオーナーが早期売却希望" });
+Object.assign(LBL.ru, { fZone: "Интересующий район (необязательно)", zAnyLoc: "Любой район", fGoal: "Цель покупки (необязательно)", gNone: "Не указано", gLive: "Для жизни", gInvest: "Сдавать в аренду", gHoliday: "Дом для отдыха", gRetire: "Пенсия / долгое проживание", gFlip: "Инвестиция для перепродажи",
+  rZone: "В выбранном вами районе", rgLive: "Подходит для жизни: достаточно спален для семьи", rgInvest: "Подходит для инвестиций: объект можно сдавать", rgHoliday: "Подходит для отдыха: бассейн, вид или рядом море", rgRetire: "Подходит для долгого проживания: приватность и сад", rgFlip: "Подходит для перепродажи: цена снижена или срочная продажа" });
 /* budget + recommended areas */
 Object.assign(TX.th, { fBudget: "งบประมาณ", bAny: "ไม่จำกัดงบ", bUpS: "ไม่เกิน {n} ล้านบาท", bOverS: "มากกว่า {n} ล้านบาท", bUpR: "ไม่เกิน {n} บาท/เดือน",
   secLoc: "ทำเลที่แนะนำสำหรับคุณ", locNote: "จัดอันดับจากลักษณะของทำเล (ทะเล ทะเลสาบ ภูเขา ความสงบ ความคึกคัก วิว) เทียบกับธาตุของคุณ ทิศของทำเลเมื่อมองจากตัวเมืองพัทยาเทียบกับทิศมงคล และทรัพย์ที่ตรงเงื่อนไขในทำเลนั้น",
@@ -571,9 +584,32 @@ function form(T, focus) {
     <label data-p="buy">${T.fBudget}<select name="bBuy">${[0, ...BUY_B, -100].map(n => `<option value="${n}" ${String(v.bBuy || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : n < 0 ? T.bOverS.replace("{n}", -n) : T.bUpS.replace("{n}", n)}</option>`).join("")}</select></label>
     <label data-p="rent">${T.fBudget}<select name="bRent">${[0, ...RENT_B].map(n => `<option value="${n}" ${String(v.bRent || 0) === String(n) ? "selected" : ""}>${!n ? T.bAny : T.bUpR.replace("{n}", n.toLocaleString("en-US"))}</option>`).join("")}</select></label>
     <label${MODE().condoOnly ? " hidden" : ""}>${T.fType}<select name="type">${[["", T.tAny], ["villa", T.tVilla], ["house", T.tHouse], ["condo", T.tCondo], ["land", T.tLand]].map(([k, n]) => `<option value="${k}" ${(v.type || "") === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+    ${zoneField(T, v)}
+    <label data-p="buy">${T.fGoal || TX.en.fGoal}<select name="goal">${[["", "gNone"], ["live", "gLive"], ["invest", "gInvest"], ["holiday", "gHoliday"], ["retire", "gRetire"], ["flip", "gFlip"]].map(([k, n]) => `<option value="${k}" ${(v.goal || "") === k ? "selected" : ""}>${T[n] || TX.en[n]}</option>`).join("")}</select></label>
     <p class="ds-priv full">🔒 ${T.privacy}</p>
     <button class="btn ds-go" type="submit">${T.go}</button>
   </form>`;
+}
+/* area of interest: the zones that have homes on this site (hidden for a single-project site) */
+function zoneField(T, v) {
+  if (MODE().condoOnly) return "";
+  const Z = G("ZONES", {}), list = (G("SHOWN") ? G("SHOWN")() : []), zn = G("zn", z => z);
+  const zs = Object.keys(Z).filter(z => list.some(l => l && l.zone === z));
+  if (zs.length < 2) return "";
+  return `<label>${T.fZone || TX.en.fZone}<select name="zone"><option value="">${T.zAnyLoc || TX.en.zAnyLoc}</option>${zs.map(z => `<option value="${z}" ${(v.zone || "") === z ? "selected" : ""}>${G("esc")(zn(z))}</option>`).join("")}</select></label>`;
+}
+/* the optional area and purchase goal lift a home a little in the ranking and add a reason; they never hide homes */
+function lift(s, inp, T) {
+  const l = s.l, f = feat(l), goal = inp.purpose === "rent" ? "" : inp.goal, add = [];
+  if (inp.zone && l.zone === inp.zone) add.push([8, "rZone"]);
+  if (goal === "live" && (l.beds || 0) >= 2 && l.type !== "land") add.push([4, "rgLive"]);
+  if (goal === "invest" && l.rent) add.push([6, "rgInvest"]);
+  if (goal === "holiday" && (f.flags.includes("rPoolP") || f.flags.includes("rSea") || f.flags.includes("rView"))) add.push([6, "rgHoliday"]);
+  if (goal === "retire" && l.type !== "land" && (f.privacy >= 1 || f.flags.includes("rGarden"))) add.push([5, "rgRetire"]);
+  if (goal === "flip" && (l.saleWas || l.urgent)) add.push([6, "rgFlip"]);
+  add.slice().reverse().forEach(([, k]) => s.why.unshift(["+", T[k] || TX.en[k]]));
+  s.total = Math.min(99, s.total + add.reduce((a, [n]) => a + n, 0));
+  return s;
 }
 /* date picker: day / month / year selects; Thai shows Buddhist Era years (CE + 543), other languages CE. Value stays ISO (CE). */
 const yLabel = y => (G("lang", "th") === "th" ? y + 543 : y);
@@ -648,7 +684,7 @@ function results(inp, focus) {
   const bB = +inp.bBuy || 0, bR = +inp.bRent || 0;
   if (inp.purpose === "rent" && bR) pool = pool.filter(l => l.rent <= bR);
   if (inp.purpose !== "rent" && bB) pool = pool.filter(l => bB < 0 ? l.sale > -bB * 1e6 : l.sale <= bB * 1e6);
-  const ranked = pool.map(l => score(l, C)).sort((a, b) => b.total - a.total);
+  const ranked = pool.map(l => lift(score(l, C), inp, T)).sort((a, b) => b.total - a.total);
   const zr = zones(ranked, C);
   const fo = focus && G("byCode") ? G("byCode")(focus) : null, foS = fo ? score(fo, C) : null;
   const tm = timing(C, inp);
@@ -661,7 +697,7 @@ function results(inp, focus) {
     `${G("SITE", {}).short || ""} Destiny Match${C.name ? " — " + C.name : ""}`,
     `${TX.en.sunTh}: ${TX.en.signs[Math.floor(C.sunS / 30)]} (${TX.en.el[C.thEl]}) · Western: ${TX.en.signs[Math.floor(C.sunT / 30)]}`,
     `Chinese: ${TX.en.animals[C.yb]} ${C.cy} · Day Master ${TX.en.el[C.dm]}${C.kua ? ` · Kua ${C.kua} (${C.dirs.join(", ")})` : ""}`,
-    `${inp.purpose === "rent" ? `Rent ${inp.from} → ${inp.to}${bR ? ` · ≤ ฿${bR.toLocaleString("en-US")}/mo` : ""}` : `Buy ~${inp.buy}${bB ? ` · ${bB < 0 ? ">" : "≤"} ฿${Math.abs(bB)}M` : ""}`}`,
+    `${inp.purpose === "rent" ? `Rent ${inp.from} → ${inp.to}${bR ? ` · ≤ ฿${bR.toLocaleString("en-US")}/mo` : ""}` : `Buy ~${inp.buy}${bB ? ` · ${bB < 0 ? ">" : "≤"} ฿${Math.abs(bB)}M` : ""}${inp.goal ? ` · For: ${TX.en[{ live: "gLive", invest: "gInvest", holiday: "gHoliday", retire: "gRetire", flip: "gFlip" }[inp.goal]] || inp.goal}` : ""}`}${inp.zone ? ` · Area: ${G("zn", z => z)(inp.zone)}` : ""}`,
     `Strengths: ${traits(C, TX.en, "en").core}`,
     zr.length ? `Areas: ${zr.map(z => z.z).join(", ")}` : "",
     `Top matches: ${(foS ? [foS] : []).concat(ranked.filter(r => !fo || r.l.code !== fo.code).slice(0, 5)).map(r => `${r.l.code} ${r.total}%`).join(", ")}`,
