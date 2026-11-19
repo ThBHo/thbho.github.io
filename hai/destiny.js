@@ -162,18 +162,18 @@ const LBL = {
 };
 
 /* optional: area of interest + what the purchase is for (Thor, 19 Nov 2026) */
-Object.assign(TX.th, { fZone: "ทำเลที่สนใจ (ไม่บังคับ)", zAnyLoc: "ทุกทำเล", fGoal: "ซื้อไปเพื่อ (ไม่บังคับ)", gNone: "ไม่ระบุ", gLive: "อยู่เอง", gInvest: "ลงทุนปล่อยเช่า", gHoliday: "บ้านพักตากอากาศ", gRetire: "เกษียณ / อยู่ระยะยาว", gFlip: "ลงทุนขายต่อ",
-  rZone: "อยู่ในทำเลที่คุณสนใจ", rgLive: "เหมาะกับการอยู่เอง: มีห้องนอนพอสำหรับครอบครัว", rgInvest: "เหมาะกับการลงทุน: ทรัพย์นี้ปล่อยเช่าได้ด้วย", rgHoliday: "เหมาะกับบ้านพักตากอากาศ: มีสระ วิว หรือใกล้ทะเล", rgRetire: "เหมาะกับการอยู่ยาว: เป็นส่วนตัว มีสวน", rgFlip: "เหมาะกับการลงทุนขายต่อ: ราคาลดลงหรือเจ้าของอยากขายเร็ว" });
+Object.assign(TX.th, { fZone: "ทำเลที่สนใจ (ไม่บังคับ)", zAnyLoc: "ทุกทำเล", fGoal: "ซื้อไปเพื่อ (ไม่บังคับ)", gNone: "ไม่ระบุ", gLive: "อยู่เอง", gInvest: "ลงทุนปล่อยเช่า", gHoliday: "ไว้พักผ่อนตากอากาศ", gRetire: "เกษียณ / อยู่ระยะยาว", gFlip: "ลงทุนขายต่อ",
+  rZone: "อยู่ในทำเลที่คุณสนใจ", rgLive: "เหมาะกับการอยู่เอง: มีห้องนอนพอสำหรับครอบครัว", rgInvest: "เหมาะกับการลงทุน: ทรัพย์นี้ปล่อยเช่าได้ด้วย", rgHoliday: "เหมาะกับบ้านพักตากอากาศ: มีสระ วิว หรือใกล้ทะเล", rgRetire: "เหมาะกับการอยู่ยาว: เป็นส่วนตัว มีสวน", rgFlip: "เหมาะกับการลงทุนขายต่อ: ราคาลดลงหรือเจ้าของอยากขายเร็ว" , rgLiveC: "เหมาะกับการอยู่เอง: มีห้องนอนแยก", rgInvestC: "เหมาะกับการลงทุน: ห้องวิวทะเลขนาดนี้ปล่อยเช่าง่าย", rgHolidayC: "เหมาะกับการพักผ่อน: ห้องวิวทะเล", rgRetireC: "เหมาะกับการอยู่ยาว: ห้องกว้าง อยู่สบาย" });
 Object.assign(TX.en, { fZone: "Area of interest (optional)", zAnyLoc: "Any area", fGoal: "Buying for (optional)", gNone: "Not specified", gLive: "To live in", gInvest: "Rental investment", gHoliday: "Holiday home", gRetire: "Retirement / long stay", gFlip: "Investment to resell",
-  rZone: "In the area you chose", rgLive: "Good to live in: enough bedrooms for a family", rgInvest: "Good for investment: this home can also be rented out", rgHoliday: "Good holiday home: pool, view or near the sea", rgRetire: "Good for a long stay: private, with a garden", rgFlip: "Good to resell: price reduced or the owner wants a quick sale" });
+  rZone: "In the area you chose", rgLive: "Good to live in: enough bedrooms for a family", rgInvest: "Good for investment: this home can also be rented out", rgHoliday: "Good holiday home: pool, view or near the sea", rgRetire: "Good for a long stay: private, with a garden", rgFlip: "Good to resell: price reduced or the owner wants a quick sale" , rgLiveC: "Good to live in: separate bedroom", rgInvestC: "Good for investment: sea-view units this size rent out easily", rgHolidayC: "Good for holidays: sea-view unit", rgRetireC: "Good for a long stay: a roomy unit" });
 Object.assign(LBL.zh, { fZone: "意向区域（选填）", zAnyLoc: "不限区域", fGoal: "购买用途（选填）", gNone: "未指定", gLive: "自住", gInvest: "出租投资", gHoliday: "度假屋", gRetire: "养老 / 长住", gFlip: "投资转售",
-  rZone: "位于您选择的区域", rgLive: "适合自住：卧室足够一家人", rgInvest: "适合投资：此房源也可出租", rgHoliday: "适合度假：有泳池、景观或靠海", rgRetire: "适合长住：私密并带花园", rgFlip: "适合转售：已降价或业主急售" });
+  rZone: "位于您选择的区域", rgLive: "适合自住：卧室足够一家人", rgInvest: "适合投资：此房源也可出租", rgHoliday: "适合度假：有泳池、景观或靠海", rgRetire: "适合长住：私密并带花园", rgFlip: "适合转售：已降价或业主急售" , rgLiveC: "适合自住：有独立卧室", rgInvestC: "适合投资：此类海景户型容易出租", rgHolidayC: "适合度假：海景房", rgRetireC: "适合长住：空间宽敞" });
 Object.assign(LBL.ko, { fZone: "관심 지역 (선택)", zAnyLoc: "모든 지역", fGoal: "구매 목적 (선택)", gNone: "선택 안 함", gLive: "실거주", gInvest: "임대 투자", gHoliday: "별장", gRetire: "은퇴 / 장기 거주", gFlip: "전매 투자",
-  rZone: "선택한 지역에 있음", rgLive: "실거주에 적합: 가족이 살 만한 침실 수", rgInvest: "투자에 적합: 임대도 가능한 매물", rgHoliday: "별장에 적합: 수영장, 전망 또는 바다 근처", rgRetire: "장기 거주에 적합: 프라이빗하고 정원이 있음", rgFlip: "전매에 적합: 가격 인하 또는 급매" });
+  rZone: "선택한 지역에 있음", rgLive: "실거주에 적합: 가족이 살 만한 침실 수", rgInvest: "투자에 적합: 임대도 가능한 매물", rgHoliday: "별장에 적합: 수영장, 전망 또는 바다 근처", rgRetire: "장기 거주에 적합: 프라이빗하고 정원이 있음", rgFlip: "전매에 적합: 가격 인하 또는 급매" , rgLiveC: "실거주에 적합: 분리된 침실", rgInvestC: "투자에 적합: 이 크기의 오션뷰는 임대가 쉬움", rgHolidayC: "휴가용으로 적합: 오션뷰 유닛", rgRetireC: "장기 거주에 적합: 넓은 유닛" });
 Object.assign(LBL.ja, { fZone: "希望エリア（任意）", zAnyLoc: "全エリア", fGoal: "購入目的（任意）", gNone: "指定なし", gLive: "自宅用", gInvest: "賃貸投資", gHoliday: "別荘", gRetire: "リタイア / 長期滞在", gFlip: "転売投資",
-  rZone: "選んだエリアにあります", rgLive: "自宅向き：家族に十分な寝室数", rgInvest: "投資向き：賃貸にも出せる物件", rgHoliday: "別荘向き：プール、眺望、または海の近く", rgRetire: "長期滞在向き：プライベートで庭付き", rgFlip: "転売向き：値下げ済み、またはオーナーが早期売却希望" });
+  rZone: "選んだエリアにあります", rgLive: "自宅向き：家族に十分な寝室数", rgInvest: "投資向き：賃貸にも出せる物件", rgHoliday: "別荘向き：プール、眺望、または海の近く", rgRetire: "長期滞在向き：プライベートで庭付き", rgFlip: "転売向き：値下げ済み、またはオーナーが早期売却希望" , rgLiveC: "自宅向き：独立した寝室あり", rgInvestC: "投資向き：このサイズの海側の部屋は貸しやすい", rgHolidayC: "休暇向き：海の見える部屋", rgRetireC: "長期滞在向き：ゆったりした部屋" });
 Object.assign(LBL.ru, { fZone: "Интересующий район (необязательно)", zAnyLoc: "Любой район", fGoal: "Цель покупки (необязательно)", gNone: "Не указано", gLive: "Для жизни", gInvest: "Сдавать в аренду", gHoliday: "Дом для отдыха", gRetire: "Пенсия / долгое проживание", gFlip: "Инвестиция для перепродажи",
-  rZone: "В выбранном вами районе", rgLive: "Подходит для жизни: достаточно спален для семьи", rgInvest: "Подходит для инвестиций: объект можно сдавать", rgHoliday: "Подходит для отдыха: бассейн, вид или рядом море", rgRetire: "Подходит для долгого проживания: приватность и сад", rgFlip: "Подходит для перепродажи: цена снижена или срочная продажа" });
+  rZone: "В выбранном вами районе", rgLive: "Подходит для жизни: достаточно спален для семьи", rgInvest: "Подходит для инвестиций: объект можно сдавать", rgHoliday: "Подходит для отдыха: бассейн, вид или рядом море", rgRetire: "Подходит для долгого проживания: приватность и сад", rgFlip: "Подходит для перепродажи: цена снижена или срочная продажа" , rgLiveC: "Подходит для жизни: отдельная спальня", rgInvestC: "Подходит для инвестиций: такие квартиры с видом на море легко сдать", rgHolidayC: "Подходит для отдыха: вид на море", rgRetireC: "Подходит для долгого проживания: просторная квартира" });
 /* budget + recommended areas */
 Object.assign(TX.th, { fBudget: "งบประมาณ", bAny: "ไม่จำกัดงบ", bUpS: "ไม่เกิน {n} ล้านบาท", bOverS: "มากกว่า {n} ล้านบาท", bUpR: "ไม่เกิน {n} บาท/เดือน",
   secLoc: "ทำเลที่แนะนำสำหรับคุณ", locNote: "จัดอันดับจากลักษณะของทำเล (ทะเล ทะเลสาบ ภูเขา ความสงบ ความคึกคัก วิว) เทียบกับธาตุของคุณ ทิศของทำเลเมื่อมองจากตัวเมืองพัทยาเทียบกับทิศมงคล และทรัพย์ที่ตรงเงื่อนไขในทำเลนั้น",
@@ -602,10 +602,11 @@ function zoneField(T, v) {
 function lift(s, inp, T) {
   const l = s.l, f = feat(l), goal = inp.purpose === "rent" ? "" : inp.goal, add = [];
   if (inp.zone && l.zone === inp.zone) add.push([8, "rZone"]);
-  if (goal === "live" && (l.beds || 0) >= 2 && l.type !== "land") add.push([4, "rgLive"]);
-  if (goal === "invest" && l.rent) add.push([6, "rgInvest"]);
-  if (goal === "holiday" && (f.flags.includes("rPoolP") || f.flags.includes("rSea") || f.flags.includes("rView"))) add.push([6, "rgHoliday"]);
-  if (goal === "retire" && l.type !== "land" && (f.privacy >= 1 || f.flags.includes("rGarden"))) add.push([5, "rgRetire"]);
+  const condo = l.type === "condo", sea = f.flags.includes("rSea"), C_ = k => condo ? k + "C" : k;   // condos: a one-project site gets condo-sized rules
+  if (goal === "live" && (condo ? (l.beds || 0) >= 1 : (l.beds || 0) >= 2 && l.type !== "land")) add.push([4, C_("rgLive")]);
+  if (goal === "invest" && (l.rent || (condo && sea && (l.beds || 0) <= 1))) add.push([6, l.rent ? "rgInvest" : "rgInvestC"]);
+  if (goal === "holiday" && (condo ? sea : (f.flags.includes("rPoolP") || sea || f.flags.includes("rView")))) add.push([6, C_("rgHoliday")]);
+  if (goal === "retire" && (condo ? (l.beds || 0) >= 2 || (+l.size || 0) >= 45 : l.type !== "land" && (f.privacy >= 1 || f.flags.includes("rGarden")))) add.push([5, C_("rgRetire")]);
   if (goal === "flip" && (l.saleWas || l.urgent)) add.push([6, "rgFlip"]);
   add.slice().reverse().forEach(([, k]) => s.why.unshift(["+", T[k] || TX.en[k]]));
   s.total = Math.min(99, s.total + add.reduce((a, [n]) => a + n, 0));
