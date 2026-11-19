@@ -1,6 +1,8 @@
 /* Thailand Living Insight — renderer shared by the hub and the topic pages.
    Content lives in content.js (window.LI). This file holds the UI strings, the
    property-page registry, the block renderers and the interactive widgets. */
+/* friendlier date and number fields (hai/forms.js), 19 Nov 2026 */
+try { if (!window.HAIForms && !document.querySelector('script[data-hai-forms]')) { const s = document.createElement("script"); s.src = new URL("../hai/forms.js?v=20261119a", document.currentScript.src).href; s.dataset.haiForms = "1"; document.head.appendChild(s); } } catch (e) {}
 (function(){
 "use strict";
 const C = window.LI;

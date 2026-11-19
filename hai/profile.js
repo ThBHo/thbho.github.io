@@ -29,6 +29,8 @@
    purchase budget, so a client who set a rent budget on one site and opens a sale-only site
    simply sees that site's results without the budget (and the other way round).
    ===================================================================== */
+/* friendlier date and number fields (hai/forms.js), 19 Nov 2026 */
+try { if (!window.HAIForms && !document.querySelector('script[data-hai-forms]')) { const s = document.createElement("script"); s.src = new URL("forms.js?v=20261119a", document.currentScript.src).href; s.dataset.haiForms = "1"; document.head.appendChild(s); } } catch (e) {}
 (function () {
   "use strict";
   const KEY = "hai-profile", LANGS = ["th", "en", "ru", "zh", "ko", "ja"];
@@ -247,7 +249,7 @@
             <div class="pf-row" style="margin-top:8px"><select data-pfsel="mbti"><option value="">${esc(tx(TX.mbtiNo))}</option>${MBTI16.map(m => `<option${p.mbti === m ? " selected" : ""}>${m}</option>`).join("")}</select></div></details>
           ${ds ? `<details data-pfopen="birth"${st.open.birth ? " open" : ""}><summary>${esc(tx(TX.birthH))}${p.birth.date ? `<small>✓</small>` : ""}</summary>
             <div class="pf-row" style="margin-top:8px">
-              <label class="pf-f"><b>${esc(tx(TX.bdate))}</b><input type="date" data-pfb="date" value="${esc(p.birth.date)}" min="1920-01-01" max="2015-12-31"></label>
+              <label class="pf-f"><b>${esc(tx(TX.bdate))}</b><input type="date" data-birth data-pfb="date" value="${esc(p.birth.date)}" min="1920-01-01" max="2015-12-31"></label>
               <label class="pf-f"><b>${esc(tx(TX.btime))}</b><input type="time" data-pfb="time" value="${esc(p.birth.time)}"${p.birth.unk ? " disabled" : ""}></label>
               <label class="pf-f" style="display:flex;gap:6px;align-items:center;min-height:40px"><input type="checkbox" data-pfb="unk"${p.birth.unk ? " checked" : ""}> ${esc(tx(TX.bunk))}</label>
             </div>
