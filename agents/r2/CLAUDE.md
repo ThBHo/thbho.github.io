@@ -38,3 +38,10 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
   no navy/black-dominant surfaces (dark mode is warm charcoal). Never print anyone's chart or MBTI on the site.
 - `MONTH_ACCENT` in app.js sets `--month` (the gold→month strip under the top bar) per Chinese solar month.
   The scheduled task "R2 ดวงรายเดือน" (26th of each month) extends and checks it.
+
+## Phone app (PWA, 21 Nov 2026)
+- `agents/r2/app/` (manifest + icons) and `agents/r2/app-tabs.js` (HAI_APP tabs/screens); build.py adds them only to the
+  main, matching and destiny pages. Unit pages never get the app (shared by every agent).
+- Shared files `hai/pwa.js` and `/hai-sw.js` belong to Core: don't edit. The home sections sit in `<div id="homeView">`
+  so the app can show one screen per tab (sections are hidden, never removed).
+- Tabs: หน้าแรก #/ · ค้นหาห้อง #/units · ที่บันทึก (shortlist, `R2App.showSaved`) · ติดต่อ #/contact · more: #/about, #matching, #destiny.

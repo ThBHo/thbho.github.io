@@ -1655,8 +1655,25 @@ function route(){
   }
   else if (sub === "destiny"){ renderDestinyPage(); window.scrollTo(0, 0); }
   else if (code){ renderUnitPage(code.toUpperCase()); window.scrollTo(0, 0); }
-  else { document.title = window.PAGE_TITLE || document.title; }
+  else {
+    document.title = window.PAGE_TITLE || document.title;
+    if (/^#\//.test(location.hash)) window.scrollTo(0, 0);      // app tab screens (#/units, #/contact, #/about)
+  }
 }
+
+/* installed app (agents/r2/app-tabs.js): the "Saved" tab shows the shortlist, or says how to save */
+window.R2App = {
+  showSaved(){
+    if (saved.size){ state.savedOnly = true; render(); if (location.hash !== "#/units") location.hash = "#/units"; else window.scrollTo(0, 0); return; }
+    const msg = { th: "ยังไม่มีห้องที่บันทึก กด ☆ บนการ์ดห้องเพื่อบันทึก", en: "Nothing saved yet. Tap ☆ on a unit card to save it",
+      ru: "Пока ничего не сохранено. Нажмите ☆ на карточке", zh: "还没有收藏。点房源卡片上的 ☆ 收藏", ko: "저장한 매물이 없습니다. 카드의 ☆를 눌러 저장하세요",
+      ja: "保存した物件はまだありません。カードの ☆ で保存できます" }[lang] || "";
+    location.hash = "#/units";
+    let tt = document.getElementById("r2toast");
+    if (!tt){ tt = document.createElement("div"); tt.id = "r2toast"; tt.className = "r2toast"; document.body.appendChild(tt); }
+    tt.textContent = msg; tt.classList.add("on"); clearTimeout(tt._t); tt._t = setTimeout(() => tt.classList.remove("on"), 2800);
+  }
+};
 
 
 /* ------------------------------ render --------------------------- */
