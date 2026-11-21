@@ -104,8 +104,11 @@ const REVIEWS = [
   // { name:"Anna, Germany", stars:5, text:"…", date:"2026-10" }
 ];
 
-const SLIDES = [["H100",1],["H99",1],["H98",1],["H97",1],["H95",1],["H94",1],["H93",1],["H92",1],["H91",1],["H90",1],["H04",1],["H02",1],["H12",1],["H14",4],["H06",3],["C01",5]];  // one photo per listing (Thor 29 Oct); newest listings go first
+// Hero slideshow = the 6 FEATURED listings only (Thor 21 Nov 2026; replaces "every new listing in the slideshow" from 29 Oct).
+// The number picks which photo of the listing to show. Old list: H100,H99,H98,H97,H95,H94,H93,H92,H91,H90,H04,H02,H12,H14,H06,C01
+const SLIDE_PHOTO = { H14: 4, H06: 3, C01: 5 };
 const FEATURED = ["H04","H01","H02","C01","H06","H14"];
+const SLIDES = FEATURED.map(c => [c, SLIDE_PHOTO[c] || 1]);
 // Sattahip listings and land go at the end of TOP_PICKS and never in SLIDES (Thor 1 Nov 2026)
 // TOP_PICKS: the 54 standout listings (not counting FEATURED; 60 shown in all; the grid shows 12 at a time with a "+ more" button), in the order they lead the list.
 // Listings whose photos are fully AI-retouched go first; ones still on original photos go last.
