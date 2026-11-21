@@ -13,6 +13,75 @@
   const phone = /Android|iPhone|iPad|iPod/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua));
   const ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua));
   const inApp = /\bLine\/|FBAN|FBAV|Instagram|MicroMessenger/i.test(ua);
+  /* ---------- in the installed app only: bottom tab bar + reopen where you left off ----------
+     page sets window.HAI_APP = { tabs: [{ id, href | act, icon, match, label: {th,en,...} }] } before this script */
+  if (standalone && window.HAI_APP) {
+    const A = window.HAI_APP, LK = "hai-app-last:" + location.pathname;
+    const lg = () => (document.documentElement.lang || "th").slice(0, 2);
+    const ICON = {
+      home: '<path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h13V9.5"/>',
+      search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+      map: '<path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4zM9 4v14M15 6v14"/>',
+      star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"/>',
+      chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+      back: '<path d="M15 5 8 12l7 7"/>'
+    };
+    const BACK = { th: "ย้อนกลับ", en: "Back", zh: "返回", ko: "뒤로", ja: "戻る", ru: "Назад" };
+    const css2 = `body.hai-app{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+      body.hai-app .slbar{bottom:calc(74px + env(safe-area-inset-bottom))}
+      body.hai-app .toast{bottom:calc(140px + env(safe-area-inset-bottom))}
+      .hai-tabs{position:fixed;left:0;right:0;bottom:0;z-index:65;display:flex;background:#17202B;border-top:1px solid rgba(201,160,74,.45);
+        padding:6px 4px calc(6px + env(safe-area-inset-bottom));font:600 10.5px/1.2 "IBM Plex Sans Thai",system-ui,sans-serif}
+      .hai-tabs a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#A9B3C1;text-decoration:none;padding:3px 0;border-radius:10px;-webkit-tap-highlight-color:transparent}
+      .hai-tabs a.on{color:#C9A04A}.hai-tabs a:active{background:rgba(255,255,255,.06)}
+      .hai-tabs svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+      .hai-tabs a.on svg path[d^="m12 3.5"]{fill:currentColor}
+      .hai-tabs a.bk{flex:.8;color:#E6DCCD}.hai-tabs a.bk[aria-disabled="true"]{opacity:.35}`;
+    let nav, depth = 0;
+    const isHome = () => !location.hash || location.hash === "#" || location.hash === "#/";
+    function paint() {
+      if (!nav) return;
+      const h = location.hash || "#/", L = lg();
+      nav.innerHTML = `<a href="#" class="bk" data-back aria-disabled="${isHome() ? "true" : "false"}"><svg viewBox="0 0 24 24">${ICON.back}</svg>${BACK[L] || BACK.en}</a>` +
+        A.tabs.map(t => {
+          const on = t.match ? new RegExp(t.match).test(h) : h === t.href;
+          return `<a href="${t.href || "#"}" data-tab="${t.id}" class="${on ? "on" : ""}"><svg viewBox="0 0 24 24">${ICON[t.icon] || ""}</svg>${(t.label[L] || t.label.en)}</a>`;
+        }).join("");
+    }
+    function mount() {
+      document.head.appendChild(Object.assign(document.createElement("style"), { textContent: css2 }));
+      document.body.classList.add("hai-app");
+      nav = document.createElement("nav"); nav.className = "hai-tabs"; nav.setAttribute("aria-label", "App");
+      document.body.appendChild(nav); paint();
+      nav.addEventListener("click", e => {
+        const a = e.target.closest("a"); if (!a) return;
+        if (a.hasAttribute("data-back")) {
+          e.preventDefault(); if (isHome()) return;
+          if (depth > 0) history.back(); else location.hash = "#/";
+          return;
+        }
+        const t = A.tabs.find(x => x.id === a.dataset.tab);
+        if (t && t.act) { e.preventDefault(); t.act(); }
+        if (t && t.href === location.hash) scrollTo({ top: 0, behavior: "smooth" });
+      });
+      // re-label when the visitor switches language
+      new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    }
+    // 2) reopen where you left off (only on a fresh launch from the home screen icon, within 14 days)
+    let last = null; try { last = JSON.parse(localStorage.getItem(LK) || "null"); } catch (e) {}
+    if (isHome() && /src=app/.test(location.search) && last && last.h && last.h !== "#/" && Date.now() - last.t < 14 * 864e5) {
+      // Home stays underneath so Back works: a real hash navigation (not pushState) so every router sees it
+      addEventListener("load", () => setTimeout(() => { location.hash = last.h; }, 50));
+    }
+    addEventListener("hashchange", e => {
+      depth = isHome() ? 0 : depth + (e && e.isTrusted ? 1 : 0);
+      try { localStorage.setItem(LK, JSON.stringify({ h: location.hash || "#/", t: Date.now() })); } catch (err) {}
+      paint();
+    });
+    addEventListener("popstate", () => { depth = Math.max(0, depth - 2); setTimeout(paint, 0); });
+    if (document.body) mount(); else addEventListener("DOMContentLoaded", mount);
+  }
+
   const KEY = "hai-pwa-later", DAYS = 14;
   let later = 0; try { later = +localStorage.getItem(KEY) || 0; } catch (e) {}
   if (standalone || !phone || Date.now() - later < DAYS * 864e5) return;

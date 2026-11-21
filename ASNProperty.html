@@ -359,6 +359,24 @@
 <script>(function(){if(typeof ADMIN_VIEW==="undefined"||!ADMIN_VIEW)return;var b=document.createElement("div");b.className="adm-badge";b.innerHTML='มุมมองผู้ดูแล · ทุกทรัพย์ <a href="?view=public">ปิด</a>';document.body.appendChild(b)})();</script>
 <style>.adm-badge{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;background:#1F2A44;color:#fff;font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)}.adm-badge a{color:#F2C46D;margin-left:6px}</style>
 <script src="hai/engine.js?v=20261117q"></script>
-<script src="hai/pwa.js?v=20261121c" defer></script>
+<script>
+/* installed-app tab bar (hai/pwa.js shows it only when opened from the home-screen icon) */
+window.HAI_APP = { tabs: [
+  { id: "home", href: "#/", icon: "home", match: "^#?/?$", label: { th: "หน้าแรก", en: "Home", zh: "首页", ko: "홈", ja: "ホーム", ru: "Главная" } },
+  { id: "search", href: "#/listings", icon: "search", match: "^#/(listings|l/|zone/|land)", label: { th: "ค้นหา", en: "Search", zh: "搜索", ko: "검색", ja: "検索", ru: "Поиск" } },
+  { id: "map", href: "#/map", icon: "map", match: "^#/map", label: { th: "แผนที่", en: "Map", zh: "地图", ko: "지도", ja: "地図", ru: "Карта" } },
+  { id: "saved", icon: "star", label: { th: "ที่บันทึก", en: "Saved", zh: "收藏", ko: "저장", ja: "保存", ru: "Избранное" },
+    act() {
+      const bar = document.getElementById("slbar");
+      if (bar && !bar.hidden) return document.getElementById("slCompare").click();
+      const L = (document.documentElement.lang || "th").slice(0, 2);
+      const msg = { th: "ยังไม่มีทรัพย์ที่บันทึก กด ☆ บนการ์ดทรัพย์เพื่อบันทึก", en: "Nothing saved yet. Tap ☆ on a listing to save it", zh: "还没有收藏，点房源上的 ☆ 收藏", ko: "저장한 매물이 없습니다. 매물의 ☆를 누르세요", ja: "保存した物件はまだありません。物件の ☆ をタップ", ru: "Пока ничего нет. Нажмите ☆ на объекте" };
+      const t = document.getElementById("toast"); location.hash = "#/listings";
+      if (t) { t.textContent = msg[L] || msg.en; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2800); }
+    } },
+  { id: "contact", href: "#/contact", icon: "chat", match: "^#/(contact|book)", label: { th: "ติดต่อ", en: "Contact", zh: "联系", ko: "문의", ja: "連絡", ru: "Связь" } }
+] };
+</script>
+<script src="hai/pwa.js?v=20261121e" defer></script>
 </body>
 </html>
