@@ -1487,7 +1487,7 @@ async function buildSocialImage(u, opts){
 
   /* photo, kept bright — only the caption band below is darkened */
   const bgs = socBgList(u), bg = bgs.length ? await loadImg(bgs[soc.img % bgs.length]) : null;
-  ctx.fillStyle = "#123038"; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "#1B1411"; ctx.fillRect(0, 0, W, H);
   if (bg){
     const s2 = Math.max(W / bg.width, H / bg.height), w = bg.width * s2, h = bg.height * s2;
     ctx.filter = "brightness(1.06) saturate(1.04)";
@@ -1495,7 +1495,7 @@ async function buildSocialImage(u, opts){
     ctx.filter = "none";
   }
   let g = ctx.createLinearGradient(0, 0, 0, H * 0.2);                    // just enough for the logo
-  g.addColorStop(0, "rgba(6,28,34,.55)"); g.addColorStop(1, "rgba(6,28,34,0)");
+  g.addColorStop(0, "rgba(27,20,17,.55)"); g.addColorStop(1, "rgba(27,20,17,0)");
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.2);
 
   /* ---- caption band: measure every line first, then lay them out top-down ---- */
@@ -1513,9 +1513,10 @@ async function buildSocialImage(u, opts){
   const bandH = rows.reduce((a, r) => a + r.h + (r.gap || 0), 0) + PAD * 2;
   const fade = 150;
   g = ctx.createLinearGradient(0, H - bandH - fade, 0, H - bandH);
-  g.addColorStop(0, "rgba(6,28,34,0)"); g.addColorStop(1, "rgba(6,28,34,.9)");
+  g.addColorStop(0, "rgba(27,20,17,0)"); g.addColorStop(1, "rgba(27,20,17,.9)");
   ctx.fillStyle = g; ctx.fillRect(0, H - bandH - fade, W, fade);
-  ctx.fillStyle = "rgba(6,28,34,.9)"; ctx.fillRect(0, H - bandH, W, bandH);
+  ctx.fillStyle = "rgba(27,20,17,.9)"; ctx.fillRect(0, H - bandH, W, bandH);
+  ctx.fillStyle = "#C9A04A"; ctx.fillRect(PAD, H - bandH + 14, 120, 4);   // gold rule (Thor's element, every piece)
 
   /* QR sits inside the band, on the right */
   const qrMax = Math.min(210, bandH - 56);
@@ -1737,6 +1738,30 @@ function applyLang(){
   renderQuoteBy();
   render();
 }
+
+/* Monthly accent (fortune check for the R2 sales team: Thor admin, Koy and Kung sellers — 21 Nov 2026).
+   Month pillars of the Chinese solar calendar; every colour adds Fire / Earth warmth the three charts share and
+   never piles on Water. Gold stays in every piece. Extend the table each month (scheduled check on the 26th). */
+const MONTH_ACCENT = [
+  ["2026-11-07", "#7A2232"], // 己亥 burgundy
+  ["2026-12-07", "#A4472C"], // 庚子 terracotta: warmth against a cold Metal/Water month
+  ["2027-01-05", "#7A2232"], // 辛丑 burgundy
+  ["2027-02-04", "#1F5E46"], // 壬寅 forest green (Wood = sales)
+  ["2027-03-06", "#1F5E46"], // 癸卯 forest green
+  ["2027-04-05", "#B8913F"], // 甲辰 gold: steady month
+  ["2027-05-06", "#7A2232"], // 乙巳 burgundy
+  ["2027-06-06", "#8E2A2A"], // 丙午 deep red: best month for all three
+  ["2027-07-07", "#A4472C"], // 丁未 terracotta
+  ["2027-08-08", "#7A2232"], // 戊申 burgundy
+  ["2027-09-08", "#1F5E46"], // 己酉 forest green
+  ["2027-10-08", "#7A2232"], // 庚戌 burgundy
+  ["2027-11-08", "#7A2232"]  // 辛亥 burgundy
+];
+(() => {
+  const today = new Date().toISOString().slice(0, 10);
+  let c = null; for (const [from, col] of MONTH_ACCENT) if (from <= today) c = col;
+  if (c) document.documentElement.style.setProperty("--month", c);
+})();
 
 /* The quotation carries no sales contact: whoever prints it (Clare's team or any agent)
    types their own name and number once; this device remembers them (Thor 17 Nov 2026). */

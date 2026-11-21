@@ -30,3 +30,11 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
   `cd agents/r2/og-card && python3 make.py` (Playwright; paths inside point at /home/claude — adjust), copy `out/*.jpg`
   to `riviera-img/og/`, bump `?v=` on og:image/twitter:image in pages.json, run build.py.
 - Quotation print keeps the gold rule under the header and above the total (fortune check, 21 Nov 2026).
+
+## Fortune check (team chart, 21 Nov 2026)
+- Customer-facing R2 work follows the charts of Thor (page admin) and the main sellers Koy and Kung.
+  Team brief: Drive › ThB.Ho (Main) › AI Personalized Matching › 02 Match Briefs › Partners & Agents.
+- Palette: warm ivory base (Earth), coral prices (Fire), teal/green buttons (Wood), gold in every piece;
+  no navy/black-dominant surfaces (dark mode is warm charcoal). Never print anyone's chart or MBTI on the site.
+- `MONTH_ACCENT` in app.js sets `--month` (the gold→month strip under the top bar) per Chinese solar month.
+  The scheduled task "R2 ดวงรายเดือน" (26th of each month) extends and checks it.
