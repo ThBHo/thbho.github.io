@@ -36,6 +36,12 @@
       .hai-tabs a.on{color:#C9A04A}.hai-tabs a:active{background:rgba(255,255,255,.06)}
       .hai-tabs svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
       .hai-tabs a.on svg path[d^="m12 3.5"]{fill:currentColor}
+      .hai-off{display:none!important}
+      .hai-more{padding-top:4px!important}.hai-more .hm-t{font-weight:700;font-size:15px;margin:0 0 10px;color:var(--ink,#17202B)}
+      .hai-more .hm{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+      .hai-more .hm a{display:flex;align-items:center;gap:8px;padding:12px;border:1px solid var(--line,#E3DCD0);border-radius:14px;background:var(--surface,#fff);
+        color:var(--ink,#17202B);text-decoration:none;font-weight:600;font-size:14px}
+      .hai-more .hm a span{font-size:18px}
       .hai-tabs a.bk{flex:.8;color:#E6DCCD}.hai-tabs a.bk[aria-disabled="true"]{opacity:.35}`;
     let nav, depth = 0;
     const isHome = () => !location.hash || location.hash === "#" || location.hash === "#/";
@@ -48,11 +54,31 @@
           return `<a href="${t.href || "#"}" data-tab="${t.id}" class="${on ? "on" : ""}"><svg viewBox="0 0 24 24">${ICON[t.icon] || ""}</svg>${(t.label[L] || t.label.en)}</a>`;
         }).join("");
     }
+    /* screens: in the app the long home page is split by tab; sections not on the current screen are hidden (never removed) */
+    function screen() {
+      if (!A.container || !A.screens) return;
+      const box = document.querySelector(A.container); if (!box) return;
+      const h = location.hash || "#/", sc = A.screens.find(x => new RegExp(x.match).test(h));
+      [...box.children].forEach(el => {
+        const keep = el.id === "hai-more" ? !!(sc && sc.more) : !sc || sc.show.some(sel => el.matches(sel) || !!el.querySelector(sel));
+        el.classList.toggle("hai-off", !keep);
+      });
+      if (sc && sc.more) more(box);
+      dispatchEvent(new Event("resize"));            // maps redraw after being shown
+    }
+    function more(box) {
+      if (!A.more) return;
+      let m = document.getElementById("hai-more");
+      if (!m) { m = document.createElement("section"); m.id = "hai-more"; m.className = "sec hai-more"; const after = box.querySelector(A.more.after); after ? after.after(m) : box.appendChild(m); }
+      const L = lg();
+      m.innerHTML = `<div class="wrap"><p class="hm-t">${A.more.title[L] || A.more.title.en}</p><div class="hm">${A.more.links.map(x =>
+        `<a href="${x.href}"><span>${x.icon || ""}</span>${x.label[L] || x.label.en}</a>`).join("")}</div></div>`;
+    }
     function mount() {
       document.head.appendChild(Object.assign(document.createElement("style"), { textContent: css2 }));
       document.body.classList.add("hai-app");
       nav = document.createElement("nav"); nav.className = "hai-tabs"; nav.setAttribute("aria-label", "App");
-      document.body.appendChild(nav); paint();
+      document.body.appendChild(nav); paint(); screen();
       nav.addEventListener("click", e => {
         const a = e.target.closest("a"); if (!a) return;
         if (a.hasAttribute("data-back")) {
@@ -65,7 +91,7 @@
         if (t && t.href === location.hash) scrollTo({ top: 0, behavior: "smooth" });
       });
       // re-label when the visitor switches language
-      new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+      new MutationObserver(() => { paint(); const m = document.getElementById("hai-more"); if (m && !m.classList.contains("hai-off")) more(m.parentElement); }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
     }
     // 2) reopen where you left off (only on a fresh launch from the home screen icon, within 14 days)
     let last = null; try { last = JSON.parse(localStorage.getItem(LK) || "null"); } catch (e) {}
@@ -76,9 +102,9 @@
     addEventListener("hashchange", e => {
       depth = isHome() ? 0 : depth + (e && e.isTrusted ? 1 : 0);
       try { localStorage.setItem(LK, JSON.stringify({ h: location.hash || "#/", t: Date.now() })); } catch (err) {}
-      paint();
+      paint(); screen();
     });
-    addEventListener("popstate", () => { depth = Math.max(0, depth - 2); setTimeout(paint, 0); });
+    addEventListener("popstate", () => { depth = Math.max(0, depth - 2); setTimeout(() => { paint(); screen(); }, 0); });
     if (document.body) mount(); else addEventListener("DOMContentLoaded", mount);
   }
 

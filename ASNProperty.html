@@ -374,9 +374,29 @@ window.HAI_APP = { tabs: [
       const t = document.getElementById("toast"); location.hash = "#/listings";
       if (t) { t.textContent = msg[L] || msg.en; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2800); }
     } },
-  { id: "contact", href: "#/contact", icon: "chat", match: "^#/(contact|book)", label: { th: "ติดต่อ", en: "Contact", zh: "联系", ko: "문의", ja: "連絡", ru: "Связь" } }
-] };
+  { id: "contact", href: "#/contact", icon: "chat", match: "^#/(contact|book|about)", label: { th: "ติดต่อ", en: "Contact", zh: "联系", ko: "문의", ja: "連絡", ru: "Связь" } }
+],
+  /* app screens (Moshi: search first, simple; matching/astrology on their own pages) — sections only hidden, never removed */
+  container: "#homeView",
+  screens: [
+    { match: "^#?/?$", show: ["#top", "#hot"], more: true },
+    { match: "^#/(listings|land)", show: ["#listings", "#land"] },
+    { match: "^#/map", show: ["#map-sec"] },
+    { match: "^#/match$", show: ["#match"] },
+    { match: "^#/(contact|book|about)", show: ["#book", "#contact", "#about", "footer"] }
+  ],
+  more: { after: "#top",
+    title: { th: "เมนูอื่น", en: "More", zh: "更多", ko: "더 보기", ja: "その他", ru: "Ещё" },
+    links: [
+      { href: "#/listings", icon: "🏠", label: { th: "ทรัพย์ทั้งหมด", en: "All listings", zh: "全部房源", ko: "전체 매물", ja: "全物件", ru: "Все объекты" } },
+      { href: "#/land", icon: "🌳", label: { th: "ที่ดิน", en: "Land", zh: "土地", ko: "토지", ja: "土地", ru: "Земля" } },
+      { href: "#/matching", icon: "🧭", label: { th: "จับคู่บ้าน MBTI", en: "MBTI home match", zh: "MBTI 匹配", ko: "MBTI 매칭", ja: "MBTI マッチ", ru: "Подбор по MBTI" } },
+      { href: "#/destiny", icon: "✨", label: { th: "ดวงและฮวงจุ้ย", en: "Destiny & feng shui", zh: "命理与风水", ko: "운세·풍수", ja: "運勢と風水", ru: "Судьба и фэн-шуй" } },
+      { href: "#/book", icon: "📅", label: { th: "นัดชมทรัพย์", en: "Book a viewing", zh: "预约看房", ko: "방문 예약", ja: "内見予約", ru: "Записаться" } },
+      { href: "#/about", icon: "ℹ️", label: { th: "เกี่ยวกับ ASN", en: "About ASN", zh: "关于 ASN", ko: "ASN 소개", ja: "ASN について", ru: "Об ASN" } }
+    ] }
+};
 </script>
-<script src="hai/pwa.js?v=20261121e" defer></script>
+<script src="hai/pwa.js?v=20261121f" defer></script>
 </body>
 </html>
