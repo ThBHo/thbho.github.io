@@ -26,7 +26,7 @@ for p in cfg["pages"]:
         '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">\n'
         '<meta name="apple-mobile-web-app-title" content="R2"><meta name="apple-mobile-web-app-status-bar-style" content="black">')
     pwa_body = "" if unit else ('<script src="agents/r2/app-tabs.js?v={{V}}"></script>\n'
-        '<script src="hai/pwa.js?v=20261121f" defer></script>\n')
+        '<script src="hai/pwa.js?v=20261121g" defer></script>\n')
     html = tpl.replace("{{PWA_HEAD}}", pwa_head).replace("{{PWA_BODY}}", pwa_body).replace("{{VARS}}", p["vars"]).replace("{{META}}", "\n".join(p["meta"])).replace("{{CONTACT}}", "" if "UNIT_PAGE" in p["vars"] else '<script src="agents/r2/contact.js?v={{V}}"></script>\n').replace("{{V}}", cfg["version"])
     open(os.path.join(root, p["file"]), "w", encoding="utf-8").write(html); n += 1
 print(f"built {n} pages (version {cfg['version']})")

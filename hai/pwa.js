@@ -128,14 +128,20 @@
   };
   const SH = '<svg class="sh" viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5v10h14V11h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const STEPS = {
-    th: ["แตะปุ่มแชร์ [SH] ที่แถบล่างของ Safari (ลูกศรชี้อยู่)", "เลื่อนรายการลง แล้วแตะ <b>“เพิ่มไปยังหน้าจอโฮม”</b> (ถ้าไม่เห็น แตะ “ดูเพิ่มเติม”)", "แตะ <b>“เพิ่ม”</b> มุมขวาบน ไอคอน ASN จะอยู่บนหน้าจอโฮม"],
-    en: ["Tap the Share button [SH] in Safari's bottom bar (the arrow points to it)", "Scroll down and tap <b>“Add to Home Screen”</b> (if missing, tap “View More”)", "Tap <b>“Add”</b> at the top right — the ASN icon appears on your home screen"],
+    th: ["แตะปุ่มแชร์ [SH] ที่แถบล่างของ Safari (ลูกศรชี้อยู่)", "เลื่อนรายการลง แล้วแตะ <b>“เพิ่มไปยังหน้าจอโฮม”</b> (ถ้าไม่เห็น แตะ “ดูเพิ่มเติม”)", "แตะ <b>“เพิ่ม”</b> มุมขวาบน ไอคอน [APP] จะอยู่บนหน้าจอโฮม"],
+    en: ["Tap the Share button [SH] in Safari's bottom bar (the arrow points to it)", "Scroll down and tap <b>“Add to Home Screen”</b> (if missing, tap “View More”)", "Tap <b>“Add”</b> at the top right — the [APP] icon appears on your home screen"],
     zh: ["点 Safari 底部的分享按钮 [SH]（箭头所指）", "向下滑动，点 <b>“添加到主屏幕”</b>（没有就点“查看更多”）", "点右上角 <b>“添加”</b>"],
     ko: ["Safari 아래쪽 공유 버튼 [SH]을 누르세요 (화살표 위치)", "아래로 스크롤해 <b>“홈 화면에 추가”</b>를 누르세요 (없으면 “더 보기”)", "오른쪽 위 <b>“추가”</b>를 누르세요"],
     ja: ["Safari 下部の共有ボタン [SH] をタップ（矢印の場所）", "下にスクロールして <b>「ホーム画面に追加」</b>（見つからなければ「さらに表示」）", "右上の <b>「追加」</b> をタップ"],
     ru: ["Нажмите «Поделиться» [SH] внизу Safari (куда указывает стрелка)", "Прокрутите вниз и нажмите <b>«На экран Домой»</b> (если нет — «Ещё»)", "Нажмите <b>«Добавить»</b> вверху справа"]
   };
   const T = () => TX[(document.documentElement.lang || "th").slice(0, 2)] || TX.en;
+  /* The app name in step 3 comes from this page's own manifest (short_name, else name), so every agent
+     site shows its own name ("ASN", "R2", ...). Until it loads, or if there is none, the name is left out. */
+  let APP = "";
+  const mf = document.querySelector('link[rel="manifest"]');
+  if (mf && mf.href) fetch(mf.href).then(r => r.json()).then(j => { APP = String(j.short_name || j.name || "").trim(); if (box) render(); }).catch(() => {});
+  const appName = x => APP ? x.replace(/\[APP\]/g, APP) : x.replace(/ ?\[APP\]/g, "");
 
   let deferred = null, shown = false;
   addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; if (shown) render(); });
@@ -164,7 +170,7 @@
   }
   function render() {
     const t = T(), icon = (document.querySelector('link[rel="apple-touch-icon"]') || {}).href || "";
-    const L = (document.documentElement.lang || "th").slice(0, 2), steps = (STEPS[L] || STEPS.en).map(x => x.replace("[SH]", SH));
+    const L = (document.documentElement.lang || "th").slice(0, 2), steps = (STEPS[L] || STEPS.en).map(x => appName(x.replace("[SH]", SH)));
     const iosSafari = ios && !inApp && !deferred;
     const how = (deferred ? "" : inApp ? t.app : ios ? t.ios : t.s).replace("[SH]", SH);
     if (!deferred && !ios && !inApp) return;           // browser can't install: say nothing
