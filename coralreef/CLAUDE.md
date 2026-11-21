@@ -31,7 +31,8 @@ Owner chat: "Coral Reef Sale Page". Other chats: leave a row in the ThB.Ho Updat
   garden-view original in the gallery as reference.
 - Old photos stay in the gallery after the new ones as reference until Thor picks which to delete.
 - Renders and AI images are labelled "ภาพจำลอง". AI images go through the thbho-visual-qa skill.
-- Hero slides: 16:9, main subject on the right (left side holds the darkened text area).
+- Hero slides: 16:9; place the main subject away from this page's text/darkened area, chosen per image (not always
+  on the right — Thor, 21 Nov 2026).
 
 ## Sales documents
 - Ads, quotations, proposals, executive summaries and other sales documents: run the thbho-fortune-check skill before
