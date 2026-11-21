@@ -31,11 +31,3 @@ if (window.SUB_PAGE) {
   const fix = x => { if (x.href && x.href[0] === "#") x.href = "Riviera2Resale.html" + x.href; };
   HAI_APP.tabs.forEach(fix); HAI_APP.more.links.forEach(fix); delete HAI_APP.screens;
 }
-/* hai/pwa.js (Core) writes "ASN" in the iPhone install steps; on Clare's pages never name another agent:
-   swap it for this app's name until Core takes the name from the manifest. */
-(function () {
-  const fix = () => document.querySelectorAll(".hai-pwa li, .hai-pwa .s").forEach(el => {
-    if (/\bASN\b/.test(el.innerHTML)) el.innerHTML = el.innerHTML.replace(/\bASN\b/g, "R2");
-  });
-  new MutationObserver(fix).observe(document.documentElement, { childList: true, subtree: true });
-})();
