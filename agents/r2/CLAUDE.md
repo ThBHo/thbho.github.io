@@ -23,3 +23,10 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Ads, quotations, proposals and sales documents: run the thbho-fortune-check skill before delivery
   (Clare's team has no Match Profile yet, so match on Thor's chart only).
 - Share cards (og:image) for R2 carry only Clare Pattaya Property's logo (skill thbho-share-card).
+
+## Share cards (og:image)
+- One 1200×630 card per page in `riviera-img/og/og-<CODE|main|matching|destiny>.jpg`, Clare logo only, gold price label.
+- The label shows the selling price, so re-make the cards when prices or units change:
+  `cd agents/r2/og-card && python3 make.py` (Playwright; paths inside point at /home/claude — adjust), copy `out/*.jpg`
+  to `riviera-img/og/`, bump `?v=` on og:image/twitter:image in pages.json, run build.py.
+- Quotation print keeps the gold rule under the header and above the total (fortune check, 21 Nov 2026).
