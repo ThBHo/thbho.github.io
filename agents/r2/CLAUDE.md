@@ -25,9 +25,11 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Share cards (og:image) for R2 carry only Clare Pattaya Property's logo (skill thbho-share-card).
 
 ## Share cards (og:image)
-- One 1200×630 card per page in `riviera-img/og/og-<CODE|main|matching|destiny>.jpg`, Clare logo only, gold price label.
+- One 1200×630 card per page in `riviera-img/og/og-<CODE|main|matching|destiny>.jpg`, Clare logo only (ink version), gold price label.
+- Warm tone since 23 Nov 2026 (Thor approved, team chart): cream base #F1EAD9, warm brown title #3A2A1C, gold label #B8913F,
+  thin gold rule on top, photo fading into the cream. The near-black Krubb background is backup only.
 - The label shows the selling price, so re-make the cards when prices or units change:
-  `cd agents/r2/og-card && python3 make.py` (Playwright; paths inside point at /home/claude — adjust), copy `out/*.jpg`
+  `cd agents/r2/og-card && python3 make.py` (Playwright; `ONLY=main,14E05` renders just those), copy `out/*.jpg`
   to `riviera-img/og/`, bump `?v=` on og:image/twitter:image in pages.json, run build.py.
 - Quotation print keeps the gold rule under the header and above the total (fortune check, 21 Nov 2026).
 
