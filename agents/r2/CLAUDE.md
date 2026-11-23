@@ -37,7 +37,7 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Palette: warm ivory base (Earth), coral prices (Fire), teal/green buttons (Wood), gold in every piece;
   no navy/black-dominant surfaces (dark mode is warm charcoal). Never print anyone's chart or MBTI on the site.
 - `MONTH_ACCENT` in app.js sets `--month` (the gold→month strip under the top bar) per Chinese solar month.
-  The scheduled task "R2 ดวงรายเดือน" (26th of each month) extends and checks it.
+  The scheduled task "R2 ดวงรายเดือน" (25th of each month, 12:25) extends and checks it.
 
 ## Phone app (PWA, 21 Nov 2026)
 - `agents/r2/app/` (manifest + icons) and `agents/r2/app-tabs.js` (HAI_APP tabs/screens); build.py adds them only to the
@@ -45,3 +45,12 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Shared files `hai/pwa.js` and `/hai-sw.js` belong to Core: don't edit. The home sections sit in `<div id="homeView">`
   so the app can show one screen per tab (sections are hidden, never removed).
 - Tabs: หน้าแรก #/ · ค้นหาห้อง #/units · ที่บันทึก (shortlist, `R2App.showSaved`) · ติดต่อ #/contact · more: #/about, #matching, #destiny.
+
+## Shared with every AI (23 Nov 2026)
+- Unit sheet "R2 by Clare · รายการยูนิต" (folder "สำหรับ AI ทุกตัว"):
+  https://docs.google.com/spreadsheets/d/1kYpA3rY8QueVBpBP0F8uo6tDyHSuuqTXK_yKfYob5xA/edit — owned by this chat.
+  Whenever a price, promo, status or hidden unit changes in data.js, update its Units tab and the "ข้อมูล ณ" date.
+- Every change: one dated line with links in "00 Sync Index"
+  (https://docs.google.com/document/d/1DtoOBMIyFJSdR26Z4d86jAV76I1dv99aIwg5pDeBcfg/edit) + a row in the Update Log.
+- Birth data lives only in the Match Profiles sheet; never in docs, calendar, index lines or this repo.
+- Documents for Koy and Kung: cream/white base + gold, burgundy only as small accents (no black-red).
