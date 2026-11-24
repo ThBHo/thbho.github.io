@@ -17,6 +17,12 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
   never guess. Developer units = cells with a visible price in the developer price list PDF in Drive COPA1 (Webpage)
   (coloured cells = sold; red price = Thai quota, blue = foreign quota; id = letter + floor + stack no. (A2 on floor 44 = A4402, same code as the rental team), sqm = price ÷ price/sqm).
   Current list: 24 Nov 2026, 89 units; it also states sinking fund 500 THB/sqm once and maintenance 50 THB/sqm, 12 months ahead. The old 2566 Sales Kit is used only for building facts and unit types, marked "รอยืนยัน".
+- Rent units are NOT in the page: they load from `copa1-img/rent-units.json`, built by `copa1-img/build_rent.py` from the rental
+  team's "Daily Updated Units & Rentout.xlsx" (Drive id 1R7noilOQjL_2oKfxMnoee2JeqSYKMx04, tab "Price list"; achieved-rent
+  medians from tab "Rent Out Units"). Status Available → avail, Future Available → soon (+ free-from date). "Yearly Rates" =
+  per month on a 1-year contract (rentYM). Public fields only: the workbook and the Owner Master hold owner names, phones,
+  emails, bank accounts, deposits, owner rates and remarks — never commit them; this repo is public. `?m=rent` opens the rent tab.
+  The rental back office (contracts, owner payments, bookings) belongs to the chat "COPA1 Rental Backend", not this one.
 - Investor section shows only confirmed actual rents; the calculator is an estimate from the visitor's own inputs. No guaranteed returns.
 - Phone number: not shown until Thor confirms it. LINE = tappable oaMessage button (@copacabanajomtien), never a QR.
 - Hero video: set `HERO_VIDEO` to a compressed clip in `copa1-img/hero/` (source: Drive COPA1 (Webpage) › Copa1ReadyToMoveIn001.mp4).
