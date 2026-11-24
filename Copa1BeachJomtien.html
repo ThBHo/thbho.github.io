@@ -507,7 +507,7 @@ const SLIDES = [
 ];
 const SHOW29 = ["copa1-img/show/s29-1.jpg","copa1-img/show/s29-2.jpg","copa1-img/show/s29-3.jpg","copa1-img/show/s29-4.jpg"];
 const SHOW35 = ["copa1-img/show/s35-1.jpg","copa1-img/show/s35-2.jpg","copa1-img/show/s35-3.jpg","copa1-img/show/s35-4.jpg","copa1-img/show/s35-5.jpg","copa1-img/show/plan-35-type10.jpg"];
-const TYPE_PHOTO = {"1BR":["copa1-img/show/s35-1.jpg","ph.sample"],"1BRJ":["copa1-img/show/s35-3.jpg","ph.sample"],"2BRJ":["copa1-img/fac-facade.jpg","ph.bldg"],"1BRP":["copa1-img/fac-tower.jpg","ph.bldg"]};
+const TYPE_PHOTO = {"1BR":["copa1-img/show/s35-1.jpg","ph.sample"],"1BRJ":["copa1-img/show/s35-3.jpg","ph.sample"],"2BRJ":["copa1-img/show/r72.jpg","ph.sample"],"1BRP":["copa1-img/show/r80.jpg","ph.sample"]};
 /* Room types as listed in the developer Sales Kit (Feb 2021 edition); confirm with Thor */
 const TYPES = [["1BR",[29,35,39.5,45]],["1BRJ",[39,46.5]],["2BRJ",[64,65,72]],["1BRP",[80]]];
 const FAC = [
@@ -548,6 +548,7 @@ th:{
  "card.ask":"ทักไลน์ห้องนี้", "card.plan":"ผัง & แปลน", full:"เปิดภาพเต็ม ↗",
  "plan.e":"ผังทุกชั้น","plan.pick":"เลือกชั้นเพื่อดูผัง","plan.floorOnly":"ผังชั้นจาก Sales Kit ผู้พัฒนา · ด้านหน้าทะเล (A) อยู่ซ้าย · ฝั่งพัทยา (B, C) แถวบน · ฝั่งจอมเทียน (D, E) แถวล่าง · ใช้ประกอบการตัดสินใจ",
  "plan.floorCap":"ผังชั้น {f} · หาป้าย {u} บนผัง · ด้านหน้าทะเล (A) อยู่ซ้าย · ฝั่งพัทยา (B, C) แถวบน · ฝั่งจอมเทียน (D, E) แถวล่าง · จาก Sales Kit ผู้พัฒนา ใช้ประกอบการตัดสินใจ",
+ "plan.rentCap":"แปลนห้องฉบับปรับปรุงจากฝ่ายขาย-เช่า Copacabana · ห้องนี้ {a} ตร.ม. · การตกแต่งอาจต่างจากห้องจริง",
  "plan.typeCap":"แปลน Type {k} จาก Sales Kit ผู้พัฒนา (ในแปลน {s} ตร.ม.) · ห้องนี้ {a} ตร.ม. · การตกแต่งและรายละเอียดอาจต่างจากห้องจริง",
  "ty.1BR":"1 ห้องนอน","ty.1BRJ":"1 ห้องนอน + จากุซซี่ที่ระเบียง","ty.2BRJ":"2 ห้องนอน + จากุซซี่ที่ระเบียง","ty.1BRP":"1 ห้องนอน + สระว่ายน้ำส่วนตัว",
  "r.eyebrow":"Ready to move in","r.h":"ห้องจริง ตกแต่งครบ พร้อมอยู่","r.galNote":"ภาพจริงห้อง 1 ห้องนอน 35 ตร.ม. และผังห้องจาก Sales Kit การตกแต่งแต่ละห้องอาจต่างกัน",
@@ -615,6 +616,7 @@ en:{
  "card.ask":"Ask about this unit", "card.plan":"Floor & unit plan", full:"Full size ↗",
  "plan.e":"Every floor plan","plan.pick":"Pick a floor to view its plan","plan.floorOnly":"Floor plan from the developer's Sales Kit · beachfront (A) on the left · Pattaya side (B, C) top row · Jomtien side (D, E) bottom row · for reference.",
  "plan.floorCap":"Floor {f} plan · look for label {u} · beachfront (A) on the left · Pattaya side (B, C) top row · Jomtien side (D, E) bottom row · from the developer's Sales Kit, for reference.",
+ "plan.rentCap":"Updated unit plan from Copacabana's sales and rental team · this unit {a} sqm · furnishing may differ.",
  "plan.typeCap":"Type {k} plan from the developer's Sales Kit ({s} sqm on plan) · this unit {a} sqm · furnishing and details may differ.",
  "ty.1BR":"1 bedroom","ty.1BRJ":"1 bedroom + balcony jacuzzi","ty.2BRJ":"2 bedrooms + balcony jacuzzi","ty.1BRP":"1 bedroom + private pool",
  "r.eyebrow":"Ready to move in","r.h":"Real, fully furnished, ready now","r.galNote":"Real photos of a 35 sqm one-bedroom unit and its plan from the Sales Kit. Furnishing varies by unit.",
@@ -714,7 +716,7 @@ function list(){
   });
 }
 function card(u){
-  const tp=TYPE_PHOTO[u.type]||[SHOW35[0],"ph.sample"], img=u.photo||(tp[1]==="ph.sample"?(u.sqm<31?SHOW29[UNITS.indexOf(u)%2]:SHOW35[UNITS.indexOf(u)%3]):tp[0]), cap=u.photo?"":'<span class="phcap">'+t(tp[1])+'</span>';
+  const tp=TYPE_PHOTO[u.type]||[SHOW35[0],"ph.sample"], img=u.photo||(u.sqm>=44&&u.sqm<46?"copa1-img/show/r45.jpg":(u.type==="2BRJ"||u.type==="1BRP")?tp[0]:tp[1]==="ph.sample"?(u.sqm<31?SHOW29[UNITS.indexOf(u)%2]:SHOW35[UNITS.indexOf(u)%3]):tp[0]), cap=u.photo?"":'<span class="phcap">'+t(tp[1])+'</span>';
   let price;
   if(u.grp==="rent"){const v=rentOf(u); price=v?fmt(v)+' <small>฿ '+t("perM")+(st.term==="y"?' · '+t("yc"):'')+'</small>':'<small>'+t(st.term==="y"?"noY":"ask")+'</small>';}
   else price=u.price?fmt(u.price)+' <small>฿'+(u.psm?' · '+fmt(u.psm)+' ฿/'+t("sqmU"):'')+'</small>':'<small>'+t("ask")+'</small>';
@@ -795,11 +797,12 @@ function calc(){
 
 /* floor and unit plans from the developer Sales Kit (2021 edition, illustrative) */
 const FLOORS=new Set(["6","7","8","9","10","11","12","12A","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","53A","55","56","57","58","59"]);
+const RPLAN={1:"r-46",6:"r-46",2:"r-64",5:"r-65",11:"r-39",12:"r-39",15:"r-80"}; // newer plan cards from the rental team
 const KIT_SQM={1:"46.50",2:"64",3:"72",4:"45",5:"65",6:"46.50",7:"29",8:"29",9:"35",10:"35",11:"39",12:"39",13:"39.50",14:"39.50",15:"80"};
 function kitType(u){
   const L=u.id[0], st=+u.id.slice(-2), a=u.sqm||0, pat=(L==="B"||L==="C");
   if(L==="A") return st>=1&&st<=6?st:null;
-  if(a>=79) return L==="B"?15:null;
+  if(a>=60) return L==="B"?15:null; // E-stack pool units (type 16) have no plan page
   if(a<31) return pat?7:8;
   if(a<36) return pat?10:9;
   if(a<38.5) return pat?13:14;
@@ -808,6 +811,7 @@ function kitType(u){
 }
 function openPlans(u){
   const f=String(u.floor), imgs=["copa1-img/floor/f-"+f+".jpg"], caps=[t("plan.floorCap",{f,u:u.id})], k=kitType(u);
+  const r=RPLAN[k]; if(r){imgs.push("copa1-img/plan/"+r+".jpg"); caps.push(t("plan.rentCap",{a:u.sqm}));}
   if(k){imgs.push("copa1-img/plan/type-"+k+".jpg"); caps.push(t("plan.typeCap",{k,s:KIT_SQM[k],a:u.sqm}));}
   lbOpen(imgs,0,u.id+" · "+t("floor",{n:f}),caps);
 }
