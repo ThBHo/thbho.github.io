@@ -33,6 +33,10 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
   come from the developer Sales Kit (Feb 2021, preliminary) — always captioned "for reference". Unit → kit type in `kitType()`;
   E-stack 80 sqm pool units (type 16) have no plan page. Labels on the plans are raster, so units are not auto-highlighted:
   the caption tells the visitor which label to look for.
+- Position plate (unit sheet, card button "ตำแหน่ง & แปลน") and the "ผังห้องตามชั้น" tower follow the R2 page. `FS` in the page lists
+  which stacks exist on each floor, read by eye from every Sales Kit floor plan (25 Nov 2026); `plateCells()` places them
+  (A block at the beach end; B01–B09, C01–C10 top row = Pattaya side; E06–E01, D09–D01 bottom row = Jomtien side).
+  Every listed unit must sit on a stack in `FS` for its floor — check this after each price-list or rent-feed change.
 - `copa1-img/plan/r-*.jpg` = newer plan cards from the rental team (Drive folder 13YVUCpTc7XsyNaXiqWQxBbrT_1fOxKor), shown first.
 - Real unit photos per rent unit live in that same Drive folder (one folder per unit code); not on the page yet.
 

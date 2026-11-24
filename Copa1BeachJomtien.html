@@ -140,6 +140,50 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 .yld{font-size:12.5px;color:var(--teal);font-weight:600}
 .card .acts{margin-top:auto;display:flex;gap:8px}
 .card .acts .btn{flex:1}
+/* position plate + floor tower (same idea as the R2 page) */
+.tower{margin-top:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.tower>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 16px;font-weight:600;color:var(--burg)}
+.tower>summary::-webkit-details-marker{display:none}
+.tower>summary small{font-weight:400;color:var(--muted);font-size:12.5px}
+.tower>summary::after{content:"▾";margin-left:auto;color:var(--muted)}.tower[open]>summary::after{content:"▴"}
+.tw-rows{max-height:330px;overflow:auto;padding:4px 10px 8px;border-top:1px solid var(--line)}
+.frow{display:grid;grid-template-columns:40px 1fr;align-items:center;gap:8px;width:100%;border:0;background:none;padding:3px 6px;border-radius:6px;text-align:left;cursor:pointer;font:inherit}
+.frow:hover{background:var(--alt)}
+.frow[aria-pressed="true"]{background:color-mix(in srgb,var(--teal) 10%,transparent);box-shadow:inset 2px 0 0 var(--teal)}
+.frow .fl{font:500 11.5px var(--f-mono);color:var(--muted);text-align:right}
+.frow[aria-pressed="true"] .fl{color:var(--teal);font-weight:700}
+.cells{display:flex;gap:3px;flex-wrap:wrap}
+.cell{width:13px;height:13px;border-radius:3px;border:1.5px solid var(--cc);background:var(--cc)}
+.cell.dev{--cc:var(--dev)}.cell.resale{--cc:var(--resale)}.cell.rent{--cc:var(--rent)}
+.cell.soon{background:transparent}.cell.reserved{opacity:.35}
+.tw-leg{display:flex;flex-wrap:wrap;gap:6px 14px;padding:10px 16px 12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.tw-leg span{display:inline-flex;align-items:center;gap:6px}
+.chipx{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--teal);color:var(--teal);background:none;border-radius:999px;padding:2px 10px;font:600 12.5px var(--f-body);cursor:pointer;margin-left:8px}
+#us{width:min(820px,100%);max-width:100%;max-height:calc(100dvh - 24px);margin:auto;padding:0;border:0;border-radius:18px;background:var(--bg);color:var(--ink);box-shadow:0 20px 60px rgba(20,10,5,.35)}
+#us::backdrop{background:rgba(30,15,10,.55)}
+.us-top{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--bg);border-bottom:1px solid var(--line)}
+.us-top h3{font:600 20px var(--f-mono);color:var(--burg)}
+.us-top span{color:var(--muted);font-size:14px}
+.us-x{margin-left:auto;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:16px;cursor:pointer;color:var(--ink)}
+.us-bd{padding:6px 18px 22px;display:grid;gap:16px}
+.us-bd h4{font:600 17px var(--f-display);color:var(--burg);margin:8px 0 -6px}
+.plate{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 6px;-webkit-overflow-scrolling:touch}
+.plate svg{display:block;width:100%;min-width:600px;height:auto}
+.plate svg .uc{cursor:pointer}
+.u-floor{display:grid;gap:6px}
+.u-floor-cap{font-size:14px;color:var(--ink)}.u-floor-cap b{font-family:var(--f-mono)}
+.u-floor-bar{display:flex;gap:2px;height:22px}
+.u-floor-bar i{flex:1;border-radius:2px;background:var(--chip)}
+.u-floor-bar i.res{background:color-mix(in srgb,var(--teal) 22%,var(--surface))}
+.u-floor-bar i.on{background:var(--burg)}
+.u-floor-legend{position:relative;height:16px;font:500 11px var(--f-mono);color:var(--muted)}
+.u-floor-legend span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.u-floor-legend span.on{color:var(--burg);font-weight:700}
+.us-plans{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.us-plans button{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0;overflow:hidden;cursor:pointer;text-align:left;font:inherit;color:var(--ink)}
+.us-plans img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:center;display:block;background:var(--chip)}
+.us-plans span{display:block;padding:7px 10px;font-size:12.5px}
+@media (max-width:640px){#us{width:100%;max-height:calc(100dvh - 12px);margin:auto 0 0;border-radius:18px 18px 0 0}.us-bd{padding:4px 14px 20px}}
 .empty{margin-top:16px;padding:28px 22px;border:1.5px dashed var(--line);border-radius:16px;background:var(--surface);display:grid;gap:12px;justify-items:start}
 .empty b{font-size:17px;color:var(--burg)}
 
@@ -281,7 +325,11 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
     <select id="fSort" aria-label="Sort"></select>
     <div class="rterm" id="rTerm" role="group" aria-label="Rent term" hidden><button type="button" data-t="m" aria-pressed="true" data-i18n="t.m"></button><button type="button" data-t="y" aria-pressed="false" data-i18n="t.y"></button></div>
   </div>
-  <div class="tmeta"><span id="meta"></span><button class="link" type="button" id="fReset" data-i18n="f.reset"></button></div>
+  <details class="tower" id="towerBox" open><summary><span data-i18n="tw.h"></span><small data-i18n="tw.sub"></small></summary>
+    <div class="tw-rows" id="tower"></div>
+    <div class="tw-leg"><span><i class="cell dev"></i><span data-i18n="b.dev"></span></span><span><i class="cell resale"></i><span data-i18n="b.resale"></span></span><span><i class="cell rent"></i><span data-i18n="b.rent"></span></span><span><i class="cell rent soon"></i><span data-i18n="tw.soon"></span></span></div>
+  </details>
+  <div class="tmeta"><span><span id="meta"></span><button class="chipx" type="button" id="fxChip" hidden></button></span><button class="link" type="button" id="fReset" data-i18n="f.reset"></button></div>
   <div class="grid" id="grid"></div>
   <div style="text-align:center;margin-top:18px"><button class="btn ghost" type="button" id="moreBtn" hidden></button></div>
   <p class="note" style="margin-top:16px"><span data-i18n="fees"></span></p>
@@ -396,6 +444,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   <p class="brands"><a href="https://thbho.com/EngWiderooms.html" target="_blank" rel="noopener"><img src="copa1-img/brand/logo-widerooms.jpg" alt="" width="71" height="40"><span>WIDEROOMS</span></a><a href="https://thbho.com/AIGymmateXFactory.html" target="_blank" rel="noopener"><img src="copa1-img/brand/logo-thho.jpg" alt="" width="94" height="40"><span>Hybrid AI by ThB.Ho</span></a></p>
 </div></footer>
 <div class="mbar"><a class="btn ghost" href="#units" data-i18n="mb.units"></a><a class="btn line" target="_blank" rel="noopener" data-line="mbar" data-i18n="lineAsk"></a></div>
+<dialog id="us" aria-labelledby="usT"><div class="us-top"><h3 id="usT"></h3><span id="usS"></span><button class="us-x" id="usX" type="button" aria-label="Close">✕</button></div><div class="us-bd" id="usB"></div></dialog>
 <dialog id="lb" aria-label="Photo viewer"><div class="lb-top"><span id="lbT"></span><a id="lbFull" class="lb-full" target="_blank" rel="noopener" data-i18n="full"></a><button class="lb-x" id="lbX" type="button" aria-label="Close">✕</button></div><div class="lb-st"><button class="lb-n" id="lbP" type="button" aria-label="Previous">‹</button><img id="lbI" alt=""><button class="lb-n" id="lbN" type="button" aria-label="Next">›</button><p id="lbCap" class="lb-cap" hidden></p></div></dialog>
 
 <script>
@@ -545,7 +594,11 @@ th:{
  floor:"ชั้น {n}", sqm:"{n} ตร.ม.", perM:"/ เดือน", perY:"/ ปี", ask:"สอบถามราคา", yc:"สัญญา 1 ปี", noY:"ไม่มีราคาสัญญารายปี",
  "i.realMed":"ค่าเช่ากลาง {v} / เดือน · {n} สัญญา", "i.realNote":"ค่ากลาง (มัธยฐาน) ของค่าเช่าที่ปล่อยได้จริงในโครงการ 12 เดือนล่าสุด จากบันทึกฝ่ายเช่า อัปเดต {d} · ส่วนใหญ่เป็นสัญญารายเดือน",
  yld:"ผลตอบแทนจากค่าเช่าจริง ~{n}% ต่อปี (ก่อนหักค่าใช้จ่าย)",
- "card.ask":"ทักไลน์ห้องนี้", "card.plan":"ผัง & แปลน", full:"เปิดภาพเต็ม ↗",
+ "card.ask":"ทักไลน์ห้องนี้", "card.plan":"ตำแหน่ง & แปลน",
+ "tw.h":"ผังห้องตามชั้น","tw.sub":"คลิกที่ชั้นเพื่อดูเฉพาะชั้นนั้น","tw.soon":"ห้องเช่าที่จะว่างภายหลัง","tw.fx":"ชั้น {f} ✕",
+ "us.loc":"ตำแหน่งห้องในอาคาร","us.beach":"ชายหาดจอมเทียน","us.pat":"ฝั่งพัทยา","us.jom":"ฝั่งจอมเทียน","us.other":"ห้องอื่นในรายการ ชั้นนี้ (แตะเพื่อดู)",
+ "us.of":"จาก","us.levels":"ชั้น","us.note":"ผังตำแหน่งโดยสังเขป อ้างอิงผังเลขห้องใน Sales Kit ของโครงการ ตำแหน่งและทิศทางเป็นค่าประมาณ ช่องที่ไม่มีแสดงคือส่วนกลาง สวน หรือห้องขนาดใหญ่ที่รวมช่องไว้",
+ "us.plans":"ผังชั้น & แปลนห้อง","us.pF":"ผังชั้น {f} (Sales Kit)","us.pR":"แปลนห้องฉบับปรับปรุง","us.pT":"แปลน Type {k} (Sales Kit)","us.ask":"ทักไลน์สอบถามห้องนี้", full:"เปิดภาพเต็ม ↗",
  "plan.e":"ผังทุกชั้น","plan.pick":"เลือกชั้นเพื่อดูผัง","plan.floorOnly":"ผังชั้นจาก Sales Kit ผู้พัฒนา · ด้านหน้าทะเล (A) อยู่ซ้าย · ฝั่งพัทยา (B, C) แถวบน · ฝั่งจอมเทียน (D, E) แถวล่าง · ใช้ประกอบการตัดสินใจ",
  "plan.floorCap":"ผังชั้น {f} · หาป้าย {u} บนผัง · ด้านหน้าทะเล (A) อยู่ซ้าย · ฝั่งพัทยา (B, C) แถวบน · ฝั่งจอมเทียน (D, E) แถวล่าง · จาก Sales Kit ผู้พัฒนา ใช้ประกอบการตัดสินใจ",
  "plan.rentCap":"แปลนห้องฉบับปรับปรุงจากฝ่ายขาย-เช่า Copacabana · ห้องนี้ {a} ตร.ม. · การตกแต่งอาจต่างจากห้องจริง",
@@ -613,7 +666,11 @@ en:{
  floor:"Floor {n}", sqm:"{n} sqm", perM:"/ month", perY:"/ year", ask:"Price on request", yc:"1-year contract", noY:"No 1-year rate",
  "i.realMed":"median {v} / month · {n} contracts", "i.realNote":"Median rent actually achieved in the building over the last 12 months, from the rental team's records, updated {d} · mostly monthly contracts.",
  yld:"~{n}% a year from its actual rent (before costs)",
- "card.ask":"Ask about this unit", "card.plan":"Floor & unit plan", full:"Full size ↗",
+ "card.ask":"Ask about this unit", "card.plan":"Location & plan",
+ "tw.h":"Units by floor","tw.sub":"tap a floor to show only that floor","tw.soon":"Rental, free later","tw.fx":"Floor {f} ✕",
+ "us.loc":"Where the unit sits in the building","us.beach":"Jomtien Beach","us.pat":"Pattaya side","us.jom":"Jomtien side","us.other":"Other listed units on this floor (tap to view)",
+ "us.of":"of","us.levels":"Floor","us.note":"Simplified position plan based on the unit-number plans in the project's Sales Kit; positions and directions are approximate. Gaps are common areas, gardens or larger units that take two slots.",
+ "us.plans":"Floor plan & unit plans","us.pF":"Floor {f} plan (Sales Kit)","us.pR":"Updated unit plan","us.pT":"Type {k} plan (Sales Kit)","us.ask":"Ask about this unit on LINE", full:"Full size ↗",
  "plan.e":"Every floor plan","plan.pick":"Pick a floor to view its plan","plan.floorOnly":"Floor plan from the developer's Sales Kit · beachfront (A) on the left · Pattaya side (B, C) top row · Jomtien side (D, E) bottom row · for reference.",
  "plan.floorCap":"Floor {f} plan · look for label {u} · beachfront (A) on the left · Pattaya side (B, C) top row · Jomtien side (D, E) bottom row · from the developer's Sales Kit, for reference.",
  "plan.rentCap":"Updated unit plan from Copacabana's sales and rental team · this unit {a} sqm · furnishing may differ.",
@@ -678,7 +735,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 })();
 
 /* units */
-const st={m:"all",term:"m",size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24};
+const st={m:"all",term:"m",fx:"",size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24};
 const SIZE={s1:[0,30],s2:[30,40],s3:[40,55],s4:[55,1e9]}, FLOOR={fl1:[0,15],fl2:[16,35],fl3:[36,999]};
 const BUY={b1:[0,3e6],b2:[3e6,5e6],b3:[5e6,8e6],b4:[8e6,1e12]}, RENT={r1:[0,15000],r2:[15000,25000],r3:[25000,40000],r4:[40000,1e12]};
 const fl=u=>parseInt(u.floor,10)||0;
@@ -699,6 +756,7 @@ function buildFilters(){
 function list(){
   return UNITS.filter(u=>{
     if(st.m!=="all"&&u.grp!==st.m) return false;
+    if(st.fx&&String(u.floor)!==st.fx) return false;
     if(st.size){const [a,b]=SIZE[st.size]; if(!(u.sqm>=a&&u.sqm<b)) return false;}
     if(st.floor){const [a,b]=FLOOR[st.floor]; if(!(fl(u)>=a&&fl(u)<=b)) return false;}
     if(st.view&&(u.side||u.view)!==st.view) return false;
@@ -725,13 +783,14 @@ function card(u){
   return '<article class="card"><div class="ph"><img src="'+img+'" alt="" loading="lazy"><span class="badge '+u.grp+'">'+g+'</span><span class="st'+(u.status==="reserved"?" res":u.status==="soon"?" soon":"")+'">'+(u.status==="soon"?(u.from?t("s.from",{d:dShort(u.from)}):t("s.soon")):t("s."+(u.status||"avail")))+'</span>'+cap+'</div>'+
    '<div class="bd"><h3>'+u.id+'</h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+
    '<div class="price">'+price+'</div>'+y+(u.note?'<p class="note">'+u.note+'</p>':"")+
-   '<div class="acts">'+(FLOORS.has(String(u.floor))?'<button class="btn ghost sm" type="button" data-plan="'+u.id+'">'+t("card.plan")+'</button>':'')+'<a class="btn line sm" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("card.ask")+'</a></div></div></article>';
+   '<div class="acts">'+(FS[String(u.floor)]?'<button class="btn ghost sm" type="button" data-plan="'+u.id+'">'+t("card.plan")+'</button>':'')+'<a class="btn line sm" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("card.ask")+'</a></div></div></article>';
 }
 function render(){
   ["all","dev","resale","rent"].forEach(m=>{const n=m==="all"?UNITS.length:UNITS.filter(u=>u.grp===m).length; const el=document.querySelector('[data-n="'+m+'"]'); if(el) el.textContent=UNITS.length?(n?t("meta",{n}):t("pend.thor")):"";});
   $$(".mode").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.m===st.m)));
   $$("#rTerm button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.t===st.term)));
-  const L=list();
+  const L=list(); renderTower();
+  const fc=$("#fxChip"); fc.hidden=!st.fx; if(st.fx) fc.textContent=t("tw.fx",{f:st.fx});
   $("#grid").innerHTML=L.slice(0,st.shown).map(card).join("");
   const mb=$("#moreBtn"); mb.hidden=L.length<=st.shown; mb.textContent=t("more",{n:L.length-st.shown});
   const empty=$("#empty");
@@ -753,7 +812,7 @@ $$(".mode").forEach(b=>b.addEventListener("click",()=>{st.m=b.dataset.m; st.pric
 $$("#rTerm button").forEach(b=>b.addEventListener("click",()=>{st.term=b.dataset.t; render();}));
 [["#fSize","size"],["#fFloor","floor"],["#fView","view"],["#fQuota","quota"],["#fPrice","price"],["#fStatus","status"],["#fSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{st[k]=e.target.value; st.shown=24; render();}));
 $("#moreBtn").addEventListener("click",()=>{st.shown+=24; render();});
-$("#fReset").addEventListener("click",()=>{Object.assign(st,{size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24}); buildFilters(); render();});
+$("#fReset").addEventListener("click",()=>{Object.assign(st,{fx:"",size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24}); buildFilters(); render();});
 $$("[data-goto]").forEach(b=>b.addEventListener("click",()=>{st.m="rent"; st.term=b.dataset.goto; st.price=""; buildFilters(); render(); $("#units").scrollIntoView();}));
 
 /* rooms, facilities */
@@ -815,7 +874,91 @@ function openPlans(u){
   if(k){imgs.push("copa1-img/plan/type-"+k+".jpg"); caps.push(t("plan.typeCap",{k,s:KIT_SQM[k],a:u.sqm}));}
   lbOpen(imgs,0,u.id+" · "+t("floor",{n:f}),caps);
 }
-$("#grid").addEventListener("click",e=>{const b=e.target.closest("[data-plan]"); if(!b) return; const u=UNITS.find(x=>x.id===b.dataset.plan); if(u) openPlans(u);});
+$("#grid").addEventListener("click",e=>{const b=e.target.closest("[data-plan]"); if(!b) return; const u=UNITS.find(x=>x.id===b.dataset.plan); if(u) openSheet(u);});
+/* Stacks that exist on each floor, read from the Sales Kit floor plans (floors 6–58; 13 → 12A, 54 → 53A; 59 = roof).
+   Digits are stack numbers, "a" = 10. Layout: A block at the beach end (left); Pattaya side B01–B09 then C01–C10 (top row);
+   Jomtien side E06–E01 then D09–D01 (bottom row), each D/E unit under the B/C unit it faces. */
+const FS={"6":"A B12345679 C123456789a E65431 D123456789","7":"A B12345678 C123456789a E65431 D123456789","8":"A B12345679 C123456789a E65432 D123456789","9":"A B1234678 C123456789a E65431 D123456789","10":"A B1234679 C23456789a E65432 D123456789","11":"A B12345678 C23456789a E65431 D123456789","12":"A B1345679 C123456789a E65432 D123456789","12A":"A B1345678 C12356789a E6431 D123456789","14":"A B12345679 C123456789a E6432 D12345679","15":"A B12345678 C123456789a E65431 D123456789","16":"A B12345679 C123456789a E65432 D123456789","17":"A B12345678 C123456789a E65431 D123456789","18":"A B12345679 C123456789a E65432 D123456789","19":"A B12345678 C123456789a E65431 D12346789","20":"A B12345679 C123456789a E65432 D12346789","21":"A B1234578 C12346789a E6531 D123456789","22":"A B1234579 C12346789a E6532 D123456789","23":"A B12345678 C123456789a E65431 D123456789","24":"A B12345679 C123456789a E65432 D123456789","25":"A B12345678 C123456789a E65431 D123456789","26":"A B12345679 C123456789a E65432 D123456789","27":"A B1234678 C123456789a E65431 D12345679","28":"A B134679 C12456789a E65432 D12345679","29":"A B1345678 C12456789a E65431 D123456789","32":"A B12345679 C123456789a E65432 D123456789","33":"A B12345678 C123456789a E6431 D12346789","34":"A B12345679 C123456789a E6432 D12346789","35":"A B12345678 C123456789a E65431 D123456789","36":"A B12345679 C123456789a E65432 D123456789","37":"A B12345678 C123456789a E6531 D123456789","38":"A B12345679 C23456789a E6532 D123456789","39":"A B12345678 C23456789a E65431 D123456789","40":"A B12345679 C1 E65432 D98","41":"A B12345678 C1 E65431 D98","42":"A B12345679 C1 E65432 D98","43":"A B1234678 C1 E65431 D98","44":"A B134679 C1 E65432 D98","45":"A B1345678 C1 E6431 D98","46":"A B12345679 C1 E6432 D98","47":"A B12345678 C1 E65431 D98","48":"A B1245679 C1 E65432 D98","49":"A B124578 C1 E65431 D98","50":"A B1234579 C1 E6532 D98","51":"A B12345678 C1 E6531 D98","52":"A B12345679 C1 E65432 D98","53":"A B12345678 C1 E65431 D98","53A":"A B12345679 C1 E65432 D98","55":"A B12345678 C1 E65431 D98","56":"A B12345679 C1 E65432 D98","57":"A B12345678 C1 E65431 D98","30":"B12345679 C123456789a E65432 D123456789","31":"B12345678 C123456789a E65431 D123456789","58":"B12345679 C1 E65431 D98"};
+const LEVELS=[...Array.from({length:12},(_,i)=>String(i+1)),"12A",...Array.from({length:40},(_,i)=>String(i+14)),"53A","55","56","57","58","59"];
+const stacksOf=f=>{const o=new Set(); (FS[f]||"").split(" ").forEach(tk=>{const L=tk[0]; if(L==="A"){for(let i=1;i<=6;i++) o.add("A0"+i); return;} for(const c of tk.slice(1)) o.add(L+(c==="a"?"10":"0"+c));}); return o;};
+const unitStack=id=>{const m=/^([A-E])(.+?)(\d{2})$/.exec(id); return m?{L:m[1],f:m[2],k:m[1]+m[3]}:null;};
+function plateCells(){
+  const W=24,H=28,S=26,xB=112,xC=xB+9*S+10,yB=H+20,c=[];
+  [["A03",0],["A02",1],["A01",2]].forEach(([k,i])=>c.push({k,x:i*33,y:0,w:31,h:H}));
+  [["A04",0],["A05",1],["A06",2]].forEach(([k,i])=>c.push({k,x:i*33,y:yB,w:31,h:H}));
+  for(let i=1;i<=9;i++) c.push({k:"B0"+i,x:xB+(i-1)*S,y:0,w:W,h:H});
+  for(let i=1;i<=10;i++) c.push({k:"C"+String(i).padStart(2,"0"),x:xC+(i-1)*S,y:0,w:W,h:H});
+  [6,5,4,3].forEach((n,i)=>c.push({k:"E0"+n,x:xB+i*S,y:yB,w:W,h:H}));
+  c.push({k:"E02",x:xB+4*S,y:yB,w:2*S-2,h:H}); c.push({k:"E01",x:xB+4*S+S/2,y:yB,w:W,h:H});
+  c.push({k:"D09",x:xB+8*S,y:yB,w:W,h:H});
+  [8,7,6,5,4,3].forEach((n,i)=>c.push({k:"D0"+n,x:xC+i*S,y:yB,w:W,h:H}));
+  c.push({k:"D02",x:xC+8*S,y:yB,w:W,h:H}); c.push({k:"D01",x:xC+9*S,y:yB,w:W,h:H});
+  return {c,W,H,S,xB,xC,yB,width:xC+10*S};
+}
+function plateSVG(u){
+  const us=unitStack(u.id), here=us&&us.k, f=String(u.floor), have=stacksOf(f), P=plateCells();
+  const listed={}; UNITS.forEach(x=>{if(String(x.floor)===f&&x.id!==u.id){const s=unitStack(x.id); if(s&&!listed[s.k]) listed[s.k]=x;}});
+  const col={dev:"var(--dev)",resale:"var(--resale)",rent:"var(--rent)"};
+  const cells=P.c.filter(c=>have.has(c.k)||c.k===here).map(c=>{
+    const on=c.k===here, o=listed[c.k], n=+c.k.slice(1);
+    const fill=on?"var(--burg)":o?"color-mix(in srgb,"+col[o.grp]+" 16%,var(--surface))":c.k[0]==="A"?"var(--alt)":"var(--chip)";
+    const stroke=on?"var(--burg)":o?col[o.grp]:"var(--line)";
+    return '<g'+(o?' class="uc" data-u="'+o.id+'"':'')+'><title>'+(o?o.id:us.L&&c.k[0]+f+c.k.slice(1))+'</title><rect x="'+c.x+'" y="'+c.y+'" width="'+c.w+'" height="'+c.h+'" rx="4" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+(o||on?1.6:1)+'"/>'+
+      '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+4)+'" text-anchor="middle" font-size="10.5" font-family="IBM Plex Mono,monospace" fill="'+(on?"#fff":o?col[o.grp]:"var(--muted)")+'" font-weight="'+(on||o?700:400)+'">'+n+'</text></g>';
+  }).join("");
+  const lab=(x,y,s,a)=>'<text x="'+x+'" y="'+y+'" text-anchor="'+(a||"middle")+'" font-size="11" font-weight="700" fill="var(--ink)">'+s+'</text>';
+  const side=(x,y,s,a)=>'<text x="'+x+'" y="'+y+'" text-anchor="'+(a||"start")+'" font-size="10.5" font-weight="700" letter-spacing=".06em" fill="var(--teal)">'+s+'</text>';
+  let call="";
+  const hc=P.c.find(c=>c.k===here);
+  if(hc){const cx=hc.x+hc.w/2, top=hc.y===0, y=top?-34:P.yB+P.H+30, w=u.id.length*7.4+18;
+    call='<g transform="translate('+cx+','+y+')"><rect x="'+(-w/2)+'" y="-13" width="'+w+'" height="19" rx="9.5" fill="var(--burg)"/><text y="1" text-anchor="middle" font-size="11.5" font-weight="700" font-family="IBM Plex Mono,monospace" fill="#fff">'+u.id+'</text></g>';}
+  const hasA=have.has("A01");
+  return '<svg viewBox="-34 -56 '+(P.width+44)+' '+(P.yB+P.H+120)+'" role="img" aria-label="'+t("us.loc")+' '+u.id+'">'+
+    '<text x="-22" y="'+(P.yB/2+P.H/2)+'" transform="rotate(-90 -22 '+(P.yB/2+P.H/2)+')" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing=".06em" fill="var(--teal)">'+t("us.beach")+' ≋</text>'+
+    side(P.xB,-44,t("us.pat")+" ↑")+side(P.xB,P.yB+P.H+52,t("us.jom")+" ↓")+
+    (hasA?lab(48,-8,"A"):"")+lab(P.xB+4*P.S+P.W/2,-8,"B")+(have.has("C02")?lab(P.xC+4.5*P.S+P.W/2,-8,"C"):lab(P.xC+P.W/2,-8,"C"))+
+    lab(P.xB+2*P.S,P.yB+P.H+16,"E")+lab((have.has("D07")?P.xC+3*P.S:P.xC)+P.W/2,P.yB+P.H+16,"D")+
+    cells+call+'</svg>';
+}
+function floorBar(u){
+  const f=String(u.floor), lv=LEVELS.indexOf(f)+1, N=LEVELS.length;
+  const bars=LEVELS.map((x,i)=>'<i class="'+(i+1===lv?"on":(i>=5&&i<N-1)?"res":"")+'"></i>').join("");
+  const marks=[[1,"1"],[6,"6"],[lv,f],[N,String(N)]].filter((v,i,a)=>a.findIndex(w=>w[0]===v[0])===i);
+  return '<div class="u-floor"><div class="u-floor-cap">'+t("us.levels")+' <b>'+f+'</b> '+t("us.of")+' '+N+'</div><div class="u-floor-bar" aria-hidden="true">'+bars+'</div>'+
+    '<div class="u-floor-legend">'+marks.map(([v,s])=>'<span style="left:'+((v-.5)/N*100).toFixed(2)+'%"'+(v===lv?' class="on"':'')+'>'+s+'</span>').join("")+'</div></div>';
+}
+function planList(u){
+  const f=String(u.floor), k=kitType(u), out=[];
+  if(FLOORS.has(f)) out.push(["copa1-img/floor/f-"+f+".jpg",t("us.pF",{f}),t("plan.floorCap",{f,u:u.id})]);
+  const r=RPLAN[k]; if(r) out.push(["copa1-img/plan/"+r+".jpg",t("us.pR"),t("plan.rentCap",{a:u.sqm})]);
+  if(k) out.push(["copa1-img/plan/type-"+k+".jpg",t("us.pT",{k}),t("plan.typeCap",{k,s:KIT_SQM[k],a:u.sqm})]);
+  return out;
+}
+function openSheet(u){
+  const g=t("b."+u.grp), P=planList(u), any=UNITS.some(x=>String(x.floor)===String(u.floor)&&x.id!==u.id);
+  $("#usT").textContent=u.id; $("#usS").textContent=t("floor",{n:u.floor})+" · "+t("sqm",{n:u.sqm})+" · "+g;
+  $("#usB").innerHTML='<h4>'+t("us.loc")+'</h4><div class="plate">'+plateSVG(u)+'</div>'+
+    (any?'<p class="note" style="margin-top:-8px"><i style="display:inline-block;width:12px;height:12px;border-radius:3px;border:1.6px solid var(--teal);background:color-mix(in srgb,var(--teal) 16%,var(--surface));vertical-align:-2px;margin-right:6px"></i>'+t("us.other")+'</p>':'')+floorBar(u)+'<p class="note">'+t("us.note")+'</p>'+
+    (P.length?'<h4>'+t("us.plans")+'</h4><div class="us-plans">'+P.map((p,i)=>'<button type="button" data-pi="'+i+'"><img src="'+p[0]+'" alt="" loading="lazy"><span>'+p[1]+'</span></button>').join("")+'</div>':'')+
+    '<a class="btn line" style="justify-self:start" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("us.ask")+'</a>';
+  $$("#usB [data-pi]").forEach(b=>b.addEventListener("click",()=>lbOpen(P.map(p=>p[0]),+b.dataset.pi,u.id+" · "+t("floor",{n:u.floor}),P.map(p=>p[2]))));
+  $$("#usB .uc").forEach(gEl=>gEl.addEventListener("click",()=>{const x=UNITS.find(v=>v.id===gEl.dataset.u); if(x) openSheet(x);}));
+  const d=$("#us"); if(!d.open) d.showModal(); $("#usB").scrollTop=0; d.scrollTop=0;
+  const pl=$("#usB .plate"), on=pl.querySelector('rect[fill="var(--burg)"]');
+  if(on&&pl.scrollWidth>pl.clientWidth){const r=on.getBoundingClientRect(), b=pl.getBoundingClientRect(); pl.scrollLeft+=r.left-b.left-b.width/2;}
+}
+$("#usX").addEventListener("click",()=>$("#us").close());
+$("#us").addEventListener("click",e=>{if(e.target.id==="us") $("#us").close();});
+function renderTower(){
+  const pool=UNITS.filter(u=>st.m==="all"||u.grp===st.m), by=new Map();
+  pool.forEach(u=>{const f=String(u.floor); if(!by.has(f)) by.set(f,[]); by.get(f).push(u);});
+  const fs=[...by.keys()].sort((a,b)=>LEVELS.indexOf(b)-LEVELS.indexOf(a));
+  $("#towerBox").hidden=!fs.length;
+  $("#tower").innerHTML=fs.map(f=>'<button type="button" class="frow" data-fx="'+f+'" aria-pressed="'+(st.fx===f)+'"><span class="fl">'+f+'</span><span class="cells">'+
+    by.get(f).sort((a,b)=>a.id.localeCompare(b.id)).map(u=>'<i class="cell '+u.grp+(u.status==="soon"?" soon":u.status==="reserved"?" reserved":"")+'" title="'+u.id+'"></i>').join("")+'</span></button>').join("");
+}
+$("#tower").addEventListener("click",e=>{const b=e.target.closest("[data-fx]"); if(!b) return; st.fx=st.fx===b.dataset.fx?"":b.dataset.fx; st.shown=24; render(); if(st.fx) $("#grid").scrollIntoView({behavior:"smooth",block:"start"});});
+$("#fxChip").addEventListener("click",()=>{st.fx=""; render();});
 function fillFloorSel(){
   const sel=$("#floorSel"); sel.innerHTML='<option value="">'+t("plan.pick")+'</option>'+[...FLOORS].map(f=>'<option value="'+f+'">'+t("floor",{n:f})+'</option>').join("");
 }
