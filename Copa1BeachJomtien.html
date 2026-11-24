@@ -147,7 +147,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 @media (min-width:920px){.split{grid-template-columns:1.15fr 1fr;gap:44px;align-items:start}}
 .gal{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .gal button{padding:0;border:0;border-radius:10px;overflow:hidden;cursor:zoom-in;background:var(--chip);aspect-ratio:4/3}
-.gal button:first-child{grid-column:span 5;aspect-ratio:16/10}
+.gal button:first-child{aspect-ratio:16/10}
 .gal img{width:100%;height:100%;object-fit:cover}
 .types{display:grid;gap:8px;margin:10px 0 0;padding:0;list-style:none}
 .types li{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:14px}
@@ -166,6 +166,10 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 .facts div{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .facts b{display:block;font:600 22px var(--f-mono);color:var(--burg)}
 .facts span{font-size:12.5px;color:var(--muted)}
+.awards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
+.awards div{display:flex;gap:12px;align-items:center;padding:12px 14px;border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--gold) 7%,var(--surface));font-size:13px}
+.awards b{display:block;color:var(--burg);font-size:14px}
+.awards i{font-style:normal;font-size:22px;color:var(--gold)}
 
 /* investor / tenant */
 .cols3{display:grid;gap:14px;margin-top:18px}
@@ -282,8 +286,9 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   <div>
     <p class="eyebrow" data-i18n="r.eyebrow"></p>
     <h2 style="font-size:clamp(24px,3.2vw,32px);margin:6px 0 14px" data-i18n="r.h"></h2>
+    <div class="rterm" id="galSw" role="group" aria-label="Unit size" style="display:inline-flex;margin-bottom:10px"><button type="button" data-g="29" aria-pressed="true">29 sqm</button><button type="button" data-g="35" aria-pressed="false">35 sqm</button></div>
     <div class="gal" id="gal"></div>
-    <p class="note" style="margin-top:8px" data-i18n="r.galNote"></p>
+    <p class="note" style="margin-top:8px" id="galNote"></p>
   </div>
   <div>
     <p class="eyebrow" data-i18n="r.typesE"></p>
@@ -298,6 +303,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   <div class="sec-h"><div><p class="eyebrow" data-i18n="p.eyebrow"></p><h2 data-i18n="p.h"></h2></div></div>
   <p class="lead" data-i18n="p.lead"></p>
   <div class="facts" id="facts"></div>
+  <div class="awards" id="awards"></div>
   <div class="fac" id="fac"></div>
   <p class="note" style="margin-top:10px"><span data-i18n="r.src"></span><span class="pending" data-i18n="pend.confirm"></span></p>
 </div></section>
@@ -370,7 +376,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   <ul class="cl">
     <li><b>LINE</b><a href="https://line.me/R/oaMessage/%40copacabanajomtien/" target="_blank" rel="noopener" data-line="contact">@copacabanajomtien</a></li>
     <li><b data-i18n="ct.phone"></b><span class="pending" data-i18n="pend.thor"></span></li>
-    <li><b data-i18n="ct.loc"></b><a href="https://www.google.com/maps/search/?api=1&amp;query=Copacabana+Beach+Jomtien" target="_blank" rel="noopener" data-i18n="ct.map"></a></li>
+    <li><b data-i18n="ct.loc"></b><a href="https://maps.app.goo.gl/UGa6Z2sskUog21Y49" target="_blank" rel="noopener" data-i18n="ct.map"></a></li>
   </ul>
 </div></section>
 </main>
@@ -491,6 +497,7 @@ const SLIDES = [
   ["copa1-img/hero/h2-tower.jpg","55% 40%"],
   ["copa1-img/hero/h5-pool-sea.jpg","70% 55%"]
 ];
+const SHOW29 = ["copa1-img/show/s29-1.jpg","copa1-img/show/s29-2.jpg","copa1-img/show/s29-3.jpg","copa1-img/show/s29-4.jpg"];
 const SHOW35 = ["copa1-img/show/s35-1.jpg","copa1-img/show/s35-2.jpg","copa1-img/show/s35-3.jpg","copa1-img/show/s35-4.jpg","copa1-img/show/s35-5.jpg","copa1-img/show/plan-35-type10.jpg"];
 const TYPE_PHOTO = {"1BR":["copa1-img/show/s35-1.jpg","ph.sample"],"1BRJ":["copa1-img/show/s35-3.jpg","ph.sample"],"2BRJ":["copa1-img/fac-facade.jpg","ph.bldg"],"1BRP":["copa1-img/fac-tower.jpg","ph.bldg"]};
 /* Room types as listed in the developer Sales Kit (Feb 2021 edition); confirm with Thor */
@@ -532,8 +539,10 @@ th:{
  "card.ask":"ทักไลน์ห้องนี้",
  "ty.1BR":"1 ห้องนอน","ty.1BRJ":"1 ห้องนอน + จากุซซี่ที่ระเบียง","ty.2BRJ":"2 ห้องนอน + จากุซซี่ที่ระเบียง","ty.1BRP":"1 ห้องนอน + สระว่ายน้ำส่วนตัว",
  "r.eyebrow":"Ready to move in","r.h":"ห้องจริง ตกแต่งครบ พร้อมอยู่","r.galNote":"ภาพจริงห้อง 1 ห้องนอน 35 ตร.ม. และผังห้องจาก Sales Kit การตกแต่งแต่ละห้องอาจต่างกัน",
+ "r.galNote29":"ภาพจริงห้อง 1 ห้องนอน 29 ตร.ม. (ห้องตัวอย่าง) การตกแต่งแต่ละห้องอาจต่างกัน",
+ awards:[["Dot Property Awards 2023","Best Beachfront Condominium · Eastern Seaboard"],["FIABCI-Thai Prix d’Excellence 2023","Best Environment · Residential Condominium"],["EIA Approved","ผ่านการอนุมัติรายงานผลกระทบสิ่งแวดล้อม"]],
  "r.typesE":"แบบห้องในโครงการ","r.furnE":"สิ่งที่มีในห้อง",
- "r.src":"ข้อมูลแบบห้องและอาคารจาก Sales Kit ของผู้พัฒนา",
+ "r.src":"ข้อมูลแบบห้องและอาคารจาก Sales Kit และ Company Profile ของผู้พัฒนา",
  "pend.confirm":"รอยืนยัน","pend.thor":"รอข้อมูล",
  furn:["เตียงพร้อมที่นอนและลิ้นชักใต้เตียง ตู้เสื้อผ้าบิวท์อิน","ทีวีติดผนัง แอร์อินเวอร์เตอร์ญี่ปุ่น ม่าน และไฟ LED","ครัวพร้อมเตาไฟฟ้า ตู้เย็น ไมโครเวฟ และที่วางเครื่องซักผ้า","โต๊ะทานข้าว โซฟาเบด และโต๊ะกลาง","ห้องน้ำพร้อมเครื่องทำน้ำอุ่นและฉากกั้นอาบน้ำกระจก","กระจกสองชั้นประหยัดพลังงาน เข้าห้องด้วยคีย์การ์ด"],
  "p.eyebrow":"The project","p.h":"ชีวิตริมหาด ทุกวัน","p.lead":"Copacabana Beach Jomtien โครงการแรกของ Copacabana Group ตั้งอยู่ระหว่างถนนจอมเทียนสายสองกับถนนเลียบหาดจอมเทียน ใกล้ซอย 9 มีทางเดินออกสู่ถนนเลียบหาดโดยตรง",
@@ -593,8 +602,10 @@ en:{
  "card.ask":"Ask about this unit",
  "ty.1BR":"1 bedroom","ty.1BRJ":"1 bedroom + balcony jacuzzi","ty.2BRJ":"2 bedrooms + balcony jacuzzi","ty.1BRP":"1 bedroom + private pool",
  "r.eyebrow":"Ready to move in","r.h":"Real, fully furnished, ready now","r.galNote":"Real photos of a 35 sqm one-bedroom unit and its plan from the Sales Kit. Furnishing varies by unit.",
+ "r.galNote29":"Real photos of a 29 sqm one-bedroom show unit. Furnishing varies by unit.",
+ awards:[["Dot Property Awards 2023","Best Beachfront Condominium · Eastern Seaboard"],["FIABCI-Thai Prix d’Excellence 2023","Best Environment · Residential Condominium"],["EIA Approved","Environmental impact assessment approved"]],
  "r.typesE":"Unit types","r.furnE":"In every unit",
- "r.src":"Unit types and building data from the developer's Sales Kit",
+ "r.src":"Unit types and building data from the developer's Sales Kit and Company Profile",
  "pend.confirm":"to be confirmed","pend.thor":"coming soon",
  furn:["Bed with mattress and under-bed drawers, built-in wardrobe","Wall-mounted TV, Japanese inverter air-con, curtains, LED lights","Kitchen with electric hob, fridge, microwave and washing-machine space","Dining table, sofa bed and coffee table","Bathroom with water heater and glass shower screen","Energy-saving double glazing, keycard entry"],
  "p.eyebrow":"The project","p.h":"Beach life, every day","p.lead":"Copacabana Beach Jomtien is Copacabana Group's first project, between Jomtien Second Road and Jomtien Beach Road near Soi 9, with a walking entrance on the beach road.",
@@ -683,7 +694,7 @@ function list(){
   });
 }
 function card(u){
-  const tp=TYPE_PHOTO[u.type]||[SHOW35[0],"ph.sample"], img=u.photo||(tp[1]==="ph.sample"?SHOW35[(UNITS.indexOf(u)%5+5)%5]:tp[0]), cap=u.photo?"":'<span class="phcap">'+t(tp[1])+'</span>';
+  const tp=TYPE_PHOTO[u.type]||[SHOW35[0],"ph.sample"], img=u.photo||(tp[1]==="ph.sample"?(u.sqm<31?SHOW29[UNITS.indexOf(u)%2]:SHOW35[UNITS.indexOf(u)%3]):tp[0]), cap=u.photo?"":'<span class="phcap">'+t(tp[1])+'</span>';
   let price;
   if(u.grp==="rent"){const v=rentOf(u); price=v?fmt(v)+' <small>฿ '+t(st.term==="y"?"perY":"perM")+'</small>':'<small>'+t("ask")+'</small>';}
   else price=u.price?fmt(u.price)+' <small>฿'+(u.psm?' · '+fmt(u.psm)+' ฿/'+t("sqmU"):'')+'</small>':'<small>'+t("ask")+'</small>';
@@ -736,13 +747,22 @@ $("#lbP").addEventListener("click",()=>{lbi=(lbi+LB.length-1)%LB.length; showLB(
 $("#lbN").addEventListener("click",()=>{lbi=(lbi+1)%LB.length; showLB();});
 $("#lb").addEventListener("click",e=>{if(e.target.id==="lb"||e.target.classList.contains("lb-st")) $("#lb").close();});
 document.addEventListener("keydown",e=>{if(!$("#lb").open) return; if(e.key==="ArrowRight") $("#lbN").click(); if(e.key==="ArrowLeft") $("#lbP").click();});
-$("#gal").innerHTML=SHOW35.map((s,i)=>'<button type="button" data-i="'+i+'" aria-label="Photo '+(i+1)+'"><img src="'+s+'" alt="" loading="lazy"></button>').join("");
-$$("#gal button").forEach(b=>b.addEventListener("click",()=>lbOpen(SHOW35,+b.dataset.i,"1 Bedroom · 35 sqm")));
+let GAL="29";
+function renderGal(){
+  const L=GAL==="29"?SHOW29:SHOW35;
+  $("#gal").style.gridTemplateColumns="repeat("+(L.length-1)+",minmax(0,1fr))";
+  $("#gal").innerHTML=L.map((s,i)=>'<button type="button" data-i="'+i+'" aria-label="Photo '+(i+1)+'"'+(i?'':' style="grid-column:1/-1"')+'><img src="'+s+'" alt="" loading="lazy"></button>').join("");
+  $$("#gal button").forEach(b=>b.addEventListener("click",()=>lbOpen(L,+b.dataset.i,"1 Bedroom · "+GAL+" sqm")));
+  $$("#galSw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.g===GAL)));
+  $("#galNote").textContent=t(GAL==="29"?"r.galNote29":"r.galNote");
+}
+$$("#galSw button").forEach(b=>b.addEventListener("click",()=>{GAL=b.dataset.g; renderGal();}));
 function renderStatic(){
   $("#types").innerHTML=TYPES.map(([k,s])=>'<li><b>'+t("ty."+k)+'</b><span>'+s.map(x=>x+(LANG==="th"?" ตร.ม.":" sqm")).join(" · ")+'</span></li>').join("");
   $("#furn").innerHTML=I18N[LANG].furn.map(x=>"<li>"+x+"</li>").join("");
   $("#svc").innerHTML=I18N[LANG].svc.map(x=>"<li>"+x+"</li>").join("");
   $("#facts").innerHTML=[["59","fa.floors"],["1,644","fa.units"],["15,040","fa.land"],["4","fa.pools"]].map(([v,k])=>'<div><b>'+v+'</b><span>'+t(k)+'</span></div>').join("");
+  $("#awards").innerHTML=I18N[LANG].awards.map(a=>'<div><i aria-hidden="true">★</i><span><b>'+a[0]+'</b>'+a[1]+'</span></div>').join("");
   $("#fac").innerHTML=FAC.map(([s,k],i)=>'<figure><button type="button" data-i="'+i+'" aria-label="'+t(k)+'"><img src="'+s+'" alt="'+t(k)+'" loading="lazy"></button><figcaption>'+t(k)+'</figcaption></figure>').join("");
   $$("#fac button").forEach(b=>b.addEventListener("click",()=>lbOpen(FAC.map(f=>f[0]),+b.dataset.i,"Copacabana Beach Jomtien")));
 }
@@ -762,7 +782,7 @@ function applyLang(){
   $$("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n);});
   $$("[data-line]").forEach(a=>{a.href=lineURL(t("lm."+a.dataset.line));});
   $$(".langs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
-  buildFilters(); renderStatic(); render(); calc();
+  buildFilters(); renderStatic(); renderGal(); render(); calc();
 }
 $$(".langs button").forEach(b=>b.addEventListener("click",()=>{LANG=b.dataset.lang; try{localStorage.setItem("copa1-lang",LANG);}catch(e){} applyLang();}));
 applyLang();
