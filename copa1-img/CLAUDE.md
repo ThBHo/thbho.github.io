@@ -28,6 +28,14 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - Hero video: set `HERO_VIDEO` to a compressed clip in `copa1-img/hero/` (source: Drive COPA1 (Webpage) › Copa1ReadyToMoveIn001.mp4).
 - Brand footer: WIDEROOMS logo + https://thbho.com/EngWiderooms.html and th.ho logo + https://thbho.com/AIGymmateXFactory.html.
 
+## Plans
+- `copa1-img/floor/f-<floor>.jpg` (54 floors, 6–59, incl. 12A and 53A; no floor 13 or 54) and `copa1-img/plan/type-<1..15>.jpg`
+  come from the developer Sales Kit (Feb 2021, preliminary) — always captioned "for reference". Unit → kit type in `kitType()`;
+  E-stack 80 sqm pool units (type 16) have no plan page. Labels on the plans are raster, so units are not auto-highlighted:
+  the caption tells the visitor which label to look for.
+- `copa1-img/plan/r-*.jpg` = newer plan cards from the rental team (Drive folder 13YVUCpTc7XsyNaXiqWQxBbrT_1fOxKor), shown first.
+- Real unit photos per rent unit live in that same Drive folder (one folder per unit code); not on the page yet.
+
 ## Look
 - Palette from Thor's chart (Nov–Dec 2026): ivory/cream base, burgundy headings, gold accents, deep teal for closing buttons.
 - Real photos first (Drive COPA1 (Webpage) and COPA1 photo folders); AI images only after the thbho-visual-qa skill.
