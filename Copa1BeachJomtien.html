@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Copacabana Beach Jomtien · พร้อมอยู่ริมหาดจอมเทียน">
-<meta property="og:description" content="ซื้อจากโครงการ · Resale · เช่ารายเดือน/รายปี · บริการฝากเช่าสำหรับนักลงทุน (หน้าอยู่ระหว่างพัฒนา)">
+<meta property="og:description" content="ห้องจากโครงการ 89 ห้อง ราคาตามไพรซ์ลิสต์ 24 พ.ย. 2569 เริ่ม 4.16 ล้านบาท · Resale · เช่ารายเดือน/รายปี (หน้าอยู่ระหว่างพัฒนา)">
 <meta property="og:url" content="https://thbho.com/Copa1BeachJomtien.html">
 <meta property="og:image" content="https://thbho.com/og/Copa1BeachJomtien.jpg?v=1">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -129,6 +129,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 .st{position:absolute;top:10px;right:10px;font:600 11px var(--f-mono);padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink)}
 .st.res{background:rgba(43,29,26,.82);color:#fff}
 .card .bd{display:grid;gap:8px;padding:14px 16px 16px;flex:1}
+.phcap{position:absolute;left:10px;bottom:10px;font:500 11px var(--f-body);padding:3px 8px;border-radius:6px;background:rgba(43,29,26,.66);color:#fff}
+.specs span.q{font-weight:600}.specs span.q.th{background:color-mix(in srgb,var(--burg) 12%,transparent);color:var(--burg)}.specs span.q.fr{background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--teal)}
 .card h3{font-size:19px;color:var(--ink)}
 .specs{display:flex;flex-wrap:wrap;gap:6px}
 .specs span{font-size:12.5px;background:var(--chip);border-radius:7px;padding:3px 8px}
@@ -262,7 +264,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   <div class="tbar">
     <select id="fSize" aria-label="Size"></select>
     <select id="fFloor" aria-label="Floor"></select>
-    <select id="fView" aria-label="View"></select>
+    <select id="fView" aria-label="Side"></select>
+    <select id="fQuota" aria-label="Quota"></select>
     <select id="fPrice" aria-label="Price"></select>
     <select id="fStatus" aria-label="Status"></select>
     <select id="fSort" aria-label="Sort"></select>
@@ -270,6 +273,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
   </div>
   <div class="tmeta"><span id="meta"></span><button class="link" type="button" id="fReset" data-i18n="f.reset"></button></div>
   <div class="grid" id="grid"></div>
+  <div style="text-align:center;margin-top:18px"><button class="btn ghost" type="button" id="moreBtn" hidden></button></div>
+  <p class="note" style="margin-top:16px"><span data-i18n="fees"></span></p>
   <div class="empty" id="empty" hidden><b data-i18n="e.h"></b><p class="note" data-i18n="e.t"></p><a class="btn line" target="_blank" rel="noopener" data-line="list" data-i18n="e.btn"></a></div>
 </div></section>
 
@@ -382,11 +387,102 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 <script>
 /* ===== DATA (fill from Thor's latest list; never guess prices) =====
    grp: "dev" (ซื้อจากโครงการ) | "resale" | "rent"
-   view: "sea" ทะเลเต็ม | "part" ทะเลบางส่วน | "city" เมือง/สวน
+   side: "front" ด้านหน้าทะเล (A) | "pattaya" ฝั่งพัทยา (B, C) | "jomtien" ฝั่งจอมเทียน (D, E) · q: "th" Thai quota | "fr" foreign quota
+   id = stack-floor as in the developer price list (e.g. A2-44 = column A2, floor 44); sqm = price ÷ price per sqm
    price = sale price THB (dev/resale) · rentM / rentY = rent per month / per year THB (rent; a resale unit may also carry rentM if it is rented now)
    status: "avail" | "reserved" · photo: path or "" (falls back to the type photo) */
-const UNITS = [];
-const UPDATED = ""; // e.g. "2026-11-25" when the list arrives
+const UNITS = [
+ {id:"C9-17",grp:"dev",side:"pattaya",floor:"17",sqm:28.75,type:"1BR",price:4156790,psm:144584,q:"th",status:"avail"},
+ {id:"C8-18",grp:"dev",side:"pattaya",floor:"18",sqm:28.75,type:"1BR",price:4203940,psm:146224,q:"th",status:"avail"},
+ {id:"B7-12",grp:"dev",side:"pattaya",floor:"12",sqm:28.6,type:"1BR",price:4283622,psm:149777,q:"th",status:"avail"},
+ {id:"C7-24",grp:"dev",side:"pattaya",floor:"24",sqm:29.0,type:"1BR",price:4415830,psm:152270,q:"th",status:"avail"},
+ {id:"D4-26",grp:"dev",side:"jomtien",floor:"26",sqm:28.75,type:"1BR",price:4484684,psm:155989,q:"th",status:"avail"},
+ {id:"C9-30",grp:"dev",side:"pattaya",floor:"30",sqm:29.0,type:"1BR",price:4532236,psm:156284,q:"th",status:"avail"},
+ {id:"C10-34",grp:"dev",side:"pattaya",floor:"34",sqm:28.6,type:"1BR",price:4551547,psm:159145,q:"th",status:"avail"},
+ {id:"C8-31",grp:"dev",side:"pattaya",floor:"31",sqm:29.0,type:"1BR",price:4579796,psm:157924,q:"th",status:"avail"},
+ {id:"C9-32",grp:"dev",side:"pattaya",floor:"32",sqm:29.0,type:"1BR",price:4584552,psm:158088,q:"th",status:"avail"},
+ {id:"C7-32",grp:"dev",side:"pattaya",floor:"32",sqm:28.75,type:"1BR",price:4584734,psm:159469,q:"th",status:"avail"},
+ {id:"C8-32",grp:"dev",side:"pattaya",floor:"32",sqm:29.0,type:"1BR",price:4605896,psm:158824,q:"th",status:"avail"},
+ {id:"C7-33",grp:"dev",side:"pattaya",floor:"33",sqm:28.75,type:"1BR",price:4610724,psm:160373,q:"th",status:"avail"},
+ {id:"C8-34",grp:"dev",side:"pattaya",floor:"34",sqm:28.75,type:"1BR",price:4618170,psm:160632,q:"th",status:"avail"},
+ {id:"C7-34",grp:"dev",side:"pattaya",floor:"34",sqm:28.75,type:"1BR",price:4636656,psm:161275,q:"th",status:"avail"},
+ {id:"C6-34",grp:"dev",side:"pattaya",floor:"34",sqm:28.75,type:"1BR",price:4652641,psm:161831,q:"th",status:"avail"},
+ {id:"C7-35",grp:"dev",side:"pattaya",floor:"35",sqm:28.75,type:"1BR",price:4658995,psm:162052,q:"th",status:"avail"},
+ {id:"B7-28",grp:"dev",side:"pattaya",floor:"28",sqm:28.6,type:"1BR",price:4669551,psm:163271,q:"th",status:"avail"},
+ {id:"C6-35",grp:"dev",side:"pattaya",floor:"35",sqm:28.75,type:"1BR",price:4677568,psm:162698,q:"th",status:"avail"},
+ {id:"C7-36",grp:"dev",side:"pattaya",floor:"36",sqm:28.75,type:"1BR",price:4681219,psm:162825,q:"th",status:"avail"},
+ {id:"D3-34",grp:"dev",side:"jomtien",floor:"34",sqm:28.6,type:"1BR",price:4703442,psm:164456,q:"th",status:"avail"},
+ {id:"C7-37",grp:"dev",side:"pattaya",floor:"37",sqm:28.75,type:"1BR",price:4703529,psm:163601,q:"th",status:"avail"},
+ {id:"C8-39",grp:"dev",side:"pattaya",floor:"39",sqm:28.75,type:"1BR",price:4729519,psm:164505,q:"th",status:"avail"},
+ {id:"D2-37",grp:"dev",side:"jomtien",floor:"37",sqm:28.48,type:"1BR",price:4738759,psm:166389,q:"th",status:"avail"},
+ {id:"C7-39",grp:"dev",side:"pattaya",floor:"39",sqm:28.75,type:"1BR",price:4748120,psm:165152,q:"th",status:"avail"},
+ {id:"D3-36",grp:"dev",side:"jomtien",floor:"36",sqm:28.6,type:"1BR",price:4751146,psm:166124,q:"th",status:"avail"},
+ {id:"D3-37",grp:"dev",side:"jomtien",floor:"37",sqm:28.6,type:"1BR",price:4777144,psm:167033,q:"th",status:"avail"},
+ {id:"D4-35",grp:"dev",side:"jomtien",floor:"35",sqm:28.75,type:"1BR",price:4780464,psm:166277,q:"th",status:"avail"},
+ {id:"D4-36",grp:"dev",side:"jomtien",floor:"36",sqm:28.75,type:"1BR",price:4805361,psm:167143,q:"th",status:"avail"},
+ {id:"D4-37",grp:"dev",side:"jomtien",floor:"37",sqm:28.75,type:"1BR",price:4830259,psm:168009,q:"th",status:"avail"},
+ {id:"C5-6",grp:"dev",side:"pattaya",floor:"6",sqm:34.6,type:"1BR",price:4968525,psm:143599,q:"th",status:"avail"},
+ {id:"C4-6",grp:"dev",side:"pattaya",floor:"6",sqm:34.6,type:"1BR",price:5016931,psm:144998,q:"th",status:"avail"},
+ {id:"D5-6",grp:"dev",side:"jomtien",floor:"6",sqm:34.6,type:"1BR",price:5050458,psm:145967,q:"th",status:"avail"},
+ {id:"C2-6",grp:"dev",side:"pattaya",floor:"6",sqm:34.6,type:"1BR",price:5082705,psm:146899,q:"th",status:"avail"},
+ {id:"C5-10",grp:"dev",side:"pattaya",floor:"10",sqm:34.6,type:"1BR",price:5093085,psm:147199,q:"th",status:"avail"},
+ {id:"C3-8",grp:"dev",side:"pattaya",floor:"8",sqm:34.6,type:"1BR",price:5100005,psm:147399,q:"th",status:"avail"},
+ {id:"D8-6",grp:"dev",side:"jomtien",floor:"6",sqm:34.6,type:"1BR",price:5113465,psm:147788,q:"th",status:"avail"},
+ {id:"C1-6",grp:"dev",side:"pattaya",floor:"6",sqm:34.6,type:"1BR",price:5124641,psm:148111,q:"th",status:"avail"},
+ {id:"B1-36",grp:"dev",side:"pattaya",floor:"36",sqm:28.48,type:"1BR",price:5139188,psm:180449,q:"th",status:"avail"},
+ {id:"C2-9",grp:"dev",side:"pattaya",floor:"9",sqm:34.6,type:"1BR",price:5176125,psm:149599,q:"th",status:"avail"},
+ {id:"B6-7",grp:"dev",side:"pattaya",floor:"7",sqm:34.6,type:"1BR",price:5183703,psm:149818,q:"th",status:"avail"},
+ {id:"C1-8",grp:"dev",side:"pattaya",floor:"8",sqm:34.6,type:"1BR",price:5186921,psm:149911,q:"th",status:"avail"},
+ {id:"B4-38",grp:"dev",side:"pattaya",floor:"38",sqm:28.47,type:"1BR",price:5193042,psm:182404,q:"th",status:"avail"},
+ {id:"B6-9",grp:"dev",side:"pattaya",floor:"9",sqm:34.33,type:"1BR",price:5212667,psm:151840,q:"th",status:"avail"},
+ {id:"B6-8",grp:"dev",side:"pattaya",floor:"8",sqm:34.6,type:"1BR",price:5221209,psm:150902,q:"th",status:"avail"},
+ {id:"C1-9",grp:"dev",side:"pattaya",floor:"9",sqm:34.6,type:"1BR",price:5231831,psm:151209,q:"th",status:"avail"},
+ {id:"D9-8",grp:"dev",side:"jomtien",floor:"8",sqm:34.6,type:"1BR",price:5237298,psm:151367,q:"th",status:"avail"},
+ {id:"B3-7",grp:"dev",side:"pattaya",floor:"7",sqm:34.42,type:"1BR",price:5248327,psm:152479,q:"th",status:"avail"},
+ {id:"B5-8",grp:"dev",side:"pattaya",floor:"8",sqm:34.6,type:"1BR",price:5251726,psm:151784,q:"th",status:"avail"},
+ {id:"E6-38",grp:"dev",side:"jomtien",floor:"38",sqm:28.75,type:"1BR",price:5251964,psm:182677,q:"th",status:"avail"},
+ {id:"D9-9",grp:"dev",side:"jomtien",floor:"9",sqm:34.6,type:"1BR",price:5268438,psm:152267,q:"th",status:"avail"},
+ {id:"B3-8",grp:"dev",side:"pattaya",floor:"8",sqm:34.42,type:"1BR",price:5278961,psm:153369,q:"th",status:"avail"},
+ {id:"B6-14",grp:"dev",side:"pattaya",floor:"14",sqm:34.6,type:"1BR",price:5426249,psm:156828,q:"th",status:"avail"},
+ {id:"E1-6",grp:"dev",side:"jomtien",floor:"6",sqm:36.82,type:"1BR",price:5522595,psm:149989,q:"th",status:"avail"},
+ {id:"E3-53",grp:"dev",side:"jomtien",floor:"53",sqm:28.6,type:"1BR",price:5524319,psm:193158,q:"th",status:"avail"},
+ {id:"B9-6",grp:"dev",side:"pattaya",floor:"6",sqm:36.82,type:"1BR",price:5529922,psm:150188,q:"th",status:"avail"},
+ {id:"E1-7",grp:"dev",side:"jomtien",floor:"7",sqm:36.82,type:"1BR",price:5557574,psm:150939,q:"th",status:"avail"},
+ {id:"B9-8",grp:"dev",side:"pattaya",floor:"8",sqm:36.82,type:"1BR",price:5596198,psm:151988,q:"th",status:"avail"},
+ {id:"E1-9",grp:"dev",side:"jomtien",floor:"9",sqm:36.82,type:"1BR",price:5644837,psm:153309,q:"th",status:"avail"},
+ {id:"B5-22",grp:"dev",side:"pattaya",floor:"22",sqm:34.42,type:"1BR",price:5647737,psm:164083,q:"th",status:"avail"},
+ {id:"B9-12",grp:"dev",side:"pattaya",floor:"12",sqm:36.82,type:"1BR",price:5728750,psm:155588,q:"th",status:"avail"},
+ {id:"B9-16",grp:"dev",side:"pattaya",floor:"16",sqm:36.82,type:"1BR",price:5861302,psm:159188,q:"th",status:"avail"},
+ {id:"E5-16",grp:"dev",side:"jomtien",floor:"16",sqm:35.0,type:"1BR",price:5865930,psm:167598,q:"th",status:"avail"},
+ {id:"B2-31",grp:"dev",side:"pattaya",floor:"31",sqm:35.0,type:"1BR",price:6174420,psm:176412,q:"th",status:"avail"},
+ {id:"B5-42",grp:"dev",side:"pattaya",floor:"42",sqm:34.6,type:"1BR",price:6430964,psm:185866,q:"th",status:"avail"},
+ {id:"A1-6",grp:"dev",side:"front",floor:"6",sqm:46.81,type:"1BRJ",price:8098130,psm:173000,q:"th",status:"avail"},
+ {id:"A1-7",grp:"dev",side:"front",floor:"7",sqm:46.81,type:"1BRJ",price:8144940,psm:174000,q:"th",status:"avail"},
+ {id:"A6-10",grp:"dev",side:"front",floor:"10",sqm:46.46,type:"1BRJ",price:8223420,psm:177000,q:"th",status:"avail"},
+ {id:"A1-9",grp:"dev",side:"front",floor:"9",sqm:46.81,type:"1BRJ",price:8238560,psm:176000,q:"th",status:"avail"},
+ {id:"A6-11",grp:"dev",side:"front",floor:"11",sqm:46.46,type:"1BRJ",price:8269880,psm:178000,q:"th",status:"avail"},
+ {id:"A1-12",grp:"dev",side:"front",floor:"12",sqm:46.81,type:"1BRJ",price:8378990,psm:179000,q:"th",status:"avail"},
+ {id:"A1-20",grp:"dev",side:"front",floor:"20",sqm:46.81,type:"1BRJ",price:8753470,psm:187000,q:"th",status:"avail"},
+ {id:"A1-34",grp:"dev",side:"front",floor:"34",sqm:46.81,type:"1BRJ",price:9408810,psm:201000,q:"th",status:"avail"},
+ {id:"E2-8",grp:"dev",side:"jomtien",floor:"8",sqm:78.99,type:"1BRP",price:12936587,psm:163775,q:"th",status:"avail"},
+ {id:"B8-9",grp:"dev",side:"pattaya",floor:"9",sqm:78.99,type:"1BRP",price:13048674,psm:165194,q:"th",status:"avail"},
+ {id:"B8-11",grp:"dev",side:"pattaya",floor:"11",sqm:78.99,type:"1BRP",price:13272848,psm:168032,q:"th",status:"avail"},
+ {id:"E2-14",grp:"dev",side:"jomtien",floor:"14",sqm:78.99,type:"1BRP",price:13783992,psm:174503,q:"th",status:"avail"},
+ {id:"B8-17",grp:"dev",side:"pattaya",floor:"17",sqm:78.99,type:"1BRP",price:13945290,psm:176545,q:"th",status:"avail"},
+ {id:"A2-6",grp:"dev",side:"front",floor:"6",sqm:64.0,type:"2BRJ",price:13951936,psm:217999,q:"th",status:"avail"},
+ {id:"B8-19",grp:"dev",side:"pattaya",floor:"19",sqm:78.99,type:"1BRP",price:14227758,psm:180121,q:"th",status:"avail"},
+ {id:"A5-12",grp:"dev",side:"front",floor:"12",sqm:64.53,type:"2BRJ",price:14564356,psm:225699,q:"th",status:"avail"},
+ {id:"A5-14",grp:"dev",side:"front",floor:"14",sqm:64.53,type:"2BRJ",price:14757946,psm:228699,q:"th",status:"avail"},
+ {id:"B8-25",grp:"dev",side:"pattaya",floor:"25",sqm:78.99,type:"1BRP",price:14841826,psm:187895,q:"th",status:"avail"},
+ {id:"E2-22",grp:"dev",side:"jomtien",floor:"22",sqm:78.99,type:"1BRP",price:14894275,psm:188559,q:"th",status:"avail"},
+ {id:"B8-27",grp:"dev",side:"pattaya",floor:"27",sqm:78.99,type:"1BRP",price:15066000,psm:190733,q:"th",status:"avail"},
+ {id:"B8-45",grp:"dev",side:"pattaya",floor:"45",sqm:78.64,type:"1BRP",price:16667748,psm:211950,q:"fr",status:"avail"},
+ {id:"A2-38",grp:"dev",side:"front",floor:"38",sqm:63.97,type:"2BRJ",price:17015956,psm:265999,q:"th",status:"avail"},
+ {id:"A2-42",grp:"dev",side:"front",floor:"42",sqm:63.97,type:"2BRJ",price:17399776,psm:271999,q:"th",status:"avail"},
+ {id:"A5-42",grp:"dev",side:"front",floor:"42",sqm:64.53,type:"2BRJ",price:17468206,psm:270699,q:"th",status:"avail"},
+ {id:"A2-44",grp:"dev",side:"front",floor:"44",sqm:63.97,type:"2BRJ",price:17591686,psm:274999,q:"th",status:"avail"}
+];
+const UPDATED = "2026-11-24"; // developer price list "Update price list for 24 November, 2026" (Drive › COPA1 (Webpage))
 const HERO_VIDEO = ""; // e.g. "copa1-img/hero/copa1-ready-to-move-in.mp4" once Thor sends the clip
 const SLIDES = [
   ["copa1-img/hero/h1-sky-pool-beach.jpg","70% 55%"],
@@ -396,7 +492,7 @@ const SLIDES = [
   ["copa1-img/hero/h5-pool-sea.jpg","70% 55%"]
 ];
 const SHOW35 = ["copa1-img/show/s35-1.jpg","copa1-img/show/s35-2.jpg","copa1-img/show/s35-3.jpg","copa1-img/show/s35-4.jpg","copa1-img/show/s35-5.jpg","copa1-img/show/plan-35-type10.jpg"];
-const TYPE_PHOTO = {"1BR":"copa1-img/show/s35-1.jpg"};
+const TYPE_PHOTO = {"1BR":["copa1-img/show/s35-1.jpg","ph.sample"],"1BRJ":["copa1-img/show/s35-3.jpg","ph.sample"],"2BRJ":["copa1-img/fac-facade.jpg","ph.bldg"],"1BRP":["copa1-img/fac-tower.jpg","ph.bldg"]};
 /* Room types as listed in the developer Sales Kit (Feb 2021 edition); confirm with Thor */
 const TYPES = [["1BR",[29,35,39.5,45]],["1BRJ",[39,46.5]],["2BRJ",[64,65,72]],["1BRP",[80]]];
 const FAC = [
@@ -419,7 +515,10 @@ th:{
  "s.avail":"ว่าง","s.reserved":"จองแล้ว",
  "f.size":"ขนาดทุกแบบ","f.s1":"ไม่เกิน 30 ตร.ม.","f.s2":"30–40 ตร.ม.","f.s3":"40–55 ตร.ม.","f.s4":"55 ตร.ม. ขึ้นไป",
  "f.floor":"ทุกชั้น","f.fl1":"ชั้น 1–15","f.fl2":"ชั้น 16–35","f.fl3":"ชั้น 36 ขึ้นไป",
- "f.view":"ทุกวิว","v.sea":"วิวทะเลเต็ม","v.part":"วิวทะเลบางส่วน","v.city":"วิวเมือง / สวน",
+ "f.view":"ทุกด้านของอาคาร","v.front":"ด้านหน้าทะเล","v.pattaya":"ฝั่งพัทยา","v.jomtien":"ฝั่งจอมเทียน",
+ "f.quota":"ทุกโควต้า","q.th":"โควต้าไทย","q.fr":"โควต้าต่างชาติ", sqmU:"ตร.ม.", more:"ดูเพิ่มอีก {n} ห้อง",
+ "ph.sample":"ภาพห้องตัวอย่าง","ph.bldg":"ภาพอาคาร",
+ fees:"ราคาห้องจากโครงการตามไพรซ์ลิสต์ผู้พัฒนา อัปเดต 24 พ.ย. 2569 · กองทุนส่วนกลาง (Sinking fund) 500 บาท/ตร.ม. ชำระครั้งเดียว · ค่าส่วนกลาง 50 บาท/ตร.ม. ชำระล่วงหน้า 12 เดือน · ราคาและห้องว่างเปลี่ยนได้ โปรดยืนยันกับทีมงาน",
  "f.price":"ทุกช่วงราคา","p.b1":"ไม่เกิน 3 ล้าน","p.b2":"3–5 ล้าน","p.b3":"5–8 ล้าน","p.b4":"8 ล้านขึ้นไป",
  "p.r1":"ไม่เกิน 15,000 / เดือน","p.r2":"15,000–25,000 / เดือน","p.r3":"25,000–40,000 / เดือน","p.r4":"40,000 ขึ้นไป / เดือน",
  "f.status":"ทุกสถานะ","f.avail":"เฉพาะห้องว่าง","f.reserved":"จองแล้ว",
@@ -477,7 +576,10 @@ en:{
  "s.avail":"Available","s.reserved":"Reserved",
  "f.size":"Any size","f.s1":"Up to 30 sqm","f.s2":"30–40 sqm","f.s3":"40–55 sqm","f.s4":"55 sqm +",
  "f.floor":"Any floor","f.fl1":"Floors 1–15","f.fl2":"Floors 16–35","f.fl3":"Floor 36 +",
- "f.view":"Any view","v.sea":"Full sea view","v.part":"Partial sea view","v.city":"City / garden view",
+ "f.view":"Any side","v.front":"Beachfront side","v.pattaya":"Pattaya side","v.jomtien":"Jomtien side",
+ "f.quota":"Any quota","q.th":"Thai quota","q.fr":"Foreign quota", sqmU:"sqm", more:"Show {n} more",
+ "ph.sample":"Sample unit photo","ph.bldg":"Building photo",
+ fees:"Developer units at list prices updated 24 Nov 2026 · sinking fund 500 THB/sqm, paid once · maintenance fee 50 THB/sqm, paid 12 months in advance · prices and availability may change; please confirm with our team.",
  "f.price":"Any price","p.b1":"Up to 3M","p.b2":"3–5M","p.b3":"5–8M","p.b4":"8M +",
  "p.r1":"Up to 15,000 / mo","p.r2":"15,000–25,000 / mo","p.r3":"25,000–40,000 / mo","p.r4":"40,000 + / mo",
  "f.status":"Any status","f.avail":"Available only","f.reserved":"Reserved",
@@ -544,7 +646,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 })();
 
 /* units */
-const st={m:"all",term:"m",size:"",floor:"",view:"",price:"",status:"",sort:"price"};
+const st={m:"all",term:"m",size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24};
 const SIZE={s1:[0,30],s2:[30,40],s3:[40,55],s4:[55,1e9]}, FLOOR={fl1:[0,15],fl2:[16,35],fl3:[36,999]};
 const BUY={b1:[0,3e6],b2:[3e6,5e6],b3:[5e6,8e6],b4:[8e6,1e12]}, RENT={r1:[0,15000],r2:[15000,25000],r3:[25000,40000],r4:[40000,1e12]};
 const fl=u=>parseInt(u.floor,10)||0;
@@ -554,7 +656,8 @@ function opts(sel,list,cur){sel.innerHTML=list.map(([v,k])=>'<option value="'+v+
 function buildFilters(){
   opts($("#fSize"),[["","f.size"],["s1","f.s1"],["s2","f.s2"],["s3","f.s3"],["s4","f.s4"]],st.size);
   opts($("#fFloor"),[["","f.floor"],["fl1","f.fl1"],["fl2","f.fl2"],["fl3","f.fl3"]],st.floor);
-  opts($("#fView"),[["","f.view"],["sea","v.sea"],["part","v.part"],["city","v.city"]],st.view);
+  opts($("#fView"),[["","f.view"],["front","v.front"],["pattaya","v.pattaya"],["jomtien","v.jomtien"]],st.view);
+  opts($("#fQuota"),[["","f.quota"],["th","q.th"],["fr","q.fr"]],st.quota);
   const r=st.m==="rent";
   opts($("#fPrice"),r?[["","f.price"],["r1","p.r1"],["r2","p.r2"],["r3","p.r3"],["r4","p.r4"]]:[["","f.price"],["b1","p.b1"],["b2","p.b2"],["b3","p.b3"],["b4","p.b4"]],st.price);
   opts($("#fStatus"),[["","f.status"],["avail","f.avail"],["reserved","f.reserved"]],st.status);
@@ -566,7 +669,8 @@ function list(){
     if(st.m!=="all"&&u.grp!==st.m) return false;
     if(st.size){const [a,b]=SIZE[st.size]; if(!(u.sqm>=a&&u.sqm<b)) return false;}
     if(st.floor){const [a,b]=FLOOR[st.floor]; if(!(fl(u)>=a&&fl(u)<=b)) return false;}
-    if(st.view&&u.view!==st.view) return false;
+    if(st.view&&(u.side||u.view)!==st.view) return false;
+    if(st.quota&&u.q!==st.quota) return false;
     if(st.status&&u.status!==st.status) return false;
     if(st.price){const R=(st.m==="rent"?RENT:BUY)[st.price]; if(R){const v=st.m==="rent"?(u.rentM||0):(u.grp==="rent"?0:u.price||0); if(!(v>=R[0]&&v<R[1])) return false;}}
     return true;
@@ -579,27 +683,28 @@ function list(){
   });
 }
 function card(u){
-  const img=u.photo||TYPE_PHOTO[u.type]||SHOW35[0];
+  const tp=TYPE_PHOTO[u.type]||[SHOW35[0],"ph.sample"], img=u.photo||(tp[1]==="ph.sample"?SHOW35[(UNITS.indexOf(u)%5+5)%5]:tp[0]), cap=u.photo?"":'<span class="phcap">'+t(tp[1])+'</span>';
   let price;
   if(u.grp==="rent"){const v=rentOf(u); price=v?fmt(v)+' <small>฿ '+t(st.term==="y"?"perY":"perM")+'</small>':'<small>'+t("ask")+'</small>';}
-  else price=u.price?fmt(u.price)+' <small>฿</small>':'<small>'+t("ask")+'</small>';
+  else price=u.price?fmt(u.price)+' <small>฿'+(u.psm?' · '+fmt(u.psm)+' ฿/'+t("sqmU"):'')+'</small>':'<small>'+t("ask")+'</small>';
   const y=(u.grp!=="rent"&&u.price&&u.rentM)?'<div class="yld">'+t("yld",{n:(u.rentM*12/u.price*100).toFixed(1)})+'</div>':"";
   const g=t("b."+u.grp);
-  return '<article class="card"><div class="ph"><img src="'+img+'" alt="" loading="lazy"><span class="badge '+u.grp+'">'+g+'</span><span class="st'+(u.status==="reserved"?" res":"")+'">'+t("s."+(u.status||"avail"))+'</span></div>'+
-   '<div class="bd"><h3>'+u.id+'</h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+(u.view?'<span>'+t("v."+u.view)+'</span>':"")+'</div>'+
+  return '<article class="card"><div class="ph"><img src="'+img+'" alt="" loading="lazy"><span class="badge '+u.grp+'">'+g+'</span><span class="st'+(u.status==="reserved"?" res":"")+'">'+t("s."+(u.status||"avail"))+'</span>'+cap+'</div>'+
+   '<div class="bd"><h3>'+u.id+'</h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+
    '<div class="price">'+price+'</div>'+y+(u.note?'<p class="note">'+u.note+'</p>':"")+
    '<div class="acts"><a class="btn line sm" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("card.ask")+'</a></div></div></article>';
 }
 function render(){
-  ["all","dev","resale","rent"].forEach(m=>{const n=m==="all"?UNITS.length:UNITS.filter(u=>u.grp===m).length; const el=document.querySelector('[data-n="'+m+'"]'); if(el) el.textContent=UNITS.length?t("meta",{n}):"";});
+  ["all","dev","resale","rent"].forEach(m=>{const n=m==="all"?UNITS.length:UNITS.filter(u=>u.grp===m).length; const el=document.querySelector('[data-n="'+m+'"]'); if(el) el.textContent=UNITS.length?(n?t("meta",{n}):t("pend.thor")):"";});
   $$(".mode").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.m===st.m)));
   $$("#rTerm button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.t===st.term)));
   const L=list();
-  $("#grid").innerHTML=L.map(card).join("");
+  $("#grid").innerHTML=L.slice(0,st.shown).map(card).join("");
+  const mb=$("#moreBtn"); mb.hidden=L.length<=st.shown; mb.textContent=t("more",{n:L.length-st.shown});
   const empty=$("#empty");
   if(!UNITS.length){empty.hidden=false; empty.querySelector("p").textContent=t("e.t"); $("#meta").textContent="";}
   else if(!L.length){empty.hidden=false; empty.querySelector("p").textContent=t("e.none"); $("#meta").textContent=t("meta",{n:0});}
-  else{empty.hidden=true; $("#meta").textContent=UPDATED?t("metaUpd",{n:L.length,d:UPDATED}):t("meta",{n:L.length});}
+  else{empty.hidden=true; $("#meta").textContent=UPDATED?t("metaUpd",{n:L.length,d:new Date(UPDATED+"T00:00:00").toLocaleDateString(LANG==="th"?"th-TH":"en-GB",{day:"numeric",month:"short",year:"numeric"})}):t("meta",{n:L.length});}
   empty.querySelector("b").textContent=UNITS.length?"":t("e.h"); empty.querySelector("b").hidden=!!UNITS.length;
   // tenant "from" prices
   const r=UNITS.filter(u=>u.grp==="rent"&&u.status!=="reserved");
@@ -615,10 +720,11 @@ function render(){
     box.innerHTML='<ul class="types">'+Object.entries(by).map(([k,a])=>'<li><b>'+t("ty."+k)+'</b><span>'+t("i.realAvg",{v:fmt(a.reduce((s,u)=>s+u.rentM,0)/a.length)+" ฿",n:a.length})+'</span></li>').join("")+'</ul>';
   }
 }
-$$(".mode").forEach(b=>b.addEventListener("click",()=>{st.m=b.dataset.m; st.price=""; buildFilters(); render();}));
+$$(".mode").forEach(b=>b.addEventListener("click",()=>{st.m=b.dataset.m; st.price=""; st.shown=24; buildFilters(); render();}));
 $$("#rTerm button").forEach(b=>b.addEventListener("click",()=>{st.term=b.dataset.t; render();}));
-[["#fSize","size"],["#fFloor","floor"],["#fView","view"],["#fPrice","price"],["#fStatus","status"],["#fSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{st[k]=e.target.value; render();}));
-$("#fReset").addEventListener("click",()=>{Object.assign(st,{size:"",floor:"",view:"",price:"",status:"",sort:"price"}); buildFilters(); render();});
+[["#fSize","size"],["#fFloor","floor"],["#fView","view"],["#fQuota","quota"],["#fPrice","price"],["#fStatus","status"],["#fSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{st[k]=e.target.value; st.shown=24; render();}));
+$("#moreBtn").addEventListener("click",()=>{st.shown+=24; render();});
+$("#fReset").addEventListener("click",()=>{Object.assign(st,{size:"",floor:"",view:"",quota:"",price:"",status:"",sort:"price",shown:24}); buildFilters(); render();});
 $$("[data-goto]").forEach(b=>b.addEventListener("click",()=>{st.m="rent"; st.term=b.dataset.goto; st.price=""; buildFilters(); render(); $("#units").scrollIntoView();}));
 
 /* rooms, facilities */
