@@ -41,6 +41,10 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - Real unit photos per rent unit live in that same Drive folder (one folder per unit code); not on the page yet.
 
 ## Look
+- Dec 2026 chart check (Thor's reading for Dec 2569, Google Doc 1OgS5TLj-SGcSMhL-DTbQpf-PC4LAu2jFSVx35UZ86Yw): dark surfaces need gold +
+  burgundy or cream; no light-blue/aqua as a large background (hero keeps warm slides h1, h4, h2; aqua-heavy h3/h5 left out);
+  closing buttons deep teal (LINE button is teal with a small LINE-green dot, no neon green); real photos before prices; warm tone,
+  no price-war wording; launch day/time from the reading's best days (currently 14 Dec 19:00–21:00, backup 12 Dec 19:00–21:00).
 - Palette from Thor's chart (Nov–Dec 2026): ivory/cream base, burgundy headings, gold accents, deep teal for closing buttons.
 - Real photos first (Drive COPA1 (Webpage) and COPA1 photo folders); AI images only after the thbho-visual-qa skill.
 - Hero slides 16:9, main subject on the side away from the text (text sits bottom-left on this page).
