@@ -1096,7 +1096,7 @@ window.HAIX={mxLoad:mxLoad,MX:MX,db:function(){return db},mname:mname,pfTop:pfTo
 // --- Owner mode: the member who holds the listing (and pays the commission) runs the registry; sub-agents register a client + listing before a viewing
 (function(){
 "use strict";
-var OKEY="hai-owner-demo-v6",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
+var OKEY="hai-owner-demo-v7",DAY=864e5,PROT=90,CONF_H=48,$=function(s){return document.querySelector(s)};
 var O={
  th:{mNet:"เครือข่ายข้ามเมือง",mNetS:"ส่งลูกค้าระหว่างเมือง",mOwn:"เจ้าของทรัพย์ · sub-agent",mOwnS:"ลงทะเบียนก่อนพาดู",
   h1:"ทรัพย์ของใคร คนนั้นคุม: ลงทะเบียนก่อนพาดู",
@@ -1115,7 +1115,7 @@ var O={
   dupMine:"คุณลงลูกค้ารายนี้กับทรัพย์ {l} ไว้แล้วเมื่อ {t} ({id})",
   mayH:"บันทึกแล้ว แต่อาจเป็นคนเดียวกับลูกค้าที่ลงไว้ก่อน",mayT:"ตรวจกับลูกค้า: {l} ระบบแจ้งเจ้าของทรัพย์และผู้ที่ลงก่อนแล้ว",
   rulesH:"กติกาในโหมดนี้",
-  r:["sub-agent ลงทะเบียนลูกค้าพร้อมรหัสทรัพย์ก่อนพาดู ไม่ลง = ไม่มีสิทธิ์ค่าแนะนำ","ลูกค้ากดยืนยันเองว่ามากับ agent รายใด รอยืนยันได้ 48 ชั่วโมง","เจ้าของทรัพย์แค่กดอนุมัติหรือไม่อนุมัติ ไม่ต้องกรอกข้อมูลลูกค้าเอง","ลูกค้า 1 คนกับเจ้าของทรัพย์ 1 ราย มีผู้พามาได้คนเดียว คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด ต่ออายุได้ 1 ครั้งพร้อมเหตุผล หมดคุ้มครองแล้วใครลงรอบใหม่ก่อนได้สิทธิ์","เบอร์หรือ ID แชตซ้ำ ระบบไม่รับ · ชื่อหรือเบอร์ 8 ตัวท้ายตรงกัน ระบบติดธง “อาจซ้ำ” ให้ตรวจ","ลูกค้าติดต่อเจ้าของทรัพย์ตรงทีหลัง ยังเป็นลูกค้าของคนที่พามา","เจ้าของทรัพย์ไม่เห็นเบอร์เต็ม และ sub-agent ไม่เห็นเจ้าของบ้านกับที่ตั้งจริง จึงไม่มีใครข้ามใครได้","ปิดดีลแล้ว ระบบคิดค่าแนะนำตามอัตราในสัญญา (10–25% ตกลงรายดีล) และติดตามการจ่ายจนอีกฝ่ายยืนยัน","บันทึกผิด ย้อนขั้นล่าสุดได้ภายใน 24 ชั่วโมง ประวัติไม่ถูกลบ"],
+  r:["sub-agent ลงทะเบียนลูกค้าพร้อมรหัสทรัพย์ก่อนพาดู ไม่ลง = ไม่มีสิทธิ์ค่าแนะนำ","ลูกค้ากดยืนยันเองว่ามากับ agent รายใด รอยืนยันได้ 48 ชั่วโมง","เจ้าของทรัพย์แค่กดอนุมัติหรือไม่อนุมัติ ไม่ต้องกรอกข้อมูลลูกค้าเอง","ลูกค้า 1 คนกับเจ้าของทรัพย์ 1 ราย มีผู้พามาได้คนเดียว คุ้มครอง 90 วันนับจากความเคลื่อนไหวล่าสุด ต่ออายุได้ 1 ครั้งพร้อมเหตุผล หมดคุ้มครองแล้วใครลงรอบใหม่ก่อนได้สิทธิ์","เบอร์หรือ ID แชตซ้ำ ระบบไม่รับ · ชื่อหรือเบอร์ 8 ตัวท้ายตรงกัน ระบบติดธง “อาจซ้ำ” ให้ตรวจ","ลูกค้าติดต่อเจ้าของทรัพย์ตรงทีหลัง ยังเป็นลูกค้าของคนที่พามา","เจ้าของทรัพย์ไม่เห็นเบอร์เต็ม และ sub-agent ไม่เห็นเจ้าของบ้านกับที่ตั้งจริง จึงไม่มีใครข้ามใครได้","ปิดดีลแล้ว ระบบคิดค่าแนะนำตามอัตราในสัญญา (7–27% ตกลงรายดีล) และติดตามการจ่ายจนอีกฝ่ายยืนยัน","บันทึกผิด ย้อนขั้นล่าสุดได้ภายใน 24 ชั่วโมง ประวัติไม่ถูกลบ"],
   lh:"รายการ",tIn:"คำขอรออนุมัติ",tOwn:"ลูกค้าบนทรัพย์ของฉัน",tBy:"ลูกค้าที่ฉันพาไป",tPay:"ค่าแนะนำ",tAll:"ทั้งหมด",
   sortBy:"เรียงตาม",so_todo:"ต้องทำก่อน",so_appt:"นัดใกล้สุด",so_new:"ล่าสุด",qL:"ค้นหา",qPh:"รหัส · ชื่อ · เบอร์ 4 ตัวท้าย · รหัสทรัพย์ · agent",
   foldN:"กาง {a} · พับ {b}",openAll:"กางทั้งหมด",shutAll:"พับทั้งหมด",tgMore:"กางรายการ",tgLess:"พับรายการ",
@@ -1157,7 +1157,7 @@ var O={
   dupMine:"You already registered this client for {l} on {t} ({id})",
   mayH:"Saved, but this may be someone already registered",mayT:"Check with the client: {l}. The listing owner and the first registrant have been notified.",
   rulesH:"Rules in this mode",
-  r:["Sub-agents register the client and listing code before the viewing. Not registered = no referral fee","The client confirms which agent they came with; unconfirmed requests lapse after 48 hours","The listing owner only approves or declines, and never has to type client details","One client with one listing owner has one introducer, protected 90 days from the latest activity; it can be extended once with a reason. After it ends, whoever registers the new round first holds the right","A duplicate number or chat ID is refused · a matching name or last 8 digits is flagged “may be the same” for checking","If the client later contacts the owner directly, they still belong to whoever brought them","The owner never sees the full number, and the sub-agent never sees the house owner or the real address, so nobody can go around anybody","When the deal closes the system works out the referral fee at the contract rate (10–25%, set per deal) and tracks payment until the other side confirms","A wrong entry can be undone within 24 hours; the history is never deleted"],
+  r:["Sub-agents register the client and listing code before the viewing. Not registered = no referral fee","The client confirms which agent they came with; unconfirmed requests lapse after 48 hours","The listing owner only approves or declines, and never has to type client details","One client with one listing owner has one introducer, protected 90 days from the latest activity; it can be extended once with a reason. After it ends, whoever registers the new round first holds the right","A duplicate number or chat ID is refused · a matching name or last 8 digits is flagged “may be the same” for checking","If the client later contacts the owner directly, they still belong to whoever brought them","The owner never sees the full number, and the sub-agent never sees the house owner or the real address, so nobody can go around anybody","When the deal closes the system works out the referral fee at the contract rate (7–27%, set per deal) and tracks payment until the other side confirms","A wrong entry can be undone within 24 hours; the history is never deleted"],
   lh:"Records",tIn:"Requests to approve",tOwn:"Clients on my listings",tBy:"Clients I brought",tPay:"Referral fees",tAll:"All",
   sortBy:"Sort by",so_todo:"Needs action",so_appt:"Next viewing",so_new:"Latest",qL:"Search",qPh:"Code · name · last 4 digits · listing · agent",
   foldN:"{a} open · {b} folded",openAll:"Open all",shutAll:"Fold all",tgMore:"Open record",tgLess:"Fold record",
@@ -1221,12 +1221,12 @@ function seed(){var now=Date.now(),L=[];od={leads:L,seq:100};
  var c=mk("H04","sa1","Anna Petrova","79161234567",{k:"wa",id:"79161234567"},"rent",6,"ok",at(1,14),{budget:"60–120K",match:{type:"villa",date:"1990-05-14",gender:"f"}});c.log.push({t:c.t+2*3600e3,by:"asn",k:"l_ok",x:20});
  var d=mk("H14","sa2","Wang Lei","8613812345678",{k:"wc",id:"wanglei88"},"buy",0.05,"wait",at(2,10,30));
  var d2=mk("H14","sa1","Lei Wang","66812345678",null,"buy",0.02,"wait",at(3,15),{may:[{id:d.id,why:"tail"}]});d2.log.push({t:d2.t,by:"sa1",k:"l_may",x:d.id});
- var e=mk("8A03","asn","Kim Jiwoo","821098765432",{k:"line",id:"jiwoo.k"},"buy",34,"close",now-30*DAY,{rate:25,price:2799000,comm:83970,paid:1});
- e.log.push({t:e.t+3600e3,by:"r2",k:"l_ok",x:25},{t:now-30*DAY,by:"asn",k:"l_seen"},{t:now-20*DAY,by:"r2",k:"l_book",x:baht(2799000)},{t:now-6*DAY,by:"r2",k:"l_close",x:baht(83970)},{t:now-2*DAY,by:"r2",k:"l_paid",x:baht(20993)});
+ var e=mk("8A03","asn","Kim Jiwoo","821098765432",{k:"line",id:"jiwoo.k"},"buy",34,"close",now-30*DAY,{rate:27,price:2799000,comm:83970,paid:1});
+ e.log.push({t:e.t+3600e3,by:"r2",k:"l_ok",x:27},{t:now-30*DAY,by:"asn",k:"l_seen"},{t:now-20*DAY,by:"r2",k:"l_book",x:baht(2799000)},{t:now-6*DAY,by:"r2",k:"l_close",x:baht(83970)},{t:now-2*DAY,by:"r2",k:"l_paid",x:baht(20993)});
  var f=mk("36E09","sa1","Olga Smirnova","79031112233",null,"buy",9,"book",now-5*DAY,{price:3150000,budget:"≤ 5M"});
  f.log.push({t:f.t+5*3600e3,by:"r2",k:"l_ok",x:20},{t:now-5*DAY,by:"sa1",k:"l_seen"},{t:now-DAY,by:"r2",k:"l_book",x:baht(3150000)});
- var g=mk("H04","sa1","David Miller","447700900123",null,"rent",40,"close",now-36*DAY,{rate:15,price:65000,comm:65000,paid:2});
- g.log.push({t:g.t+3600e3,by:"asn",k:"l_ok",x:15},{t:now-36*DAY,by:"sa1",k:"l_seen"},{t:now-30*DAY,by:"asn",k:"l_close",x:baht(65000)},{t:now-25*DAY,by:"asn",k:"l_paid",x:baht(9750)},{t:now-24*DAY,by:"sa1",k:"l_got"});
+ var g=mk("H04","sa1","David Miller","447700900123",null,"rent",40,"close",now-36*DAY,{rate:9,price:65000,comm:65000,paid:2});
+ g.log.push({t:g.t+3600e3,by:"asn",k:"l_ok",x:9},{t:now-36*DAY,by:"sa1",k:"l_seen"},{t:now-30*DAY,by:"asn",k:"l_close",x:baht(65000)},{t:now-25*DAY,by:"asn",k:"l_paid",x:baht(9750)},{t:now-24*DAY,by:"sa1",k:"l_got"});
  var h=mk("7D02","sa2","Mikhail Orlov","79265554433",null,"buy",2,"ok",at(-1,16),{budget:"2–4M",match:{type:"condo"}});h.log.push({t:h.t+3600e3,by:"r2",k:"l_ok",x:20});
  var i=mk("H14","asn","Pim Chaiyo","66899887766",{k:"line",id:"pimchy"},"rent",130,"seen",now-120*DAY,{budget:"≤ 40K",match:{type:"villa"}});i.log.push({t:now-120*DAY,by:"asn",k:"l_seen"});
  var j=mk("H80","sa2","Tom Becker","4915112345678",{k:"wa",id:"4915112345678"},"buy",12,"lost",now-8*DAY,{budget:"≤ 8M",match:{type:"villa"},lostFrom:"seen",like:false});
@@ -1294,7 +1294,7 @@ function card(l){
  if(l.ext)h+='<p class="note">'+esc(o("extDone",{d:fd(l.ext.t)}))+": "+esc(l.ext.r)+"</p>";
  var a="";
  if(meBy&&!l.dir&&!l.conf&&l.st==="wait")a+='<button class="btn sm" type="button" data-oa="conf|'+l.id+'">'+esc(o("aConf"))+"</button>";
- if(meOwn&&l.st==="wait"){if(l.conf)a+='<select data-rate="'+l.id+'" aria-label="'+esc(o("rate"))+'">'+[10,15,20,25].map(function(r){return "<option"+(r===l.rate?" selected":"")+' value="'+r+'">'+r+"%</option>"}).join("")+'</select><button class="btn sm" type="button" data-oa="ok|'+l.id+'">'+esc(o("aOk"))+"</button>";else a+='<span class="sub">'+esc(o("confFirst"))+"</span>";
+ if(meOwn&&l.st==="wait"){if(l.conf)a+='<select data-rate="'+l.id+'" aria-label="'+esc(o("rate"))+'">'+[7,9,20,27].map(function(r){return "<option"+(r===l.rate?" selected":"")+' value="'+r+'">'+r+"%</option>"}).join("")+'</select><button class="btn sm" type="button" data-oa="ok|'+l.id+'">'+esc(o("aOk"))+"</button>";else a+='<span class="sub">'+esc(o("confFirst"))+"</span>";
   a+='<button class="btn ghost sm" type="button" data-oa="busy|'+l.id+'">'+esc(o("aNoBusy"))+'</button><button class="btn ghost sm" type="button" data-oa="mine|'+l.id+'">'+esc(o("aNoMine"))+"</button>"}
  if((meOwn||meBy)&&l.st==="ok"&&!expired(l))a+='<button class="btn sm" type="button" data-oa="seen|'+l.id+'">'+esc(o("aSeen"))+"</button>";
  if(meOwn&&(l.st==="ok"||l.st==="seen")&&!expired(l))a+='<label class="sub" for="op-'+l.id+'">'+esc(o("pHint"))+'</label><input type="number" min="0" step="1000" id="op-'+l.id+'"><button class="btn sm" type="button" data-oa="book|'+l.id+'">'+esc(o("aBook"))+"</button>";
