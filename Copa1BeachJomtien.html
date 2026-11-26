@@ -737,7 +737,7 @@ th:{
  "uv.hlRent":"เช่าได้ทั้งรายเดือนและสัญญารายปี","uv.hlSoon":"ห้องจะว่างตั้งแต่ {d}","uv.hlNow":"ว่าง เข้าอยู่ได้เลย",
  "uv.dGrp":"กลุ่ม","uv.dType":"แบบห้อง","uv.dFloor":"ชั้น","uv.dSqm":"พื้นที่","uv.dView":"ด้านของอาคาร","uv.dQuota":"โควต้า","uv.dStat":"สถานะ","uv.dPsm":"ราคา / ตร.ม.","uv.dRm":"เช่ารายเดือน","uv.dRy":"เช่าสัญญา 1 ปี (ต่อเดือน)","uv.dTk":"แบบแปลน",
  "uv.pSale":"ราคาขาย","uv.pRm":"เช่ารายเดือน","uv.pRy":"สัญญา 1 ปี","uv.pPer":"/ เดือน","uv.mil":"ล้าน",
- "uv.ask":"ทักไลน์สอบถามห้องนี้","uv.share":"แชร์ลิงก์ห้องนี้","uv.copied":"คัดลอกลิงก์แล้ว","uv.plan3d":"ดูแปลน 3D","uv.plateBtn":"ดูตำแหน่งบนผังชั้น",
+ "uv.ask":"ทักไลน์สอบถามห้องนี้","uv.share":"แชร์ลิงก์ห้องนี้","uv.qBtn":"พิมพ์ใบเสนอราคา","uv.sBtn":"สร้างโพสต์โซเชียล","uv.copied":"คัดลอกลิงก์แล้ว","uv.plan3d":"ดูแปลน 3D","uv.plateBtn":"ดูตำแหน่งบนผังชั้น",
  "uv.pcNote":"ราคาและสถานะอาจเปลี่ยนแปลง กรุณายืนยันกับทีมงานก่อนตัดสินใจ","uv.whereT":"ติดหาดจอมเทียน ถนนเลียบชายหาด ห่างพัทยากลางประมาณ 15 นาทีโดยรถยนต์","uv.nf":"ไม่พบห้องนี้ในรายการล่าสุด อาจขายหรือปล่อยเช่าไปแล้ว ทักไลน์เพื่อขอห้องใกล้เคียงได้เลย",
  "lm.unit":"สวัสดีครับ สนใจห้อง {u} ({g}) ที่ Copacabana Beach Jomtien ครับ"
 },
@@ -824,7 +824,7 @@ en:{
  "uv.hlRent":"Monthly or 1-year contracts","uv.hlSoon":"Available from {d}","uv.hlNow":"Available now",
  "uv.dGrp":"Group","uv.dType":"Unit type","uv.dFloor":"Floor","uv.dSqm":"Size","uv.dView":"Side of building","uv.dQuota":"Quota","uv.dStat":"Status","uv.dPsm":"Price / sqm","uv.dRm":"Monthly rent","uv.dRy":"1-year contract (per month)","uv.dTk":"Plan type",
  "uv.pSale":"Sale price","uv.pRm":"Monthly rent","uv.pRy":"1-year contract","uv.pPer":"/ month","uv.mil":"M",
- "uv.ask":"Ask about this unit on LINE","uv.share":"Share this unit","uv.copied":"Link copied","uv.plan3d":"View 3D plan","uv.plateBtn":"See it on the floor plan",
+ "uv.ask":"Ask about this unit on LINE","uv.share":"Share this unit","uv.qBtn":"Print quotation","uv.sBtn":"Make a social post","uv.copied":"Link copied","uv.plan3d":"View 3D plan","uv.plateBtn":"See it on the floor plan",
  "uv.pcNote":"Prices and availability may change; please confirm with our team before deciding.","uv.whereT":"On Jomtien Beach Road, about 15 minutes by car from central Pattaya","uv.nf":"This unit is not in the latest list; it may be sold or rented. Ask us on LINE for similar units.",
  "lm.unit":"Hello, I'm interested in unit {u} ({g}) at Copacabana Beach Jomtien."
 }};
@@ -1194,6 +1194,7 @@ function renderUnit(id){
   const yl=(u.grp!=="rent"&&u.price&&u.rentM)?'<div class="sub">'+t("yld",{n:(u.rentM*12/u.price*100).toFixed(1)})+'</div>':'';
   pc+=yl+'<a class="btn line" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("uv.ask")+'</a>'+
     '<div class="pair"><button class="btn ghost" type="button" id="uvShare">'+t("uv.share")+'</button>'+(p3?'<button class="btn ghost" type="button" id="uv3d">'+t("uv.plan3d")+'</button>':'<a class="btn ghost" href="#units">'+t("uv.allBtn")+'</a>')+'</div>'+
+    '<div class="tools"><button class="btn burg" type="button" id="uvQuote">'+t("uv.qBtn")+'</button><button class="btn" type="button" id="uvSocial">'+t("uv.sBtn")+'</button></div>'+
     '<p class="note">'+t("uv.pcNote")+'</p>';
   const P=planList(u), any=UNITS.some(x=>String(x.floor)===String(u.floor)&&x.id!==u.id);
   const near=UNITS.filter(x=>x.id!==u.id&&x.grp===u.grp&&(x.type===u.type)&&Math.abs(x.sqm-u.sqm)<3).sort((a,b)=>Math.abs(fl(a)-fl(u))-Math.abs(fl(b)-fl(u))).slice(0,3);
@@ -1245,5 +1246,266 @@ fetch("copa1-img/rent-units.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r
   if(/[?&]m=rent/.test(location.search)){st.m="rent"; buildFilters(); render();}
 }).catch(()=>{});
 </script>
+<style>
+/* quotation (print) + social post (Thor 26 Nov 2026, same tools as the R2 unit pages) */
+.uv-pc .tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.uv-pc .tools .btn{min-height:40px;font-size:13.5px;padding:0 10px}
+.uv-pc .tools .btn.burg{background:var(--burg);border-color:var(--burg)}
+#qd,#sd{border:0;border-radius:18px;padding:0;max-width:min(980px,94vw);width:100%;background:var(--bg);color:var(--ink);box-shadow:0 30px 80px rgba(40,20,10,.35)}
+#qd{max-width:min(520px,94vw)}
+#qd::backdrop,#sd::backdrop{background:rgba(43,29,26,.55)}
+.dl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 10px;border-bottom:1px solid var(--line)}
+.dl-top h3{margin:0;font:600 20px/1.25 var(--f-display)}
+.dl-top small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+.dl-x{border:0;background:var(--chip);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:15px;color:var(--ink)}
+.dl-bd{padding:16px 20px 20px;display:grid;gap:12px}
+.dl-bd label{display:grid;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600}
+.dl-bd input,.dl-bd select,.dl-bd textarea{font:400 15px/1.4 var(--f-body);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+.dl-bd textarea{min-height:200px;resize:vertical;font-size:14px}
+.dl-row{display:flex;gap:8px;flex-wrap:wrap}
+.dl-row .btn{flex:1 1 auto}
+.sd-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.sd-shot canvas{width:100%;height:auto;border-radius:12px;display:block;box-shadow:var(--shadow)}
+.sd-chips{display:flex;gap:6px;flex-wrap:wrap}
+.sd-chips button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:600 12.5px var(--f-body);color:var(--ink);cursor:pointer}
+.sd-chips button[aria-pressed="true"]{background:var(--burg);border-color:var(--burg);color:#fff}
+.sd-sw{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.sd-sw label{display:flex;align-items:center;gap:6px;font-weight:500;color:var(--ink)}
+.sd-sw input{width:auto}
+.sd-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sd-note{font-size:12px;color:var(--muted);margin:0}
+@media (max-width:760px){.sd-grid{grid-template-columns:1fr}}
+#qs{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  body.qprint > *:not(#qs){display:none!important}
+  body.qprint #qs{display:block!important;color:#2B1D1A;font:400 11.5pt/1.5 var(--f-body);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+#qs .q-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid #A8803F;padding-bottom:10px}
+#qs .q-hd img{height:58px;width:auto}
+#qs .q-hd .r{text-align:right}
+#qs .q-hd h1{margin:0;font:600 20pt/1.1 var(--f-display);color:#7A1F2B}
+#qs .q-hd p{margin:2px 0 0;font-size:9.5pt;color:#6E6259}
+#qs .q-unit{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:12px 0 8px}
+#qs .q-unit h2{margin:0;font:600 18pt/1.2 var(--f-body)}
+#qs .q-unit span{font-size:10pt;color:#6E6259}
+#qs .q-media{display:grid;grid-template-columns:1.35fr 1fr;gap:8px;margin:8px 0 10px}
+#qs .q-media.np{grid-template-columns:1fr 1fr}
+#qs .q-media figure{margin:0;position:relative}
+#qs .q-media img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+#qs .q-media .pl img{object-fit:contain;background:#fff;border:1px solid #E8DDCB;max-height:88mm}
+#qs .q-media .sd{display:grid;gap:8px;grid-template-rows:1fr 1fr;max-height:88mm}
+#qs .q-media figcaption{position:absolute;left:6px;bottom:6px;font-size:7.5pt;background:rgba(43,29,26,.7);color:#fff;padding:1px 6px;border-radius:4px}
+#qs .q-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#qs .q-box{border:1px solid #E8DDCB;border-radius:8px;padding:8px 12px}
+#qs .q-box h3{margin:0 0 4px;font-size:10.5pt;color:#7A1F2B;letter-spacing:.02em}
+#qs .kv{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dotted #E8DDCB;font-size:10.5pt}
+#qs .kv:last-child{border-bottom:0}
+#qs .kv b{font-weight:600;text-align:right}
+#qs .kv.hi b{font:600 14pt var(--f-mono);color:#7A1F2B}
+#qs .q-note{margin-top:10px;font-size:9pt;color:#6E6259}
+#qs .q-note ul{margin:4px 0 0;padding-left:16px}
+#qs .q-by{margin-top:12px;display:flex;justify-content:space-between;gap:16px;font-size:10pt;border-top:1px solid #E8DDCB;padding-top:8px}
+#qs .q-ft{margin-top:8px;font-size:8.5pt;color:#6E6259;text-align:center}
+</style>
+
+<dialog id="qd" aria-labelledby="qdT"><div class="dl-top"><div><h3 id="qdT"></h3><small id="qdS"></small></div><button class="dl-x" type="button" data-close="qd" aria-label="Close">✕</button></div>
+<div class="dl-bd"><label><span id="qdNl"></span><input id="qdName" type="text" autocomplete="name"></label><label><span id="qdTl"></span><input id="qdTel" type="text" autocomplete="tel"></label><small class="sd-note" id="qdH"></small><div class="dl-row"><button class="btn burg" type="button" id="qdGo" style="background:var(--burg);border-color:var(--burg)"></button></div></div></dialog>
+
+<dialog id="sd" aria-labelledby="sdT"><div class="dl-top"><div><h3 id="sdT"></h3><small id="sdS"></small></div><button class="dl-x" type="button" data-close="sd" aria-label="Close">✕</button></div>
+<div class="dl-bd"><div class="sd-grid"><div class="sd-shot" id="sdShot"></div><div style="display:grid;gap:12px">
+  <div><div class="sd-note" id="sdPl" style="font-weight:600;margin-bottom:6px"></div><div class="sd-chips" id="sdPlat"></div></div>
+  <div><div class="sd-note" id="sdStl" style="font-weight:600;margin-bottom:6px"></div><div class="sd-chips" id="sdStyle"></div></div>
+  <div class="sd-three"><label><span id="sdLgl"></span><select id="sdLg"><option value="th">TH</option><option value="en">EN</option></select></label><label><span id="sdRl"></span><select id="sdRatio"><option>4:5</option><option>1:1</option><option>9:16</option><option>16:9</option></select></label><label><span id="sdIl"></span><select id="sdImg"></select></label></div>
+  <div class="sd-sw" id="sdOpt"></div>
+  <label><span id="sdCl"></span><textarea id="sdCap"></textarea></label>
+  <div class="dl-row"><button class="btn" type="button" id="sdCopy"></button><button class="btn burg" type="button" id="sdDl" style="background:var(--burg);border-color:var(--burg)"></button></div>
+  <p class="sd-note" id="sdNote"></p>
+</div></div></div></dialog>
+<div id="qs"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(()=>{
+const QT={th:{
+  qBtn:"พิมพ์ใบเสนอราคา",sBtn:"สร้างโพสต์โซเชียล",
+  qT:"ใบเสนอราคา",qS:"ใส่ชื่อและเบอร์ของคุณเอง ระบบจำไว้ในเครื่องนี้ แล้วพิมพ์หรือบันทึกเป็น PDF",qN:"ชื่อผู้เสนอ (พิมพ์บนใบเสนอราคา)",qTel:"โทร / LINE ของผู้เสนอ",qH:"ไม่ต้องกรอกก็พิมพ์ได้ จะเว้นช่องไว้ให้เขียนเอง",qGo:"พิมพ์ / บันทึก PDF",
+  qDoc:"ใบเสนอราคา",qRef:"เลขที่",qIss:"วันที่ออก",qBasis:"อ้างอิงราคา",qDevList:"รายการราคาผู้พัฒนา {d}",qRentList:"รายการห้องเช่า {d}",
+  qSpec:"ข้อมูลห้อง",qPrice:"ราคา",qSale:"ราคาขาย",qPsm:"ราคาต่อ ตร.ม.",qRm:"ค่าเช่ารายเดือน",qRy:"ค่าเช่า (สัญญารายปี) ต่อเดือน",qAsk:"สอบถามทีมงาน",
+  qN1:"ราคาและสถานะห้องอาจเปลี่ยนแปลง กรุณายืนยันกับทีมงานก่อนทำสัญญา",qN2:"ค่าธรรมเนียมการโอน ค่าส่วนกลาง และเงื่อนไขการชำระ สอบถามทีมงาน",qN3:"ภาพที่มีป้าย Hybrid AI ทำจากภาพห้องจริง (มุมกล้อง/แสง) ไม่เปลี่ยนโครงสร้างและเฟอร์นิเจอร์ · แปลน 3D เป็นภาพ Hybrid AI จากแปลนผู้พัฒนา",
+  qBy:"ผู้เสนอ",qTelL:"โทร / LINE",qSign:"ลงชื่อ",
+  sT:"สร้างโพสต์โซเชียล",sS:"เลือกแพลตฟอร์ม สไตล์ และภาพ แล้วดาวน์โหลดภาพกับคัดลอกข้อความไปโพสต์",sPl:"แพลตฟอร์ม",sSt:"สไตล์ข้อความ",sLg:"ภาษา",sR:"สัดส่วนภาพ",sI:"ภาพ",sC:"ข้อความโพสต์",sCopy:"คัดลอกข้อความ",sCopied:"คัดลอกแล้ว",sDl:"ดาวน์โหลดภาพ",
+  sNote:"ภาพ Hybrid AI จะมีป้ายกำกับบนภาพโพสต์ให้อัตโนมัติ",
+  o:{price:"แสดงราคา",qr:"QR ไปหน้าห้อง",tags:"แฮชแท็ก"},styles:{a:"ข้อมูลครบ",b:"เล่าเรื่องวิว",c:"สั้น กระชับ"}},
+en:{
+  qBtn:"Print quotation",sBtn:"Make a social post",
+  qT:"Quotation",qS:"Type your own name and number once; this device remembers them. Then print or save as PDF.",qN:"Your name (printed on the quotation)",qTel:"Your phone / LINE",qH:"You can leave these blank and write them in by hand.",qGo:"Print / save PDF",
+  qDoc:"Quotation",qRef:"Ref.",qIss:"Issued",qBasis:"Price basis",qDevList:"developer price list {d}",qRentList:"rental list {d}",
+  qSpec:"Unit details",qPrice:"Price",qSale:"Sale price",qPsm:"Price per sqm",qRm:"Monthly rent",qRy:"Rent on a 1-year lease, per month",qAsk:"Ask our team",
+  qN1:"Prices and availability may change; please confirm with our team before signing.",qN2:"Transfer fees, common-area fees and payment terms: please ask our team.",qN3:"Photos tagged Hybrid AI are made from real photos of the unit (camera angle / light), with no change to structure or furniture · the 3D plan is a Hybrid AI image from the developer plan.",
+  qBy:"Prepared by",qTelL:"Phone / LINE",qSign:"Signature",
+  sT:"Make a social post",sS:"Pick platforms, a style and a photo, then download the image and copy the caption.",sPl:"Platforms",sSt:"Caption style",sLg:"Language",sR:"Ratio",sI:"Photo",sC:"Caption",sCopy:"Copy caption",sCopied:"Copied",sDl:"Download image",
+  sNote:"Hybrid AI photos get a label on the post image automatically.",
+  o:{price:"Show price",qr:"QR to unit page",tags:"Hashtags"},styles:{a:"Full details",b:"View story",c:"Short"}}};
+const Q=k=>(QT[LANG]||QT.th)[k];
+const QBY="copa1.quoteBy";
+const qby=()=>{try{return JSON.parse(localStorage.getItem(QBY))||{};}catch(e){return {};}};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const curId=()=>{const m=location.hash.match(/^#\/u\/([0-9A-Za-z-]+)$/); return m?m[1].toUpperCase():"";};
+const rows=id=>UNITS.filter(x=>x.id===id);
+const unitUrl=id=>"https://thbho.com/copa1/u/"+id+".html";
+function info(id){
+  const R=rows(id); if(!R.length) return null;
+  const u=R.find(x=>x.grp!=="rent")||R[0], rent=R.find(x=>x.grp==="rent");
+  const tyN=u.type?t("ty."+u.type):"", side=u.side||u.view||"";
+  const PH=photosOf(u), room=PH.filter(p=>p[2]==="real"||p[2]==="ai"), p3=plan3d(u);
+  return {u,rent,R,tyN,side,PH,room,p3};
+}
+
+/* ---------- quotation ---------- */
+function buildQuote(id){
+  const I=info(id); if(!I) return;
+  const {u,rent,R,tyN,side,room,p3}=I, by=qby(), dots="……………………………", d=new Date();
+  const ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+  const iss=d.toLocaleDateString(LANG==="th"?"th-TH":"en-GB",{day:"numeric",month:"long",year:"numeric"});
+  const fig=p=>'<figure><img src="'+p[0]+'" alt="">'+(p[2]==="ai"?'<figcaption>Hybrid AI</figcaption>':'')+'</figure>';
+  const side2=room.slice(0,2);
+  const media=p3?'<div class="q-media"><figure class="pl"><img src="'+p3.src+'" alt=""><figcaption>Hybrid AI · Type '+p3.k+'</figcaption></figure><div class="sd">'+side2.map(fig).join("")+'</div></div>'
+                :(side2.length?'<div class="q-media np">'+side2.map(fig).join("")+'</div>':'');
+  const spec=[[t("uv.code"),"COPA1-"+u.id],[t("uv.dGrp"),R.map(x=>t("b."+x.grp)).join(" · ")],[t("uv.dType"),tyN||"–"],[t("uv.dFloor"),u.floor],[t("uv.dSqm"),t("sqm",{n:u.sqm})],[t("uv.dView"),side?t("v."+side):"–"]];
+  if(u.q) spec.push([t("uv.dQuota"),t("q."+u.q)]);
+  let pr="";
+  if(u.grp!=="rent"){ pr+='<div class="kv hi"><span>'+Q("qSale")+'</span><b>'+(u.price?fmt(u.price)+" ฿":Q("qAsk"))+'</b></div>'; if(u.psm) pr+='<div class="kv"><span>'+Q("qPsm")+'</span><b>'+fmt(u.psm)+' ฿</b></div>'; }
+  if(rent){ if(rent.rentM) pr+='<div class="kv'+(u.grp==="rent"?' hi':'')+'"><span>'+Q("qRm")+'</span><b>'+fmt(rent.rentM)+' ฿</b></div>'; if(rent.rentYM) pr+='<div class="kv"><span>'+Q("qRy")+'</span><b>'+fmt(rent.rentYM)+' ฿</b></div>'; }
+  const basis=[u.grp!=="rent"?Q("qDevList").replace("{d}",dLong(UPDATED)):"",rent&&RENT_UPDATED?Q("qRentList").replace("{d}",dLong(RENT_UPDATED)):""].filter(Boolean).join(" · ");
+  $("#qs").innerHTML='<div class="q-hd"><img src="copa1-img/brand/logo-copa-beach-dark.png" alt="Copacabana Beach Jomtien"><div class="r"><h1>'+Q("qDoc")+'</h1><p>'+Q("qRef")+' Q-COPA1-'+u.id+'-'+ymd+'</p><p>'+Q("qIss")+' '+iss+'</p>'+(basis?'<p>'+Q("qBasis")+': '+basis+'</p>':'')+'</div></div>'+
+    '<div class="q-unit"><h2>'+u.id+' · '+esc(tyN||t("b."+u.grp))+' · '+t("sqm",{n:u.sqm})+'</h2><span>Copacabana Beach Jomtien · '+t("floor",{n:u.floor})+'</span></div>'+media+
+    '<div class="q-two"><div class="q-box"><h3>'+Q("qSpec")+'</h3>'+spec.map(([a,b])=>'<div class="kv"><span>'+a+'</span><b>'+esc(b)+'</b></div>').join("")+'</div><div class="q-box"><h3>'+Q("qPrice")+'</h3>'+pr+'</div></div>'+
+    '<div class="q-note"><ul><li>'+Q("qN1")+'</li><li>'+Q("qN2")+'</li><li>'+Q("qN3")+'</li></ul></div>'+
+    '<div class="q-by"><span>'+Q("qBy")+' <b>'+esc(by.name||dots)+'</b><br>'+Q("qTelL")+' <b>'+esc(by.tel||dots)+'</b></span><span>'+Q("qSign")+' '+dots+'</span></div>'+
+    '<div class="q-ft">LINE @copacabanajomtien · '+unitUrl(u.id)+'</div>';
+}
+function openQuote(){
+  const id=curId(); if(!id) return; const by=qby();
+  $("#qdT").textContent=Q("qT")+" · "+id; $("#qdS").textContent=Q("qS"); $("#qdNl").textContent=Q("qN"); $("#qdTl").textContent=Q("qTel"); $("#qdH").textContent=Q("qH"); $("#qdGo").textContent=Q("qGo");
+  $("#qdName").value=by.name||""; $("#qdTel").value=by.tel||""; $("#qd").showModal();
+}
+function doPrint(){
+  const id=curId(); if(!id) return;
+  try{localStorage.setItem(QBY,JSON.stringify({name:$("#qdName").value.trim(),tel:$("#qdTel").value.trim()}));}catch(e){}
+  buildQuote(id); $("#qd").close();
+  const was=document.title; document.title="Copacabana Beach Jomtien "+id+" — Quotation";
+  document.body.classList.add("qprint");
+  addEventListener("afterprint",()=>{document.body.classList.remove("qprint"); document.title=was;},{once:true});
+  const imgs=[...document.querySelectorAll("#qs img")];
+  Promise.race([Promise.all(imgs.map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r;}))),new Promise(r=>setTimeout(r,3000))]).then(()=>window.print());
+}
+
+/* ---------- social post ---------- */
+const PLAT={fb:"Facebook",ig:"Instagram",line:"LINE OA",tiktok:"TikTok"};
+const RAT={"4:5":[1080,1350],"1:1":[1080,1080],"9:16":[1080,1920],"16:9":[1920,1080]};
+const so={id:"",plats:{fb:true,ig:true,line:false,tiktok:false},style:"a",lg:"th",ratio:"4:5",img:0,opt:{price:true,qr:true,tags:true}};
+const SC={th:{ready:"พร้อมอยู่ ติดหาดจอมเทียน",sale:"ราคา",rent:"ค่าเช่า",per:"/ เดือน",floor:"ชั้น",sqm:"ตร.ม.",view:"วิว",
+  aCta:"ดูรายละเอียดและภาพทั้งหมด:",line:"ทักไลน์ @copacabanajomtien",bLead:(v,c)=>"ห้อง "+c+" เปิดม่านแล้วเจอ"+v+" ทุกวัน",bBody:"คอนโดพร้อมอยู่ติดหาดจอมเทียน สระลอยฟ้าชั้น 59 และส่วนกลางครบ เหมาะทั้งอยู่เองและปล่อยเช่า",
+  ai:"ภาพบางส่วนเป็นภาพ Hybrid AI ทำจากภาพห้องจริง",tags:"#CopacabanaBeachJomtien #คอนโดจอมเทียน #คอนโดพัทยา #Jomtien"},
+ en:{ready:"Ready to move in, on Jomtien Beach",sale:"Price",rent:"Rent",per:"/ month",floor:"Floor",sqm:"sqm",view:"view",
+  aCta:"Full details and all photos:",line:"LINE @copacabanajomtien",bLead:(v,c)=>"Unit "+c+": open the curtains to "+v+" every day",bBody:"A ready condo on Jomtien Beach with a floor-59 sky pool and full facilities — for living in or letting out.",
+  ai:"Some photos are Hybrid AI images made from real photos of the unit.",tags:"#CopacabanaBeachJomtien #JomtienCondo #PattayaCondo #Jomtien"}};
+const tlg=(k,lg)=>{const s=(I18N[lg]&&I18N[lg][k])??I18N.th[k]??k; return s;};
+function priceLine(I,lg){
+  const S=SC[lg], {u,rent}=I;
+  if(u.grp!=="rent"&&u.price) return S.sale+" "+fmt(u.price)+" ฿";
+  if(rent&&rent.rentM) return S.rent+" "+fmt(rent.rentM)+" ฿ "+S.per;
+  return "";
+}
+function sUrl(id){const src=Object.keys(so.plats).find(k=>so.plats[k])||"fb"; return unitUrl(id)+"?utm_source="+src+"&utm_campaign="+id;}
+function caption(I){
+  const S=SC[so.lg], lg=so.lg, {u,tyN,side}=I;
+  const ty=u.type?tlg("ty."+u.type,lg):"", v=side?tlg("v."+side,lg):"";
+  const spec=[ty,u.sqm+" "+S.sqm,S.floor+" "+u.floor,v].filter(Boolean).join(" · ");
+  const pl=so.opt.price?priceLine(I,lg):"", url=sUrl(u.id), aiUsed=I.room.some(p=>p[2]==="ai");
+  let L;
+  if(so.style==="b") L=[S.bLead(v||(lg==="th"?"ทะเล":"the sea"),u.id),"",S.bBody,"",spec,pl,"",S.aCta+" "+url,S.line];
+  else if(so.style==="c") L=["COPA1-"+u.id+" · "+spec,pl,url];
+  else L=["COPA1-"+u.id+" · Copacabana Beach Jomtien","✨ "+S.ready,"",spec,pl,"",S.aCta+" "+url,S.line];
+  if(aiUsed&&so.style!=="c") L.push("",S.ai);
+  if(so.opt.tags) L.push("",S.tags);
+  return L.filter((l,i,a)=>l!==""||(i>0&&a[i-1]!=="")).join("\n").replace(/\n{3,}/g,"\n\n").trim();
+}
+const loadImg=src=>new Promise(r=>{const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src=src;});
+function drawQR(ctx,text,x,y,size){
+  if(typeof qrcode!=="function") return false;
+  try{const qr=qrcode(0,"M"); qr.addData(text); qr.make(); const n=qr.getModuleCount(), pad=Math.round(size*.07), c=(size-pad*2)/n;
+    ctx.fillStyle="#fff"; ctx.fillRect(x,y,size,size); ctx.fillStyle="#2B1D1A";
+    for(let r=0;r<n;r++) for(let k=0;k<n;k++) if(qr.isDark(r,k)) ctx.fillRect(x+pad+k*c,y+pad+r*c,Math.ceil(c),Math.ceil(c)); return true;}catch(e){return false;}
+}
+function sImgs(I){const L=I.room.slice(); if(I.p3) L.push([I.p3.src,"","3d"]); return L;}
+async function drawPost(I){
+  const lg=so.lg, S=SC[lg], [W,H]=RAT[so.ratio], PAD=56, {u,rent}=I;
+  const cv=document.createElement("canvas"); cv.width=W; cv.height=H; const ctx=cv.getContext("2d");
+  try{await document.fonts.ready;}catch(e){}
+  const F=(w,s,m)=>w+" "+s+"px "+(m?"'IBM Plex Mono',ui-monospace,monospace":"'IBM Plex Sans Thai',system-ui,sans-serif");
+  const L=sImgs(I), pick=L[so.img%Math.max(1,L.length)], bg=pick?await loadImg(pick[0]):null;
+  ctx.fillStyle="#2B1D1A"; ctx.fillRect(0,0,W,H);
+  if(bg){ if(pick[2]==="3d"){ctx.fillStyle="#FFFCF7"; ctx.fillRect(0,0,W,H); const s=Math.min(W/bg.width,H*.72/bg.height); ctx.drawImage(bg,(W-bg.width*s)/2,H*.06,bg.width*s,bg.height*s);}
+    else{const s=Math.max(W/bg.width,H/bg.height), w=bg.width*s, h=bg.height*s; ctx.drawImage(bg,(W-w)/2,(H-h)/2,w,h);} }
+  let g=ctx.createLinearGradient(0,0,0,H*.2); g.addColorStop(0,"rgba(43,29,26,.6)"); g.addColorStop(1,"rgba(43,29,26,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H*.2);
+  const ty=u.type?tlg("ty."+u.type,lg):"";
+  const rowsD=[{t:"COPACABANA BEACH JOMTIEN",f:F(700,26),c:"rgba(255,255,255,.75)",h:30,gap:10,sp:2},{t:"COPA1-"+u.id,f:F(600,70,true),c:"#fff",h:76,gap:8},
+    {t:[S.floor+" "+u.floor,u.sqm+" "+S.sqm,ty].filter(Boolean).join(" · "),f:F(500,36),c:"rgba(255,255,255,.92)",h:44,gap:14}];
+  if(so.opt.price){const pl=u.grp!=="rent"&&u.price?"฿"+fmt(u.price):(rent&&rent.rentM?"฿"+fmt(rent.rentM)+" "+S.per:""); if(pl) rowsD.push({t:pl,f:F(600,so.ratio==="1:1"?80:88,true),c:"#E2C27D",h:94,gap:4});}
+  const bandH=rowsD.reduce((a,r)=>a+r.h+(r.gap||0),0)+PAD*2, fade=150;
+  g=ctx.createLinearGradient(0,H-bandH-fade,0,H-bandH); g.addColorStop(0,"rgba(43,29,26,0)"); g.addColorStop(1,"rgba(43,29,26,.92)"); ctx.fillStyle=g; ctx.fillRect(0,H-bandH-fade,W,fade);
+  ctx.fillStyle="rgba(43,29,26,.92)"; ctx.fillRect(0,H-bandH,W,bandH);
+  ctx.fillStyle="#C9A15A"; ctx.fillRect(PAD,H-bandH+16,120,4);
+  const qs=Math.min(210,bandH-60), hasQR=so.opt.qr&&drawQR(ctx,sUrl(u.id),W-PAD-qs,H-bandH+(bandH-qs)/2,qs), tw=W-PAD*2-(hasQR?qs+40:0);
+  const fit=(text,font,max)=>{let s=parseInt(font.match(/(\d+)px/)[1],10); ctx.font=font; while(ctx.measureText(text).width>max&&s>18){s-=2; ctx.font=font.replace(/\d+px/,s+"px");} return ctx.font;};
+  ctx.textAlign="left"; ctx.textBaseline="top"; let y=H-bandH+PAD;
+  for(const r of rowsD){ ctx.font=fit(r.t,r.f,tw); ctx.fillStyle=r.c; if(r.sp){let x=PAD; for(const ch of r.t){ctx.fillText(ch,x,y); x+=ctx.measureText(ch).width+r.sp;}} else ctx.fillText(r.t,PAD,y); y+=r.h+(r.gap||0); }
+  const logo=await loadImg("copa1-img/brand/logo-copa-beach.png"); if(logo){const lw=210; ctx.drawImage(logo,PAD,46,lw,lw*logo.height/logo.width);}
+  const badge=tlg("b."+u.grp,lg); ctx.textBaseline="middle"; ctx.textAlign="center"; ctx.font=F(700,30);
+  const bw=ctx.measureText(badge).width+56; ctx.fillStyle=u.grp==="rent"?"rgba(15,107,102,.9)":"rgba(122,31,43,.9)";
+  ctx.beginPath(); (ctx.roundRect?ctx.roundRect(W-PAD-bw,54,bw,62,31):ctx.rect(W-PAD-bw,54,bw,62)); ctx.fill(); ctx.fillStyle="#fff"; ctx.fillText(badge,W-PAD-bw/2,86);
+  if(pick&&(pick[2]==="ai"||pick[2]==="3d")){ const tag=pick[2]==="3d"?"Hybrid AI · 3D plan":"Hybrid AI image"; ctx.font=F(600,24); const w2=ctx.measureText(tag).width+30;
+    ctx.fillStyle="rgba(43,29,26,.6)"; ctx.beginPath(); (ctx.roundRect?ctx.roundRect(W-PAD-w2,H-bandH-fade+40,w2,40,20):ctx.rect(W-PAD-w2,H-bandH-fade+40,w2,40)); ctx.fill(); ctx.fillStyle="#fff"; ctx.fillText(tag,W-PAD-w2/2,H-bandH-fade+60); }
+  return cv;
+}
+let SCV=null;
+async function sRender(){
+  const I=info(so.id); if(!I) return; const S=QT[LANG]||QT.th;
+  $("#sdT").textContent=S.sT+" · "+so.id; $("#sdS").textContent=S.sS; $("#sdPl").textContent=S.sPl; $("#sdStl").textContent=S.sSt; $("#sdLgl").textContent=S.sLg; $("#sdRl").textContent=S.sR; $("#sdIl").textContent=S.sI; $("#sdCl").textContent=S.sC; $("#sdCopy").textContent=S.sCopy; $("#sdDl").textContent=S.sDl; $("#sdNote").textContent=S.sNote;
+  $("#sdPlat").innerHTML=Object.entries(PLAT).map(([k,l])=>'<button type="button" data-sp="'+k+'" aria-pressed="'+!!so.plats[k]+'">'+l+'</button>').join("");
+  $("#sdStyle").innerHTML=Object.entries(S.styles).map(([k,l])=>'<button type="button" data-ss="'+k+'" aria-pressed="'+(so.style===k)+'">'+l+'</button>').join("");
+  $("#sdOpt").innerHTML=Object.entries(S.o).map(([k,l])=>'<label><input type="checkbox" data-so="'+k+'"'+(so.opt[k]?" checked":"")+'>'+l+'</label>').join("");
+  const L=sImgs(I); $("#sdImg").innerHTML=L.map((p,i)=>'<option value="'+i+'"'+(i===so.img?" selected":"")+'>'+(i+1)+(p[2]==="ai"?" · AI":p[2]==="3d"?" · 3D":"")+'</option>').join("");
+  $("#sdLg").value=so.lg; $("#sdRatio").value=so.ratio; $("#sdCap").value=caption(I);
+  SCV=await drawPost(I); const box=$("#sdShot"); box.innerHTML=""; box.appendChild(SCV);
+}
+function openSocial(){ const id=curId(); if(!id||!info(id)) return; so.id=id; so.lg=LANG; so.img=0; $("#sd").showModal(); sRender(); }
+
+document.addEventListener("click",e=>{
+  if(e.target.closest("#uvQuote")){openQuote(); return;}
+  if(e.target.closest("#uvSocial")){openSocial(); return;}
+  const c=e.target.closest("[data-close]"); if(c){$("#"+c.dataset.close).close(); return;}
+  if(e.target.closest("#qdGo")){doPrint(); return;}
+  if(!e.target.closest("#sd")) return;
+  const p=e.target.closest("[data-sp]"); if(p){so.plats[p.dataset.sp]=!so.plats[p.dataset.sp]; sRender(); return;}
+  const s=e.target.closest("[data-ss]"); if(s){so.style=s.dataset.ss; sRender(); return;}
+  if(e.target.closest("#sdCopy")){const b=$("#sdCopy"); navigator.clipboard&&navigator.clipboard.writeText($("#sdCap").value).then(()=>{b.textContent=Q("sCopied"); setTimeout(()=>b.textContent=Q("sCopy"),1600);}).catch(()=>{}); return;}
+  if(e.target.closest("#sdDl")&&SCV){const name="COPA1-"+so.id+"-"+so.ratio.replace(":","x")+".png"; SCV.toBlob(bl=>{const u=URL.createObjectURL(bl), a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);},"image/png"); return;}
+});
+document.addEventListener("change",e=>{
+  if(!e.target.closest("#sd")) return;
+  const o=e.target.closest("[data-so]"); if(o){so.opt[o.dataset.so]=o.checked; sRender(); return;}
+  if(e.target.id==="sdLg"){so.lg=e.target.value; sRender();}
+  if(e.target.id==="sdRatio"){so.ratio=e.target.value; sRender();}
+  if(e.target.id==="sdImg"){so.img=+e.target.value; sRender();}
+});
+["#qd","#sd"].forEach(s=>$(s).addEventListener("click",e=>{if(e.target===$(s)) $(s).close();}));
+window.COPA1_TOOLS={label:k=>Q(k)};
+if(/[?&]quote=1/.test(location.search)) setTimeout(()=>{ if(curId()) openQuote(); },1200);
+})();
+</script>
+
 </body>
 </html>

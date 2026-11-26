@@ -83,3 +83,7 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 ## Lucky numbers (Thor, 26 Nov 2026 · central guide https://docs.google.com/document/d/1XAm63oj69YPruBK0X9h_nbWXZ0psOnQUiA-zBXbKop0/edit)
 - Main 2·7·9, second 8·0·3, avoid 5. COPA1 is Draft01 so applied now: hero 7 slides, 7 s per slide; unit list pages 27; picks link 9; unit page mosaic 7 tiles; room photos per unit 9 via units.json `pick` (B4508 7; E4204 6 → needs 1 more). Filter buckets stay as they were (Thor, 26 Nov: COPA1 is not his own project, so lucky numbers are applied lightly here; featured units stay 6 per side, 3D plan stays 1 per type).
 - Never change real data: unit prices, rents, unit counts, sizes. WIDEROOMS service packages (decor / rental management) follow the guide's price rules if they appear here.
+
+## Unit tools (Thor, 26 Nov 2026 — same idea as the R2 unit pages)
+- Every unit page (#/u/<code>) has "พิมพ์ใบเสนอราคา" (A4 print / PDF: logo, ref, issue date, price-list basis, 3D plan + 2 photos with Hybrid AI tags, specs, sale/rent prices from the data only, notes, proposer name/tel typed by whoever prints, saved in localStorage copa1.quoteBy) and "สร้างโพสต์โซเชียล" (canvas post 4:5/1:1/9:16/16:9, platforms, 3 caption styles, TH/EN, price/QR/hashtag switches, Hybrid AI label drawn on AI photos, burgundy band + gold rule).
+- No price-validity period or fees are printed (money terms need Thor). ?quote=1 on a unit link opens the quotation box.
