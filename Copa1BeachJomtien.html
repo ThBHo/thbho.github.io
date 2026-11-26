@@ -1289,12 +1289,12 @@ fetch("copa1-img/rent-units.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r
 #qs .q-unit{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:12px 0 8px}
 #qs .q-unit h2{margin:0;font:600 18pt/1.2 var(--f-body)}
 #qs .q-unit span{font-size:10pt;color:#6E6259}
-#qs .q-media{display:grid;grid-template-columns:1.35fr 1fr;gap:8px;margin:8px 0 10px}
+#qs .q-media{display:grid;grid-template-columns:1.35fr 1fr;gap:8px;margin:8px 0 10px;height:84mm}
 #qs .q-media.np{grid-template-columns:1fr 1fr}
-#qs .q-media figure{margin:0;position:relative}
+#qs .q-media figure{margin:0;position:relative;min-height:0;overflow:hidden;border-radius:6px}
 #qs .q-media img{width:100%;height:100%;object-fit:cover;border-radius:6px}
-#qs .q-media .pl img{object-fit:contain;background:#fff;border:1px solid #E8DDCB;max-height:88mm}
-#qs .q-media .sd{display:grid;gap:8px;grid-template-rows:1fr 1fr;max-height:88mm}
+#qs .q-media .pl img{object-fit:contain;background:#fff;border:1px solid #E8DDCB}
+#qs .q-media .sd{display:grid;gap:8px;grid-template-rows:minmax(0,1fr) minmax(0,1fr);min-height:0}
 #qs .q-media figcaption{position:absolute;left:6px;bottom:6px;font-size:7.5pt;background:rgba(43,29,26,.7);color:#fff;padding:1px 6px;border-radius:4px}
 #qs .q-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #qs .q-box{border:1px solid #E8DDCB;border-radius:8px;padding:8px 12px}
@@ -1453,7 +1453,7 @@ async function drawPost(I){
   const ty=u.type?tlg("ty."+u.type,lg):"";
   const rowsD=[{t:"COPACABANA BEACH JOMTIEN",f:F(700,26),c:"rgba(255,255,255,.75)",h:30,gap:10,sp:2},{t:"COPA1-"+u.id,f:F(600,70,true),c:"#fff",h:76,gap:8},
     {t:[S.floor+" "+u.floor,u.sqm+" "+S.sqm,ty].filter(Boolean).join(" · "),f:F(500,36),c:"rgba(255,255,255,.92)",h:44,gap:14}];
-  if(so.opt.price){const pl=u.grp!=="rent"&&u.price?"฿"+fmt(u.price):(rent&&rent.rentM?"฿"+fmt(rent.rentM)+" "+S.per:""); if(pl) rowsD.push({t:pl,f:F(600,so.ratio==="1:1"?80:88,true),c:"#E2C27D",h:94,gap:4});}
+  if(so.opt.price){const sale=u.grp!=="rent"&&u.price, pl=sale?"฿"+fmt(u.price):(rent&&rent.rentM?"฿"+fmt(rent.rentM):""); if(pl) rowsD.push({t:pl,f:F(600,so.ratio==="1:1"?80:88,true),c:"#E2C27D",h:94,gap:4,suf:sale?"":S.per});}
   const bandH=rowsD.reduce((a,r)=>a+r.h+(r.gap||0),0)+PAD*2, fade=150;
   g=ctx.createLinearGradient(0,H-bandH-fade,0,H-bandH); g.addColorStop(0,"rgba(43,29,26,0)"); g.addColorStop(1,"rgba(43,29,26,.92)"); ctx.fillStyle=g; ctx.fillRect(0,H-bandH-fade,W,fade);
   ctx.fillStyle="rgba(43,29,26,.92)"; ctx.fillRect(0,H-bandH,W,bandH);
@@ -1461,7 +1461,7 @@ async function drawPost(I){
   const qs=Math.min(210,bandH-60), hasQR=so.opt.qr&&drawQR(ctx,sUrl(u.id),W-PAD-qs,H-bandH+(bandH-qs)/2,qs), tw=W-PAD*2-(hasQR?qs+40:0);
   const fit=(text,font,max)=>{let s=parseInt(font.match(/(\d+)px/)[1],10); ctx.font=font; while(ctx.measureText(text).width>max&&s>18){s-=2; ctx.font=font.replace(/\d+px/,s+"px");} return ctx.font;};
   ctx.textAlign="left"; ctx.textBaseline="top"; let y=H-bandH+PAD;
-  for(const r of rowsD){ ctx.font=fit(r.t,r.f,tw); ctx.fillStyle=r.c; if(r.sp){let x=PAD; for(const ch of r.t){ctx.fillText(ch,x,y); x+=ctx.measureText(ch).width+r.sp;}} else ctx.fillText(r.t,PAD,y); y+=r.h+(r.gap||0); }
+  for(const r of rowsD){ ctx.font=fit(r.t,r.f,tw); ctx.fillStyle=r.c; if(r.suf){const pw=ctx.measureText(r.t).width; ctx.fillText(r.t,PAD,y); ctx.font=F(500,36); ctx.fillStyle="rgba(255,255,255,.85)"; ctx.fillText(r.suf,PAD+pw+16,y+42);} else if(r.sp){let x=PAD; for(const ch of r.t){ctx.fillText(ch,x,y); x+=ctx.measureText(ch).width+r.sp;}} else ctx.fillText(r.t,PAD,y); y+=r.h+(r.gap||0); }
   const logo=await loadImg("copa1-img/brand/logo-copa-beach.png"); if(logo){const lw=210; ctx.drawImage(logo,PAD,46,lw,lw*logo.height/logo.width);}
   const badge=tlg("b."+u.grp,lg); ctx.textBaseline="middle"; ctx.textAlign="center"; ctx.font=F(700,30);
   const bw=ctx.measureText(badge).width+56; ctx.fillStyle=u.grp==="rent"?"rgba(15,107,102,.9)":"rgba(122,31,43,.9)";
