@@ -79,3 +79,7 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - Hero = 7 slides; h9 is a Hybrid AI golden-hour relight (tagged on the slide).
 - Still to do: A3404, E4204 (new angles), more for B3901, B4508, D3403, C5501, D4609 — Flow flagged "unusual activity" when jobs were sent quickly; go slowly.
 - QA rule from Thor (26 Nov): furniture in a new-angle image must sit where the unit plan puts it (e.g. dining table never opposite the sofa when the plan has it by the kitchen). Rejected and reverted to real photos: A4202-07, D4609-05, D4609-10, D3403-04, C5501-04.
+
+## Lucky numbers (Thor, 26 Nov 2026 · central guide https://docs.google.com/document/d/1XAm63oj69YPruBK0X9h_nbWXZ0psOnQUiA-zBXbKop0/edit)
+- Main 2·7·9, second 8·0·3, avoid 5. COPA1 is Draft01 so applied now: hero 7 slides, 7 s per slide; unit list pages 27; picks link 9; unit page mosaic 7 tiles; room photos per unit 9 via units.json `pick` (B4508 7; E4204 6 → needs 1 more); filter buckets avoid 5 (40–60 sqm, floors 1–19/20–39/40+, 3–7–10M, 17k/27k/40k rent).
+- Never change real data: unit prices, rents, unit counts, sizes. WIDEROOMS service packages (decor / rental management) follow the guide's price rules if they appear here.
