@@ -361,7 +361,7 @@ body.uvon #top,body.uvon .mbar{display:none!important}
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Copacabana Beach Jomtien"><img class="plogo" src="copa1-img/brand/logo-copa-beach-dark.png" alt="Copacabana Beach Jomtien" width="61" height="42"><span class="txt"><small data-i18n="tagline"></small></span></a>
     <div class="tb-right">
-      <nav class="tbnav" aria-label="Sections"><a href="#units" data-i18n="nav.units"></a><a href="#invest" data-i18n="nav.invest"></a><a href="#tenant" data-i18n="nav.tenant"></a><a href="#contact" data-i18n="nav.contact"></a></nav>
+      <nav class="tbnav" aria-label="Sections"><a href="#units" data-i18n="nav.units"></a><a href="#invest" data-i18n="nav.invest"></a><a href="#tenant" data-i18n="nav.tenant"></a><a href="#match" data-i18n="nav.match"></a><a href="#contact" data-i18n="nav.contact"></a></nav>
       <div class="langs" role="group" aria-label="Language"><button type="button" data-lang="th" aria-pressed="true">TH</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
     </div>
   </div>
@@ -504,6 +504,12 @@ body.uvon #top,body.uvon .mbar{display:none!important}
     <img src="ccr-img/hero-2026-10-22.jpg" alt="" loading="lazy">
     <span class="in"><span class="k" data-i18n="cr.k"></span><b data-i18n="cr.h"></b><p data-i18n="cr.t"></p><span class="go" data-i18n="cr.go"></span></span>
   </a>
+</div></section>
+
+<section class="sec alt" id="match"><div class="wrap">
+  <div class="sec-h"><div><p class="eyebrow" data-i18n="mt.eyebrow"></p><h2 data-i18n="mt.h"></h2></div><a class="btn ghost sm" href="#/match" data-i18n="mt.all"></a></div>
+  <p class="lead" data-i18n="mt.lead"></p>
+  <div id="mtLegend" style="margin-top:14px"></div><div id="pfHome"></div><div id="dsHomeCard" style="margin-top:18px"></div>
 </div></section>
 
 <section class="sec" id="contact"><div class="wrap contact">
@@ -906,7 +912,7 @@ function card(u){
   const y=(u.grp!=="rent"&&u.price&&u.rentM)?'<div class="yld">'+t("yld",{n:(u.rentM*12/u.price*100).toFixed(1)})+'</div>':"";
   const g=t("b."+u.grp);
   return '<article class="card"><div class="ph"><img src="'+img+'" alt="" loading="lazy"><span class="badge '+u.grp+'">'+g+'</span><span class="st'+(u.status==="reserved"?" res":u.status==="soon"?" soon":"")+'">'+(u.status==="soon"?(u.from?t("s.from",{d:dShort(u.from)}):t("s.soon")):t("s."+(u.status||"avail")))+'</span>'+cap+'</div>'+
-   '<div class="bd"><h3><a class="uvl" href="#/u/'+u.id+'">'+u.id+'</a></h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+
+   '<div class="bd"><h3><a class="uvl" href="#/u/'+u.id+'">'+u.id+'</a></h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+(window.mbStrip?mbStrip(u):'')+
    '<div class="price">'+price+'</div>'+y+(u.note?'<p class="note">'+u.note+'</p>':"")+
    '<div class="acts">'+(FS[String(u.floor)]?'<button class="btn ghost sm" type="button" data-plan="'+u.id+'">'+t("card.plan")+'</button>':'')+'<a class="btn line sm" target="_blank" rel="noopener" href="'+lineURL(t("lm.unit",{u:u.id,g}))+'">'+t("card.ask")+'</a></div></div></article>';
 }
@@ -1204,6 +1210,7 @@ function renderUnit(id){
    '<div class="uv-grid"><div class="uv-main">'+
      '<section><h2>'+t("uv.hl")+'</h2><ul class="uv-hl">'+hl.map(x=>'<li>'+x+'</li>').join("")+'</ul></section>'+
      '<section><h2>'+t("uv.dt")+'</h2><div class="uv-dt">'+D.map(([a,b])=>'<div><small>'+a+'</small><b>'+b+'</b></div>').join("")+'</div></section>'+
+     (window.unitPersonaHTML?unitPersonaHTML(u):'')+
      (FS[String(u.floor)]?'<section><h2>'+t("uv.pos")+'</h2><div class="plate">'+plateSVG(u)+'</div>'+(any?'<p class="note" style="margin:-4px 0 10px">'+t("us.other")+'</p>':'')+floorBar(u)+'<p class="note">'+t("us.note")+'</p></section>':'')+
      (P.length?'<section><h2>'+t("uv.plans")+'</h2><div class="us-plans">'+P.map((p,i)=>'<button type="button" data-pi="'+i+'"><img src="'+p[0]+'" alt="" loading="lazy"><span>'+p[1]+'</span></button>').join("")+'</div></section>':'')+
      '<section class="uv-loc"><h2>'+t("uv.where")+'</h2><p style="margin:0">'+t("uv.whereT")+'</p><a class="btn ghost" style="justify-self:start" href="https://maps.app.goo.gl/UGa6Z2sskUog21Y49" target="_blank" rel="noopener">'+t("ct.map")+'</a></section>'+
@@ -1221,9 +1228,10 @@ function renderUnit(id){
 }
 let UV_LAST="";
 function route(){
-  const m=location.hash.match(/^#\/u\/([0-9A-Za-z-]+)$/), on=!!m;
+  const h=location.hash, m=h.match(/^#\/u\/([0-9A-Za-z-]+)$/), mx=/^#\/match$/.test(h), ds=h.match(/^#\/destiny(?:\/([0-9A-Za-z-]+))?$/), on=!!(m||((mx||ds)&&window.renderMatchView));
   document.body.classList.toggle("uvon",on); $("#uv").hidden=!on;
-  if(on){ const id=m[1].toUpperCase(); renderUnit(id); if(UV_LAST!==id){window.scrollTo(0,0); UV_LAST=id;} if($("#us").open) $("#us").close(); }
+  if(on&&!m){ if(mx) renderMatchView(); else renderDestinyView(ds[1]?ds[1].toUpperCase():null); if(UV_LAST!==h){window.scrollTo(0,0); UV_LAST=h;} if($("#us").open) $("#us").close(); }
+  else if(on){ const id=m[1].toUpperCase(); renderUnit(id); if(UV_LAST!==id){window.scrollTo(0,0); UV_LAST=id;} if($("#us").open) $("#us").close(); }
   else if(UV_LAST){ UV_LAST=""; document.title=DOC_TITLE; if(location.hash==="#units"||!location.hash){ const el=$("#units"); if(el) el.scrollIntoView(); } }
 }
 const DOC_TITLE=document.title;
@@ -1235,14 +1243,14 @@ function applyLang(){
   $$("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n);});
   $$("[data-line]").forEach(a=>{a.href=lineURL(t("lm."+a.dataset.line));});
   $$(".langs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
-  buildFilters(); renderStatic(); renderGal(); fillFloorSel(); render(); calc(); renderPicks(); route();
+  buildFilters(); renderStatic(); renderGal(); fillFloorSel(); render(); calc(); renderPicks(); if(window.renderHomeMatch) renderHomeMatch(); route();
 }
 $$(".langs button").forEach(b=>b.addEventListener("click",()=>{LANG=b.dataset.lang; try{localStorage.setItem("copa1-lang",LANG);}catch(e){} applyLang();}));
 applyLang();
 /* rental feed: built daily from the rental team's sheet by copa1-img/build_rent.py (public fields only) */
 fetch("copa1-img/rent-units.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():null).then(d=>{
   if(!d) return; RENT_UPDATED=d.updated||""; ACHIEVED=d.achieved||[];
-  UNITS.push(...(d.units||[])); UNITS.forEach(u=>{ if(UPH[u.id]) u.photo="copa1-img/units/"+u.id+"/01.jpg"; }); render(); renderPicks(); route();
+  UNITS.push(...(d.units||[])); UNITS.forEach(u=>{ if(UPH[u.id]) u.photo="copa1-img/units/"+u.id+"/01.jpg"; }); if(window.HAI_HOST) DS_CACHE=null; render(); renderPicks(); if(window.renderHomeMatch) renderHomeMatch(); route();
   if(/[?&]m=rent/.test(location.search)){st.m="rent"; buildFilters(); render();}
 }).catch(()=>{});
 </script>
@@ -1505,6 +1513,196 @@ document.addEventListener("change",e=>{
 window.COPA1_TOOLS={label:k=>Q(k)};
 if(/[?&]quote=1/.test(location.search)) setTimeout(()=>{ if(curId()) openQuote(); },1200);
 })();
+</script>
+
+<style>
+/* MBTI · feng shui · Personalized Matching · Destiny Match (Thor 26 Nov 2026, same engine as R2 and Coral Reef) */
+:root{--nt:#6E4F8F;--nf:#2F7A57;--sj:#2E5D8A;--sp:#B97A1F;--brand:var(--burg);--brand-soft:color-mix(in srgb,var(--burg) 10%,transparent);--surface-2:var(--alt);--surface-3:var(--chip);--accent-soft:color-mix(in srgb,var(--gold) 14%,transparent);--line-2:var(--line);--ink-2:var(--muted);--key-brand:#7A1F2B}
+.mbs{display:flex;flex-wrap:wrap;gap:4px}
+.mbs span{font:600 10.5px/1 var(--f-mono);letter-spacing:.04em;padding:4px 6px;border-radius:5px;color:#fff}
+.mbs .NT,.mbcard.NT{--g:var(--nt)}.mbs .NF,.mbcard.NF{--g:var(--nf)}.mbs .SJ,.mbcard.SJ{--g:var(--sj)}.mbs .SP,.mbcard.SP{--g:var(--sp)}
+.mbs span{background:var(--g)}
+.uv-ps .pname{font:600 20px/1.3 var(--f-display);margin:0 0 10px;color:var(--burg)}
+:lang(th) .uv-ps .pname{font-family:"Noto Serif Thai",serif}
+.mbcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 12px}
+.mbcard{border-radius:12px;padding:12px;background:color-mix(in srgb,var(--g) 10%,#fff);border:1px solid color-mix(in srgb,var(--g) 30%,transparent)}
+.mbcard b{display:block;font:600 18px var(--f-mono);color:var(--g)}
+.mbcard span{font-size:12.5px;color:var(--muted)}
+.fsgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.fsgrid div{background:var(--alt);border-radius:12px;padding:10px 12px}
+.fsgrid small{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.fsgrid p{margin:0;font-size:14px}
+.mlegend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;margin:4px 0 16px}
+.mlegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.mlegend a{color:var(--ink);text-decoration:none}
+.mgroups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:4px 0 18px}
+.mgroups div{border-radius:14px;padding:14px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--g)}
+.mgroups b{display:block;font-weight:600;margin:6px 0 2px}
+.mgroups p{margin:0;font-size:13px;color:var(--muted)}
+.mgroups .NT{--g:var(--nt)}.mgroups .NF{--g:var(--nf)}.mgroups .SJ{--g:var(--sj)}.mgroups .SP{--g:var(--sp)}
+@media (max-width:760px){.mgroups{grid-template-columns:1fr 1fr}.mbcards{grid-template-columns:1fr 1fr 1fr}.fsgrid{grid-template-columns:1fr}}
+.pf-meter{display:flex;align-items:center;gap:8px;font:600 13px var(--f-mono);color:var(--burg)}
+.pf-meter i{flex:1;height:6px;border-radius:99px;background:var(--chip);overflow:hidden}
+.pf-meter i b{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--burg))}
+.pf-why{display:flex;flex-wrap:wrap;gap:4px}
+.pf-why span{font-size:11.5px;background:var(--alt);border-radius:6px;padding:3px 7px;color:var(--muted)}
+.dscard{position:relative;display:block;min-height:180px;border-radius:16px;overflow:hidden;color:#fff;text-decoration:none;background:#2B1D1A}
+.dscard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.5}
+.dscard::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(74,18,26,.95),rgba(74,18,26,.6) 60%,rgba(74,18,26,.2))}
+.dscard .in{position:relative;z-index:1;display:grid;gap:6px;padding:20px 22px;max-width:640px}
+.dscard .k{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:#E2C27D}
+.dscard b{font:600 22px/1.3 var(--f-display);color:#fff}
+:lang(th) .dscard b{font-family:"Noto Serif Thai",serif}
+.dscard .p{font-size:14px;color:#F1E6DA}
+.dscard .go{justify-self:start;margin-top:6px;background:var(--gold);color:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px}
+.mt-honest{font-size:12.5px;color:var(--muted);margin:14px 0 0;max-width:820px}
+.uv .crumb{display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:10px}
+</style>
+<script src="hai/destiny.js?v=20261119d"></script>
+<script src="hai/profile.js?v=20261119b"></script>
+<script>
+/* ---------- unit personality (computed only from the unit's real data) ----------
+   Inputs: side of the tower (→ approximate facing), floor band, plan type (jacuzzi, private pool, bedrooms, size)
+   and price per sqm against the same plan type. Same four MBTI temperament groups as R2 and Copacabana Coral Reef.
+   Facing is approximate: beachfront side ≈ west, Pattaya side ≈ north, Jomtien side ≈ south (to be confirmed on site). */
+Object.assign(I18N.th,{
+"nav.match":"MBTI · ดวง",
+"mt.eyebrow":"Personalized Matching","mt.h":"หาห้องที่ใช่จากไลฟ์สไตล์ MBTI และดวง","mt.lead":"ตอบคำถามพื้นฐาน ไลฟ์สไตล์ MBTI หรือวันเกิด ระบบจะเรียงห้องที่เข้ากับคุณที่สุดจากห้องขายและห้องเช่าทั้งหมด คำตอบอยู่ในเครื่องนี้เท่านั้น",
+"mt.all":"เปิดหน้าจับคู่ห้องเต็ม →","mt.crumb":"จับคู่ห้องตาม MBTI และดวง","mt.pageH":"ห้องแต่ละห้องมีบุคลิก ลูกค้าแต่ละคนก็มีบุคลิก",
+"mt.honest":"MBTI เป็นเครื่องมือช่วยคุยเรื่องไลฟ์สไตล์ ไม่ใช่การวัดทางวิทยาศาสตร์ ฮวงจุ้ยเป็นความเชื่อ เหตุผลในแต่ละห้อง (ฝั่งอาคาร ชั้น แบบห้อง ราคา) มาจากข้อมูลจริงของห้อง ทิศของห้องเป็นค่าประมาณจากด้านของอาคาร ควรยืนยันด้วยเข็มทิศที่ห้องจริง",
+"g.NT":"นักวางแผน (NT)","g.NF":"นักอุดมคติ (NF)","g.SJ":"ผู้พิทักษ์ (SJ)","g.SP":"นักสำรวจ (SP)",
+"gt.NT":"ชอบมุมสูง วิวกว้าง มองไกล","gt.NF":"ชอบความสงบ แสงนุ่ม พื้นที่ส่วนตัว น้ำ","gt.SJ":"ให้ความสำคัญกับความคุ้มค่า ฟังก์ชันครบ","gt.SP":"ชอบกิจกรรม ใกล้หาดและส่วนกลาง",
+"ps.h":"บุคลิกของห้อง · MBTI","ps.note":"บุคลิกคำนวณจากฝั่งอาคาร ชั้น แบบห้อง และราคาต่อ ตร.ม. ของห้องนี้ ใช้ประกอบการเลือก ไม่ใช่ข้อเท็จจริงทางวิศวกรรม","ps.more":"หาห้องตาม MBTI ของคุณ →",
+"fs.h":"ฮวงจุ้ย","fs.face":"ทิศของห้อง (โดยประมาณ)","fs.el":"ธาตุและความหมาย (ปากั้ว)","fs.sun":"แสงแดด","fs.tip":"โทนแต่งที่เสริม",
+"dir.W":"ทิศตะวันตก (ฝั่งทะเล)","dir.N":"ทิศเหนือ (ฝั่งพัทยา)","dir.S":"ทิศใต้ (ฝั่งจอมเทียน)",
+"fs.ba.W":"ทิศตุ้ย ธาตุทอง เกี่ยวกับความสุข ความคิดสร้างสรรค์ และลูกหลาน","fs.ba.N":"ทิศขั่น ธาตุน้ำ เกี่ยวกับการงานและเส้นทางอาชีพ","fs.ba.S":"ทิศหลี ธาตุไฟ เกี่ยวกับชื่อเสียงและการเป็นที่รู้จัก",
+"sun.W":"แดดบ่ายถึงเย็น เห็นพระอาทิตย์ตกเหนือทะเล ควรมีม่านกันแสง","sun.N":"แสงนุ่ม แดดส่องตรงน้อย ห้องเย็นสบาย","sun.S":"สว่างเกือบทั้งวันตลอดปี",
+"fs.tip.W":"ขาว เทา ทอง โลหะ และโทนดิน (ดินเสริมทอง)","fs.tip.N":"ฟ้า น้ำเงิน และโลหะเงิน แต้มสีเข้มเล็กน้อย","fs.tip.S":"ไม้และสีเขียว แต้มแดงหรือส้มเล็กน้อย",
+"hl.face.W":"ฝั่งหน้าทะเล เห็นทะเลจอมเทียนและพระอาทิตย์ตก","hl.face.N":"ฝั่งพัทยา แสงนุ่ม แดดส่องตรงน้อย","hl.face.S":"ฝั่งจอมเทียน สว่างเกือบทั้งวัน",
+"hl.band.low":"ชั้นต่ำ ลงไปหาดและส่วนกลางได้เร็ว","hl.band.mid":"ชั้นกลาง สมดุลระหว่างวิวกับความสะดวก","hl.band.high":"ชั้นสูง วิวกว้างเหนือหลังคาเมือง","hl.band.top":"ชั้นสูงมาก ใกล้ส่วนกลางชั้นบนของอาคาร",
+"hl.pool":"มีสระว่ายน้ำส่วนตัวในห้อง","hl.jac":"มีจากุซซี่ที่ระเบียง","hl.value":"ราคาต่อ ตร.ม. ต่ำกว่าค่าเฉลี่ยของแบบห้องเดียวกัน {n}%","hl.two":"2 ห้องนอน แยกพื้นที่ส่วนตัวได้ชัด",
+"ds.h":"เลือกห้องจากดวงและฮวงจุ้ย","ds.p":"ใส่วันเกิด ได้ดวงไทย ตะวันตก และจีน (ปาจื้อ · กัว) จับคู่กับห้องขายและห้องเช่า พร้อมช่วงเวลาที่ดี คำนวณในเครื่อง ไม่ส่งและไม่เก็บวันเกิด","ds.go":"เริ่ม Destiny Match →","ds.na":"โหลด Destiny Match ไม่สำเร็จ ลองรีเฟรชหน้า",
+"pf.title":"หาห้องที่ใช่ใน Copacabana Beach Jomtien","pf.list":"ห้องที่แนะนำ · Copacabana Beach Jomtien"
+});
+Object.assign(I18N.en,{
+"nav.match":"MBTI · Destiny",
+"mt.eyebrow":"Personalized Matching","mt.h":"Find your unit by lifestyle, MBTI and birth chart","mt.lead":"Answer a few basics, lifestyle questions, your MBTI or your birth date, and the units that suit you best are ranked from every unit for sale and for rent. Your answers stay on this device.",
+"mt.all":"Open the full matching page →","mt.crumb":"Match by MBTI and birth chart","mt.pageH":"Every unit has a personality. So does every buyer and tenant.",
+"mt.honest":"MBTI is a conversation aid about lifestyle, not a scientific measure, and feng shui is a belief. The reasons shown for each unit (side of the tower, floor, plan, price) come from the unit's real data. Facing is approximate, from the side of the tower; confirm with a compass in the unit.",
+"g.NT":"Analysts (NT)","g.NF":"Diplomats (NF)","g.SJ":"Sentinels (SJ)","g.SP":"Explorers (SP)",
+"gt.NT":"height, wide views, the long view","gt.NF":"calm, soft light, privacy, water","gt.SJ":"good value and everything working","gt.SP":"activity, the beach and amenities close by",
+"ps.h":"Unit personality · MBTI","ps.note":"Worked out from this unit's side of the tower, floor, plan and price per sqm. A guide to choosing, not an engineering fact.","ps.more":"Match units to your MBTI →",
+"fs.h":"Feng shui","fs.face":"Facing (approximate)","fs.el":"Element and meaning (Bagua)","fs.sun":"Sunlight","fs.tip":"Supporting tones",
+"dir.W":"West (sea side)","dir.N":"North (Pattaya side)","dir.S":"South (Jomtien side)",
+"fs.ba.W":"Dui, Metal: joy, creativity and children","fs.ba.N":"Kan, Water: career and life path","fs.ba.S":"Li, Fire: reputation and recognition",
+"sun.W":"Afternoon to evening sun and sunsets over the sea; blackout curtains help","sun.N":"Soft light, little direct sun, a cooler room","sun.S":"Bright for most of the day, all year",
+"fs.tip.W":"White, grey, gold, metal and earth tones (earth feeds metal)","fs.tip.N":"Blue, navy and silver metal, small dark accents","fs.tip.S":"Wood and green, small touches of red or orange",
+"hl.face.W":"Beachfront side: the Jomtien sea and sunsets","hl.face.N":"Pattaya side: soft light, little direct sun","hl.face.S":"Jomtien side: bright for most of the day",
+"hl.band.low":"Low floor: quick to the beach and the amenities below","hl.band.mid":"Mid floor: a balance of view and convenience","hl.band.high":"High floor: wide views over the rooftops","hl.band.top":"Very high floor, close to the tower's upper amenities",
+"hl.pool":"Private pool inside the unit","hl.jac":"Jacuzzi on the balcony","hl.value":"Price per sqm {n}% below the average for the same plan","hl.two":"2 bedrooms: clear private zones",
+"ds.h":"Choose a unit by birth chart and feng shui","ds.p":"Enter a birth date for Thai, Western and Chinese (BaZi · Kua) charts matched with units for sale and rent, plus good timing. Computed on the device; the birth date is never sent or stored.","ds.go":"Start Destiny Match →","ds.na":"Destiny Match could not load. Try refreshing the page.",
+"pf.title":"Find your unit at Copacabana Beach Jomtien","pf.list":"Recommended units · Copacabana Beach Jomtien"
+});
+const GRP=["NT","NF","SJ","SP"], GTYPES={NT:["INTJ","INTP","ENTJ","ENTP"],NF:["INFJ","INFP","ENFJ","ENFP"],SJ:["ISTJ","ISFJ","ESTJ","ESFJ"],SP:["ISTP","ISFP","ESTP","ESFP"]};
+const MBTI_GRP=m=>m[1]==="N"?(m[2]==="T"?"NT":"NF"):(m[3]==="J"?"SJ":"SP");
+const FACE_OF={front:"W",pattaya:"N",jomtien:"S"}, FACE_EL={W:"metal",N:"water",S:"fire"};
+const BAND=u=>{const n=fl(u);return n<16?"low":n<36?"mid":n<50?"high":"top"};
+const faceOf=u=>FACE_OF[u.side||u.view]||"";
+let PSM_AVG=null;
+function psmAvg(){ if(PSM_AVG) return PSM_AVG; const g={}; UNITS.forEach(u=>{ if(u.grp!=="rent"&&u.psm&&u.type)(g[u.type]??=[]).push(u.psm); }); PSM_AVG={}; for(const k in g) PSM_AVG[k]=g[k].reduce((a,b)=>a+b,0)/g[k].length; return PSM_AVG; }
+const PC={};
+function persona(u){ if(PC[u.id+u.grp]) return PC[u.id+u.grp];
+  const face=faceOf(u), band=BAND(u), pool=u.type==="1BRP", jac=/J$/.test(u.type||""), beds=u.type==="2BRJ"?2:1, size=u.sqm||0;
+  const A=psmAvg()[u.type], rel=(u.psm&&A)?(u.psm-A)/A:0;
+  const light={W:"Sunset Sea",N:"Pattaya Light",S:"Jomtien Bay"}[face]||"", lift={low:"Beach",mid:"",high:"Sky",top:"Crown"}[band];
+  const noun=pool?"Pool Suite":beds>=2?"Family Suite":jac?"Jacuzzi Suite":size>=40?"Grand Suite":size<=30?"Studio":"Suite";
+  const name=[lift,light,noun].filter(Boolean).join(" ");
+  const hl=[]; if(face) hl.push(["hl.face."+face,{}]); hl.push(["hl.band."+band,{}]);
+  if(pool) hl.push(["hl.pool",{}]); else if(jac) hl.push(["hl.jac",{}]);
+  if(rel<=-0.03) hl.push(["hl.value",{n:Math.round(-rel*100)}]); else if(beds>=2) hl.push(["hl.two",{}]);
+  const s={NT:0,SJ:0,NF:0,SP:0};
+  if(band==="high"||band==="top") s.NT+=3; if(face==="W") s.NT+=1;
+  if(band==="mid") s.SJ+=2; if(rel<=-0.03) s.SJ+=2; if(beds>=2) s.SJ+=1;
+  if(pool) s.NF+=4; else if(jac) s.NF+=2; if(face==="N") s.NF+=2; if(face==="S") s.NF+=.5;
+  if(band==="low") s.SP+=3; if(face==="W") s.SP+=1.5; if(size<=30&&!pool) s.SP+=.5;
+  const temps=Object.entries(s).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  const intro=face==="N"||pool||band==="high"||band==="top", extra=band==="low"||face==="W";
+  const pick={NT:intro?["INTJ","INTP"]:["ENTJ","ENTP"],SJ:intro?["ISTJ","ISFJ"]:["ESTJ","ESFJ"],NF:intro?["INFJ","INFP"]:["ENFJ","ENFP"],SP:extra?["ESTP","ESFP"]:["ISTP","ISFP"]};
+  const mbti=[...pick[temps[0]],pick[temps[1]][0]];
+  return PC[u.id+u.grp]={name,hl:hl.slice(0,3),temps,mbti,face,band,rel,score:s};
+}
+const mbChips=p=>'<div class="mbs" aria-label="MBTI">'+p.mbti.map(m=>'<span class="'+MBTI_GRP(m)+'">'+m+'</span>').join("")+'</div>';
+function mbStrip(u){ return u&&u.sqm?mbChips(persona(u)):""; }
+function unitPersonaHTML(u){
+  const p=persona(u), f=p.face;
+  return '<section class="uv-ps"><h2>'+t("ps.h")+'</h2><p class="pname">'+p.name+'</p><div class="mbcards">'+p.mbti.map(m=>'<div class="mbcard '+MBTI_GRP(m)+'"><b>'+m+'</b><span>'+t("g."+MBTI_GRP(m))+'</span></div>').join("")+'</div>'+
+   '<ul class="uv-hl">'+p.hl.map(([k,v])=>'<li>'+t(k,v)+'</li>').join("")+p.temps.map(g=>'<li><b>'+t("g."+g)+'</b> · '+t("gt."+g)+'</li>').join("")+'</ul>'+
+   '<p class="note">'+t("ps.note")+' <a href="#/match">'+t("ps.more")+'</a></p></section>'+
+   (f?'<section><h2>'+t("fs.h")+'</h2><div class="fsgrid"><div><small>'+t("fs.face")+'</small><p>'+t("dir."+f)+'</p></div><div><small>'+t("fs.el")+'</small><p>'+t("fs.ba."+f)+'</p></div><div><small>'+t("fs.sun")+'</small><p>'+t("sun."+f)+'</p></div><div><small>'+t("fs.tip")+'</small><p>'+t("fs.tip."+f)+'</p></div></div>'+(window.ASND?ASND.detailCta(u.id):"")+'</section>':'');
+}
+/* ---------- shared engines: hai/profile.js (Personalized Matching) + hai/destiny.js (Destiny Match) ---------- */
+const HESC=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function uRows(id){ return UNITS.filter(x=>x.id===id); }
+function uMain(id){ const R=uRows(id); return R.find(x=>x.grp!=="rent")||R[0]; }
+function liveUnits(){ const seen=new Set(); return UNITS.filter(u=>u.status!=="reserved"&&u.sqm).filter(u=>!seen.has(u.id)&&seen.add(u.id)).map(u=>uMain(u.id)); }
+function dsHome(u){ const R=uRows(u.id), s=R.find(x=>x.grp!=="rent"), r=R.find(x=>x.grp==="rent"), p=persona(u);
+  return {code:u.id,name:p.name,type:"condo",zone:"jomtien",sale:s&&s.price||0,rent:r&&r.rentM||0,beds:u.type==="2BRJ"?2:1,size:u.sqm,floor:fl(u),
+    pool:u.type==="1BRP"?"private":"shared",tags:faceOf(u)==="W"?["seaView"]:["cityView"],facing:p.face}; }
+function dsStyle(){ const S={}; liveUnits().forEach(u=>{ const p=persona(u),f=p.face, en=k=>I18N.en[k]||k;
+  S[u.id]={en:{concept:[p.name,...p.hl.map(([k,v])=>{let s=en(k); for(const x in v) s=s.replaceAll("{"+x+"}",v[x]); return s;})].join(". "),feng:f?[en("fs.ba."+f),en("fs.tip."+f)]:[]}}; }); return S; }
+function dsEl(){ const E={water:{homes:[]},fire:{homes:[]},metal:{homes:[]}}; liveUnits().forEach(u=>{ const e=FACE_EL[faceOf(u)]; if(e) E[e].homes.push(u.id); if(/J$|P$/.test(u.type||"")) E.water.homes.push(u.id); }); return E; }
+let DS_CACHE=null; const dsc=()=>DS_CACHE||(DS_CACHE={style:dsStyle(),el:dsEl(),face:Object.fromEntries(liveUnits().map(u=>[u.id,faceOf(u)]))});
+window.HAI_HOST={lang:()=>LANG,esc:HESC,
+  SHOWN:()=>{const seen=new Set(); return liveUnits().filter(u=>{const k=u.type+"|"+u.side+"|"+BAND(u); if(seen.has(k)) return false; seen.add(k); return true;}).map(dsHome);},
+  byCode:c=>{const u=uMain(c); return u?dsHome(u):null;},
+  card:h=>{const u=uMain(h.code); return u?card(u):"";},
+  zn:z=>z==="jomtien"?(LANG==="th"?"จอมเทียน":"Jomtien"):z, ZONES:{},
+  get HOME_STYLE(){return dsc().style}, get MG_EL(){return dsc().el}, get FACING(){return dsc().face},
+  CONTACT:{line:"@copacabanajomtien"}, SITE:{short:"Copacabana Beach Jomtien",name:"Copacabana Beach Jomtien"},
+  MODE:{condoOnly:true},
+  TEXT:{
+   th:{title:"หาห้องที่เข้ากับดวงของคุณ",sub:"ใส่วันเดือนปีและเวลาเกิด ระบบจะผูกดวงแบบไทย สากล และจีน (ปาจื้อ · ทิศมงคลประจำตัว) แล้วจับคู่กับห้องขายและห้องเช่าของ {brand} พร้อมแนะนำช่วงเวลาที่เหมาะ",
+    secProfile:"ห้องแบบไหนเข้ากับดวงคุณ",secMatch:"ห้องที่เข้ากับดวงคุณ",focus:"ห้องนี้กับดวงของคุณ",kuaLine:"ห้องที่หันไปทาง {dirs} จะเข้ากับคุณ",
+    rFaceG:"ห้องหัน{d} (โดยประมาณ) ตรงกับทิศมงคลของคุณ",rFaceB:"ห้องหัน{d} (โดยประมาณ) ไม่ใช่ทิศมงคล ปรับด้วยของตกแต่งได้",rFaceU:"ทิศของห้องรอยืนยันที่ห้องจริง",
+    disc:"ผลนี้เป็นแนวทางเบื้องต้นตามหลักโหราศาสตร์และฮวงจุ้ยทั่วไป เพื่อช่วยคัดห้องและคุยกับซินแสหรือโหร ทิศของห้องเป็นค่าประมาณจากด้านของอาคาร (ฝั่งทะเล ≈ ตะวันตก ฝั่งพัทยา ≈ เหนือ ฝั่งจอมเทียน ≈ ใต้) ควรยืนยันด้วยเข็มทิศที่ห้องจริง ปรับภายในด้วยสี แสง และเฟอร์นิเจอร์ได้ผ่าน WIDEROOMS",
+    detailCta:"เช็กดวงของคุณกับห้องนี้",detailCtaSub:"ใส่วันเกิด ดูว่าห้องนี้เข้ากับดวงแค่ไหน และควรซื้อหรือเข้าอยู่ช่วงไหน",homeCta:"หาห้องตามดวงและฮวงจุ้ย →",back:"← กลับหน้าห้องทั้งหมด"},
+   en:{title:"Find the unit that fits your birth chart",sub:"Enter your birth date and time. We draw your Thai, Western and Chinese (BaZi · Kua) chart, match it with {brand} units for sale and rent, and suggest good timing.",
+    secProfile:"Units that suit your chart",secMatch:"Units that match your chart",focus:"This unit and your chart",kuaLine:"A unit facing {dirs} suits you",
+    rFaceG:"Faces {d} (approximate): one of your lucky directions",rFaceB:"Faces {d} (approximate): not a lucky direction; balance with decor",rFaceU:"Facing to be confirmed in the unit",
+    disc:"A first guide based on general astrology and feng shui, to help shortlist units and talk with a feng shui master or astrologer. Facing is approximate, from the side of the tower (sea side ≈ west, Pattaya side ≈ north, Jomtien side ≈ south); confirm with a compass in the unit. Interiors can be tuned with colour, light and furniture through WIDEROOMS.",
+    detailCta:"Check this unit against your birth chart",detailCtaSub:"Enter a birth date to see how well this unit fits, and when to buy or move in.",homeCta:"Find a unit by birth chart & feng shui →",back:"← Back to all units"}
+  },
+  links:{home:"#units",listing:c=>"#/u/"+c,destiny:c=>"#/destiny"+(c?"/"+c:"")},
+  mount:()=>$("#uvB")};
+const PF_FACE={W:["coastal","creative"],N:["calm","modern"],S:["warm","nature"]};
+function pfItem(u){ const R=uRows(u.id), s=R.find(x=>x.grp!=="rent"&&x.price), r=R.find(x=>x.grp==="rent"&&x.rentM), p=persona(u), sea=p.face==="W", pool=/J$|P$/.test(u.type||""), small=u.sqm<=30, val=p.rel<=-0.03, beds=u.type==="2BRJ"?2:1;
+  const st=[...(PF_FACE[p.face]||["modern"])]; if(p.band==="high"||p.band==="top") st.unshift("modern"); if(pool) st.unshift("coastal");
+  return {code:u.id,u,price:s?s.price:(r?r.rentM:0),prices:{buy:s?s.price:null,rent:r?r.rentM:null},intents:[s&&"buy",r&&"rent"].filter(Boolean),beds,zone:"jomtien",kind:"condo",
+    view:sea?"sea":"city",floor:fl(u),quota:u.q==="fr"?"FR":u.q==="th"?"TH":null,furn:true,styles:[...new Set(st)].slice(0,3),mbti:p.mbti,ready:true,
+    purpose:{live:beds>=2?1:u.sqm>=35?.8:.6,holiday:(sea?.8:.45)+(pool?.25:0),invest:(val?.75:.45)+(small?.15:0),rent:(small?.45:.3)+(sea?.35:.1)+(val?.1:0)}}; }
+function pfCard(it,res){ const mt='<div class="pf-meter"><b>'+res.score+'%</b><i><b style="width:'+res.score+'%"></b></i></div><div class="pf-why">'+res.why.map(w=>'<span>'+HESC(w)+'</span>').join("")+'</div>';
+  return card(it.u).replace('<div class="price">',mt+'<div class="price">'); }
+const PF_HOST={lang:()=>LANG,products:()=>liveUnits().map(pfItem),card:pfCard,money:v=>v<1e6?"฿"+fmt(v):"฿"+(+(v/1e6).toFixed(2))+"M",
+  groupKey:it=>it.u.type+"|"+it.u.side+"|"+BAND(it.u),
+  fields:["intent","budget","when","purpose","beds","view","style"],extra:["floor","quota"],
+  opts:{budget:{buy:[4.5e6,5e6,6e6,8e6,10e6,12e6,15e6,18e6],rent:[20000,25000,30000,40000,50000,70000,90000]},beds:[1,2],view:["sea","city"],when:["now","q","h","y","later"]},
+  TEXT:{th:{title:I18N.th["pf.title"]},en:{title:I18N.en["pf.title"]}},
+  dsHome:it=>dsHome(it.u),destinyHref:()=>"#/destiny",
+  copy:items=>(LANG==="th"?I18N.th:I18N.en)["pf.list"]+"\n\n"+items.map((it,i)=>{const u=it.u,p=persona(u);return (i+1)+". "+u.id+" · "+p.name+" · "+(u.type?t("ty."+u.type):"")+" · "+t("sqm",{n:u.sqm})+" · "+t("floor",{n:u.floor})+(it.prices.buy?" · ฿"+fmt(it.prices.buy):"")+(it.prices.rent?" · ฿"+fmt(it.prices.rent)+" "+t("perM"):"")+"\n   https://thbho.com/copa1/u/"+u.id+".html";}).join("\n")+"\n\nLINE @copacabanajomtien"};
+const PF_UI={};
+function mountPF(id){ const el=document.getElementById(id); if(!el||!window.HAIP) return; if(PF_UI[id]&&PF_UI[id].el===el){PF_UI[id].ui.render(); return;} PF_UI[id]={el,ui:HAIP.mount(el,PF_HOST)}; }
+const dsCardHTML=()=>window.ASND?'<a class="dscard" href="#/destiny"><img src="hai/img/destiny-hero.jpg" alt="" loading="lazy"><span class="in"><span class="k">Destiny Match · Hybrid AI Agent Network</span><b>'+t("ds.h")+'</b><span class="p">'+t("ds.p")+'</span><span class="go">'+t("ds.go")+'</span></span></a>':"";
+const legendHTML=()=>'<div class="mlegend"><span class="eyebrow" style="margin:0">MBTI</span>'+GRP.map(g=>'<span><i style="background:var(--'+g.toLowerCase()+')"></i>'+t("g."+g)+'</span>').join("")+'</div>';
+const groupsHTML=()=>'<div class="mgroups">'+GRP.map(g=>'<div class="'+g+'"><div class="mbs">'+GTYPES[g].map(m=>'<span class="'+g+'">'+m+'</span>').join("")+'</div><b>'+t("g."+g)+'</b><p>'+t("gt."+g)+'</p></div>').join("")+'</div>';
+function renderHomeMatch(){ const L=$("#mtLegend"); if(!L) return; L.innerHTML=legendHTML(); $("#dsHomeCard").innerHTML=dsCardHTML(); PF_HOST.TEXT.th.title=I18N.th["pf.title"]; mountPF("pfHome"); }
+function renderMatchView(){ document.title=t("mt.crumb")+" · Copacabana Beach Jomtien";
+  $("#uvB").innerHTML='<a class="uv-back" href="#units">'+t("uv.back")+'</a><p class="eyebrow">'+t("mt.eyebrow")+'</p><h1 style="font-size:clamp(26px,4vw,40px);margin:6px 0 10px">'+t("mt.pageH")+'</h1><p class="lead" style="margin-bottom:18px">'+t("mt.lead")+'</p>'+
+   groupsHTML()+'<div id="pfMatch"></div><div style="margin-top:20px">'+dsCardHTML()+'</div><p class="mt-honest">'+t("mt.honest")+' <a href="https://www.16personalities.com/" target="_blank" rel="noopener">16personalities.com ↗</a></p>';
+  delete PF_UI.pfMatch; mountPF("pfMatch"); }
+function renderDestinyView(code){ document.title="Destiny Match · Copacabana Beach Jomtien";
+  if(!window.ASND){ $("#uvB").innerHTML='<a class="uv-back" href="#units">'+t("uv.back")+'</a><p class="note">'+t("ds.na")+'</p>'; return; }
+  DS_CACHE=null; ASND.render(code&&uMain(code)?code:null); }
+window.addEventListener("load",()=>{ renderHomeMatch(); render(); renderPicks(); route(); });
 </script>
 
 </body>
