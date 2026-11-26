@@ -39,7 +39,7 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Palette: warm ivory base (Earth), coral prices (Fire), teal/green buttons (Wood), gold in every piece;
   no navy/black-dominant surfaces (dark mode is warm charcoal). Never print anyone's chart or MBTI on the site.
 - `MONTH_ACCENT` in app.js sets `--month` (the gold→month strip under the top bar) per Chinese solar month.
-  The scheduled task "R2 ดวงรายเดือน" (25th of each month, 12:25) extends and checks it.
+  The scheduled task "R2 ดวงรายเดือน" (27th of each month, 12:27; after Thor's own monthly reading on the 25th) extends and checks it.
 
 ## Phone app (PWA, 21 Nov 2026)
 - `agents/r2/app/` (manifest + icons) and `agents/r2/app-tabs.js` (HAI_APP tabs/screens); build.py adds them only to the
@@ -56,3 +56,8 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
   (https://docs.google.com/document/d/1DtoOBMIyFJSdR26Z4d86jAV76I1dv99aIwg5pDeBcfg/edit) + a row in the Update Log.
 - Birth data lives only in the Match Profiles sheet; never in docs, calendar, index lines or this repo.
 - Documents for Koy and Kung: cream/white base + gold, burgundy only as small accents (no black-red).
+
+## Lucky numbers (central rule, 26 Nov 2026 · guide https://docs.google.com/document/d/1XAm63oj69YPruBK0X9h_nbWXZ0psOnQUiA-zBXbKop0/edit)
+- Main 2·7·9, second 8·0·3, avoid 5 (as a count, first/last digit or digit sum). Hero 7 slides (R2 has 7) · 7 s per slide.
+- Never change real numbers: unit counts, owner prices, promo prices, market data.
+- New prices or money terms (quotation validity, fees, %) only after Thor confirms. Documents already sent stay as sent; apply to the next version.

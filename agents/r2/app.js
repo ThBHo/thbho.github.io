@@ -488,7 +488,7 @@ function copyText(text, btn){
 
 /* --------------------------- project hero ------------------------ */
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const SLIDE_MS = 6000;
+const SLIDE_MS = 7000;   // 7 s per hero slide (ThB.Ho lucky numbers, 26 Nov 2026)
 let slideI = 0, slideTimer = null;
 
 const capOf = c => !c ? "" : (typeof c === "string" ? c : (c[lang] || c.en || ""));
