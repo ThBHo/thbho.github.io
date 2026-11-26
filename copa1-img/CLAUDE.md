@@ -78,3 +78,4 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - units.json `ai: [indices]` = photos that are Hybrid AI (Google Flow, Nano Banana 2.1); the page tags them "Hybrid AI · มุมใหม่/แสงเย็น". Originals + all AI versions stay in Drive › COPA1 (Webpage) › Unit Photos › <unit> › "AI มุมใหม่ + แสงเย็น…".
 - Hero = 7 slides; h9 is a Hybrid AI golden-hour relight (tagged on the slide).
 - Still to do: A3404, E4204 (new angles), more for B3901, B4508, D3403, C5501, D4609 — Flow flagged "unusual activity" when jobs were sent quickly; go slowly.
+- QA rule from Thor (26 Nov): furniture in a new-angle image must sit where the unit plan puts it (e.g. dining table never opposite the sofa when the plan has it by the kitchen). Rejected and reverted to real photos: A4202-07, D4609-05, D4609-10, D3403-04, C5501-04.
