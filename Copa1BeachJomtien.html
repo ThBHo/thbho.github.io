@@ -1556,6 +1556,14 @@ if(/[?&]quote=1/.test(location.search)) setTimeout(()=>{ if(curId()) openQuote()
 .dscard .p{font-size:14px;color:#F1E6DA}
 .dscard .go{justify-self:start;margin-top:6px;background:var(--gold);color:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px}
 .mt-honest{font-size:12.5px;color:var(--muted);margin:14px 0 0;max-width:820px}
+.uv-main>details{padding:0 0 22px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.uv-fold summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;list-style:none}
+.uv-fold summary::-webkit-details-marker{display:none}
+.uv-fold summary h2{margin:0}
+.uv-fold .pm{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--burg);font:600 18px/1 var(--f-mono)}
+.uv-fold .pm::before{content:"+"}
+.uv-fold[open] .pm::before{content:"−"}
+.uv-fold[open] summary{margin-bottom:12px}
 .uv .crumb{display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:10px}
 </style>
 <script src="hai/destiny.js?v=20261119d"></script>
@@ -1635,10 +1643,10 @@ const mbChips=p=>'<div class="mbs" aria-label="MBTI">'+p.mbti.map(m=>'<span clas
 function mbStrip(u){ return u&&u.sqm?mbChips(persona(u)):""; }
 function unitPersonaHTML(u){
   const p=persona(u), f=p.face;
-  return '<section class="uv-ps"><h2>'+t("ps.h")+'</h2><p class="pname">'+p.name+'</p><div class="mbcards">'+p.mbti.map(m=>'<div class="mbcard '+MBTI_GRP(m)+'"><b>'+m+'</b><span>'+t("g."+MBTI_GRP(m))+'</span></div>').join("")+'</div>'+
+  return '<details class="uv-fold uv-ps"><summary><h2>'+t("ps.h")+'</h2><span class="pm" aria-hidden="true"></span></summary><p class="pname">'+p.name+'</p><div class="mbcards">'+p.mbti.map(m=>'<div class="mbcard '+MBTI_GRP(m)+'"><b>'+m+'</b><span>'+t("g."+MBTI_GRP(m))+'</span></div>').join("")+'</div>'+
    '<ul class="uv-hl">'+p.hl.map(([k,v])=>'<li>'+t(k,v)+'</li>').join("")+p.temps.map(g=>'<li><b>'+t("g."+g)+'</b> · '+t("gt."+g)+'</li>').join("")+'</ul>'+
-   '<p class="note">'+t("ps.note")+' <a href="#/match">'+t("ps.more")+'</a></p></section>'+
-   (f?'<section><h2>'+t("fs.h")+'</h2><div class="fsgrid"><div><small>'+t("fs.face")+'</small><p>'+t("dir."+f)+'</p></div><div><small>'+t("fs.el")+'</small><p>'+t("fs.ba."+f)+'</p></div><div><small>'+t("fs.sun")+'</small><p>'+t("sun."+f)+'</p></div><div><small>'+t("fs.tip")+'</small><p>'+t("fs.tip."+f)+'</p></div></div>'+(window.ASND?ASND.detailCta(u.id):"")+'</section>':'');
+   '<p class="note">'+t("ps.note")+' <a href="#/match">'+t("ps.more")+'</a></p></details>'+
+   (f?'<details class="uv-fold"><summary><h2>'+t("fs.h")+'</h2><span class="pm" aria-hidden="true"></span></summary><div class="fsgrid"><div><small>'+t("fs.face")+'</small><p>'+t("dir."+f)+'</p></div><div><small>'+t("fs.el")+'</small><p>'+t("fs.ba."+f)+'</p></div><div><small>'+t("fs.sun")+'</small><p>'+t("sun."+f)+'</p></div><div><small>'+t("fs.tip")+'</small><p>'+t("fs.tip."+f)+'</p></div></div>'+(window.ASND?ASND.detailCta(u.id):"")+'</details>':'');
 }
 /* ---------- shared engines: hai/profile.js (Personalized Matching) + hai/destiny.js (Destiny Match) ---------- */
 const HESC=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
