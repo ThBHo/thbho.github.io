@@ -87,3 +87,9 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 ## Unit tools (Thor, 26 Nov 2026 — same idea as the R2 unit pages)
 - Every unit page (#/u/<code>) has "พิมพ์ใบเสนอราคา" (A4 print / PDF: logo, ref, issue date, price-list basis, 3D plan + 2 photos with Hybrid AI tags, specs, sale/rent prices from the data only, notes, proposer name/tel typed by whoever prints, saved in localStorage copa1.quoteBy) and "สร้างโพสต์โซเชียล" (canvas post 4:5/1:1/9:16/16:9, platforms, 3 caption styles, TH/EN, price/QR/hashtag switches, Hybrid AI label drawn on AI photos, burgundy band + gold rule).
 - No price-validity period or fees are printed (money terms need Thor). ?quote=1 on a unit link opens the quotation box.
+
+## MBTI · feng shui · Personalized Matching · Destiny Match (Thor, 26 Nov 2026 — same engines as R2 / Coral Reef)
+- Loads shared hai/destiny.js + hai/profile.js (do not edit those here; they belong to the Core chat). COPA1 feeds them through window.HAI_HOST and PF_HOST in the last <script> of Copa1BeachJomtien.html.
+- persona(u): name, 3 highlights, 2 temperaments, 3 MBTI types, computed only from side (front ≈ W, pattaya ≈ N, jomtien ≈ S — APPROXIMATE, from the floor-plate labels; confirm with a compass before calling it exact), floor band (<16 low, <36 mid, <50 high, else top), type (J = jacuzzi, P = private pool, 2BRJ = 2 beds) and price/sqm vs the same type.
+- Unit page: "บุคลิกของห้อง · MBTI" + "ฮวงจุ้ย" (facing, Bagua element, sun, decor tones) + Destiny CTA. Cards: MBTI chips. Home section #match (HAIP panel + Destiny card), nav "MBTI · ดวง", views #/match and #/destiny[/CODE].
+- Birth data is computed in the browser only; the client profile is the shared localStorage "hai-profile".
