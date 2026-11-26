@@ -65,3 +65,10 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - Real photos first (Drive COPA1 (Webpage) and COPA1 photo folders); AI images only after the thbho-visual-qa skill.
 - Hero slides 16:9, main subject on the side away from the text (text sits bottom-left on this page).
 - Share card `og/Copa1BeachJomtien.jpg`: warm cream R2-style card (template agents/r2/og-card/card.html), Copacabana logo only.
+
+## Featured units + real photos (26 Nov 2026)
+- `copa1-img/units/units.json`: `units[CODE] = {n, src?, srcFloor?, pos?}` → photos `copa1-img/units/<CODE>/01..NN.jpg` (01 = show photo; `pos` = object-position for the card crop). `featured.dev` / `featured.rent` = 6 + 6 codes shown in `#picks`.
+- Sale units without their own photos use real photos of the same layout in the same stack on a LOWER floor (`src`), labelled on card + unit page. Never use a higher-floor source (view would overstate).
+- Photos: originals copied to Drive "COPA1 (Webpage)/Unit Photos · ภาพจริงห้องแนะนำ (สำหรับเว็บ)" (1xjdkUeO1kMNq357OzA99QCmCPkjpIyOL); web set = gentle Python grade (/tmp grade: gray-world 40%, shadow lift, mild contrast, slight warmth), 1600px q82. AI (Flow) edits only go live after QA + Thor's OK in Drive.
+- Facilities: `copa1-img/fac/<key>-N.jpg` (f59, f40, g, garden, lobby, sauna) from Drive "COPA Facilities"; `FACS` in the page holds floor + x (0 = A/beach end … 1 = C10/D01 end); every unit page appends the first photo of the 3 nearest facilities (`nearFac`).
+- build_units.py uses `units/<CODE>/01.jpg` for the share card when it exists.

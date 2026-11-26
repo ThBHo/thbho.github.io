@@ -180,6 +180,30 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0;c
 .u-floor-legend span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
 .u-floor-legend span.on{color:var(--burg);font-weight:700}
 /* unit page (#/u/<code>): ASN-style layout — title, photo mosaic, then two columns with a sticky price card */
+/* featured units (ASN-style cards with a photo strip) */
+.feat .pk-blk{margin-top:22px}
+.pk-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.pk-hd h3{font-size:22px;color:var(--burg)}
+.pk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.pk{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;color:inherit;text-decoration:none}
+.pk .ph{position:relative;aspect-ratio:4/3;background:var(--chip);overflow:hidden}
+.pk .ph img{width:100%;height:100%;object-fit:cover;transition:opacity .25s}
+.pk .ph .badge{position:absolute;left:10px;top:10px}
+.pk .ph .tg{position:absolute;left:10px;bottom:10px;font:600 11px/1 var(--f-body);padding:5px 8px;border-radius:6px;background:rgba(43,29,26,.72);color:#fff}
+.pk .ph .cnt{position:absolute;right:10px;bottom:10px;font:600 11px/1 var(--f-mono);padding:5px 8px;border-radius:6px;background:rgba(43,29,26,.72);color:#fff}
+.pk .ph .nv{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,252,247,.9);color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center}
+.pk .ph .nv.l{left:10px}.pk .ph .nv.r{right:10px}
+.pk .bd{display:grid;gap:6px;padding:12px 16px 16px;flex:1}
+.pk .code{font:600 12px var(--f-mono);color:var(--muted)}
+.pk h4{font-size:18px;line-height:1.3;color:var(--ink)}
+.pk .loc{font-size:13px;color:var(--muted)}
+.pk .sp{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--ink)}
+.pk .pr{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.pk .pr span{font-size:13px;color:var(--muted)}
+.pk .pr b{font:600 19px var(--f-mono);color:var(--burg)}
+.pk .pr b small{font:400 12px var(--f-body);color:var(--muted)}
+@media (max-width:980px){.pk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.pk-grid{grid-template-columns:minmax(0,1fr)}}
 .uv{padding:18px 0 56px}
 .uv-back{display:inline-flex;gap:6px;font-size:13.5px;font-weight:600;color:var(--teal);text-decoration:none;margin-bottom:12px}
 .uv-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
@@ -352,6 +376,13 @@ body.uvon #top,body.uvon .mbar{display:none!important}
   </div></div>
 </section>
 
+<section class="sec feat" id="picks" hidden><div class="wrap">
+  <div class="sec-h"><div><p class="eyebrow" data-i18n="pk.eyebrow"></p><h2 data-i18n="pk.h"></h2></div></div>
+  <p class="lead" data-i18n="pk.lead"></p>
+  <div class="pk-blk"><div class="pk-hd"><h3 data-i18n="pk.sale"></h3><a class="btn ghost sm" href="#units" data-pkm="dev" data-i18n="pk.allSale"></a></div><div class="pk-grid" id="pkDev"></div></div>
+  <div class="pk-blk"><div class="pk-hd"><h3 data-i18n="pk.rent"></h3><a class="btn ghost sm" href="#units" data-pkm="rent" data-i18n="pk.allRent"></a></div><div class="pk-grid" id="pkRent"></div></div>
+  <p class="note" data-i18n="pk.note"></p>
+</div></section>
 <section class="sec" id="units"><div class="wrap">
   <div class="sec-h"><div><p class="eyebrow" data-i18n="u.eyebrow"></p><h2 data-i18n="u.h"></h2></div></div>
   <p class="lead" data-i18n="u.lead"></p>
@@ -682,6 +713,10 @@ th:{
  "mb.units":"ดูห้องว่าง",
  "lm.hero":"สวัสดีครับ สนใจ Copacabana Beach Jomtien ขอรายละเอียดห้องว่างครับ","lm.list":"สวัสดีครับ ขอรายการห้องว่าง Copacabana Beach Jomtien วันนี้ (ซื้อ / Resale / เช่า) ครับ",
  "lm.svc":"สวัสดีครับ สนใจบริการฝากเช่าห้องที่ Copacabana Beach Jomtien ขอเงื่อนไขครับ","lm.contact":"สวัสดีครับ สนใจ Copacabana Beach Jomtien ครับ","lm.mbar":"สวัสดีครับ สนใจ Copacabana Beach Jomtien ขอรายละเอียดครับ",
+ "pk.eyebrow":"คัดมาให้","pk.h":"ห้องแนะนำ","pk.lead":"ห้องที่เราคัดจากภาพจริงและวิวจริงจากระเบียง ห้องละแบบ ไม่ซ้ำกัน","pk.sale":"ห้องขายแนะนำ","pk.rent":"ห้องเช่าแนะนำ","pk.allSale":"ดูห้องขายทั้งหมด","pk.allRent":"ดูห้องเช่าทั้งหมด",
+ "pk.note":"ภาพห้องจริง ปรับแสงและสีเล็กน้อย ไม่ดัดแปลงโครงสร้าง · ห้องขายบางห้องใช้ภาพจริงของห้องผังเดียวกันในแนวเดียวกัน ระบุไว้ในหน้าห้อง","pk.real":"ภาพห้องจริง","pk.same":"ภาพจริง ห้อง {c} (ผังเดียวกัน)","pk.view":"วิวจริงจากระเบียง",
+ "uv.tgR":"ภาพห้องจริง","uv.tgSame":"ห้อง {c} ผังเดียวกัน ชั้น {f}","uv.discR":"ภาพห้องจริง ปรับแสงและสีเล็กน้อย ไม่ดัดแปลงโครงสร้าง · แปลน 3D เป็นภาพ Hybrid AI · ภาพส่วนกลางเป็นภาพจริงของส่วนกลางที่อยู่ใกล้ห้องนี้","uv.discSame":"ภาพจริงจากห้อง {c} ชั้น {f} ซึ่งเป็นผังเดียวกันในแนวเดียวกัน (วิวจากชั้นนี้อาจต่างเล็กน้อย) ปรับแสงและสีเล็กน้อย ไม่ดัดแปลงโครงสร้าง · แปลน 3D เป็นภาพ Hybrid AI · ภาพส่วนกลางเป็นภาพจริงของส่วนกลางที่อยู่ใกล้ห้องนี้",
+ "uv.tgNear":"ส่วนกลางใกล้ห้อง · {n}","fc.g":"บีชคลับและสระชั้นล่าง","fc.f59":"สระลอยฟ้าและสกายเลานจ์ชั้น 59","fc.f40":"สระกระจกและสวนชั้น 40","fc.garden":"สวนป่าและน้ำตกชั้นล่าง","fc.lobby":"ล็อบบี้","fc.sauna":"ซาวน่า",
  "uv.back":"← ห้องทั้งหมด","uv.code":"รหัส","uv.h":"{t} · {a} ตร.ม. · ชั้น {f}","uv.loc":"Copacabana Beach Jomtien · หาดจอมเทียน พัทยา",
  "uv.nph":"{n} ภาพ","uv.zoom":"แตะภาพเพื่อดูเต็มจอ","uv.disc":"ภาพห้องตัวอย่างของโครงการที่ขนาดใกล้เคียง ไม่ใช่ภาพของห้องนี้ · แปลน 3D เป็นภาพ Hybrid AI จากแปลนผู้พัฒนา · ภาพส่วนกลางเป็นภาพจริงของโครงการ",
  "uv.tg3d":"Hybrid AI · แปลน 3D","uv.tgS":"ภาพห้องตัวอย่าง","uv.tgF":"ส่วนกลางโครงการ","uv.more":"+{n} ภาพ",
@@ -765,6 +800,10 @@ en:{
  "mb.units":"See units",
  "lm.hero":"Hello, I'm interested in Copacabana Beach Jomtien. Could you send the available units?","lm.list":"Hello, could you send today's available units at Copacabana Beach Jomtien (buy / resale / rent)?",
  "lm.svc":"Hello, I'd like to know the terms of your rental management at Copacabana Beach Jomtien.","lm.contact":"Hello, I'm interested in Copacabana Beach Jomtien.","lm.mbar":"Hello, I'd like details on Copacabana Beach Jomtien.",
+ "pk.eyebrow":"Hand-picked","pk.h":"Featured units","pk.lead":"Units we picked for their real photos and real balcony views, each one a different kind of unit.","pk.sale":"Featured units for sale","pk.rent":"Featured units for rent","pk.allSale":"All units for sale","pk.allRent":"All units for rent",
+ "pk.note":"Real unit photos with light and colour gently adjusted; no structural changes · some sale units show real photos of the same layout in the same stack, as stated on the unit page","pk.real":"Real photos","pk.same":"Real photos of {c} (same layout)","pk.view":"Real balcony view",
+ "uv.tgR":"Real photo","uv.tgSame":"{c}, same layout, floor {f}","uv.discR":"Real photos of this unit, light and colour gently adjusted, no structural changes · the 3D plan is a Hybrid AI image · common-area photos are real photos of the facilities nearest this unit","uv.discSame":"Real photos of {c} on floor {f}, the same layout in the same stack (the view from this floor may differ slightly), light and colour gently adjusted, no structural changes · the 3D plan is a Hybrid AI image · common-area photos are real photos of the facilities nearest this unit",
+ "uv.tgNear":"Near this unit · {n}","fc.g":"Beach club and ground-floor pool","fc.f59":"Floor 59 sky pool and lounge","fc.f40":"Floor 40 glass pool and garden","fc.garden":"Tropical garden and waterfall","fc.lobby":"Lobby","fc.sauna":"Sauna",
  "uv.back":"← All units","uv.code":"Code","uv.h":"{t} · {a} sqm · floor {f}","uv.loc":"Copacabana Beach Jomtien · Jomtien Beach, Pattaya",
  "uv.nph":"{n} images","uv.zoom":"Tap a picture to see it full screen","uv.disc":"Sample room photos of a similar size in the project, not this unit · the 3D plan is a Hybrid AI image drawn from the developer plan · common-area photos are real photos of the project",
  "uv.tg3d":"Hybrid AI · 3D plan","uv.tgS":"Sample room","uv.tgF":"Project facilities","uv.more":"+{n} images",
@@ -1044,17 +1083,66 @@ function fillFloorSel(){
 $("#floorSel").addEventListener("change",e=>{const f=e.target.value; if(!f) return; lbOpen(["copa1-img/floor/f-"+f+".jpg"],0,t("floor",{n:f}),[t("plan.floorOnly")]); e.target.value="";});
 
 
+
+/* Real unit photos + featured units: copa1-img/units/units.json (built by copa1-img/build_feat.py).
+   units[CODE] = {n, show, src?, srcFloor?}; photos are copa1-img/units/<CODE>/01.jpg..NN.jpg, 01 = show photo. */
+let UPH={}, FEAT={dev:[],rent:[]};
+/* Facilities with their place in the building (floor; x = 0 beach end / A block … 1 Jomtien-Second-Road end), Sales Kit 2566. */
+const FACS=[
+ {k:"fc.f59",f:59,x:0.05,img:["copa1-img/fac/f59-1.jpg","copa1-img/fac/f59-2.jpg","copa1-img/fac/f59-3.jpg","copa1-img/fac/f59-4.jpg"]},
+ {k:"fc.f40",f:40,x:0.90,img:["copa1-img/fac/f40-1.jpg","copa1-img/fac/f40-2.jpg","copa1-img/fac/f40-3.jpg"]},
+ {k:"fc.g",f:0,x:0.25,img:["copa1-img/fac/g-1.jpg","copa1-img/fac/g-2.jpg","copa1-img/fac/g-3.jpg","copa1-img/fac/g-4.jpg"]},
+ {k:"fc.garden",f:0,x:0.65,img:["copa1-img/fac/garden-1.jpg","copa1-img/fac/garden-2.jpg","copa1-img/fac/garden-3.jpg"]},
+ {k:"fc.lobby",f:0,x:0.45,img:["copa1-img/fac/lobby-1.jpg","copa1-img/fac/lobby-2.jpg","copa1-img/fac/lobby-3.jpg"]},
+ {k:"fc.sauna",f:0,x:0.40,img:["copa1-img/fac/sauna-1.jpg"]}
+];
+function uX(u){const L=u.id[0], n=parseInt(u.id.slice(-2),10)||1;
+  return L==="A"?0.03:L==="B"?0.10+0.035*(n-1):L==="C"?0.45+0.055*(n-1):L==="E"?0.10+0.04*(6-n):0.42+0.066*(9-n);}
+function nearFac(u,k=3){
+  const f=parseInt(u.floor,10)||0, x=uX(u);
+  const R=FACS.filter(F=>F.img.length).map(F=>({F,d:Math.hypot(3.2*(F.f-f),150*(F.x-x))})).sort((a,b)=>a.d-b.d);
+  const out=[]; for(let r=0; out.length<k && r<4; r++) R.forEach(({F})=>{ if(out.length<k && F.img[r]) out.push([F.img[r],F.k]); });
+  return out;
+}
+function realPhotos(u){const P=UPH[u.id]; if(!P) return null; const a=[]; for(let i=1;i<=P.n;i++) a.push("copa1-img/units/"+u.id+"/"+String(i).padStart(2,"0")+".jpg"); return a;}
+function pkCard(u){
+  const P=UPH[u.id], ph=realPhotos(u)||[u.photo], rent=u.grp==="rent";
+  const tyN=u.type?t("ty."+u.type):"", side=u.side?t("v."+u.side):"";
+  const tg=P&&P.src?t("pk.same",{c:P.src}):t("pk.real");
+  const pr=rent?'<span>'+t("uv.pRm")+'</span><b>฿'+fmt(u.rentM||0)+' <small>'+t("uv.pPer")+'</small></b>':'<span>'+t("uv.pSale")+'</span><b>฿'+mil(u.price)+' <small>'+t("uv.mil")+'</small></b>';
+  return '<a class="pk" href="#/u/'+u.id+'" data-u="'+u.id+'"><div class="ph" data-i="0" data-n="'+ph.length+'"><img src="'+ph[0]+'" alt="'+u.id+'" loading="lazy"'+(P&&P.pos?' style="object-position:'+P.pos+'"':'')+'>'+
+   '<span class="badge '+u.grp+'">'+t("b."+u.grp)+'</span><span class="tg">'+tg+'</span><span class="cnt">1 / '+ph.length+'</span>'+
+   (ph.length>1?'<button class="nv l" type="button" aria-label="prev">‹</button><button class="nv r" type="button" aria-label="next">›</button>':'')+'</div>'+
+   '<div class="bd"><span class="code">COPA1-'+u.id+'</span><h4>'+tyN+' · '+t("sqm",{n:u.sqm})+'</h4><span class="loc">'+t("floor",{n:u.floor})+(side?' · '+side:'')+(u.q?' · '+t("q."+u.q):'')+'</span>'+
+   '<div class="pr">'+pr+'</div></div></a>';
+}
+function renderPicks(){
+  const go=(id,arr)=>{const el=$(id); if(!el) return; const L=arr.map(c=>UNITS.find(u=>u.id===c&&(id==="#pkRent"?u.grp==="rent":u.grp!=="rent"))).filter(Boolean); el.innerHTML=L.map(pkCard).join(""); el.closest(".pk-blk").hidden=!L.length;};
+  go("#pkDev",FEAT.dev||[]); go("#pkRent",FEAT.rent||[]);
+  $("#picks").hidden=!((FEAT.dev||[]).length||(FEAT.rent||[]).length);
+}
+$("#picks").addEventListener("click",e=>{
+  const nv=e.target.closest(".nv"); if(nv){ e.preventDefault(); e.stopPropagation(); const box=nv.closest(".ph"), a=box.closest(".pk"), ph=realPhotos(UNITS.find(u=>u.id===a.dataset.u))||[];
+    const n=ph.length; if(!n) return; let i=(+box.dataset.i+(nv.classList.contains("r")?1:-1)+n)%n; box.dataset.i=i; const im=box.querySelector("img"); im.src=ph[i]; im.style.objectPosition=i?"":(UPH[a.dataset.u]&&UPH[a.dataset.u].pos||""); box.querySelector(".cnt").textContent=(i+1)+" / "+n; return; }
+  const m=e.target.closest("[data-pkm]"); if(m){ st.m=m.dataset.pkm; st.shown=12; render(); }
+});
+fetch("copa1-img/units/units.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{ if(!d) return; UPH=d.units||{}; FEAT=d.featured||FEAT;
+  UNITS.forEach(u=>{ if(UPH[u.id]) u.photo="copa1-img/units/"+u.id+"/01.jpg"; }); renderPicks(); render(); route(); }).catch(()=>{});
 /* unit pages: #/u/<code> (share stubs in copa1/u/<code>.html redirect here; built by copa1-img/build_units.py) */
 function photosOf(u){
-  const S=[]; const k=t("uv.tgS");
-  if(u.type==="2BRJ") S.push(["copa1-img/show/r72.jpg",k]);
-  else if(u.type==="1BRP") S.push(["copa1-img/show/r80.jpg",k]);
-  else if(u.sqm>=44&&u.sqm<46) S.push(["copa1-img/show/r45.jpg",k]);
-  else if(u.sqm<31) SHOW29.forEach(x=>S.push([x,k]));
-  else SHOW35.filter(x=>!/plan-/.test(x)).forEach(x=>S.push([x,k]));
-  if(S.length<4&&!(u.sqm<31)) SHOW35.slice(0,3).forEach(x=>{if(!S.some(y=>y[0]===x)) S.push([x,k]);});
-  const p3=plan3d(u); const out=S.slice(0,1); if(p3) out.push([p3.src,t("uv.tg3d"),"3d"]); out.push(...S.slice(1));
-  FAC.forEach(([x,c])=>out.push([x,t("uv.tgF"),"fac",t(c)]));
+  const p3=plan3d(u), R=realPhotos(u), P=UPH[u.id], out=[];
+  if(R){ const tg=P.src?t("uv.tgSame",{c:P.src,f:P.srcFloor}):t("uv.tgR"); R.forEach(x=>out.push([x,tg,"real"])); if(p3) out.splice(Math.min(4,out.length),0,[p3.src,t("uv.tg3d"),"3d"]); }
+  else {
+    const S=[]; const k=t("uv.tgS");
+    if(u.type==="2BRJ") S.push(["copa1-img/show/r72.jpg",k]);
+    else if(u.type==="1BRP") S.push(["copa1-img/show/r80.jpg",k]);
+    else if(u.sqm>=44&&u.sqm<46) S.push(["copa1-img/show/r45.jpg",k]);
+    else if(u.sqm<31) SHOW29.forEach(x=>S.push([x,k]));
+    else SHOW35.filter(x=>!/plan-/.test(x)).forEach(x=>S.push([x,k]));
+    if(S.length<4&&!(u.sqm<31)) SHOW35.slice(0,3).forEach(x=>{if(!S.some(y=>y[0]===x)) S.push([x,k]);});
+    out.push(S[0]); if(p3) out.push([p3.src,t("uv.tg3d"),"3d"]); out.push(...S.slice(1));
+  }
+  nearFac(u).forEach(([x,c])=>out.push([x,t("uv.tgNear",{n:t(c)}),"fac"]));
   return out;
 }
 const mil=v=>(v/1e6).toFixed(2).replace(/\.?0+$/,"");
@@ -1092,7 +1180,7 @@ function renderUnit(id){
   const near=UNITS.filter(x=>x.id!==u.id&&x.grp===u.grp&&(x.type===u.type)&&Math.abs(x.sqm-u.sqm)<3).sort((a,b)=>Math.abs(fl(a)-fl(u))-Math.abs(fl(b)-fl(u))).slice(0,3);
   B.innerHTML='<a class="uv-back" href="#units">'+t("uv.back")+'</a><div class="uv-tags">'+tags+'</div>'+
    '<div class="uv-head"><div><h1>'+u.id+' · '+t("uv.h",{t:tyN||t("b."+u.grp),a:u.sqm,f:u.floor})+'</h1><p>'+t("uv.loc")+'</p></div></div>'+
-   '<div class="uv-mos">'+mos+'</div><div class="uv-pnote"><span>'+t("uv.nph",{n:PH.length})+' · '+t("uv.zoom")+'</span></div><p class="uv-disc">'+t("uv.disc")+'</p>'+
+   '<div class="uv-mos">'+mos+'</div><div class="uv-pnote"><span>'+t("uv.nph",{n:PH.length})+' · '+t("uv.zoom")+'</span></div><p class="uv-disc">'+(UPH[u.id]?(UPH[u.id].src?t("uv.discSame",{c:UPH[u.id].src,f:UPH[u.id].srcFloor}):t("uv.discR")):t("uv.disc"))+'</p>'+
    '<div class="uv-grid"><div class="uv-main">'+
      '<section><h2>'+t("uv.hl")+'</h2><ul class="uv-hl">'+hl.map(x=>'<li>'+x+'</li>').join("")+'</ul></section>'+
      '<section><h2>'+t("uv.dt")+'</h2><div class="uv-dt">'+D.map(([a,b])=>'<div><small>'+a+'</small><b>'+b+'</b></div>').join("")+'</div></section>'+
@@ -1127,14 +1215,14 @@ function applyLang(){
   $$("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n);});
   $$("[data-line]").forEach(a=>{a.href=lineURL(t("lm."+a.dataset.line));});
   $$(".langs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
-  buildFilters(); renderStatic(); renderGal(); fillFloorSel(); render(); calc(); route();
+  buildFilters(); renderStatic(); renderGal(); fillFloorSel(); render(); calc(); renderPicks(); route();
 }
 $$(".langs button").forEach(b=>b.addEventListener("click",()=>{LANG=b.dataset.lang; try{localStorage.setItem("copa1-lang",LANG);}catch(e){} applyLang();}));
 applyLang();
 /* rental feed: built daily from the rental team's sheet by copa1-img/build_rent.py (public fields only) */
 fetch("copa1-img/rent-units.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():null).then(d=>{
   if(!d) return; RENT_UPDATED=d.updated||""; ACHIEVED=d.achieved||[];
-  UNITS.push(...(d.units||[])); render(); route();
+  UNITS.push(...(d.units||[])); UNITS.forEach(u=>{ if(UPH[u.id]) u.photo="copa1-img/units/"+u.id+"/01.jpg"; }); render(); renderPicks(); route();
   if(/[?&]m=rent/.test(location.search)){st.m="rent"; buildFilters(); render();}
 }).catch(()=>{});
 </script>

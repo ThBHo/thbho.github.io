@@ -35,6 +35,7 @@ def units():
 
 
 def photo(u):
+    if os.path.exists(os.path.join(R, "copa1-img/units", u["id"], "01.jpg")): return "copa1-img/units/" + u["id"] + "/01.jpg"
     t, a = u.get("type"), u.get("sqm") or 0
     if t == "2BRJ": return "copa1-img/show/r72.jpg"
     if t == "1BRP": return "copa1-img/show/r80.jpg"
