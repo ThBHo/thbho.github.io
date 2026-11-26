@@ -72,3 +72,9 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - Photos: originals copied to Drive "COPA1 (Webpage)/Unit Photos · ภาพจริงห้องแนะนำ (สำหรับเว็บ)" (1xjdkUeO1kMNq357OzA99QCmCPkjpIyOL); web set = gentle Python grade (/tmp grade: gray-world 40%, shadow lift, mild contrast, slight warmth), 1600px q82. AI (Flow) edits only go live after QA + Thor's OK in Drive.
 - Facilities: `copa1-img/fac/<key>-N.jpg` (f59, f40, g, garden, lobby, sauna) from Drive "COPA Facilities"; `FACS` in the page holds floor + x (0 = A/beach end … 1 = C10/D01 end); every unit page appends the first photo of the 3 nearest facilities (`nearFac`).
 - build_units.py uses `units/<CODE>/01.jpg` for the share card when it exists.
+
+## Hybrid AI unit photos (26 Nov 2026, approved by Thor)
+- Thor's rule for condo photo edits: about half of each unit's photos are new camera angles (structure and furniture unchanged), light changed to the most beautiful morning/evening golden hour.
+- units.json `ai: [indices]` = photos that are Hybrid AI (Google Flow, Nano Banana 2.1); the page tags them "Hybrid AI · มุมใหม่/แสงเย็น". Originals + all AI versions stay in Drive › COPA1 (Webpage) › Unit Photos › <unit> › "AI มุมใหม่ + แสงเย็น…".
+- Hero = 7 slides; h9 is a Hybrid AI golden-hour relight (tagged on the slide).
+- Still to do: A3404, E4204 (new angles), more for B3901, B4508, D3403, C5501, D4609 — Flow flagged "unusual activity" when jobs were sent quickly; go slowly.
