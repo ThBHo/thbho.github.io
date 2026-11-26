@@ -37,6 +37,10 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
   which stacks exist on each floor, read by eye from every Sales Kit floor plan (25 Nov 2026); `plateCells()` places them
   (A block at the beach end; B01–B09, C01–C10 top row = Pattaya side; E06–E01, D09–D01 bottom row = Jomtien side).
   Every listed unit must sit on a stack in `FS` for its floor — check this after each price-list or rent-feed change.
+- `copa1-img/plan3d/t01..t14.jpg, t15a/t15b/t16a/t16b.jpg` = semi-3D unit plans (Hybrid AI, Flow NB2.1 + number/structure fixes,
+  drawn from the Rev.13 plans in `plan13/`), approved by Thor 26 Nov 2026 and shown first in the unit sheet and lightbox
+  (`plan3d()`; label "Hybrid AI image"). Pool units: B stack = Type 15 (t15a FL ≤35, t15b FL 37–57), E stack = Type 16
+  (t16a FL 8–24, 30, 32; t16b FL 26, 28, 34–56). Masters and originals: Drive "Unit Plan (AI Upgraded)" 162BTMRD-ADQNo62eYMNzHRGA5yfxLiss.
 - `copa1-img/plan/r-*.jpg` = newer plan cards from the rental team (Drive folder 13YVUCpTc7XsyNaXiqWQxBbrT_1fOxKor), shown first.
 - Real unit photos per rent unit live in that same Drive folder (one folder per unit code); not on the page yet.
 
