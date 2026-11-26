@@ -44,6 +44,18 @@ Owner chat: "COPA1 Beach Jomtien Webpage". Other chats: leave a row in the ThB.H
 - `copa1-img/plan/r-*.jpg` = newer plan cards from the rental team (Drive folder 13YVUCpTc7XsyNaXiqWQxBbrT_1fOxKor), shown first.
 - Real unit photos per rent unit live in that same Drive folder (one folder per unit code); not on the page yet.
 
+## Unit pages (26 Nov 2026, Thor: "หน้าละห้อง" in the ASN layout)
+- Every unit has its own page `Copa1BeachJomtien.html#/u/<CODE>` (`renderUnit()`): ASN layout — back link, tags, title,
+  photo mosaic (sample-room photos + 3D plan + facilities, with the "sample room / Hybrid AI" note), then two columns:
+  highlights, details grid, position plate + floor bar, plans, location | sticky price card (sale and/or rent, LINE ask, share, 3D plan);
+  "similar units" at the bottom. Card photo/title and the unit sheet button "เปิดหน้าห้องนี้" open it.
+- Share links: `copa1/u/<CODE>.html` (noindex stub with og tags → redirects to the page) + card `copa1-img/og/u-<CODE>.jpg`
+  (warm cream card, template `copa1-img/og-card/card.html`, Copacabana logo only, gold price label).
+  Re-run `python3 copa1-img/build_units.py` after every price-list change and every `build_rent.py` run; it rewrites stubs and
+  only re-renders cards whose label/photo changed. Old stubs are kept so shared links never break (page shows "not in the list").
+- No owner data and no phone number on unit pages; prices come only from UNITS / rent-units.json.
+- Next: real photos per rent unit (Drive folder 13YVUCpTc7XsyNaXiqWQxBbrT_1fOxKor) should replace the sample photos once added.
+
 ## Look
 - Dec 2026 chart check (Thor's reading for Dec 2569, Google Doc 1OgS5TLj-SGcSMhL-DTbQpf-PC4LAu2jFSVx35UZ86Yw): dark surfaces need gold +
   burgundy or cream; no light-blue/aqua as a large background (hero keeps warm slides h1, h4, h2; aqua-heavy h3/h5 left out);
