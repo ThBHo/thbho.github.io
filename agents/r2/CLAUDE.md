@@ -39,7 +39,7 @@ Owner chat: "Riviera by Clare Resale Webpage". Other chats: leave a row in the T
 - Palette: warm ivory base (Earth), coral prices (Fire), teal/green buttons (Wood), gold in every piece;
   no navy/black-dominant surfaces (dark mode is warm charcoal). Never print anyone's chart or MBTI on the site.
 - `MONTH_ACCENT` in app.js sets `--month` (the gold→month strip under the top bar) per Chinese solar month.
-  The scheduled task "R2 ดวงรายเดือน" (27th of each month, 12:27; after Thor's own monthly reading on the 25th) extends and checks it.
+  The scheduled task "R2 ดวงรายเดือน" (25th of each month, 12:25; proposed: 27th 12:27, waiting for Thor) extends and checks it.
 
 ## Phone app (PWA, 21 Nov 2026)
 - `agents/r2/app/` (manifest + icons) and `agents/r2/app-tabs.js` (HAI_APP tabs/screens); build.py adds them only to the
