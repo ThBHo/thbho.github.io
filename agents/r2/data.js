@@ -2356,7 +2356,7 @@ const PROJECT_NAME = "The Riviera Jomtien";
 
 const PRICE_LIST_DATE = "9 Jul 2026";
 const PROMO_LIST_DATE = "1 Sep 2026";
-const QUOTE_VALID_DAYS = 14;
+const QUOTE_VALID_DAYS = 20;   // Thor confirmed 26 Nov 2026 (lucky numbers; was 14)
 
 /* US$ display: the page loads the day's USD→THB reference rate (Frankfurter, daily) and keeps it for the day.
    This one is used until it loads, or when it can't (offline, API down). Update it now and then.
