@@ -924,7 +924,7 @@ function card(u,mb){
   const y=(u.grp!=="rent"&&u.price&&u.rentM)?'<div class="yld">'+t("yld",{n:(u.rentM*12/u.price*100).toFixed(1)})+'</div>':"";
   const g=t("b."+u.grp);
   return '<article class="card"><div class="ph"><img src="'+img+'" alt="" loading="lazy"><span class="badge '+u.grp+'">'+g+'</span><span class="st'+(u.status==="reserved"?" res":u.status==="soon"?" soon":"")+'">'+(u.status==="soon"?(u.from?t("s.from",{d:dShort(u.from)}):t("s.soon")):t("s."+(u.status||"avail")))+'</span>'+cap+'</div>'+
-   '<div class="bd"><h3><a class="uvl" href="#/u/'+u.id+'">'+u.id+'</a></h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+(mb&&window.mbStrip?mbStrip(u):'')+
+   '<div class="bd"><h3><a class="uvl" href="#/u/'+u.id+'">'+u.id+'</a></h3><div class="specs"><span>'+t("floor",{n:u.floor})+'</span><span>'+t("sqm",{n:u.sqm})+'</span>'+(u.type?'<span>'+t("ty."+u.type)+'</span>':"")+((u.side||u.view)?'<span>'+t("v."+(u.side||u.view))+'</span>':"")+(u.q?'<span class="q '+u.q+'">'+t("q."+u.q)+'</span>':"")+'</div>'+(mb===true&&window.mbStrip?mbStrip(u):'')+
    '<div class="price">'+price+'</div>'+y+(u.note?'<p class="note">'+u.note+'</p>':"")+
    '</div></article>';
 }
@@ -1676,7 +1676,7 @@ let DS_CACHE=null; const dsc=()=>DS_CACHE||(DS_CACHE={style:dsStyle(),el:dsEl(),
 window.HAI_HOST={lang:()=>LANG,esc:HESC,
   SHOWN:()=>{const seen=new Set(); return liveUnits().filter(u=>{const k=u.type+"|"+u.side+"|"+BAND(u); if(seen.has(k)) return false; seen.add(k); return true;}).map(dsHome);},
   byCode:c=>{const u=uMain(c); return u?dsHome(u):null;},
-  card:h=>{const u=uMain(h.code); return u?card(u,1):"";},
+  card:h=>{const u=uMain(h.code); return u?card(u,true):"";},
   zn:z=>z==="jomtien"?(LANG==="th"?"จอมเทียน":"Jomtien"):z, ZONES:{},
   get HOME_STYLE(){return dsc().style}, get MG_EL(){return dsc().el}, get FACING(){return dsc().face},
   CONTACT:{line:"@copacabanajomtien"}, SITE:{short:"Copacabana Beach Jomtien",name:"Copacabana Beach Jomtien"},
@@ -1702,7 +1702,7 @@ function pfItem(u){ const R=uRows(u.id), s=R.find(x=>x.grp!=="rent"&&x.price), r
     view:sea?"sea":"city",floor:fl(u),quota:u.q==="fr"?"FR":u.q==="th"?"TH":null,furn:true,styles:[...new Set(st)].slice(0,3),mbti:p.mbti,ready:true,
     purpose:{live:beds>=2?1:u.sqm>=35?.8:.6,holiday:(sea?.8:.45)+(pool?.25:0),invest:(val?.75:.45)+(small?.15:0),rent:(small?.45:.3)+(sea?.35:.1)+(val?.1:0)}}; }
 function pfCard(it,res){ const mt='<div class="pf-meter"><b>'+res.score+'%</b><i><b style="width:'+res.score+'%"></b></i></div><div class="pf-why">'+res.why.map(w=>'<span>'+HESC(w)+'</span>').join("")+'</div>';
-  return card(it.u,1).replace('<div class="price">',mt+'<div class="price">'); }
+  return card(it.u,true).replace('<div class="price">',mt+'<div class="price">'); }
 const PF_HOST={lang:()=>LANG,products:()=>liveUnits().map(pfItem),card:pfCard,money:v=>v<1e6?"฿"+fmt(v):"฿"+(+(v/1e6).toFixed(2))+"M",
   groupKey:it=>it.u.type+"|"+it.u.side+"|"+BAND(it.u),
   fields:["intent","budget","when","purpose","beds","view","style"],extra:["floor","quota"],
